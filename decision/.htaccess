@@ -1,0 +1,21 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+
+RewriteRule ^finery_new/$ decision/index.php?by=finery_new [L]
+RewriteRule ^finery_new/.page-([0-9]*)$ decision/index.php?by=finery_new&n_st=$1 [L]
+
+RewriteRule ^finery/$ decision/index.php?by=finery [L]
+RewriteRule ^finery/.page-([0-9]*)$ decision/index.php?by=finery&n_st=$1 [L]
+
+RewriteRule ^app_new/$ decision/index.php?by=app_new [L]
+RewriteRule ^app_new/.page-([0-9]*)$ decision/index.php?by=app_new&n_st=$1 [L]
+
+RewriteRule ^app/$ decision/index.php?by=app [L]
+RewriteRule ^app/.page-([0-9]*)$ decision/index.php?by=app&n_st=$1 [L]
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

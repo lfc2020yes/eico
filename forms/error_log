@@ -1,0 +1,8 @@
+[18-Feb-2017 17:20:00 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/forms/form_edit.php on line 98
+[18-Feb-2017 17:20:00 Europe/Moscow] PHP Warning:  implode() [<a href='function.implode'>function.implode</a>]: Invalid arguments passed in /home/atsunru/interstroi.atsun.ru/docs/forms/form_edit.php on line 483
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796
+[18-Apr-2018 22:23:30 Europe/Moscow] PHP Warning:  mktime() expects parameter 6 to be long, string given in /home/atsunru/interstroi.atsun.ru/docs/module/function.php on line 1796

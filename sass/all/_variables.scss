@@ -1,0 +1,28 @@
+/* Scss Document */
+
+/*переменные проекта*/
+
+$iurl: '../image/';
+
+/*максимальные и минимальные размеры ширины сайта*/
+$max-width: 1540px;
+$min-width: 640px;
+$color: rgba(0,0,0,0.9);
+
+.container {
+    max-width: $max-width;
+    min-width: $min-width;
+    width: 100%;
+	margin: auto;
+}
+
+
+
+$base-font-size: 14px !global;
+$base-line-height:21px !global;
+$rhythm-unit: 'rem' !global;
+$rem-with-px-fallback: true !global;
+
+@include establish-baseline;
+
+

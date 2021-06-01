@@ -1,0 +1,9 @@
+/* Scss Document */
+// Используйте Compass (потому что он крут)
+
+@import "partials/index/global.scss";
+//@import "partials/calendar/calendar_ui.scss";
+@import "partials/modal_windows/modal.scss";
+//@import "partials/lightgallery/gallery.scss";
+
+@import "partials/_extend.scss";

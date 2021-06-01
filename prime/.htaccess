@@ -1,0 +1,15 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+
+RewriteRule ^([0-9]*)/$      prime/index_view.php?id=$1 [L]
+RewriteRule ^([0-9]*)/add/([0-9]*)/$      prime/index_view.php?id=$1&add=$2 [L]
+RewriteRule ^([0-9]*)/add_a/([0-9]*)/$      prime/index_view.php?id=$1&add_a=$2 [L]
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on
+
+php_value max_execution_time 180

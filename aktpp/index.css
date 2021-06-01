@@ -1,0 +1,148 @@
+.user_press {
+    float: left;
+    border-radius: 50%;
+    margin-top: 0px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    background-color: #fff;
+}
+.key_zay, .key_zay_view {
+    border: 1px solid #01a5fe;
+    border-radius: 50px;
+    margin-right: 10px;
+}
+.key_zay::after {
+    color: #01a5fe;
+    content: "O";
+    font-family: "icon1";
+    font-size: 16px;
+    left: 11px;
+    position: absolute;
+    top: 8px;
+}
+.key_zay_view::after {
+    color: #01a5fe;
+    content: "b";
+    font-family: "icon1";
+    font-size: 16px;
+    left: 11px;
+    position: absolute;
+    top: 8px;
+}
+
+.red_select {
+    background-color: #ffd8d8 !important;
+}
+.plus_table i {
+    background-color: #72b7f8;
+    font-style: normal;
+    border-radius: 32px;
+    /*position: absolute;*/
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-family: "GEInspiraRegular";
+    font-size: 30px;
+    top: 14px;
+    left: 14px;
+    height: 32px;
+    line-height: 27px;
+    text-align: center;
+    text-shadow: 0 1px 0 #abaaaa;
+    text-transform: uppercase;
+    width: 32px;
+}
+
+.mat_div, .zay{
+    position: relative;
+    height: 27px;
+    box-sizing: border-box;
+/*    font-family: "GEInspiraRegular";*/
+    color: rgba(0,0,0,0.7);
+    white-space: nowrap;
+}
+
+.mat_div i, .zay i {
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 30px;
+    box-sizing: content-box;
+    color: #0096ff;
+    cursor: pointer;
+    display: inline-block !important;
+    font-family: "icon1";
+    font-size: 13px;
+    font-style: normal;
+    height: 23px;
+    width: 23px;
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    text-align: center;
+    text-shadow: 0 1px 0 #abaaaa;
+    text-transform: uppercase;
+}
+.add_akt {
+    height: 67px;
+    float: left;
+    line-height: 67px;
+    margin-left: 15px;
+    position: relative;
+    cursor: pointer;
+    top: 0;
+    vertical-align: top;
+
+    cursor: pointer;
+    /*display: inline-block !important;*/
+}
+.add_akt a{
+    font-family: "icon1";
+    font-style: normal;
+    font-size: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(0,0,0,0.9);
+}
+.add_akt i {
+    background-color: #fd0000;
+    border-radius: 50%;
+    color: #fff;
+    /*display: block;*/
+    font-family: "SegoeUIBold";
+    font-size: 13px;
+    font-style: normal;
+    height: 25px;
+    line-height: 23px;
+    padding: 0;
+    position: absolute;
+    right: -20px;
+    text-align: center;
+    top: 11px;
+    vertical-align: middle;
+    width: 25px;
+}
+.info_mat {
+    display: inline-block !important;
+    float:right;
+}
+.visor_box {
+    margin-bottom:20px;
+    margin-right:10px;
+    min-width: 10%;
+    max-width: 40%;
+}
+.smeta3 {
+    width: 100%;
+margin-top: 0px;
+background-color: #f4f4f4;
+}
+.font16 {
+font-size: 100%;
+font-weight: bold;
+}
+.fonth {
+font-size: 80%;
+}
+

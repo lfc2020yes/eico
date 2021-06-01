@@ -1,0 +1,157 @@
+/* Sass Document */
+@import "compass";
+
+//Плагины
+@import "../plugin/media-queries";
+@import "../all/fonts";
+
+
+
+/*
+@font-face {
+    font-family: "GEInspiraRegular";
+    src: url("../fonts/GEInspiraRegular/GEInspira.eot");
+    src: url("../fonts/GEInspiraRegular/GEInspira.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/GEInspiraRegular/GEInspira.woff") format("woff"),
+    url("../fonts/GEInspiraRegular/GEInspira.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "GEInspiraBold";
+    src: url("../fonts/GEInspiraBold/GEInspira-Bold.eot");
+    src: url("../fonts/GEInspiraBold/GEInspira-Bold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/GEInspiraBold/GEInspira-Bold.woff") format("woff"),
+    url("../fonts/GEInspiraBold/GEInspira-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+*/
+.cke_show_borders .max
+{
+  width:100%;
+}
+
+.cke_show_borders
+{
+    color: rgba(0, 0, 0, 0.9);
+	 /*padding-top:15px;*/
+    font-family: "GEInspiraRegular";
+    font-size: 17px;
+    line-height: 26px;	
+}
+
+.cke_show_borders b,.cke_contents strong
+{
+	font-family: "GEInspiraBold";
+	font-weight:normal;
+}
+
+
+.cke_show_borders .blockquote, .cke_show_borders blockquote
+{
+    border-top: 2px solid #e93700;
+    padding: 15px;
+    text-transform: uppercase;
+	display:block;
+		font-family: "GEInspiraBold";
+	font-weight:normal;	
+	margin-top:15px;
+}
+
+.cke_show_borders .review_line
+{
+	margin: 48px 0;
+    font-size: 0;
+    line-height: 0;
+    height: 1px;
+    background: rgba(0,0,0,.1);
+}
+
+.cke_show_borders h3 a
+{
+text-transform: uppercase;
+		font-family: "GEInspiraBold";
+font-weight:normal;	
+color: #00aeef;
+ border-bottom: 2px solid #a6c9e7;
+}
+
+.cke_show_borders .blockquote p
+{
+	margin:0; padding:0;
+}
+
+.cke_show_borders p i,.cke_contents p em
+{
+	color: rgba(0, 0, 0, 0.7);
+	font-size: 15px;
+}
+
+.cke_show_borders p a.buy_jurnal:hover
+{
+	text-decoration:none;
+	background-color: #0294ca;
+	border-bottom:0;	
+}
+
+.cke_show_borders p a.buy_jurnal
+{
+
+    font-family: $fontGB;
+	border:0;
+    background-color: #00aeef;
+    color: #fff;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: normal;
+    height: 48px;
+    line-height: 48px;
+    margin: 2px;
+    padding: 0 0 0 26px;
+    text-decoration: none;
+	text-shadow: 0 1px 0 #018bbe;
+    text-transform: uppercase;
+    vertical-align: middle;
+
+}
+
+.cke_show_borders p a.buy_jurnal::after
+{
+	content: "y";
+	display:inline-block;
+	background-color: #0294ca;
+	height: 48px;
+    padding: 0 13px;	
+	font-family: $fontI;
+	text-transform:none;
+	font-size: 21px;
+	line-height:48px;
+	vertical-align:middle;
+	margin-left:26px;
+	float:right;
+	
+}
+
+.cke_show_borders .center_p
+{
+	text-align:center;
+}
+
+.cke_show_borders a
+{
+	 border-bottom: 2px solid #95d13a;
+    /*color: #00aeef;*/
+	color: rgba(0, 0, 0, 0.9);
+	text-decoration:none;
+	font-family: "GEInspiraBold";
+	
+}
+.cke_show_borders a:hover
+{
+	 border-bottom: 1px solid #fd4b25;
+    color: #fd4b25;
+}
+.cke_show_borders p { margin-top:20px; }

@@ -1,0 +1,80 @@
+/*
+Error: Undefined variable: "$fontI".
+        on line 128 of Z:/home/www.is.ru/www/sass/ckeditor/ckeditor_ulmenu.scss
+
+123: 	content: "y";
+124: 	display:inline-block;
+125: 	background-color: #0294ca;
+126: 	height: 48px;
+127:     padding: 0 13px;	
+128: 	font-family: $fontI;
+129: 	text-transform:none;
+130: 	font-size: 21px;
+131: 	line-height:48px;
+132: 	vertical-align:middle;
+133: 	margin-left:26px;
+
+Backtrace:
+Z:/home/www.is.ru/www/sass/ckeditor/ckeditor_ulmenu.scss:128
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/script/tree/variable.rb:49:in `_perform'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/script/tree/node.rb:50:in `perform'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:394:in `visit_prop'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:430:in `visit_rule'
+org/jruby/RubyArray.java:2412:in `map'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:430:in `visit_rule'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:428:in `visit_rule'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:115:in `with_frame'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+org/jruby/RubyArray.java:2412:in `map'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:167:in `visit_children'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:157:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/visitors/perform.rb:8:in `visit'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/root_node.rb:36:in `css_tree'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/tree/root_node.rb:20:in `render'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/engine.rb:268:in `render'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
+org/jruby/RubyMethod.java:128:in `call'
+file:/C:/Program Files/Compass App/compass-app.jar!/hook/compass_patch.rb:108:in `update_stylesheet'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/plugin/compiler.rb:215:in `update_stylesheets'
+org/jruby/RubyArray.java:1613:in `each'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/sass-3.4.13/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/compass-1.0.3/lib/compass/sass_compiler.rb:40:in `compile!'
+C:/Program Files/Compass App/lib/ruby/compass_1.0/compass-1.0.3/lib/compass/commands/update_project.rb:49:in `perform'
+org/jruby/RubyMethod.java:116:in `call'
+file:/C:/Program Files/Compass App/compass-app.jar!/hook/compass_patch.rb:57:in `perform'
+file:/C:/Program Files/Compass App/compass-app.jar!/ui/tray.rb:385:in `clean_project'
+file:/C:/Program Files/Compass App/compass-app.jar!/app.rb:198:in `get_stdout'
+file:/C:/Program Files/Compass App/compass-app.jar!/ui/tray.rb:381:in `clean_project'
+file:/C:/Program Files/Compass App/compass-app.jar!/app.rb:230:in `try'
+file:/C:/Program Files/Compass App/compass-app.jar!/ui/tray.rb:380:in `clean_project'
+file:/C:/Program Files/Compass App/compass-app.jar!/ui/change_options_panel.rb:310:in `save_handler'
+anon_class147160111_603565447.gen:13:in `handleEvent'
+file:/C:/Program Files/Compass App/compass-app.jar!/ui/tray.rb:70:in `run'
+file:/C:/Program Files/Compass App/compass-app.jar!/main.rb:129:in `run_tray'
+file:/C:/Program Files/Compass App/compass-app.jar!/main.rb:145:in `(root)'
+org/jruby/RubyKernel.java:1071:in `require'
+/C:/Program Files/Compass App/lib/java/jruby-complete.jar!/META-INF/jruby.home/lib/ruby/shared/rubygems/core_ext/kernel_require.rb:1:in `(root)'
+/C:/Program Files/Compass App/lib/java/jruby-complete.jar!/META-INF/jruby.home/lib/ruby/shared/rubygems/core_ext/kernel_require.rb:54:in `require'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Undefined variable: \"$fontI\".\A         on line 128 of Z:/home/www.is.ru/www/sass/ckeditor/ckeditor_ulmenu.scss\A \A 123: 	content: \"y\";\A 124: 	display:inline-block;\A 125: 	background-color: #0294ca;\A 126: 	height: 48px;\A 127:     padding: 0 13px;	\A 128: 	font-family: $fontI;\A 129: 	text-transform:none;\A 130: 	font-size: 21px;\A 131: 	line-height:48px;\A 132: 	vertical-align:middle;\A 133: 	margin-left:26px;"; }

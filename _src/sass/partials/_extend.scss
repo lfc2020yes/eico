@@ -1,0 +1,492 @@
+/*@extend %xxx;*/
+/*@extend .xxx;*/
+
+
+
+/*настройка placeholder для разных браузеров */
+/*использование .box { @include placeholder {color: red;} }*/
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}  
+}
+
+
+%min_max
+{
+  	max-width: $max-width;
+	min-width: $min-width;	
+}
+
+%center_div_table
+{
+    margin-left: auto;
+    margin-right: auto;	
+	/*display:table;*/
+	position:relative;
+	/*width:100%;*/
+}
+
+
+.animate {
+  //transition: 1s;
+  @include transition(all 1s ease);
+}
+
+.hide
+{
+	display:none;	
+}
+
+.max
+{
+ width:100%;	
+}
+
+.clear
+{
+	clear:both;	
+}
+
+/*класс только для баннеров в боковых частях*/
+.hide-banner
+{
+	display:none !important;	
+}
+
+.center { text-align:center;}
+
+body.menu-open { overflow: hidden;}
+
+.w_size { width:50%; background-color: rgba(255, 0, 0, 0.7); color:#fff; z-index:50; position: fixed; bottom:0px; left:0px; height: auto; font-size:14px; text-align:left; padding:15px; font-family:arial; }
+/*
+.w_size::after {    color: red;
+    content: "x";
+    cursor: pointer;
+    font-family: $fontI;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 40px;
+    position: absolute;
+    right: -15px;
+    top: -15px; }
+*/
+
+//свойства превращения div в table
+
+.table { display: table; width: 100%;  }
+.table-cell {  display: table-cell; vertical-align: middle; }
+
+//<div class="table"><div class="table-cell"></div><div class="table-cell"></div></div>
+
+
+
+
+@mixin transform($transforms) {
+	   -moz-transform: $transforms;
+	     -o-transform: $transforms;
+	    -ms-transform: $transforms;
+	-webkit-transform: $transforms;
+          transform: $transforms;
+}
+/*
+.element {
+  @include transform('rotate(-180deg)');
+}
+*/
+
+@mixin transition-property($property...) {
+    -moz-transition-property:    $property;
+    -o-transition-property:      $property;
+    -webkit-transition-property: $property;
+    transition-property:         $property;
+}
+@mixin transition-duration($duration...) {
+    -moz-transition-property:    $duration;
+    -o-transition-property:      $duration;
+    -webkit-transition-property: $duration;
+    transition-property:         $duration;
+}
+@mixin transition-timing-function($timing...) {
+    -moz-transition-timing-function:    $timing;
+    -o-transition-timing-function:      $timing;
+    -webkit-transition-timing-function: $timing;
+    transition-timing-function:         $timing;
+}
+@mixin transition-delay($delay...) {
+    -moz-transition-delay:    $delay;
+    -o-transition-delay:      $delay;
+    -webkit-transition-delay: $delay;
+    transition-delay:         $delay;
+}
+
+
+@mixin horizontal-gradient($args...) {
+	
+ background-image: -o-linear-gradient($args); 
+ background-image: -moz-linear-gradient($args); 
+ background-image: -webkit-linear-gradient($args); 
+ background-image: linear-gradient($args); 
+
+}
+
+
+
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}
+
+/*
+@include keyframes(slide-down) {
+  0% {  }
+  90%{  }
+}
+.element {
+  @include animation('slide-down 5s 3');
+}
+*/
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+@mixin filter($args...) {
+  -webkit-filter:$args;
+  -moz-filter: $args;
+  -o-filter: $args;
+  -ms-filter: $args;
+  filter: $args;
+}
+/*
+a {
+  color: gray;
+  @include transition(color .3s ease);
+  &:hover {
+    color: black;
+  }
+}
+*/
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+/*
+.faded-text {
+  @include opacity(0.8);
+}
+*/
+
+@mixin bg($name){
+    background-image: url(#{$image-path}/#{$name});
+}
+/*
+body {
+  @include bg('top.png');
+}
+*/
+
+// --------------------------------------------------
+// Flexbox SASS mixins
+// --------------------------------------------------
+
+// Flexbox display
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+// The 'flex' shorthand
+// - applies to: flex items
+// <positive-number>, initial, auto, or none
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+     -moz-box-flex: $values;
+      -webkit-flex: $values;
+  	  -ms-flex: $values;
+  	      flex: $values;
+}
+
+// Flex Flow Direction
+// - applies to: flex containers
+// row | row-reverse | column | column-reverse
+@mixin flex-direction($direction) {
+  -webkit-flex-direction: $direction;
+     -moz-flex-direction: $direction;
+      -ms-flex-direction: $direction;
+          flex-direction: $direction;
+}
+
+// Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+     -moz-flex-wrap: $wrap;
+      -ms-flex-wrap: $wrap;
+          flex-wrap: $wrap;
+}
+
+// Flex Direction and Wrap
+// - applies to: flex containers
+// <flex-direction> || <flex-wrap>
+@mixin flex-flow($flow) {
+  -webkit-flex-flow: $flow;
+     -moz-flex-flow: $flow;
+      -ms-flex-flow: $flow;
+          flex-flow: $flow;
+}
+
+// Display Order
+// - applies to: flex items
+// <integer>
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;  
+     -moz-box-ordinal-group: $val;     
+  	     -ms-flex-order: $val;     
+  	      -webkit-order: $val;  
+  		      order: $val;
+}
+
+// Flex grow factor
+// - applies to: flex items
+// <number>
+@mixin flex-grow($grow) {
+  -webkit-flex-grow: $grow;
+     -moz-flex-grow: $grow;
+      -ms-flex-grow: $grow;
+          flex-grow: $grow;
+}
+
+// Flex shrink
+// - applies to: flex item shrink factor
+// <number> 
+@mixin flex-shrink($shrink) {
+  -webkit-flex-shrink: $shrink;
+     -moz-flex-shrink: $shrink;
+      -ms-flex-shrink: $shrink;
+          flex-shrink: $shrink;
+}
+
+// Flex basis
+// - the initial main size of the flex item
+// - applies to: flex itemsnitial main size of the flex item
+// <width> 
+@mixin flex-basis($width) {
+  -webkit-flex-basis: $width;
+     -moz-flex-basis: $width;
+      -ms-flex-basis: $width;
+          flex-basis: $width;
+}
+
+// Axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | space-between | space-around 
+@mixin justify-content($justify) {
+  -webkit-justify-content: $justify;
+     -moz-justify-content: $justify;
+      -ms-justify-content: $justify;
+          justify-content: $justify;
+            -ms-flex-pack: $justify;
+}
+
+// Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch 
+@mixin align-content($align) {
+  -webkit-align-content: $align;
+     -moz-align-content: $align;
+      -ms-align-content: $align;
+          align-content: $align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | baseline | stretch 
+@mixin align-items($align) {
+  -webkit-align-items: $align;
+     -moz-align-items: $align;
+      -ms-align-items: $align;
+          align-items: $align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch 
+@mixin align-self($align) {
+  -webkit-align-self: $align;
+     -moz-align-self: $align;
+      -ms-align-self: $align;
+          align-self: $align;
+}
+// --------------------------------------------------
+// Flexbox SASS mixins end
+// --------------------------------------------------
+
+
+// Breakpoints for each query
+
+
+//В конечной версии посмотреть как смотрится в следующих разрешениях
+//480 x 640 x 720 x 768 x 800 x 1024 x 1366 x 1540
+
+
+$smartphone: 480px; //aphone 3g
+$tabletPortrait: 720px; //s3 note
+$tabletPortrait: 1024px; //ipad2 ipad1 767
+$tabletLandscape: 1024px; //ipad2 ipad1
+$desktop: 1174px;
+$largeScreen: 1400px;
+@mixin space($media) {
+  @if $media == smartphone {
+    @media (max-width: $smartphone) { @content; }
+  }
+  @else if $media == tablet {
+    @media (min-width: $tabletPortrait) and (max-width: $tabletLandscape) { @content; }
+  }
+  @else if $media == smallScreen {
+    @media (max-width: $desktop) { @content; }
+  }
+  @else if $media == desktop {
+    @media (min-width: $desktop) { @content; }
+  }
+}
+
+/*
+Пример использования:
+
+div {
+    // regular styles here
+    @include space(desktop) {
+        &:hover { background: blue; } // only add the hover effect on desktop browsers
+    }
+}
+*/
+
+
+
+$breakpoints: (
+  "phone":        400px,
+  "phone-wide":   480px,
+  "phablet":      560px,
+  "tablet-small": 640px,
+  "tablet1":      720px,	
+  "tablet2":      768px,
+  "tablet3":      1024px,	
+  "tablet-wide":  1024px,
+  "desktop":      1248px,
+  "notebook":	  1366px,
+  "desktop-wide": 1440px,
+  "large":        1540px
+);
+@mixin sw($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+  
+   @if $type == max {
+     
+	   $width: $width - 1px; 
+   }
+   @media only screen and (#{$type}-width: $width) {
+    @content;
+   }
+  }
+}
+
+//Пример ниже показывает увеличение внутренних отступов и размера шрифта, когда вьюпорт становится больше 1024px.
+/*
+.site-header {
+  padding: 2rem;
+  font-size: 1.8rem;
+  @include sw('tablet-wide') {
+   padding-top: 4rem;
+   font-size: 2.4rem;
+  }
+}
+*/
+
+
+
+//для float элементов
+%clearfix {
+  *zoom: 1;
+  &:after {
+    content: '';
+    display: table;
+    line-height: 0;
+    clear: both;
+  }
+}
+
+
+@mixin distribute-on-circle( $nb-items, $circle-size, $item-size) {
+  $half-item: ($item-size / 2);
+  $half-parent: ($circle-size / 2);
+  position: relative;
+  width: $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%;
+  list-style: none;
+  box-sizing: content-box;
+  > * {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $item-size;
+    height: $item-size;
+    margin: -$half-item;
+  }
+  $angle: (360 / $nb-items);
+  $rot: 0;
+  @for $i from 1 through $nb-items {
+    >:nth-of-type(#{$i}) {
+      transform: rotate($rot * 1deg) translate($half-parent) rotate($rot * -1deg);
+    }
+    $rot: ($rot + $angle);
+  }
+}
+//цвет на тон темнее
+@function darker($color, $tone) {
+  $adjust: -16*$tone;
+  @return adjust-color($color, $red: $adjust, $green: $adjust, $blue: $adjust);
+}
+//цвет на тон светлее
+@function lighter($color, $tone) {
+  $adjust: 16*$tone;
+  @return adjust-color($color, $red: $adjust, $green: $adjust, $blue: $adjust);
+}

@@ -1,0 +1,27 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+RewriteRule ^([0-9]*)/$      app/index_view.php?id=$1 [L]
+
+RewriteRule ^add/([0-9]*)/$ app/index_add.php?id=$1 [L]
+RewriteRule ^plus/([0-9]*)/$ app/index_plus.php?id=$1 [L]
+RewriteRule ^sign/([0-9]*)/$ app/index_sign.php?id=$1 [L]
+RewriteRule ^order/([0-9]*)/$ app/index_order.php?id=$1 [L]
+
+RewriteRule ^cancel/([0-9]*)/$ app/index_cancel.php?id=$1 [L]
+
+
+RewriteRule ^.page-([0-9]*)$ app/index.php?n_st=$1 [L]
+
+RewriteRule ^okay/$ app/index.php?by=okay [L]
+RewriteRule ^okay/.page-([0-9]*)$ app/index.php?by=okay&n_st=$1 [L]
+
+RewriteRule ^orders/$ finery/index.php?by=orders [L]
+RewriteRule ^orders/.page-([0-9]*)$ finery/index.php?by=orders&n_st=$1 [L]
+
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

@@ -1,0 +1,311 @@
+.input-block-2020 .list-image {
+  padding: 20px;
+  display: none;
+}
+
+.input-block-2020 .img_invoice_div .invoice_upload {
+  font-family: "GEInspiraRegular";
+  font-size: 13px;
+  display: block;
+  color: rgba(0, 0, 0, 0.6);
+  line-height: 18px;
+  text-align: center;
+  padding: 15px 25px;
+  padding-right: 25px;
+  padding-right: 50px;
+  cursor: pointer;
+  background-color: transparent !important;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  strong {
+    font-weight: normal;
+    font-family: "GEInspiraBold";
+  }
+
+
+  i {
+    font-style: normal;
+    display: none;
+  }
+
+  .help-icon-x {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.1);
+    font-family: "icon2";
+    font-style: normal;
+    text-transform: none;
+    right: 20px;
+    position: absolute;
+    z-index: 20;
+    top: 20px;
+  }
+}
+
+  .li-image {
+    padding: 0px 0 10px;
+    line-height: 22px;
+    height: 30px;
+    position: relative;
+    margin-bottom: 9px;
+    width: 100%;
+    font-family: "GEInspiraRegular";
+    font-size: 13px;
+    text-transform: none;
+    color: rgba(0,0,0,0.8);
+
+    .name-img {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 270px;
+      float: left;
+      white-space: nowrap;
+      padding-left: 22px;
+      position: relative;
+    }
+}
+  .input-block-2020 {
+    .img_invoice_div {
+
+      border-radius: 4px;
+      border: 2px dashed rgba(0,0,0,0.1);
+      min-height: 64px;
+
+      .invoice_upload {
+        font-family: "GEInspiraRegular";
+        font-size: 13px;
+        //text-transform: uppercase;
+        display: block;
+        color: rgba(0, 0, 0, 0.6);
+        line-height: 18px;
+        text-align: center;
+        padding: 15px 25px;
+        padding-right: 50px;
+        cursor: pointer;
+        position: relative;
+
+        i {
+          font-style: normal;
+          display: none;
+        }
+
+      }
+    }
+
+    .form_up {
+      display: none;
+    }
+
+    .list-image {
+      padding: 20px;
+      display: none;
+    }
+
+    .li-image {
+
+      padding: 0px 0 10px;
+      line-height: 22px;
+      height: 30px;
+      position: relative;
+      margin-bottom: 9px;
+      width: 100%;
+      font-family: "GEInspiraRegular";
+      font-size: 13px;
+      text-transform: none;
+      color: rgba(0, 0, 0, 0.8);
+
+      @include sw('tablet-small') {
+        height: auto;
+      }
+
+      .name-img {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 270px;
+        float: left;
+        white-space: nowrap;
+        padding-left: 22px;
+        position: relative;
+
+        @include sw('tablet-small') {
+          width: 100%;
+          float: none;
+          display: inline-block;
+        }
+
+        a {
+          color: rgba(0, 0, 0, 0.8);
+          border-bottom: 1px solid #0090ff;
+          text-decoration: none;
+
+          font-family: "GEInspiraRegular";
+          font-size: 13px;
+          text-transform: none;
+          color: rgba(0, 0, 0, 0.8);
+          line-height: 22px;
+        }
+
+      }
+
+      .del-img {
+        float: right;
+        cursor: pointer;
+        position: relative;
+        height: 10px;
+        width: 10px;
+        background-repeat: repeat;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        margin-top: 6px;
+        margin-right: 4px;
+        opacity: 0.5;
+        margin-left: 8px;
+
+        @include sw('tablet-small') {
+          display: inline-block;
+          float: none;
+          margin-left: 4px; }
+      }
+
+      .size-img {
+
+        float: right;
+        text-align: right;
+        font-size: 11px;
+        color: rgba(0, 0, 0, 0.5);
+        padding-left: 10px;
+        white-space: nowrap;
+        @include sw('tablet-small') {
+          float: none;
+          display: inline-block;
+          margin-top: 10px;
+        }
+      }
+
+      .progress-img {
+
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        height: 1px;
+        background: #DBE4EB;
+        overflow: hidden;
+
+        .p-img {
+
+          height: 1px;
+          width: 0%;
+          background: #25ae88;
+          max-width: 100%;
+          display: none;
+          @include transition(all .4s cubic-bezier(.42, .01, .23, 1));
+
+        }
+
+      }
+
+
+    }
+
+
+    .yes-load {
+      .name-img {
+        &::before {
+          position: absolute;
+          content: "\E001";
+          left: 0px;
+          color: #25ae88;
+          top: 2px;
+          font-family: "icon1";
+          font-size: 14px;
+        }
+      }
+
+      .del-img {
+        //background-image: url(../image/svg/delete-cross.svg);
+        @include bg('svg/delete-cross.svg');
+      }
+    }
+
+
+    .download-file {
+      height: auto;
+      margin-bottom: 0px;
+      padding-bottom: 5px;
+
+      .name-img {
+        padding-right: 10px;
+        display: inline;
+        line-height: 16px;
+        overflow: auto;
+        text-overflow: inherit;
+        white-space: normal;
+        float: none;
+
+        &::before {
+          position: absolute;
+          content: "";
+          left: 0px;
+          height: 16px;
+          width: 20px;
+          margin-right: 3px;
+          vertical-align: top;
+          top: -2px;
+          background-image: url(../image/svg/download.svg);
+          background-repeat: no-repeat;
+          font-size: 14px;
+        }
+
+        a {
+          color: #2c60a4;
+          border-bottom: 0px;
+
+          &:hover {
+            border-bottom: 1px solid #2c60a4;
+          }
+        }
+
+      }
+
+      .size-img {
+        padding-left: 0px;
+        display: inline-block;
+        float: none;
+        text-align: inherit;
+        text-transform: uppercase;
+      }
+
+      .del-img {
+        background-image: url(../image/svg/delete-cross.svg);
+      }
+    }
+
+
+    .no-load {
+      .name-img {
+        &::before {
+          position: absolute;
+          content: "_";
+          left: 0px;
+          color: #25ae88;
+          top: 1px;
+          font-family: "icon1";
+          font-size: 11px;
+          color: red;
+        }
+      }
+    }
+
+    .eshe-load-file {
+      span {
+        display: none;
+      }
+
+      i {
+        display: inline-block !important;
+      }
+    }
+
+  }

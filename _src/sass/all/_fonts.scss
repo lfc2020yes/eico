@@ -1,0 +1,96 @@
+/* Scss Document */
+@import "compass/typography";
+@import "compass/css3";
+
+
+/*Экран по ширине меньше чем тогда*/
+@include max-screen(768px) { }
+/*Экран по ширине больше чем тогда*/
+@include max-screen(768px) { }
+/*Экран по высоте меньше чем тогда*/
+@include max-screen-height(1024px) { }
+/*Экран по высоте больше чем тогда*/
+@include max-screen-height(1024px) { }
+
+$PB:'GEInspiraBold';
+$PR:'GEInspiraRegular';
+$i:'icon1';
+           /*
+@mixin font-include($name,$style,$weight) {
+
+@include font-face($name, font-files(
+   $name+'/'+$name+'.woff', 
+   $name+'/'+$name+'.ttf', 
+   $name+'/'+$name+'.svg'), 
+   $name+'/'+$name+'.eot',$weight, $style
+);
+
+}
+  */
+
+//@include font-include('GEInspiraBold','normal','normal');
+//@include font-include('GEInspiraRegular','normal','normal');
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+// =============================================================================
+// Font Face
+// =============================================================================
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+
+//путь относительно той папки в которой получится конечный css
+//в нашем случае это stylesheets следовательно надо выйти из этой папки а дальше....
+
+
+//@include font-include('icon1','normal','normal');
+//@include font-include('icon2','normal','normal');
+
+@include font-face("GEInspiraRegular", $src-domain + "fonts/GEInspiraRegular/GEInspiraRegular", "normal", "normal");
+@include font-face("GEInspiraBold", $src-domain + "fonts/GEInspiraBold/GEInspiraBold", "normal", "normal");
+
+
+@include font-face("LabGrotesque-Regular", $src-domain + "fonts/LabGrotesque-Regular/LabGrotesque-Regular", "normal", "normal");
+@include font-face("LabGrotesque-Light", $src-domain + "fonts/LabGrotesque-Light/LabGrotesque-Light", "normal", "normal");
+
+@include font-face("icon1", $src-domain + "fonts/icon1/icon1", "normal", "normal");
+@include font-face("icon2", $src-domain + "fonts/icon2/icon2", "normal", "normal");
+
+
+
+
+//@include font-include('lg','normal','normal');

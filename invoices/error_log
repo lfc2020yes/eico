@@ -1,0 +1,8 @@
+[01-Apr-2018 19:55:34 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[01-Apr-2018 20:55:56 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[02-Apr-2018 07:28:44 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[02-Apr-2018 19:29:22 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[07-Apr-2018 10:35:56 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[19-Apr-2018 06:22:34 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 10
+[28-Jun-2019 09:16:10 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 120
+[28-Jun-2019 09:16:10 Europe/Moscow] PHP Warning:  Invalid argument supplied for foreach() in /home/atsunru/interstroi.atsun.ru/docs/invoices/index_view.php on line 192

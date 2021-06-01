@@ -1,0 +1,32 @@
+$iurl: '../../image/';
+$image-path: '../../image';
+$src-domain: '../../';
+
+$PB:'GEInspiraBold';
+$PR:'GEInspiraRegular';
+$i:'icon1';
+
+
+/*максимальные и минимальные размеры ширины сайта*/
+$max-width: 1920px;
+$min-width: 320px;
+$color: rgba(0,0,0,0.8);
+
+.container {
+    max-width: $max-width;
+    min-width: $min-width;
+    width: 100%;
+	margin: auto;
+overflow:hidden;
+	font-family:  $PR;
+	font-size: 14px;
+	color:$color;
+	line-height: 22px;
+
+}
+.container, .iss{ margin-bottom: 0px !important;padding-bottom: 0px !important; height:100%;}
+body, html {min-height: 100%; height: auto !important; height: 100%;}
+
+
+h1,h2,h3,strong { font-weight: normal; font-family: $PB;}
+

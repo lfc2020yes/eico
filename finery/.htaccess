@@ -1,0 +1,32 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+RewriteRule ^([0-9]*)/$      finery/index_view.php?id=$1 [L]
+
+RewriteRule ^add/([0-9]*)/$ finery/index_add.php?id=$1 [L]
+RewriteRule ^plus/([0-9]*)/$ finery/index_plus.php?id=$1 [L]
+RewriteRule ^sign/([0-9]*)/$ finery/index_sign.php?id=$1 [L]
+RewriteRule ^shoot/([0-9]*)/$ finery/index_shoot.php?id=$1 [L]
+RewriteRule ^seal/([0-9]*)/$ finery/index_seal.php?id=$1 [L]
+RewriteRule ^disband/([0-9]*)/$ finery/index_disband.php?id=$1 [L]
+
+
+RewriteRule ^.page-([0-9]*)$ finery/index.php?n_st=$1 [L]
+
+RewriteRule ^okay/$ finery/index.php?by=okay [L]
+RewriteRule ^okay/.page-([0-9]*)$ finery/index.php?by=okay&n_st=$1 [L]
+
+RewriteRule ^nosigned/$ finery/index.php?by=nosigned [L]
+RewriteRule ^nosigned/.page-([0-9]*)$ finery/index.php?by=nosigned&n_st=$1 [L]
+
+RewriteRule ^seal/$ finery/index.php?by=seal [L]
+RewriteRule ^seal/.page-([0-9]*)$ finery/index.php?by=seal&n_st=$1 [L]
+
+RewriteRule ^decision/$ finery/index.php?by=decision [L]
+RewriteRule ^decision/.page-([0-9]*)$ finery/index.php?by=decision&n_st=$1 [L]
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

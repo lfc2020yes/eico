@@ -1,0 +1,26 @@
+[03-Jun-2018 10:09:04 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index_make.php on line 11
+[03-Jun-2018 10:15:59 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 10:47:23 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index_make.php on line 11
+[03-Jun-2018 10:59:11 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 11:55:35 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 13:57:24 Europe/Moscow] PHP Fatal error:  Call to undefined function Make_Doc_status() in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 82
+[03-Jun-2018 14:03:09 Europe/Moscow] PHP Fatal error:  Call to undefined function Make_Doc_status() in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 82
+[03-Jun-2018 14:05:53 Europe/Moscow] PHP Fatal error:  Call to undefined function Make_Doc_status() in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 82
+[03-Jun-2018 14:09:24 Europe/Moscow] PHP Fatal error:  Call to undefined function Make_Doc_status() in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 82
+[03-Jun-2018 14:40:30 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 15:06:07 Europe/Moscow] PHP Fatal error:  Call to undefined function Make_Doc_status() in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 82
+[03-Jun-2018 16:32:13 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 18:10:59 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 18:45:21 Europe/Moscow] PHP Fatal error:  Call to a member function query() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 192
+[03-Jun-2018 19:15:07 Europe/Moscow] PHP Warning:  mysqli::query() expects parameter 1 to be string, object given in /home/atsunru/interstroi.atsun.ru/docs/aktpp/ajax_accept_akt.php on line 155
+[03-Jun-2018 19:21:59 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 19:57:38 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 19:58:07 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 20:40:16 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[03-Jun-2018 20:46:54 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[18-Jun-2018 19:47:25 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[18-Jun-2018 21:12:20 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[18-Jun-2018 22:18:40 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[18-Jul-2018 21:16:46 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[28-Jun-2019 10:19:29 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13
+[28-Jun-2019 12:26:21 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/aktpp/index.php on line 13

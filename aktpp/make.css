@@ -1,0 +1,49 @@
+.save_akt {
+    cursor: pointer;
+    float: right;
+    margin-right: 0px;
+    margin-top: 10px;
+    position: relative;
+}
+.money {
+    text-align: right;
+}
+.red_select {
+    background-color: #ffd8d8 !important;
+}
+.user_press {
+    float: left;
+    margin-left: 15px;
+    border-radius: 50%;
+    margin-top: 13px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    background-color: #fff;
+}
+.key_work {
+    border: 1px solid #ccc; /*#01a5fe; */
+    border-radius: 50px;
+}
+.key_work::after {
+    color: #01a5fe;
+    content: "O";
+    font-family: "icon1";
+    font-size: 16px;
+    left: 11px;
+    position: absolute;
+    top: 8px;
+}
+.key_delete {
+    border: 1px solid #ccc; /*#01a5fe; */
+    border-radius: 50px;
+}
+.key_delete::after {
+    color: #01a5fe;
+    content: "x";
+    font-family: "icon1";
+    font-size: 16px;
+    left: 11px;
+    position: absolute;
+    top: 8px;
+}

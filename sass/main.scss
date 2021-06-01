@@ -1,0 +1,22 @@
+/* Sass Document */
+@import "compass";
+
+//Плагины
+@import "plugin/media-queries";
+
+//общие переменные проекта  (цвета, шрифты)
+@import "all/reset";
+@import "all/colors";
+@import "all/variables";
+@import "all/fonts";
+
+//старый обычный css
+/*@import 'CSS:index';*/
+
+
+
+//Части сайта меняющиеся в зависимости от страницы
+@import "partials/base";
+
+
+

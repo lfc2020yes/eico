@@ -1,0 +1,29 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+
+# /aktpp/make/5/  редактировать акт с корзиной  /0/ создать акт      R=302
+RewriteRule ^make\/([0-9]*)/$ aktpp/index_make.php?id=$1 [L]
+RewriteRule ^make\/([0-9]*)/([0-9]*)/$ aktpp/index_make.php?id=$1&zay=$2 [L]
+
+# /aktpp/edit/5/  редактировать акт без корзины
+RewriteRule ^edit\/([0-9]*)/$ aktpp/index_make.php?id=$1&nmat [L]
+RewriteRule ^edit\/([0-9]*)/([A-Za-z]+)/$ aktpp/index_make.php?id=$1&nmat&$2 [L]     # $2=revers
+
+
+# /aktpp/mat/5/  добавить материалы в акт
+RewriteRule ^([A-Za-z]+)/([0-9]*)/$ aktpp/?by=$1&id=$2 [L]
+# /aktpp/sen/   закладки res sen akt mat work
+RewriteRule ^([A-Za-z]+)/$ aktpp/?by=$1 [L]
+ 
+
+#RewriteRule ^res/.page-([0-9]*)$ aktpp/index.php?by=res&str=$1 [L]
+#RewriteRule ^sen/.page-([0-9]*)$ aktpp/index.php?by=sen&str=$1 [L]
+#RewriteRule ^akt/.page-([0-9]*)$ aktpp/index.php?by=akt&str=$1 [L]
+#RewriteRule ^mat/.page-([0-9]*)$ aktpp/index.php?by=mat&str=$1 [L]
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

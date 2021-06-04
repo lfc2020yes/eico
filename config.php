@@ -11,6 +11,8 @@
   $dbuser = "atsunru_inter"; 
   $dbpasswd = "inter2017";*/
 
+$base_cookie='soft.umatravel.club';
+
 //$dblocation = "mysql.hosting.nic.ru";
 $dblocation ="localhost";
 $dbname = "atsunru_interstroi";

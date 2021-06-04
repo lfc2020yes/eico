@@ -87,7 +87,7 @@ include_once $url_system.'module/config.php';
 include_once $url_system.'module/function.php';
 
 
-setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
     
 	 unset($_SESSION['user_id']);
 	 unset($_SESSION['da']);

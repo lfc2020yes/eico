@@ -3,6 +3,13 @@ Options +FollowSymLinks
 RewriteBase /
 RewriteRule ^.htaccess$ - [F]
 
+#c http �� https
+#раскомментировать на хостинге
+#RewriteEngine On
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+
+
 DirectoryIndex index.php
 
 php_flag session.use_trans_sid off

@@ -4778,7 +4778,7 @@ ExitSystem();
 //выход из системы при бездействии
 	
 
-window.is_session='i-s.group';	
+window.is_session='eico.atsun.ru';
 	
 
 //уведомления настройки	

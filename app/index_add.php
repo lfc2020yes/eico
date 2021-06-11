@@ -369,7 +369,7 @@ signedd_mem        tinyint(1)        (NULL)           YES             (NULL)    
 			
 			 //удаляем из корзины нарядов по этому дому
 			 
-			 setcookie("basket1_".$id_user."_".htmlspecialchars($_GET['id']), "", time()-3600,"/", ".i-s.group", false, false);
+			 setcookie("basket1_".$id_user."_".htmlspecialchars($_GET['id']), "", time()-3600,"/", ".eico.atsun.ru", false, false);
 			
 			//echo($flag_podpis);
 			

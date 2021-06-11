@@ -83,21 +83,21 @@ if ((array_key_exists('ref', $_POST))and(array_key_exists('email', $_POST))and(a
 	  	  
       login(0, $row["id"], false,$link);
 	  	
-	  setcookie("lis",$_POST['email'], time() + 60 * 60 * 24 * 365, "/", "i-s.group", false, true); //на год
+	  setcookie("lis",$_POST['email'], time() + 60 * 60 * 24 * 365, "/", "eico.atsun.ru", false, true); //на год
 	  //echo($row["id"]);	  
 	} else
 	{
         unset($_SESSION['user_id']);
 	    //ошибка логин-пароль
 	    $error="1";
-	  setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+	  setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
 	}
 
 	 
   }else
   {
         unset($_SESSION['user_id']);
-	  setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+	  setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
        //ошибка логин-пароль 
 	   $error="1";	  
   }
@@ -106,7 +106,7 @@ if ((array_key_exists('ref', $_POST))and(array_key_exists('email', $_POST))and(a
   } else
   {
         unset($_SESSION['user_id']);
-	  setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+	  setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
        //ошибка логин-пароль 
 	   $error="1";
   }
@@ -114,7 +114,7 @@ if ((array_key_exists('ref', $_POST))and(array_key_exists('email', $_POST))and(a
 {
 	//ошибка логин-пароль
 	$error="1";
-	setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+	setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
  
 }
 

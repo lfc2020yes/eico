@@ -1,6 +1,6 @@
 <?
 session_start();
-$base_usr="http://www.eico.atsun.ru";
+$base_usr="https://www.eico.atsun.ru";
 
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/config.php';

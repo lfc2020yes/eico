@@ -69,4 +69,113 @@ $height_li_img2 : ceil(($width_li2 * 532) / 800);
 */
 
 
+//всплывающие уведомления
+.alert_wrapper {
 
+  position: fixed;
+  width: 100%;
+  bottom: 32px;
+  @include sw('tablet-small') {
+    bottom: 20px;
+  }
+  z-index: 10080;
+
+  .div-box {margin: 0 auto;
+    height: 0;
+    @include flexbox(); @include align-items(flex-end); @include flex-direction(column-reverse);
+    padding: 0 40px;
+    @include sw('tablet-small') {
+      padding: 0 20px;
+    }
+
+    .alert-message {
+
+      @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+      @include opacity(0);
+
+      @include transform(translate3d(100px, 0px, 0px));
+      background-color: #25ae88;
+
+      margin-top: 15px;
+      @include box-shadow(0 4px 8px rgba(17, 56, 86, 0.1));
+      min-width: 300px;
+      @include sw('tablet-small') {
+        min-width: 100%;
+      }
+      padding: 20px;
+      @include flexbox(); border-radius: 2px;
+      background-clip: padding-box;
+      border: 1px solid #25ae88;
+      //background-color: #fff;
+      @include align-items(center);
+      @include flex(none);
+
+      .alert-icon { position: relative; width: 26px;
+        height: 26px;
+        margin-right: 16px; &::before {content: "q";
+        font-size: 26px;
+        color: #fff;
+        font-family: "icon2";
+        font-style: normal; } }
+
+      .alert-content {    margin-right: 27px; color:
+              #fff;
+        font-family: "GEInspiraBold";
+        text-transform: uppercase;
+        font-size: 13px;
+        text-decoration: none;@include flex-grow(1); }
+
+      .alert-close {background-image: url(../image/svg/delete-cross.svg);
+
+        height: 10px;
+
+        width: 10px;
+
+        background-repeat: repeat;
+
+        background-size: 100% 100%;
+
+        background-repeat: no-repeat;
+
+        content: "";
+
+
+        top: 15px;
+
+        left: 15px;
+        @include opacity(0.5);
+        cursor: pointer;
+      }
+
+    }
+    .show-alert {				@include opacity(1);
+      @include transform(translate3d(0px, 0px, 0px));}
+    .hide-alert {
+
+      @include opacity(0);
+      @include transform(translate3d(-200px, 0px, 0px));
+
+    }
+
+    .error-a {border: 0px solid #e63956; background-color: #fd8080; .alert-content {  color:
+            #fff; }   .alert-icon {&:before {content: "u"; color:rgba(0,0,0,0.1); font-size: 24px;}}  }
+    .yes-a {   }
+    .war-a {  background-color: #ffec57; border: 1px solid #ffec57; .alert-content {  color:
+            rgba(0, 0, 0, 0.7); }   .alert-icon {&:before {  content: "(";
+      font-size: 26px;
+      color: rgba(0,0,0,0.2);
+      font-family: "icon1";
+      font-style: normal;  }
+                                    }}
+  }
+}
+.big .alert_wrapper {  padding-left: 250px;}
+//всплывающие уведомления
+
+
+.white-panel {
+  background-color:
+          #fff;
+  padding-top: 20px;
+  @include sw('tablet-small') {    padding: 20px;
+  } }

@@ -10,6 +10,16 @@ RewriteRule ^.htaccess$ - [F]
 #RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
 
 
+ #c http на https
+#RewriteEngine On
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+
+#c без www на www только для главной
+#RewriteCond %{HTTP_HOST} ^eico.atsun\.ru$ [NC]
+#RewriteRule ^(.*)$ https://www.eico.atsun.ru/$1 [R=301,L]
+
+
 DirectoryIndex index.php
 
 php_flag session.use_trans_sid off

@@ -33,10 +33,10 @@ if ((count($_GET) == 1)and(isset($_GET["id"]))and((is_numeric($_GET["id"]))))
 	   
 	   
 	   ?>
-			<div id="Modal-one" class="box-modal table-modal eddd1"><div class="box-modal-pading"><div class="box-modal_close arcticmodal-close"></div>
-			<span class="clock_table"></span>
+			<div id="Modal-one" class="box-modal js-box-modal-two table-modal eddd1"><div class="box-modal-pading"><div class="top_modal"><div class="box-modal_close arcticmodal-close"></div>
+
 <?
-			echo'<h1 class="h111" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Добавление раздела</span></h1>';
+			echo'<h1 class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Добавление раздела</span><span class="clock_table"></span></h1></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
 
         $result_town=mysql_time_query($link,'select C.object_name,B.town,A.kvartal from i_kvartal as A,i_town as B,i_object as C where  A.id_town=B.id and C.id="'.htmlspecialchars(trim($_GET['id'])).'" and C.id_kvartal=A.id');
         $num_results_custom_town = $result_town->num_rows;
@@ -94,10 +94,19 @@ $(\'#otziv_area\').focus().trigger(\'keyup\');
             
 
 			<br>
+            </span></div>
+<div class="button-50">
+                <div class="na-50">
+                    <div id="no_rd223" class="no_button js-exit-window-add-task-two"><i>Отменить</i></div>
+                </div>
+                <div class="na-50"><div id="yes_ra" class="save_button js-add-prime-block-x"><i>Добавить</i></div></div>
+            </div>
+
+<!--
  <div class="over">            
 <div id="yes_ra" class="save_button"><i>добавить</i></div></div>
-            
-            
+-->
+                    </div>
 <input type=hidden name="ref" value="00">
             </form>
             </span></div>
@@ -131,6 +140,61 @@ if($status==0)
 <script type="text/javascript">initializeTimer();</script>
 
 <?
+$no_script=1;
 include_once $url_system.'template/form_js.php';
 ?>
+<script type="text/javascript">
+    $(function() {
+        initializeTimer();
+        initializeFormsJs();
+    });
+</script>
+<?
+//include_once $url_system.'template/form_js.php';
+?>
+<script type="text/javascript">
+    var TimerScript = setInterval(LoadFFo, 200);
 
+    function ScriptForms(){
+        console.log("yes start code end");
+        Zindex();
+        AutoResizeT();
+        NumberBlockFile();
+        $('.money_mask1').inputmask("numeric", {
+            radixPoint: ".",
+            groupSeparator: " ",
+            digits: 2,
+            autoGroup: true,
+            prefix: '', //No Space, this will truncate the first character
+            rightAlign: false,
+            oncleared: function () { self.Value(''); }
+        });
+
+        ToolTip();
+        input_2018();
+
+        $('.date_picker_x').inputmask("datetime",{
+            mask: "1.2.y",
+            placeholder: "dd.mm.yyyy",
+            separator: ".",
+            alias: "dd.mm.yyyy"
+        });
+
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+
+        //кнопка отмена
+        $('.js-box-modal-two .js-exit-window-add-task-two').off("change keyup input click");
+        $('.js-box-modal-two').on("change keyup input click",'.js-exit-window-add-task-two',js_exit_form_sel1);
+
+        //кнопка принять решение
+        $('.js-box-modal-two').on("change keyup input click",'.js-add-soft-x',js_add_soft_x);
+
+        $('.mask-count').mask('99');
+
+
+    }
+
+</script>

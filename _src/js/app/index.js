@@ -26,6 +26,129 @@ function animation_teps_supply()
 });
 }
 
+//проходим по всем textarea resize и активируем их
+//  |
+// \/
+function AutoResizeT()
+{
+	//$(this).autoResize({extraSpace : 10});
+
+	$('.js-autoResize').each(function(i,elem) {
+		$(this).autoResize({extraSpace : 10});
+	});
+
+}
+
+
+//подсказки особые для формы
+//  |
+// \/
+function ToolTipInput(){
+
+
+
+	$(".help-icon").mousemove(function (eventObject) {
+
+		var inputx=$(this).parents('.input_2018');
+
+		if(inputx.length==0)
+		{
+			var inputx=$(this).parents('.js-helps');
+		}
+
+		if(inputx.find('.toolhelp').length==0)
+		{
+			inputx.prepend('<div class="toolhelp"><span></span></div>');
+		}
+
+		var toolh=inputx.find(".toolhelp");
+		var toolhs=inputx.find(".toolhelp span");
+		$data_tooltip = $(this).attr("help");
+		toolhs.text($data_tooltip);
+		var offset = $(this).offset();
+
+
+		if((eventObject.pageX-250)<=($(window).width()/2))
+		{
+			toolh.css({
+				"top" : '0px',
+				"right" : - (toolh.outerWidth() + 40)
+
+			});
+
+
+			setTimeout ( function () { toolh.fadeIn(500); }, 	400 );
+
+
+		}else
+		{
+
+			toolh.hide();
+
+
+		}
+	}).mouseout(function () { var toolh=$(this).parents('.input_2018').find(".toolhelp");
+
+
+		if(toolh.length==0)
+		{
+			var toolh=$(this).parents('.js-helps').find(".toolhelp");
+		}
+
+
+		toolh.remove(); });
+
+
+}
+
+//загружать или нет js forms // нужно когда открывается несколько окон сразу
+//  |
+// \/
+function initializeFormsJs()
+{
+	try {
+		forms_js_load();
+	} catch (error) {
+		//а тут то, что делать, когда код выше вызвал ошибку
+		$.getScript( window.src_forms, function( data, textStatus, jqxhr ) {
+			console.log("yes load script");
+		});
+	}
+}
+
+function LoadFFo()
+{
+	console.log("проверка полной загрузки");
+	if(window.yesform==1) {
+		clearInterval(TimerScript);
+		ScriptForms();
+	}
+}
+
+
+
+//перезагрузка страницы
+//  |
+// \/
+function autoReloadHak(){
+	var goal = self.location;
+	location.href = goal;
+}
+
+//возвращаем скрул у сайта после закрытия окна если окон больше нет
+//  |
+// \/
+function BodyScrool()
+{
+
+	if($('.arcticmodal-container').length==1)
+	{
+		$('body').css( "margin-right", "0px" );
+		$('body').css( "overflow", "auto" );
+	}
+}
+
+
 //добавить наименование на склад
 function add_invoice1()
 {
@@ -2525,7 +2648,7 @@ function ExitSystem()
 function timesss() { 
 	  clearInterval(timerS);
 	  //если пароль не ввели через минут перезагрузить страницу
-	  setTimeout ( function () { autoReload(); }, 60000 );
+	  setTimeout ( function () { autoReloadHak(); }, 60000 );
       // Действия на отсутствие пользователя
 	  //alert('выход из системы');
 	  $(document).unbind('mousemove.time keydown.time scroll.time');
@@ -3979,7 +4102,7 @@ if ( $('.content_block').is("[dom]") )
 
 	if($.isNumeric($('.content_block').attr("dom")))
 	{
-		
+	/*
   $.arcticmodal({
     type: 'ajax',
     url: 'forms/form_add_block.php?id='+$('.content_block').attr("dom"),
@@ -3994,6 +4117,35 @@ if ( $('.content_block').is("[dom]") )
     }
 
   });
+*/
+
+		$.arcticmodal({
+			type: 'ajax',
+			url: 'forms/form_add_block.php?id='+$('.content_block').attr("dom"),
+			beforeOpen: function (data, el) {
+				//во время загрузки формы с ajax загрузчик
+				$('.loader_ada_forms').show();
+				$('.loader_ada1_forms').addClass('select_ada');
+			},
+			afterLoading: function (data, el) {
+				//после загрузки формы с ajax
+				data.body.parents('.arcticmodal-container').addClass('yoi');
+				$('.loader_ada_forms').hide();
+				$('.loader_ada1_forms').removeClass('select_ada');
+			},
+			beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				if (typeof timerId !== "undefined") {
+					clearInterval(timerId);
+				}
+				BodyScrool();
+			}
+
+		});
+
+
+
+
+
 }
 }
   

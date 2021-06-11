@@ -369,6 +369,7 @@ if($error_header!=404){ SEO('prime','','','',$link); } else { SEO('0','','','',$
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
 </head><body>
+<div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>

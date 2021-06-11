@@ -2526,7 +2526,7 @@ function ExitSystem()
 function timesss() { 
 	  clearInterval(timerS);
 	  //если пароль не ввели через минут перезагрузить страницу
-	  setTimeout ( function () { autoReload(); }, 60000 );
+	  setTimeout ( function () { autoReloadHak(); }, 60000 );
       // Действия на отсутствие пользователя
 	  //alert('выход из системы');
 	  $(document).unbind('mousemove.time keydown.time scroll.time');

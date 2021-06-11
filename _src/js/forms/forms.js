@@ -18,6 +18,18 @@ $(function (){
 	
 });
 
+
+//Закрыть второе,третье.. окно которое открыто поверх какого-то
+//  |
+// \/
+function js_exit_form_sel1()
+{
+
+	//$(this).closest('.box-modal');
+	$( '.arcticmodal-close', $( this ).closest( '.box-modal' )).click();
+
+}
+
 //отправить заявку после всех заполнений
 //  |
 // \/

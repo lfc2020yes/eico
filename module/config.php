@@ -25,7 +25,7 @@ $dbname = "atsunru_interstroi";
 $dbuser = "atsunru_inter";
 $dbpasswd = "inter2017";*/
 
-$base_cookie='soft.umatravel.club';
+$base_cookie='eico.atsun.ru';
 
 
 //$dblocation = "mysql.hosting.nic.ru";

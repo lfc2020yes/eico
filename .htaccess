@@ -95,13 +95,13 @@ ExpiresByType application/x-javascript  "access plus 1 month"
 
 #устранение дублей главной страницы
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
-#RewriteRule ^index\.html$ http://www.eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.html$ http://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-#RewriteRule ^index\.php$ http://www.eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.php$ http://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /default\.asp\ HTTP/
-#RewriteRule ^default\.asp$ http://www.eico.atsun.ru [R=301,L]
+#RewriteRule ^default\.asp$ http://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.aspx\ HTTP/
-#RewriteRule ^index\.aspx$ http://www.eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.aspx$ http://eico.atsun.ru [R=301,L]
 
 
 
@@ -120,8 +120,8 @@ DirectoryIndex new_index.php
 RewriteCond %{ENV:HTTPS} !on
 RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^eico.atsun.ru
-RewriteRule ^(.*)$ https://www.eico.atsun.ru [R=301,L]
+RewriteCond %{HTTP_HOST} ^www.eico.atsun.ru
+RewriteRule ^(.*)$ https://eico.atsun.ru [R=301,L]
 
 
 

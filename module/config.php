@@ -5,7 +5,7 @@ $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/config_time.php';
 include_once $url_system.'module/version.php';
 
-$base_usr="htts://www.eico.atsun.ru";
+$base_usr="https://eico.atsun.ru";
 
 /*
 $dblocation = "localhost";

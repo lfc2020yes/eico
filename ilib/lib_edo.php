@@ -654,4 +654,76 @@ VALUES
     private function error($i) {
        if($this->error == 0)  $this->error = $i;
     }
+
+    /** Мои неисполненные документы id_status =0
+     * @param $type = 0,1,2
+     * @param null $id_doc - один конкретный документ
+     * @return array
+     */
+    public function my_documents($type,
+                                 $id_doc=0,
+                                 $order_by = 'ORDER BY d.date_create DESC',
+                                 $limit='LIMIT 0,100')
+    {
+        $document = ($id_doc==0)?"d.`id_user`=".$this->id_user : "d.id=$id_doc";
+        $sql =
+"
+SELECT 
+d.*,
+s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
+u.`name_user`
+FROM ".$this->arr_table[$type]." AS d 
+LEFT JOIN edo_state AS s ON d.`id_edo_run` = s.`id_run` 
+AND s.id_status=0
+LEFT JOIN r_user AS u ON s.`id_executor` = u.id
+WHERE 
+$document
+$order_by
+$limit            
+";
+        $this->Debug($sql,__FUNCTION__);
+        $arr_document = array();
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $arr_document[$row[id]][] = $row;
+            }
+            $result->close();
+        }
+        return $arr_document;
+    }
+
+    /** Задания мне
+     * @param $type = 0,1,2
+     * @param string $status =0-неисполненные =1-отказанные >1-исполненные
+     * @return array
+     */
+    public function my_tasks($type,
+                             $status='=0',
+                             $order_by = 'ORDER BY d.date_create DESC',
+                             $limit='LIMIT 0,100' )  {
+        $sql=
+"
+SELECT 
+d.*,
+s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
+u.`name_user`
+FROM ".$this->arr_table[$type]." AS d 
+    LEFT JOIN edo_state AS s ON d.`id_edo_run` = s.`id_run` 
+        AND s.id_status $status
+, r_user AS u
+WHERE 
+    s.`id_executor`=".$this->id_user." AND d.`id_user` = u.`id`
+$order_by
+$limit 
+";
+        $this->Debug($sql,__FUNCTION__);
+        $arr_document = array();
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $arr_document[] = $row;
+            }
+            $result->close();
+        }
+        return $arr_document;
+    }
 }

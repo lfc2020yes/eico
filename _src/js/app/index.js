@@ -19,6 +19,21 @@ var validate11 = function() {
   $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
 }
 
+//активация инпутов 2021
+function input_2021()
+{
+	//перебрать все новые инпуты и если не пусто активировать
+	$(".input_new_2021").each(function (index, value) {
+
+		var input=$.trim($(this).val());
+		if(input!='')
+		{
+			$(this).parents('.input_2021').addClass('active_in_2021');
+		}
+	});
+
+}
+
 function animation_teps_supply()
 {
 	$('.teps_supply').each(function(i,elem) {
@@ -39,6 +54,19 @@ function AutoResizeT()
 
 }
 
+//ввод текста в новые инпуты скрытие ошибки если она была
+//  |
+// \/
+function KeyUpInput2021()
+{
+	if($(this).is('.gloab'))
+	{
+		if(($(this).val()!='')&&($(this).val()!=0))
+			$(this).parents('.input_2021').removeClass('required_in_2021');
+		$(this).parents('.input_2021').removeClass('error_2021');
+	}
+}
+
 
 //подсказки особые для формы
 //  |
@@ -49,7 +77,7 @@ function ToolTipInput(){
 
 	$(".help-icon").mousemove(function (eventObject) {
 
-		var inputx=$(this).parents('.input_2018');
+		var inputx=$(this).parents('.input_2021');
 
 		if(inputx.length==0)
 		{
@@ -87,7 +115,7 @@ function ToolTipInput(){
 
 
 		}
-	}).mouseout(function () { var toolh=$(this).parents('.input_2018').find(".toolhelp");
+	}).mouseout(function () { var toolh=$(this).parents('.input_2021').find(".toolhelp");
 
 
 		if(toolh.length==0)
@@ -107,6 +135,7 @@ function ToolTipInput(){
 function initializeFormsJs()
 {
 	try {
+		//функция определена в файле js forms. и если он не подгружен то он не будет знать такую функцию и она вызовет ошибку
 		forms_js_load();
 	} catch (error) {
 		//а тут то, что делать, когда код выше вызвал ошибку
@@ -643,6 +672,79 @@ function Aftersearch_posta(data,update)
 		//показать кнопку добавить новый
 	}
 	
+}
+
+//получение фокуса для новых инпутов
+function InputFocusNew2021()
+{
+	var val_input=$(this).val();
+	var label=$(this).prev('label');
+	var input_div=$(this).parents('.input_2021');
+
+	if(!input_div.is('.active_in_2021'))
+	{
+		input_div.addClass('active_in_2021');
+	}
+
+	if(!input_div.is('.active1_in_2021'))
+	{
+		input_div.addClass('active1_in_2021');
+	}
+
+	//может надо открыть календарь
+	var calendar=input_div.find('.cal_2021');
+	if(calendar.length!=0)
+	{
+		$(".date___2019").show();
+	}
+
+
+
+}
+//потеря фокуса для новых инпутов
+function InputBlurNew2021()
+{
+	//alert($(this).val());
+	var val_input=$(this).val();
+	var label=$(this).prev('label');
+	var input_div=$(this).parents('.input_2021');
+
+	input_div.removeClass('active1_in_2021');
+
+	if(val_input=='')
+	{
+		input_div.removeClass('active_in_2021');
+	}
+	if(!$(this).is('.date2021_mask'))
+	{
+		//для всего остального кроме дат с маской
+		if(($(this).is('.required'))&&(val_input=='')&&(!input_div.is('.required_in_2021')))
+		{
+			input_div.addClass('required_in_2021');
+		} else
+		{
+			if(($(this).is('.required'))&&(val_input!=''))
+			{
+				input_div.removeClass('required_in_2021');
+			}
+		}
+	} else
+	{
+		if(($(this).is('.required'))&&((val_input=='')||(val_input=='дд.мм.гггг'))&&(!input_div.is('.required_in_2021')))
+		{
+			input_div.addClass('required_in_2021');
+		} else
+		{
+			if(($(this).is('.required'))&&(val_input!='')&&(val_input!='дд.мм.гггг'))
+			{
+				input_div.removeClass('required_in_2021');
+			}
+		}
+
+
+	}
+
+
 }
 
 
@@ -2480,8 +2582,12 @@ function WindowLogin()
 	  //завершение сессии пользователя
 	  //$.cookie('user_id', null, {path:'/'});  
 	  //$.cookie('da', null, {path:'/'}); 
-	  
+
+	clearInterval(timerId);
+	$.arcticmodal('close');
+
 	  //открытие формы для входа
+	/*
 	  $.arcticmodal({
     type: 'ajax',
     url: 'forms/login.php?url='+window.location.href,
@@ -2495,7 +2601,33 @@ function WindowLogin()
 	 
     }
 
-  });
+  });*/
+
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/login_new.php?url='+window.location.href,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
+
+
+
 	  
 	  
 	  
@@ -2657,6 +2789,8 @@ function timesss() {
 	  //$.cookie('da', null, {path:'/'}); 
 	  $.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false});
 	  //открытие формы для входа
+
+	/*
 	  $.arcticmodal({
     type: 'ajax',
     url: 'forms/login.php?url='+window.location.href,
@@ -2671,8 +2805,29 @@ function timesss() {
     }
 
   });
-	  
-	  
+	*/
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/login_new.php?url='+window.location.href,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
 	  
       idleState = true; 
     }
@@ -4033,126 +4188,7 @@ return false;
 
 	
 	};
-//редактировать раздел в себестоимости
-var edit_button_block = function() {
-	
 
-
-if ( $(this).is("[for]") )
-{
-	if($.isNumeric($(this).attr("for")))
-	{
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_edit_block.php?id='+$(this).attr("for"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-}
-  
-return false;
-
-	
-	};
-//добавить работу для блока в себестоимости
-var add_button_rabota = function() {
-
-if ( $(this).is("[for]") )
-{
-	if($.isNumeric($(this).attr("for")))
-	{
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_rabota.php?id='+$(this).attr("for")+'&freez='+$('#frezezz').val(),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-}
-  
-return false;
-
-	
-	
-}
-//добавить раздел в себестоимости
-var add_button_block = function() {
-	
-
-
-if ( $('.content_block').is("[dom]") )
-{
-
-	if($.isNumeric($('.content_block').attr("dom")))
-	{
-	/*
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_block.php?id='+$('.content_block').attr("dom"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-*/
-
-		$.arcticmodal({
-			type: 'ajax',
-			url: 'forms/form_add_block.php?id='+$('.content_block').attr("dom"),
-			beforeOpen: function (data, el) {
-				//во время загрузки формы с ajax загрузчик
-				$('.loader_ada_forms').show();
-				$('.loader_ada1_forms').addClass('select_ada');
-			},
-			afterLoading: function (data, el) {
-				//после загрузки формы с ajax
-				data.body.parents('.arcticmodal-container').addClass('yoi');
-				$('.loader_ada_forms').hide();
-				$('.loader_ada1_forms').removeClass('select_ada');
-			},
-			beforeClose: function (data, el) { // после закрытия окна ArcticModal
-				if (typeof timerId !== "undefined") {
-					clearInterval(timerId);
-				}
-				BodyScrool();
-			}
-
-		});
-
-
-
-
-
-}
-}
-  
-return false;
-
-	
-	};
 //раскрытие раздела в себестоисти
 var block_i_i = function() {	
 
@@ -4367,36 +4403,7 @@ var st_div = function() {
 	  }	
 	
 }
-//удалить раздел в себестоимости
-var del_button_block = function() {
-	
 
-
-if ( $(this).is("[for]") )
-{
-	if($.isNumeric($(this).attr("for")))
-	{
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_block.php?id='+$(this).attr("for"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-}
-  
-return false;
-
-	
-	};
 //удалить всю себестоимость по дому
 var del_sebe = function() {
 	
@@ -4850,10 +4857,19 @@ $('.pay_imp').on("click",'.del_pay',DellPay);
 
 
 jQuery(document).on("focus click",'.input_new_2018',InputFocusNew);	
-jQuery(document).on("blur",'.input_new_2018',InputBlurNew);		
-	
+jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 
-jQuery(document).on("click",'.print_stock_',PrintStock_);	
+	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
+
+
+
+	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
+	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
+
+
+	jQuery(document).on("click",'.print_stock_',PrintStock_);
 	
 $('.suppp_tr').on("click",'.supply_tr_o',ChangeSupply);
 $('.tr_dop_supply').on("click",'.st_div_supply',st_div_supply);
@@ -5140,8 +5156,7 @@ $(".icon2").bind('click', house_options);
 //нажать на количество реализации работы в себестоимости
 $(".hist_mu").bind('click', hist_mu_prime);	
 	
-	//добавить раздел
-$(".add__razdel").bind('change keyup input click', add_button_block);
+
 	
 	//закрыть все разделы
 $(".close_all_r").bind('click', close_all_razdel);

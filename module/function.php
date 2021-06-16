@@ -337,15 +337,40 @@ function sign_naryd_level($link,$id_user,$sign_level,$id_naryad,$sign_admin)
 
 //составление токена для формы
 function token_access_compile($var,$sale,$secret)
-{	
-		//$sale='edit_house';
-		
-		$posl_chifra_id2=htmlspecialchars(trim($var))%10;
-		$timeet=time();  //1335939007
-		$st_time1 = substr($timeet, 0, $posl_chifra_id2);
-        $st_time2= substr($timeet, $posl_chifra_id2);		
-		return htmlspecialchars(trim($var)).'.'.md5($secret.htmlspecialchars(trim($var)).$secret[0].$sale).'.'.encode_x($secret[2].$st_time2.$st_time1.$secret[3],$secret);	
-	
+{
+    //$sale='edit_house';
+    //$var= 92
+    $posl_chifra_id2=htmlspecialchars(trim($var))%10; // остаток от деления  92 - 10*9 = 2
+    $timeet=time();  //1335939007
+    $st_time1 = substr($timeet, 0, $posl_chifra_id2); // с 0 символа по n символ = 133
+    $st_time2= substr($timeet, ((int)$posl_chifra_id2));	// c n символа до конда = 5939007
+
+    //echo'<br>до encode -'.$secret[2].$st_time2.$st_time1.$secret[3].' получилось-'.encode_x($secret[2].$st_time2.$st_time1.$secret[3],$secret).'<br>';
+    //echo'<br>до encode -'.$secret[2].$st_time2.$st_time1.$secret[3].' получилось-'.encode_x($secret[2].$st_time2.$st_time1.$secret[3],$secret).'<br>';
+
+    return htmlspecialchars(trim($var)).'.'.md5($secret.htmlspecialchars(trim($var)).$secret[0].$sale).'.'.encode_x($secret[2].$st_time2.$st_time1.$secret[3],$secret);
+
+    /* echo('-'.$timeet);
+     echo('-'.$st_time1);
+     echo('-'.$secret[2].$st_time2.$st_time1.$secret[3]);
+     echo('-'.decode_x(encode_x($secret[2].$st_time2.$st_time1.$secret[3],$secret),$secret));
+
+ $id_p=$var;
+ $token1[2]=$secret[2].$st_time2.$st_time1.$secret[3];
+ $strt= substr($token1[2], 1,(strlen($token1[2])-2));
+ echo('-'.$strt);
+ $posl_chifra_idx=$id_p%10;  // остаток от деления  92 - 10*9 = 2
+ $st_time11 = substr($strt, 0, (strlen($strt)-((int)$posl_chifra_idx)));
+ $st_time22= substr($strt, (strlen($strt)-((int)$posl_chifra_idx)));
+
+ $timeform=$st_time22.$st_time11;
+ echo('-'.$timeform);
+*/
+    //1595502658
+    //15
+    //  95502658
+
+
 }
 
 
@@ -355,89 +380,118 @@ function token_access_compile($var,$sale,$secret)
 
 function token_access_new($token,$sale,$id,$name_session,$minutes=30)
 {
-  $error_t=false;
-  $v_error='';	
-  if(isset($_SESSION[$name_session]))
-  {
+    $error_t=false;
+    $v_error='';
 
-   //расшифровка токена
-   //расшифровка токена
-			
-   $token1=explode(".", $token);
-   //соль для данного действия
-   //$sale='edit_house';
-			
-   $id_p=$token1[0];
-   $secr=$_SESSION[$name_session];
+    if(isset($_SESSION[$name_session]))
+    {
+        /*
+            if(isset($name_session))
+            {*/
+        //расшифровка токена
+        //расшифровка токена
 
-   $rrr=md5($secr.$id_p.$secr[0].$sale);
-   if(($rrr==$token1[1])and($id_p==$id))
-   {
-	 $token1[2]=decode_x($token1[2],$secr);		
-	 $strt= substr($token1[2], 1,(strlen($token1[2])-2));
-	 $posl_chifra_idx=$id_p%10;
-	 $st_time11 = substr($strt, 0, (strlen($strt)-$posl_chifra_idx));
-     $st_time22= substr($strt, (strlen($strt)-$posl_chifra_idx));
-			
-     $timeform=$st_time22.$st_time11;
-	 $time_sei=time();
-	 $razn=60*$minutes; //30 минут
-	 if((($time_sei-$timeform)<=$razn)and($timeform<=$time_sei))
-	 {
-	  $error_t=true; 
-	 } else { $v_error='time_error ';	}
-	
-} else { $v_error='id!=id secr - '.$secr;	}
-	
-} else { $v_error='session_no - '.$name_session;	}
-	
-if($v_error!='')
-{
-  // mysqli_query($link,'insert into v_error (module,error,date_error)  values ("'.htmlspecialchars($_SERVER['REQUEST_URI']).'","'.htmlspecialchars($v_error).'","'.date("y.m.d").' '.date("H:i:s").'")'); 		   
-		
-}
-	
-return $error_t;
+        // 170.798c56e633d1d1ea045b1e5ca2779498.s 5KzioLlSmIVRL9j 5sMbF7Qn0FmKLCJpRn6Og/Vrw=
+
+        $token1=explode(".", $token);
+        //соль для данного действия
+        //$sale='edit_house';
+
+        //xGLbxvu9lOEP
+
+        $id_p=$token1[0];
+        $secr=$_SESSION[$name_session];
+        //$secr=$name_session;
+
+        $rrr=md5($secr.$id_p.$secr[0].$sale);
+
+        //echo'/1';
+        //echo'/'.$rrr;
+        //echo'/'.$token1[1];
+
+        if(($rrr==$token1[1])and($id_p==$id))
+        {
+            //echo'/2';
+            //$dsds=$token1[2];
+            //$asd=decode_x($token1[2],$secr);
+            $token1[2]=decode_x($token1[2],$secr);
+
+
+
+            //echo'<br>получили - '.$dsds.'  после  decode -'.$token1[2].'<br>';
+            // echo'<br>получили - '.$dsds.'  после  decode -'.$asd.'<br>';
+            $strt= substr($token1[2], 1,(strlen($token1[2])-2));
+            $posl_chifra_idx=$id_p%10;  // остаток от деления  92 - 10*9 = 2
+            $st_time11 = substr($strt, 0, (strlen($strt)-((int)$posl_chifra_idx)));
+            $st_time22= substr($strt, (strlen($strt)-((int)$posl_chifra_idx)));
+
+            $timeform=$st_time22.$st_time11;
+            //echo('<br>'.$timeform);
+            //1595452530
+            //ºó9545255017
+            //1595452617ºó
+
+            $time_sei=time();
+            $razn=60*$minutes; //30 минут
+            if((((int)$time_sei-(int)$timeform)<=$razn)and($timeform<=$time_sei))
+            {
+                $error_t=true;
+            } else { $v_error='time_error ('.$time_sei.' >= '.$timeform.') session = '.$secr.'';	}
+
+        } else { $v_error='id!=id session = '.$secr.' id_token='.$id_p.' id-проверки -'.$id;	}
+
+    } else { $v_error='session_no - '.$name_session;	}
+
+    if($v_error!='')
+    {
+        global $link;
+
+
+        mysql_time_query($link,'insert into v_error (module,error,date_error)  values ("'.htmlspecialchars($_SERVER['REQUEST_URI']).'","'.htmlspecialchars($v_error).'","'.date("y.m.d").' '.date("H:i:s").'")');
+
+    }
+    //echo($v_error);
+    return $error_t;
 }
 
 
 function token_access_yes($token,$sale,$id,$minutes=30)
 {
-  $error_t=false;
-  if(isset($_SESSION['s_t']))
-  {
+    $error_t=false;
+    if(isset($_SESSION['s_t']))
+    {
 
-   //расшифровка токена
-   //расшифровка токена
-			
-   $token1=explode(".", $token);
-   //соль для данного действия
-   //$sale='edit_house';
-			
-   $id_p=$token1[0];
-   $secr=$_SESSION['s_t'];
+        //расшифровка токена
+        //расшифровка токена
 
-   $rrr=md5($secr.$id_p.$secr[0].$sale);
-   if(($rrr==$token1[1])and($id_p==$id))
-   {
-	 $token1[2]=decode_x($token1[2],$secr);		
-	 $strt= substr($token1[2], 1,(strlen($token1[2])-2));
-	 $posl_chifra_idx=$id_p%10;
-	 $st_time11 = substr($strt, 0, (strlen($strt)-$posl_chifra_idx));
-     $st_time22= substr($strt, (strlen($strt)-$posl_chifra_idx));
-			
-     $timeform=$st_time22.$st_time11;
-	 $time_sei=time();
-	 $razn=60*$minutes; //30 минут
-	 if((($time_sei-$timeform)<=$razn)and($timeform<=$time_sei))
-	 {
-	  $error_t=true; 
-	 }
-	
-}
-	
-}
-return $error_t;
+        $token1=explode(".", $token);
+        //соль для данного действия
+        //$sale='edit_house';
+
+        $id_p=$token1[0];
+        $secr=$_SESSION['s_t'];
+
+        $rrr=md5($secr.$id_p.$secr[0].$sale);
+        if(($rrr==$token1[1])and($id_p==$id))
+        {
+            $token1[2]=decode_x($token1[2],$secr);
+            $strt= substr($token1[2], 1,(strlen($token1[2])-2));
+            $posl_chifra_idx=$id_p%10;
+            $st_time11 = substr($strt, 0, (strlen($strt)-$posl_chifra_idx));
+            $st_time22= substr($strt, (strlen($strt)-$posl_chifra_idx));
+
+            $timeform=$st_time22.$st_time11;
+            $time_sei=time();
+            $razn=60*$minutes; //30 минут
+            if((($time_sei-$timeform)<=$razn)and($timeform<=$time_sei))
+            {
+                $error_t=true;
+            }
+
+        }
+
+    }
+    return $error_t;
 }
 
 function token_access_not($link,$token,$sale,$id,$minutes=1)

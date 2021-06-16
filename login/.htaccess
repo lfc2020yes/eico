@@ -5,5 +5,9 @@ RewriteRule ^.htaccess$ - [F]
 
 DirectoryIndex index.php
 
+#https
+RewriteCond %{ENV:HTTPS} !on
+RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 php_flag session.use_trans_sid off
 php_flag session.use_only_cookies on

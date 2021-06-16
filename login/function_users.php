@@ -163,7 +163,7 @@ function login($key, $id,$flag,$link)
 		//echo("!!!");
        while($u = mysqli_fetch_assoc($sql))
        {
-		  setcookie("tsl","1", time()+3600, "/", "i-s.group", false, false); //на год
+		  setcookie("tsl","1", time()+3600, "/", "eico.atsun.ru", false, false); //на год
 		   session_regenerate_id(true); //создаёт новый идентификатор сессии при каждом входе пользователя в систему
           $session_id = id_key_crypt($u['id']);
           //$session_username = $username;
@@ -196,7 +196,7 @@ function logout($link)
 	
 	//$.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false});
 	
-	 setcookie("tsl","0", time()+3600, "/", "i-s.group", false, false); //на год
+	 setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
 	 unset($_SESSION['da']);
 
      session_unset();

@@ -4,7 +4,7 @@
    if(!isset($_SESSION['user_id']))
    {
 	    
-		header("Location: /login/?next=".base64_encode("http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']));
+		header("Location: /login/?next=".base64_encode("https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']));
    
    } else
 {     

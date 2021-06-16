@@ -662,12 +662,47 @@ VALUES
      */
     public function my_documents($type,
                                  $id_doc=0,
-                                 $order_by = 'ORDER BY d.date_create DESC',
+                                 $order_by = 'ORDER BY date_create DESC',
                                  $limit='LIMIT 0,100')
     {
-        $document = ($id_doc==0)?"d.`id_user`=".$this->id_user : "d.id=$id_doc";
+        $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
         $sql =
 "
+SELECT * FROM ".$this->arr_table[$type]."
+WHERE
+$document  
+$order_by
+$limit    
+";
+        $this->Debug($sql,__FUNCTION__);
+        $arr_document = array();
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $arr_document[$row[id]] = $row;
+                if ($row[id_edo_run]!==null) {
+                    $sql =
+                        "
+SELECT 
+s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
+u.`name_user`
+FROM edo_state AS s 
+LEFT JOIN r_user AS u ON s.`id_executor` = u.id
+WHERE s.id_run=".$row[id_edo_run]."
+AND s.id_status=0
+$limit            
+";
+                    $this->Debug($sql,__FUNCTION__);
+                    if ($result2 = $this->mysqli->query($sql)) {
+                        while ($row2 = $result2->fetch_assoc()) {
+                            $arr_document[$row[id]][state][] = $row;
+                        }
+                        $result2->close();
+                    }
+                }
+            }
+            $result->close();
+        }
+/*"
 SELECT 
 d.*,
 s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
@@ -688,7 +723,7 @@ $limit
                 $arr_document[$row[id]][] = $row;
             }
             $result->close();
-        }
+        }*/
         return $arr_document;
     }
 

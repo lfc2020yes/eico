@@ -153,7 +153,7 @@ function add_button_rabota() {
 */
             $.arcticmodal({
                 type: 'ajax',
-                url: 'forms/form_add_rabota_new.php?id='+$(this).attr("for")+'&freez='+$('#frezezz').val(),
+                url: 'forms/form_add_rabota.php?id='+$(this).attr("for")+'&freez='+$('#frezezz').val(),
                 beforeOpen: function (data, el) {
                     //во время загрузки формы с ajax загрузчик
                     $('.loader_ada_forms').show();

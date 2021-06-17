@@ -5,8 +5,8 @@ $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/config_time.php';
 include_once $url_system.'module/version.php';
 
-$base_usr="https://www.eico.atsun.ru";
-$local_host="www.eico.atsun.ru"; //как называет домен в локалке
+$base_usr="https://eico.atsun.ru";
+$local_host="eico.atsun.ru"; //как называет домен в локалке
 
 /*
 $dblocation = "localhost";

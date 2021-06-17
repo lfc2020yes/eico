@@ -888,52 +888,54 @@ textarea, input {
   position: absolute;
   top: 14px
 }
-/*
-.save_button {
-  background-color: #ffec57;
-  box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 15px;
-  width: 150px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: all 1s ease 0s;
-  float: left;
-  margin-right: 20px
-}
+.box-modal:not(.js-box-modal-two),.menu_top {
 
-.save_button i {
-  color: rgba(0, 0, 0, 0.9);
-  display: inline-block;
-  font-family: "GEInspiraBold";
-  font-size: 12px;
-  font-style: normal;
-  height: 12px;
-  line-height: 12px;
-  padding-left: 25px;
-  position: relative;
-  text-transform: uppercase
-}
+  .save_button {
+    background-color: #ffec57;
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    width: 150px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 1s ease 0s;
+    float: left;
+    margin-right: 20px
+  }
 
-.save_button i::before {
-  box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.9);
-  content: "1";
-  display: inline-block;
-  font-family: "icon1";
-  font-size: 18px;
-  height: 12px;
-  left: 0;
-  line-height: 12px;
-  margin-right: 10px;
-  position: absolute;
-  top: 0
-}
+  .save_button i {
+    color: rgba(0, 0, 0, 0.9);
+    display: inline-block;
+    font-family: "GEInspiraBold";
+    font-size: 12px;
+    font-style: normal;
+    height: 12px;
+    line-height: 12px;
+    padding-left: 25px;
+    position: relative;
+    text-transform: uppercase
+  }
 
-.save_button:hover {
-  transform: scale3d(1.1, 1.1, 1)
+  .save_button i::before {
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.9);
+    content: "1";
+    display: inline-block;
+    font-family: "icon1";
+    font-size: 18px;
+    height: 12px;
+    left: 0;
+    line-height: 12px;
+    margin-right: 10px;
+    position: absolute;
+    top: 0
+  }
+
+  .save_button:hover {
+    transform: scale3d(1.1, 1.1, 1)
+  }
+
 }
-*/
 .save_button1:hover {
   transform: scale3d(1.1, 1.1, 1)
 }
@@ -970,51 +972,51 @@ textarea, input {
   top: 9px;
   font-style: normal
 }
-/*
-.no_button {
-  background-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding: 15px;
-  width: 150px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: all 1s ease 0s;
-  float: left
-}
+.box-modal:not(.js-box-modal-two),.menu_top {
+  .no_button {
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 30px 30px 0 rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+    width: 150px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 1s ease 0s;
+    float: left
+  }
 
-.no_button i {
-  color: rgba(0, 0, 0, 0.9);
-  display: inline-block;
-  font-family: "GEInspiraBold";
-  font-size: 12px;
-  font-style: normal;
-  height: 12px;
-  line-height: 12px;
-  padding-left: 25px;
-  position: relative;
-  text-transform: uppercase
-}
+  .no_button i {
+    color: rgba(0, 0, 0, 0.9);
+    display: inline-block;
+    font-family: "GEInspiraBold";
+    font-size: 12px;
+    font-style: normal;
+    height: 12px;
+    line-height: 12px;
+    padding-left: 25px;
+    position: relative;
+    text-transform: uppercase
+  }
 
-.no_button i::before {
-  box-sizing: border-box;
-  color: rgba(0, 0, 0, 0.9);
-  content: "1";
-  display: inline-block;
-  font-family: "icon1";
-  font-size: 18px;
-  height: 12px;
-  left: 0;
-  line-height: 12px;
-  margin-right: 10px;
-  position: absolute;
-  top: 0
-}
+  .no_button i::before {
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.9);
+    content: "1";
+    display: inline-block;
+    font-family: "icon1";
+    font-size: 18px;
+    height: 12px;
+    left: 0;
+    line-height: 12px;
+    margin-right: 10px;
+    position: absolute;
+    top: 0
+  }
 
-.no_button:hover {
-  transform: scale3d(1.1, 1.1, 1)
+  .no_button:hover {
+    transform: scale3d(1.1, 1.1, 1)
+  }
 }
-*/
 .no_button1:hover {
   transform: scale3d(1.1, 1.1, 1)
 }
@@ -5073,7 +5075,7 @@ var.highlight {
 
 .add_nar, .add_zay {
   cursor: pointer;
-  float: right;
+  float: right !important;
   margin-right: 0px;
   margin-top: 10px;
   position: relative

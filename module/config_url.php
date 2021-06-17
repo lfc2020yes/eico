@@ -1,3 +1,3 @@
 <?
-echo'<base href="https://www.eico.atsun.ru/">';
+echo'<base href="https://eico.atsun.ru/">';
 ?>

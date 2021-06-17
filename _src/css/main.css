@@ -5082,6 +5082,7 @@ var.highlight {
   float: left;
   display: inline-block;
   position: relative;
+  width: 100%;
 }
 
 .nav li i {

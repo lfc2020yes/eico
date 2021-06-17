@@ -94,4 +94,15 @@ $hie_user=$hie->user;
  $sign_admin=$hie->admin;
 }
 
+//создание секрет для формы
+$secret=rand_string_string(16);
+//echo($secret);
+if(!isset($_SESSION['rema']))
+{
+    $_SESSION['rema'] = $secret;
+} else
+{
+    $secret=$_SESSION['rema'];
+}
+
 ?>

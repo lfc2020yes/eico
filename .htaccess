@@ -95,34 +95,50 @@ ExpiresByType application/x-javascript  "access plus 1 month"
 
 #устранение дублей главной страницы
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
-#RewriteRule ^index\.html$ http://eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.html$ https://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-#RewriteRule ^index\.php$ http://eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.php$ https://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /default\.asp\ HTTP/
-#RewriteRule ^default\.asp$ http://eico.atsun.ru [R=301,L]
+#RewriteRule ^default\.asp$ https://eico.atsun.ru [R=301,L]
 #RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.aspx\ HTTP/
-#RewriteRule ^index\.aspx$ http://eico.atsun.ru [R=301,L]
+#RewriteRule ^index\.aspx$ https://eico.atsun.ru [R=301,L]
 
 
 
 #RewriteRule ^([A-Za-z0-9_]+)/$ info/index_view.php?url=$1 [L]
 
-
-#RewriteCond %{HTTP_HOST} ^eico.atsun.ru
-#RewriteRule ^(.*)$ http://www.eico.atsun.ru/$1 [R=301,L]
-
-
-
-DirectoryIndex new_index.php
+ #c http на https
+ #раскомментировать на хостинге
+#RewriteEngine On
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
 
 
-#https
+#c без www на www только для главной
+#RewriteCond %{HTTP_HOST} ^www.eico.atsun\.ru$ [NC]
+#RewriteRule ^(.*)$ https://eico.atsun.ru/$1 [R=301,L]
+
+
+
+
 RewriteCond %{ENV:HTTPS} !on
 RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 
 RewriteCond %{HTTP_HOST} ^www.eico.atsun.ru
 RewriteRule ^(.*)$ https://eico.atsun.ru [R=301,L]
 
+
+#c без www на www только для главной
+#RewriteCond %{HTTP_HOST} ^eico.atsun\.ru$ [NC]
+#RewriteRule ^(.*)$ https://www.eico.atsun.ru/$1 [R=301,L]
+
+
+
+
+
+
+DirectoryIndex new_index.php
 
 
 php_flag session.use_trans_sid off

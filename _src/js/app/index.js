@@ -1,197 +1,46 @@
-$(document).ready(function(){	
-	//измениние курса и стоимости при оформлении тура
-	$('.js-form-add-tours').on("change keyup input click",'.xexchange_rates',xexchange_rates1);
-	$('.js-form-add-tours').on("change keyup input click",'.xcost_to_1',xexchange_rates2);
-	$('.js-form-add-tours').on("change",'[name=id_exchange]',exchange_eico);
-
-	$('body').on("change keyup input click",'.js-test',test_a);
-$('body').on("change keyup input click",'.js-edit-2020-user',no_rds_user);
-
-	$('body').on("change keyup input click",'.js-edit-org-2020',no_rds_org);
 
 
-	$('.js-call-no-v').find('.drop').on("change keyup input click","li",list_number);
+//функция задержки при написании поиска в полях
 
-	//показать скрыть какой то рейтинг
-	$('.winner_2020').on("change keyup input click",".js-all-rating div",rating_list);
+window.search_min = 1;  //мин количество символов для быстрого поиска
+window.search_deley=800;	//задержка между вводами символов - начало поиска
+window.search_class='.loll_soply';	//задержка между вводами символов - начало поиска
 
+var delay1 = (function(th){ 
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 
-	//вывод и скрытие оплатить до какого
-	$('.js-form-add-tours').on("change keyup input click",'.js-xx_end_date',xx_end_date);
+//функция проверки ввода только чисел и с запятой
+var validate11 = function() {
+  $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
+}
 
-    //набор текста в поиске
-	$('body').on("change keyup input click",'.js-text-search-x',changesort_stock2);
+//активация инпутов 2021
+function input_2021()
+{
+	//перебрать все новые инпуты и если не пусто активировать
+	$(".input_new_2021").each(function (index, value) {
 
-	//туры - показать в РУБ
-	$('.trips_block_global').on("change keyup input click",'.js-exc-cost',exc_cost);
+		var input=$.trim($(this).val());
+		if(input!='')
+		{
+			$(this).parents('.input_2021').addClass('active_in_2021');
+		}
+	});
 
-//туры - посмотреть добавить впечатление
-	$('.trips_block_global').on("change keyup input click",'.js-chat-tours',chat_tours);
+}
 
-	//туры - рассчитать остаток в РУБ
-	$('.trips_block_global').on("change keyup input click",'.js-form-cost',form_cost);
-
-//туры договор передан или нет
-	$('.trips_block_global').on("change keyup input click",'.js-issue-doc',form_doc);
-
-	//туры добавить впечатлеие
-	$('.trips_block_global').on("change keyup input click",'.js-chat-tours-add',form_doc_chat);
-
-	//туры - ок после ввода курса ТО
-	$('.trips_block_global').on("change keyup input click",'.js-ok-rate',ok_rate_form);
-
-	//туры - ок после ввода когда отдали договор клиенту
-	$('.trips_block_global').on("change keyup input click",'.js-ok-rate-doc',ok_rate_form_doc);
-
-	//туры - добавление впечатления кнопка ок
-	$('.trips_block_global').on("change keyup input click",'.js-ok-rate-chat',ok_rate_form_chat);
-
-    //нажатие на курс чтобы изменить
-	$('.trips_block_global').on("change keyup input click",'.js-rrate',js_rrate);
-
-	//сроки оплат
-	$('.trips_block_global').on("change keyup input click",'.js-srok-my',srok_my);
-
-	//изменение стоимости по туру
-	$('.trips_block_global').on("change keyup input click",'.js-all-price-trips',all_price_trips);
-
-	//внести оплату нажать кнопку открытия формы
-	$('.trips_block_global').on("change keyup input click",'.js-menu-buybuy',js_menu_buybuy);
-
-	//создать новую версию договора в турах
-	$('.trips_block_global').on("change keyup input click",'.js-new-doc-trips',js_new_doc);
-
-    //удалить платеж в турах
-	$('.trips_block_global').on("change keyup input click",'.js-buy-del',js_buy_del);
-
-    //редактировать платеж в турах
-	$('.trips_block_global').on("change keyup input click",'.js-buy-edit',js_buy_edit);
-
-	$('body').on("click",".js-touroper-eye,.js-commi-eye",js_touroper_eye);
-
-//появление кнопки сохранить когда что-то изменяем в настройках
-	$('.form_54_booking').on("change keyup input click","#name_b,#name_b1,#name_b1x,#password_b,#login_b,.radio_1,.js-checkbox-group",function(){   $('.js-save-setting').show();    });
-
-
-//появление кнопки сохранить когда что-то изменяем при редактирование сотрудника
-	$('.form_531_set').on("change keyup input click","#name_b,.js-status-trips-more",function(){   $('.js-save-set').show();    });
-
-    //появление кнопки добавить когда что-то изменяем при добавлении нового сотрудника
-    $('.form_532_booking').on("change keyup input click","#name_b,#name_b1,#name_b12,#name_b1x,#password_b,#login_b,.radio_1,.js-checkbox-group",function(){   $('.js-add-users').show();});
-
-	$('.form_531_booking').on("change keyup input click","#name_b,#name_b1,#name_b12,#name_b1x,#password_b,#login_b,.radio_1,.js-checkbox-group",function(){   $('.js-save-users').show();});
-
-	$('.form_532_set').on("change keyup input click","#name_b,.js-status-trips-more",function(){   $('.js-add-set').show();});
-
-    //нажатие на отдельные chtckbox залки в определенной группе
-	$('body').on("change keyup input click",'.js-checkbox-group',CheckboxGroup);
-
-    //нажатие на кнопку сохранить настройки
-	$('body').on("change keyup input click",".js-save-setting", save_setting);
-
-    //нажатие на кнопку сохранить изменения по пользователю
-	$('.js-form-gloab').on("change keyup input click",".js-save-users", save_users_2020);
-
-    //нажатие на кнопку сохранить изменения по пользователю / добавить нового
-    $('.js-form-gloab').on("change keyup input click",".js-add-users", add_users_2020);
-
-	//нажатие на кнопку сохранить изменения по пользователю / добавить нового
-	$('.menu-09').on("change keyup input click",".js-add-set", add_set_2020);
-
-	$('.menu-09').on("change keyup input click",".js-save-set", save_set_2020);
-
-
-
-
-//заблокировать сотрудника
-$('body').on("change keyup input click",'.js-users-block',UsersBlock);
-
-//изменить статус тура по проверки оплате
-$('.trips_block_global').on("change keyup input click",'.js-status-trips',StatusTrips);
-
-//выделить тур галкой для каких то действий
-$('body').on("change keyup input click",'.js-status-trips-more',st_div);
-
-	$('body').on("change keyup input click",'.js-exam-more',st_div_exam);
-
-//открыть раскрывающее меню точки
-$('body').on("change keyup input click",'.menu_jjs .menu_click',menuclick);
-
-
-//при изменении роли в системе подружать уведомления или скрывать для конкретной роли
-$('body').on("change keyup input click",'.js-checkbox-role',RoleNotif);
-
-
-//активация инпутов 2018
-	input_2018();
-
-//показать скрыть пароль глазик
-	$('body').on("click",'.ais',Eye);
-	ToolTipInput();
-AutoResizeT();
-
-
+function animation_teps_supply()
+{
+	$('.teps_supply').each(function(i,elem) {
+	$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
 });
-
-
-//загружать или нет js forms // нужно когда открывается несколько окон сразу
-//  |
-// \/
-function initializeFormsJs()
-{
-	try {
-		forms_js_load();
-	} catch (error) {
-		//а тут то, что делать, когда код выше вызвал ошибку
-		$.getScript( window.src_forms, function( data, textStatus, jqxhr ) {
-			console.log("yes load script");
-		});
-	}
 }
 
-function LoadFFo()
-{
-	console.log("проверка полной загрузки");
-	if(window.yesform==1) {
-		clearInterval(TimerScript);
-		ScriptForms();
-	}
-}
-
-
-
-//возвращаем скрул у сайта после закрытия окна если окон больше нет
-//  |
-// \/
-function BodyScrool()
-{
-
-	if($('.arcticmodal-container').length==1)
-	{
-		$('body').css( "margin-right", "0px" );
-		$('body').css( "overflow", "auto" );
-	}
-}
-
-
-//закрыть форму подписки крестик
-//  |
-// \/
-function Eye()
-{
-	if($(this).is('.ais-open'))
-	{
-		$(this).removeClass('ais-open');
-		$(this).parents('.input_2018').find('.input_new_2018').attr('type','password');
-	} else
-	{
-		$(this).addClass('ais-open');
-		$(this).parents('.input_2018').find('.input_new_2018').attr('type','text');
-	}
-}
-
-//показать скрыть пароль глазик
-$('body').on("click",'.ais',Eye);
 //проходим по всем textarea resize и активируем их
 //  |
 // \/
@@ -205,6 +54,19 @@ function AutoResizeT()
 
 }
 
+//ввод текста в новые инпуты скрытие ошибки если она была
+//  |
+// \/
+function KeyUpInput2021()
+{
+	if($(this).is('.gloab'))
+	{
+		if(($(this).val()!='')&&($(this).val()!=0))
+			$(this).parents('.input_2021').removeClass('required_in_2021');
+		$(this).parents('.input_2021').removeClass('error_2021');
+	}
+}
+
 
 //подсказки особые для формы
 //  |
@@ -215,7 +77,7 @@ function ToolTipInput(){
 
 	$(".help-icon").mousemove(function (eventObject) {
 
-		var inputx=$(this).parents('.input_2018');
+		var inputx=$(this).parents('.input_2021');
 
 		if(inputx.length==0)
 		{
@@ -253,7 +115,7 @@ function ToolTipInput(){
 
 
 		}
-	}).mouseout(function () { var toolh=$(this).parents('.input_2018').find(".toolhelp");
+	}).mouseout(function () { var toolh=$(this).parents('.input_2021').find(".toolhelp");
 
 
 		if(toolh.length==0)
@@ -267,4912 +129,638 @@ function ToolTipInput(){
 
 }
 
-
-
-//при изменении роли в системе подружать уведомления или скрывать для конкретной роли
-function RoleNotif()
-{
-	var i= $(this).find('i');
-	if(i.is('.active_task_cb'))
-	{
-		$('.js-panel-notif').hide().before('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-		var id_role=i.next().val();
-		var id_u=$('.js-panel-notif').attr('ipo');
-		var data ='url='+window.location.href+'&id='+id_role+'&id_u='+id_u;
-		AjaxClient('users','role_notif','GET',data,'AfterRoleNotif',id_role,0,1);
-
-	} else
-	{
-$('.js-panel-notif').hide();
-	}
-}
-
-//проходим по всем textarea resize в открывающем окне и активируем их
+//загружать или нет js forms // нужно когда открывается несколько окон сразу
 //  |
 // \/
-function AutoResizeTF()
+function initializeFormsJs()
 {
-    //$(this).autoResize({extraSpace : 10});
-
-    $('.box-modal .js-autoResize-form').each(function(i,elem) {
-        $(this).autoResize({extraSpace : 10});
-    });
-
-}
-
-
-function AfterRoleNotif(data,update) {
-	$('.js-panel-notif').prev().remove();
-
-	if (data.status == 'ok') {
-$('.js-panel-notif').empty().append(data.echo);
-		$('.js-panel-notif').slideDown("slow");
-	}
-
-}
-
-//удаление параметра из url
-//var url = "http://someUrl.ru?param1=123&param2=234&param3=435";
-//var url1 = removeParam("param1", url);
-function removeParam(key, sourceURL) {
-	var splitUrl = sourceURL.split('?'),
-		rtn = splitUrl[0],
-		param,
-		params_arr = [],
-		queryString = (sourceURL.indexOf("?") !== -1) ? splitUrl[1] : '';
-
-	if (queryString !== '') {
-		params_arr = queryString.split('&');
-		for (var i = params_arr.length - 1; i >= 0; i -= 1) {
-			param = params_arr[i].split('=')[0];
-			if (param === key) {
-				params_arr.splice(i, 1);
-			}
-		}
-		rtn = rtn + '?' + params_arr.join('&');
-	}
-
-	if(rtn.toString().slice(-1)=='?')
-	{
-		rtn=rtn.slice(0, -1);
-	}
-
-	return rtn;
-}
-
-
-
-
-
-function AfterMoreStatus(data,update)
-{
-	$('.menu_jjs .more_supply1').show();
-	$('.menu_jjs').find('.b_loading_small').remove();
-
-	var status_class=parseInt(data.rel)-3;
-
-	if (data.status=='ok')
-	{
-		var aw = update.split('.');
-
-		$.each(aw, function(index, value){
-		var  butt=$('.trips_block_global[id_trips='+value+']');
-			butt.find('.js-status-trips').removeClass('s_a_0 s_a_1 s_a_2');
-			butt.find('.js-status-trips').addClass('s_a_'+status_class).empty().append(data.echo);
+	try {
+		//функция определена в файле js forms. и если он не подгружен то он не будет знать такую функцию и она вызовет ошибку
+		forms_js_load();
+	} catch (error) {
+		//а тут то, что делать, когда код выше вызвал ошибку
+		$.getScript( window.src_forms, function( data, textStatus, jqxhr ) {
+			console.log("yes load script");
 		});
-
-		//отменить выделение всех выбраннх
-		$('.trips_block_global .trips-b-number .choice-radio').find('i').removeClass('active_task_cb');
-		basket_trips();
-		alert_message('ok','Статусы изменены');
 	}
 }
 
-//раскрывающее меню по кнопке
-var menuclick = function() {
-	var tr_s=$(this).next(".menu_supply").find('.drops');
-	if(tr_s.is(".active_menu_s"))
-	{
-		tr_s.removeClass("active_menu_s");
-		tr_s.css("transform", "scaleY(0)");
-	} else
-	{
-		tr_s.addClass("active_menu_s");
-		tr_s.css("transform", "scaleY(1)");
+function LoadFFo()
+{
+	console.log("проверка полной загрузки");
+	if(window.yesform==1) {
+		clearInterval(TimerScript);
+		ScriptForms();
 	}
 }
 
 
-function st_div_exam() {
 
-
-
-	//alert(ssup);
-	if($(this).find('.js-status-trips-more1 i').is(".active_task_cb"))
-	{
-		//tr.removeClass("checher_supply");
-		$(this).find('.js-status-trips-more1 i').removeClass('active_task_cb');
-		//CookieList(ssup+iu,tr.attr('id_trips'),'del');
-		// alert($(this).parents('[rel_id]').attr('rel_id'));
-		//basket_trips();
-		$(this).removeClass('active_exam');
-		$('[name=my_yes]').val('');
-		//ToolTip();
-	} else
-	{
-		//tr.addClass("checher_supply");
-		$('.answer_exam').find('.js-status-trips-more1 i').removeClass('active_task_cb');
-
-		$('.answer_exam').removeClass('active_exam');
-		$(this).addClass('active_exam');
-		$(this).find('.js-status-trips-more1 i').addClass('active_task_cb');
-		//CookieList(ssup+iu,tr.attr('id_trips'),'add');
-		//basket_trips();
-		//ToolTip();
-		$('[name=my_yes]').val($(this).attr('key'));
-	}
-
-
-}
-
-//добавление в корзину туров для изменения статуса к оплате/оплачено
-function st_div() {
-
-
-
-	//alert(ssup);
-	if($(this).find('.js-status-trips-more1 i').is(".active_task_cb"))
-	{
-		//tr.removeClass("checher_supply");
-		$(this).find('.js-status-trips-more1 i').removeClass('active_task_cb');
-		//CookieList(ssup+iu,tr.attr('id_trips'),'del');
-		// alert($(this).parents('[rel_id]').attr('rel_id'));
-		basket_trips();
-		//ToolTip();
-	} else
-	{
-		//tr.addClass("checher_supply");
-		$(this).find('.js-status-trips-more1 i').addClass('active_task_cb');
-		//CookieList(ssup+iu,tr.attr('id_trips'),'add');
-		basket_trips();
-		//ToolTip();
-	}
-
-
-}
-
-//корзина счетов новый/текущий
-function basket_trips()
-{
-
-	var count_trips_select=$('.question_block_pass .users-b-number').find('.active_task_cb');
-if(count_trips_select.length!=0)
-{
-
-	var select_li = '';
-	count_trips_select.parents('.question_block_pass').each(function (i, elem) {
-
-			if (select_li == '') {
-				select_li = $(this).attr('op_rel');
-			} else {
-				select_li = select_li + ',' + $(this).attr('op_rel');
-			}
-
-	});
-	$('[name=set]').val(select_li);
-
-
-} else
-{
-	$('[name=set]').val('');
-
-}
-
-
-
-}
-
-
-
-
-//изменить статус тура по проверки оплате
-function StatusTrips()
-{
-	var id_task= $(this).parents('.trips_block_global').attr('id_trips');
-
-	$(this).hide().before('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 0px;left:0px;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-	var data ='url='+window.location.href+'&id='+id_task;
-	AjaxClient('tours','status','GET',data,'AfterStatusTrips',id_task,0,1);
-}
-
-function AfterStatusTrips(data,update)
-{
-	var butt=$('.trips_block_global[id_trips='+update+']');
-	butt.find('.js-status-trips').show();
-	butt.find('.b_loading_small').remove();
-
-	if (data.status=='ok')
-	{
-		butt.find('.js-status-trips').removeClass('s_a_0 s_a_1 s_a_2');
-		butt.find('.js-status-trips').addClass('s_a_'+data.status_admin).empty().append(data.echo);
-		alert_message('ok','Статус изменен');
-	}
-}
-
-//заблокировать сотрудника
-function UsersBlock()
-{
-
-    var id= $(this).attr('id-bdata');
-
-
-    $(this).hide().before('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-
-    var data ='url='+window.location.href+'&id='+id;
-    AjaxClient('users','ban','GET',data,'AfterUsersBlock',id,0,1);
-
-}
-
-
-function AfterUsersBlock(data,update)
-{
-    var butt=$('.js-users-block[id-bdata='+update+']');
-    butt.parents('.users_block_2020').find('.b_loading_small').remove();
-	butt.parents('.users_block_2021').find('.b_loading_small').remove();
-    butt.show();
-
-
-    if (data.status=='ok')
-    {
-
-
-        if((butt.parents('.users_block_2020').length!=0)||(butt.parents('.users_block_2021').length!=0))
-        {
-
-            //butt.parents('.users_block_2020').find('.js-party-status').empty().append(data.st);
-            if(data.party=='1')
-            {
-
-                butt.parents('.users_block_2020').removeClass('red-party');
-				butt.parents('.users_block_2021').removeClass('red-party');
-                butt.removeClass('block-party');
-                alert_message('ok','Доступ открыт');
-            } else
-            {
-                butt.parents('.users_block_2020').addClass('red-party');
-				butt.parents('.users_block_2021').addClass('red-party');
-                butt.addClass('block-party');
-                alert_message('ok','Участник заблокирован');
-            }
-        } else
-        {
-            autoReloadHak();
-        }
-
-    } else
-    {
-        alert_message('error','Ошибка!');
-    }
-}
-
-//нажать на кнопку добавить нового пользователя
-function add_set_2020()
-{
-
-	$(this).find('span').hide();
-	$(this).find('span').before('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-	var err = 0;
-	$("#name_b,#name_b1,#login_b,#password_b").removeClass('error_formi');
-	$("#name_b").parents('.ok-input-title-2019').removeClass('error_formi_2019');
-
-
-	if($("#name_b").val() == '')  {alert_message('error','Заполните Название подборки'); err++;	}
-
-
-	if(err!=0)
-	{
-		$(this).find('span').show();
-		$(this).find('.b_loading_small').remove();
-		//alert_message('error','Не все поля заполнены');
-		/*
-    $('.error_text_add-09').empty().append('Не все поля заполнены').show();
-    setTimeout ( function () { $('.error_text_add-09').hide(); }, 7000 );
-        */
-
-	} else
-	{
-		$('#lalala_add_form').submit();
-	}
-}
-
-
-//нажать на кнопку добавить нового пользователя
-function save_set_2020()
-{
-
-	$(this).find('span').hide();
-	$(this).find('span').before('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-	var err = 0;
-	$("#name_b,#name_b1,#login_b,#password_b").removeClass('error_formi');
-	$("#name_b").parents('.ok-input-title-2019').removeClass('error_formi_2019');
-
-
-	if($("#name_b").val() == '')  {alert_message('error','Заполните Название подборки'); err++;	}
-
-
-	if(err!=0)
-	{
-		$(this).find('span').show();
-		$(this).find('.b_loading_small').remove();
-		//alert_message('error','Не все поля заполнены');
-		/*
-    $('.error_text_add-09').empty().append('Не все поля заполнены').show();
-    setTimeout ( function () { $('.error_text_add-09').hide(); }, 7000 );
-        */
-
-	} else
-	{
-		$('#lalala_save_form').submit();
-	}
-}
-
-
-//нажать на кнопку добавить нового пользователя
-function add_users_2020()
-{
-
-
-
-	var err = 0;
-//alert($('.js-form-register .gloab').length);
-	$('.js-form-gloab .gloab').each(function(i,elem) {
-		if($(this).val() == '')  { $(this).parents('.input_2018').addClass('required_in_2018');
-			$(this).parents('.list_2018').addClass('required_in_2018');
-			err++;
-			//alert($(this).attr('name'));
-		} else {$(this).parents('.input_2018').removeClass('required_in_2018');$(this).parents('.list_2018').removeClass('required_in_2018');}
-	});
-
-	if (!$(".js-role-x i").is( ".active_task_cb" ) ) { alert_message('error','Заполните должность в системе');  err++; }
-
-	if (!$(".js-office-x i").is( ".active_task_cb" ) ) { alert_message('error','Заполните офис');  err++; }
-
-	//alert(err);
-
-	if(err==0)
-	{
-		$('.js-form-add-office  .js-add-users').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-		//AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
-		//AjaxClient('tedner','add','POST',0,'AfterAddFormTender',0,'js-form-tender-new',1);
-		$('#lalala_add_form').submit();
-
-	} else
-	{
-		//найдем самый верхнюю ошибку и пролестнем к ней
-		jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-		//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
-		alert_message('error','Не все поля заполнены');
-
-
-	}
-
-
-}
-
-function save_users_2020() {
-
-
-	var err = 0;
-//alert($('.js-form-register .gloab').length);
-	$('.js-form-gloab .gloab').each(function(i,elem) {
-		if($(this).val() == '')  { $(this).parents('.input_2018').addClass('required_in_2018');
-			$(this).parents('.list_2018').addClass('required_in_2018');
-			err++;
-			//alert($(this).attr('name'));
-		} else {$(this).parents('.input_2018').removeClass('required_in_2018');$(this).parents('.list_2018').removeClass('required_in_2018');}
-	});
-
-	if (!$(".js-role-x i").is( ".active_task_cb" ) ) { alert_message('error','Заполните должность в системе');  err++; }
-
-	if (!$(".js-office-x i").is( ".active_task_cb" ) ) { alert_message('error','Заполните офис');  err++; }
-
-	//alert(err);
-
-	if(err==0)
-	{
-		$('.js-form-gloab  .js-save-users').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-		//AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
-		//AjaxClient('tedner','add','POST',0,'AfterAddFormTender',0,'js-form-tender-new',1);
-		$('#lalala_add_form').submit();
-
-	} else
-	{
-		//найдем самый верхнюю ошибку и пролестнем к ней
-		jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-		//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
-		alert_message('error','Не все поля заполнены');
-
-
-	}
-
-
-}
-
-
-//нажать на кнопку сохранить пользователя
-
-
-//нажать на кнопку сохранить настройки
-function save_setting()
-{
-
-
-	var err = 0;
-//alert($('.js-form-register .gloab').length);
-	$('.js-form-gloab .gloab').each(function(i,elem) {
-		if($(this).val() == '')  { $(this).parents('.input_2018').addClass('required_in_2018');
-			$(this).parents('.list_2018').addClass('required_in_2018');
-			err++;
-			//alert($(this).attr('name'));
-		} else {$(this).parents('.input_2018').removeClass('required_in_2018');$(this).parents('.list_2018').removeClass('required_in_2018');}
-	});
-
-	//alert(err);
-
-	if(err==0)
-	{
-		$('.js-form-gloab  .js-save-setting').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-		//AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
-		//AjaxClient('tedner','add','POST',0,'AfterAddFormTender',0,'js-form-tender-new',1);
-		$('#lalala_add_form').submit();
-
-	} else
-	{
-		//найдем самый верхнюю ошибку и пролестнем к ней
-		//jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-		//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
-		alert_message('error','Не все поля заполнены');
-	}
-
-
-}
-
-//нажатие на отдельные chtckbox залки в определенной группе
+//перезагрузка страницы
 //  |
 // \/
-function CheckboxGroup()
-{
-	/*
-    var active_old = $(this).parent().parent().find(".slct").attr("data_src");
-    var active_new = $(this).find("a").attr("rel");
-    */
-//var f = $(this).find("a").text();
-	var e = $(this).find("input").first().val();
-	var drop_object = $(this).parents('.js-group-c');
-
-	var active_jj=0;
-
-	if ($(this).find('i').is(".active_task_cb")) {
-
-		$(this).find('i').removeClass("active_task_cb");
-		$(this).find('input').last().val(0);
-		active_jj=1;
-	} else {
-
-		$(this).find('i').addClass("active_task_cb");
-		$(this).find('input').last().val(1);
-
-	}
-
-
-	//пробежаться по всей выбранному селекту
-	var select_li = '';
-	drop_object.find('.js-checkbox-group').each(function (i, elem) {
-		if ($(this).find('i').is(".active_task_cb")) {
-			if (select_li == '') {
-				select_li = $(this).find("input").first().val();
-			} else {
-				select_li = select_li + ',' + $(this).find("input").first().val();
-			}
-		}
-	});
-
-
-	//есть тип который позволяет выбрать только один пункт
-	if (drop_object.is('.js-tolko-one')) {
-
-
-		//select_li = one_li.find("a").attr("rel");
-		drop_object.find('i').removeClass("active_task_cb");
-
-		drop_object.find('.js-checkbox-group').each(function (i, elem) {
-			$(this).find('input').last().val(0);
-		});
-		//alert(active_jj);
-		if(active_jj==0)
-		{
-			$(this).find('i').addClass("active_task_cb");
-			$(this).find('input').last().val(1);
-		}
-
-	}
-
-
-	//есть класс который говорит что если выбрано первое в списке то убираем галки со всех остальных
-	//если есть что-то выбранное то первое в списке не горит
-	//если ничего не выбрано первое в списке зажечь
-
-	if (drop_object.is('.js-one-all-select')) {
-
-		var one_li=drop_object.find('.js-checkbox-group').first();
-
-
-		//если не одна галка не выделена то зажигаем первое
-		if (select_li == '') {
-
-			one_li.trigger('click');
-			return;
-
-		}
-
-		//нажимаем на первое в списке когда он не горел тогда тушим все остальные
-		if (($(this).find('i').is(".active_task_cb")) && (e == 0) && ((select_li != '') && (select_li != '0'))) {
-
-			select_li = one_li.find("a").attr("rel");
-			drop_object.find('i').removeClass("active_task_cb");
-
-			drop_object.find('.js-checkbox-group').each(function (i, elem) {
-				$(this).find('input').last().val(0);
-			});
-
-
-			one_li.find('i').addClass("active_task_cb");
-			one_li.find('input').last().val(1);
-
-		}
-
-
-		//если выбрали все кроме первого то потушить все а первый в списке зажечь
-		if(e != 0)
-		{
-			var count_all_li=drop_object.find('.js-checkbox-group').length;
-			var count_active_li=drop_object.find('.active_task_cb').length;
-			//alert(count_all_li);
-			if (parseInt(count_active_li + 1) == count_all_li) {
-				drop_object.find('i').removeClass("active_task_cb");
-
-				drop_object.find('.js-checkbox-group').each(function (i, elem) {
-					$(this).find('input').last().val(0);
-				});
-
-
-				one_li.find('i').addClass("active_task_cb");
-				one_li.find('input').last().val(1);
-			}
-		}
-
-
-		//alert(select_li_text);
-		//если что-то выбрано кроме первого то и первый гарид то потушить его
-		if ((select_li != '')&&(select_li != '0'))
-		{
-			if(one_li.find('i').is('.active_task_cb'))
-			{
-				one_li.trigger('click');
-				return;
-			}
-		}
-
-	}
+function autoReloadHak(){
+	var goal = self.location;
+	location.href = goal;
 }
 
-
-function rating_list()
+//возвращаем скрул у сайта после закрытия окна если окон больше нет
+//  |
+// \/
+function BodyScrool()
 {
 
-	var id=$(this).attr('id_r');
-	var rat=$(this).parents('.winner_2020');
-	rat.find('.js-rating').slideUp("slow");
-	rat.find('.js-rating[idrr='+id+']').slideDown("slow");
-	//setTimeout ( function () { rat.find('.js-rating[idrr='+id+']').slideDown("slow"); }, 500 );
-
-
-}
-
-
-/**
- * ставим галочки в сроках которые оплачены уже в форме туров сроки
- */
-function sroki_yes()
-{
-	var id_task= $('.js-form-srok-trips').find('[name=id]').val();
-	var my= $('.js-form-srok-trips').find('[name=my]').val();
-
-	if(my==0)
+	if($('.arcticmodal-container').length==1)
 	{
-		//клиент
-		var proce=$('.trips_block_global[id_trips='+id_task+']').find('.trips-b-user .gr-50').attr('proccs');
-
-		$('.js-form-srok-trips .sroki-tabl').each(function (index, value) {
-//alert($(this).find('.js-proc-form-x').val());
-			if(parseFloat($(this).find('.js-proc-form-x').val())<=parseFloat(proce))
-			{
-				$(this).addClass('yes-buy-y');
-			} else
-			{
-				$(this).removeClass('yes-buy-y');
-			}
-
-		});
-
-	}
-	if(my==1)
-	{
-		//туроператор
-		var proce=$('.trips_block_global[id_trips='+id_task+']').find('.trips-b-operator .gr-50').attr('proccs');
-
-		$('.js-form-srok-trips .sroki-tabl').each(function (index, value) {
-//alert($(this).find('.js-proc-form-x').val());
-			if(parseFloat($(this).find('.js-proc-form-x').val())<=parseFloat(proce))
-			{
-				$(this).addClass('yes-buy-y');
-			} else
-			{
-				$(this).removeClass('yes-buy-y');
-			}
-
-		});
-
-	}
-
-}
-
-function all_price_trips()
-{
-	var id_task= $(this).parents('.trips_block_global').attr('id_trips');
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_edit_price.php?id='+id_task,
-		beforeOpen: function(data, el) {
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-
-		},
-		afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-			ToolTip();
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-}
-
-
-/**
- * открытие формы редактирование финансового плана
- */
-function plane_edit()
-{
-	//window.chart1.data = window.dataxx;
-	/*
-	window.pieSeries1.dataItems.each(function(row, i) {
-		alert("22");
-	});
-	*/
-
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_edit_plane.php',
-		beforeOpen: function(data, el) {
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-
-		},
-		afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-			ToolTip();
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-
-
-}
-
-/**
- * открытие формы сроки оплат
- */
-function srok_my()
-{
-	var id_task= $(this).parents('.trips_block_global').attr('id_trips');
-    var my=$(this).attr('my');
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_edit_srok.php?id='+id_task+'&my='+my,
-		beforeOpen: function(data, el) {
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-
-		},
-		afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-			ToolTip();
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-}
-
-
-
-
-
-
-
-
-/**
- * пустая постфункция
- */
-function AfterZero(data,update) {
-
-
-}
-
-
-
-
-function test_a()
-{
-alert("!");
-	var data ='url='+window.location.href+
-		'&id=34&text='+ec('привет');
-
-
-
-	AjaxClient('test','test','GET',data,'AfterTest',3,0,1);
-}
-
-
-
-
-
-
-
-
-
-
-/**
- * редактировать платеж в турах
- */
-function js_buy_edit()
-{
-	var id_trips= $(this).parents('.trips_block_global').attr('id_trips');
-	var id_buy= $(this).parents('.buy_block_global').attr('id_buy');
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_edit_buy.php?id='+id_trips+'&id_buy='+id_buy,
-		afterLoading: function(data, el) {
-			//alert('afterLoading');
-		},
-		afterLoadingOnShow: function(data, el) {
-			//alert('afterLoadingOnShow');
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-}
-
-
-
-/**
- * удалить платеж в турах
- */
-function js_buy_del()
-{
-	var id_trips= $(this).parents('.trips_block_global').attr('id_trips');
-	var id_buy= $(this).parents('.buy_block_global').attr('id_buy');
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_dell_buy.php?id='+id_trips+'&id_buy='+id_buy,
-		afterLoading: function(data, el) {
-			//alert('afterLoading');
-		},
-		afterLoadingOnShow: function(data, el) {
-			//alert('afterLoadingOnShow');
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-
-}
-
-
-
-/**
- * создать новую версию договора в турах кнопку
- */
-function js_new_doc()
-{
-	var id_trips= $(this).parents('.trips_block_global').attr('id_trips');
-
-	$(this).hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-
-	var data ='url='+window.location.href+'&id='+id_trips;
-	AjaxClient('tours','new_doc','GET',data,'Afterjs_new_doc',id_trips,0,1);
-
-
-
-
-}
-
-
-
-function changesort_stock2() {
-	//alert("1");
-	if($(this).val()!='')
-	{
-		$(this).next().show();
-		//скрыть другие элементы поиска
-		$('.js--sort').addClass('greei_input');
-		$('.js--sort').find('input').prop('readonly',true);
-
-	}else
-	{
-		$(this).next().hide();
-		//показать другие элементы поиска
-		$('.js--sort').removeClass('greei_input');
-		$('.js--sort').find('input').removeAttr('readonly');
-
+		$('body').css( "margin-right", "0px" );
+		$('body').css( "overflow", "auto" );
 	}
 }
 
 
-
-/**
-внести оплату нажать кнопку открытия формы
- **/
-function js_menu_buybuy()
-{
-	var id_task= $(this).parents('.trips_block_global').attr('id_trips');
-
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_add_buy.php?id='+id_task,
-		beforeOpen: function(data, el) {
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-
-		},
-		afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-			ToolTip();
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-}
-
-
-/**
-  нажатие на курс чтобы изменить
- **/
-function js_rrate()
-{
-   //открыть форму
-	$(this).parents('.js-trips-comm').find('.form-rate-ok').addClass('show-form-rate');
-}
-
-
-
-/**
- * туры - ок после ввода даты когда отдали договор
- *
- */
-function ok_rate_form_doc(event)
-{
-
-	//проверяем что введен курс
-	var rate_b= $(this).parents('.form-rate-ok').find('[name=doc_date]').val();
-	if((rate_b!='00.00.0000')&&(jQuery.trim(rate_b)!=''))
-	{
-		//Все ок рассчитываем и скрываем эту форму
-		$(this).parents('.issue-block').find('.js-issue-doc').removeClass('red-jj');
-		$(this).parents('.issue-block').find('.js-issue-doc').addClass('green-jj');
-		$(this).parents('.issue-block').find('.js-issue-doc').empty().append('выдан '+rate_b);
-		$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-		//console.log("Обработчик параграфа.");
-		event.stopPropagation();
-	} else {
-		$(this).parents('.issue-block').find('.js-issue-doc').addClass('red-jj');
-		$(this).parents('.issue-block').find('.js-issue-doc').removeClass('green-jj');
-		$(this).parents('.issue-block').find('.js-issue-doc').empty().append('не выдан');
-		$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-		event.stopPropagation();
-	}
-
-
-	var id_trips= $(this).parents('.trips_block_global').attr('id_trips');
-
-
-
-	var data ='url='+window.location.href+'&id='+id_trips+'&date='+rate_b;
-	AjaxClient('tours','issue_doc','GET',data,'After_ok_rate_form_doc',id_trips,0,1);
-
-
-}
-
-/**
- * туры - ок после ввода Впечатления по туру
- *
- */
-function ok_rate_form_chat(event)
-{
-
-	//проверяем что введен курс
-	var rate_b= $(this).parents('.form-rate-ok').find('[name=chat_text]').val();
-	if(jQuery.trim(rate_b)!='')
-	{
-		//Все ок рассчитываем и скрываем эту форму
-		$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-		//console.log("Обработчик параграфа.");
-		$(this).parents('.trips_block_global').find('.js-chat-tours-add').hide();
-		var id_trips= $(this).parents('.trips_block_global').attr('id_trips');
-
-
-		//создать post formu
-
-
-
-		$(this).parents('.form-rate-ok').find('.js-prs').removeClass('error_textarea_2018');
-
-
-
-		var data ='url='+window.location.href+'&id='+id_trips+'&.chat='+rate_b;
-
-		create_post_form(data,'form_body_action');
-		AjaxClient('tours','add_chat','POST',0,'After_ok_rate_form_chat',id_trips,'form_body_action',1);
-
-		$('#form_body_action').remove();
-
-	//	AjaxClient('tours','add_chat','GET',data,'After_ok_rate_form_chat',id_trips,0,1);
-
-
-		event.stopPropagation();
-	} else {
-		//$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-		$(this).parents('.form-rate-ok').find('.js-prs').addClass('error_textarea_2018');
-		alert_message('error','Заполните впечатление по туру');
-		event.stopPropagation();
-	}
-
-
-
-
-}
-
-/**
- * туры - ок после ввода курса ТО
- *
- */
-function ok_rate_form(event)
-{
-
-	//проверяем что введен курс
-	var rate_b= $(this).parents('.form-rate-ok').find('[name=exchange_rates]').val();
-	if((rate_b!=0)&&(rate_b!=''))
-	{
-		//Все ок рассчитываем и скрываем эту форму
-		$(this).parents('.form-rate-ok').find('.input_2018').removeClass('error_2018');
-
-		$(this).parents('.js-form-cost').attr('rate',rate_b);
-
-		//var code_rate=$(this).parents('.trips-b-user').find('.eye-my').attr('code');
-		var code_rate='yyy';
-		//alert($(this).parents('.trips-b-user').find('.eye-wall-trips').is('.eye-my'));
-
-
-		$(this).parents('.js-trips-comm').find('.eye-wall-trips').addClass('eye-my');
-		$(this).parents('.js-trips-comm').find('.calculate-balance').removeClass('eye-my');
-
-		var div_mama=$(this).parents('.js-trips-comm');
-        var ostat= $(this).parents('.form-rate-ok').attr('balance');
-
-        var hii=parseFloat(rate_b);
-		div_mama.find('.cacl-rrate').empty().append($.number(hii.toFixed(2), 2, '.', ' ')).show();
-
-		var curs=(parseFloat(ctrim(ostat))*parseFloat(ctrim(rate_b)));
-		var curs=$.number(curs.toFixed(2), 2, '.', ' ');
-
-		div_mama.find('.js-all-cost').addClass('hide-cost');
-		div_mama.find('.js-all-cost.rate_'+code_rate).empty().append(curs);
-		div_mama.find('.js-all-cost.rate_'+code_rate).removeClass('hide-cost');
-
-		div_mama.find('.cost_all_trips').addClass('hide-cost');
-		div_mama.find('.cost_all_trips .rate_'+code_rate).parents('.cost_all_trips').removeClass('hide-cost');
-
-
-
-		//$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-		//setTimeout ( function () { $(this).parents('.form-rate-ok').removeClass('show-form-rate'); }, 1000 );
-		$(this).parents('.form-rate-ok').removeClass('show-form-rate');
-
-		//console.log("Обработчик параграфа.");
-		event.stopPropagation();
-	} else {
-		//ошибка заполнения
-		$(this).parents('.form-rate-ok').find('.input_2018').addClass('error_2018');
-	}
-}
-
-
-/**
- договор отдан
- **/
-function form_doc() {
-
-
-	if (!$(this).parents('.issue-block').find('.form-rate-ok').is(".show-form-rate")) {
-		//alert("!!");
-
-
-		var rate = $(this).parents('.issue-block').attr('doc');
-
-		if ((rate == '') && (rate == 0)) {
-			if ($(this).parents('.issue-block').find('.form-rate-ok').length != 0) {
-				$('.form-rate-ok').removeClass('show-form-rate');
-				$(this).parents('.issue-block').find('.form-rate-ok').addClass('show-form-rate');
-
-			}
-		} else
-		{
-			$(this).parents('.issue-block').find('.form-rate-ok .js-docc').val(rate);
-			if ($(this).parents('.issue-block').find('.form-rate-ok').length != 0) {
-				$('.form-rate-ok').removeClass('show-form-rate');
-				$(this).parents('.issue-block').find('.form-rate-ok').addClass('show-form-rate');
-			}
-		}
-		input_2018();
-
-	}
-}
-
-/**
- * добавить впечатление в туре
- */
-function form_doc_chat() {
-
-
-	if (!$(this).parents('.trips-b-number').find('.form-rate-ok').is(".show-form-rate")) {
-		//alert("!!");
-
-
-			if ($(this).parents('.trips-b-number').find('.form-rate-ok').length != 0) {
-				$('.form-rate-ok').removeClass('show-form-rate');
-				$(this).parents('.trips-b-number').find('.form-rate-ok').addClass('show-form-rate');
-
-			}
-
-		input_2018();
-
-	}
-}
-
-/**
- * создание post формы на лету чтобы отправить через ajax. где GET не подходит из-за размера url
- *
- */
-
-function create_post_form(data,id_form)
-{
-	//var data ='url='+window.location.href+'&id='+id_trips+'&chat='+encodeURIComponent(rate_b);
-	var data_forms=data.split('&');
-
-	var form = document.createElement('form');
-	form.setAttribute('action', '/');
-	form.setAttribute('method', 'POST');
-	form.setAttribute('id', id_form);
-	form.setAttribute('class', 'none');
-
-	$.each(data_forms, function(index, value){
-
-		var data_forms=value.split('=');
-
-if(data_forms[0][0]=='.') {
-
-	var input1 = document.createElement('textarea');
-	input1.setAttribute('name', data_forms[0].slice(1));
-	input1.value=data_forms[1];
-	form.appendChild(input1);
-} else {
-	var input1 = document.createElement('input');
-	input1.setAttribute('type', 'text');
-	input1.setAttribute('name', data_forms[0]);
-	input1.setAttribute('value', data_forms[1]);
-	form.appendChild(input1);
-}
-
-
-	});
-	$('body').append(form);
-
-
-}
-
-//кнопка редактировать клиента
-function no_rds_user()
-{
-	$('.js-tabs_0').hide();
-	$('.jipp_fll').slideDown( "slow" );
-	$('.jipp_fll_start').slideUp( "slow" );
-
-	ToolTip();
-
-	$(".slct").unbind('click.sys');
-	$(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-	$('#typesay').unbind('change', changesay);
-	$('#typesay').bind('change', changesay);
-	input_2018();
-
-	$('.date_picker_x').inputmask("datetime",{
-		mask: "1.2.y",
-		placeholder: "dd.mm.yyyy",
-		separator: ".",
-		alias: "dd.mm.yyyy"
-	});
-}
-
-//кнопка редактировать клиента
-/*
-$('#no_rdx').on( "click", function() {
-	$('.js-tabs_0').hide();
-	$('.jipp_fll').slideDown( "slow" );
-	$('.jipp_fll_start').slideUp( "slow" );
-
-	ToolTip();
-
-	$(".slct").unbind('click.sys');
-	$(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-	$('#typesay').unbind('change', changesay);
-	$('#typesay').bind('change', changesay);
-	input_2018();
-
-	$('.date_picker_x').inputmask("datetime",{
-		mask: "1.2.y",
-		placeholder: "dd.mm.yyyy",
-		separator: ".",
-		alias: "dd.mm.yyyy"
-	});
-
-});
-*/
-//кнопка редактировать организацию
-function no_rds_org() {
-	$('.js-tabs_0').hide();
-	$('.jipp_fll').slideDown( "slow" );
-	$('.jipp_fll_start').slideUp( "slow" );
-
-	ToolTip();
-	$('.reda_org_comment').autoResize({extraSpace : 10}).trigger('keyup');
-	$('.js-padej_woo_end').autoResize({extraSpace : 10}).trigger('keyup');
-
-	$(".slct").unbind('click.sys');
-	$(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-	$('#typesay').unbind('change', changesay);
-	$('#typesay').bind('change', changesay);
-	input_2018();
-
-	$('.date_picker_x').inputmask("datetime",{
-		mask: "1.2.y",
-		placeholder: "dd.mm.yyyy",
-		separator: ".",
-		alias: "dd.mm.yyyy"
-	});
-
-}
-/*
-$('#no_rdx_org').on( "click", function() {
-	$('.js-tabs_0').hide();
-	$('.jipp_fll').slideDown( "slow" );
-	$('.jipp_fll_start').slideUp( "slow" );
-
-	ToolTip();
-	$('.reda_org_comment').autoResize({extraSpace : 10}).trigger('keyup');
-	$('.js-padej_woo_end').autoResize({extraSpace : 10}).trigger('keyup');
-
-	$(".slct").unbind('click.sys');
-	$(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-	$('#typesay').unbind('change', changesay);
-	$('#typesay').bind('change', changesay);
-	input_2018();
-
-	$('.date_picker_x').inputmask("datetime",{
-		mask: "1.2.y",
-		placeholder: "dd.mm.yyyy",
-		separator: ".",
-		alias: "dd.mm.yyyy"
-	});
-
-});
-
-*/
-
-//кнопка отменить закрыть форму
-$('#no_rd').on( "click", function() {
-	clearInterval(timerId);
-	$.arcticmodal('close');
-});
-
-
-/**
- рассчитать остаток в рублях
- **/
-function form_cost() {
-
-
-	if (!$(this).find('.form-rate-ok').is(".show-form-rate")) {
-	//alert("!!");
-
-	var code_rate = $(this).find('.eye-my').attr('code');
-		var div_mama=$(this).parents('.js-trips-comm');
-//alert(code_rate);
-	if (!$(this).find('.eye-my').is(".calculate-balance")) {
-//если это не кнопка рассчитать остаток в рублях
-		$(this).find('.eye-wall-trips').addClass('eye-my');
-		$(this).find('[code=' + code_rate + ']').removeClass('eye-my');
-
-
-
-		div_mama.find('.js-all-cost').addClass('hide-cost');
-		div_mama.find('.js-all-cost.rate_'+code_rate).removeClass('hide-cost');
-
-		div_mama.find('.cost_all_trips').addClass('hide-cost');
-		div_mama.find('.cost_all_trips .rate_'+code_rate).parents('.cost_all_trips').removeClass('hide-cost');
-		return false;
-
-	}
-	var rate = $(this).attr('rate');
-
-	if ((rate == '') && (rate == 0)) {
-		if ($(this).find('.form-rate-ok').length != 0) {
-			$('.form-rate-ok').removeClass('show-form-rate');
-			$(this).find('.form-rate-ok').addClass('show-form-rate');
-		}
-		} else
-		{
-			//уже курс задан. просто показать остаток в рублях по курсу заданному
-			div_mama.find('.js-all-cost').addClass('hide-cost');
-			div_mama.find('.js-all-cost.rate_'+code_rate).removeClass('hide-cost');
-
-			div_mama.find('.cost_all_trips').addClass('hide-cost');
-			div_mama.find('.cost_all_trips .rate_'+code_rate).parents('.cost_all_trips').removeClass('hide-cost');
-
-			$(this).find('.eye-wall-trips').addClass('eye-my');
-			$(this).find('[code=' + code_rate + ']').removeClass('eye-my');
-
-		}
-
-}
-}
-
-/**
- * показать скрыть впечатление по туру
- */
-function chat_tours()
-{
-var chat=$(this).parents('.trips_block_global').find('.chat-tours');
-	if( chat.is(':visible') ) { chat.hide("slow");
-
-	} else
-	{
-		chat.show("slow");
-		jQuery.scrollTo(chat, 1000, {offset:-120});
-	}
-
-}
-
-
-
-/**
- * нажатие на кнопку в списке туров показвать в рублях
- *
- **/
-function exc_cost()
-{
-    var code_rate=$(this).find('.eye-my').attr('code');
-	$(this).find('.eye-wall-trips').addClass('eye-my');
-	$(this).find('[code='+code_rate+']').removeClass('eye-my');
-
-    var div_mama=$(this).parents('.js-trips-comm');
-
-	div_mama.find('.js-all-cost').addClass('hide-cost');
-	div_mama.find('.js-all-cost.rate_'+code_rate).removeClass('hide-cost');
-
-	div_mama.find('.cost_all_trips').addClass('hide-cost');
-	div_mama.find('.cost_all_trips').find('.rate_'+code_rate).parents('.cost_all_trips').removeClass('hide-cost');
-}
-
-
-function AddFormTender()
+//добавить наименование на склад
+function add_invoice1()
 {
 	
-	var err = 0;
-	var err1 = 0;
-//alert($('.js-form-register .gloab').length);
-	$('.js-form-tender-new .gloab').each(function(i,elem) {
-	if($(this).val() == '')  {$(this).parents('.input_2018').find('.error-message').empty().append('поле не заполнено');	 $(this).parents('.input_2018').addClass('required_in_2018');  
-	$(this).parents('.list_2018').addClass('required_in_2018');						  
-	err++;	
-							  
-							  
-							  
-	//alert($(this).attr('name'));					 
-} else {$(this).parents('.input_2018').removeClass('required_in_2018');$(this).parents('.list_2018').removeClass('required_in_2018');}		
-});
-	if(err==0)
-		{
-	if($('.tot_buy_id').val()== '') { err1++;   alert_message('error','Выберите покупателя тура'); jQuery.scrollTo('.js-buy-turs-client', 1000, {offset:-120});  } else
-		{
-			
-				if($('.tot_fly_id').val()== '') { err1++;   alert_message('error','Выберите туристов'); jQuery.scrollTo('.js-fly-turs-client', 1000, {offset:-120});  }
-			
-		}
-		}
 	
-	
-	//alert(err);
-	
-	if((err==0)&&(err1==0))
-		{
-			$('.js-form-tender-new  .js-add-tender-form').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-			
-			$('.js-form-tender-new .message-form').hide();
-		    //AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);		
-		AjaxClient('tours','add','POST',0,'AfterAddFormTender',0,'js-form-tender-new',0);
-			
-		} else
-			{   
-				if(err!=0)
-					{
-				//найдем самый верхнюю ошибку и пролестнем к ней
-				jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-				//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
-				alert_message('error','Не все поля заполнены');
-					}
-				
-			}	
-	
-}
-
-function EditFormTender()
-{
-
-	var err = 0;
-	var err1 = 0;
-//alert($('.js-form-register .gloab').length);
-	$('.js-form-tender-edit .gloab').each(function(i,elem) {
-		if($(this).val() == '')  {$(this).parents('.input_2018').find('.error-message').empty().append('поле не заполнено');	 $(this).parents('.input_2018').addClass('required_in_2018');
-			$(this).parents('.list_2018').addClass('required_in_2018');
-			err++;
-
-
-
-			//alert($(this).attr('name'));
-		} else {$(this).parents('.input_2018').removeClass('required_in_2018');$(this).parents('.list_2018').removeClass('required_in_2018');}
-	});
-	if(err==0)
-	{
-		if($('.tot_buy_id').val()== '') { err1++;   alert_message('error','Выберите покупателя тура'); jQuery.scrollTo('.js-buy-turs-client', 1000, {offset:-120});  } else
-		{
-
-			if($('.tot_fly_id').val()== '') { err1++;   alert_message('error','Выберите туристов'); jQuery.scrollTo('.js-fly-turs-client', 1000, {offset:-120});  }
-
-		}
-	}
-
-
-	//alert(err);
-
-	if((err==0)&&(err1==0))
-	{
-		$('.js-form-tender-edit  .js-edit-tender-form').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-
-		$('.js-form-tender-edit .message-form').hide();
-		//AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
-		AjaxClient('tours','edit','POST',0,'AfterEditFormTender',0,'js-form-tender-edit',1);
-
-	} else
-	{
-		if(err!=0)
-		{
-			//найдем самый верхнюю ошибку и пролестнем к ней
-			jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-			//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
-			alert_message('error','Не все поля заполнены');
-		}
-
-	}
-
-}
-
-function After_ok_rate_form_chat(data,update)
-{
-	if (data.status=='ok')
-	{
-		alert_message('ok','Впечатление по туру добавлено');
-		UpdateTripsA(update,'buy',1);
-
-	} else
-	{
-		$('.trips_block_global[id_trips='+update+']').find('.js-chat-tours-add').show();
-		alert_message('error','Ошибка добавления');
-	}
-}
-
-function After_ok_rate_form_doc(data,update)
-{
-	if (data.status!='ok')
-	{
-
-		var ddoc=$('.trips_block_global[id_trips='+update+']').find('.issue-block').attr('doc');
-		var issoe=$('.trips_block_global[id_trips='+update+']').find('.issue-block .js-issue-doc');
-		if(ddoc!='')
-		{
-
-			issoe.empty().append('выдан '+ddoc);
-			issoe.removeClass('red-jj');
-			issoe.addClass('green-jj');
-		} else
-		{
-
-			issoe.empty().append('не выдан');
-			issoe.addClass('red-jj');
-			issoe.removeClass('green-jj');
-		}
-
-
-	} else
-	{
-		$('.trips_block_global[id_trips='+update+']').find('.issue-block').attr('doc',data.download);
-	}
-}
-
-function AfterUpdateTripsA(data,update)
-{
-	if (data.status=='ok')
-	{
-		//обновить общий блок
-		$('.trips_block_global[id_trips='+update+']').find('.js-update-block-trips').empty().append(data.query);
-
-        //обновить информацию в меню с сохранением открытой вкладки
-		$('.trips_block_global[id_trips='+update+']').find('.js-tabs-menu').empty().append(data.echo);
-
-		if(data.upload_mm==1) {
-			//обновить информацию в открытой вкладке если это надо
-			$('.trips_block_global[id_trips=' + update + ']').find('.px_bg_trips').empty().append(data.echo_more);
-		}
-
-		$('.trips_block_global[id_trips='+update+']').find('.circlestat').circliful();
-		$('.date_picker_xe').inputmask("datetime",{
-			mask: "1.2.y",
-			placeholder: "dd.mm.yyyy",
-			separator: ".",
-			alias: "dd.mm.yyyy"
-		});
-	}
-}
-
-//постфункция создания нового договора в туре
-function Afterjs_new_doc(data,update)
-{
-	if (data.status=='ok')
-	{
-		$('.trips_block_global[id_trips='+update+']').find('.px_bg_trips').prepend(data.download);
-
-
-        var count_v=$('.trips_block_global[id_trips='+update+'] .vers-doc-color').length;
-		var i_v=count_v;
-
-		$('.trips_block_global[id_trips='+update+'] .vers-doc-color').empty().removeClass('green-trips red-trips');
-
-		setTimeout ( function () { $( '.new-say-doc ' ).removeClass('new-say-doc'); }, 4000 );
-
-
-
-		$('.trips_block_global[id_trips='+update+'] .vers-doc-color').each(function(i,elem) {
-
-			$(this).append('(Версия №'+i_v+')');
-			if(i_v==count_v)
-			{
-				$(this).addClass('green-trips');
-			} else
-			{
-				$(this).addClass('red-trips');
-			}
-			i_v--;
-
-		});
-		$('.trips_block_global[id_trips='+update+']').find('.px_bg_trips .b_loading_small').remove();
-		$('.trips_block_global[id_trips='+update+']').find('.js-new-doc-trips').show();
-
-	} else
-	{
-	    $('.trips_block_global[id_trips='+update+']').find('.px_bg_trips .b_loading_small').remove();
-		$('.trips_block_global[id_trips='+update+']').find('.js-new-doc-trips').show();
-
-		//проходимя по массиву ошибок
-		$.each(data.error, function(index, value){
-
-
-			var err = ['no_all_password_buy','no_all_password_fly','no_phone_tell_buy','no_all_password_x','no_all_info_org','no_all_info_rf_org','number_contract_busy'];
-
-			var err_name = ['Паспортные данные покупателя','Паспортные данные туристов','Телефон, адрес покупателя','паспорт РФ покупателя','данные по организации','паспортные данные руководителя',''];
-
-			numbers=$.inArray(value, err);
-			//alert(numbers);
-			if(numbers!=-1)
-			{
-				if(value=='number_contract_busy')
-				{
-					alert_message('error', 'Номер договора занят. Следующий свободный - ' + data.number);
-				} else {
-					alert_message('error', 'некорректно заполнено - ' + err_name[numbers]);
-				}
-			} else
-			{
-				alert_message('error','Ошибка!');
-			}
-		});
-	}
-}
-
-function AfterAddFormTender(data,update)
-{
-	if (data.status=='ok')
-    {
-	   // $('.js-form-tender-new').remove();
-		
-		alert_message('ok','Новый тур добавлен');
-		//$('.js-next-step').submit();
-
-		//$('.js-form-tender-new .js-alert-doc').empty().append(data.download);
-		//$('.js-form-tender-new .js-doc-create').slideDown( "slow" );
-        //$('.js-form-tender-new  .js-doc-yes-hide').slideUp( "slow" );
-
-		$('#js-form-edit-edit-a').attr('action','tours/.id-'+data.for_id);
-		setTimeout ( function () { $('#js-form-edit-edit-a').submit(); }, 1000 );
-
-	} else
-		{
-	 	  $('.js-form-tender-new .js-add-tender-form').show();
-		  $('.js-form-tender-new .b_loading_small').remove();
-			
-		 //alert_message('error','Ошибка! Заполните все поля');
-	
-		  //$('.js-form-tender-new .message-form').empty().append('Заполните все поля').show();	
-			
-		//проходимя по массиву ошибок
-		$.each(data.error, function(index, value){	
-			
-			
-	var err = ['number_contract','id_operator','id_exchange','date_sele_doc','buy_id','count_clients','id_country','date_start','date_end','count_day','hotel','flight_there_route','flight_there_class','flight_there_number','flight_back_route','flight_back_class','flight_back_number','transfer_route','transfer_type','cost_client','no_all_password_buy','no_all_password_fly','no_phone_tell_buy','no_all_password_x','no_all_info_org','no_all_info_rf_org','number_contract_busy','exchange_rates','number_contract_format'];
-	
-	var err_name = ['Номер договора','Туроператор','Валюта','Дата договора','Покупатель тура','Кол-во человек','Страна','Дата начала тура','Дата окончания тура','Кол-во дней','Отель','Маршрут туда','Класс туда','Номер рейса туда','Маршрут обратно','Класс обратно','Номер рейса обратно','Маршрут трансфера','Тип трансфера','Стоимость тура','Паспортные данные покупателя','Паспортные данные туристов','Телефон, адрес покупателя','паспорт РФ покупателя','данные по организации','паспортные данные руководителя','','Курс валюты (ТО)','Номер договора'];
-			
-	//var number = [2,1,4,5,3,6,7,8,11,12,13,22,14,15,18,19,16,17,20,21];			
-					
-				
-				numbers=$.inArray(value, err);
-				//alert(numbers);
-				if(numbers!=-1)
-					{
-						/*
-						var ins=number[numbers];
-						$('.js-form-tender-new .js-in'+ins).parents('.input_2018').addClass('required_in_2018');
-			$('.js-form-tender-new .js-in'+ins).parents('.input_2018').find('.div_new_2018').append('<div class="error-message">некорректно заполнено поле</div>');
-			*/
-						if(value=='number_contract_busy')
-						{
-							alert_message('error', 'Номер договора занят. Следующий свободный - ' + data.number);
-							jQuery.scrollTo('[name=number_contract]', 1000, {offset:-180});
-
-
-							$('[name=number_contract]').parents('.input_2018').find('.error-message').empty().append('поле не заполнено');	 $('[name=number_contract]').parents('.input_2018').addClass('required_in_2018');
-							$('[name=number_contract]').parents('.list_2018').addClass('required_in_2018');
-						} else {
-							alert_message('error', 'некорректно заполнено - ' + err_name[numbers]);
-						}
-					} else
-					{
-							//$('.js-form-register .message-form').empty().append('Ошибка! ');
-						alert_message('error','Ошибка!');
-					}						
-	        //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});		
-		});
-		}
-}
-
-function AfterEditFormTender(data,update)
-{
-	if (data.status=='ok')
-	{
-		// $('.js-form-tender-new').remove();
-
-		alert_message('ok','Данные по туру сохранены');
-		//$('.js-next-step').submit();
-
-		//$('.js-form-tender-edit .js-alert-doc').empty().append(data.download);
-		//$('.js-form-tender-edit .js-doc-create').slideDown( "slow" );
-		//$('.js-form-tender-edit  .js-doc-yes-hide').slideUp( "slow" );
-
-		$('.js-form-tender-edit .js-edit-tender-form').show();
-		$('.js-form-tender-edit .b_loading_small').remove();
-
-		//переадрессация
-
-		setTimeout ( function () { $('#js-form-edit-edit').submit(); }, 1000 );
-	} else
-	{
-		$('.js-form-tender-edit .js-edit-tender-form').show();
-		$('.js-form-tender-edit .b_loading_small').remove();
-
-		//alert_message('error','Ошибка! Заполните все поля');
-
-		//$('.js-form-tender-new .message-form').empty().append('Заполните все поля').show();
-
-		//проходимя по массиву ошибок
-		$.each(data.error, function(index, value){
-
-
-			var err = ['number_contract','id_operator','id_exchange','date_sele_doc','buy_id','count_clients','id_country','date_start','date_end','count_day','hotel','flight_there_route','flight_there_class','flight_there_number','flight_back_route','flight_back_class','flight_back_number','transfer_route','transfer_type','cost_client','no_all_password_buy','no_all_password_fly','no_phone_tell_buy','no_all_password_x','no_all_info_org','no_all_info_rf_org','number_contract_busy'];
-
-			var err_name = ['Номер договора','Туроператор','Валюта','Дата договора','Покупатель тура','Кол-во человек','Страна','Дата начала тура','Дата окончания тура','Кол-во дней','Отель','Маршрут туда','Класс туда','Номер рейса туда','Маршрут обратно','Класс обратно','Номер рейса обратно','Маршрут трансфера','Тип трансфера','Стоимость тура','Паспортные данные покупателя','Паспортные данные туристов','Телефон, адрес покупателя','паспорт РФ покупателя','данные по организации','паспортные данные руководителя',''];
-
-			//var number = [2,1,4,5,3,6,7,8,11,12,13,22,14,15,18,19,16,17,20,21];
-
-
-			numbers=$.inArray(value, err);
-			//alert(numbers);
-			if(numbers!=-1)
-			{
-				/*
-                var ins=number[numbers];
-                $('.js-form-tender-new .js-in'+ins).parents('.input_2018').addClass('required_in_2018');
-    $('.js-form-tender-new .js-in'+ins).parents('.input_2018').find('.div_new_2018').append('<div class="error-message">некорректно заполнено поле</div>');
-    */if(value=='number_contract_busy')
-			{
-				alert_message('error', 'Номер договора занят. Следующий свободный - ' + data.number);
-				jQuery.scrollTo('[name=number_contract]', 1000, {offset:-180});
-
-
-				$('[name=number_contract]').parents('.input_2018').find('.error-message').empty().append('поле не заполнено');	 $('[name=number_contract]').parents('.input_2018').addClass('required_in_2018');
-				$('[name=number_contract]').parents('.list_2018').addClass('required_in_2018');
-				err++;
-
-
-
-
-
-			} else {
-				alert_message('error', 'некорректно заполнено - ' + err_name[numbers]);
-			}
-			} else
-			{
-				//$('.js-form-register .message-form').empty().append('Ошибка! ');
-				alert_message('error','Ошибка!');
-			}
-			//jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
-		});
-	}
-}
-
-
-
-//открыть окно задачи
-function open_task()
-{
-	var id_task= $(this).parents('.task_clock_selection').attr('id_task');
-
 	$.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_doc_task.php?id='+id_task+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-		
-		
-    },
-    afterOpen: function(data, el) {
-		
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-  });		
-	
-	
-	
-}
-
-	
-/*
-window.search_min2 = 0;  //мин количество символов для быстрого поиска
-window.search_deley2=700;	//задержка между вводами символов - начало поиска
-*/
-
-//window.search_input2=$('.js-keyup-search');			
-
-/*
-//проверка наличкой или нет была оплата если это оплата клиентом. скрыть ненужные методы
- */
-
-
-function nall_buy_tips(load) {
-	//alert("!");
-	load = load || 0;
-	//lert($('.trips_payment_method').attr('nall'));
-	if ($('.komy_trips').val() == 1) {
-		if ($('.js_trips_payment_method').attr('nall') == 1) {
-
-			$('.js-visible-mt').find('[nall=1]').parents('li').addClass('hide-mt');
-			//если что-то выбрано что нельзя тогда изменяем выбор на наличные
-			var zna = $('.js-visible-mt').find('[nall=0]').attr('rel');
-			if(load==0) {
-				$('.js_trips_payment_method').val(zna);
-				$('.js-visible-mt').find('[nall=0]').trigger('click');
-			}
-		}
-	}else {
-			//показываем все методы - оплата туроператору
-			$('.js-visible-mt').find('li').removeClass('hide-mt');
-		}
-
-}
-
-
-
-function open_task_new()
-{
-	var id_task= $(this).attr('id_task');
-
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_task.php?id='+id_task+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });		
-	
-	
-}
-
-
-
-function hide_finance_pass()
-{
-	//alert("!");
-	$('.js-vid-oper').slideUp("slow");
-	$('.js-form-pay-finance-edit .password_turs').slideUp("slow");
-}
-
-
-//изменение валюты
-//  |
-// \/
-function exchange_eico()
-{
-	//alert_message('error',$(this).val());
-	var char=$(this).val();
-	if($('.val_rate').find('[rel='+char+']').attr('char')=='₽')
-	{
-		$('.rates_visible').slideUp("slow");
-		$('.xexchange_rates').val('').trigger('click');
-	} else
-		{
-			$('.rates_visible').slideDown("slow");
-			$('.xexchange_rates').trigger('click');
-		}
-	
-}
-
-
-//функция вывода когда надо оплатить конечно
-//  |
-// \/
-function xx_end_date()
-{
-	var uyy=0;
-	var dp  = new Array();
-	//alert($('.xcost_to_1').length);
-	$('.xcost_to_1').each(function(i,elem) {		
-		if(($(this).val()!=0)&&($(this).val()!=''))
-		{
-			//alert($(this).val());
-		   uyy++;
-			//alert(i);
-		   dp[i]=$(this).val();
-		}
-	});	
-	if((dp[0]==dp[1])&&(uyy==2))			
-	{
-		//скрыть
-		$('.js-date_polnay').slideUp("slow");		
-	} else
-	{
-		if(uyy==2) {
-			$('.js-date_polnay').slideDown("slow");
-		} else
-		{
-			$('.js-date_polnay').slideUp("slow");
-		}
-	}
-}
-
-
-//функция пересчета стоимости в валюте при изменение самой стоимости в рублях
-//  |
-// \/
-function xexchange_rates2()
-{
-	var curss=$('.xexchange_rates').val();
-	var js_200=$(this).parents('.jj-l').find('.oper_name');
-		
-	//alert_message('error',curss);
-	
-	   if((curss!='')&&(curss!=0)&&($(this).val()!='')&&($(this).val()!=0))
-		{
-				var char=$('.val_rate').find('[rel='+$('#exchange_rates').val()+']').attr('char');
-				var curs=(parseFloat(ctrim($(this).val()))/parseFloat(curss));
-				js_200.empty().append(char+' '+$.number(curs.toFixed(2), 2, '.', ' '));
-		} else
-		{
-			 
-			    var joi=js_200.attr('joi');
-			    js_200.empty().append(joi);
-		}
-		
-}
-//функция пересчета стоимости в валюте при изменение вводе курса
-//  |
-// \/
-function xexchange_rates1()
-{
-	if($(this).val()!='')
-		{
-	var wxxx=$(this).val();
-	var char=$('.val_rate').find('[rel='+$('#exchange_rates').val()+']').attr('char');
-			
-	$('.jj-l').each(function(i,elem) {
-	if(($(this).find('.gloab').val() != '')&&($(this).find('.gloab').val() != 0))  { 
-	var curs=(parseFloat(ctrim($(this).find('.gloab').val()))/parseFloat(wxxx));
-		//alert($(this).find('.gloab').val());
-					$(this).find('.oper_name').empty().append(char+' '+$.number(curs.toFixed(2), 2, '.', ' '));
-	
-	} else {var joi=$(this).find('.oper_name').attr('joi');
-					$(this).find('.oper_name').empty().append(joi);}		
-});		
-		} else
-			{
-				$('.jj-l').each(function(i,elem) {
-					var joi=$(this).find('.oper_name').attr('joi');
-					$(this).find('.oper_name').empty().append(joi);
-				});	
-			}
-			
-}
-
-
-
-//функция показа результата на кнопке
-//  |
-// \/
-//ErrorBut('.form-open .js-log','Ошибка заполнения!');
-function YesBut(but,text)
-{
-	var element=$(but);
-	var text_bb22 = element.html();
-				element.empty().append(text);
-				element.addClass('new-say-yes');
-				setTimeout ( function () { element.removeClass('new-say-yes'); element.empty().append(text_bb22);  }, 4000 );
-}
-
-//функция показа ошибки на кнопки отправки
-//  |
-// \/
-//ErrorBut('.js-form-open .js-log','Ошибка заполнения!');
-function ErrorBut(but,text)
-{
-	var element=$(but);
-	var text_bb22 = element.html();
-				element.empty().append(text);
-				element.addClass('new-say1');
-				setTimeout ( function () { element.removeClass('new-say1'); element.empty().append(text_bb22);  }, 4000 );
-}
-
-
-function validDate(date){ // date в формате 31.12.2014
-  var d_arr = date.split('.');
-  var d = new Date(d_arr[2]+'/'+d_arr[1]+'/'+d_arr[0]+''); // дата в формате 2014/12/31
-  if (d_arr[2]!=d.getFullYear() || d_arr[1]!=(d.getMonth() + 1) || d_arr[0]!=d.getDate()) {
-    return false; // неккоректная дата
-  };
-  return true;
-}
-
-
-//разница между двух дат и определение коли-во ночей
-function date_nait()
-{
-	var date2 = $('.js-date-nait2').val();
-    var date1 =  $('.js-date-nait1').val();
-	
-	if ((validDate(date1))&&(validDate(date2))) {
-		//alert("!1");
-		
-	var d_arr1 = date1.split('.');
-  var d1 = new Date(d_arr1[2]+'/'+d_arr1[1]+'/'+d_arr1[0]+'');
-		
-	var d_arr2 = date2.split('.');
-  var d2 = new Date(d_arr2[2]+'/'+d_arr2[1]+'/'+d_arr2[0]+'');
-	
-    var daysLag = Math.ceil(Math.abs(d2.getTime() - d1.getTime()) / (1000 * 3600 * 24));
-	if(($.isNumeric(daysLag))&&(daysLag>=0))
-	{
-       $('.js-date-nait-itog').val(daysLag);
-		input_2018();
-	}
-  }
-}
-
-//Обновление вывода по туру
-
-function UpdateTripsA(id,operation,upload_mm)
-{
-	if (upload_mm == undefined) upload_mm = 0;
-	//посмотреть какое меню открыто, если активно какое то
-var active_menu_id=$('.trips_block_global[id_trips='+id+']').find('.js-tabs-menu .active').attr('id');
-	//alert(active_menu_id);
-
-
-	var data ='url='+window.location.href+'&id='+id+'&menu_id='+active_menu_id+'&op='+operation+'&mm='+upload_mm;
-	AjaxClient('tours','update_trips','GET',data,'AfterUpdateTripsA',id,0,1);
-}
-
-
-
-//обновление вывода по задаче
-function UpdateTaskBi(id)
-{
-	var data ='url='+window.location.href+'&id='+id;
-				
-	AjaxClient('task','task_update','GET',data,'AfterUpdateTaskBi',id,0,1);
-}
-function UpdateTaskBiAdd(id)
-{
-	var data ='url='+window.location.href+'&id='+id;
-				
-	AjaxClient('task','task_update','GET',data,'AfterUpdateTaskBiAdd',id,0,1);
-}
-
-function count_task()
-{
-	$('.hidden-count-task')
-	
-	$('.search-count-task').empty().append($('.hidden-count-task').text());
-	//$('.search-count-task').slideDown( "slow" );
-}
-
-function open_task1()
-{
-	var id_task= $(this).parents('.task_block_global').attr('id_task');
-
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_task.php?id='+id_task+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });		
-	
-	
-}
-
-
-function animation_teps()
-{
-	$('.teps').each(function(i,elem) {
-	$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
-});
-}
-function animation_graf()
-{
-	$('.line-fin').each(function(i,elem) {
-		$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
-	});
-}
-
-/**
- * выбрать что-то в быстрых фильтрах в турах
- * @param e
- **/
-function filter_active_a_t(e)
-{
-	var iu=$('.content').attr('iu');
-	e.preventDefault();
-	var id_f=$(this).parents('.fi-at').attr('id');
-
-	$.cookie("su_7ftu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-	CookieList("su_7ftu"+iu, id_f,'add');
-	location.href=$(this).attr('href');
-}
-
-
-function list_number() {
-	//alert("!");
-//.next().find('li')
-	var active_new=$(this).find('a').attr("rel");
-	//alert(active_new);
-	if(active_new==2)
-	{
-		$("#date_table").show();
-		//$("#date_table").focus();
-		$('.bookingBox_range').css({
-			display:'block'
-		});
-	}
-}
-
-
-
-function filter_active_a(e)
-{
-	var iu=$('.content').attr('iu');
-	e.preventDefault();
-	var id_f=$(this).parents('.fi-a').attr('id');
-	
-	$.cookie("su_7fta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-    CookieList("su_7fta"+iu, id_f,'add');	
-	location.href=$(this).attr('href');
-}
-/**
-выбрать быстрые фильтры в задачах
- **/
-function filter_active()
-	{
-		var active_new=$(this).find('.choice-radio i');
-		var iu=$('.content').attr('iu');
-		
-		if(!active_new.is('.active_task_cb'))
-		{
-			//Делаем его активным
-			$('.js-h1-filter').find('.choice-radio i').removeClass('active_task_cb');
-			active_new.addClass('active_task_cb');
-			//заносим в cookie
-			$.cookie("su_7ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-            CookieList("su_7ta"+iu,$(this).find('.choice-radio input').val(),'add');
-			
-			if($(this).find('.choice-radio input').val()==2)
-				{
-					
-					$('.filter-wois').addClass("active-filter-s"); 
-					 $('.js-plus-filter').removeClass("active-filter-s"); $('.js-plus-filter').addClass("no-active"); 
-				} else
-					{
-					
-					    $('.filter-wois').removeClass("active-filter-s"); 
-					    $('.js-plus-filter').addClass("active-filter-s"); $('.js-plus-filter').removeClass("no-active"); 
-						$('.js-reload-top').addClass('active-r');
-					}
-			
-			
-		}
-	}
-
-/**
- выбрать быстрые фильтры в турах
- **/
-function filter_active_turs()
-{
-	var active_new=$(this).find('.choice-radio i');
-	var iu=$('.content').attr('iu');
-
-	if(!active_new.is('.active_task_cb'))
-	{
-		//Делаем его активным
-		$('.js-h1-filter-turs').find('.choice-radio i').removeClass('active_task_cb');
-		active_new.addClass('active_task_cb');
-		//заносим в cookie
-		$.cookie("su_7tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_7tu"+iu,$(this).find('.choice-radio input').val(),'add');
-
-		if($(this).find('.choice-radio input').val()==2)
-		{
-
-			$('.filter-wois').addClass("active-filter-s");
-			$('.js-plus-filter').removeClass("active-filter-s"); $('.js-plus-filter').addClass("no-active");
-		} else
-		{
-
-			$('.filter-wois').removeClass("active-filter-s");
-			$('.js-plus-filter').addClass("active-filter-s"); $('.js-plus-filter').removeClass("no-active");
-			$('.js-reload-top').addClass('active-r');
-		}
-
-
-	}
-}
-
-
-//быстрый поиск клиента открытие информации о найденном
-function choice_user_task1_uma(tabs,id_list)
-{
-		clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
-	$.arcticmodal('close');
-	if(tabs==2)
-	   {
-	   	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_org.php?id='+id_list+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-	   } else
-		   {
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_user.php?id='+id_list+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });		   
-		   }
-}
-
-
-
-/*	
-
-var search_input2_search_c=$('.js-choice-keyup');
-	
-	
-search_input2_search_c.keyup(function() {
-	//обнуляем выбор
-				
-    delays(function(){
-		
-		if((jQuery.trim(search_input2_search_c.val().length) >= search_min2_search_c)||(jQuery.trim(search_input2_search_c.val().length)==0))
-		{
-			
-			var val1= $('.js-tabs-menu-choiche').find('.active').attr('id');
-			
-                var data ='url='+window.location.href+
-					'&all='+$('.js-eshe-client-x').attr("all")+
-					'&search='+encodeURIComponent(search_input2_search_c.val())+
-				'&tabs='+val1;	
-			$('.js-icon-load').hide().after('<div class="b_loading_small" style="margin-right:-20px; position:relative; top: 0px; right: 0px; padding-top:0px;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-                AjaxClient('clients','search_client_tours','GET',data,'AfterSearchClientT',1,0);		
-		}
-		
-		
-    }, search_deley2_search_c);
-});		
-	*/
-
-//изменить в поле редактирования при выборе в списке
-function update_edit_input_eico()
-{
-	var te=$(this).parents('.select').find('a.slct').text();
-	//alert(te);
-	$(this).parents('.js-edit-input-list').find('.edit-pole-eico input').val(te);
-}
-
-
-//редактировать выдадающий список 
-function edit_eico_list()
-{
-	$(this).parents('.js-edit-input-list').removeClass('no-active-edit-20');
-	var tye=$(this).parents('.js-edit-input-list').find('.edit-pole-eico input').val();
-	$(this).parents('.js-edit-input-list').find('.edit-pole-eico input').val('').focus().val(tye);
-	
-}
-
-
-//я жду на берусь за эту задачу
-function choice_task_you()
-{
-
-	var i_c=$(this).find('i');
-	var cb_h=$(this).find('input').val();
-	
-	if($(this).parents('.task_clock_selection').length > 0)
-		{
-	
-	var id_task=$(this).parents('.task_clock_selection').attr('id_task');
-		} else
-			{
-		var id_task=$(this).parents('.task_block_global').attr('id_task');			
-			}
-	
-	if(i_c.is(':visible')) 
-	   {
-	
-	if((cb_h==0)&&(!i_c.is('.active_task_cb')))
-		{
-			  $(this).find('input').val(1);
-			  $(this).find('.choice-radio i').addClass('active_task_cb');
-			  $(this).find('.choice-head').empty().append('Вы взялись за выполнение');
-			 
-			
-			//отправляем на сервер
-			var data ='url='+window.location.href+'&id='+id_task+'&choice=1';			
-	        AjaxClient('task','task_my_task','GET',data,'AfterMyTask',id_task,0);
-			
-			
-			
-		} else
-			{
-			  $(this).find('input').val(0);
-			  $(this).find('.choice-radio i').removeClass('active_task_cb');
-				
-			  			//отправляем на сервер
-			var data ='url='+window.location.href+'&id='+id_task+'&choice=0';			
-	        AjaxClient('task','task_my_task','GET',data,'AfterMyTask',id_task,0);
-				$(this).find('.choice-head').empty().append('Забрать задачу на себя');
-				
-			  
-			}
-}
-}
-
-//ежемесячный платеж
-function choice_buy_you()
-{
-
-	var i_c=$(this).find('i');
-	var cb_h=$(this).find('input').val();
-
-
-		var id_task=$(this).parents('.buy_block_global').attr('id_buy');
-
-
-	if(i_c.is(':visible'))
-	{
-
-		if((cb_h==0)&&(!i_c.is('.active_task_cb')))
-		{
-			$(this).find('input').val(1);
-			$(this).find('.choice-radio i').addClass('active_task_cb');
-			//$(this).find('.choice-head').empty().append('Вы взялись за выполнение');
-
-
-			//отправляем на сервер
-			var data ='url='+window.location.href+'&id='+id_task+'&choice=1';
-			AjaxClient('finance','constant','GET',data,'AfterConstBuy',id_task,0,1);
-
-
-
-		} else
-		{
-			$(this).find('input').val(0);
-			$(this).find('.choice-radio i').removeClass('active_task_cb');
-
-			//отправляем на сервер
-			var data ='url='+window.location.href+'&id='+id_task+'&choice=0';
-			AjaxClient('finance','constant','GET',data,'AfterConstBuy',id_task,0,1);
-			//$(this).find('.choice-head').empty().append('Забрать задачу на себя');
-
-
-		}
-	}
-}
-
-
-//после связи с клиентом задачи
-function choice_user_task_uma(tabs,id_list)
-{
-	
-	
-	$('.js-id-client-task').val(id_list);
-	$('.js-client-type-task').val(tabs);
-	$('.js-sv-user-task span').empty().append($('.nname_choice[id_ch='+id_list+']').find('.tit').text());
-	
-	$('.js-sv-user-task').show();	
-	
-	$( '.arcticmodal-close', $('.js-s_form_xx').closest( '.box-modal' )).click();
-}
-
-
-//добавление в форму то что было выбрано
-function choice_after_end_uma(tabs,id_list)
-{
-	clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
-	$.arcticmodal('close');
-	
-	
-	$('.js-buy-turs-client').parents('.buy_turs').hide();
-	
-	$('.js-buy-turs-client').parents('.buy_turs').before('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-	
-	var data ='url='+window.location.href+'&type=1'+'&tabs='+tabs+'&id_tabs='+id_list+'&tk='+$('.h111').attr('mor')+'&id='+$('.h111').attr('for');
-    
-	AjaxClient('tours','card_client','GET',data,'AfterCardClient',1,0);		
-	
-	
-}
-
-function choice_after_end_fly_uma(tabs,id_list)
-{
-	clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
-	$.arcticmodal('close');
-	
-	//alert(id_list);
-	
-	$('.js-fly-turs-client').parents('.buy_turs').hide();
-	
-	$('.js-fly-turs-client').parents('.buy_turs').before('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-	
-	var data ='url='+window.location.href+'&type=2'+'&tabs='+tabs+'&id_tabs='+id_list+'&tk='+$('.h111').attr('mor')+'&id='+$('.h111').attr('for');
-    
-	AjaxClient('tours','card_client','GET',data,'AfterCardClient',2,0);		
-	
-	
-}
-
-
-
-
-
-//окончание выбора в окне выбора клиента нажатие выбрать
-function choice_client_end()
-{
-	var choice_id=$(this).attr('id_rel');
-	var choice_tabs=$(this).attr('tabs');
-	if(choice_id==0)
-	{
-			var text_bb22 = $('.js-choice-yyy').find('i').text();
-			$('.js-choice-yyy').find('i').empty().append('Ошибка!');
-			$('.js-choice-yyy').addClass('new-znay1');
-			setTimeout ( function () { $('.js-choice-yyy').removeClass('new-znay1'); $('.js-choice-yyy').find('i').empty().append(text_bb22);  }, 4000 );
-	} else
-	{
-		var fun= $('[name=posta]').val();
-        $.globalEval(fun+'_uma('+choice_tabs+',\''+choice_id+'\')');	
-	}
-}
-
-
-
-
-//удалить из выбранного в окне при выборе клиента
-function rrube_choice()
-{
-	var del_rel=$(this).parents('.nname_choice').attr('id_ch');
-	$(this).parents('.nname_choice').remove();
-	$('.list_client_choice[rel_notib='+del_rel+']').removeClass('yesss-ch');
-	
-					var new_choice='';
-				var no_choice=del_rel;
-				var aaaa = $('.js-choice-yyy').attr('id_rel').split(',');
-
-				var is_c=0;
-		        for (var t = 0; t < aaaa.length; t++) 
-		        { 
-					if(aaaa[t]!=no_choice)
-					{
-						if(is_c==0) { new_choice=aaaa[t];  } else { new_choice=new_choice+','+aaaa[t]; }
-						is_c++;	
-					}
-				}
-				
-				if(new_choice=='')
-				{
-					$('.js-choice-yyy').removeClass('yes_choice_client');
-	                $('.js-choice-yyy').attr('id_rel',0);	
-				} else
-				{
-					$('.js-choice-yyy').attr('id_rel',new_choice);	
-				}
-	
-}
-
-
-//клик на клиенте при выборе клиента в списке
-function click_client_choice()
-{
-	var several = $('[name=several_choice]').val();
-	if($(this).is('.yesss-ch'))
-		{
-			//уже выделен
-			//отменяем выделение
-			if(several==0)
-		{
-			//выбор только одного возможного
-	$(this).removeClass('yesss-ch');
-	$('.js-choice-yyy').removeClass('yes_choice_client');
-	$('.js-choice-yyy').attr('id_rel',0);
-			
-	$('.list_choice_yes').empty();		
-			
-			
-		} else
-			{
-				
-				$(this).removeClass('yesss-ch');
-				var new_choice='';
-				var no_choice=$(this).attr('rel_notib');
-				var aaaa = $('.js-choice-yyy').attr('id_rel').split(',');
-
-				var is_c=0;
-		        for (var t = 0; t < aaaa.length; t++) 
-		        { 
-					if(aaaa[t]!=no_choice)
-					{
-						if(is_c==0) { new_choice=aaaa[t];  } else { new_choice=new_choice+','+aaaa[t]; }
-						is_c++;	
-					} else
-					{
-						$('.list_choice_yes').find('[id_ch='+no_choice+']').remove();	
-					}
-				}
-				
-				if(new_choice=='')
-				{
-					$('.js-choice-yyy').removeClass('yes_choice_client');
-	                $('.js-choice-yyy').attr('id_rel',0);	
-				} else
-				{
-					$('.js-choice-yyy').attr('id_rel',new_choice);	
-				}
-				
-				
-			}
-			
-		} else
-			{
-	if(several==0)
-		{
-			//выбор только одного возможного
-	$('.yesss-ch').removeClass('yesss-ch');
-	var val=$(this).attr('rel_notib');
-	var val1= $('.js-tabs-menu-choiche').find('.active').attr('id');
-	$(this).addClass('yesss-ch');
-	$('.js-choice-yyy').addClass('yes_choice_client');
-	$('.js-choice-yyy').attr('id_rel',val);
-	$('.js-choice-yyy').attr('tabs',val1);
-			
-	$('.list_choice_yes').empty().append('<div class="nname_choice" id_ch="'+val+'"><span class="tit">'+$(this).find('.h_cb span').text()+'</span><span class="rrube_choice"></span></div>');		
-			
-			
-		} else
-		{
-			//можно выбрать несколько 	
-	var val=$(this).attr('rel_notib');
-	var val1= $('.js-tabs-menu-choiche').find('.active').attr('id');
-	$(this).addClass('yesss-ch');
-	$('.js-choice-yyy').removeClass('yes_choice_client').addClass('yes_choice_client');
-	$('.js-choice-yyy').attr('tabs',val1);
-			
-	var id_rr=$('.js-choice-yyy').attr('id_rel');
-		if(id_rr==0)
-			{
-				//первый выбор
-	$('.js-choice-yyy').attr('id_rel',val);
-		$('.list_choice_yes').empty().append('<div class="nname_choice" id_ch="'+val+'"><span class="tit">'+$(this).find('.h_cb span').text()+'</span><span class="rrube_choice"></span></div>');		
-			} else
-				{
-					//второй и последующий выбор
-					$('.js-choice-yyy').attr('id_rel',id_rr+','+val);
-					$('.list_choice_yes').append('<div class="nname_choice" id_ch="'+val+'"><span class="tit">'+$(this).find('.h_cb span').text()+'</span><span class="rrube_choice"></span></div>');		
-				}
-	
-			
-			
-			
-			
-		}
-			}
-}
-
-
-//выбор покупателя тура
-function js_buy_turs_client()
-{	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_choice_client.php?tabs=1&several=0&posta=choice_after_end',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');						
-    },
-    afterOpen: function(data, el) {
-		$('.loader_ada_forms').hide();
-		$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-  });		
-}
-
-
-//выбор туриста в тур
-function js_fly_turs_client()
-{	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_choice_client.php?tabs=4&tabss=0&several=1&posta=choice_after_end_fly',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');						
-    },
-    afterOpen: function(data, el) {
-		$('.loader_ada_forms').hide();
-		$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-  });		
-}
-
-
-
-
-//функция обновление цифр туристов при оформлении договора
-function UpdateNumberTuris()
-{
-	var number_ssr=1;
-	$('.active-turist-turs').each(function(i,elem) {
-	$(this).find('.span-44').empty().append(number_ssr);
-	number_ssr++;
-});
-}
-
-
-//летит или только покупает
-function loli_butt()
-{
-	var cb_h=$(this).parents('.loli_turs').find('input');
-	//var bloo=$(this).parents('.info-client-ruler');
-	if(cb_h.val()==0)
-		{
-			  cb_h.val(1);
-			
-			  $(this).find('.choice-radio i').addClass('active_task_cb');
-			  $(this).addClass('active_pass');
-			
-			//определяем какой id удалить
-			var id_deli = $(this).parents('.info-client-ruler').attr('id_rules');
-			
-			//удалить из туристов
-			$('.tot_fly_id').val(AddDellList($('.tot_fly_id').val(),id_deli,'dell'));
-			//уменьшить количество туристов
-			var count_turi=parseFloat($('.tot_fly_count').val());
-			if(count_turi!=0)
-				{
-			$('.tot_fly_count').val(count_turi-1);
-				}
-			
-			
-			$('.info-client-ruler[id_rules='+id_deli+']').removeClass('active-turist-turs');
-			
-			
-			UpdateNumberTuris();
-	
-			
-			
-			
-		}  else
-			{
-			  cb_h.val(0);
-			
-			  $(this).find('.choice-radio i').removeClass('active_task_cb');
-			  $(this).removeClass('active_pass');	
-			
-				
-	
-			//определяем какой id добавить в туристов
-			var id_deli = $(this).parents('.info-client-ruler').attr('id_rules');
-			
-			//добавить в туристов
-				var add_200=AddDellList($('.tot_fly_id').val(),id_deli,'add');
-				if(add_200!=0)
-					{
-						$('.tot_fly_id').val(AddDellList($('.tot_fly_id').val(),id_deli,'add'));
-						
-							//увеличить количество туристов
-			var count_turi=parseFloat($('.tot_fly_count').val());
-			/*
-						if(count_turi!=0)
-				{*/
-			$('.tot_fly_count').val(count_turi+1);
-			//	}
-						
-					//добавить в туристов карточку из покупателя
-					//*************************
-					$('.info-client-ruler[id_rules='+id_deli+']').addClass('active-turist-turs');
-						
-					UpdateNumberTuris();	
-						
-						
-					}
-			
-		
-			
-			
-				
-				
-				
-			}
-}
-
-
-//выбор какой паспорт
-function password_butt()
-{
-	var cb_h=$(this).parents('.password_turs').find('input');
-	if(cb_h.val()!=$(this).attr('id'))
-		{
-			  cb_h.val($(this).attr('id'));
-			  
-			  $(this).parents('.password_turs').find('.choice-radio i').removeClass('active_task_cb');
-			  $(this).parents('.password_turs').find('.input-choice-click-pass').removeClass('active_pass');
-			
-			  $(this).find('.choice-radio i').addClass('active_task_cb');
-			  $(this).addClass('active_pass');
-		} 
-}
-
-
-//Фио
-//День рождение
-//последнее сообщение
-//вылет
-//прилет
-//телефон
-
-//пол
-//латиница
-
-//загран серия
-//загран номер
-//загран кем
-//загран когда выдан
-//загран до какого
-
-//внпаспорт серия
-//внпаспорт номер
-//внпаспорт кем
-//внпаспорт когда выдан
-
-//если что то надо получить то 1 иначе 0
-//обновление каких либо данных по клиенту
-function UpdateGlobal(id_user,arr)
-{	
-	var data ='url='+window.location.href+'&tk='+$('.h111').attr('mor')+'&id='+id_user+'&arr='+arr;
-				
-	AjaxClient('clients','update_user_global','GET',data,'AfterUpdateUser',id_user,0,1);
-}
-
-function UpdateFinance(arr)
-{
-	var data ='url='+window.location.href+'&arr='+arr;
-	AjaxClient('finance','update','GET',data,'AfterUpdateFinance',arr,0,1);
-}
-
-
-
-//Название организации
-//директор
-//юр адрес
-
-//если что то надо получить то 1 иначе 0
-//обновление каких либо данных по организации
-function UpdateGlobalO(id_org,arr)
-{	
-	var data ='url='+window.location.href+'&tk='+$('.h111').attr('mor')+'&id='+id_org+'&arr='+arr;
-				
-	AjaxClient('clients','update_org_global','GET',data,'AfterUpdateOrg',id_org,0,1);
-}
-
-
-/**
- * Склонение русских имён и фамилий
- *
- * var rn = new RussianName('Паниковский Михаил Самуэльевич');
- * rn.fullName(rn.gcaseRod); // Паниковского Михаила Самуэльевича
- *
- * Список констант по падежам см. ниже в коде.
- *
- * Пожалуйста, присылайте свои уточнения мне на почту. Спасибо.
- *
- * @version  0.1.4
- * @author   Johnny Woo <agalkin@agalkin.ru>
- */
-
-var RussianNameProcessor = {
-	sexM: 'm',
-	sexF: 'f',
-	gcaseIm:   'nominative',      gcaseNom: 'nominative',      // именительный
-	gcaseRod:  'genitive',        gcaseGen: 'genitive',        // родительный
-	gcaseDat:  'dative',                                       // дательный
-	gcaseVin:  'accusative',      gcaseAcc: 'accusative',      // винительный
-	gcaseTvor: 'instrumentative', gcaseIns: 'instrumentative', // творительный
-	gcasePred: 'prepositional',   gcasePos: 'prepositional',   // предложный
-	
-	rules: {
-		lastName: {
-			exceptions: [
-				'	дюма,тома,дега,люка,ферма,гамарра,петипа,шандра . . . . .',
-				'	гусь,ремень,камень,онук,богода,нечипас,долгопалец,маненок,рева,кива . . . . .',
-				'	вий,сой,цой,хой -я -ю -я -ем -е'
-			],
-			suffixes: [
-				'f	б,в,г,д,ж,з,й,к,л,м,н,п,р,с,т,ф,х,ц,ч,ш,щ,ъ,ь . . . . .',
-				'f	ска,цка  -ой -ой -ую -ой -ой',
-				'f	ая       --ой --ой --ую --ой --ой',
-				'	ская     --ой --ой --ую --ой --ой',
-				'f	на       -ой -ой -у -ой -ой',
-				
-				'	иной -я -ю -я -ем -е',
-				'	уй   -я -ю -я -ем -е',
-				'	ца   -ы -е -у -ей -е',
-					
-				'	рих  а у а ом е',
-		
-				'	ия                      . . . . .',
-				'	иа,аа,оа,уа,ыа,еа,юа,эа . . . . .',
-				'	их,ых                   . . . . .',
-				'	о,е,э,и,ы,у,ю           . . . . .',
-		
-				'	ова,ева            -ой -ой -у -ой -ой',
-				'	га,ка,ха,ча,ща,жа  -и -е -у -ой -е',
-				'	ца  -и -е -у -ей -е',
-				'	а   -ы -е -у -ой -е',
-		
-				'	ь   -я -ю -я -ем -е',
-		
-				'	ия  -и -и -ю -ей -и',
-				'	я   -и -е -ю -ей -е',
-				'	ей  -я -ю -я -ем -е',
-		
-				'	ян,ан,йн   а у а ом е',
-		
-				'	ынец,обец  --ца --цу --ца --цем --це',
-				'	онец,овец  --ца --цу --ца --цом --це',
-		
-				'	ц,ч,ш,щ   а у а ем е',
-		
-				'	ай  -я -ю -я -ем -е',
-				'	гой,кой  -го -му -го --им -м',
-				'	ой  -го -му -го --ым -м',
-				'	ах,ив   а у а ом е',
-		
-				'	ший,щий,жий,ний  --его --ему --его -м --ем',
-				'	кий,ый   --ого --ому --ого -м --ом',
-				'	ий       -я -ю -я -ем -и',
-					
-				'	ок  --ка --ку --ка --ком --ке',
-				'	ец  --ца --цу --ца --цом --це',
-					
-				'	в,н   а у а ым е',
-				'	б,г,д,ж,з,к,л,м,п,р,с,т,ф,х   а у а ом е'
-			]
-		},
-		firstName: {
-			exceptions: [
-				'	лев    --ьва --ьву --ьва --ьвом --ьве',
-				'	павел  --ла  --лу  --ла  --лом  --ле',
-				'm	шота   . . . . .',
-				'f	рашель,нинель,николь,габриэль,даниэль   . . . . .'
-			],
-			suffixes: [
-				'	е,ё,и,о,у,ы,э,ю   . . . . .',
-				'f	б,в,г,д,ж,з,й,к,л,м,н,п,р,с,т,ф,х,ц,ч,ш,щ,ъ   . . . . .',
-
-				'f	ь   -и -и . ю -и',
-				'm	ь   -я -ю -я -ем -е',
-
-				'	га,ка,ха,ча,ща,жа  -и -е -у -ой -е',
-				'	а   -ы -е -у -ой -е',
-				'	ия  -и -и -ю -ей -и',
-				'	я   -и -е -ю -ей -е',
-				'	ей  -я -ю -я -ем -е',
-				'	ий  -я -ю -я -ем -и',
-				'	й   -я -ю -я -ем -е',
-				'	б,в,г,д,ж,з,к,л,м,н,п,р,с,т,ф,х,ц,ч	 а у а ом е'
-			]
-		},
-		middleName: {
-			suffixes: [
-				'	ич   а  у  а  ем  е',
-				'	на  -ы -е -у -ой -е'
-			]
-		}
-	},
-
-	initialized: false,
-	init: function() {
-		if(this.initialized) return;
-		this.prepareRules();
-		this.initialized = true;
-	},
-
-	prepareRules: function() {
-		for(var type in this.rules) {
-			for(var key in this.rules[type]) {
-				for(var i = 0, n = this.rules[type][key].length; i < n; i++) {
-					this.rules[type][key][i] = this.rule(this.rules[type][key][i]);
-				}
-			}
-		}
-	},
-
-	rule: function(rule) {
-		var m = rule.match(/^\s*([fm]?)\s*(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*$/);
-		if(m) return {
-			sex: m[1],
-			test: m[2].split(','),
-			mods: [m[3], m[4], m[5], m[6], m[7]]
-		}
-		return false;
-	},
-	
-	// склоняем слово по указанному набору правил и исключений
-	word: function(word, sex, wordType, gcase) {
-		// исходное слово находится в именительном падеже
-		if(gcase == this.gcaseNom) return word;
-		
-		// составные слова
-		if(word.match(/[-]/)) {
-			var list = word.split('-');
-			for(var i = 0, n = list.length; i < n; i++) {
-				list[i] = this.word(list[i], sex, wordType, gcase);
-			}
-			return list.join('-');
-		}
-		
-		// Иванов И. И.
-		if(word.match(/^[А-ЯЁ]\.?$/i)) return word;
-		
-		this.init();
-		var rules = this.rules[wordType];
-
-		if(rules.exceptions) {
-			var pick = this.pick(word, sex, gcase, rules.exceptions, true);
-			if(pick) return pick;
-		}
-		var pick = this.pick(word, sex, gcase, rules.suffixes, false);
-		return pick || word;
-	},
-	
-	// выбираем из списка правил первое подходящее и применяем 
-	pick: function(word, sex, gcase, rules, matchWholeWord) {
-		wordLower = word.toLowerCase();
-		for(var i = 0, n = rules.length; i < n; i++) {
-			if(this.ruleMatch(wordLower, sex, rules[i], matchWholeWord)) {
-				return this.applyMod(word, gcase, rules[i]);
-			}
-		}
-		return false;
-	},
-	
-	// проверяем, подходит ли правило к слову
-	ruleMatch: function(word, sex, rule, matchWholeWord) {
-		if(rule.sex == this.sexM && sex == this.sexF) return false; // male by default
-		if(rule.sex == this.sexF && sex != this.sexF) return false;
-		for(var i = 0, n = rule.test.length; i < n; i++) {
-			var test = matchWholeWord ? word : word.substr(Math.max(word.length - rule.test[i].length, 0));
-			if(test == rule.test[i]) return true;
-		}
-		return false;
-	},
-	
-	// склоняем слово (правим окончание)
-	applyMod: function(word, gcase, rule) {
-		switch(gcase) {
-			case this.gcaseNom: var mod = '.'; break;
-			case this.gcaseGen: var mod = rule.mods[0]; break;
-			case this.gcaseDat: var mod = rule.mods[1]; break;
-			case this.gcaseAcc: var mod = rule.mods[2]; break;
-			case this.gcaseIns: var mod = rule.mods[3]; break;
-			case this.gcasePos: var mod = rule.mods[4]; break;
-			default: throw "Unknown grammatic case: "+gcase;
-		}
-		for(var i = 0, n = mod.length; i < n; i++) {
-			var c = mod.substr(i, 1);
-			switch(c) {
-				case '.': break;
-				case '-': word = word.substr(0, word.length - 1); break;
-				default: word += c;
-			}
-		}
-		return word;
-	}
-}
-
-// new RussianName('Козлов Евгений Павлович')      // годится обычная форма
-// new RussianName('Евгений Павлович Козлов')      // в таком виде тоже
-// new RussianName('Козлов', 'Евгений')        // можно явно указать составляющие
-// new RussianName('Кунтидия', 'Убиреко', '', 'f') // можно явно указать пол ('m' или 'f')
-var RussianName = function(lastName, firstName, middleName, sex) {
-	if(typeof firstName == 'undefined') {
-		var m = lastName.match(/^\s*(\S+)(\s+(\S+)(\s+(\S+))?)?\s*$/);
-		if(!m) throw "Cannot parse supplied name";
-		if(m[5] && m[3].match(/(ич|на)$/) && !m[5].match(/(ич|на)$/)) {
-			// Иван Петрович Сидоров
-			lastName = m[5];
-			firstName = m[1];
-			middleName = m[3];
-			this.fullNameSurnameLast = true;
-		} else {
-			// Сидоров Иван Петрович
-			lastName = m[1];
-			firstName = m[3];
-			middleName = m[5];
-		}
-	}
-	this.ln = lastName;
-	this.fn = firstName || '';
-	this.mn = middleName || '';
-	this.sex = sex || this.getSex();
-}
-RussianName.prototype = {
-	// constants
-	sexM: RussianNameProcessor.sexM,
-	sexF: RussianNameProcessor.sexF,
-	gcaseIm:   RussianNameProcessor.gcaseIm,   gcaseNom: RussianNameProcessor.gcaseNom, // именительный
-	gcaseRod:  RussianNameProcessor.gcaseRod,  gcaseGen: RussianNameProcessor.gcaseGen, // родительный
-	gcaseDat:  RussianNameProcessor.gcaseDat,                                           // дательный
-	gcaseVin:  RussianNameProcessor.gcaseVin,  gcaseAcc: RussianNameProcessor.gcaseAcc, // винительный
-	gcaseTvor: RussianNameProcessor.gcaseTvor, gcaseIns: RussianNameProcessor.gcaseIns, // творительный
-	gcasePred: RussianNameProcessor.gcasePred, gcasePos: RussianNameProcessor.gcasePos, // предложный
-	
-	fullNameSurnameLast: false,
-	
-	ln: '', fn: '', mn: '', sex: '',
-	// если пол явно не указан, его можно легко узнать по отчеству
-	getSex: function() {
-		if(this.mn.length > 2) {
-			switch(this.mn.substr(this.mn.length - 2)) {
-				case 'ич': return this.sexM;
-				case 'на': return this.sexF;
-			}
-		}
-		return '';
-	},
-	
-	fullName: function(gcase) {
-		return (
-			(this.fullNameSurnameLast ? '' : this.lastName(gcase) + ' ')
-			+ this.firstName(gcase) + ' ' + this.middleName(gcase) +
-			(this.fullNameSurnameLast ? ' ' + this.lastName(gcase) : '')
-		).replace(/^ +| +$/g, '');
-	},
-	lastName: function(gcase) {
-		return RussianNameProcessor.word(this.ln, this.sex, 'lastName', gcase);
-	},
-	firstName: function(gcase) {
-		return RussianNameProcessor.word(this.fn, this.sex, 'firstName', gcase);
-	},
-	middleName: function(gcase) {
-		return RussianNameProcessor.word(this.mn, this.sex, 'middleName', gcase);
-	}
-}
-
-
-//икранирования я переноса текста через ajax get методом
-function ec(vv)
-{
-	return encodeURIComponent(vv);
-}
-
-//падеж имени и должности для текста устава
-function padej_woo()
-{
-	var name_woo=$('.woo1').val();
-	var head_woo=$('.woo2').val();
-	if(name_woo=='')
-	{
-		name_woo='________';
-	} else
-		{
-			var rn = new RussianName(name_woo);
-	   name_woo=rn.fullName(rn.gcaseRod);
-		}
-	if(head_woo=='')
-	{
-		head_woo='________';
-	}	else
-		{
-			var rn1 = new RussianName(head_woo);
-	   head_woo=rn1.fullName(rn1.gcaseRod)
-		}
-	
-	
-	$('.js-padej_woo_end').empty().append(head_woo+' '+name_woo+', действующего на основании Свидетельства о государственной регистрации');
-	$('.js-padej_woo_end').val(head_woo+' '+name_woo+', действующего на основании Свидетельства о государственной регистрации');
-	$('.js-padej_woo_end').trigger('keyup');
-	
-	
-}
-
-//перевод в латиницу
-function TextToLat(inp)
-{
-	var ru2en = {
-	ru_str : " АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯIабвгдеёжзийклмнопрстуфхцчшщъыьэюяi",
-  	en_str : [' ',
-            'A','B','V','G','D','E','E','ZH','Z','I','I','K','L','M','N','O','P','R','S','T',
-            'U','F','KH','TS','CH','SH','SHCH','IE','Y','','E','IU','IA','I',
-            'A','B','V','G','D','E','E','ZH','Z','I','I','K','L','M','N','O','P','R','S','T',
-            'U','F','KH','TS','CH','SH','SHCH','IE','Y','','E','IU','IA','I'
-        ]
-    }
-
-    ru2en.ru2en = {};
-  	for(var i = 0, l = ru2en.ru_str.length; i < l; i++)
-    	ru2en.ru2en[ru2en.ru_str.charAt(i)] = ru2en.en_str[i];
-
-	var re = /\S+\s\S+\s/i;
-	var temp = inp.match(re);
-	var a = inp.split("");
-
-	if(temp!=null)
-    	a = String(temp).split("");
-
-    for (var i=0,aL=a.length;i<aL;i++) {a[i] = ru2en.ru2en[a[i]]}
-    return a.join("");
-}
-
-
-
-function toTranslit(text) {
-    return text.replace(/([а-яё])|([\s_-])|([^a-z\d])/gi,
-    function (all, ch, space, words, i) {
-        if (space || words) {
-            return space ? ' ' : '';
-        }
-        var code = ch.charCodeAt(0),
-            index = code == 1025 || code == 1105 ? 0 :
-                code > 1071 ? code - 1071 : code - 1039,
-            t = ['yo', 'a', 'b', 'v', 'g', 'd', 'e', 'zh',
-                'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p',
-                'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh',
-                'shch', '', 'y', '', 'e', 'yu', 'ya'
-            ]; 
-        return t[index];
-    });
-}
-
-function close_close_window()
-{
-	clearInterval(timerId); 
-	$.arcticmodal('close');
-}
-
-// Функция удаления пробелов
-function ctrim(str)
-{
-	str = str.replace(/\s/g, '');
-	return str;
-}
-
-//выбрать из найденного клиента
-function string_res1()
-{
-	var pp=$(this).attr('id');
-	
-	$('.fox_search_result1').hide();
-	$('[name=id_search_client1]').val(pp).trigger('click');
-	
-	$('.end_search1').find('.end_one1').empty().append($(this).find(".name_search_x").html());
-	$('.end_search1').find('.end_two1').empty().append($(this).find(".phone_search_x").html());
-	$('.end_search1').show();
-	
-}
-
-
-//функция всплывающие комментарии
-function ToolTip()
-{
-	
-$("[data-tooltip]").mousemove(function (eventObject) {
-		
-		if(!$("div").is("#tooltip"))
-		{
-		  $("body").append('<div id="tooltip"></div>');
-		}
-
-        $data_tooltip = $(this).attr("data-tooltip");
-     $("#tooltip").text($data_tooltip);     
-	var offset = $(this).offset();
-	
-	    
-	//$('.debug').empty().append(offset.left+'-'+$(window).width()+'-'+$('#tooltip').width()+'-'+eventObject.pageX);
-	//var razn=offset.left+$('#tooltip').width();
-
-	if(eventObject.pageX>=($(window).width()/2))
-		{
-        $("#tooltip").css({ 
-                         "top" : eventObject.pageY + 5,
-                        "left" : eventObject.pageX - $('#tooltip').outerWidth() - 5
-		
-                     });
-                     
-			
-			setTimeout ( function () { $("#tooltip").fadeIn(500); }, 	400 );
-			
-			
-		}else
-	{
-        $("#tooltip").css({ 
-                         "top" : eventObject.pageY + 5,
-                        "left" : eventObject.pageX + 5
-                     });
-		setTimeout ( function () { $("#tooltip").fadeIn(500); }, 400 );
-                     
-	}
-    }).mouseout(function () { $("#tooltip").remove(); });
-
-}
-
-$(document).ready(function(){	
-animation_teps();
-animation_graf();
-//работа с меню	
-$('body').on("click",'.burger_ok',SliceMM);	
-$('.menu_x').clone().appendTo(".mobile-nav span");
-	
-
-	
-//получить информацию по  организации	
-$('body').on("click",".js-org",doc_org);		
-	
-//получить информацию по клиенту и организации с определенной вкладке	
-$('body').on("click",".js-client-dop",doc_user1);		
-$('body').on("click",".js-org-dop",doc_org1)	
-
-	
-//$('body').on("keyup",".js-keyup-search",KeyUpS);
-
-//Задачи работа с фильтрами
-$('body').on("change keyup input click",".js-h1-filter",filter_active);
-$('body').on("change keyup input click",".fi-a a",filter_active_a);
-
-//туры работа с фильтрами
-$('body').on("change keyup input click",".js-h1-filter-turs",filter_active_turs);
-	$('body').on("change keyup input click",".fi-at a",filter_active_a_t);
-	
-$('.index_booking').on("change keyup input click",".save_users", save_users);	
-$('.index_booking').on("change keyup input click",".save_reports", save_reports);	
-$('.index_booking').on("change keyup input click",".save_booking", save_booking);
-$('.index_booking').on("change keyup input click",".yess_booking", yess_booking);
-
-//добавление покупателя тура	
-$('.js-form-add-tours').on("change keyup input click",".js-buy-turs-client",js_buy_turs_client);
-
-//добавление туриста в тур	
-$('.js-form-add-tours').on("change keyup input click",".js-fly-turs-client",js_fly_turs_client);	
-	
-
-$('.dell_stock_searcho').bind('change keyup input click', changesort_stock2__o);
-$('.dell_stock_search_tours').bind('change keyup input click', changesort_stock2_tours);
-
-
-
-$('.menu-09').on("change keyup input click",".js-add_new_client", clients_adds);	
-	
-//$('.menu-09').on("change keyup input click",".js-add_new_task", task_adds);
-	
-$('.js-mobile-bottom-z').on("change keyup input click",".js-add_new_client", clients_adds);	
-	
-$('.mobile-bottom-z').on("change keyup input click",".js-add_new_client", clients_adds);	
-//$('.mobile-bottom-z').on("change keyup input click",".js-add_new_task", task_adds);
-$('.form_1_booking').on("change",'[name=client_new1_search]',radio_client_svv);
-$('.form_2_booking').on("change",'[name=client_new1_search]',radio_client_svv);
-	
-$('.index_booking').on("change keyup input click",".win_pribl", win_pribl);	
-$('.index_booking').on("change keyup input click",".noo_booking", noo_booking);
-$('.index_booking').on("change keyup input click",".think_booking", think_booking);
-$('.index_booking').on("change keyup input click",".call_booking", call_booking);
-	
-$('.index_booking').on("change keyup input click",".dis_bron", dis_bron);
-
-$('.clients_block').on("change keyup input click",".open_operator", copyy_clients);	
-
-
-$('.booking_sourse').on("change keyup input click",".mi_m", fly_edit);
-	
-
-$('.booking_sourse').on("change keyup input click",".js--edit--ccomment", add_edit_comment);
-		
-	
-$('.clients_block').on("change keyup input click",".clients_fly_date", fly_edit1);	
-	
-$('.clients_block').on("change keyup input click",".add_cff",  add_edit_comment1);
-	
-$('.booking_sourse').on("change keyup input click",".mi_history", fly_history);
-
-$('.trips_block_global').on("change keyup input click",".mi_history_trips", fly_history_trips);
-$('.trips_block_global').on("change keyup input click",".mi_m", fly_edit_trips);
-
-
-	//удалить объект
-	$('body').on("change keyup input click",'.js-users-del',js_users_del);
-
-	$('body').on("change keyup input click",".js_open_block", copyy);
-$('.answer_block').on("change keyup input click",".open_operator,.h57", copyy1);	
-	
-	$('.operator_block').on("change keyup input click",".del_operator_", dell_operator);
-	$('.users_block').on("change keyup input click",".del_users_", dell_users);	
-	$('.reports_block').on("change keyup input click",".del_reports_", dell_reports);		
-	
-$('.form_1_booking').on("change keyup input click",".wallet_checkbox,#name_b,#radio_bk,#phone_b,#name_client_b,#date_hidden_table_gr2,[name=client_new1_search],[name=id_search_client1]", next_step_booking);
-	
-$('.form_20_booking').on("change keyup input click","#name_b,#phone_b,#day_b", next_step_clients);	
-	
-$('.form_5_booking').on("change keyup input click",".wallet_checkbox,.radio_checkbox,#name_b,#name_b1,#name_b12,#password_b,#login_b", next_step_users);
-	
-$('.form_30_booking').on("change keyup input click","#name_b,#phone_b", next_step_reports);	
-	
-$('.form_3_booking').on("change keyup input click","#name_b", next_step_operator);	
-	
-$('.form_2_booking').on("change keyup input click",".span-44", bron_offers_select);	
-	
-$('.form_2_booking').on("change keyup input click",".click_history_avans", click_history_avans);	
-	
-	
-$('.form_4_booking').on("change keyup input click",".add_sourse_reports", add_answer);
-	
-$('.sourse_b').on("change keyup input click",".del_booking_sourse", dell_offers);
-
-$('.form_4_booking').on("change keyup input click",".del_answer_", dell_answer);	
-$('.form_4_booking').on("change keyup input click",".edit_answer_", edit_answer);
-$('.form_4_booking').on("change keyup input click",".save_anna", save_anna);
-
-$('.sourse_b').on("change keyup input click",".add_sourse_booking", add_offers);
-	
-$('.phone_us1').mask('+7 (000) 000-00-00');
-	
-
-	
-$('.form_2_booking').on("change keyup input click",".count_mask", validate11);	
-	
-/*	
-$('.form_1_booking').on("change keyup input click",".wallet_checkbox,#name_b,#phone_b,#name_client_b,#date_hidden_table_gr2,#otziv_area_adaxx,.form_offers_",function(){  $('.button_yes_no').hide(); $('.save_booking').show(); alert("!");   });	
-*/
-	
-$('.form_2_booking').on("change keyup input click",".wallet_checkbox,#name_b,#phone_b,#name_client_b,.form_offers_,#otziv_area_adaxx,.fox_dell1,#radio_bk66",function(){  $('.button_yes_no').hide(); $('.save_booking').show();    });		
-
-$('.form_4_booking').on("change keyup input click","#name_b,#phone_b,.form_offers_,#otziv_area_adaxx",function(){  $('.button_yes_no').hide(); $('.save_reports').show();    });
-	
-	
-$('.form_4_booking').on("change keyup input click",".ann_b",function(){   $(this).parents('.answer_block').find('.save_anna').show();    });	
-
-setTimeout (function(){ $('.save_anna').hide(); }, 500); // 1000 Рј.СЃРµРє
-	
-	
-//$('.time_input').mask('00:00');
-	
-	
-//маска для денежных полей	
-$('.money_mask').inputmask("numeric", {
-    radixPoint: ".",
-    groupSeparator: " ",
-    digits: 2,
-    autoGroup: true,
-    prefix: '', //No Space, this will truncate the first character
-    rightAlign: false,
-    oncleared: function () { self.Value(''); }
-});
-	
-
-	$('.date_time_picker').inputmask("datetime",{
-    mask: "1.2.y h:s", 
-    placeholder: "dd.mm.yyyy hh:mm",  
-    separator: ".", 
-    alias: "dd.mm.yyyy"
-  });	
-	
-	
-	
-});
-
-//крестик при поиске в клиентах частные лица
-var changesort_stock2_tours= function() {
-	var iu=$('.content').attr('iu');
-	$(this).prev().val('');
-	$.cookie("su_7cu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-	$('.js--sort').removeClass('greei_input');
-	$('.js--sort').find('input').removeAttr('readonly');
-
-	$('.js-reload-top').removeClass('active-r');
-	$('.js-reload-top').addClass('active-r');
-
-	$(this).hide();
-}
-
-
-//крестик при поиске в клиентах организации
-var changesort_stock2__o= function() {  
-	var iu=$('.content').attr('iu');
-	$(this).prev().val('');
-    $.cookie("su_7co"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-	$('.js--sort').removeClass('greei_input');
-	$('.js--sort').find('input').removeAttr('readonly');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');
-	
-	$(this).hide();	
-}
-
-
-
-
-
-
-
-
-//функция задержки при написании поиска в полях
-
-window.search_min = 1;  //мин количество символов для быстрого поиска
-window.search_deley=800;	//задержка между вводами символов - начало поиска
-window.search_class='.loll_soply';	//задержка между вводами символов - начало поиска
-
-
-
-//падеж 
-function NumToIndexPadej(num)
-{
- if (num>=5 || num==0) { ind=2 }
- else    //1 2-4
- {
-   var octatok=num%10;
-   if (octatok>1) { ind=1; } else { ind=0; } 
- }
- return ind;
-}
-/*
-         1    3    10
-$skl='акцию,акции,акций';
- PadejNumber($count_otziv,$skl)
-*/
-//падеж
-function PadejNumber(Age,type)
-{
-  var SKL=type.split(',');
-  var ind=NumToIndexPadej(Age);
-	
-
-  return SKL[ind];	
-}
-
-//открытие мобайл меню	
-//  |
-// \/	
-
-window.SliceMM = function() { 
-	var tr_s=$('.burger_ok');
-	var mobile=$('.mobile-nav');
-	if(tr_s.is(".active")) 
-	  {
-		  tr_s.removeClass("active");
-		  mobile.removeClass("act");
-		  $('body').removeClass("menu-open");
-		  
-	  } else
-	  {
-		  tr_s.addClass("active");
-		  mobile.addClass("act");
-		  $('body').addClass("menu-open");
-	  }
-	
-	
-}
-
-
-function InputFocusNew1()
-{
-	//alert("!");
-	var val_input=$(this).val();
-	var label=$(this).parents('.ok-input-title-2019').find('label');
-	var input_div=$(this).parents('.ok-input-title-2019');
-	
-	if(!input_div.is('.active_in_2019'))
-	{
-		input_div.addClass('active_in_2019');	
-	}
-	
-	if(!input_div.is('.active1_in_2019'))
-	{
-		input_div.addClass('active1_in_2019');	
-	}
-	
-	//может надо открыть календарь
-	var calendar=input_div.find('.cal_2019');
-	if(calendar.length!=0)
-	{
-			$(".date___2019").show();	
-	}
-	
-	 
-	
-}
-
-
-/**
- * удалить пользователя
- */
-function js_users_del(event)
-{
-	if (typeof timerId != 'undefined') {
-
-		clearInterval(timerId);
-		$.arcticmodal('close');
-
-	}
-
-	if($(this).is('[id_rel]'))
-	{
-		var id_buy= $(this).attr('id_rel');
-	} else {
-		var id_buy = $(this).parents('.users_block').attr('op_rel');
-	}
-
-	event.stopPropagation();
-/*
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/users/form_dell_users.php?id_buy='+id_buy,
-		afterLoading: function(data, el) {
-			//alert('afterLoading');
-		},
-		afterLoadingOnShow: function(data, el) {
-			//alert('afterLoadingOnShow');
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
-		}
-
-	});
-*/
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/users/form_dell_users.php?id_buy='+id_buy,
-		beforeOpen: function(data, el) {
+    url: 'forms/form_add_stock.php',
+		beforeOpen: function (data, el) {
 			//во время загрузки формы с ajax загрузчик
 			$('.loader_ada_forms').show();
 			$('.loader_ada1_forms').addClass('select_ada');
 		},
-		afterLoading: function(data, el) {
+		afterLoading: function (data, el) {
 			//после загрузки формы с ajax
 			data.body.parents('.arcticmodal-container').addClass('yoi');
 			$('.loader_ada_forms').hide();
 			$('.loader_ada1_forms').removeClass('select_ada');
 		},
-		beforeClose: function(data, el) { // после закрытия окна ArcticModal
-			if(typeof timerId !== "undefined")
-			{
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
 				clearInterval(timerId);
 			}
 			BodyScrool();
 		}
 
-	});
-
-
-
-}
-
-function InputBlurNew1()
-{
-	//alert($(this).val());
-	var val_input=$(this).val();
-	var label=$(this).parents('.ok-input-title-2019').find('label');
-	var input_div=$(this).parents('.ok-input-title-2019');
-	
-	input_div.removeClass('active1_in_2019');
-	
-	if(val_input=='')
-	{
-		input_div.removeClass('active_in_2019');	
-	} else
-	{
-		input_div.removeClass('error_formi_2019');		
-	}
-}
-
-//активация инпутов 2019
-function input_2019()
-{
-	//alert("!");
-	//перебрать все новые инпуты и если не пусто активировать
-	$(".input_new_2019").each(function (index, value) { 
-
-   var input=$.trim($(this).val());
-   if(input!='')
-	   {
-		   $(this).parents('.ok-input-title-2019').addClass('active_in_2019');
-	   }
-}); 
-	
-}
-//активация инпутов 2018
-function input_2018()
-{
-	//перебрать все новые инпуты и если не пусто активировать
-	$(".input_new_2018").each(function (index, value) { 
-
-   var input=$.trim($(this).val());
-   if(input!='')
-	   {
-		   $(this).parents('.input_2018').addClass('active_in_2018');
-	   }
-}); 
-	
-}
-
-
-function copyy()
-{
-	var block = $(this);
-		if ( block.is(".active_operator_x") )
-    {
-		
-		block.removeClass('active_operator_x');
-		
-	} else
-		{
-			block.addClass('active_operator_x');
-		}
-}
-
-function copyy_clients()
-{
-	var block=$(this).parents('.clients_block');
-		if ( block.is(".active_operator_x") )
-    {
-		
-		block.removeClass('active_operator_x');
-		
-	} else
-		{
-			block.addClass('active_operator_x');
-		}
-}
-
-
-function copyy1()
-{
-	var block=$(this).parents('.answer_block');
-		if ( block.is(".active_operator_x") )
-    {
-		
-		block.removeClass('active_operator_x');
-		
-	} else
-		{
-			block.addClass('active_operator_x');
-		}
-}
-
-function click_history_avans()
-{
-	var id= $(this).attr('op_uo');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_history_prepaid.php?id='+id,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
   });
+	
 }
 
 
-function radio_client_svv()
+function dell_invoice()
 {
-	var val=$(this).val();
-	if(val==0)
-	{
-		$('.two_client_box_add').slideUp("slow", function() {$('.one_client_box_add').slideDown(); });
-	} else
-		{
-		$('.one_client_box_add').slideUp("slow", function() {$('.two_client_box_add').slideDown(); });	
-		}
-}
-
-//уточнение времени вылетов туриста в клиентском списке
-function fly_edit1()
-{
-		var id= $(this).attr('id_fly');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_fly_edit1.php?id='+id,
-   	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-
-//история изменения времени и даты вылетов
-function fly_history()
-{
-	var id= $(this).parents('.booking_sourse').attr('id_offers');
+	var attr=$(this).attr('id_rel');
+	$('[invoice_material='+attr+']').hide();
+	
 	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_fly_history.php?id='+id,
-		beforeOpen: function(data, el) {
+    type: 'ajax',
+    url: 'forms/form_dell_invoice.php?id='+attr,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
 			$('.loader_ada_forms').show();
 			$('.loader_ada1_forms').addClass('select_ada');
-
 		},
-		afterOpen: function(data, el) {
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
 			$('.loader_ada_forms').hide();
 			$('.loader_ada1_forms').removeClass('select_ada');
 		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
 		}
 
-	});
-}
-
-
-//история изменения времени и даты вылетов для туров
-function fly_history_trips()
-{
-		var id= $(this).parents('.trips_block_global').attr('id_trips');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_fly_history_trips.php?id='+id,
-   	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
   });
+	
 }
 
-//изменить добавить комментарий к отдыху
-function add_edit_comment()
+//убрать акт на брак
+function material_defect_dell()
 {
-		var id= $(this).parents('.booking_sourse').attr('id_offers');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_edit_comment.php?id='+id,
-   	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
+	var attr=$(this).attr('id_rel');
+	$('[invoice_material='+attr+']').find('.defect_inp').val('0');
+	$('[invoice_material='+attr+']').next().hide();
+	$('[invoices_messa='+attr+']').find('.count_defect_in_').val('');
+		$('[invoices_messa='+attr+']').find('.text_zayva_message_').val('');
 }
 
-//изменить добавить комментарий к отдыху
-function add_edit_comment1()
+//добавить - убрать акт на брак
+function material_defect()
 {
-		var id= $(this).parents('.clients_comment').attr('id_offers');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_edit_comment.php?id='+id,
-   	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-
-//уточнение времени вылетов туриста в заявке
-function fly_edit()
-{
-		var id= $(this).parents('.booking_sourse').attr('id_offers');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_fly_edit.php?id='+id,
-   	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
+	var attr=$(this).attr('id_rel');
+	var defect=$('[invoice_material='+attr+']').find('.defect_inp').val();
+	
+	if(defect==0)
+	{
+			$('[invoice_material='+attr+']').find('.defect_inp').val('1');
+		    $('[invoice_material='+attr+']').next().show();
+	} else
+	{
+		    $('[invoice_material='+attr+']').find('.defect_inp').val('0');
+			$('[invoice_material='+attr+']').next().hide();
+		$('[invoices_messa='+attr+']').find('.count_defect_in_').val('');
+		$('[invoices_messa='+attr+']').find('.text_zayva_message_').val('');
+	}
 }
 
 
-//уточнение времени вылетов туриста в туре
-function fly_edit_trips()
-{
-	var id= $(this).parents('.trips_block_global').attr('id_trips');
-	$.arcticmodal({
-		type: 'ajax',
-		url: 'forms/form_fly_edit_trips.php?id='+id,
-		beforeOpen: function(data, el) {
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
+function  UpdateImageInvoiceAkt(id,type)
+{	
+	var data ='url='+window.location.href+'&id='+id+'&type='+type;
+    AjaxClient('invoices','update_akt','GET',data,'AfterUpdateAkt',type,0);	
+}
 
-		},
-		afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		afterClose: function(data, el) { // после закрытия окна ArcticModal
-			clearInterval(timerId);
+
+function dell_invoice_material()
+{
+	var attr=$(this).attr('id_rel');
+	$('[invoice_material='+attr+']').hide();
+	$('[invoices_messa='+attr+']').hide();
+	
+	var data ='url='+window.location.href+'&id='+attr;
+    AjaxClient('invoices','dell_material','GET',data,'AfterDellMaterialInvoice',attr,0);	
+	
+}
+
+
+function nds_invoice()
+{
+	var nds=$('#ispol_type_invoice').val();
+	
+	
+	if(!$('#number_invoice').is('[readonly]'))
+			{
+	
+	$('.price_in_,.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');	
 		}
-
-	});
-}
-
-//посмотреть историю платежей
-function win_pribl()
-{
-	var id= $(this).attr('for');
-	    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_history_payment.php?id='+id,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-
-
-//забронировать заявку
-function yess_booking()
-{
-	var id= $(this).parents('.button_yes_no').attr('for');
-
-
-    var data ='url='+window.location.href+'&id='+id;
-    AjaxClient('booking','bron_booking','GET',data,'Afterbron_booking',id,0);
-}
-
-//сохранить заявку
-function save_booking()
-{
-	 var err = 0;		
-	 $(".sourse_error,.sourse_error1,#name_b,#phone_b,#otziv_area_adaxx,#name_client_b,#date_hidden_table_gr2").removeClass('error_formi');
 	
-	 $('.new_search_add_book').removeClass('error_2019_in');
-	
-     if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	 if($("#radio_bk").val() == '') { $(".sourse_error1").addClass('error_formi'); err++;	}
-	
-	
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	//if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}	
-	
-	//if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-	
-	
-	if($('[name=client_new1_search]').val()==0)
-	{
-	       if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-		
-			      // if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-		
-	} else
-	{
-			if(($("[name=id_search_client1]").val() == '0')||($("[name=id_search_client1]").val() == ''))  { $(".new_search_add_book").addClass('error_2019_in'); err++;	}	
-	}
-	
-	
-	if($("#date_hidden_table_gr2").val() == '')  { $("#date_hidden_table_gr1").addClass('error_formi'); err++;	}
-	if(err!=0)
-	{
-	$('.error_text_add').empty().append('Не все поля заполнены для сохранения').show();
-	setTimeout ( function () { $('.error_text_add').hide(); }, 7000 );
-	} else
-	{
-		$('#lalala_add_form').submit();	
-	}
-}
-
-function save_reports()
-{
-	//alert("!");
-		 var err = 0;		
-	 $("#name_b,#phone_b").removeClass('error_formi');
-     
-	
-	
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	if(err!=0)
-	{
-	$('.error_text_add').empty().append('Не все поля заполнены для сохранения').show();
-	setTimeout ( function () { $('.error_text_add').hide(); }, 7000 );
-	} else
-	{
-		$('#lalala_add_form').submit();	
-	}
-}
-
-function save_users()
-{
-	//alert("!");
-		 var err = 0;		
-	 $(".sourse_error,.sourse_error1,#name_b,#name_b1,#login_b,#password_b").removeClass('error_formi');
-     if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	 if($("#radio_bk").val() == '') { $(".sourse_error1").addClass('error_formi'); err++;	}
-	
-	
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#name_b1").val() == '')  { $("#name_b1").addClass('error_formi'); err++;	}
-	
-	if($("#login_b").val() == '')  { $("#login_b").addClass('error_formi'); err++;	}
-	if(err!=0)
-	{
-	$('.error_text_add').empty().append('Не все поля заполнены для сохранения').show();
-	setTimeout ( function () { $('.error_text_add').hide(); }, 7000 );
-	} else
-	{
-		$('#lalala_add_form').submit();	
-	}
-}
-
-function next_step_reports()
-{
-   var err = 0;		
-	$("#name_b,#phone_b").removeClass('error_formi');
- 
-
-	if($("#name_b").val() == '')  {  err++;	}
-	if($("#phone_b").val() == '')  {  err++;	}
-	
-
-	//alert("!");
-	var step=$('.send_form_reports');
-	if(err!=0)
-	{
-		step.removeClass("greeen");
-	} else
-	{
-		var step=$('.send_form_reports');
-if(!step.is('.greeen'))
-	{
-		step.addClass("greeen");
-	}
-		//даем возможность отправить форму
-		
-	}	
-}
-
-function next_step_users()
-{
-    var err = 0;		
-	$(".sourse_error,.sourse_error1,#name_b,#name_b1,#login_b,#password_b").removeClass('error_formi');
- 
-     if($("#sourse_b").val() == '') {  err++;	}
-	 if($("#radio_bk").val() == '') {  err++;	}
-	
-	
-	if($("#name_b").val() == '')  {  err++;	}
-	if($("#name_b1").val() == '')  {  err++;	}
-	
-	if($("#login_b").val() == '')  {  err++;	}
-	if($("#password_b").val() == '')  {  err++;	}
-	
-	var step=$('.send_form_users');
-	if(err!=0)
-	{
-		step.removeClass("greeen");
-	} else
-	{
-		var step=$('.send_form_users');
-if(!step.is('.greeen'))
-	{
-		step.addClass("greeen");
-	}
-		//даем возможность отправить форму
-		
-	}	
-}
-
-function next_step_operator()
-{
-    var err = 0;		
-	$("#name_b").removeClass('error_formi');
- 
-  /*
-    if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}	
-	if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-	if($("#date_hidden_table_gr2").val() == '')  { $("#date_hidden_table_gr1").addClass('error_formi'); err++;	}	
-*/
-   
-	if($("#name_b").val() == '')  {  err++;	}
-	//if($("#phone_b").val() == '')  {  err++;	}	
-	
-	var step=$('.add_invoice_booking');
-	if(err!=0)
-	{
-		step.removeClass("greeen");
-	} else
-	{
-		var step=$('.add_invoice_booking');
-if(!step.is('.greeen'))
-	{
-		step.addClass("greeen");
-	}
-		//даем возможность отправить форму
-		
-	}
-
-}
-
-function next_step_booking()
-{
-	//alert("!");
-    var err = 0;		
-	$(".sourse_error,.sourse_error1,#name_b,#otziv_area_adaxx,#phone_b,#name_client_b,#date_hidden_table_gr2").removeClass('error_formi');
- 
-	$('.new_search_add_book').removeClass('error_2019_in');
-	
-	
-  /*
-    if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}	
-	if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-	if($("#date_hidden_table_gr2").val() == '')  { $("#date_hidden_table_gr1").addClass('error_formi'); err++;	}	
-*/
-    if($("#sourse_b").val() == '') {  err++;	}
-	
-	if($("#radio_bk").length!=0)
-	{
-		if($("#radio_bk").val() == '') {  err++;	}	
-	}
-	if($("#name_b").val() == '')  {  err++;	}
-	
-	if($('[name=client_new1_search]').val()==0)
-	{
-	  	if($("#name_client_b").val() == '')  {  err++;	}
-	} else
-	{
-	if($('[name=id_search_client1]').val()==0)
-	        {  err++;	}
-	}
-	//if($("#phone_b").val() == '')  {  err++;	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	if($("#date_hidden_table_gr2").val() == '')  { err++; }		
-	
-	var step=$('.add_invoice_booking');
-	if(err!=0)
-	{
-		step.removeClass("greeen");
-	} else
-	{
-		var step=$('.add_invoice_booking');
-if(!step.is('.greeen'))
-	{
-		step.addClass("greeen");
-	}
-		//даем возможность отправить форму
-		
-	}
-
-}
-
-function next_step_clients()
-{
-	//alert("!");
-    var err = 0;		
-	$("#name_b,#phone_b,#day_b").removeClass('error_formi');
- 
-	$('.new_search_add_book').removeClass('error_2019_in');
-	
-	
-  /*
-    if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}	
-	if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-	if($("#date_hidden_table_gr2").val() == '')  { $("#date_hidden_table_gr1").addClass('error_formi'); err++;	}	
-*/
-    
-	if($("#name_b").val() == '')  {  err++;	}
-	if($("#day_b").val() == '')  {  err++;	}
-		if($("#phone_b").val() == '')  {  err++;	}
-	
-
-	//if($("#phone_b").val() == '')  {  err++;	}
-	
-	
-	
-	
-	
-	
-		
-	
-	var step=$('.add_invoice_booking');
-	if(err!=0)
-	{
-		step.removeClass("greeen");
-	} else
-	{
-		var step=$('.add_invoice_booking');
-if(!step.is('.greeen'))
-	{
-		step.addClass("greeen");
-	}
-		//даем возможность отправить форму
-		
-	}
-
-}
-
-
-var delay1 = (function(th){ 
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-
-var delays = (function(){
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-
-//функция проверки ввода только чисел и с запятой
-var validate11 = function() {
-  $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
-}
-//функция проверки ввода только целых чисел
-var validate12 = function() {
-  	$(this).val($(this).val().replace(/[^\d]*/g, '').replace(/([])[]+/g, '$1').replace(/^[^\d]*(\d+([]\d{0,5})?).*$/g, '$1'));
-}
-
-function animation_teps_supply()
-{
-	$('.teps_supply').each(function(i,elem) {
-	$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
-});
-}
-
-
-//думают над предложениями
-function think_booking()
-{
-	 var id= $(this).parents('.button_yes_no').attr('for');	
-	 var data ='url='+window.location.href+'&id='+id;
-    AjaxClient('booking','think_booking','GET',data,'After_think_booking',id,0);
-	
-}
-
-//отменить покупку
-function dis_bron()
-{
-	var id= $(this).attr('dis');
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_disable_booking.php?id='+id,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-
-//позвонить по заявке
-function call_booking()
-{
-var id= $(this).parents('.button_yes_no').attr('for');																
-
-					
-				   			$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_call_booking.php?id='+id,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });		
-}
-
-
-//отказались от путевки
-function noo_booking()
-{
-	var id= $(this).parents('.button_yes_no').attr('for');				
-					
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_no_booking.php?id='+id,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-						$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-
-
-
-//добавление нового пользователя
-function clients_adds()
-{
-	if(typeof timerId !== "undefined")
+	if(nds==1)
 		{
-	clearInterval(timerId); 
-	$.arcticmodal('close');
-		}
-	var at= $(this).attr('tabs_g');
-	
-	var ppor='?tabs='+at;
-	if ($('.box-modal [name=posta]').length > 0) { 
-		ppor=ppor+'&posta='+$('.box-modal [name=posta]').val();
-	}
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_user.php'+ppor,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-	
-}
-
-
-//вывод информации по организации
-function doc_org()
-{
-	var for_id=$(this).attr('iod');
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_org.php?id='+for_id+'&tabs=0',
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		ToolTip();
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-	
-}
-
-//вывод информации по организации на определенной вкладке
-function doc_org1()
-{
-	var for_id=$(this).attr('iod');
-	var tabs=$(this).attr('tabs');
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_org.php?id='+for_id+'&tabs='+tabs,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-	
-}
-
-
-
-//вывод информации по клиенту на определенной вкладке
-function doc_user1()
-{
-	var for_id=$(this).attr('iod');
-	var tabs=$(this).attr('tabs');
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_doc_user.php?id='+for_id+'&tabs='+tabs,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-	
-}
-
-//Добавление вопроса к отчету
-function add_answer()
-{
-	var for_id=$(this).attr('for');
-
-				   			$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_answer.php?id='+for_id,
-	beforeOpen: function(data, el) {
-        $('.loader_ada_forms').show();
-		$('.loader_ada1_forms').addClass('select_ada');
-						
-    },
-    afterOpen: function(data, el) {
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-
-//добавление предложения в заявке
-function add_offers()
-{
-
-	var for_id=$('.add_sourse_booking').attr('for');
-
-
-    var data ='url='+window.location.href+'&id='+for_id;
-    AjaxClient('booking','add_offers','GET',data,'AfterAdd_offers',for_id,0);
-	
-	
-	$('.button_yes_no').hide(); $('.save_booking').show();
-	
-}
-
-
-//постфункция поиска клиента
-function AfterSearchClient1(d,c){
-	
-$('.b_loading_small').remove();
-$('.fox_dell1').show();	
-	
-	if(d.status=="ok"){
-	
-
-	
-if($(".fox_search_result1").css("display")!="block"){$(".fox_search_result1").show();var a=false;
-																								 
-$(document).bind("click.myEvent",function(f){if(!a&&$(f.target).closest(".fox_search_result1").length==0){$(".fox_search_result1").hide();
-
-$(document).unbind("click.myEvent")}a=false})}
-												   
-$(".fox_search_result1").empty().append(d.query);$(".fox_search_result1").show()}else{$(".fox_search_result1").hide()}}
-
-//постфункция проверка телефона в базе данных клиентов
-function AfterTruePhone(d,c){
-	
-//$('.b_loading_small').remove();
-//$('.fox_dell1').show();	
-	
-	if(d.status=="ok")
-	{
-	  if(d.echo=="1")
-		 
-	  {
-		  if($('.js-true-phone').is('[old_value]'))
-		  {
+			$('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
+			$('.cosy_title').empty().append('Цена');
+			$('.price_in_').prev('label').empty().append('ЦЕНА');
+			$('.price_nds_in_').val(0);
+			$('.title_itog_invoice').empty().append('Итого сумма');
 			
-			  if($('.js-true-phone').val()!=$('.js-true-phone').attr('old_value'))
-				  {
-					  $(".js-open-phone").show(); $('.js-true-phone').parents('.input_2018').addClass('error_2018');
-		  $('.js-true-search-phone').val(1);
-				  } else
-					  {
-						   $(".js-open-phone").hide(); $('.js-true-phone').parents('.input_2018').removeClass('error_2018');
-			   $('.js-true-search-phone').val(0);
-					  }
-		  } else
-			  {
-		  
-		  
-		  $(".js-open-phone").show(); $('.js-true-phone').parents('.input_2018').addClass('error_2018');
-		  $('.js-true-search-phone').val(1);
-			  }
-		  
-	  } else
-		  {
-			  $(".js-open-phone").hide(); $('.js-true-phone').parents('.input_2018').removeClass('error_2018');
-			   $('.js-true-search-phone').val(0);
-			  
-		  }
-		
+			$('.checkbox_cost_inv').hide();
+			
+		} else
+			{
+				$('.checkbox_cost_inv').show();
+				$('.cosy_title').empty().append('Цена без Ндс<div class="checkbox_cost_inv no_nds"><i></i></div>');
+				
+				if($('.yes_nds').length==0)
+				{
+					$('.checkbox_cost_inv').remove();
+				}
+				
+				$('.price_in_').prev('label').empty().append('ЦЕНА БЕЗ НДС');
+				
+				var nds_x=$('[name=nds_ff]').val();
+				var mojno= $('#number_invoice').is('.grey_edit');
+				if(!$('#number_invoice').is('.grey_edit'))
+					{
 	
-	}else{   $(".js-open-phone").hide(); $('.js-true-phone').parents('.input_2018').removeClass('error_2018'); $('.js-true-search-phone').val(0);  }
-
+				if((nds_x==0))
+				{		
+				
+				$('.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');	
+				$('.price_in_').val(0);
+				$('.price_in_').prop('readonly',true).addClass('grey_edit');
+				} else
+				{
+				$('.price_in_').removeAttr('readonly').removeClass('grey_edit');		
+				$('.price_nds_in_').val(0);
+				$('.price_nds_in_').prop('readonly',true).addClass('grey_edit');						
+				}
+					}
+				$('.title_itog_invoice').empty().append('Итого сумма с ндс');
+				
+				
+				var nds_x=$('[name=nds_ff]').val();
+$('.yes_nds,.no_nds').parents('th').removeClass('active_n_ac');
+	if(nds_x==0)
+		{
+			$('.yes_nds').parents('th').addClass('active_n_ac');
+		} else
+		{	
+			$('.no_nds').parents('th').addClass('active_n_ac');
+		}
+				
+			}
+	
+	
+	
+	
+	//пересчитать сумму накладной
+	itog_invoice();
+	//cosy_title
 }
 
 
 
 
-//постфункция проверки отправки на бронирование заявки
-function Afterbron_booking(data,update)
+function ErrorMax()
 {
-		if ( data.status=='reg' )
-    {
-		WindowLogin();
+	
+	var max=parseFloat($(this).attr('max'));
+	$(this).removeClass('redaas_invcoice');
+	var count=parseFloat($(this).val());
+	
+	//alert(id);
+	
+	if((count!='')&&(max<count)&&(count!='0'))
+	{
+			$(this).addClass('redaas_invcoice');
+	} else
+	{
+			//$('[invoices_messa='+id+']').find('.count_defect_in_').removeClass('redaas_invcoice');
 	}
 	
-	if ( data.status=='ok' )
-    {	
-			if ( data.count==1 )
+}
+
+
+
+
+
+
+
+//проверка количество брака не больше общего количества этого материала
+
+function BrakError()
+{
+	
+	var id=$(this).parents('[invoice_group]').attr('invoice_group');
+	$('[invoices_messa='+id+']').find('.count_defect_in_').removeClass('redaas_invcoice');
+	var count=parseFloat($('[invoice_material='+id+']').find('.count_in_').val());
+	var count_akt=parseFloat($('[invoices_messa='+id+']').find('.count_defect_in_').val());
+	
+	//alert(id);
+	
+	if((count_akt!='')&&(count_akt>count)&&(count!=''))
+	{
+			$('[invoices_messa='+id+']').find('.count_defect_in_').addClass('redaas_invcoice');
+	} else
+	{
+			//$('[invoices_messa='+id+']').find('.count_defect_in_').removeClass('redaas_invcoice');
+	}
+	
+}
+
+function change_option_invoice()
+{
+	var nds_x=$('[name=nds_ff]').val();
+	$('.price_in_,.price_nds_in_').val(0);
+	
+	
+	
+	
+	if(nds_x==0)
+		{
+			$('[name=nds_ff]').val('1');
+			$('.yes_nds').parents('th').removeClass('active_n_ac');
+			$('.no_nds').parents('th').addClass('active_n_ac');
+		} else
+		{
+			$('[name=nds_ff]').val('0');	
+			$('.no_nds').parents('th').removeClass('active_n_ac');
+			$('.yes_nds').parents('th').addClass('active_n_ac');
+		}
+	nds_invoice();
+}
+
+
+function countErrorMax()
+{
+	
+	var xvg=$('.count_in_');
+	xvg.each(function(i,elem) {
+		var max=parseFloat($(this).attr('max'));
+	    $(this).removeClass('redaas_invcoice');
+	    var count=parseFloat($(this).val());
+		
+	    if((count!='')&&(max<count)&&(count!='0'))
+	    {
+			$(this).addClass('redaas_invcoice');
+	    }
+	});
+}
+
+
+
+function itog_invoice()
+{
+	var nds=$('#ispol_type_invoice').val();
+	
+	var xvg=$('[invoice_material]');
+	var summ_xvg=0;
+	var summ_defect=0;
+	xvg.each(function(i,elem) {
+		
+		
+			var count= parseFloat($(this).find('.count_in_').val());
+	        var price= parseFloat($(this).find('.price_in_').val());
+		    var price_nds= parseFloat($(this).find('.price_nds_in_').val());
+		    var defect_in=parseFloat($(this).find('.defect_inp').val());
+		
+		if(nds==0)
+		{
+				//с ндс 
+			
+			    //если указана цена с ндс то просто умножаем на количество
+			
+			var nds_x=$('[name=nds_ff]').val();
+			
+			
+			//alert(price_nds);
+			    if((price_nds!=0)&&(price_nds!='')&&($.isNumeric(price_nds))&&(nds_x==0))
 				{
-					//отправляем на бронирование
-				   			$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_bron_booking_end.php?id='+update,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-					$(".slct").unbind('click.sys');
-    $(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-				ToolTip();	
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });						
+					var value=(count*price_nds).toFixed(2);
+					$(this).find('.price_in_').val(((price_nds*100)/118).toFixed(2));
+					if(price_nds==0)
+						{
+							//$(this).val(0);
+						}
+				if(defect_in!=0)
+				{
+					var count_defff=$(this).next().find('.count_defect_in_').val();
+					if(($.isNumeric(count_defff))&&(count_defff!=''))
+						{
+							summ_defect=(summ_defect+(count_defff*price_nds));
+						}
+				}				
 					
 				} else
 				{
-					      var count_offers= $("[id_offers]").length;																
-
+				//если цена с ндс пусто то обычную цену +18% ндс
+					if((nds_x==1)&&($.isNumeric(price))&&(price!=''))
+						{
+				var value=(count*(price*1.18)).toFixed(2);
+				$(this).find('.price_nds_in_').val((price*1.18).toFixed(2));
+						}
 					
-				   			$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_bron_booking.php?id='+update+'&number='+(count_offers-1),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
+					
+					if(defect_in!=0)
+				{
+					var count_defff=$(this).next().find('.count_defect_in_').val();
+					if(($.isNumeric(count_defff))&&(count_defff!=''))
+						{
+							summ_defect=(summ_defect+(count_defff*(price*1.18)));
+						}
 				}
-    
-}
-}
-
-//постфункция думают над предложениями
-function After_think_booking(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {		
-	    autoReloadHak();	
-	}
-}
-
-//постфункция при добавление вопроса к отчету
-function AfterAdd_answer(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {		
-		//
+					
+					
+				}	    
+		} else
+		{
+				//без ндс
 			
-	var count_offers= $("[op_rel]").length;																
-	  $('.count_offers_ajax').empty().append(count_offers-1);
-	  
-      var tytt=PadejNumber((count_offers-1),'вопрос к отчету,вопроса к отчету,вопросов к отчету');													
-	  $('.padej_offers').empty().append(tytt);			
+			    //просто умножаем количество на стоимость
+			    var value=(count*price).toFixed(2);	
+			
+			    if(defect_in!=0)
+				{
+					var count_defff=$(this).next().find('.count_defect_in_').val();
+					if(($.isNumeric(count_defff))&&(count_defff!=''))
+						{
+							summ_defect=(summ_defect+(count_defff*price));
+						}
+				}
+			
+		}
+		
+				
+		if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	    {    
+		    $(this).find('.summa_ii').empty().append(value);
+			summ_xvg=(parseFloat(summ_xvg)+parseFloat(value)).toFixed(2);
+	    } else
+		{
+			$(this).find('.summa_ii').empty().append('0');	
+		}
 		
 		
-	  $('.add_sourse_reports').before(data.echo);		
+	});
 	
+	if((summ_defect!=0)&&(summ_defect!='')&&($.isNumeric(summ_defect)))
+	{ 
+		$('.itogss_defect').show();
+		$('.itog_invoice_defect').empty().append(summ_defect.toFixed(2));
 		
+	} else
+		{
+		$('.itogss_defect').hide();
+		$('.itog_invoice_defect').empty().append('0');	
+		}
+	
+	
+	$('.itog_invoice').empty().append(summ_xvg);
+	
+	if((summ_xvg!=0)&&(nds==0))
+	{
+	  var summ_xvg_nds=(summ_xvg/1.18*0.18).toFixed(2);
+	  $('.itog_invoice_nds').empty().append(summ_xvg_nds);
+		$('.itogss_nds').show();
+	} else
+	{
+		$('.itog_invoice_nds').empty();
+		$('.itogss_nds').hide();
+	}
+		
+	
+	
+	
+}
 
+
+function search_posta_li2()
+{
+	$('.contractor_add').hide();
+	$('.select-mania-theme-orange1').show();
+	
+	$('.new_contractor_').val(0);	
+}
+
+function plus_postt()
+{
+	$('.contractor_add').show();
+	$('.contractor__').hide();
+	$('.new_contractor_').val(1);
+}
+
+
+function yoop_click()
+{
+	//alert("!");
+	var hl=$(this).parents('.yoop_');
+	if ( hl.is(".hide_yoop") )
+    {
 		
+		hl.removeClass('hide_yoop');
 		
+	} else
+		{
+			hl.addClass('hide_yoop');
+		}
+}
+
+
+function search_posta_li()
+{
+	$('.loll_drop').css("transform", "scaleY(0)");
+	$('.post_p').val($(this).find('a').attr('rel'));
+	$(this).parents('.loll_div').removeClass('required_in_2018');
+	$('[name=number_soply]').val($(this).find('a').text().toUpperCase());
+	$('[name=number_soply]').attr('val_old',$(this).find('a').text().toUpperCase());
+	$('.b-loading-message').empty().hide();
+}
+
+function search_posta1()
+{
+if($.trim($(this).val().length) >= 1)
+		{
+		  $('.loll_drop').css("transform", "scaleY(1)");	
+		} 
+}
+	
+function search_posta()
+{
+	    //проверить что поле можно править
+	//alert("!!");
+	if($(this).attr("readonly")==undefined) {
+		if($.trim($(this).val().length) >= 1)
+		{
+		  $(this).parents('.loll_div').find('.loll_dell').show();	
+		} else
+		{
+			$(this).parents('.loll_div').find('.loll_dell').hide();
+		}
+	var th=$(this);
+	
+    delay1(function(th){
+		//alert(th.val());
+		
+		if($.trim($(window.search_class).val().length) >= window.search_min)
+		{
+             // alert($(window.search_class).val());  
+			$('.b-loading-message').empty().hide();
+			 $('.b-loading').show();
+			 $(this).parents('.loll_div').find('.loll_drop').css("transform", "scaleY(0)");
+			 
+				var data ='url='+window.location.href+'&query='+$(window.search_class).val()+'&active='+$('.post_p').val();
+	           AjaxClient('supply','search_contractor','GET',data,'Aftersearch_posta',1,0);	
+			
+			  //послать ajax поиск поставщиков
+			
+			  //запустить лодер что ищется
+		}
+		
+    }, window.search_deley,$(this));
 	}
 }
 
-//постфункция добавление нового предложения
-function AfterAdd_offers(data,update)
+
+
+
+function Aftersearch_posta(data,update)
 {
 	if ( data.status=='reg' )
     {
+		$('.b-loading').hide();
 		WindowLogin();
 	}
 	
+	if ( data.status=='yes' )
+    {				
+		$('.loll_drop').empty().append(data.echo).css("transform", "scaleY(1)");
+		$('.b-loading').hide();
+	}
+	
 	if ( data.status=='ok' )
-    {		
-		//
-var count__=$('#count_sourse').val();	
-	var dee=parseInt(count__)+1;	
-	
-		
-	var count_offers= $("[id_offers]").length;																
-	  $('.count_offers_ajax').empty().append(count_offers-1);
-	  
-      var tytt=PadejNumber((count_offers-1),'предложение,предложения,предложений');													
-	  $('.padej_offers').empty().append(tytt);			
-		
-		
-	$('#count_sourse').val(dee);
-	$('#count_sourse1').val(count__);	
-		
-		
-		
-		
-
-    var html = $( '.replace_mm' ).html ();     
-    html = html.replace ( /IDMIDD/g, dee); 
-	html = html.replace ( /SIDMIDS/g, count__);		
-	html = html.replace ( /IDMID/g, data.id);
-	
-    $('.replace_mm').before(html);	
-	
-	$(".slct").unbind('click.sys');
-    $(".slct").bind('click.sys', slctclick);
-	$(".drop").find("li").unbind('click');
-	$(".drop").find("li").bind('click', dropli);
-	
-	$('.money_mask').inputmask('remove');
-	$('.money_mask').inputmask("numeric", {
-    radixPoint: ".",
-    groupSeparator: " ",
-    digits: 2,
-    autoGroup: true,
-    prefix: '', //No Space, this will truncate the first character
-    rightAlign: false,
-    oncleared: function () { self.Value(''); }
-    });
-	$('.date_time_picker').inputmask('remove');	
-	$('.date_time_picker').inputmask("datetime",{
-    mask: "1.2.y h:s", 
-    placeholder: "dd.mm.yyyy hh:mm",  
-    separator: ".", 
-    alias: "dd.mm.yyyy"
-  });	
-		
+    {
+		$('.b-loading').hide();
+		$('.b-loading-message').empty().append('ничего не найдено').show();
+		//показать кнопку добавить новый
 	}
-}
-
-//выбор предложения как выбранного клиентом
-function bron_offers_select()
-{
-	var for_id1=$(this).parents('.booking_sourse').attr('number_sourse');
-	var attr=$(this).parents('.booking_sourse').attr('id_offers');
-		$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_select_offers.php?id='+attr+'&number='+for_id1,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-
-function js_dell_form_no(event)
-{
-	var form_move=$('.form'+event.data.key);
-
-	
-	clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
-	$.arcticmodal('close');
-	
-	var data ='url='+window.location.href+'&tk='+form_move.find('.h111').attr('mor')+
-					'&id='+form_move.find('.h111').attr('for');
-
-
-		
-AjaxClient('task','dell_task','GET',data,'AfterDellTask',form_move.find('.h111').attr('for')+','+event.data.key,0);		
-	
 	
 }
 
-function exit_form_active(event)
+//получение фокуса для новых инпутов
+function InputFocusNew2021()
 {
-	$('.arcticmodal-close','.form'+event.data.key).click();	
-}
+	var val_input=$(this).val();
+	var label=$(this).prev('label');
+	var input_div=$(this).parents('.input_2021');
 
-
-//удалить отчет
-function dell_reports()
-{
-	var attr=$(this).attr('id_rel');
-		$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_reports.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-//удалить пользователя системы
-function dell_users()
-{
-	var attr=$(this).attr('id_rel');
-		$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_users.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-//удалить туроператора
-function dell_operator()
-{
-	var attr=$(this).attr('id_rel');
-		$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_operator.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-}
-
-
-//редактировать вопрос к отчету
-function edit_answer()
-{
-	var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_edit_answer.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-	
-}
-
-//удалить вопрос к отчету
-function dell_answer()
-{
-	var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_answer.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-	
-}
-
-//удалить предложение
-function dell_offers()
-{
-	var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	var for_id1=$(this).parents('.booking_sourse').attr('number_sourse');
-	
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_offers.php?id='+attr+'&number='+for_id1,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });	
-	
-}
-
-
-
-//сохранение вопроса к отчету
-function save_anna()
-{
-	var attr=$(this).parents('.answer_block').attr('op_rel');
-	var anna=$(this).parents('.answer_block').find('#otziv_area_adaxx_'+attr).val();
-	$(this).hide();
-	
-	var data ='url='+window.location.href+'&id='+attr+'&text='+encodeURIComponent(anna);
-    AjaxClient('reports','save_answer','GET',data,'AfterSaveAnswer',attr,0);	
-}
-
-
-
-
-//получение фокуса для инпута в поиске при добавление покупателя тура
-function InputFocusNewTours()
-{
-	var input_div=$(this).parents('.choice-client-2019');
-	
-	if(!input_div.is('.active_tours_focus'))
+	if(!input_div.is('.active_in_2021'))
 	{
-		input_div.addClass('active_tours_focus');	
+		input_div.addClass('active_in_2021');
 	}
+
+	if(!input_div.is('.active1_in_2021'))
+	{
+		input_div.addClass('active1_in_2021');
+	}
+
+	//может надо открыть календарь
+	var calendar=input_div.find('.cal_2021');
+	if(calendar.length!=0)
+	{
+		$(".date___2019").show();
+	}
+
+
+
 }
-//потеря фокуса для инпута в поиске при добавление покупателя тура
-function InputBlurNewTours()
+//потеря фокуса для новых инпутов
+function InputBlurNew2021()
 {
-	var input_div=$(this).parents('.choice-client-2019');
-    input_div.removeClass('active_tours_focus');	
+	//alert($(this).val());
+	var val_input=$(this).val();
+	var label=$(this).prev('label');
+	var input_div=$(this).parents('.input_2021');
+
+	input_div.removeClass('active1_in_2021');
+
+	if(val_input=='')
+	{
+		input_div.removeClass('active_in_2021');
+	}
+	if(!$(this).is('.date2021_mask'))
+	{
+		//для всего остального кроме дат с маской
+		if(($(this).is('.required'))&&(val_input=='')&&(!input_div.is('.required_in_2021')))
+		{
+			input_div.addClass('required_in_2021');
+		} else
+		{
+			if(($(this).is('.required'))&&(val_input!=''))
+			{
+				input_div.removeClass('required_in_2021');
+			}
+		}
+	} else
+	{
+		if(($(this).is('.required'))&&((val_input=='')||(val_input=='дд.мм.гггг'))&&(!input_div.is('.required_in_2021')))
+		{
+			input_div.addClass('required_in_2021');
+		} else
+		{
+			if(($(this).is('.required'))&&(val_input!='')&&(val_input!='дд.мм.гггг'))
+			{
+				input_div.removeClass('required_in_2021');
+			}
+		}
+
+
+	}
+
+
 }
 
 
@@ -5203,21 +791,6 @@ function InputFocusNew()
 	 
 	
 }
-
-
-
-//ввод текста в новые инпуты скрытие ошибки если она была
-//  |
-// \/
-function KeyUpInput()
-{
-	if($(this).is('.gloab'))
-		{
-			if(($(this).val()!='')&&($(this).val()!=0))
-			$(this).parents('.input_2018').removeClass('required_in_2018');
-			$(this).parents('.input_2018').removeClass('error_2018');
-		}
-}
 //потеря фокуса для новых инпутов
 function InputBlurNew()
 {
@@ -5231,18 +804,7 @@ function InputBlurNew()
 	if(val_input=='')
 	{
 		input_div.removeClass('active_in_2018');	
-				if($(this).is('.gloab'))
-		{
-			input_div.addClass('required_in_2018');	
-		}else
-			{
-				input_div.removeClass('required_in_2018');
-			}
 	}
-	
-	
-	
-	/*
 	if(!$(this).is('.date2018_mask'))
 	{
 	  //для всего остального кроме дат с маской
@@ -5271,112 +833,135 @@ function InputBlurNew()
 		
 		
 	}
-	*/
 		
 	
 }
 
 
-//кнопки еще задачи на главной
-function js_eshe_ring()
+function UpdateStatusADA(id)
 {
-	var block_gg=$(this);
-		if(block_gg.is('.active-ring'))
+	if(id!=0)
 	{
-		 block_gg.removeClass('active-ring');
-		block_gg.parents('.ring_block').find('.max-day-ring').slideUp("slow");
-		
-	} else
-		{
-		 block_gg.addClass('active-ring');
-			block_gg.parents('.ring_block').find('.max-day-ring').slideDown("slow");
-		}
+	  $('[id_ada='+id+']').hide().after('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');	
+	  var data ='url='+window.location.href+'&id='+id;
+      AjaxClient('supply','update_ada','GET',data,'AfterUpdateStatusADA',id,0);	
+	}
 }
 
-
-//удаление покупателя из тура
-function js_dell_buy_tours()
-{
-	var for_id=$(this).attr('id_rel');
-	var block_gg=$(this).parents('.info-client-ruler');
-	
-	$('.tot_buy_id').val('');
-	$('.tot_buy_type').val('');
-	
-	//если он был и туристом то удаляем из переменных и пересчитываем
-	if(block_gg.is('.active-turist-turs'))
-	{
-	   //удалить из туристов
-			$('.tot_fly_id').val(AddDellList($('.tot_fly_id').val(),for_id,'dell'));
-			//уменьшить количество туристов
-			var count_turi=parseFloat($('.tot_fly_count').val());
-			if(count_turi!=0)
-				{
-			$('.tot_fly_count').val(count_turi-1);
-				}
-		block_gg.remove();
-		UpdateNumberTuris();
-	
-	} else
-		{
-			block_gg.remove();
-		}
-	
-	$('.js-buy-my-tours').find('.buy_turs').show();
-	
-	
-}
-//удаление туриста из тура
-function js_dell_fly_tours()
-{
-		var for_id=$(this).attr('id_rel');
-	    var block_gg=$(this).parents('.info-client-ruler');
-	    
-	$('.tot_fly_id').val(AddDellList($('.tot_fly_id').val(),for_id,'dell'));
-			//уменьшить количество туристов
-			var count_turi=parseFloat($('.tot_fly_count').val());
-			if(count_turi!=0)
-				{
-			$('.tot_fly_count').val(count_turi-1);
-				}
-	
-	    block_gg.remove();
-	    UpdateNumberTuris();
-}
-
-
-//удалить фото товарный чек из заявки
+//удалить фото из накладной
 function DellImageInvoice()
 {
 	var for_id=$(this).attr('for');
 	var data ='url='+window.location.href+'&id='+for_id;
-    AjaxClient('booking','del_img','GET',data,'AfterDellImageInvoice',for_id,0);	
+    AjaxClient('invoices','del_img','GET',data,'AfterDellImageInvoice',for_id,0);	
 }
 
-//удалить фото из отчета
-function DellImageReports()
+//изменить поставщика в нарядах
+function UpdateContractorInvoice()
+{
+	var val=$(this).val();
+	if(($.isNumeric(val))&&(val!=0))
+	{
+		$('.add_material_invoice').attr('col',val);
+    }
+}
+
+
+
+//открыть форму сформировать отчет
+function PrintStock_()
+{
+    $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_print_stock.php?id='+$('#sort_stock4').val(),
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });	
+}
+
+
+//добавить материал в накладной
+function AddInvoiceMaterial()
+{
+	if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_add_material_invoice.php?id='+$(this).attr("for")+'&col='+$(this).attr("col"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;	
+}
+
+
+
+function DellImageSupply()
 {
 	var for_id=$(this).attr('for');
 	var data ='url='+window.location.href+'&id='+for_id;
-    AjaxClient('reports','del_img','GET',data,'AfterDellImageReports',for_id,0);	
+    AjaxClient('supply','del_img','GET',data,'AfterDellImageSupply',for_id,0);	
 }
 
+function UpdateImageSupply(id)
+{
+	var data ='url='+window.location.href+'&id='+id;
+    AjaxClient('supply','update_img','GET',data,'AfterUpdateImageSupply',id,0);	
+}
 
-
-//обновление фото в заявке
 function UpdateImageInvoice(id)
 {
 	var data ='url='+window.location.href+'&id='+id;
-    AjaxClient('booking','update_img','GET',data,'AfterUpdateImageInvoice',id,0);	
+    AjaxClient('invoices','update_img','GET',data,'AfterUpdateImageInvoice',id,0);	
 }
 
-//обновление фото в отчете
-function UpdateImageReports(id)
+//обнавление статуса в счетах после "к оплате"
+function UpdateWalletStatus(id)
 {
-	var data ='url='+window.location.href+'&id='+id;
-    AjaxClient('reports','update_img','GET',data,'AfterUpdateImageReports',id,0);	
+	$('.billl[rel_id='+id+']').find('.status_wallet_ada').empty();
+	$('.billl[rel_id='+id+']').find('.button_ada_wall').empty().append('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');
+	
+	var data ='url='+window.location.href+'&id='+id;			
+	
+    AjaxClient('bill','bill_status','GET',data,'AfterWalletSTx',id,0);	
 }
-
 
 function message_load()
 {
@@ -5389,9 +974,537 @@ function message_load()
 	}
 }
 
+//к оплате счет
+function xvg_yes()
+{
+	var iu=$('.content_block').attr('iu');
+	var id_bill=$(this).attr('rel_bill');
+	
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_yes_bill.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	
+}
 
 
-//прокрутка до низа
+//оплатить бухгалтерия
+function booker_yes()
+{
+	var iu=$('.content_block').attr('iu');
+	var id_bill=$(this).attr('rel_booker');
+
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_booker_yes.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	 		
+		
+		
+	
+	
+}
+
+//изменить наименование из склада
+function xvg_yes1()
+{
+
+	var attr=$(this).attr('rel_bill');
+
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_edit_stock.php?id='+attr,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	
+}
+
+//удалить наименование из склада
+function xvg_no1()
+{
+	var iu=$('.content_block').attr('iu');
+	var id_bill=$(this).attr('rel_bill');
+
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_stock.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	 		
+		
+		
+	
+	
+}
+
+
+
+//отменить оплату по счету
+function xvg_no()
+{
+	var iu=$('.content_block').attr('iu');
+	var id_bill=$(this).attr('rel_bill');
+
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_no_bill.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	 		
+		
+		
+	
+	
+}
+
+
+//добавить новый счет
+function add_soply()
+{
+	var iu=$('.content_block').attr('iu');
+	var cookie_new = $.cookie('basket_supply_'+iu);
+	if(cookie_new!=null)
+	{
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_add_soply.php',
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+	 		
+		
+		
+	}
+	
+}
+
+
+function vall_supply() {  
+	var el_v=$(this).val();
+	
+	
+	$('[rel_status='+$(this).attr('rel')+']').hide();
+	var data ='url='+window.location.href+'&id='+$(this).attr('rel')+'&val='+el_v;
+	AjaxClient('supply','status_work','GET',data,'Aftervall_supply',$(this).attr('rel'),0);			
+};
+
+function option_mat1() {
+	var el_v=$(this).val();
+	var id_bill=$(this).parents('[rel_id]').attr('rel_id');
+	//var id_soply=soply.attr('rel_score');
+
+		
+	
+	if(el_v==1)	
+	{
+		//изменить 
+		
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_edit_yes_bill.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+		
+		//var data ='url='+window.location.href+'&id='+id_soply;
+	    //AjaxClient('supply','dell_soply','GET',data,'Afterdell_soply',id_soply,0);		
+		
+	}
+		if(el_v==2)	
+	{
+		//отменить оплату
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_yes_bill.php?id='+id_bill,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });	
+	}
+	
+}
+
+
+
+function option_mat() {
+	var el_v=$(this).val();
+	var id_soply=$(this).parents('[supply_id]').attr('supply_id');
+	//var id_soply=soply.attr('rel_score');
+
+	
+	if(el_v==1)	
+	{
+		//удалить счет
+		
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_soply_sklad.php?id='+id_soply,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+		
+		//var data ='url='+window.location.href+'&id='+id_soply;
+	    //AjaxClient('supply','dell_soply','GET',data,'Afterdell_soply',id_soply,0);		
+		
+	}
+	
+	
+}
+
+function UpdateCostFinery(id)
+{
+	var count=parseFloat($('.mat[rel_mat='+id+']').find('.count_finery_mater_').val());
+	var count_my=parseFloat($('.mat[rel_mat='+id+']').find('.count_finery_mater_').attr('my'));
+	var id_stock=parseFloat($('.mat[rel_mat='+id+']').find('[id_stock_m]').attr('id_stock_m'));
+	
+	//alert(count_my);
+	
+	if((count!='')&&(count!=0)&&(id_stock!='')&&(id_stock!=0)&&(count_my!='')&&(count_my!=0)&&(count_my>=count))
+    {
+		$('.mat[rel_mat='+id+']').find('.price_finery_mater_').val('');
+		//alert("!!");
+		
+			var rel_id=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').parents('.mat').attr('rel_w');
+	var rel_mat=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').parents('.mat').attr('rel_mat');
+	
+	var max=parseFloat($('.mat[rel_mat='+id+']').find('.price_finery_mater_').attr('max'));
+	var my=parseFloat($('.mat[rel_mat='+id+']').find('.price_finery_mater_').attr('my'));
+	
+	var value=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').val();	
+	$('.mat[rel_mat='+id+']').find('.price_finery_mater_').removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			{
+				//выделяем красным и открываем служебную записку
+				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');	
+			} 
+				
+	} 
+		
+		serv_mess_m($('.mat[rel_mat='+id+']').find('.price_finery_mater_'));
+		summ_finery1(id);
+		
+		if($('[name=id_naa]').length!=0)
+			{
+				 	var data ='url='+window.location.href+'&id='+id_stock+'&count='+count+'&fin='+$('[name=id_naa]').val();
+			} else
+				{
+		
+		
+	   	var data ='url='+window.location.href+'&id='+id_stock+'&count='+count;
+	    
+				}
+		AjaxClient('finery','update_cost','GET',data,'AfterUpdateCostFinery',id,0);	
+	} else
+	{
+	
+		if($('[name=status_naryad]').length==0)
+		{	
+	$('.mat[rel_mat='+id+']').find('.price_finery_mater_').val('');
+		}
+		
+	var rel_id=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').parents('.mat').attr('rel_w');
+	var rel_mat=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').parents('.mat').attr('rel_mat');
+	
+	var max=parseFloat($('.mat[rel_mat='+id+']').find('.price_finery_mater_').attr('max'));
+	var my=parseFloat($('.mat[rel_mat='+id+']').find('.price_finery_mater_').attr('my'));
+	
+	var value=$('.mat[rel_mat='+id+']').find('.price_finery_mater_').val();	
+	$('.mat[rel_mat='+id+']').find('.price_finery_mater_').removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			{
+				//выделяем красным и открываем служебную записку
+				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');	
+			} 
+				
+	} 	
+		
+		
+	   serv_mess_m($('.mat[rel_mat='+id+']').find('.price_finery_mater_'));
+	   summ_finery1(id);
+	}
+}
+
+
+function xvg_bill()
+{
+	var id_soply=$(this).attr('rel_score');
+	
+	jQuery.scrollTo('.billl[rel_id='+id_soply+']', 1000, {offset:-120});
+}
+
+function option_score1() {
+	var el_v=$(this).val();
+	var soply=$(this).parents('.menu_supply').prev();
+	var id_soply=soply.attr('rel_score');
+	if(el_v==2)	
+	{
+		//сделать текущим		
+		
+		$('.checher_supply').removeClass('checher_supply');
+		
+
+		
+		var iu=$('.content_block').attr('iu');		
+		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
+        CookieList("current_supply_"+iu,id_soply,'add');
+		
+		$('.score_active').removeClass('score_active');
+		$('[rel_score='+id_soply+']').addClass('score_active');
+		
+		
+		
+		
+		
+		var data ='url='+window.location.href+'&id='+id_soply;
+	    AjaxClient('supply','current_soply','GET',data,'Aftercurrent_soply',id_soply,0);		
+	}
+	if(el_v==3)	
+	{
+
+	   //согласовать счет
+	  var data ='url='+window.location.href+'&id='+id_soply;
+	  AjaxClient('supply','app_soply','GET',data,'Afterapp_soply',id_soply,0);
+		
+		
+	}
+	if(el_v==1)	
+	{
+
+	   //открыть счет
+	  
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_update_soply.php?id='+id_soply,
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });	
+}
+		
+		
+		
+	
+	if(el_v==4)	
+	{
+		//удалить счет
+		
+	$.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_soply.php?id='+id_soply,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+  });
+		
+		//var data ='url='+window.location.href+'&id='+id_soply;
+	    //AjaxClient('supply','dell_soply','GET',data,'Afterdell_soply',id_soply,0);		
+		
+	}
+	
+	
+}
+
+
+//сохранить текущий счет	
+function save_soply() { 
+	var iu=$('.content_block').attr('iu');	
+	var cookie_flag_current = $.cookie('current_supply_'+iu);
+	//alert(cookie_new);
+	if(cookie_flag_current!=null) 
+	{
+	
+	  var data ='url='+window.location.href;
+	  AjaxClient('supply','update_soply','GET',data,'Afterupdate_soply',1,0);
+		
+	}
+	
+}
+
+
 function scroll_to_bottom(speed) {
 	var height= $("body").height(); 
 	$("html,body").animate({"scrollTop":height},speed); 
@@ -5415,7 +1528,7 @@ function scroll_to_bottom(speed) {
 //изменение размеров браузера
 function windowSize()
 {
- // sl_message_width();	
+  sl_message_width();	
 }
 
 function trim_number($number)
@@ -5445,6 +1558,32 @@ function animation_teps()
 	
 }
 
+//приведение служебых записок к нужному виду
+function sl_message_width()
+{
+	setTimeout ( function () {  
+	if($('.smeta1').length)
+		{
+	var width_jk4=$('.smeta1').find('.jk4').outerWidth();  //столбик название
+	var width_jk44=$('.smeta1').find('.jk44').outerWidth(); //столбик ед. изм
+			
+	//var width_jk5=$('.smeta1').find('.jk5').outerWidth();
+	//var width_jk6=$('.smeta1').find('.jk6').outerWidth();
+	
+    var width_jk7=$('.smeta1').find('.jk6').outerWidth();	 //столбик удалить	
+	var table=$('.smeta1').width();  //общая ширина
+	//alert(table);	
+	var ww=table-width_jk4-width_jk44-width_jk7-20;
+			
+			
+	$('.smeta1').find('.mess_slu').width(ww);
+			
+	$('.smeta1').find('.hs').width((width_jk4+width_jk44));
+		}
+	
+   }, 1000 );
+	
+}
 
 //маска вводить только целые и float
 function maskk(thiss)
@@ -5462,6 +1601,78 @@ function maskk(thiss)
 }
 
 
+function maskk_max(thiss)
+{
+	
+	var max_=0;
+	//alert("!");
+	var count=parseFloat(thiss.val());
+	//alert(count);
+	if(count>0)
+		{
+	
+	var mat=thiss.parents('.mat');	
+	var id_stock=mat.find('.my_material').attr('id_stock_m');
+	var my_stock=mat.find('.my_material').attr('count');
+	
+	
+	$('[id_stock_m='+id_stock+']').each(function(i,elem) {
+			var count_input=parseFloat($(this).parents('.mat').find('.count_finery_mater_').val());
+		    if((count_input!='')&&(count_input>0))
+			{
+		       max_=max_ + parseFloat(count_input);
+			}
+    });
+	max_=max_-	count;	
+	
+	if((count+max_)>parseFloat(my_stock))
+	{
+		  //alert(max_);	
+		  //alert(count);
+	      thiss.val(thiss.val().slice(0, -1));
+	}
+			
+			
+			
+ }
+
+	
+	
+	var max_=0;
+	//alert("!");
+	var count=parseFloat(thiss.val());
+	//alert(count);
+	if(count>0)
+		{
+	
+	var mat=thiss.parents('.mat');	
+	var id_stock=mat.find('.my_material').attr('id_stock_m');
+	var my_stock=mat.find('.my_material').attr('count');
+	
+	
+	$('[id_stock_m='+id_stock+']').each(function(i,elem) {
+			var count_input=parseFloat($(this).parents('.mat').find('.count_finery_mater_').val());
+		    if((count_input!='')&&(count_input>0))
+			{
+		       max_=max_ + parseFloat(count_input);
+			}
+    });
+	max_=max_-	count;	
+	
+	if((count+max_)>parseFloat(my_stock))
+	{
+		  //alert(max_);	
+		  //alert(count);
+	      thiss.val('');
+	}
+			
+			
+			
+ }
+		
+	
+	
+}
 
 
 //маска вводить только целые
@@ -5478,7 +1689,48 @@ function maskk1(thiss)
 }
 
 
+var ChangeSupply=function() {
+	var tr_s=$(this).parents('.suppp_tr');
+	var rel_tr_s=tr_s.attr('rel_id');
+	if(!tr_s.is('.active_supplyx'))
+	{
+	  tr_s.addClass('active_supplyx');
+		$('[supply_stock='+rel_tr_s+']').show();
+	} else
+	{
+		tr_s.removeClass('active_supplyx');
+		$('[supply_stock='+rel_tr_s+']').hide();
+	}
+}
 
+
+var slide_skkk = function() {
+	
+	if(!$(this).is('.slide_onon'))
+	{
+		$(this).find('.sklad_plus_uss').slideDown( "slow" ); 
+		$(this).addClass('slide_onon');
+	} else
+	{
+		$(this).find('.sklad_plus_uss').slideUp("slow"); 
+		$(this).removeClass('slide_onon');			
+	}
+	
+}
+
+//раскрывающее меню по кнопке
+var menuclick = function() {
+	var tr_s=$(this).next(".menu_supply").find('.drops');
+	if(tr_s.is(".active_menu_s")) 
+	  {
+		  tr_s.removeClass("active_menu_s");
+		  tr_s.css("transform", "scaleY(0)");
+	  } else
+	  {
+		  tr_s.addClass("active_menu_s");
+		  tr_s.css("transform", "scaleY(1)");
+	  }
+}
 
 
 //показать подсказки к полям после загрузки страницы где заполнено
@@ -5527,6 +1779,350 @@ var label_show = function() {
 }
 
 
+
+function MydblclickXX()
+{
+var max_=0;
+	if($(this).attr('readonly')==undefined) { 
+	//alert("!");
+	var count=$(this).attr('max');
+	//alert(count);
+
+	
+	var mat=$(this).parents('.mat');	
+	var id_stock=mat.find('.my_material').attr('id_stock_m');
+	var my_stock=mat.find('.my_material').attr('count');
+	
+	
+	$('[id_stock_m='+id_stock+']').each(function(i,elem) {
+			var count_input=parseFloat($(this).parents('.mat').find('.count_finery_mater_').val());
+	
+		    if((count_input!='')&&(count_input>0)&&((!isNaN(count_input))))
+			{
+		       max_=max_ + parseFloat(count_input);
+			}
+    });
+		/*
+		if(count!='')
+			{
+	max_=max_- parseFloat(count);	
+			}
+			*/
+		//alert(max_);
+	
+	if(parseFloat(count+max_)<=parseFloat(my_stock))
+	{
+		
+		 $(this).val($(this).attr('max')).change();
+				if($('[name=save_zayy]').length > 0)
+		{
+	savedefault_zay($(this));
+		} else
+			{
+	   savedefault($(this));
+			}
+		
+	}
+			
+		
+		
+		
+	}
+}
+
+
+
+
+
+
+
+//двойно клик по инпуту
+function Mydblclick()
+{
+	if($(this).attr('readonly')==undefined) { 
+	   $(this).val($(this).attr('max')).change();
+				if($('[name=save_zayy]').length > 0)
+		{
+	savedefault_zay($(this));
+		} else
+			{
+	   savedefault($(this));
+			}
+	}
+	
+}
+
+//вывод служебной записки по работе
+function serv_mess(id_trr)
+{
+	var id_work=$('.work__s[id_trr='+id_trr+']').attr('rel_id');
+	var count=$('#count_work_'+id_trr).val();
+	var price=$('#price_work_'+id_trr).val();
+	//alert(price);
+	var max_count=parseFloat($('#count_work_'+id_trr).attr('max'));	
+	var max_price=parseFloat($('#price_work_'+id_trr).attr('max'));
+	var flag_show=0;
+	var count_raz=0;
+	var price_raz=0;
+	if(count>max_count) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
+	if(price>max_price) {flag_show=1;}
+	//alert(flag_show);
+	//$('.w_size').append(' '+flag_show);
+	
+	//проверяем нужно ли выводить на сколько привышение
+	$('.work__s[id_trr='+id_trr+']').find('.exceed').empty();
+	var exceed=0; // не надо
+	if($('.exceed').length)
+		{
+			exceed=1;
+			var exceed_summ= ((count_raz*max_price)-(count*price)).toFixed(2);
+			if(exceed_summ>0)
+				{
+					exceed=0;
+				}
+		}
+	
+	
+	if(flag_show==1)
+	{	
+	   //открываем записку			
+	   $('.work__s[id_trr='+id_trr+']').next().find('.messa').stop(true).slideDown( "slow", function() {  $(this).css("height", "");  });
+	   //alert("!");
+	   if(exceed==1) {$('.work__s[id_trr='+id_trr+']').find('.exceed').empty().append('+'+$.number(Math.abs(exceed_summ), 2, '.', ' '));	}
+		//alert("!!");
+	   //$('.messa[id_mes='+id_work+']').stop(true).slideDown( "slow" );
+	} else
+	{
+		//$('.messa[id_mes='+id_work+']').stop(true).slideUp( "slow" );
+		$('.work__s[id_trr='+id_trr+']').next().find('.messa').stop(true).slideUp( "slow" );
+		 //if(exceed==1) {$('.work__s[id_trr='+id_trr+']').find('.exceed').empty();	}
+		
+	}
+}
+
+//вывод служебной записки по материалам
+function serv_mess_m(thiss)
+{
+	//alert("!!!");
+	var rel_mat=thiss.parents('.mat').attr('rel_mat');
+	
+	//alert(rel_mat);
+	
+	var count=$('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val();
+	var price=$('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val();
+	
+	//alert(price);
+	var max_count=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('max'));
+	var max_my=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('my'));
+	var max_price=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').attr('max'));
+	var flag_show=0;
+	var count_raz=0;
+	var price_raz=0;
+	//alert(max_count);
+	if(count!='')
+		{
+	if((count!=max_count)&&(!isNaN(max_count))) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
+	if(price>max_price) {flag_show=1;}
+		
+	if($('[name=status_naryad]').length==0)
+		{
+	if(count>max_my) {flag_show=2;}
+		}
+			
+		}
+	//alert(flag_show);
+	//$('.w_size').append(' '+flag_show);
+	//alert(count);
+	/*
+	if((count!='')&&(count!=0))
+	{
+	  UpdateCostFinery(rel_mat);
+	}
+	*/
+		//проверяем нужно ли выводить на сколько привышение
+	$('.mat[rel_mat='+rel_mat+']').find('.exceed').empty();
+	var exceed=0; // не надо
+	if($('.exceed').length)
+		{
+			exceed=1;
+			var exceed_summ= ((count_raz*max_price)-(count*price)).toFixed(2);
+			if(exceed_summ>0)
+				{
+					exceed=0;
+				}
+		}
+	//alert(flag_show);
+	if(flag_show==1)
+	{	
+	   //открываем записку			
+	   $('.mat[rel_mat='+rel_mat+']').next().find('.messa').stop(true).slideDown( "slow" );
+		$('.mat[rel_mat='+rel_mat+']').next().next().find('.messa_my').stop(true).slideUp( "slow" );
+		if(exceed==1) { $('.mat[rel_mat='+rel_mat+']').find('.exceed').empty().append('+'+$.number(Math.abs(exceed_summ), 2, '.', ' '));	}
+		//alert("!!");
+	   //$('.messa[id_mes='+id_work+']').stop(true).slideDown( "slow" );
+	} else
+	{
+		//$('.messa[id_mes='+id_work+']').stop(true).slideUp( "slow" );
+		$('.mat[rel_mat='+rel_mat+']').next().find('.messa').stop(true).slideUp( "slow" );	
+		
+		
+		if(flag_show==2)
+	    {
+			$('.mat[rel_mat='+rel_mat+']').next().next().find('.messa_my').stop(true).slideDown( "slow" );
+			
+			$('.ut_nar').hide();
+			$('.pod_nar').hide();
+			$('.add_nar').show();
+			
+			
+		} else
+		{
+			$('.mat[rel_mat='+rel_mat+']').next().next().find('.messa_my').stop(true).slideUp( "slow" );	
+		}
+			
+		
+	}
+	
+}
+
+//вывод служебной записки по материалам - заявка на материал
+function serv_mess_m_app(thiss)
+{
+	var rel_mat=thiss.parents('.mat_zz').attr('rel_mat_zz');
+	
+	var count=$('.mat_zz[rel_mat_zz='+rel_mat+']').find('.count_app_mater_').val();
+	//var price=$('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val();
+	
+	//alert(price);
+	var max_count=parseFloat($('.mat_zz[rel_mat_zz='+rel_mat+']').find('.count_app_mater_').attr('max'));	
+	//var max_price=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').attr('max'));
+	var flag_show=0;
+		var count_raz=0;
+	//var price_raz=0;
+	if(count>max_count) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
+	//if(price>max_price) {flag_show=1;}
+	//alert(flag_show);
+	//$('.w_size').append(' '+flag_show);
+	
+	
+	if(flag_show==1)
+	{	
+	   //открываем записку			
+	   $('.mat_zz[rel_mat_zz='+rel_mat+']').next().next().find('.messa').stop(true).slideDown( "slow" );
+		//if(exceed==1) { $('.mat[rel_mat='+rel_mat+']').find('.exceed').empty().append('+'+$.number(Math.abs(exceed_summ), 2, '.', ' '));	}
+		//alert("!!");
+	   //$('.messa[id_mes='+id_work+']').stop(true).slideDown( "slow" );
+	} else
+	{
+		//$('.messa[id_mes='+id_work+']').stop(true).slideUp( "slow" );
+		$('.mat_zz[rel_mat_zz='+rel_mat+']').next().next().find('.messa').stop(true).slideUp( "slow" );	
+		
+	}
+	
+}
+
+//пересчет общей суммы материалов
+function summ_finery1(rel_mat)
+{
+	
+	var count=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val());
+	var price=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val());
+	
+	var sum=$('.mat[rel_mat='+rel_mat+']').find('.summa_finery_mater_');
+	
+	var value=(count*price).toFixed(2);
+	//alert(sum);
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+	  sum.empty().append($.number(value, 2, '.', ' '));
+	} else
+		{
+	  sum.empty();
+		}	
+	UpdateItog();
+}
+
+//пересчет общей суммы и суммы и количество материалов
+function summ_finery(id_trr)
+{
+	var rel_id=$('.work__s[id_trr='+id_trr+']').attr('rel_id');
+	var count=parseFloat($('#count_work_'+id_trr).val());
+	var count_all_work=parseFloat($('#count_work_'+id_trr).attr('all'));
+	var price=parseFloat($('#price_work_'+id_trr).val());
+	var sum=$('#summa_finery_'+id_trr);
+	var value=(count*price).toFixed(2);
+	//alert(sum);
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+	sum.empty().append($.number(value, 2, '.', ' '));
+	} else
+		{
+	sum.empty();
+		}
+	
+	//считаем для материалов количество стоимость и сумму
+	if((count!=0)&&(count!='')&&($.isNumeric(count)))
+	{
+//alert("!!");
+	   $('.mat[rel_w='+rel_id+']').each(function(i,elem) {
+	    var count_all_matt = parseFloat($(this).find('.count_finery_mater_').attr('all'));
+		var count_ost_matt = parseFloat($(this).find('.count_finery_mater_').attr('ost'));
+		   
+		var count_end = ((count_all_matt*count)/count_all_work).toFixed(4);
+		var flag_soot=1;   
+		//alert(count_all_matt);
+		//alert(count);   
+		   //alert(count_all_work);   
+		//если рассчитанное кол-во материала больше чем запланировано в себестоимости
+		//бывает из-за привышения работы связанной с этими материалами
+		if(count_end>count_ost_matt)
+		{
+		  count_est=count_end;	 //EST - предполагаемое количество
+		  count_end=count_ost_matt;
+		  flag_soot=0;  
+		}
+		
+		 
+		   
+		if(flag_soot==1)
+			{
+		$(this).find('.count_finery_mater_').attr('placeholder','MAX - '+count_end);
+		$(this).find('.count_finery_mater_').attr('max',count_end);
+												  
+		$(this).find('.hidden_max_count').val(count_end);										  
+		$(this).find('.count_finery_mater_').prev('label').empty().append('MAX ('+count_end+')');
+		$(this).find('.count_finery_mater_').change();   
+			} else
+				{
+		$(this).find('.count_finery_mater_').attr('placeholder','MAX - '+count_end+' EST - '+count_est);
+		$(this).find('.count_finery_mater_').attr('max',count_end);
+												  
+		$(this).find('.hidden_max_count').val(count_end);										  
+		$(this).find('.count_finery_mater_').prev('label').empty().append('MAX ('+count_end+')'+' EST ('+count_est+')');
+		$(this).find('.count_finery_mater_').change();  				
+					
+					
+				}
+				
+       });
+	} else
+	{
+	
+	   $('.mat[rel_w='+rel_id+']').each(function(i,elem) {
+
+		
+		$(this).find('.count_finery_mater_').attr('placeholder','');
+		$(this).find('.count_finery_mater_').attr('max','');
+		$(this).find('.count_finery_mater_').prev('label').empty();
+		$(this).find('.count_finery_mater_').change();  
+		  $(this).find('.hidden_max_count').val("");	 
+		   
+       });		
+	
+	}
+	UpdateItog();
+}
+
 //удалить диалог
 function del_dialog()
 {
@@ -5537,15 +2133,23 @@ function del_dialog()
   $.arcticmodal({
     type: 'ajax',
     url: 'forms/form_dell_dialog.php?id='+$(this).attr("for"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
 
   });
 }
@@ -5553,6 +2157,527 @@ function del_dialog()
   
 return false;
 }
+
+//удалить материал из заявки из корзины
+
+function DellZayvaMaterial()
+{
+
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_material_zayava.php?id='+$(this).attr("id_rel")+'&n='+$(this).attr("naryd"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;	
+}
+
+function DellZayvaMaterial1()
+{
+
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_material_zayava1.php?id='+$(this).attr("id_rel")+'&n='+$(this).attr("zayu"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;	
+}
+
+//удалить работу из корзины наряда
+function DellNarydWork()
+{
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_no_ajax.php?id='+$(this).attr("id_rel")+'&n='+$(this).attr("naryd"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+}
+
+//удалить заявку на материал целиком
+function DellZayZay()
+{
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_zay_zay.php?id='+$(this).attr("id_rel"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+}
+
+//удалить наряд целиком
+function DellNaryd()
+{
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_nariad.php?id='+$(this).attr("id_rel"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+}
+
+//удалить работу из наряда
+function DellNarydWork1()
+{
+	if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_work_is_nariad.php?id='+$(this).attr("id_rel")+'&n='+$(this).attr("naryd"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+}
+
+//Обновление корзины при оформлении заявки на материал
+function BasketUpdate_Z(dom_id)
+{
+	var cookie = $.cookie(window.b_cm+'_'+dom_id);
+	//alert(window.b_co);
+	var cc = cookie.split('.');
+	var counts=cc.length;
+	$('.basket_order').empty().append(counts);
+	$('.count_workssss').val(counts);
+}
+
+
+//Обновление корзины при оформлении наряда
+function BasketUpdate(dom_id)
+{
+	var cookie = $.cookie(window.b_co+'_'+dom_id);
+	//alert(window.b_co);
+	var cc = cookie.split('.');
+	var counts=cc.length;
+	$('.basket_order').empty().append(counts);
+	$('.count_workssss').val(counts);
+}
+
+function updatecash(id)
+{
+	       var data ='url='+window.location.href+'&id='+id;
+	        AjaxClient('cashbox','update_cash','GET',data,'AfterUCASH',id,0);
+}
+
+
+function UpdateItog()
+{
+	var sum_work=0;
+	var sum_mat=0;
+	
+	//lert($('.work__s').find('.summ_price').text());
+	//alert($('.work__s').find('.summ_price').length);
+	$('.work__s').find('.summ_price').each(function(i,elem) {
+		if($(this).text()!='')
+			{
+		var vall=parseFloat(trim_number($(this).text()));
+	     if ((vall!='')&&(vall!=0)) {sum_work=sum_work+vall;	}
+			}
+    });
+	$('.mat[rel_w]').find('.summa_finery_mater_').each(function(i,elem) {
+				if($(this).text()!='')
+			{
+		var vall=parseFloat(trim_number($(this).text()));
+	     if ((vall!='')&&(vall!=0)) {sum_mat=sum_mat+vall;	}
+			}
+    });
+	
+	
+	var sum_exceed=0;
+	$('.previ').hide();
+	$('.exceed').each(function(i,elem) {
+			if($(this).text()!='')
+			{
+		var vall=parseFloat(trim_number($(this).text()));
+	     if ((vall!='')&&(vall!=0)) {sum_exceed=sum_exceed+vall;	}
+			}
+    });	
+	if(sum_exceed!=0)
+	{
+		//$.number( 5020.2364, 2, ',', ' ');   // Outputs: 5 020,21	
+		$('.previ').find('.itogsumall1').empty().append('+'+$.number(sum_exceed, 2, '.', ' '));	
+		$('.previ').show();	
+	}
+	
+	
+	//alert(sum_work);
+	$('.itogsummat').empty().append($.number(sum_mat.toFixed(2), 2, '.', ' '));
+	$('.itogsumwork').empty().append($.number(sum_work.toFixed(2), 2, '.', ' '));
+	//$('.itogsumall').empty().append($.number((sum_work+sum_mat).toFixed(2), 2, '.', ' '));	
+}
+
+//история по нарядам по работе
+function HistoryN()
+{
+	var id_rel=$(this).attr('for');
+	if($(this).is('.shows'))
+	{
+		$(this).removeClass('shows');
+		$('.histtory[rel_h='+id_rel+']').hide();
+	} else
+	{
+	  if($('.histtory[rel_h='+id_rel+']').length)
+	  {
+		 $(this).addClass('shows');
+		 $('.histtory[rel_h='+id_rel+']').show();
+	  } else
+	  {
+			$('.loader_history[fo='+id_rel+']').show();
+		    $(this).addClass('shows');
+		    	
+	        var data ='url='+window.location.href+'&id='+id_rel;
+	        AjaxClient('prime','history_works','GET',data,'AfterHIST',id_rel,0);
+			  
+	  }
+	
+	}
+}
+function AfterHIST(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		var loader=$('.loader_history[fo='+update+']');
+		loader.hide();
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {				
+		var loader=$('.loader_history[fo='+update+']');
+		loader.hide();
+		loader.after(data.echo);
+	}
+	
+}
+
+//контроль ввода количества материала при оформлении заявки на материал
+function MmyHandlerApp()
+{
+	maskk($(this));
+	
+	var rel_id=$(this).parents('.mat_zz').attr('rel_w');
+	var rel_mat=$(this).parents('.mat_zz').attr('mat_zz');
+	var loader=$('[id_loader='+rel_mat+']');
+	var max=parseFloat($(this).attr('max'));
+	
+	
+	
+	var value=$(this).val();	
+	$(this).removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(parseFloat(value)>max)
+			{
+				//выделяем красным и открываем служебную записку
+				$(this).addClass('redaas');	
+			} 
+			var pr=Math.round(parseFloat(loader.attr('rel_w'))+((value*(100-parseFloat(loader.attr('rel_w'))))/max));
+		    if(pr>100) {pr=100;}		
+		    loader.stop(true).animate({width: pr+"%"}, 2000);		
+	} else
+	{
+		//первоночально состояние
+		loader.stop(true).animate({width: loader.attr('rel_w')+"%"}, 2000);	
+	}
+		
+	serv_mess_m_app($(this));
+	
+	//изменение максимальных значений количества материалов
+	
+	
+	
+	
+}
+
+
+//контроль ввода количества и стоимости материала при оформлении наряда
+function MmyHandlerXX()
+{
+	var rel_mat=$(this).parents('.mat').attr('rel_mat');	
+	var count=$('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val();
+	var old_count=$('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('old_count');
+	//alert(old_count);
+	if((count!='')&&(count!=0))
+	{
+		if(old_count!=count)
+			{
+	  $('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('old_count',count);	
+	  UpdateCostFinery(rel_mat);
+			}
+	}	else
+		{
+			
+				$('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val('').removeClass('redaas');
+					if(old_count!=count)
+			{
+	  $('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('old_count',count);	
+
+			}
+			
+		}
+	
+}
+
+
+
+//контроль ввода количества и стоимости материала при оформлении наряда
+function MmyHandler()
+{
+	maskk($(this));
+	
+	maskk_max($(this));
+
+	var rel_id=$(this).parents('.mat').attr('rel_w');
+	var rel_mat=$(this).parents('.mat').attr('rel_mat');
+	
+	var max=parseFloat($(this).attr('max'));
+	var my=parseFloat($(this).attr('my'));
+	
+	var value=$(this).val();	
+	$(this).removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			{
+				//выделяем красным и открываем служебную записку
+				$(this).addClass('redaas');	
+			} 
+				
+	} 
+	
+	
+	
+	/*
+	var rel_mat=$(this).parents('.mat').attr('rel_mat');	
+	var count=$('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val();
+	
+	if((count!='')&&(count!=0))
+	{
+	  UpdateCostFinery(rel_mat);
+	}	
+	*/
+	
+	
+	
+	serv_mess_m($(this));
+	summ_finery1(rel_mat);
+	
+	//изменение максимальных значений количества материалов
+	
+	
+	
+	
+}
+
+
+//контроль ввода количества работы при оформлении наряда
+function myHandler()
+{
+	maskk($(this));
+	var rel_id=$(this).parents('.work__s').attr('rel_id');
+	var id_trr=$(this).parents('.work__s').attr('id_trr');
+	var loader=$('[id_loader='+rel_id+']');
+	var max=parseFloat($(this).attr('max'));
+	var value=$(this).val();
+	
+	$(this).removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		//alert(value);
+		
+		if(parseFloat(value)>max)
+			{
+				//выделяем красным и открываем служебную записку
+				$(this).addClass('redaas');
+			}
+		var pr=Math.round(parseFloat(loader.attr('rel_w'))+((value*(100-parseFloat(loader.attr('rel_w'))))/max));
+		if(pr>100) {pr=100;}		
+		loader.stop(true).animate({width: pr+"%"}, 2000);	
+	} else
+	{
+		//первоночально состояние
+		loader.stop(true).animate({width: loader.attr('rel_w')+"%"}, 2000);	
+	}
+	serv_mess(id_trr);
+	summ_finery(id_trr);
+	
+	//изменение максимальных значений количества материалов
+	
+	
+	
+	
+}
+
+//контроль ввода суммы за единицу работы при оформлении наряда
+function myHandler1()
+{
+	maskk1($(this));
+	var rel_id=$(this).parents('.work__s').attr('rel_id');
+	var id_trr=$(this).parents('.work__s').attr('id_trr');
+	
+	var max=parseFloat($(this).attr('max'));
+	var value=$(this).val();
+	
+	$(this).removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		//alert(value);
+		if(parseFloat(value)>max)
+			{
+				//выделяем красным и открываем служебную записку
+				//alert(max);
+				$(this).addClass('redaas');
+			}
+		
+	} 
+	serv_mess(id_trr);
+	summ_finery(id_trr);
+}
+
+
+
+
+
 
 
 // таймер времени для форм ajax
@@ -5628,8 +2753,12 @@ function WindowLogin()
 	  //завершение сессии пользователя
 	  //$.cookie('user_id', null, {path:'/'});  
 	  //$.cookie('da', null, {path:'/'}); 
-	  
+
+	clearInterval(timerId);
+	$.arcticmodal('close');
+
 	  //открытие формы для входа
+	/*
 	  $.arcticmodal({
     type: 'ajax',
     url: 'forms/login.php?url='+window.location.href,
@@ -5643,19 +2772,43 @@ function WindowLogin()
 	 
     }
 
-  });
+  });*/
+
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/login_new.php?url='+window.location.href,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
+
+
+
 	  
 	  
 	  
       idleState = true; 	
 }
 
-//перезагрузка страницы
 function autoReloadHak(){
   var goal = self.location;
   location.href = goal;
 }
-
 function TimeHak()
 {
 
@@ -5687,89 +2840,25 @@ function TimeSystem()
 	   }
    }
 }
-function js_touroper_eye()
-{
-	var iu=$('.content').attr('iu');
-	var spp=$(this).attr('spp');
 
-	if(!$(this).is('.tours-eas-open') )
-	{
-		$(this).addClass('tours-eas-open');
 
-		$.cookie("eye_t_"+iu+'_'+spp, null, {path:'/',domain: window.is_session,secure: false});
-		if(spp==1)
-		{
-			$('.trips-b-operator').show();
-		} else
-		{
-			$('.trips-b-comission').show();
-		}
-	} else
-	{
-		$(this).removeClass('tours-eas-open');
-		$.cookie("eye_t_"+iu+'_'+spp, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("eye_t_"+iu+'_'+spp,"1",'add');
 
-		if(spp==1)
-		{
-			$('.trips-b-operator').hide();
-		} else
-		{
-			$('.trips-b-comission').hide();
-		}
-	}
 
-	classblockTrips();
-}
-//смотрим какие поля в блоке туров скрыты и даем правильный стиль для блока
-function classblockTrips()
-{
-	var tor=1;
-	var coms=1;
-	//по умолчанию блоки видны и никакой стиль не нужен
-
-	if($('.trips_block_global:first .trips-b-operator').is(':visible') ) { } else {  tor=0; }
-	if($('.trips_block_global:first .trips-b-comission').is(':visible') ) { } else {  coms=0; }
-
-	$('.trips_block_global').removeClass('block_t00');
-	$('.trips_block_global').removeClass('block_t10');
-	$('.trips_block_global').removeClass('block_t01');
-
-	if((tor==0)&&(coms==0))
-{
-	$('.trips_block_global').addClass('block_t00');
-}
-if((tor==1)&&(coms==0))
-{
-	$('.trips_block_global').addClass('block_t10');
-}
-if((tor==0)&&(coms==1))
-{
-	$('.trips_block_global').addClass('block_t01');
-}
-
-}
 
 //обращение за уведомлением
 function NotificationSystem()
 { 
   //
   if($('.users_rule').is('[not]')) 
-  {  	
-	
-	  //если есть вывод куда выводить задачу тогда проверяем не обновились ли они
-	  var task_cloud=0;
-	  if ($('.js-task-cloud').length > 0) { task_cloud=1; }
-	  
-    var data='tk='+$('.users_rule').attr('not');
-
+  {  		
+    var data='tk='+$('.users_rule').attr('not');	
     nprogress=1;	  
-    AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
+    AjaxClient('notification','even','GET',data,'AfterNofi',1,0);	
   }
 }
 
 
-//уведомления запуск
+
 function NotifSystem()
 {
 //на каких то страницах можно не включать обновление уведомлений	
@@ -5862,7 +2951,7 @@ function ExitSystem()
 function timesss() { 
 	  clearInterval(timerS);
 	  //если пароль не ввели через минут перезагрузить страницу
-	  setTimeout ( function () { autoReload(); }, 60000 );
+	  setTimeout ( function () { autoReloadHak(); }, 60000 );
       // Действия на отсутствие пользователя
 	  //alert('выход из системы');
 	  $(document).unbind('mousemove.time keydown.time scroll.time');
@@ -5871,6 +2960,8 @@ function timesss() {
 	  //$.cookie('da', null, {path:'/'}); 
 	  $.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false});
 	  //открытие формы для входа
+
+	/*
 	  $.arcticmodal({
     type: 'ajax',
     url: 'forms/login.php?url='+window.location.href,
@@ -5885,14 +2976,231 @@ function timesss() {
     }
 
   });
-	  
-	  
+	*/
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/login_new.php?url='+window.location.href,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
 	  
       idleState = true; 
     }
 
 
 
+//корзина счетов новый/текущий
+function basket_supply()
+{
+	var iu=$('.content_block').attr('iu');
+	var cookie_new = $.cookie('basket_supply_'+iu);
+	var cookie_score = $.cookie('basket_score_'+iu);
+	var cookie_flag_current = $.cookie('current_supply_'+iu);
+	//alert(cookie_new);
+	if(cookie_flag_current==null) 
+	{
+		//значит новый счет выводить
+		if(cookie_new==null) { $('.add_score').remove(); $('.more_supply').hide();  } else
+	    {
+		   $('.add_nar').show();
+		   $('.add_zayy').show();
+		   if(!$(".add_score").length)
+		   {
+			  $('.add_sss').after('<a data-tooltip="добавить счет" class="add_score"><i class="score_plus"></i><i class="score_"></i></a>'); 
+			  $('.more_supply').show(); 
+			   
+			  ToolTip(); 
+		   }
+		   var cc = cookie_new.split('.');
+	       var counts=cc.length;
+		   $('.add_score .score_').empty().append(counts);
+
+		   $('.add_score .score_').animate({scale: "1.5"}, 200, function() {  $('.add_score .score_').animate({scale: "1"}, 200); });
+		   $('#nprogress').show();
+		   $('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+	    }
+	} else
+	{
+		//значит активен текущий счет
+		$('.add_score').remove(); $('.more_supply').hide();		
+		$('.current_score').show();  $('.more_supply2').show();
+		
+		$('.current_score').find('.count_scire').show();
+		$('.menu_supply').find('[rel=1]').parents('li').show();
+        if(cookie_score!=null)
+			{
+		var cc = cookie_score.split('.');
+	    var counts=cc.length;
+			} else
+				{
+					counts='';
+					$('.current_score').find('.count_scire').hide();
+					$('.menu_supply').find('[rel=1]').parents('li').hide();
+				}
+		
+		//$('.add_score .score_').empty().append(counts);
+		$('.current_score').find('.count_numb_score').empty().append(counts);
+		
+		//$('.current_score').find('.count_scire').hide();
+		
+	}
+	
+}
+
+
+
+//проферка есть ли по этому дому в корзине заявки на материалы и выводить кнопку оформить заявку
+function BasketMaterial()
+{
+	var id_dom=$('.content_block').attr('dom');
+	if($('.add_v_zay').length)
+	{
+	var cookie = $.cookie(window.b_co+'_'+id_dom);
+	} else
+	{
+	var cookie = $.cookie(window.b_cm+'_'+id_dom);		
+	}
+	//alert(window.b_co);
+	//alert(id_dom);
+	
+	if($('.add_v_zay').length)
+	{
+	//добавление в существующую заявку материалов
+	if(cookie==null) { $('.font-rank11').remove(); $('.add_zayy').hide(); } else
+	{
+		$('.add_zayy').show();
+		if($(".font-rank11").length)
+		{
+		} else {
+			$('.add_nnn').after('<div class="font-rank11"><span class="font-rank-inner11 basket_order"></span></div>');
+		}
+		var cc = cookie.split('.');
+	    var counts=cc.length;
+		$('.font-rank-inner11').empty().append(counts);
+		//$('.naryd_end i').css('transform','scale(2)');
+		//$('.naryd_end i').scale(1.5);
+		$('.font-rank-inner11').animate({scale: "1.5"}, 200, function() {  $('.font-rank-inner11').animate({scale: "1"}, 200); });
+		 $('#nprogress').show();
+		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+	}
+	} else
+	{		
+	
+	//оформление наряда		
+	
+	if(cookie==null) { $('.material_end').remove(); } else
+	{
+		
+		if(!$("div").is(".material_end"))
+		{
+			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d</a><i></i></div>');
+		}
+		var cc = cookie.split('.');
+	    var counts=cc.length;
+		$('.material_end i').empty().append(counts);
+		//$('.naryd_end i').css('transform','scale(2)');
+		//$('.naryd_end i').scale(1.5);
+		$('.material_end i').animate({scale: "1.5"}, 200, function() {  $('.material_end i').animate({scale: "1"}, 200); });
+		 $('#nprogress').show();
+		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+	}
+	}
+	
+	//помечаем сколько в каком разделе работ в корзине
+	/*
+	var numOpt=$('.block_i');
+	$('.block_i').find('.count_basket_razdel').empty();
+	numOpt.each(function (index, value) 
+	{ 
+			var cc=$(this).find('.checher').length;
+			if(cc!=0)
+			{
+			   $(this).find('.count_basket_razdel').empty().append(cc);	
+			}
+	});
+	*/
+}
+
+
+
+//проферка есть ли по этому дому в корзине нарядов - наряды и выводить кнопку оформить и количество если что
+function BasketFinery()
+{
+	var id_dom=$('.content_block').attr('dom');
+	var cookie = $.cookie(window.b_co+'_'+id_dom);
+	//alert(window.b_co);
+	//alert(cookie);
+	if(($('.add_v_naryad').length)||($('.add_v_zay').length))
+	{
+		//alert("!");
+	//добавление в существующий наряд
+	if(cookie==null) { $('.font-rank11').remove(); $('.add_nar').hide(); $('.add_zayy').hide(); } else
+	{
+		$('.add_nar').show();
+		$('.add_zayy').show();
+		if($(".font-rank11").length)
+		{
+		} else {
+			$('.add_nnn').after('<div class="font-rank11"><span class="font-rank-inner11 basket_order"></span></div>');
+		}
+		var cc = cookie.split('.');
+	    var counts=cc.length;
+		$('.font-rank-inner11').empty().append(counts);
+		//$('.naryd_end i').css('transform','scale(2)');
+		//$('.naryd_end i').scale(1.5);
+		$('.font-rank-inner11').animate({scale: "1.5"}, 200, function() {  $('.font-rank-inner11').animate({scale: "1"}, 200); });
+		 $('#nprogress').show();
+		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+	}
+	} else
+	{		
+	//оформление наряда		
+	
+	if(cookie==null) { $('.naryd_end').remove(); } else
+	{
+		
+		if(!$("div").is(".naryd_end"))
+		{
+			$('.add_nnn').after('<div class="naryd_end" data-tooltip="Оформить наряд"><a href="finery/add/'+id_dom+'/">4</a><i></i></div>');
+		}
+		var cc = cookie.split('.');
+	    var counts=cc.length;
+		$('.naryd_end i').empty().append(counts);
+		//$('.naryd_end i').css('transform','scale(2)');
+		//$('.naryd_end i').scale(1.5);
+		$('.naryd_end i').animate({scale: "1.5"}, 200, function() {  $('.naryd_end i').animate({scale: "1"}, 200); });
+		 $('#nprogress').show();
+		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+	}
+	}
+	//помечаем сколько в каком разделе работ в корзине
+	var numOpt=$('.block_i');
+	$('.block_i').find('.count_basket_razdel').empty();
+	numOpt.each(function (index, value) 
+	{ 
+			var cc=$(this).find('.checher').length;
+			if(cc!=0)
+			{
+			   $(this).find('.count_basket_razdel').empty().append(cc);	
+			}
+	});
+}
 
 
 function compareNumbers(a, b) {
@@ -5906,7 +3214,7 @@ function CookieList(name,id,command,sort)
 //alert($.cookie(name));
 var cookie = $.cookie(name);
 	//alert(cookie);
-if(cookie==null) {  $.cookie(name, id, {expires: 60,path: '/',domain: window.is_session,secure: false,samesite:'lax'});
+if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_session,secure: false});
  } else
 {
 	if(command=='del')
@@ -5934,17 +3242,17 @@ if(cookie==null) {  $.cookie(name, id, {expires: 60,path: '/',domain: window.is_
 	}
 	if(text=='')
 	{
-		$.cookie(name, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+		$.cookie(name, null, {path:'/',domain: window.is_session,secure: false}); 
 	} else
 	{
-	    $.cookie(name, text, {path: '/',domain: window.is_session,secure: false,samesite:'lax'});  //60 дней
+	    $.cookie(name, text, {path: '/',domain: window.is_session,secure: false});  //60 дней
 	}
 	
 	} else
 	{
 		//alert(sort);
 		  if (sort === undefined) {
-               $.cookie(name, cookie+'.'+id, {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
+               $.cookie(name, cookie+'.'+id, {path: '/',domain: window.is_session,secure: false}); //60 дней
           } else
 	      {
 				  if(sort=='sort')
@@ -5954,7 +3262,7 @@ if(cookie==null) {  $.cookie(name, id, {expires: 60,path: '/',domain: window.is_
 					  
 					   jon_cc= jon_cc.sort(compareNumbers);
 					   //alert(jon_cc.join("."));
-					   $.cookie(name, jon_cc.join("."), {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
+					   $.cookie(name, jon_cc.join("."), {path: '/',domain: window.is_session,secure: false}); //60 дней
 					    
 				  }
 				  
@@ -5968,140 +3276,215 @@ if(cookie==null) {  $.cookie(name, id, {expires: 60,path: '/',domain: window.is_
 }
 
 
-//добавление или удаление из строки вида 4,3,5 еще элементов
-//возвращает 0 если надо добавить а это уже есть
-function AddDellListSep(string,id,command,separator)
+
+//функция всплывающие комментарии
+function ToolTip()
 {
-//del - add
-
-	//alert(cookie);
-	if((string=='')&&(command=='add')) { return id;
-	} else
-	{
-		if(command=='dell')
+	
+$("[data-tooltip]").mousemove(function (eventObject) {
+		
+		if(!$("div").is("#tooltip"))
 		{
+		  $("body").append('<div id="tooltip"></div>');
+		}
 
-			var cc = string.split(separator);
-			var text='';
-			var lp=0;
-			for ( var t = 0; t < cc.length; t++ )
+        $data_tooltip = $(this).attr("data-tooltip");
+     $("#tooltip").text($data_tooltip);     
+	var offset = $(this).offset();
+	
+	    
+	//$('.debug').empty().append(offset.left+'-'+$(window).width()+'-'+$('#tooltip').width()+'-'+eventObject.pageX);
+	//var razn=offset.left+$('#tooltip').width();
+
+	if(eventObject.pageX>=($(window).width()/2))
+		{
+        $("#tooltip").css({ 
+                         "top" : eventObject.pageY + 5,
+                        "left" : eventObject.pageX - $('#tooltip').outerWidth() - 5
+		
+                     })
+                     .show();			
+		}else
+	{
+        $("#tooltip").css({ 
+                         "top" : eventObject.pageY + 5,
+                        "left" : eventObject.pageX + 5
+                     })
+                     .show();
+	}
+    }).mouseout(function () { $("#tooltip").remove(); });
+
+}
+
+//закрыть все разделы в себестоимости
+var close_all_razdel = function() {
+		
+		var id_content=$('.content_block').attr('id_content');		
+		$('.block_i .i__').parent().parent().removeClass("active");
+		$.cookie("l_"+id_content, null, {path:'/'}); 
+		$('.block_i .i__').empty().append("+");		  
+}
+
+//поиск по себестоимости
+//поиск по себестоимости
+ var minlen = 3; // минимальная длина слова
+ var paddingtop = 30; // отступ сверху при прокрутке
+ var scrollspeed = 200; // время прокрутки
+ var keyint = 2000; // интервал между нажатиями клавиш
+ var term = '';
+ var n = 0;
+ var search_step=0;
+ var time_keyup = 0;
+ var time_search = 0;
+
+var  dosearch = function() {
+	window.search_step=0;
+  term = $('.search_seb').find('input').val();
+  $('var.highlight').each(function(){ $(this).after($(this).html()).remove(); });
+  var t = '';
+  var n=0;
+  if(term!='')
+	  {
+  $('.s_j').each(function(){ 
+
+    $(this).html($(this).html().replace(new RegExp(term, 'ig'), '<var class="highlight">$&</var>')); 
+
+   }); 
+	  }
+    n = $('var.highlight').length; 
+	window.n_search_prime=n;
+   $('.result_s').show();
+   $('.result_s').find('.se_prev').hide();
+   if (n==0)
+	   {
+    $('.result_s').find('div').empty().append('Найдено: 0');
+	$('.result_s').find('.se_next').hide();
+	   }
+   else
+	   {
+    $('.result_s').find('div').empty().append('Найдено: <span class="s_ss">'+n+'</span>'); 
+	$('.result_s').find('.se_next').show();
+	   }
+   if (n>1) 
+   {
+    window.irr = 1;
+    $('var.highlight').each(function(irr){ $(this).attr('nss', window.irr); window.irr++;  });
+   } 
+  
+ }
+var search_p = function()
+{
+	dosearch();	
+}
+
+var error_anim=function()
+{
+	//alert($(this).attr('id'));
+	setTimeout ( function () { alert($(this).attr('id')); $(this).removeClass('error_formi'); }, 2000 );	
+}
+
+var search_prev = function()
+{
+	window.search_step--;
+	if(window.search_step>=0)
+	{					
+		if($('[nss='+window.search_step+']').parents('.block_i').length)
 			{
-				if(cc[t]!=id)
-				{
-					if(cc[t]!='')
-					{
-						if(lp==0)
-						{
-							text=cc[t];
-						} else
-						{
-							text=text+separator+cc[t];
-						}
-						lp++;
+				if(!$('[nss='+window.search_step+']').parents('.block_i').is(".active"))
+					{						
+						$('[nss='+window.search_step+']').parents('.block_i').find('.i__').parent().parent().addClass("active");
+						var id_content=$('.content_block').attr('id_content');
+		                CookieList("l_"+id_content,$('[nss='+window.search_step+']').parents('.block_i').find('.i__').parent().parent().attr('rel'),'add');
+		                $('[nss='+window.search_step+']').parents('.block_i').find('.i__').empty().append("-");
 					}
-				}
+				
+				
 			}
-			if(text=='')
-			{
-				return '';
-			} else
-			{
-				return text;
-			}
+		
+		
+		jQuery.scrollTo('[nss='+window.search_step+']', 1000, {offset:-200});	
+	} 
 
+	if(window.search_step<window.n_search_prime)
+		{
+			
+			$('.result_s').find('.se_next').show();
+			
+		}
+	
+	
+	if(window.search_step==1)
+		{
+			$('.result_s').find('.se_prev').hide();
+			$('.result_s').find('.se_next').show();
+			
+		} else
+			{
+				//$('.result_s').find('.se_prev').hide();
+				
+			}
+		
+}
+
+var search_next = function()
+{
+	window.search_step++;
+	if(window.search_step<=window.n_search_prime)
+	{					
+		if($('[nss='+window.search_step+']').parents('.block_i').length)
+			{
+				if(!$('[nss='+window.search_step+']').parents('.block_i').is(".active"))
+					{
+						$('[nss='+window.search_step+']').parents('.block_i').find('.i__').parent().parent().addClass("active");
+						var id_content=$('.content_block').attr('id_content');
+		                CookieList("l_"+id_content,$('[nss='+window.search_step+']').parents('.block_i').find('.i__').parent().parent().attr('rel'),'add');
+		                $('[nss='+window.search_step+']').parents('.block_i').find('.i__').empty().append("-");
+						
+						
+					}
+				
+				
+			}
+		
+		
+		jQuery.scrollTo('[nss='+window.search_step+']', 1000, {offset:-200});	
+	} 
+
+	if(window.search_step==window.n_search_prime)
+		{
+			$('.result_s').find('.se_next').hide();
+		}
+	
+	if(window.search_step!=0)
+		{
+			$('.result_s').find('.se_prev').show();
+			
 		} else
 		{
-			//alert(sort);
-			//вдруг такой элемент уже есть тогда вернем 0
-			var cc = string.split(separator);
-			var text='';
-			var lp=0;
-			for ( var t = 0; t < cc.length; t++ )
-			{
-				if(cc[t]==id)
-				{
-
-					lp++;
-
-				}
-			}
-			if(lp!=0) {  return 0;} else {return (string+separator+id);}
-
-
+				$('.result_s').find('.se_prev').hide();
+				
 		}
-	}
-	//alert(cookie);
+	
 }
 
-
-//добавление или удаление из строки вида 4,3,5 еще элементов
-//возвращает 0 если надо добавить а это уже есть
-function AddDellList(string,id,command)
+var search_prime = function()
 {
-//del - add
 
-	//alert(cookie);
-if((string=='')&&(command=='add')) { return id;
- } else
-{
-	if(command=='dell')
+	$('.icon1').hide();
+	$('.search_seb').show();
+	$('.search_seb').width('400px');
+	$('.search_seb').find('input').focus();
+	window.show_search=1;
+	if($('.search_seb').find('input').val()!='')
 	{
-		
-	var cc = string.split(',');
-	var text='';
-	var lp=0;
-	for ( var t = 0; t < cc.length; t++ ) 
-	{ 
-	  if(cc[t]!=id)
-	  {
-		  if(cc[t]!='')
-		  {	  
-		    if(lp==0)
-		    {
-			  text=cc[t];
-		    } else
-		    {
-			  text=text+','+cc[t];
-		    }
-		    lp++;
-		  }
-	  }
-	}
-	if(text=='')
-	{
-		return '';
-	} else
-	{
-	    return text;
+			dosearch();			
 	}
 	
-	} else
-	{
-		//alert(sort);
-	    //вдруг такой элемент уже есть тогда вернем 0
-		var cc = string.split(',');
-	var text='';
-	var lp=0;
-	for ( var t = 0; t < cc.length; t++ ) 
-	{ 
-	  if(cc[t]==id)
-	  {
-		  
-		    lp++;
-		  
-	  }
-	}
-	if(lp!=0) {  return 0;} else {return (string+','+id);}
-		
-		
-	}
 }
-	//alert(cookie);
-}
+//поиск по себестоимости
+//поиск по себестоимости
 
 
-
-//отправка сообщения
 var send_meee= function()
 {
 
@@ -6129,6 +3512,40 @@ $("#otziv_area").val('');
 	
 }
 
+
+//проводим безналичный расчет 
+var beznal_upload=function()
+{
+	var id=$(this).attr('id_bez');
+	if($.isNumeric($(this).attr("id_bez")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_bez_dialog.php?id='+$(this).attr("id_bez"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+
+
+
 //отправка сообщений пользователю
 var SendMessage= function()
 {
@@ -6141,15 +3558,23 @@ var SendMessage= function()
 	$.arcticmodal({
     type: 'ajax',
     url: 'forms/form_message.php?id='+id_user,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	 
-    }
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
 
   });
 		}
@@ -6224,29 +3649,54 @@ var view_notification = function()
 {
 	if( $('.noti_block').is(':visible') ) {   $('.noti_block').remove(); $('.view__not').hide(); $('.not_li').find('i').hide();  } else 
 	{ 	 
-	  $('.view__not').append('<div class="noti_block"><div class="title_noti"><ul class="t_ul"><li>Уведомления</li><li><i class="noti_co" style="display:none;"><span class="noti_coc"></span></i></li></ul></div><div class="scro"></div></div>');
+	  $('.menu1').append('<div class="noti_block"><div class="title_noti"><ul class="t_ul"><li>Уведомления</li><li><i class="noti_co" style="display:none;"><span class="noti_coc"></span></i></li></ul></div><div class="scro"></div></div>');
 	  //отправляем запрос на получение новых уведомлений
 	  $('.noti_block').find('.scro').empty().append('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');
 	  var data ='';
 
-      AjaxClient('notification','view_notification','GET',data,'AfterVVN',1,0,1);
+      AjaxClient('notification','view_notification','GET',data,'AfterVVN',1,0);	
 	}
 }
 
 
-
-//нажать на кнопку отменить как выполнена в новых задачах
-var YesTask1 = function() {
-if ( $(this).is("[rel_taskk]") )
+//редактировать исполнителя
+var option_imlementer = function()
 {
-	if($.isNumeric($(this).attr("rel_taskk")))
-	{
-       var attr=$(this).attr('rel_taskk');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
-	$.arcticmodal({
+  var id= $('.content_block').attr('id_content');
+  $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_yes_task.php?id='+attr,
+    url: 'forms/form_option_implementer.php?id='+id,
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });	
+}
+
+
+//добавить исполнителя
+var add_imlementer = function()
+{
+  //var id= $(this).attr('for');
+
+	/*
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_add_implementer.php?id=1',
     afterLoading: function(data, el) {
         //alert('afterLoading');
     },
@@ -6257,26 +3707,42 @@ if ( $(this).is("[rel_taskk]") )
 	clearInterval(timerId);
     }
 
-  });	
-	
-}
-}
-return false;
-	
+  });*/
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/form_add_implementer.php?id=1',
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
+
+
 }
 
-//нажать на кнопку задача выполенна
-var YesTask = function() {
-if ( $(this).is("[rel_taskk]") )
+
+//редактировать исполнителя
+var option_imlementer1 = function()
 {
-	if($.isNumeric($(this).attr("rel_taskk")))
-	{
-       var attr=$(this).attr('rel_taskk');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
-	$.arcticmodal({
+  var id= $(this).attr('for');
+  /*
+  $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_yes_task.php?id='+attr,
+    url: 'forms/form_option_implementer.php?id='+id,
     afterLoading: function(data, el) {
         //alert('afterLoading');
     },
@@ -6287,140 +3753,620 @@ if ( $(this).is("[rel_taskk]") )
 	clearInterval(timerId);
     }
 
-  });	
-	
-}
-}
-return false;
-	
-}
-
-
-//удаление организации
-var DellOrg = function() {
-if ( $(this).is("[id_rel]") )
-{
-	if($.isNumeric($(this).attr("id_rel")))
-	{
-       var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
+  });
+  */
 	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/form_option_implementer.php?id='+id,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
+
+
+}
+
+//выдать наличные исполнителю аванса
+var pay_imlementer_avans = function()
+{
+  var id= $(this).attr('id_avans');
+  $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_dell_org.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
+    url: 'forms/form_pay_implementer_avans.php?id='+id,
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+
+
+
+
+}
+
+//выдать наличные исполнителю
+var pay_imlementer = function()
+{
+  var id= $(this).attr('id_rel');
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_pay_implementer.php?id='+id,
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });		
+}
+
+
+//открыть историю по реализованной работе в себестоимости
+var hist_mu_prime = function()
+{
+	
+var id= $(this).parents('[rel_id]').attr('rel_id');
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_history_realiz_work.php?id='+id,
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
 
   });	
-	
+}
+
+
+//открыть настройки по дому
+var house_options = function()
+{
+if ( $('.content_block').is("[dom]") )
+{
+	if($.isNumeric($('.content_block').attr("dom")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_object_options.php?id='+$('.content_block').attr("dom"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
 }
 }
   
 return false;
+
+		
+}
+
+//показать итоговые суммы в загаловках разделов
+var summ_view = function()
+{
+	
+	if( $('.summ_blogi').is(':visible') ) { 
+	$('.summ_blogi').hide();
+	$('.top_bl').find('h2').removeClass('margin_sum ');	
+	$(this).removeAttr('on');
+	CookieList("it_",'on','del');	
+	} else
+	{
+	$('.summ_blogi').show();
+	$('.top_bl').find('h2').addClass('margin_sum ');
+	$(this).attr('on','show');
+	CookieList("it_",'on','add');	
+	}
 	
 }
 
-//удаление задачи
-var DellTask = function() {
-	
-if ($(this).is("[id_rel]"))
+
+//принять накладную
+var take_invoice = function()
 {
-	if($.isNumeric($(this).attr("id_rel")))
+   $('#lalala_pod_form').submit();	
+}
+
+
+//подписать наряд
+var sign_naryad = function()
+{
+   $('#lalala_pod_form').submit();	
+}
+
+
+//утвердить наряд
+var seal_naryad = function()
+{
+   $('#lalala_seal_form').submit();	
+}
+
+//распровести наряд
+var disband_naryad = function()
+{
+   $('#lalala_disband_form').submit();	
+}
+
+//снять подпись
+var shoot_naryad = function()
+{
+   $('#lalala_shoot_form').submit();	
+}
+
+//нажатие на кнопку по решению служебной заявки
+var decision_mess_app = function()
+{
+	var dec=-1;
+	if(!$(this).parents('.edit_123').is('.ready'))
 	{
-    
-	var attr=$(this).attr('id_rel');
+		$('.pod_zay').hide(); $('.add_zay').show();
+		$(this).parents('.edit_123').find('i').removeClass('active');
+	   	if($(this).is('.yes')) { dec=1; }
+		if($(this).is('.no')) { dec=0; }
+		$(this).addClass('active');
+		//alert(dec);
+		$(this).parents('.messa').find('.decision_mes').val(dec);
+	}
+}
+
+//нажатие на кнопку по решению служебной записки наряды
+var decision_mess = function()
+{
+	var dec=-1;
+	if(!$(this).parents('.edit_122').is('.ready'))
+	{
+		$('.pod_nar').hide(); $('.add_nar').show();
+		$(this).parents('.edit_122').find('i').removeClass('active');
+	   	if($(this).is('.yes')) { dec=1; }
+		if($(this).is('.no')) { dec=0; }
+		$(this).addClass('active');
+		//alert(dec);
+		$(this).parents('.messa').find('.decision_mes').val(dec);
+	}
+}
+
+
+//сохранить заявку на материал
+var save_zayava = function()
+{
+	var error=0;
+
+	$('.messa:visible').find('.text_zayva_message_').removeClass('error_formi');	
+	$('.messa:visible').find('.text_zayva_message_').each(function(i,elem) {
 	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_task.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
+		var text=$(this).val();
+		if(text=='')
+	    {
+			error=1;
+			$(this).addClass('error_formi');
+		}
+    });
+	$('.mat_zz').find('.count_app_mater_').removeClass('error_formi');
+	$('.mat_zz').find('.calendar_zay').removeClass('error_formi');
+	
+	$('.messa:visible').each(function(i,elem) {
+	    var id_work=$(this).attr('id_mes');
+		//проверим что все поля для каждой служебной записки заполнены
+		
+		
+		
+		var count=$('.mat_zz[mat_zz='+id_work+']').find('.count_app_mater_').val();
+		//var price=$('.mat_zz[rel_id='+id_work+']').find('.price_finery_').val();
+		
+		$('.mat_zz[mat_zz='+id_work+']').find('.count_app_mater_').removeClass('error_formi');
+		//$('.mat_zz[mat_zz='+id_work+']').find('.date_r_base').removeClass('error_formi');
+		
+		if((count==0)||(count=='')||(!$.isNumeric(count)))
+	    {
+			$('.mat_zz[mat_zz='+id_work+']').find('.count_app_mater_').addClass('error_formi');
+			error=1;
+		}
+
+		
+		/*
+		$('.mat[rel_w='+id_work+']').each(function(i,elem) {
+		var count=$(this).find('.count_finery_mater_').val();
+		var price=$(this).find('.price_finery_mater_').val();
+		$(this).find('.price_finery_mater_').removeClass('error_formi');
+		$(this).find('.count_finery_mater_').removeClass('error_formi');	
+		if((count==0)||(count=='')||(!$.isNumeric(count)))
+	    {
+			$(this).find('.count_finery_mater_').addClass('error_formi');
+			error=1;
+		}
+		if((price==0)||(price=='')||(!$.isNumeric(price)))
+	    {
+			$(this).find('.price_finery_mater_').addClass('error_formi');
+			error=1;
+		}
+		});
+		*/
+		
+    });
+	if(error==1)
+		{
+			
+			$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
+			
+			setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
+			
+		} else
+		{	
+		    $('#lalala_add_form').submit();		
+		}
+	
+	
+		
+}
+
+var save_invoicess1 = function()
+{
+	var error=0;
+   
+	$('.save__s').removeClass('error_formi');
+	$('.akt_ss').removeClass('redaas_invcoice');
+
+    if($('#ispol').val()==0)
+	{
+	   $('#ispol').prev().prev().addClass('error_formi');
+		error=1;
+	}
+    if($('#date_hidden_table').val()=='')
+	{
+	   $('#date_hidden_table').next('.save__s').addClass('error_formi');
+		error=1;
+	}
+    if($('#number_invoice').val()=='')
+	{
+	   $('#number_invoice').addClass('error_formi');
+		error=1;
+	}
+	
+
+	$('.messa_invoice:visible').each(function(i,elem) {
+	    var id=$(this).attr('invoices_messa');
+		
+		
+	var count=parseFloat($('[invoice_material='+id+']').find('.count_in_').val());
+	var count_akt=parseFloat($('[invoices_messa='+id+']').find('.count_defect_in_').val());
+	var comment=$('[invoices_messa='+id+']').find('.text_zayva_message_').val();
+	//alert(id);
+	
+	if((count_akt=='')||(count_akt>count)||(count_akt==0))
+	{
+		    error=1;
+			$('[invoices_messa='+id+']').find('.count_defect_in_').addClass('redaas_invcoice');
+	} 
+	
+	var akt_photo=$('[invoices_messa='+id+']').find('.img_akt li').length;	
+		
+	if((comment=='')&&(akt_photo==0))
+	{
+		error=1;
+		$('[invoices_messa='+id+']').find('.text_zayva_message_').addClass('redaas_invcoice');
+	}
+		
+
+
+		
     });	
 	
-    }
-}
-  
-return false;
 	
+	if(error==1)
+		{
+			
+			$('.error_text_add').empty().append('Не все поля заполнены для сохранения').show();
+			setTimeout ( function () { $('.error_text_add').hide(); }, 7000 );
+			
+		} else
+		{	
+		    $('#lalala_add_form').submit();		
+		}
+	
+	
+		
 }
 
-
-//удаление клиента
-var DellClients = function() {
-if ( $(this).is("[id_rel]") )
+//сохранить накладную первый этап
+var save_invoicess = function()
 {
-	if($.isNumeric($(this).attr("id_rel")))
+	var error=0;
+   
+	$('.save__s').removeClass('error_formi');	
+
+    if($('#ispol').val()==0)
 	{
-       var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
+	   $('#ispol').prev().prev().addClass('error_formi');
+		error=1;
+	}
+    if($('#date_hidden_table').val()=='')
+	{
+	   $('#date_hidden_table').next('.save__s').addClass('error_formi');
+		error=1;
+	}
+    if($('#number_invoice').val()=='')
+	{
+	   $('#number_invoice').addClass('error_formi');
+		error=1;
+	}	
+	if(error==1)
+		{
+			
+			$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
+			setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
+			
+		} else
+		{	
+		    $('#lalala_add_form').submit();		
+		}
 	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_clients.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
+	
+		
+}
 
-  });	
-	
-}
-}
-  
-return false;
-	
-}
-
-//удаление заявки
-var DellBooking = function() {
-if ( $(this).is("[id_rel]") )
+//сохранить наряд
+var save_naryad = function()
 {
-	if($.isNumeric($(this).attr("id_rel")))
-	{
-       var attr=$(this).attr('id_rel');
-	//$('[id_offers='+attr+']').slideUp("slow");
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_booking.php?id='+attr,
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
+	var error=0;
 
-  });	
+	$('.messa:visible').find('.text_finery_message_').removeClass('error_formi');	
+	$('.messa:visible').find('.text_finery_message_').each(function(i,elem) {
 	
+		var text=$(this).val();
+		if(text=='')
+	    {
+			error=1;
+			$(this).addClass('error_formi');
+		}
+    });
+	$('.work__s').find('.price_finery_').removeClass('error_formi');
+	$('.work__s').find('.count_finery_').removeClass('error_formi');
+	$('.mat').find('.price_finery_mater_').removeClass('error_formi');
+	$('.mat').find('.count_finery_mater_').removeClass('error_formi');
+	
+	$('.messa:visible').each(function(i,elem) {
+	    var id_work=$(this).attr('id_mes');
+		//проверим что все поля для каждой служебной записки заполнены
+		
+		
+		//определим отностимся записка к работе или материалу
+		var aa = id_work.split('_');
+		if(aa.length==1)
+		{
+		    //это работа
+		} else
+		{
+		   //материал
+		}
+		id_work=aa[0];
+		
+		var count=$('.work__s[rel_id='+id_work+']').find('.count_finery_').val();
+		var price=$('.work__s[rel_id='+id_work+']').find('.price_finery_').val();
+		$('.work__s[rel_id='+id_work+']').find('.price_finery_').removeClass('error_formi');
+		$('.work__s[rel_id='+id_work+']').find('.count_finery_').removeClass('error_formi');
+		if((count==0)||(count=='')||(!$.isNumeric(count)))
+	    {
+			$('.work__s[rel_id='+id_work+']').find('.count_finery_').addClass('error_formi');
+			error=1;
+		}
+		if((price==0)||(price=='')||(!$.isNumeric(price)))
+	    {
+			$('.work__s[rel_id='+id_work+']').find('.price_finery_').addClass('error_formi');
+			error=1;
+		}
+		
+		
+		$('.mat[rel_w='+id_work+']').each(function(i,elem) {
+		var count=$(this).find('.count_finery_mater_').val();
+		var price=$(this).find('.price_finery_mater_').val();
+		$(this).find('.price_finery_mater_').removeClass('error_formi');
+		$(this).find('.count_finery_mater_').removeClass('error_formi');	
+		if((count==0)||(count=='')||(!$.isNumeric(count)))
+	    {
+			$(this).find('.count_finery_mater_').addClass('error_formi');
+			error=1;
+		}
+		if((price==0)||(price=='')||(!$.isNumeric(price)))
+	    {
+			$(this).find('.price_finery_mater_').addClass('error_formi');
+			error=1;
+		}
+		});
+		
+		
+    });
+	if(error==1)
+		{
+			
+			$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
+			setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
+			
+		} else
+		{	
+		    $('#lalala_add_form').submit();		
+		}
+	
+	
+		
+}
+
+//редактировать материал к работе в разделе в себестоимости
+var edit_m_button_click = function() {
+	
+if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_edit_material.php?id='+$(this).attr("for"),
+    beforeOpen: function (data, el) {
+		//во время загрузки формы с ajax загрузчик
+		$('.loader_ada_forms').show();
+		$('.loader_ada1_forms').addClass('select_ada');
+	},
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+
+	
+	
+}
+
+//удалить материал к работе в разделе в себестоимости
+var del_m_button_click = function() {
+	
+if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_material.php?id='+$(this).attr("for"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+
+}
+
+//добавить материал к работе в разделе в себестоимости
+var add_m_button_click = function() {
+	
+if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_add_material.php?id='+$(this).attr("for"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
 }
 }
   
 return false;
 	
 }
-
 
 //удалить уведомление
 var DellNotif = function() {
@@ -6439,183 +4385,450 @@ return false;
 }
 
 
-
-
-
-//табсы в окне при добавлении клиента
-var tabs_client_add  = function() {
-	//alert("!");
-	var uoo=$(this).attr("id");
-	if ( $(this).is(".active") )
-    {
-		//уже активная вкладка
-	} else
+//распровести операцию по оплате
+var DellPay = function() {
+if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
 	{
-		$('.client_window .px_bg').empty().append('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-		
-		$('.js-tabs-menu').find('.tabsss1').removeClass('active');
-		$('.js-tabs-menu').find('.tabsss1[id='+uoo+']').addClass('active');
-		
-		var data ='url='+window.location.href+'&id_tabs='+$(this).attr("id")+
-					'&tk='+$('.h111').attr('mor')+
-					'&id='+$('.h111').attr('for');
-        AjaxClient('clients','tabs_organ','GET',data,'AfterTabsInfoAdd',$(this).attr("id"),0);	
-	}
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_pay.php?id='+$(this).attr("id_rel"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+	
 }
 
-//табсы в окне организации
-var tabs_org  = function() {
-	//alert("!");
-	var uoo=$(this).attr("id");
-	if ( $(this).is(".active") )
-    {
-		//уже активная вкладка
-	} else
+//распровести операцию по оплате
+var DellCash = function() {
+if ( $(this).is("[id_rel]") )
+{
+	if($.isNumeric($(this).attr("id_rel")))
 	{
-		$('.client_window .px_bg').empty().append('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-		
-		$('.js-tabs-menu_org').find('.tabsss_org').removeClass('active');
-		$('.js-tabs-menu_org').find('.tabsss_org[id='+uoo+']').addClass('active');
-		
-		var data ='url='+window.location.href+'&id_tabs='+$(this).attr("id")+
-					'&tk='+$('.h111').attr('mor')+
-					'&id='+$('.h111').attr('for');
-        AjaxClient('clients','tabs_info_org','GET',data,'AfterTabsInfoOrg',$(this).attr("id"),0);	
-	}
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_disband_cash.php?id='+$(this).attr("id_rel"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+	
 }
 
-//табсы в окне при выборе клиента
-var tabs_client_choice  = function() {
-	var uoo=$(this).attr("id");
-	if ( $(this).is(".active") )
-    {
-		//уже активная вкладка
-	} else
-	{		
-		$('.js-tabs-menu-choiche').find('.tabsss_choice').removeClass('active');
-		$('.js-tabs-menu-choiche').find('.tabsss_choice[id='+uoo+']').addClass('active');
-		
-		$('.js-choice-keyup').val('');
-		$('.js-choice-yyy').attr('id_rel',0);
-		$('.js-choice-yyy').attr('tabs',uoo);
-		$('.js-choice-yyy').removeClass('yes_choice_client');
-		
-		$('.list_choice_yes').empty();
-		
-		if(uoo==2)
+
+//удалить работу в разделе в себестоимости
+var del_button_click = function() {
+if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_work.php?id='+$(this).attr("for"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+	
+}
+
+//редактировать работу в разделе в себестоимости
+var edit_button_click = function() {
+	
+if ( $(this).is("[for]") )
+{
+	if($.isNumeric($(this).attr("for")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_edit_work.php?id='+$(this).attr("for"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+
+	
+	};
+
+//раскрытие раздела в себестоисти
+var block_i_i = function() {	
+
+var id_content=$('.content_block').attr('id_content');
+	  
+	   if($(this).parent().parent().is(".active")) 
+	  {
+		  $(this).parent().parent().removeClass("active");
+		  CookieList("l_"+id_content,$(this).parent().parent().attr('rel'),'del');
+		  $(this).empty().append("+");
+	  } else
+	  {
+		  $(this).parent().parent().addClass("active");
+		  CookieList("l_"+id_content,$(this).parent().parent().attr('rel'),'add');
+		  $(this).empty().append("-");
+	  }	
+	  
+	
+};
+
+
+//проверка выделенных материалов у работы
+var MaterialSelectAll = function() {
+
+		  $('[rel_id]').each(function(i,elem) {
+			  
+	        var length_all_mat_1=$(this).nextUntil(".loader_tr").length;
+			var count_all_mnmnm_1=0;  
+			$(this).nextUntil(".loader_tr").each(function(i,elem) {
+				  
+				 	 if($(this).is(".chechers")) 
+	                 { 
+	                    count_all_mnmnm_1++;
+					 }
+              });  
+			if(count_all_mnmnm_1==length_all_mat_1)
+		    { 
+			  $(this).find('.addd_icon_mateo').addClass("activ_matt");
+			} else
 			{
-				//организация вкладка
-				$('.js-new_open_client').find('i').empty().append('новая организация');
-				$('.js-new_open_client').attr('tabs_g',1);
-				$('.js-choice-keyup').attr('placeholder','Название организации, ИНН');
+			  $(this).find('.addd_icon_mateo').removeClass("activ_matt");
 			}
-		
-				if(uoo==1)
+          });	
+
+}
+	
+//функция проверки что все материалы у этой работе в корзине для заявок
+var basket_all_material = function(thisss) {
+ 
+	var length_all_mat=thisss.parents('.material').prevAll('[rel_id]:first').nextUntil(".loader_tr").length;
+	var count_all_mnmnm=0;
+	thisss.parents('.material').prevAll('[rel_id]:first').nextUntil(".loader_tr").each(function(i,elem) {
+				  
+				 	 if($(this).is(".chechers")) 
+	                 { 
+	                    count_all_mnmnm++;
+					 }
+              });
+	//alert(length_all_mat);
+	if(count_all_mnmnm==length_all_mat)
+		{
+			thisss.parents('.material').prevAll('[rel_id]:first').find('.addd_icon_mateo').addClass("activ_matt");
+		} else
 			{
-				//частное лицо вкладка
-				$('.js-new_open_client').find('i').empty().append('новый клиент');
-				$('.js-new_open_client').attr('tabs_g',0);
-				$('.js-choice-keyup').attr('placeholder','Фамилия, телефон или код клиента');
+				thisss.parents('.material').prevAll('[rel_id]:first').find('.addd_icon_mateo').removeClass("activ_matt");
 			}
-				if(uoo==3)
-			{
-				//частное лицо вкладка
-				$('.js-new_open_client').find('i').empty().append('новый клиент');
-				$('.js-new_open_client').attr('tabs_g',2);
-				$('.js-choice-keyup').attr('placeholder','Фамилия, телефон или код клиента');
-			}		
-		
-		var data ='url='+window.location.href+
-					'&all='+$('.js-eshe-client-x').attr("all")+
-			        '&tk='+$('.js-s_form_xx').attr('mor')+
-					'&id='+$('.js-s_form_xx').attr('for')+
-					'&search='+encodeURIComponent($('.js-choice-keyup').val())+
-			'&tabs='+uoo;
-		
-			$('.js-icon-load').hide().after('<div class="b_loading_small" style="margin-right:-20px; position:relative; top: 0px; right: 0px; padding-top:0px;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-                AjaxClient('clients','search_client_tours','GET',data,'AfterSearchClientT',1,0);
-		
-	}
+	
+}
+
+//нажать на кнопку выделить все материалы по работе
+var add_material_click = function() {
+	  if($(this).is(".activ_matt")) 
+	  {
+		  //значит выделены все материалы по этой работе
+		  //$(this).parents('[rel_id]').nextUntil(".loader_tr").remove();
+		  $(this).removeClass("activ_matt");
+		  
+		  $(this).parents('[rel_id]').nextUntil(".loader_tr").each(function(i,elem) {
+			  
+	           $(this).find('.nm_nm').trigger("click");
+          });
+		  
+	  } else
+		  {
+			  //не все материалы выделены. но может какие то и выделены
+			  $(this).addClass("activ_matt");
+			  
+			  
+		  	  $(this).parents('[rel_id]').nextUntil(".loader_tr").each(function(i,elem) {
+				  
+				 	 if(!$(this).is(".chechers")) 
+	                 { 
+	                    $(this).find('.nm_nm').trigger("click");
+					 }
+              });
+		  $(this).addClass("activ_matt");			  
+		  }
+	
 }
 
 
-
-
-//табсы в туре
-var tabs_trips = function(event) {
-	//event.data.key
-
-	var uoo=$(this).attr("id");
-
-   if(uoo!=0) {
-	   $(this).parents('.mm_w-trips').addClass('active-trips-menu');
-   } else
-   {
-	   $(this).parents('.mm_w-trips').removeClass('active-trips-menu');
-	  $(this).parents('.mm_w-trips').next().empty().hide();
-	   $(this).parents('.js-tabs-menu').find('.tabs_' + event.data.key).removeClass('active');
-   }
-
-	if ( $(this).is(".active") )
+//нажать на материал в разделе - добавить в корзину заявок
+var nm_div = function() {
+	
+	var id_dom=$('.content_block').attr('dom');
+	if(!$('.add_v_zay').length)
 	{
-		//уже активная вкладка
-		$(this).parents('.mm_w-trips').removeClass('active-trips-menu');
-		$(this).parents('.mm_w-trips').next().empty().hide();
-		$(this).parents('.js-tabs-menu').find('.tabs_' + event.data.key).removeClass('active');
-
-
-
+	  if($(this).parents('[rel_ma]').is(".chechers")) 
+	  {
+		  //убрали выделение
+		  $(this).parent().parent().removeClass("chechers");
+		  CookieList(window.b_cm+"_"+id_dom,$(this).parents('[rel_ma]').attr('rel_ma'),'del','sort');	
+		 // alert($(this).parents('[rel_id]').attr('rel_id'));
+		  BasketMaterial(); 
+		  basket_all_material($(this));
+		  ToolTip();
+	  } else
+	  {
+		  $(this).parent().parent().addClass("chechers");
+		  CookieList(window.b_cm+"_"+id_dom,$(this).parents('[rel_ma]').attr('rel_ma'),'add','sort');
+		  BasketMaterial();	
+		  basket_all_material($(this));
+		  ToolTip();	  
+	  }	
 	} else
 	{
-		//alert(event.data.key);
-		if(uoo!=0) {
-			$(this).parents('.mm_w-trips').next().empty().append('<div class="b_loading_small" style="position:relative; left: calc(50% - 30px); "><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-			$(this).parents('.mm_w-trips').next().slideDown("slow");
-
-			/*
-                    $('.form'+event.data.key+' .px_bg').empty().append('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-            */
-			$(this).parents('.js-tabs-menu').find('.tabs_' + event.data.key).removeClass('active');
-			$(this).parents('.js-tabs-menu').find('.tabs_' + event.data.key + '[id=' + uoo + ']').addClass('active');
-
-			//var key_='002U';
-
-			var data = 'url=' + window.location.href + '&id_tabs=' + $(this).attr("id") +
-				'&id=' + $(this).parents('.trips_block_global').attr('id_trips');
-			//alert(data);
-			AjaxClient('tours','tabs_info','GET',data,'AfterTabsInfoTrips',$(this).attr("id")+','+$(this).parents('.trips_block_global').attr('id_trips'),0,1);
-		}
+		if($(this).parents('[rel_ma]').is(".chechers")) 
+	  {
+		  //убрали выделение
+		  $(this).parent().parent().removeClass("chechers");
+		  CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_ma]').attr('rel_ma'),'del','sort');	
+		 // alert($(this).parents('[rel_id]').attr('rel_id'));
+		  BasketMaterial(); 
+		  basket_all_material($(this));
+		  ToolTip();
+	  } else
+	  {
+		  $(this).parent().parent().addClass("chechers");
+		  CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_ma]').attr('rel_ma'),'add','sort');
+		  BasketMaterial();	
+		  basket_all_material($(this));
+		  ToolTip();	  
+	  }		
 	}
+	
+}
+
+//нажатие на стрелку вернуть к выбору себестоимости в общей таблице
+var close_prime_dom = function() {
+   //CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_id]').attr('rel_id'),'del');
+   var id_dom=$('.content_block').attr('dom'); 
+   $.cookie("pr_", null, {path:'/',domain: window.is_session,secure: false}); 
+	//alert("!");
+   $('.close_prime_dom_a')[0].click(); ;	
 }
 
 
-//табсы в окне Задачи
-var tabs_task  = function(event) {
-	//event.data.key
+//нажать на материал в снабжении - добавить/убрать из корзины счетов
+var st_div_supply = function() {
+	
+	var iu=$('.content_block').attr('iu');
+	var tr=$(this).parents('.tr_dop_supply');
+	
+	//var cookie_new = $.cookie('basket_supply_'+iu);
+	var cookie_flag_current = $.cookie('current_supply_'+iu);
+	//alert(cookie_new);
+	if(cookie_flag_current==null) 
+	{
+		var ssup='basket_supply_';
+	} else
+	{
+		var ssup='basket_score_';	
+	}
+	
+	//alert(ssup);
+	  if(tr.is(".checher_supply")) 
+	  {
+		  tr.removeClass("checher_supply");
+		  CookieList(ssup+iu,tr.attr('supply_id'),'del');	
+		 // alert($(this).parents('[rel_id]').attr('rel_id'));
+		  basket_supply();  
+		  ToolTip();
+	  } else
+	  {
+		  tr.addClass("checher_supply");
+		  CookieList(ssup+iu,tr.attr('supply_id'),'add');
+		  basket_supply();	
+		  ToolTip();	  
+	  }	
 	
 	
-	var uoo=$(this).attr("id");
-	if ( $(this).is(".active") )
-    {
-		//уже активная вкладка
-	} else
-	{
-		//alert(event.data.key);
-		$('.form'+event.data.key+' .px_bg').empty().append('<div class="b_loading_small" style="position:relative;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-		
-		$('.form'+event.data.key+' .js-tabs-menu').find('.tabs_'+event.data.key).removeClass('active');
-		$('.form'+event.data.key+' .js-tabs-menu').find('.tabs_'+event.data.key+'[id='+uoo+']').addClass('active');
-		
-		//var key_='002U';
-		
-		var data ='url='+window.location.href+'&id_tabs='+$(this).attr("id")+
-					'&tk='+$('.form'+event.data.key+' .h111').attr('mor')+
-					'&id='+$('.form'+event.data.key+' .h111').attr('for');
-		//alert(data);
-        AjaxClient('task','tabs_info','GET',data,'AfterTabsInfoTask',$(this).attr("id")+','+event.data.key,0);	
-	}
 }
 
+//нажать на работу в разделе - добавить в корзину
+var st_div = function() {
+	
+	var id_dom=$('.content_block').attr('dom');
+	
+	  if($(this).parents('[rel_id]').is(".checher")) 
+	  {
+		  $(this).parent().parent().removeClass("checher");
+		  CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_id]').attr('rel_id'),'del');	
+		 // alert($(this).parents('[rel_id]').attr('rel_id'));
+		  BasketFinery();  
+		  ToolTip();
+	  } else
+	  {
+		  $(this).parent().parent().addClass("checher");
+		  CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_id]').attr('rel_id'),'add');
+		  BasketFinery();	
+		  ToolTip();	  
+	  }	
+	
+}
+
+//удалить всю себестоимость по дому
+var del_sebe = function() {
+	
+
+
+
+if ( $('.content_block').is("[dom]") )
+{
+	if($.isNumeric($('.content_block').attr("dom")))
+	{
+  $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_dell_sebe.php?id='+$('.content_block').attr("dom"),
+	  beforeOpen: function (data, el) {
+		  //во время загрузки формы с ajax загрузчик
+		  $('.loader_ada_forms').show();
+		  $('.loader_ada1_forms').addClass('select_ada');
+	  },
+	  afterLoading: function (data, el) {
+		  //после загрузки формы с ajax
+		  data.body.parents('.arcticmodal-container').addClass('yoi');
+		  $('.loader_ada_forms').hide();
+		  $('.loader_ada1_forms').removeClass('select_ada');
+	  },
+	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
+		  if (typeof timerId !== "undefined") {
+			  clearInterval(timerId);
+		  }
+		  BodyScrool();
+	  }
+
+  });
+}
+}
+  
+return false;
+	
+	};
+
+
+//обновление реакций по нажатию в блоке. открытие, иконки, добавление в корзину, удаление работы, редактирование работы, добавление работы и т.д.
+//выполнять при добавление нового блока, работы, материала
+var update_block = function() {
+	//открытие плюс минус
+	$(".block_i .i__").unbind('click');
+	$(".block_i .i__").bind('click', block_i_i);
+	//иконки блока удалить редактировать добавить работу
+	$(".edit_icon_block").unbind('click');
+    $(".edit_icon_block").bind('click', edit_button_block);
+	$(".del_icon_block").unbind('click');
+    $(".del_icon_block").bind('click', del_button_block);
+	$(".add_icon_block").unbind('click');
+    $(".add_icon_block").bind('click', add_button_rabota);	
+	//корзина нарядов выделение работ в блоки
+	$('.st_div').unbind( "click");
+	$('.st_div').bind( "click", st_div);
+	
+	//корзина заявок на материал выделение материалов в блоки
+	$('.nm_nm').unbind( "click");
+	$('.nm_nm').bind( "click", nm_div);
+	
+	//иконки работ в блоке удалить редактировать
+	$(".edit_icon").unbind('click');
+	$(".edit_icon").bind('click', edit_button_click);
+	
+	
+	$(".UGRAFE").unbind('click');
+	$(".UGRAFE").bind('click', edit_grafik_click);
+	
+	
+	$(".del_icon").unbind('click');
+	$(".del_icon").bind('click', del_button_click);	
+	$(".addd_icon").unbind('click');
+	$(".addd_icon").bind('click', add_m_button_click);	
+	
+	//addd_icon_mateo
+	$(".addd_icon_mateo").unbind('click');
+	$(".addd_icon_mateo").bind('click', add_material_click);	
+	
+	
+	//иконки работы с материалами
+	$(".edit_icon_m").unbind('click');
+	$(".edit_icon_m").bind('click', edit_m_button_click);
+	$(".del_icon_m").unbind('click');
+	$(".del_icon_m").bind('click', del_m_button_click);		
+}
 
 var savedefault = function (thiss)
 {
@@ -6636,437 +4849,70 @@ var savedefault = function (thiss)
 	}
 }
 
-//проверить и отправить форму на добавление пользователя
-function send_form_users()
+
+var savedefault_zay = function (thiss)
 {
-	   var err = 0;	
-	$(".sourse_error,.sourse_error1,#name_b,#name_b1,#login_b,#password_b").removeClass('error_formi');
-     if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	 if($("#radio_bk").val() == '') { $(".sourse_error1").addClass('error_formi'); err++;	}
-	
-	
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#name_b1").val() == '')  { $("#name_b1").addClass('error_formi'); err++;	}
-	
-	if($("#login_b").val() == '')  { $("#login_b").addClass('error_formi'); err++;	}
-	if($("#password_b").val() == '')  { $("#password_b").addClass('error_formi'); err++;	}
-	
-	
-	if((err==0)&&($(this).is('.greeen')) )	
-		{
-			$('#lalala_add_form').submit();	
-		}
-}
-
-//проверить и отправить форму на добавление отчета
-function send_form_reports()
-{
-	   var err = 0;	
-	$("#name_b,#phone_b").removeClass('error_formi');
-     
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	
-	
-	if((err==0)&&($(this).is('.greeen')) )	
-		{
-			$('#lalala_add_form').submit();	
-		}
-}
-
-//проверить и отправить форму на добавление туроператора
-function send_form_operator()
-{
-	
-		    var err = 0;		
-	$("#name_b").removeClass('error_formi');
- 
-  
-  
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	
-	//if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	
-		
-	if((err==0)&&($(this).is('.greeen')) )	
-		{
-			$('#lalala_add_form').submit();	
-		}
-		
-		
-	
-	
-}
-
-//проверить и отправить форму на добавление клиента
-function send_form_clients()
-{
-	
-	var err = 0;		
-	$(".sourse_error,#name_b,#otziv_area_adaxx,#phone_b,#day_b,#email_b,#company_b").removeClass('error_formi');
-	
-	$('.new_search_add_book').removeClass('error_2019_in');
- 
-
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	if($("#day_b").val() == '')  { $("#day_b").addClass('error_formi'); err++;	}
-	//if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	
-	
-
-	if((err==0)&&($(this).is('.greeen')) )	
-		{
-			$('#lalala_add_form').submit();	
-		}
-		
-		
-	
-	
-}
-
-////проверить и отправить форму на добавление заявки
-function send_form_booking()
-{
-	
-	var err = 0;		
-	$(".sourse_error,.sourse_error1,#name_b,#otziv_area_adaxx,#phone_b,#name_client_b,#date_hidden_table_gr2").removeClass('error_formi');
-	
-	$('.new_search_add_book').removeClass('error_2019_in');
- 
-	if($("#radio_bk").length!=0)
+	//lert("!");
+	if($('#save').length)
 	{
-		if($("#radio_bk").val() == '') {  $(".sourse_error1").addClass('error_formi'); err++;	}	
+	var wdefault=thiss.attr('defaultv');
+	if(thiss.val()!=wdefault)
+	{
+	   $('#save').attr('save','1');
+    } 
+	
+	var atrr=$('#save').attr('save');
+	if(atrr==1)
+		{
+			$('.add_zay').show();
+			$('.pod_zay').hide();
+		}
 	}
-  
-    if($("#sourse_b").val() == '') { $(".sourse_error").addClass('error_formi'); err++;	}
-	if($("#name_b").val() == '')  { $("#name_b").addClass('error_formi'); err++;	}
-	
-	//if($("#phone_b").val() == '')  { $("#phone_b").addClass('error_formi'); err++;	}
-	
-	
-	if($('[name=client_new1_search]').val()==0)
-		{
-	       if($("#name_client_b").val() == '')  { $("#name_client_b").addClass('error_formi'); err++;	}	
-		} else
-		{
-			if(($("[name=id_search_client1]").val() == '0')||($("[name=id_search_client1]").val() == ''))  { $(".new_search_add_book").addClass('error_2019_in'); err++;	}	
-		}
-	
-	
-	if($("#date_hidden_table_gr2").val() == '')  { $("#date_hidden_table_gr1").addClass('error_formi'); err++;	}	
-		
-	if((err==0)&&($(this).is('.greeen')) )	
-		{
-			$('#lalala_add_form').submit();	
-		}
-		
-		
-	
-	
 }
-
-
-//работа с радио input
-function radio_checkbox_no_yes()
-{
-		
-if($(this).parents('.radioselect').find('.radio_b').attr('readonly')==undefined) { 	
-	
-	//alert("!");
-	var pp=$(this).parents('.radio_material');
-	var id=pp.attr('radio_id');
-	
-	if(!pp.is('.active_radio')) 
-	{
-		var numOpt=$(this).parents('.radioselect').find('.radio_material');    
-			  var input='';
-			  var i=0;
-			 
-			  numOpt.each(function (index, value) { 
-				  $(this).removeClass('active_radio');
-				  var ids=$(this).attr('radio_id');
-				  $(this).find('.radio_'+ids).val(0).change(); 
-			  });
-
-		pp.addClass('active_radio');
-		pp.find('.radio_'+id).val(1).change();
-		$(this).parents('.radioselect').find('.radio_b').val(id).change();
-		
-	} else
-	{
-			pp.removeClass('active_radio');
-		pp.find('.radio_'+id).val(0).change();
-		$(this).parents('.radioselect').find('.radio_b').val('').change();
-	}
-	
-  }
-	
-	
-}
-
-
-//выбор источника обращения при добавлении заявки
-function wallet_checkbox()
-{
-	
-if($(this).parents('.cha_1').find('.sourse_b').attr('readonly')==undefined) { 	
-	
-	//alert("!");
-	var pp=$(this).parents('.wallet_material');
-	var id=pp.attr('wall_id');
-	
-	if(pp.is('.active_wall')) 
-	{ 
-	   
-		pp.removeClass('active_wall');
-		pp.find('.yop_'+id).val(0);
-		
-
-
-		
-	} else
-	{
-		pp.addClass('active_wall');
-		pp.find('.yop_'+id).val(1);			
-	}
-			var numOpt=$(this).parents('.cha_77').find('.wallet_material');    
-			  var input='';
-			  var i=0;
-			 
-			  numOpt.each(function (index, value) { 
-			  
-			  if ( $(this).hasClass("active_wall") ) 
-			   {
-				  if(i==0)
-				  { 
-                    input=$(this).attr('wall_id');
-					i++;
-				  } else
-				  {
-					input=input+','+$(this).attr('wall_id');
-					i++; 
-				  }
-			   }
-			   
-              });
-				 
-		//alert(input);
-		$(this).parents('.cha_77').find('.sourse_b').val(input);
-	
-  }
-}
-
-//работа с радио input
-function radio_checkbox()
-{
-		
-if($(this).parents('.radioselect').find('.radio_b').attr('readonly')==undefined) { 	
-	
-	//alert("!");
-	var pp=$(this).parents('.radio_material');
-	var id=pp.attr('radio_id');
-	
-	if(!pp.is('.active_radio')) 
-	{
-		var numOpt=$(this).parents('.radioselect').find('.radio_material');    
-			  var input='';
-			  var i=0;
-			 
-			  numOpt.each(function (index, value) { 
-				  $(this).removeClass('active_radio');
-				  var ids=$(this).attr('radio_id');
-				  $(this).find('.radio_'+ids).val(0).change(); 
-			  });
-
-		pp.addClass('active_radio');
-		pp.find('.radio_'+id).val(1).change();
-		$(this).parents('.radioselect').find('.radio_b').val(id).change();
-		
-	}
-	
-  }
-	
-	
-}
-
-function UploadInvoice_old()
-{
-	var id_upload=$(this).attr('id_upload');
-	$('[name=myfiles'+id_upload+']').trigger('click');
-}
-
-
 
 
 $(function (){
-//изменение размера окна	
 $(window).on('resize',windowSize);	
 
-//Загрузчик страницы	
 $('.loader_ada').remove();
 $('.loader_ada1').remove();
-
-$('.date_picker_xe').inputmask("datetime",{
-    mask: "1.2.y", 
-    placeholder: "dd.mm.yyyy",  
-    separator: ".", 
-    alias: "dd.mm.yyyy"
-  });	
-
-//количество ночей из двух дат	
-$('body').on("change keyup input click",'.js-date-nait2,.js-date-nait1',date_nait);
-	
-//добавить новый тур	
-$('body').on("change keyup input click",'.js-add-tender-form',AddFormTender);
-
-//редактировать тур
-	$('body').on("change keyup input click",'.js-edit-tender-form',EditFormTender);
-
-
-//редактировать поле с выпадающим списком	
-$('body').on("change keyup input click",'.js-edit-eico',edit_eico_list);	
-$('body').on("change",'.js-list-vibor',update_edit_input_eico);	
-	
-//я берусь за эту задачу
-$('body').on("change keyup input click",'.js-choice-task-y',choice_task_you);
-//нажать на выполнить задачу
-$('body').on("change keyup input click",'.task__click1',YesTask1);	
-	
-//форма добавление тура - выбор паспорт какой	
-$('body').on("change keyup input click",'.js-password-butt',password_butt);
-
-//форма оплаты тура изменяем кому платим клиент-туроператор
-$('body').on("change keyup input click",'.js-click-mmmt',click_mmmt);
-
-
-//форма добавление тура - галка не летит только покупает	
-$('body').on("change keyup input click",'.js-loli-butt',loli_butt);	
-	
-
-	
-$('body').on("change keyup input click",'.js-exit-win',close_close_window);	
-	
-	
-//открыть форму по организации с определенной вкладки	
-$('body').on("change keyup input click",'.tabsss_org',tabs_org);
-//открыть форму по клиенту с определенной вкладки
-
-
-$('body').on("change keyup input click",'.tabs_003U',{key: "003U"},tabs_task);
-
-	$('body').on("change keyup input click",'.tabs_004U',{key: "004U"},tabs_trips);
-
-//еще - показать уведомления	
-$('body').on("change keyup input click",'.js-eshe-ring',js_eshe_ring);	
-	
-	
-//все что связано с выбором клиентов form_choice_client	
-$('body').on("change keyup input click",'.tabsss_choice',tabs_client_choice);
-	
-
-	
-//нажать при выборе клиента на клиента
-$('body').on("change keyup input click",'.list_client_choice',click_client_choice);
-
-	
-$('body').on("change keyup input click",'.js-new_open_client',clients_adds);
-
-//удалить из списка выбранных при окне выбор клиента	
-$('body').on("change keyup input click",'.rrube_choice',rrube_choice);	
-
-//нажатие на кнопку выбрать в окне выбора клиента	
-$('body').on("change keyup input click",'.js-choice-yyy',choice_client_end);
-
-
-/*	
-var search_min2_search_c = 2;  //мин количество символов для быстрого поиска
-var search_deley2_search_c=800;	//задержка между вводами символов - начало поиска телефона в базе
-var search_input2_search_c=$('.js-choice-keyup');
-	
-	
-search_input2_search_c.keyup(function() {
-	//обнуляем выбор
-				
-    delays(function(){
 		
-		if((jQuery.trim(search_input2_search_c.val().length) >= search_min2_search_c)||(jQuery.trim(search_input2_search_c.val().length)==0))
-		{
-			
-			var val1= $('.js-tabs-menu-choiche').find('.active').attr('id');
-			
-                var data ='url='+window.location.href+
-					'&all='+$('.js-eshe-client-x').attr("all")+
-					'&search='+encodeURIComponent(search_input2_search_c.val())+
-				'&tabs='+val1;	
-			$('.js-icon-load').hide().after('<div class="b_loading_small" style="margin-right:-20px; position:relative; top: 0px; right: 0px; padding-top:0px;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-                AjaxClient('clients','search_client_tours','GET',data,'AfterSearchClientT',1,0);		
-		}
-		
-		
-    }, search_deley2_search_c);
-});		
-	*/
 	
-//Открыть окно задачи по нажатию на иконку
-$('.oka_block').on("change keyup input click",'.task_clock_selection i',open_task);	
-
-$('body').on("change keyup input click",'.task_block_global .ggh-e',open_task1);	
+BasketFinery(); //проверка корзины нарядов	
+BasketMaterial(); //проверка корзины материалов
+MaterialSelectAll(); //выделение кнопок выделить все материалы по работе
 	
-$('body').on("change keyup input click",'.js-taa',open_task_new);	
-	
-$('body').on("change keyup input click",'.task_block_global .task-b-number',open_task1);
-	
-//открыть форму по добавлению клиента или оргазации	
-$('body').on("change keyup input click",'.tabsss1',tabs_client_add);
-	
-
-//выбор в заявке источника обращения	
-$('.cha_1').on("change keyup input click",'.wallet_checkbox',wallet_checkbox);
-
-//загрузить фото в настройках
-$('.l_photo').on("change keyup input click",'.invoice_upload',UploadInvoice_old);
-//$('.content').on("change",'.sc_sc_loos2',UploadReportsChange_old);
-
-$('.content').on("change",'.sc_sc_loos2',UploadReportsChange_old);
-
-
-//работа с инпутами	
-$('body').on("focus click",'.input_new_2019',InputFocusNew1);
-$('body').on("blur",'.input_new_2019',InputBlurNew1);
-$('body').on("change keyup input click",'.radio_checkbox',radio_checkbox);
-$('body').on("change keyup input click",'.radio_checkbox_no_yes',radio_checkbox_no_yes);
-
-
-
-//ежемесячный платеж
-	$('.js-finance-operation').on("change keyup input click",'.js-choice-buy-y',choice_buy_you);
-
-
-
-
-
-$('body').on("change keyup input click",'.js-place-finance',plane_edit);
-	
-//отправка и проверка форм по нажатию кнопки
-$('.index_booking').on("change keyup input click",'.send_form_clients',send_form_clients);	 //клиенты
-$('.index_booking').on("change keyup input click",'.send_form_booking',send_form_booking);   //заявки
-$('.index_booking').on("change keyup input click",'.send_form_operator',send_form_operator); //туроператор	 
-$('.index_booking').on("change keyup input click",'.send_form_users',send_form_users);	//пользовател	
-$('.index_booking').on("change keyup input click",'.send_form_reports',send_form_reports); //отчеты		
-
-
 jQuery('.scrollbar-inner').scrollbar(); //скрулл меню при малой высоте
 ToolTip();  //подсказки при наведении
+sl_message_width();
 $('.label_s').bind("change keyup input click", label_show);
 
+//делаем поля с классом только дробными и целыми числами		
+//$('.smeta1').on("change keyup input click",'.count_mask',function(){ $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));  });
+
+//
+$('body').on("keyup",'.loll_soply',search_posta);	
+$('body').on("click",'.loll_soply',search_posta1);	
+$('body').on("change keyup input click",'.loll_drop li',search_posta_li);
+$('body').on("change keyup input click",'.label_exitt',search_posta_li2);
+	
+
+$('body').on("change keyup input click",'.loll_plus',plus_postt)	
+
+$('.suppp_tr').on("change keyup input click",'.yoop_click',yoop_click)	
+
+	
 $('.save_button2').bind("change keyup input click", send_meee);
 	
 $('.content').on("click",'.send_mess',SendMessage);	
 $('.help_user').on("click",'.send_mess',SendMessage);
 
-//$('.menu_jjs').on("change keyup input click",'.menu_click',menuclick);
+$('.menu_jjs').on("change keyup input click",'.menu_click',menuclick);
 //$('.menu_click').bind("change keyup input click", menuclick);
+	
+$('.close_prime_dom	').on('click', close_prime_dom);	
+	
+$('.pay_imp').on("click",'.beznal_upload',beznal_upload);		
 	
 
 $('.div_dialog').on("click",'.dialog_a',function(e) {  if($(e.target).closest(".del_dialog").length==0)
@@ -7076,17 +4922,7 @@ $('.div_dialog').on("click",'.dialog_a',function(e) {  if($(e.target).closest(".
 	$(this).trigger('Click');
 
   } });
-
-
-function UploadReportsChange_old()
-{
-		var id=$(this).parents('form').attr('id_sc');
-		file = this.files[0];
-		if (file) {
-			uploadRR_old(file,id);
-		}
-		return false;
-	}
+	
 
 	
 var UploadScanS = function()
@@ -7255,7 +5091,7 @@ function uploadI(file,id) {
 		$('.scap_load_'+id).find('.scap_load__').width(widths);  
       }
 
-      xhr.open("POST", "booking/upload.php", true);
+      xhr.open("POST", "invoices/upload.php", true);
       //xhr.send(file);
 	
 	 var formData = new FormData();
@@ -7264,94 +5100,9 @@ function uploadI(file,id) {
      xhr.send(formData);
 
     }
-/*
-function uploadRR(file,id) {
 
-      var xhr = new XMLHttpRequest();
-
-      // обработчики можно объединить в один,
-      // если status == 200, то это успех, иначе ошибка
-      xhr.onload = xhr.onerror = function() {
-        if (this.status == 200) {
-          
-		  $('[id_upload='+id+']').show(); //кнопка
-		  $('.scap_load_'+id).find('.scap_load__').width(0); 
-		  $('.scap_load_'+id).hide();
-		  UpdateImageReports(id);
-			alert_message('ok','ваш профиль обновлен');
-			autoReloadHak();
-        } else {
-          $('[id_upload='+id+']').show();
-		  $('.scap_load_'+id).find('.scap_load__').width(0); 
-		  $('.scap_load_'+id).hide();
-        }
-      };
-
-      // обработчик для закачки
-      xhr.upload.onprogress = function(event) {
-		$('[id_upload='+id+']').hide();  
-		$('.scap_load_'+id).show();  
-		var widths=Math.round((event.loaded*100)/event.total);
-		$('.scap_load_'+id).find('.scap_load__').width(widths);  
-      }
-
-      xhr.open("POST", "reports/upload.php", true);
-      //xhr.send(file);
 	
-	 var formData = new FormData();
-     formData.append("thefile", file);
-	 formData.append("id",id);
-     xhr.send(formData);
-
-    }	
-*/
-	/*
-	function uploadRR_old(file,id) {
-
-		var xhr = new XMLHttpRequest();
-
-		// обработчики можно объединить в один,
-		// если status == 200, то это успех, иначе ошибка
-		xhr.onload = xhr.onerror = function() {
-			// alert(this.status);
-			if (this.status == 200) {
-
-				$('[id_upload='+id+']').show(); //кнопка
-				$('.scap_load_'+id).find('.scap_load__').width(0);
-				$('.scap_load_'+id).hide();
-				$('.scap_load_'+id).after();
-				//UpdateImageReports(id);
-				alert_message('ok','ваш профиль обновлен');
-				autoReloadHak();
-			} else {
-
-				$('[id_upload='+id+']').show();
-				$('.scap_load_'+id).find('.scap_load__').width(0);
-				$('.scap_load_'+id).hide();
-			}
-		};
-
-		// обработчик для закачки
-		xhr.upload.onprogress = function(event) {
-			$('[id_upload='+id+']').hide();
-			$('.scap_load_'+id).show();
-			var widths=Math.round((event.loaded*100)/event.total);
-			$('.scap_load_'+id).find('.scap_load__').width(widths+'%');
-		}
-
-		xhr.open("POST", "users/upload.php", true);
-		//xhr.send(file);
-
-		var formData = new FormData();
-		formData.append("thefile", file);
-		formData.append("id",id);
-		xhr.send(formData);
-
-	}
-*/
-
-
-	var UploadInvoicePhotoChange = function()
+var UploadInvoicePhotoChange = function()
 {
 	var id=$(this).parents('form').attr('id_a');
 	file = this.files[0];
@@ -7371,18 +5122,7 @@ var UploadInvoiceAktChange = function()
       } 
       return false;	
 }	
-
-/*
-var UploadReportsChange = function()
-{
-	var id=$(this).parents('form').attr('id_sc');
-	file = this.files[0];
-	      if (file) {
-        uploadRR(file,id);
-      } 
-      return false;	
-}
-*/
+	
 
 var UploadInvoiceChange = function()
 {
@@ -7406,9 +5146,13 @@ var UploadScanSChange = function()
 
 	//делаем поля с классом только дробными и целыми числами	
 $('.count_mask').bind("change keyup input click", validate11);
-$('.count_mask1').bind("change keyup input click", validate12);
-	
 
+	$('.block_invoice_20188').on("change keyup input click",".del_invoice", dell_invoice);
+
+	$('.invoice_block').on("change keyup input click",".del_invoice_material", dell_invoice_material);	
+	$('.invoice_block').on("change keyup input click",".material_defect", material_defect);
+	
+	$('.invoice_block').on("change keyup input click",".del_invoice_akt", material_defect_dell);
 	
 	
 	$('.messa_form_a').on("change",'.invoice_file_photo',UploadInvoicePhotoChange);
@@ -7417,68 +5161,125 @@ $('.count_mask1').bind("change keyup input click", validate12);
 	$('.invoice_block').on("click",".add_akt_defect", UploadInvoiceAkt);	
 	$('.invoice_block').on("click",".add_akt_defect1", UploadInvoicePhoto);
 	
-
-
+	$('.invoice_block').on("change keyup input click",".count_defect_in_,.text_zayva_message_,.del_invoice_akt",function(){ $(this).parents('[invoices_messa]').find('.print_invoice_akt').hide(); });
+	
+	$('.invoice_block').on("change keyup input click",".price_nds_in_,.price_in_,.count_in_,.count_defect_in_,.del_invoice_akt,.material_defect", itog_invoice);
+	$('.invoice_block').on("change keyup input click",".checkbox_cost_inv", change_option_invoice);
+	
+	$('.invoice_block').on("change keyup input click",".count_defect_in_,.count_in_", BrakError);
+	
+		$('.invoice_block').on("change keyup input click",".count_in_", ErrorMax);
 	
 
-	
-
-	
+	$('.invoice_block').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,#number_invoice,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });		
 	
 	
-
+$('.invoice_block').on("change",'#ispol_invoice',UpdateContractorInvoice);
+$('.invoice_block').on("change",'#ispol_type_invoice',nds_invoice);	
+	
+$('.invoice_block').on("click",'.add_material_invoice',AddInvoiceMaterial);
 
 $('.img_invoice_div').on("click",'.del_image_invoice',DellImageInvoice);	
 
-$('.img_invoice_div').on("click",'.del_image_reports',DellImageReports);	
-	
 $('.img_invoice_div').on("click",'.invoice_upload',UploadInvoice);
-$('.content').on("change",'.sc_sc_loo12',UploadInvoiceChange);
-//$('.content').on("change",'.sc_sc_loos2',UploadReportsChange);
+$('.img_invoice_div').on("change",'.sc_sc_loo12',UploadInvoiceChange);
 	
 $('body').on("click",'.soply_upload',UploadScanS);
 $('body').on("change",'.sc_sc_loo11',UploadScanSChange);
-		
+	
+$('.bill_table').on("change keyup input click",'.xvg_bill_score',xvg_bill);	
 
-//$('.booker_table').on("change keyup input click",'.booker_yes',booker_yes);	
+$('.bill_table').on("change keyup input click",'.xvg_no',xvg_no);
+$('.bill_table').on("change keyup input click",'.xvg_yes',xvg_yes);
+	
+$('.stock_table_list').on("change keyup input click",'.xvg_no1',xvg_no1);	
+$('.stock_table_list').on("change keyup input click",'.xvg_yes1',xvg_yes1);		
+
+$('.booker_table').on("change keyup input click",'.booker_yes',booker_yes);	
 	
 $('.pay_imp').on("click",'.naryd_upload',UploadScan);
 $('.pay_imp').on("change",'.sc_sc_loo',UploadScanChange);
+$('.pay_imp').on("click",'.rasp_pay',DellCash);
+$('.pay_imp').on("click",'.del_pay',DellPay);
 
 
 jQuery(document).on("focus click",'.input_new_2018',InputFocusNew);	
 jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
-jQuery(document).on("keyup",'.input_new_2018',KeyUpInput);	
 
-//фокус и потеря в окне выбора покупателя тура в поиске	
-jQuery(document).on("focus click",'.js-choice-keyup',InputFocusNewTours);	
-jQuery(document).on("blur",'.js-choice-keyup',InputBlurNewTours);		
+	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
 
+
+
+	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
+	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
+
+
+	jQuery(document).on("click",'.print_stock_',PrintStock_);
+	
+$('.suppp_tr').on("click",'.supply_tr_o',ChangeSupply);
+$('.tr_dop_supply').on("click",'.st_div_supply',st_div_supply);
 
 $('.notif_imp').on("click",'.del_notif',DellNotif);	
-$('.notif_div_2018').on("click",'.del_notif',DellNotif);
-	$('.booking_div').on("click",'.del_booking_',DellBooking);
 
-	$('.clients_block').on("click",'.del_clients_',DellClients);
+$('.mat_zz').on("click",'.del_material_zayva',DellZayvaMaterial);		
+$('.mat_zz').on("click",'.del_material_zayva1',DellZayvaMaterial1);	
+$('.work__s').on("click",'.del_naryd_work',DellNarydWork);	
+$('.work__s').on("click",'.del_naryd_work1',DellNarydWork1);
+$('.smeta2').on("click",'.del_naryd',DellNaryd);
+$('.smeta2').on("click",'.del_zay_zay',DellZayZay);	
+
+
+//клик по иконки показать историю нарядов по работе
+$('.work__s').on("click",'.history_icon',HistoryN);
+
+//контроль ввода количества материала при оформлении заявки на материал
+$('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);		
+	
+//контроль ввода стоимости материала при оформлении наряда
+//$('.mat').on("change keyup input click",'.price_finery_mater_',MmyHandler);	
 	
 	
-		$('.clients_org').on("click",'.del_org_',DellOrg);
+//контроль ввода количества материала при оформлении наряда
+$('.mat').on("change keyup input click",'.count_finery_mater_',MmyHandler);	
+$('.mat').on("change keyup input click",'.count_finery_mater_',MmyHandlerXX);		
+//контроль ввода количества при оформлении наряда
+$('.work__s').on("change keyup input click",'.count_finery_',myHandler);	
+//контроль ввода стоимости при оформлении наряда
+$('.work__s').on("change keyup input click",'.price_finery_',myHandler1);
+//выводить по двойному щелчку по полю его макс возможное значение
+$('.work__s').on("dblclick",'.count_finery_,.price_finery_',Mydblclick);	
+$('.mat').on("dblclick",'.count_finery_mater_',Mydblclick);	
 	
-$('.place-wrapper').on("click",'.task__click',YesTask);	
+setTimeout ( function () { 
+	
+	//если что-то меняешь в работе  то удаляем все решения по служ.запискам включая материал
+	$('.workx').on("change keyup input click",'.count_finery_,.price_finery_,.text_finery_message_',function(){ if($(this).attr('readonly')==undefined) {  var thiss = $(this);   var id_s=thiss.parents('[work]').attr('work'); $('[work='+id_s+']').find('.edit_12').remove();  $('[work='+id_s+']').find('.edit_122').find('i').removeClass('active'); $('[work='+id_s+']').find('.decision_mes').val("-1");   }  });	
+
+	//если что-то меняешь в материале  то удаляем все решения по служ.записке этого материала
+	$('.mattx').on("change keyup input click",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_',function(){ if($(this).attr('readonly')==undefined) {  var thiss = $(this); var work=thiss.parents('[work]').attr('work');   var id_s=thiss.parents('[rel_matx]').attr('rel_matx'); $('[id_mes='+work+'_'+id_s+']').find('.edit_12').remove(); $('[id_mes='+work+'_'+id_s+']').find('.edit_122').find('i').removeClass('active'); $('[id_mes='+work+'_'+id_s+']').find('.decision_mes').val("-1");     }  });	
+
+	
+		//если переход в любое редактируемое поле наряда то сбрасывать кнопку подписать и показывать кнопку сохранить
+	$('.my_n').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1',function(){  $('.pod_nar').hide(); $('.add_nar').show();   });
 	
 	
-
-
-$('.fox_search_result1').on("change keyup input click",'.string_res',string_res1);
+	
+	//если что-то меняешь в материале  то удаляем все решения по служ.записке этого материала в заявках на материал
+	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  var thiss = $(this); var work=thiss.parents('[mat_zz]').attr('mat_zz'); $('[mat_zz='+work+']').find('.edit_12').remove(); $('[mat_zz='+work+']').find('.edit_123').find('i').removeClass('active'); $('[mat_zz='+work+']').find('.decision_mes').val("-1");     }  });	
+	//если переход в любое редактируемое поле служебной записки то сбрасывать кнопку заказать на сохранить
+	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
+	
+	$('.zay_2020').on("change keyup input click",'.del_material_zayva1,.zayva_del_naf',function(){ if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); } });
+	
+	
+	}, 2000 );
 	
 
-//удаление покупателя из тура
-$('.js-buy-my-tours').on("change keyup input click",'.js-dell-buy-tours',js_dell_buy_tours);
-//удаление туриста из тура
-$('.js-fly-my-tours').on("change keyup input click",'.js-dell-fly-tours',js_dell_fly_tours);
 
-
-
+//выводить по двойному щелчку по полю его макс возможное значение - заявка на материал	
+$('.mat_zz').on("dblclick",'.count_app_mater_',Mydblclick);
 	
 //выход из системы при бездействии
 idleTimer = null;
@@ -7491,14 +5292,14 @@ ExitSystem();
 //выход из системы при бездействии
 	
 
-window.is_session='umatravel.club';
+window.is_session='eico.atsun.ru';
 	
 
 //уведомления настройки	
 idleTimerx = null;
 timerSx = null;	
 idleStatex = false; // состояние отсутствия
-idleWait_start = 10*1000; // время обновления notification - каждые 30 секунд 
+idleWait_start = 30*1000; // время обновления notification - каждые 30 секунд 
 idleWait_stop = 5*60*1000; // время простоя после которого скрипт начинает обращаться реже к обновлениям - 5 минут	
 idleWait_end = 2*60*1000; // время обновления notification после простоя системы в течении 5 минут - каждые 2 минуты
 idleWait_yes=idleWait_start;	
@@ -7510,19 +5311,25 @@ $('<audio id="chatAudio"><source src="notify.ogg" type="audio/ogg"><source src="
 nprogress=0; //показывать загрузчик линию при ajax запросах	
 
 	
-setInterval(function(){ $this=inWindow(".Effectbbo");  if(inWindow(".Effectbbo").length!=0) {   setTimeout ( function () {  $this.removeClass('yes_bbs1'); }, 5000 );  }  }, 1000); // 1000 м.сек	
+setInterval(function(){ $this=inWindow(".Effectbbo");  if(inWindow(".Effectbbo").length!=0) {   setTimeout ( function () {  $this.parents('[rel_noti]').removeClass('blues'); $this.remove (); }, 5000 );  }  }, 1000); // 1000 м.сек	
  
 	
-
-
-
+	
+basket_supply();	
+update_block();
+$('.menu1').on("click",'.count_numb_score',save_soply);
+$('.menu1').on("click",'.score_plus,.score_',add_soply);
 	
 	
 
 //$('.mkr_,.smeta2').on("change",'.option_mat',option_mat);	
 
+$('.mkr_').on("change",'.option_mat',option_mat);		
 	
+$('.button_ada_wall').on("change",'.option_mat1',option_mat1);	
 	
+$('.scope_scope').on("change",'.option_score1',option_score1);
+$('.statusis').on("change",'.vall_supply', vall_supply);	
 //$(".drops").find("li").bind('click', droplis);
 	
 $('.menu_top,.smeta2').on("click",'.drops li',droplis);	
@@ -7530,27 +5337,88 @@ $('.menu_top,.smeta2').on("click",'.drops li',droplis);
 animation_teps();
 
 
+$('.skladd_nei').bind('click', slide_skkk);		
 	
+	
+//выдать наличные исполнителю за работу
+$(".pay_baks,.pay_baks_top").bind('click', pay_imlementer);	
 
+//выдача аванса
+$(".pay_avans,.pay_avans_top").bind('click', pay_imlementer_avans);		
 	
+//Редактировать данные по исполнителю	
+$(".imp_option").bind('click', option_imlementer);	
+	
+//Изменить исполнителю	
+$(".edit_implem").bind('click', option_imlementer1);
+
+//добавить исполнителю	
+$(".add__ispoln").bind('click', add_imlementer);	
 
 //удалить диалог
 $(".del_dialog").bind('click', del_dialog);	
 	
 //открыть уведомления
-//$(".view__not i").bind('click', view_notification);
+$(".view__not").bind('click', view_notification);		
+	
+//нажатие на кнопку да или нет по решению служебной записки
+$(".edit_122").find('i').bind('click', decision_mess);		
+
+//нажатие на кнопку да или нет по решению служебной записки
+$(".edit_123").find('i').bind('click', decision_mess_app);		
+	
+//нажатие на кнопку сохранить наряд
+$(".add_nar").bind('click', save_naryad);	
 	
 
+//нажатие на кнопку добавить наименование на склад
+$(".add_invoice1").bind('click', add_invoice1);	
+	
+	
+	
+//нажатие на кнопку добавить накладную
+$(".add_invoicess").bind('click', save_invoicess);	
+
+//нажатие на кнопку сохранить накладную
+$(".add_invoicess1").bind('click', save_invoicess1);		
+
+//нажатие на кнопку сохранить заявку на материал
+$(".add_zay").bind('click', save_zayava);		
+	
+//нажатие на кнопку подписать наряд
+$(".pod_pro").bind('click', sign_naryad);	
+
+//нажатие на кнопку подписать наряд
+$(".transfer_invoicess").bind('click', take_invoice);		
+	
+//нажатие на кнопку согласовать наряд
+$(".sogl_pro").bind('click', sign_naryad);	
+	
+//нажатие на кнопку утвердить наряд
+$(".ut_nar").bind('click', seal_naryad);	
+
+//нажатие на кнопку распровести наряд
+$(".rasp_nar").bind('click', disband_naryad);	
+	
+//снять подпись
+$(".shoot").bind('click', shoot_naryad);	
 	
 $('#lalala_add_form').on("change keyup input click",'.error_formi', function(){ $this = $(this); setTimeout ( function () {$this.removeClass('error_formi');  }, 2000 ); });	
 	
+//удалить всю себестоимость по дому
+$(".del__seb").bind('click', del_sebe);
 
+//показать себестоимость с суммами
+$(".icon17").bind('click', summ_view);	
+
+
+//поиск по себестоимости	
+$('.icon3').bind('click', search_prime);
 
 //закрытие поиска себестоимости при клике вне его	
 window.show_search=0;	
-//$("body").click(function(e) {
-$(document).mouseup(function (e) {
-    
+$("body").click(function(e) {
+	
     if(($(e.target).closest(".search_seb").length==0)&&($(e.target).closest(".icon3").length==0) ){
 		//alert(window.show_search);
 		//если вне поиска и кнопки поиск то если открыт поиск закрыть
@@ -7572,30 +5440,21 @@ $(document).mouseup(function (e) {
 	}	
 	*/
 	
-	var container = $(".noti_block");
-	var container1x = $(".box-modal");
-	
-	if ((container.has(e.target).length === 0)&&(container1x.has(e.target).length === 0)){
-	 		if( $('.noti_block').is(':visible') ) {
-	       $('.noti_block').remove();
-	       $('.view__not').hide(); $('.not_li').find('i').hide();	
-		}
-	}
-	
-	/*
 	if(($(e.target).closest(".noti_block").length==0)&&($(e.target).closest(".view__not").length==0)  ){
 		if( $('.noti_block').is(':visible') ) {
 	       $('.noti_block').remove();
 	       $('.view__not').hide(); $('.not_li').find('i').hide();	
 		}
 		}
-	*/
+	
 });
 
-
+//обработчики для листания по найденным местам в себестоимости	
+$('.result_s').find('.se_next').bind('click', search_next);
+$('.result_s').find('.se_prev').bind('click', search_prev);
 	
 //нажатие на кнопку искать при вводе текста в поиске	
-//$('.search_seb').find('i').bind('click', search_p);
+$('.search_seb').find('i').bind('click', search_p);
 
 //нажатие на enter при вводе
 $("#search_text").keypress(function(e){
@@ -7629,181 +5488,112 @@ $('#search_text').keyup(function(){
     $('.result_s').hide(); // если строка короткая, убираем текст из DIVа с результатом 
  });		
 
+//переход на старину оформления наряды при клике по иконке	
+$('.menu1').on("click",'.naryd_end i', function(){ $(this).prev('a')[0].click(); });
+	
+$('.menu1').on("click",'.material_end i', function(){ $(this).prev('a')[0].click(); });		
 
+$('.text_finery_message_').bind('change keyup input click', function(){  savedefault($(this)); });
 
+$('.text_zayva_message_').bind('change keyup input click', function(){  savedefault_zay($(this)); });	
+	
+//настройки дома 	
+$(".icon2").bind('click', house_options);	
+	
+//нажать на количество реализации работы в себестоимости
+$(".hist_mu").bind('click', hist_mu_prime);	
+	
+
+	
+	//закрыть все разделы
+$(".close_all_r").bind('click', close_all_razdel);
 
 	//открытие календаря в оформлении наряда по иконке
-$(".cal_223").bind('click', function() {  $(this).prev('.calendar_t').trigger('focus');});
-
+$(".cal_223").bind('click', function() {  $(this).prev('.calendar_t').trigger('focus');});	
+	
 //авторизация
 //авторизация
 //авторизация
-	$("#email_formi").keyup(function(){
+$("#email_formi").keyup(function(){
 
-		var email = $("#email_formi").val();
+	var email = $("#email_formi").val();
 
-		if(email != '')
-		{
+    if(email != '')
+    {
 
-		} else
-		{
-			$("#email_formi").addClass('error_formi');
+	} else
+	{
+		$("#email_formi").addClass('error_formi');
+	
+	}	
+	
+	
+});
 
-		}
+$("#password_formi,#email_formi").keypress(function(e){
+	     	   if(e.keyCode==13){
+				   $('#yes1').trigger('click');
+			   }
+});
+	
+$("#password_formi").keyup(function(){
 
+	if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
+	{
+		$("#password_formi").addClass('error_formi');
 
-	});
-
-	$("#password_formi,#email_formi").keypress(function(e){
-		if(e.keyCode==13){
-			$('#yes1').trigger('click');
-		}
-	});
-
-	$("#password_formi").keyup(function(){
-
-		if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
-		{
-			//$("#password_formi").addClass('error_formi');
-
-		} else
-		{
-			$("#password_formi").removeClass('error_formi');
-		}
-
-	});
-	$("#email_formi").keyup(function(){
-
-		if(($("#email_formi").val()=='')||($("#email_formi").val()==0))
-		{
-
-			$(".width-setter-yes").removeClass('yes_da');
-
-		} else
-		{
-			$("#email_formi").removeClass('error_formi');
-			$(".width-setter-yes").addClass('yes_da');
-		}
-
-	});
-
-	$('#yes1').on( "click", function() {
-
-
-		//смотрим заполнены ли обязательные поля
-		var email = $("#email_formi").val();
-		var err = [0,0];
-
-		$("#email_formi").removeClass('error_formi');
+	} else
+	{
 		$("#password_formi").removeClass('error_formi');
-
-		if(email != '')
-		{
-			/*
-        if(isValidEmailAddress(email))
-        {
-
-
-        } else
-        {
-            $("#email_formi").addClass('error_formi');
-            err[0]=1;
-        }
-        */
-		} else
-		{
-			$("#email_formi").addClass('error_formi');
-			err[0]=1;
-		}
-		if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
-		{
-			$("#password_formi").addClass('error_formi');
-			err[1]=1;
-		}
-
-		if((err[0]==0)&&(err[1]==0))
-		{
-			$('#pod_form').submit();
-		}
-
-
-
-	});
-//авторизация
-//авторизация
-//авторизация
+	}
 	
-
-
-	
-//крестик, удалить все символы в поиске	
-$('.fox_dell1').on('click',function(){
-	search_input1.val('');
-	$('.fox_dell1').hide();
-	$('.div_result1').hide();
-	$('.end_search1').hide();
-	$('[name=id_search_client1]').val(0).trigger('click');
 });
 
+$('#yes1').on( "click", function() {
 
-var search_min1 = 3;  //мин количество символов для быстрого поиска
-var search_deley1=800;	//задержка между вводами символов - начало поиска
-var search_input1=$('#fox_search_client_i1');	
+
+  //смотрим заполнены ли обязательные поля
+   var email = $("#email_formi").val();
+   var err = [0,0];
+  
+   $("#email_formi").removeClass('error_formi');
+   $("#password_formi").removeClass('error_formi');
+  
+    if(email != '')
+    {
+		/*
+    if(isValidEmailAddress(email))
+    {  
 	
-//при вводе поиска в клиенте	
-search_input1.keyup(function() {
-	if(jQuery.trim(search_input1.val().length) >= 1)
-		{
-		  $('.fox_dell1').show();	
-		} else
-		{
-			$('.fox_dell1').hide();
-		}
-    delays(function(){
-		
-		if(jQuery.trim(search_input1.val().length) >= search_min1)
-		{
-                var data ='url='+window.location.href+
-					'&search='+encodeURIComponent(search_input1.val());	
-			$('.fox_dell1').hide().after('<div class="b_loading_small"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-                AjaxClient('booking','search_client','GET',data,'AfterSearchClient1',1,0);		
-		}
-    }, search_deley1);
+	
+	} else
+	{
+		$("#email_formi").addClass('error_formi');
+		err[0]=1;
+	}
+	*/
+	} else
+	{
+		$("#email_formi").addClass('error_formi');
+		err[0]=1;		
+	}
+	if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
+	{
+		$("#password_formi").addClass('error_formi');
+		err[1]=1;
+	}
+	
+	if((err[0]==0)&&(err[1]==0))
+	{
+	   $('#pod_form').submit();	
+	}
+	
+
+	
 });
-
-
-
-
-	
-	
-/*	
-var search_min2 = 0;  //мин количество символов для быстрого поиска
-var search_deley2=500;	//задержка между вводами символов - начало поиска
-var search_input2=$('.js-keyup-search');			
-search_input2.keyup(function() {
-	
-	//обнуляем выбор
-	search_input2.parents('.input_2018').find('.js-hidden-search').val(0);
-	
-	if(jQuery.trim(search_input2.val().length) >= 1)
-		{
-		  $('.fox_dell1').show();	
-		} else
-		{
-			$('.fox_dell1').hide();
-		}
-    delays(function(){
-		
-		if(jQuery.trim(search_input2.val().length) >= search_min2)
-		{
-                var data ='url='+window.location.href+
-					'&search='+encodeURIComponent(search_input2.val());	
-			//$('.fox_dell1').hide().after('<div class="b_loading_small"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-                AjaxClient('tours','search_turoper','GET',data,'AfterSearchTuroper',1,0);		
-		}
-    }, search_deley2);
-});	
-*/	
+//авторизация
+//авторизация
+//авторизация
 
 	//перейти в себестоимость по объекту по клику меню сверху с выбранным объектом
 $('.menu1').on('click','.menu3_prime li',  function(){ $(this).children('a')[0].click(); });
@@ -7824,7 +5614,6 @@ $('.hide_left,.mobile').on( "click", function() {
 			
 		} else
 		{
-			//$(".iss").removeClass('small');
 			$(".iss").addClass('big');
 			$.cookie('iss', 'b', {expires: 60,path: '/'});
 		}
@@ -7859,22 +5648,8 @@ $(document).mouseup(function (e) {
 	    //$(".drop_box").hide();
 		$(".drop_box").css("transform", "scaleY(0)");
 		$(".slct_box").removeClass("active");
-		
-		
-		
-		
     }
-
-
-//клик в не формы курс ТО
-	var to_k = $(".form-rate-ok");
-	if (to_k.has(e.target).length === 0){
-		//клик вне блока и включающих в него элементов
-		//to_k.find(".drops").css("transform", "scaleY(0)");
-		to_k.removeClass('show-form-rate');
-	}
-
-
+	
 	
 	var container1 = $(".menu_supply");
     if (container.has(e.target).length === 0){
@@ -7882,9 +5657,6 @@ $(document).mouseup(function (e) {
 	   	container1.find(".drops").css("transform", "scaleY(0)");
 		container1.find(".drops").removeClass('active_menu_s');
     }
-
-
-
 
 	var container22 = $(".loll_drop");
     if (container22.has(e.target).length === 0){
@@ -7947,13 +5719,12 @@ $('.slct_box').each(function(i,elem)
 
 }
 
+$('body').on("click",'.slct_box',slctclick_box1);
+//$(".slct_box").bind('click', slctclick_box);
 
-$(".slct_box").bind('click', slctclick_box1);
+//$(".slct_box").bind('click', slctclick_box1);
 
 
-
-	
-	
 window.dropli_box1 = function() { 
 
 var active_old=$(this).parent().parent().find(".slct_box").attr("data_src");
@@ -7987,7 +5758,11 @@ var active_new=$(this).find("a").attr("rel");
 		  
 
 }
-$(".drop_box").find("li").bind('click', dropli_box1);
+
+$('body').on("click",'.drop_box li',dropli_box1);
+//$(".drop_box").find("li").bind('click', dropli_box);
+
+//$(".drop_box").find("li").bind('click', dropli_box1);
 		
 	
 
@@ -8000,86 +5775,49 @@ $(".drop_box").find("li").bind('click', dropli_box1);
 /*клик на раскрывающее меню квартал*/
 $(document).mouseup(function (e) {
     var container = $(".select");
-	var open_cont_list = $(".js-drop-search");
-	var open_cont_list1 = $(".js-open-search");
-	/*
-    if ((container.has(e.target).length === 0)&&(!open_cont_list.is(e.target))&&(!open_cont_list1.is(e.target)))
-	{
+    if (container.has(e.target).length === 0){
         //клик вне блока и включающих в него элементов
 	    //$(".drop").hide();
-		//alert("!");
 		$(".drop").css("transform", "scaleY(0)");
 		$(".slct").removeClass("active");
-		$(".drop").parents('.input-search-list').find('i').removeClass('open-search-active');
     }
-	*/
-	//alert(container.has(e.target).length);
-	if ((container.has(e.target).length === 0)&&(!open_cont_list.is(e.target))&&(!open_cont_list1.is(e.target)))
-	{
-        //клик вне блока и включающих в него элементов
-	    //$(".drop").hide();
-		//alert("!");
-		$(".drop").css("transform", "scaleY(0)");
-		$(".drop-radio").css("transform", "scaleY(0)");
-		$(".slct").removeClass("active");
-		$(".drop").parents('.input-search-list').find('i').removeClass('open-search-active');
-		$(".drop-radio").parents('.input-search-list').find('i').removeClass('open-search-active');
-    }
-	
-	
 });
 window.slctclick = function() { 
 
-if($(this).parents('.select').find('input').attr('readonly')==undefined) {
-
-	if($(this).is(".active"))
-	{
-		$(this).removeClass("active");
-		//$(this).next().hide();
-		$(this).next().css("transform", "scaleY(0)");
-		$(this).parents('.list_2018').removeClass('active1_in_2018x');
-	} else
-	{
-		$(this).addClass("active");
-		//$(this).next().show();
-		$(this).next().css("transform", "scaleY(1)");
-
-		$(this).parents('.list_2018').addClass('active1_in_2018x');
-	}
-
-
-
-
-	var elemss=$(this).attr('list_number');
-//var elemss1=$(this);
-
-	$('.slct').not(this).each(function(i,elem)
-	{
-		var att=$(this).attr('data_src');
-		//закрыть все кроме себя
-		//if($(this).not(elemss1))
-		//	{
-
-		//if ($(this).attr('list_number')!=elemss) {
-		$(this).removeClass("active");
-		//$(this).next().hide();
-		$(this).next().css("transform", "scaleY(0)");
-		$(this).parents('.list_2018').removeClass('active1_in_2018x');
-		//}
-	});
-
-//скрываем все списки по поиску
-$('.drop-search').each(function(i,elem) 
-{  	
-	    $(this).parents('.input-search-list').find('i').removeClass('open-search-active');
-		$(this).css("transform", "scaleY(0)");
 	
+	  if($(this).is(".active")) 
+	  {
+		  $(this).removeClass("active");
+		  //$(this).next().hide();
+		  $(this).next().css("transform", "scaleY(0)");
+	  } else
+	  {
+		  $(this).addClass("active");
+		  //$(this).next().show();
+		  $(this).next().css("transform", "scaleY(1)");
+	  }
+
+
+
+
+var elemss=$(this).attr('list_number');	
+
+
+$('.slct').each(function(i,elem) 
+{
+    var att=$(this).attr('data_src');
+	//закрыть все кроме себя
+	if ($(this).attr('list_number')!=elemss) {  	
+			$(this).removeClass("active");
+			//$(this).next().hide();
+		$(this).next().css("transform", "scaleY(0)");
+	} 
 });	
-		
+	
+	
 	 
 		  
 return false;
-}
 
 }
 
@@ -8129,9 +5867,6 @@ var active_new=$(this).find("a").attr("rel");
 			}
 
 }	
-
-
-	
 	
 window.dropli = function() { 
 
@@ -8143,26 +5878,16 @@ var active_new=$(this).find("a").attr("rel");
 			  
 			  if(active_old!=active_new)
 			  {
-				if(e!=0)
-				{
-					$(this).parents('.left_drop').find('label').addClass('active_label');	
-				} else
-					{
-$(this).parents('.left_drop').find('label').removeClass('active_label');
-					}
-				  
-				  
 			    $(this).parent().find("li").removeClass("sel_active");
 			    $(this).addClass("sel_active");
 			  
-			$(this).parents('.left_drop').removeClass('required_in_2018');
+			
 			  
 			 // $(this).parent().parent().find(".slct").removeClass("active").html(f);
 			   $(this).parent().parent().find(".slct").removeClass("active").empty().append(f);
 			   $(this).parent().parent().find(".slct").attr("data_src",e);
-				  $(this).parents('.list_2018').addClass('active_in_2018x');
-
-				  //$(this).parent().parent().find(".drop").hide();
+			  
+			   //$(this).parent().parent().find(".drop").hide();
 				  $(this).parent().parent().find(".drop").css("transform", "scaleY(0)");
 			  
 			   $(this).parent().parent().find("input").val(e).change();
@@ -8178,146 +5903,26 @@ $(this).parents('.left_drop').find('label').removeClass('active_label');
 }
 $(".drop").find("li").bind('click', dropli);
 
-window.dropliradio = function() { 
 
-var active_old=$(this).parent().parent().find(".slct").attr("data_src");
-var active_new=$(this).find("a").attr("rel");
-
-			  var f=$(this).find("a").text();
-			  var e=$(this).find("a").attr("rel");
-	var drop_object=$(this).parents('.drop-radio');
-			  
-	if ($(this).find('i').is(".active_task_cb")) 
-		{
-			$(this).find('i').removeClass("active_task_cb");
-		} else
-			{
-				$(this).find('i').addClass("active_task_cb");
-			}
-	
-	
-	          //пробежаться по всей выбранному селекту
-	 var select_li='';   
-	var select_li_text=''; 
-	drop_object.find('li').each(function(i,elem) {
-	if ($(this).find('i').is(".active_task_cb")) {  if(select_li==''){select_li=$(this).find("a").attr("rel");
-																	 select_li_text=$(this).find("a").text();
-																	 } else {select_li=select_li+','+$(this).find("a").attr("rel");
-																			select_li_text=select_li_text+', '+$(this).find("a").text();
-																			}}
-});
-	
-	
-	if(drop_object.is('.js-no-nul-select'))
-	{
-		//есть класс который говорит что если убрать галки со всех то загарятся все сразу
-		if(select_li=='')
-			{
-					drop_object.find('li').each(function(i,elem) {
-	  if(select_li==''){select_li=$(this).find("a").attr("rel");
-																	 select_li_text=$(this).find("a").text();
-																	 } else {select_li=select_li+','+$(this).find("a").attr("rel");
-																			select_li_text=select_li_text+', '+$(this).find("a").text();
-																			}
-});
-				drop_object.find('i').addClass("active_task_cb");
-			}
-		
-		
-	}
-	
-	/*
-				if(e!=0)
-				{
-					$(this).parents('.left_drop').find('label').addClass('active_label');	
-				} else
-					{
-$(this).parents('.left_drop').find('label').removeClass('active_label');
-					}
-	*/			  
-				  /*
-			    $(this).parent().find("li").removeClass("sel_active");
-			    $(this).addClass("sel_active");
-			  */
-			
-			  
-			 // $(this).parent().parent().find(".slct").removeClass("active").html(f);
-			   $(this).parent().parent().find(".slct").empty().append(select_li_text);
-			   $(this).parent().parent().find(".slct").attr("data_src",select_li);
-			  
-			   //$(this).parent().parent().find(".drop").hide();
-				 // $(this).parent().parent().find(".drop").css("transform", "scaleY(0)");
-			  
-			   $(this).parent().parent().find("input").val(select_li).change();
-			  
-		  
-
-}	
-	
-$(".drop-radio").find("li").bind('click', dropliradio);
 
 	
 //$('#save').bind('change', changesave);	
 
-	function uploadRR_old(file,id) {
-
-		var xhr = new XMLHttpRequest();
-
-		// обработчики можно объединить в один,
-		// если status == 200, то это успех, иначе ошибка
-		xhr.onload = xhr.onerror = function() {
-			// alert(this.status);
-			if (this.status == 200) {
-
-				$('[id_upload='+id+']').show(); //кнопка
-				$('.scap_load_'+id).find('.scap_load__').width(0);
-				$('.scap_load_'+id).hide();
-				$('.scap_load_'+id).after();
-				//UpdateImageReports(id);
-				alert_message('ok','ваш профиль обновлен');
-				autoReloadHak();
-			} else {
-
-				$('[id_upload='+id+']').show();
-				$('.scap_load_'+id).find('.scap_load__').width(0);
-				$('.scap_load_'+id).hide();
-			}
-		};
-
-		// обработчик для закачки
-		xhr.upload.onprogress = function(event) {
-			$('[id_upload='+id+']').hide();
-			$('.scap_load_'+id).show();
-			var widths=Math.round((event.loaded*100)/event.total);
-			$('.scap_load_'+id).find('.scap_load__').width(widths+'%');
+var list_number	= function() {
+	var active_new=$(this).find("a").attr("rel");
+	if(active_new==2)
+		{
+			$("#date_table").show(); 
 		}
-
-		xhr.open("POST", "users/upload.php", true);
-		//xhr.send(file);
-
-		var formData = new FormData();
-		formData.append("thefile", file);
-		formData.append("id",id);
-		xhr.send(formData);
-
-	}
-
-
-
-
-
-
-
-/*клик на раскрывающее меню сортировка снабжение*/
-
-
-
+}
+	
 /*клик на раскрывающее меню сортировка снабжение*/
 var changesort2 = function() {  
 $.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_2",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');
+
 if($(this).val()==2)
 {
 	//открываем окно с календарем
@@ -8339,24 +5944,19 @@ if($(this).val()==2)
   */
 	$("#date_table").show(); 
 	//$("#date_table").focus();
-	//alert("!");
-	//$('.bookingBox_range').show();
 }
 
 };
 $('#sort2').bind('change', changesort2);	
 	
 	
-//$('[list_number=t2]').next().find('li').bind('click', list_number);
+$('[list_number=t2]').next().find('li').bind('click', list_number);		
 
-
-
-var changesort1 = function() { 
-	//alert("1");
+var changesort1 = function() {  
 $.cookie("su_1", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_1",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');	
 
 };
 $('#sort1').bind('change', changesort1);	
@@ -8383,49 +5983,160 @@ $('.show_sort_stock').addClass('active_supply');
 $('#sort_stock1').bind('change', changesort_stock1);	
 	
 var changesort_stock2__= function() {  
-	var iu=$('.content').attr('iu');
+	$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false}); 	
 	$(this).prev().val('');
-    $.cookie("su_7c"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-	$('.js--sort').removeClass('greei_input');
-	$('.js--sort').find('input').removeAttr('readonly');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');
-	
-	$(this).hide();	
-}
-
-var changesort_stock2__o= function() {  
-	var iu=$('.content').attr('iu');
-	$(this).prev().val('');
-    $.cookie("su_7co"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-	$('.js--sort').removeClass('greei_input');
-	$('.js--sort').find('input').removeAttr('readonly');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');
-	
+    $('.show_sort_stock').removeClass('active_supply');
+    $('.show_sort_stock').addClass('active_supply');
 	$(this).hide();	
 }
 	
 	
+var changesort_stock2= function() {  
+$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false}); 	
+CookieList("su_st_2",$(this).val(),'add');
+$('.show_sort_stock').removeClass('active_supply');
+$('.show_sort_stock').addClass('active_supply');
+	if($(this).val()!='')
+		{
+			$(this).next().show();
+		}else
+			{
+			$(this).next().hide();	
+			}
+
+};
+$('.name_stock_search_input').bind('change keyup input click', changesort_stock2);	
+	
+	
+$('.dell_stock_search').bind('change keyup input click', changesort_stock2__);	
+
+
+//очистить корзину счетов
+var erase_basket = function() { 
+		
+	    var iu=$('.content_block').attr('iu');
+	    $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 
+	
+	    $('.checher_supply').removeClass('checher_supply');
+		basket_supply();  
+}
 
 
 
+var vall_basket2 = function() {  
+	var el_v=$(this).val();
+	//alert(el_v);
+	if(el_v==1)
+	{	
+		//сохранить текущий
+		save_soply();
+	}
+	if(el_v==2)
+	{
+		//закрыть текущий
+		var iu=$('.content_block').attr('iu');		
+		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
+		$.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		$.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		
+		$('.current_score').find('.number_score').empty();
+		$('.current_score').find('.count_numb_score').empty();
+		$('.current_score').hide();
+		$('.more_supply2').hide();
+		
+		$('.checher_supply').removeClass('checher_supply');
+		$('.score_active').removeClass('score_active');
+	}	
+	if(el_v==3)
+	{
+	  //открыть
+		var iu=$('.content_block').attr('iu');	
+		var cookie_flag_current = $.cookie('current_supply_'+iu);
+	//alert(cookie_new);
+	if(cookie_flag_current!=null) 
+	{	
+		id_soply=cookie_flag_current;
+	
+		
+		
+		 $.arcticmodal({
+    type: 'ajax',
+    url: 'forms/form_update_soply.php?id='+id_soply,
+			 beforeOpen: function (data, el) {
+				 //во время загрузки формы с ajax загрузчик
+				 $('.loader_ada_forms').show();
+				 $('.loader_ada1_forms').addClass('select_ada');
+			 },
+			 afterLoading: function (data, el) {
+				 //после загрузки формы с ajax
+				 data.body.parents('.arcticmodal-container').addClass('yoi');
+				 $('.loader_ada_forms').hide();
+				 $('.loader_ada1_forms').removeClass('select_ada');
+			 },
+			 beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				 if (typeof timerId !== "undefined") {
+					 clearInterval(timerId);
+				 }
+				 BodyScrool();
+			 }
 
-
-
-
+  });	
+	}
+	}
+};	
 
 	
+	
+var vall_basket = function() {  
+	var el_v=$(this).val();
+	//alert(el_v);
+	if(el_v==1)
+	{
+	    //добавить новый счет
+		add_soply();
+		
+	}
+	
+	if(el_v==2)
+	{
+		//Очистить корзину
+		erase_basket();
+	}
+	
+	
+	//$('[rel_status='+$(this).attr('rel')+']').hide();
+	//var data ='url='+window.location.href+'&id='+$(this).attr('rel')+'&val='+el_v;
+	//AjaxClient('supply','status_work','GET',data,'Aftervall_supply',$(this).attr('rel'),0);			
+};	
 
+$('.vall_basket').bind('change', vall_basket);	
+$('.vall_basket2').bind('change', vall_basket2);	
+	
+//$('.option_score1').bind('change', option_score1);		
 
+var changesortbill4 = function() {  
+$.cookie("bi_4", null, {path:'/',domain: window.is_session,secure: false}); 	
+CookieList("bi_4",$(this).val(),'add');
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');	
+
+};
+$('#sortb4').bind('change', changesortbill4);		
+
+var changesortbill3 = function() {  
+$.cookie("bi_3", null, {path:'/',domain: window.is_session,secure: false}); 	
+CookieList("bi_3",$(this).val(),'add');
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');	
+
+};
+$('#sortb3').bind('change', changesortbill3);	
 	
 var changesort3 = function() {  
 $.cookie("su_3", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_3",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');	
 
 };
 $('#sort3').bind('change', changesort3);	
@@ -8434,288 +6145,112 @@ $('#sort3').bind('change', changesort3);
 var changesort4 = function() {  
 $.cookie("su_4", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_4",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
+$('.show_sort_supply').removeClass('active_supply');
+$('.show_sort_supply').addClass('active_supply');	
 
 };
 $('#sort4').bind('change', changesort4);	
 	
-var changesort5 = function() {  
-$.cookie("su_5", null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_5",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');
+	
+
+var changesort_stock4 = function() {  
+$.cookie("su_st_4", null, {path:'/',domain: window.is_session,secure: false}); 	
+CookieList("su_st_4",$(this).val(),'add');
+$('.show_sort_stock').removeClass('active_supply');
+$('.show_sort_stock').addClass('active_supply');	
 
 };
-$('#sort5').bind('change', changesort5);	
+$('#sort_stock4').bind('change', changesort_stock4);	
 	
-	
-var changesort6 = function() {  
-$.cookie("su_6", null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_6",$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
+
+/*клик на раскрывающее меню квартал*/
+var changecity = function() {  
+
+ //удаляются старые меню
+var data ='url='+window.location.href+'&id='+$(this).val();
+$('.menu2_prime').hide();
+$('.menu3_prime').hide();
+AjaxClient('menu_prime','city','GET',data,'AfterChangeCity','1',0);	
 
 };
-$('#sort6').bind('change', changesort6);	
+$('#city').bind('change', changecity);
+	
+	
 
+window.changekvartal = function() {  
 
-//***************************************************************************************
-//***************************************************************************************
-//***************************************************************************************		
-
-
-
-
-
-$('#sort2c').bind('change', changesort2c);		
-
-var changesort3c = function() {
-var iu=$('.content').attr('iu');	
-$.cookie("su_3c"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_3c"+iu,$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
+ //удаляются старые меню
+var data ='url='+window.location.href+'&id='+$(this).val();
+$('.menu3_prime').hide();
+AjaxClient('menu_prime','kvartal','GET',data,'AfterChangeKvartal','1',0);	
 
 };
-$('#sort3c').bind('change', changesort3c);	
-	
-	
-var changesort4c = function() {  
-var iu=$('.content').attr('iu');	
-$.cookie("su_4c"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_4c"+iu,$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
-
-};
-$('#sort4c').bind('change', changesort4c);	
-	
-
-$('#sort5c').bind('change', changesort5c);		
-
-
-	var changesort7ct = function() {
-		var iu=$('.content').attr('iu');
-		$.cookie("su_7cu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_7cu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-
-	};
-
-
-$('#name_stock_search_tours').bind('change keyup input click', changesort7ct);
-
-	
-//***************************************************************************************
-//***************************************************************************************
-//***************************************************************************************		
-	
-
-
-
-
-
-var changesort1co = function() {
-var iu=$('.content').attr('iu');	
-	
-$.cookie("su_1co"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_1co"+iu,$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-
-};
-$('#sort1co').bind('change', changesort1co);		
-
-
-var changesort5co = function() {  
-var iu=$('.content').attr('iu');	
-$.cookie("su_5co"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_5co"+iu,$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
-};
-$('#sort5co').bind('change', changesort5co);		
-		
-var changesort7co = function() {  
-var iu=$('.content').attr('iu');	
-$.cookie("su_7co"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_7co"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
-	
-};	
-$('#name_stock_searcho').bind('change keyup input click', changesort7co);	
-	
-//***************************************************************************************
-//***************************************************************************************
-	var changesort5tu = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_5tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_5tu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort5tu').bind('change', changesort5tu);
-//***************************************************************************************
-	//***************************************************************************************
-	var changesort4tu = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_4tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_4tu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort4tu').bind('change', changesort4tu);
-//***************************************************************************************
-	var changesort3tu = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_3tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_3tu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort3tu').bind('change', changesort3tu);
-//***************************************************************************************	
-	var changesort2tu = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_2tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_2tu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort2tu').bind('change', changesort2tu);
-//***************************************************************************************
-	var changesort1tu = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_1tu"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_1tu"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort1tu').bind('change', changesort1tu);
-
-
-
-
-
-
-
-
-var changesort2ta = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_2ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_2ta"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort2ta').bind('change', changesort2ta);		
-
-	
-var changesort1ta = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_1ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_1ta"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort1ta').bind('change', changesort1ta);	
-
-
-var changesort4ta = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_4ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_4ta"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort4ta').bind('change', changesort4ta);	
-	
-var changesort3ta = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_3ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_3ta"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort3ta').bind('change', changesort3ta);
-	
-	
-var changesort5ta = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_5ta"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_5ta"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort5ta').bind('change', changesort5ta);	
-	
-var changesort2s = function() {  
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_2s"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_2s"+iu,$(this).val(),'add');
-	
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');		
-};
-$('#sort2s').bind('change', changesort2s);
-
-
-
-	var changesort2f = function() {
-		var iu=$('.content').attr('iu');
-
-		$.cookie("su_2f"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		CookieList("su_2f"+iu,$(this).val(),'add');
-
-		$('.js-reload-top').removeClass('active-r');
-		$('.js-reload-top').addClass('active-r');
-	};
-	$('#sort2f').bind('change', changesort2f);
-
-
-	var changesort5s = function() {
-
-var iu=$('.content').attr('iu');
-	
-$.cookie("su_5s"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-CookieList("su_5s"+iu,$(this).val(),'add');
-$('.js-reload-top').removeClass('active-r');
-$('.js-reload-top').addClass('active-r');	
-
-};
-$('#sort5s').bind('change', changesort5s);		
-
-	
-	
-
+$('#kvartal').bind('change', changekvartal);
 
 });
  
+
+function AfterUpdateCostFinery(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		$('.mat[rel_mat='+update+']').find('.price_finery_mater_').val(data.cost);
+		
+		
+	var rel_id=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').parents('.mat').attr('rel_w');
+	var rel_mat=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').parents('.mat').attr('rel_mat');
+	
+	var max=parseFloat($('.mat[rel_mat='+update+']').find('.price_finery_mater_').attr('max'));
+	var my=parseFloat($('.mat[rel_mat='+update+']').find('.price_finery_mater_').attr('my'));
+	//alert(max);
+	var value=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').val();	
+	$('.mat[rel_mat='+update+']').find('.price_finery_mater_').removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(((parseFloat(value)>max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			{
+				//выделяем красным и открываем служебную записку
+				$('.mat[rel_mat='+update+']').find('.price_finery_mater_').addClass('redaas');	
+			} 				
+	} 
+		
+		
+	    serv_mess_m($('.mat[rel_mat='+update+']').find('.price_finery_mater_'));
+	    summ_finery1(update);
+	}
+	if ( data.status=='error' )
+    {
+		$('.mat[rel_mat='+update+']').find('.price_finery_mater_').val('');
+		
+		
+					var rel_id=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').parents('.mat').attr('rel_w');
+	var rel_mat=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').parents('.mat').attr('rel_mat');
+	
+	var max=parseFloat($('.mat[rel_mat='+update+']').find('.price_finery_mater_').attr('max'));
+	var my=parseFloat($('.mat[rel_mat='+update+']').find('.price_finery_mater_').attr('my'));
+	
+	var value=$('.mat[rel_mat='+update+']').find('.price_finery_mater_').val();	
+	$('.mat[rel_mat='+update+']').find('.price_finery_mater_').removeClass('redaas');
+	if((value!=0)&&(value!='')&&($.isNumeric(value)))
+	{
+		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			{
+				//выделяем красным и открываем служебную записку
+				$('.mat[rel_mat='+update+']').find('.price_finery_mater_').addClass('redaas');	
+			} 
+				
+	} 		
+		
+		
+		serv_mess_m($('.mat[rel_mat='+update+']').find('.price_finery_mater_'));
+	    summ_finery1(update);
+	}
+}
 
 
 //постфункция отправки сообщения
@@ -8739,233 +6274,312 @@ function AfterSendMM(data,update)
 	}
 }
 
-function changesort2c() {
-	var iu=$('.content').attr('iu');
-
-	$.cookie("su_2c"+iu, null, {path:'/',domain: window.is_session,secure: false});
-	CookieList("su_2c"+iu,$(this).val(),'add');
-	$('.js-reload-top').removeClass('active-r');
-	$('.js-reload-top').addClass('active-r');
-};
-
-function changesort5c() {
-	var iu=$('.content').attr('iu');
-	$.cookie("su_5c"+iu, null, {path:'/',domain: window.is_session,secure: false});
-	CookieList("su_5c"+iu,$(this).val(),'add');
-	$('.js-reload-top').removeClass('active-r');
-	$('.js-reload-top').addClass('active-r');
-}
-
-//постфункция добавление карточки клиента в форме добавление тура
-function AfterCardClient(d,u)
+function Aftercurrent_soply(data,update)
 {
-	if ( d.status=='reg' )
+	if ( data.status=='reg' )
     {
 		WindowLogin();
-	}	
-	if ( d.status=='ok' )
+	}
+	
+	if ( data.status=='ok' )
     {
-		if(u==1)
-			{
-				//добавление покупателя
-				//покупатель
-				$('.js-buy-turs-client').parents('.block-add-tours').find('.b_loading_small').remove();
-				$('.js-buy-turs-client').parents('.block-add-tours').append(d.echo);
-				
-				$('.tot_buy_id').val(d.id_tabs);
-				$('.tot_buy_type').val(d.tabs);
-				
-				if(d.tabs==1)
-					{
-						//если добавяем частное лицо как покупателя
-				var fly_list_new=AddDellList($('.tot_fly_id').val(),d.id_tabs,'add');
-				if(fly_list_new!=0)
-					{
-				$('.tot_fly_id').val(fly_list_new);
-					}
-						
-					//вдруг покупатель которого мы добавляем уже есть в туристах
-					//тогда
-						//не прибавляем общее количество туристов
-						//удаляем его из туристов так как он теперь будет в покупателях
-					if($('.js-fly-my-tours').find('.info-client-ruler[id_rules='+d.id_tabs+']').length > 0) {
-						$('.js-fly-my-tours').find('.info-client-ruler[id_rules='+d.id_tabs+']').remove();
-					} else
-						{
-							  var count_turi=parseFloat($('.tot_fly_count').val());		
-			    $('.tot_fly_count').val(count_turi+1);
-						}
-						
-					
-						
-						UpdateNumberTuris();
-					}
-				
-				
-				//показать блок туристов этого тура
-				$('.js-fly-my-tours').show();
-				//добавляем в него этого же покупателя как туриста
-				//$('.js-fly-my-tours').find('.buy_turs').before(d.echo1);
-			}
-		if(u==2)
-			{
-				//добавление дополнительного туриста / туристов
-			
-				$('.js-fly-turs-client').parents('.block-add-tours').find('.b_loading_small').remove();
-				
-				
-				//показать кнопку добавить еще
-				$('.js-fly-turs-client').parents('.buy_turs').show();
-				
-				//определить номера новых туристов
-				//UpdateNumberTuris();
-				
-				
-				//добавить в hidden новые данные по добавленным туристам
-				//их может быть сразу несколько
-				
-				var cc = d.id_tabs.split(',');
-	            
-				if(cc.length==1)
-				{
-						
-					var fly_list_new=AddDellList($('.tot_fly_id').val(),d.id_tabs,'add');
-				if(fly_list_new!=0)
-					{
-				$('.tot_fly_id').val(fly_list_new);
-				
-                var count_turi=parseFloat($('.tot_fly_count').val());		
-			    $('.tot_fly_count').val(count_turi+1);	
-					
-					//посмотреть вдруг он покупатель тогда просто уберем галку
-						
-					
-					if($('.js-buy-my-tours').find('[id_rules='+d.id_tabs+']').length>0)
-					{
-						var new_sloja=$('.js-buy-my-tours').find('[id_rules='+d.id_tabs+']');
-					   if(new_sloja.is('[type_co=1]')) {
-							
-						 new_sloja.find('.choice-radio i').removeClass('active_task_cb');
-						 new_sloja.find('.js-loli-butt').removeClass('active_pass'); 
-						 new_sloja.find('.loli_turs input').val(0);
-						 new_sloja.addClass('active-turist-turs');
-					     UpdateNumberTuris();	  						 						      
-						   
-					   } else
-						   {
-							   
-							   
-							   $('.js-fly-turs-client').parents('.buy_turs').before(d.echo1);
-							   UpdateNumberTuris();
-						   }
-					} else
-						   {
-							   
-							   
-							   $('.js-fly-turs-client').parents('.buy_turs').before(d.echo1);
-							   UpdateNumberTuris();
-						   }
-						
-						
-						
-						
-					}
-					
-				
-					
-				} else
-					{
-				
-				var cc_pppe = d.echo1.split('/2/');		
-						
-	            for ( var t = 0; t < cc.length; t++ ) 
-	            { 
+		var iu=$('.content_block').attr('iu');	
+		$('.more_supply2').show();
+		$('.current_score').find('.number_score').empty().append(data.status_echo);
+		$('.current_score').find('.count_numb_score').empty().append(data.count);
+		$('.current_score').show();
+
+		$.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
+        
+		CookieList("basket_score_"+iu,data.basket,'add');
 		
-					
-					var fly_list_new=AddDellList($('.tot_fly_id').val(),cc[t],'add');
-				if(fly_list_new!=0)
-					{
-				$('.tot_fly_id').val(fly_list_new);
+		//выделить все элементы если они есть на странице с такими id
+	var cc = data.basket.split('.');
+	for ( var t = 0; t < cc.length; t++ ) 
+	{ 	
+		$('[supply_id='+cc[t]+']').addClass('checher_supply');
+	}
+		basket_supply();		
+	}
+	if ( data.status=='error' )
+    {
+		
+	}
+}
+
+//постфункция обновление актов на отбраковку и фоток брака
+function AfterUpdateAkt(data,update)
+{
+	
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		
+		if(update==0)
+			{
+				$('[invoices_messa='+data.id+']').find('.img_akt ul').empty().append(data.echo);
+			} else
 				
-                var count_turi=parseFloat($('.tot_fly_count').val());		
-			    $('.tot_fly_count').val(count_turi+1);	
-					
-					if($('.js-buy-my-tours').find('[id_rules='+cc[t]+']').length>0)
-					{
-						
-						var new_sloja=$('.js-buy-my-tours').find('[id_rules='+cc[t]+']');
-					   if(new_sloja.is('[type_co=1]')) {
-							
-						 new_sloja.find('.choice-radio i').removeClass('active_task_cb');
-						 new_sloja.find('.js-loli-butt').removeClass('active_pass'); 
-						 new_sloja.find('.loli_turs input').val(0);
-						 new_sloja.addClass('active-turist-turs');
-					     UpdateNumberTuris();	  						 						      
-						   
-					   } else
-						   {
-							   
-							   
-							   $('.js-fly-turs-client').parents('.buy_turs').before(cc_pppe[t]);
-							   UpdateNumberTuris();
-						   }
-					} else
-						   {
-							   
-							   
-							   $('.js-fly-turs-client').parents('.buy_turs').before(cc_pppe[t]);
-							   UpdateNumberTuris();
-						   }						
-						
-						
-					}
-					
-					
-	            }
-					}
-				
-				
-			}
-		ToolTip();
+				{
+					$('[invoices_messa='+data.id+']').find('.img_akt1 ul').empty().append(data.echo);
+				}
+		
+		
+	}
+	
+	
+}
+
+
+
+//постфункция сохранить текущий счет
+function Afterupdate_soply(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		var iu=$('.content_block').attr('iu');	
+		
+		var basket_score_ = $.cookie('basket_score_'+iu);
+		var cookie_flag_current = $.cookie('current_supply_'+iu);
+		var cc = basket_score_.split('.');
+	    
+		
+		//удаляем все старые иконки счетов и обновляем на новые
+		
+		$('[rel_score='+cookie_flag_current+']').next().remove();
+		$('[rel_score='+cookie_flag_current+']').remove();
+		
+		for ( var t = 0; t < cc.length; t++ ) 
+	    { 	
+			var tr=$('[supply_id='+cc[t]+']');
+			
+			tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" class="menu_click score_a  "><i>'+cc.length+'</i><span>№'+data.number+'</span></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
+			
+		}
+		
+
+		
+		
+		
+		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
+		  $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		  $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		
+		$('.current_score').find('.number_score').empty();
+		$('.current_score').find('.count_numb_score').empty();
+		$('.current_score').hide();
+		$('.more_supply2').hide();
+		
+		$('.checher_supply').removeClass('checher_supply');
+		$('.score_active').removeClass('score_active');
+		
+	}
+	if ( data.status=='error' )
+    {
+		
 	}
 }
 
 
-//постфункция авто определение обновились ли уведомления или задачи
+//постфункция согласовать счет
+function Afterapp_soply(data,update)
+{
+if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		$('[rel_score='+update+']').addClass('score_app');
+		
+		
+		var hf=$('[rel_score='+update+']').parents('[supply_stock]');
+		hf.each(function(i,elem) {
+			var rttt=$(this).attr('supply_stock');
+			var hf1= [];
+			hf1=rttt.split('_');
+		//alert(hf1[0]);
+		    UpdateStatusADA(hf1[0]);
+		});
+		
+		//alert(hf.length);
+		
+		//var hf1=hf.split('_');
+		//alert(hf1[0]);
+		//UpdateStatusADA(hf1[0]);
+		
+		
+		var iu=$('.content_block').attr('iu');
+	
+		$('[rel_score='+update+']').next().find('[rel=2]').parents('li').hide();
+		$('[rel_score='+update+']').next().find('[rel=3]').parents('li').hide();
+		$('[rel_score='+update+']').next().find('[rel=4]').parents('li').hide();
+		
+	  var cookie_flag_current = $.cookie('current_supply_'+iu);	
+	  if((cookie_flag_current!=null)&&(cookie_flag_current==update)) 
+	  {	
+		  $.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
+		  $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		  $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		
+		$('.current_score').find('.number_score').empty();
+		$('.current_score').find('.count_numb_score').empty();
+		$('.current_score').hide();
+		$('.more_supply2').hide();
+		
+		$('.checher_supply').removeClass('checher_supply');
+		$('.score_active').removeClass('score_active');
+	  }
+		
+	  var id_mateo='';	
+	  $('[rel_score='+update+']').each(function (index, value) { 
+       if(index==0)
+		   {
+             id_mateo=id_mateo+$(this).parents('[supply_id]').attr('supply_id');
+		   } else
+		   {
+			 id_mateo=id_mateo+'.'+$(this).parents('[supply_id]').attr('supply_id');   
+		   }
+
+      }); 	
+	  var data ='url='+window.location.href+'&id='+id_mateo;
+	  AjaxClient('supply','update_status','GET',data,'Afterupdate_status',id_mateo,0);	
+		
+	}
+		if ( data.status=='error' )
+    {
+		
+	}
+}
+
+//постфункция обновление статусов
+function Afterupdate_status(data,update)
+{
+	if ( data.status=='ok' )
+    {
+		//alert(update);
+	    var cc = update.split('.');
+	    for ( var t = 0; t < cc.length; t++ ) 
+	    { 	
+		     $('[supply_id='+cc[t]+']').find('.statusis').empty().append(data.basket[t]);
+			$('[supply_id='+cc[t]+']').find('.mkr_').empty();
+			
+	    }
+		
+		
+		
+	}
+	
+	
+	
+}
+
+
+function Aftervall_supply(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		//alert(update);
+		$('[rel_status='+update+']').after(data.status_echo).remove();
+		
+		var si= $('[rel_status='+update+']').parents('[supply_stock]').attr('supply_stock');
+		
+		var si1=si.split('_');
+		UpdateStatusADA(si1[0]);
+		
+		
+		
+	}
+	if ( data.status=='error' )
+    {
+		
+		
+		
+	}
+}
+
+
+function AfterChangeCity(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+		$('.menu2_prime').remove();
+        $('.menu3_prime').remove();
+		$('.menu1_prime').after(data.echo);
+		$(".slct").unbind('click.sys');
+		$(".slct").bind('click.sys', slctclick);
+		$(".drop").find("li").unbind('click');
+		$(".drop").find("li").bind('click', dropli);
+		$('#kvartal').unbind('change');
+		$('#kvartal').bind('change', changekvartal);
+		
+	} 
+	if ( data.status=='error' )
+    {		
+		$('.menu2_prime').show();
+        $('.menu3_prime').show();	
+	}
+	//alert(data.echo);
+}
+
 function AfterNofi(data,update)
 {
 	nprogress=0;
 	if ( data.status=='update' )
-	{
+    {
 		//узнаем что за новые уведомления у пользователя и выводим их
 		var dialog=0;
 		var date='';
-
-		var data ='tk='+data.token;
-		AjaxClient('notification','notification','GET',data,'AfterNotification','1',0,1);
+		if($('.message_block').length!=0)
+		{
+		   dialog = $('.message_block').attr('id_content');
+		   date=$('[dmes_e]:last').attr('dmes_e');	
+		}
+			
+		
+		
+		var data ='tk='+data.token+'&id_dialog='+dialog+'&date='+date;
+		AjaxClient('notification','notification','GET',data,'AfterNotification','1',0);
 	}
 }
 
-
-
-function AfterDellTask(data,update)
+//постфункция удаления материала из накладной
+function AfterDellMaterialInvoice(data,update)
 {
-		if(update!=null){ if (typeof(update) == "string") { update = update.split(','); } else { update[0]=update; } }	
-	
 	if ( data.status=='reg' )
     {
 		WindowLogin();
 	} 
 	if ( data.status=='ok' )
     {
-			if($('.js-global-task-link').length>0)
-			{
-				
-			  	$('.task_block_global[id_task="'+update[0]+'"]').slideUp("slow", function() {$('.task_block_global[id_task="'+update[0]+'"]').remove();});
-			}
+		$('[invoice_material='+update+']').remove();
+		$('[invoices_messa='+update+']').next().remove();
+		$('[invoices_messa='+update+']').remove();
+		
+		
+		itog_invoice();
 	}
 }
-
 
 //постфункция удаление файла накладной (jpg)
 function AfterDellImageInvoice(data,update)
@@ -8981,44 +6595,11 @@ function AfterDellImageInvoice(data,update)
 		if($('.img_invoice').find('li').length==0)
 		{
 				$('.img_invoice').hide();
-			
-			   $('.dollor_yes').before('<div class="attach_no">нет товарного чека</div>');
-			 
-			
 		}
-		
-		
-		
-		
 	}
 }
 
 
-//постфункция удаление файла накладной (jpg)
-function AfterDellImageReports(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	} 
-	if ( data.status=='ok' )
-    {
-		$('.img_invoice').find('[sop='+update+']').remove();
-		//если количество li 0 то прячем весь блог с файлами
-		if($('.img_invoice').find('li').length==0)
-		{
-				$('.img_invoice').hide();
-			
-			   //$('.dollor_yes').before('<div class="attach_no">нет товарного чека</div>');
-			 
-			
-		}
-		
-		
-		
-		
-	}
-}
 
 
 
@@ -9041,459 +6622,6 @@ function AfterDellImageSupply(data,update)
 }
 
 
-//постфункция вкладки в турах
-function AfterTabsInfoTrips(data,update)
-{
-	if(update!=null){ if (typeof(update) == "string") { update = update.split(','); } else { update[0]=update; } }
-
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-
-	if ( data.status=='ok' )
-	{
-$('.trips_block_global[id_trips='+update[1]+']').find('.px_bg_trips').empty().append(data.query);
-		//$('.form'+update[1]+' .px_bg').empty().append(data.query);
-
-		//$('.cha_1').on("change keyup input click",'.wallet_checkbox',wallet_checkbox);
-
-		//$('.form'+update[1]+' .js-tabs_docc').hide();
-		//$('.form'+update[1]+' .js-tabs_'+update[0]).show();
-
-		NumberBlockFile();
-		ToolTip();
-		if((update[0]==3)||(update[0]==4))
-		{
-			$(".slct").unbind('click.sys');
-			$(".slct").bind('click.sys', slctclick);
-			$(".drop").find("li").unbind('click');
-			$(".drop").find("li").bind('click', dropli);
-			//$('#typesay').unbind('change', changesay);
-			//$('#typesay').bind('change', changesay);
-			//alert("!");
-		}
-
-	}
-}
-
-
-//постфункция получения новой инфы по организации
-function AfterUpdateOrg(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {	
-//название
-//директор
-//юр адрес
-		
-//телефон контактного лица
-//email
-
-//ИНН		
-//КПП
-//ОГРН
-//ОКПО
-		
-//РАСЧЕТНЫЙ СЧЕТ
-//БИК
-//БАНК
-//Кор. счет		
-
-		var class_glu = ["js-glo-n-", "js-glo-d-","js-glo-a-",
-						
-						 "js-glo-t-",
-						 "js-glo-e-",
-						 
-						 "js-glo-in-",
-						 "js-glo-kp-",
-						 "js-glo-og-",
-						 "js-glo-ok-",
-						 
-						 "js-glo-rs-",
-						 "js-glo-bi-",
-						 "js-glo-ba-",
-						 "js-glo-ko-",
-						
-						
-						];
-		
-		var aaaa = data.echo.split('/-');
-		
-		var int_pass=0;
-		var inn_pass=0;
-		
-		for (var t = 0; t < aaaa.length; t++) 
-		{ 
-		    if((aaaa[t]!='0')&&(aaaa[t]!='dell'))
-			{
-				$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);	
-				
-				if($('.js-buy-my-tours').length > 0) {
-					//это добавление или внутренность тура тут свои правило обновления информации
-					if(t<5)
-						{
-							
-							$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-									
-						} else
-						{
-							//все что связано со счетами организации
-							$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-							
-							
-							//коды
-							if((t>=5)&&(t<9))
-							{
-								if((aaaa[t]!='—')&&(aaaa[t]!='0'))
-								{int_pass++;}
-							}
-							
-							if(int_pass!=0)
-							{
-									$('.label-empty-code-'+update).hide();
-								    $('.label-filled-code-'+update).show();
-							} else
-								{
-									$('.label-empty-code-'+update).show();
-								    $('.label-filled-code-'+update).hide();								
-								}
-							
-							//банковские реквизиты
-							if((t>=9)&&(t<13))
-							{
-								if((aaaa[t]!='—')&&(aaaa[t]!='0'))
-								{inn_pass++;}
-							}
-							
-							if(inn_pass!=0)
-							{
-									$('.label-empty-rek-'+update).hide();
-								    $('.label-filled-rek-'+update).show();
-							} else
-								{
-									$('.label-empty-rek-'+update).show();
-								    $('.label-filled-rek-'+update).hide();								
-								}
-							
-						}
-					
-					
-				} else{
-					$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-				}
-				
-			}
-		    if(aaaa[t]=='dell')
-			{
-				if(t==1)
-					{
-				$('.'+class_glu[t]+update).hide();	
-					}
-				
-			}			
-		}
-		
-	}
-}
-
-
-
-function click_mmmt ()
-{
-	nall_buy_tips();
-}
-
-//постфункция получения новой инфы по Финансам
-function AfterUpdateFinance(data,update)
-{
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-
-	if ( data.status=='ok' )
-	{
-//Доходы и Расходы
-//График продаж
-//Структура доходов
-//Структура расходов
-
-
-		var class_glu = ["js-fin-0", "js-fin-1", "js-fin-2","js-fin-3"];
-
-
-
-
-		var int_pass=0;
-		var inn_pass=0;
-		var aaaa = update.split(',');
-		for (var t = 0; t < 4; t++)
-		{
-			if(aaaa[t]!='0')
-			{
-				if(t==0) {
-					$('.' + class_glu[t]).empty().show().append(data.echo);
-					animation_graf();
-				}
-				if(t==1) {
-					window.chart2.data=data.chart2;
-				}
-				if(t==2) {
-					window.chart.data=data.chart;
-					setTimeout ( function () { legendCreate(); }, 1000 );
-				}
-				if(t==3) {
-
-					window.chart1.data=data.chart1;
-					setTimeout ( function () { legendCreate1(); }, 1000 );
-
-				}
-
-			}
-		}
-
-	}
-}
-
-
-//постфункция получения новой инфы по клиенту
-function AfterUpdateUser(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {	
-		//Фио
-//День рождение
-//последнее сообщение
-//вылет
-//прилет
-//телефон
-		
-//пол
-//латиница
-
-//загран серия
-//загран номер
-//загран кем
-//загран когда выдан
-//загран до какого
-
-//внпаспорт серия
-//внпаспорт номер
-//внпаспорт кем
-//внпаспорт когда выдан		
-		
-		var class_glu = ["js-glu-f-", "js-glu-d-", "js-glu-s-","js-glu-fs-","js-glu-fe-","js-glu-t-",
-						"js-glu-pol-",
-						"js-glu-latin-",
-						
-						"js-glu-ints-",
-						 "js-glu-intn-",
-						 "js-glu-intk-",
-						 "js-glu-intko-",
-						 "js-glu-intd-",
-						 
-						 "js-glu-ines-",
-						 "js-glu-inen-",
-						 "js-glu-inek-",
-						 "js-glu-ineko-"
-						
-						];
-		
-		var aaaa = data.echo.split('/-');
-
-		
-		var int_pass=0;
-		var inn_pass=0;
-		for (var t = 0; t < aaaa.length; t++) 
-		{ 
-		    if((aaaa[t]!='0')&&(aaaa[t]!='dell'))
-			{
-				$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);	
-				
-				if($('.js-buy-my-tours').length > 0) {
-					//это добавление или внутренность тура тут свои правило обновления информации
-					if(t<8)
-						{
-							if(t==6)
-								{
-									//пол
-									if(aaaa[t]==1)
-										{
-											$('.'+class_glu[t]+update).empty().show().append('(MR)');
-											$('.'+class_glu[t]+update).attr('data-tooltip','мистер');
-										}
-									if(aaaa[t]==2)
-										{
-											$('.'+class_glu[t]+update).empty().show().append('(MRS)');
-											$('.'+class_glu[t]+update).attr('data-tooltip','миссис');
-										}
-								} else
-									{
-							$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-									}
-						} else
-						{
-							//все что связано с паспорт данными
-							$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-							
-							
-							//загран паспорт
-							if((t>=8)&&(t<13))
-							{
-								if((aaaa[t]!='—')&&(aaaa[t]!='0'))
-								{int_pass++;}
-							}
-							
-							if(int_pass!=0)
-							{
-									$('.label-empty-int-'+update).hide();
-								    $('.label-filled-int-'+update).show();
-							} else
-								{
-									$('.label-empty-int-'+update).show();
-								    $('.label-filled-int-'+update).hide();								
-								}
-							
-							//внутренний пасспорт
-							if((t>=13)&&(t<17))
-							{
-								if((aaaa[t]!='—')&&(aaaa[t]!='0'))
-								{inn_pass++;}
-							}
-							
-							if(inn_pass!=0)
-							{
-									$('.label-empty-inn-'+update).hide();
-								    $('.label-filled-inn-'+update).show();
-							} else
-								{
-									$('.label-empty-inn-'+update).show();
-								    $('.label-filled-inn-'+update).hide();								
-								}
-							
-						}
-					
-					
-				} else{
-					$('.'+class_glu[t]+update).empty().show().append(aaaa[t]);
-				}
-				
-				
-			}
-		    if(aaaa[t]=='dell')
-			{
-				if(t==2)
-					{
-				$('.'+class_glu[t]+update).hide();	
-					}
-				
-			}			
-		}
-		
-	}
-}
-
-//постфункция я жду на берусь за эту задачу
-function AfterMyTask(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='error' )
-    {	
-		//почему то не прошло изменение
-	var taski=$('.task_clock_selection[id_task="'+update+'"]').find('.js-choice-task-y');
-	var i_c=taski.find('i')
-	var cb_h=taski.find('input').val();
-	
-	if(i_c.is(':visible')) 
-	   {
-	
-	if((cb_h==0)&&(!i_c.is('.active_task_cb')))
-		{
-			  taski.find('input').val(1);
-			  taski.find('.choice-radio i').addClass('active_task_cb');
-			  taski.find('.choice-head').empty().append('Вы взялись за выполнение');
-		} else
-			{
-			  taski.find('input').val(0);
-			  taski.find('.choice-radio i').removeClass('active_task_cb');
-			}
-}
-	}
-}
-
-//постфункция для ежемесячного платежа
-function AfterConstBuy(data,update)
-{
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-
-	if ( data.status=='error' )
-	{
-		//почему то не прошло изменение
-		var taski=$('.buy_block_global[id_buy="'+update+'"]').find('.js-choice-buy-y');
-		var i_c=taski.find('i')
-		var cb_h=taski.find('input').val();
-
-		if(i_c.is(':visible'))
-		{
-
-			if((cb_h==0)&&(!i_c.is('.active_task_cb')))
-			{
-				taski.find('input').val(1);
-				taski.find('.choice-radio i').addClass('active_task_cb');
-				//taski.find('.choice-head').empty().append('Вы взялись за выполнение');
-			} else
-			{
-				taski.find('input').val(0);
-				taski.find('.choice-radio i').removeClass('active_task_cb');
-			}
-		}
-	}
-}
-
-
-//постфункция обновление фоток по накладной
-function AfterUpdateImageReports(data,update)
-{
-	nprogress=0;
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	} else
-		{
-	if ( data.status=='ok' )
-    {
-		$('.img_invoice').find('ul').empty().append(data.echo);
-		$('.img_invoice').show();
-		ToolTip();
-		
-		if($('.img_invoice').find('li').length!=0)
-		{				
-			   $('.attach_no').remove();	
-		}
-		
-		
-	}
-		}
-}
-
 //постфункция обновление фоток по накладной
 function AfterUpdateImageInvoice(data,update)
 {
@@ -9508,13 +6636,6 @@ function AfterUpdateImageInvoice(data,update)
 		$('.img_invoice').find('ul').empty().append(data.echo);
 		$('.img_invoice').show();
 		ToolTip();
-		
-		if($('.img_invoice').find('li').length!=0)
-		{				
-			   $('.attach_no').remove();	
-		}
-		
-		
 	}
 		}
 }
@@ -9537,65 +6658,7 @@ function AfterUpdateImageSupply(data,update)
 		}
 }
 
-//удаление заявки постфункция
-function AfterDellBoo(data,update)
-{
-	nprogress=0;
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	} else
-		{
-	if ( data.status=='ok' )
-    {
-		//узнаем что за новые уведомления у пользователя и выводим 
-		$('[rel_notib='+update+']').remove();	
-		
-	} else
-			{
-				$('[rel_notib='+update+']').show();
-				
-			}
-		}
-}
-
-
-
-function AfterUpdateTaskBiAdd(data,update)
-{
-		if ( data.status=='reg' )
-    {
-		WindowLogin();
-	} else
-		{
-	if ( data.status=='ok' )
-    {
-		$('.js-message-task-search').slideUp("slow");
-		$('.js-global-task-link').prepend(data.echo);
-		setTimeout ( function () { $( '.new-say ' ).removeClass('new-say'); }, 4000 );
-		
-	}
-}
-}
-
-function AfterUpdateTaskBi(data,update)
-{
-		if ( data.status=='reg' )
-    {
-		WindowLogin();
-	} else
-		{
-	if ( data.status=='ok' )
-    {
-		
-		$('.task_block_global[id_task='+update+']').after(data.echo);
-		$('.new-say').prev('.task_block_global').remove();		
-		setTimeout ( function () { $( '.new-say ' ).removeClass('new-say'); }, 4000 );
-		
-	}
-}
-}
-//постфункция удаление уведомления
+//удаление уведомления
 function AfterDellNot(data,update)
 {
 	nprogress=0;
@@ -9635,7 +6698,7 @@ function AfterDellNot(data,update)
 		}
 }
 
-//постфункция получение новых уведомлений
+//получение новых уведомлений
 function AfterVVN(data,update)
 {
 	if ( data.status=='reg' )
@@ -9645,16 +6708,14 @@ function AfterVVN(data,update)
 	
 	if ( data.status=='ok' )
     {
-
 		$('.noti_block').find('.scro').empty().append(data.echo);
 		$('.noti_block').find('.noti_coc').empty().append(data.not);
 		$('.noti_block').find('.noti_co').show();
-		$('.notif_div_2018').on("click",'.del_notif',DellNotif);	
+		$('.noti_block').on("click",'.del_notif',DellNotif);	
 	}
 }
 
-//постфункция получения новых задач
-function AfterCloudTask(data,update)
+function AfterNotification(data,update)
 {
 	if ( data.status=='reg' )
     {
@@ -9663,631 +6724,6 @@ function AfterCloudTask(data,update)
 	
 	if ( data.status=='ok' )
     {
-		
-		$('.users_rule').attr('tas',data.key);
-		
-		//удаление чего нет
-		for ( var t = 0; t < 4; t++ ) { 
-		   //$('.js-ring-'+t).
-		   $('.js-ring-'+t).find('.task_clock_selection').each(function(i,elem) {
-	            var id_old=$(this).attr('id_task');
-			   //есть ли он в нужном массиве в новом списке
-			   if( data.cloud_day[t].indexOf( id_old ) == -1 )
-				   {
-					   /*$('.js-ring-'+t).find('[id_task='+id_old+']').slideUp("slow",function() {$(this).remove();});
-					   */
-					   $('.js-ring-'+t).find('[id_task='+id_old+']').remove();
-				   }
-           });  
-		}
-		//Скрыть весь блок если там не осталось не одной задачи
-		
-		var count_fa=0;
-		for ( var t = 0; t < 4; t++ ) { 
-			if(data.cloud_day[t].length==0)
-			{
-				$('.js-ring-'+t).hide();
-				if(t!=3)
-				{
-				   count_fa++;	
-				}
-			}
-		}
-
-		//Обновление существующих задач данных
-		$.each(data.cloud, function(index, value){
-			//value[0]
-			//смотрим есть ли такая задача
-			//alert($('.js-ring-'+value[0]).find('.task_clock_selection[id_task="'+value[2]+'"]').length);
-			if($('.js-ring-'+value[0]).find('.task_clock_selection[id_task="'+value[2]+'"]').length>0)
-				{
-					//просто обновить данные в существующей задаче
-					var ko_block=$('.task_clock_selection[id_task="'+value[2]+'"]');
-					
-					if(index!=3)
-					{
-						if((value[1]==1)||(value[1]==2))
-							{
-								ko_block.find('.ring-comm').empty().append(value[5]);  //текст
-							}
-					} else
-						{
-					ko_block.find('.ring-comm').empty().append(value[5]);  //текст
-						}
-					
-					if(index!=3)
-					{
-					   ko_block.find('.task__time1').empty().append(value[6]);  //время
-					} else
-					{
-					   ko_block.find('.red__task').empty().append(value[6]);  //время			
-					}
-					
-					if(value[1]==2)
-						{
-							//это общая задача смотрим кто выбрал ее
-						if(value[7]==0)
-							{
-								//нет ответственных и выбравших эту задачу
-								ko_block.find('.choice-head').empty().append('Забрать задачу на себя');
-								ko_block.find('.choice-radio i').removeClass('active_task_cb').show();
-								ko_block.find('.choice-radio input').val(0);
-								
-							} else
-								{
-									if(value[8]==1)
-							        {
-										ko_block.find('.choice-head').empty().append('Вы взялись за выполнение');
-										
-										ko_block.find('.choice-radio i').show().addClass('active_task_cb');
-										ko_block.find('.choice-radio input').val(1);
-										
-									} else
-									{
-										ko_block.find('.choice-head').empty().append('Задачу выполняет → <strong>'+value[7]+'</strong>');
-										ko_block.find('.choice-radio input').val(0);
-										ko_block.find('.choice-radio i').removeClass('active_task_cb').hide();
-									}
-									
-								}
-							
-						//ko_block.('.choice-head').empty().append(value[5]);
-						}
-				}
-			else
-				{
-					//добавить новую задачу
-					
-					//открывает весь блок куда добавл. задача, вдруг его было не видно
-					var bbg=$('.js-ring-'+value[0]);
-					//alert(value[0]);
-					bbg.show();
-					var temp_task='';
-					var red_a='';
-					var class_bb='';
-					if(value[0]==3)
-						{
-					red_a='red_all';
-					class_bb='task-ring';		
-						}
-					if(value[1]==3)
-						{
-							//день рождение 1,2,3,4 блок
-							if(value[0]!=3) { class_bb='birthday-ring';	}	
-							
-							temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+class_bb+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-							if(value[0]!=3) {
-								//1,2,3 блок
-							    temp_task=temp_task+'<span>День рождения</span>';
-							} else
-							{
-								//4 блок	
-								temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';	
-							}
-							temp_task=temp_task+', <span class="js-client ring-user js-glu-f-'+value[11]+'" iod="'+value[11]+'">«'+value[4]+'»</span>';
-							
-								if(value[0]==3)
-								{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';		
-								} else
-								{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-								}
-							
-							
-							temp_task=temp_task+'</div><div class="ring-time">';
-							if(value[0]==3)
-								{
-							temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-								}
-							
-							temp_task=temp_task+'<div rel_taskk="'+value[2]+'" data-tooltip="Отметить как выполнена" class="task__click1"></div></div></div></div>';
-						}
-			
-					if((value[1]==5)||(value[1]==4))
-					{
-							//вылетает/прилетает 1,2,3 блок
-							if(value[1]==5)
-								{
-									var flt='flyend-ring';
-									var flt1='fly-ring-end';
-								} else
-								{
-									var flt='flystart-ring';	
-									var flt1='fly-ring-start';
-								}
-						if(value[0]==3)
-								{
-									//4 блок
-									var flt='task-ring';
-									var flt1='';
-								}
-													
-							
-							temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+flt+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-							if(value[0]!=3)
-								{
-							temp_task=temp_task+'<a href="booking/'+value[9]+'/"><strong>'+value[10]+'</strong></a>';
-								} else
-									{
-										//4 блок	
-								temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';
-									}
-								
-								
-								temp_task=temp_task+', <span class="js-client ring-user js-glu-f-'+value[11]+'" iod="'+value[11]+'">«'+value[4]+'»</span>';
-							
-							if(value[0]==3)
-								{
-							temp_task=temp_task+'<div><a href="booking/'+value[9]+'/"><strong>'+value[10]+'</strong></a></div>';
-								}
-							if(value[0]==3)
-								{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';		
-								} else
-								{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-								}
-							temp_task=temp_task+'</div><div class="ring-time">';
-							if(value[0]!=3)
-								{
-							temp_task=temp_task+'<div class="task__time1 '+flt1+'">'+value[6]+'</div>';
-								} else
-									{
-										temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-									}
-							temp_task=temp_task+'<div rel_taskk="'+value[2]+'" data-tooltip="Отметить как выполнена" class="task__click1"></div></div></div></div>';
-						}
-
-
-					if((value[1]==6)||(value[1]==7))
-					{
-						//вылетает/прилетает
-						if(value[1]==7)
-						{
-							var flt='flyend-ring';
-							var flt1='fly-ring-end';
-						} else
-						{
-							var flt='flystart-ring';
-							var flt1='fly-ring-start';
-						}
-						if(value[0]==3)
-						{
-							//4 блок
-							var flt='task-ring';
-							var flt1='';
-						}
-
-
-						temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+flt+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a>';
-						} else
-						{
-							//4 блок
-							temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';
-						}
-
-
-						var as = value[11].split('-');
-
-						if(as[0]==1) {
-							//частное лицо
-							temp_task = temp_task + ', <span class="js-client ring-user js-glu-f-' + as[1] + '" iod="' + as[1] + '">«' + value[4] + '»</span>';
-						} else
-						{
-							//организация
-							temp_task = temp_task + ', <span class="js-org ring-user js-glo-f-' + as[1] + '" iod="' + as[1] + '">«' + value[4] + '»</span>';
-						}
-
-
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div><a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a></div>';
-						}
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';
-						} else
-						{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-						}
-						temp_task=temp_task+'</div><div class="ring-time">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<div class="task__time1 '+flt1+'">'+value[6]+'</div>';
-						} else
-						{
-							temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-						}
-						temp_task=temp_task+'</div></div></div>';
-					}
-
-
-
-					if((value[1]==9))
-					{
-						//впечатление туры
-
-							var flt='flychat-ring';
-							var flt1='';
-
-						if(value[0]==3)
-						{
-							//4 блок
-							var flt='task-ring';
-							var flt1='';
-						}
-
-
-						temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+flt+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a>';
-						} else
-						{
-							//4 блок
-							temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';
-						}
-
-
-						if(value[0]!=3) {
-							temp_task = temp_task + ', <span class="ring-user">Узнать впечатление по туру</span>';
-						}
-
-
-
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div><a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a></div>';
-						}
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';
-						} else
-						{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-						}
-						temp_task=temp_task+'</div><div class="ring-time">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<div class="task__time1 '+flt1+'"></div>';
-						} else
-						{
-							temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-						}
-						temp_task=temp_task+'<div rel_taskk="'+value[2]+'" data-tooltip="Отметить как выполнена" class="task__click1"></div></div></div></div>';
-					}
-
-
-					if((value[1]==8))
-					{
-						//срок оплаты от клиента
-
-						var flt='flymoney-ring';
-						var flt1='';
-
-						if(value[0]==3)
-						{
-							//4 блок
-							var flt='task-ring';
-							var flt1='';
-						}
-
-
-						temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+flt+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a>';
-						} else
-						{
-							//4 блок
-							temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';
-						}
-
-
-						if(value[0]!=3) {
-							temp_task = temp_task + ', <span class="ring-user">Срок оплаты от клиента</span>';
-						}
-
-
-
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div><a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a></div>';
-						}
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';
-						} else
-						{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-						}
-						temp_task=temp_task+'</div><div class="ring-time">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<div class="task__time1 '+flt1+'"></div>';
-						} else
-						{
-							temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-						}
-						temp_task=temp_task+'</div></div></div>';
-					}
-
-					if((value[1]==10))
-					{
-						//срок оплаты туроператора
-
-						var flt='flymoney-ring';
-						var flt1='';
-
-						if(value[0]==3)
-						{
-							//4 блок
-							var flt='task-ring';
-							var flt1='';
-						}
-
-
-						temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+flt+' '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a>';
-						} else
-						{
-							//4 блок
-							temp_task=temp_task+'<span>Задача №'+value[2]+'</span>';
-						}
-
-
-						if(value[0]!=3) {
-							temp_task = temp_task + ', <span class="ring-user">Срок оплаты туроператору</span>';
-						}
-
-
-
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div><a href="tours/.id-'+value[9]+'"><strong>'+value[10]+'</strong></a></div>';
-						}
-						if(value[0]==3)
-						{
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>';
-						} else
-						{
-							temp_task=temp_task+'<div class="ring-comm"></div>';
-						}
-						temp_task=temp_task+'</div><div class="ring-time">';
-						if(value[0]!=3)
-						{
-							temp_task=temp_task+'<div class="task__time1 '+flt1+'"></div>';
-						} else
-						{
-							temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-						}
-						temp_task=temp_task+'</div></div></div>';
-					}
-
-					if(((value[1]==1)||(value[1]==2)))
-						{
-							//просто или общая задача 1,2,3,4 блок
-							
-							if(value[1]==1)
-								{
-									//простая
-									var prs='task-ring';
-									var prs1='Задача';
-									var prs2='';
-								} else
-								{
-									//общая
-									var prs='task-ring-all';	
-									var prs1='Общая задача';
-				
-							if(value[7]==0)
-							{
-								var prs2='<div class="ring-comm-option"><div class="input-choice-click-task"><div class="choice-head">Забрать задачу на себя</div><div class="choice-radio"><div class="center_vert1"><i class=""></i><input name="" id="" value="0" type="hidden"></div></div></div></div>';
-								
-							} else
-								{
-									if(value[8]==1)
-							        {
-											var prs2='<div class="ring-comm-option"><div class="input-choice-click-task js-choice-task-y"><div class="choice-head">Вы взялись за выполнение</div><div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i><input name="" id="" value="1" type="hidden"></div></div></div></div>';
-										
-									} else
-									{
-										
-											var prs2='<div class="ring-comm-option"><div class="input-choice-click-task"><div class="choice-head">Задачу выполняет → <strong>'+value[7]+'</strong></div><div class="choice-radio"><div class="center_vert1"><i style="display:none;" class="active_task_cb"></i><input name="" id="" value="0" type="hidden"></div></div></div></div>';
-									}
-									
-								}
-									
-									
-									
-								}
-							
-							temp_task='<div id_task="'+value[2]+'" class="new-task task_clock_selection '+prs+'  '+red_a+'"><div class="task_clock_selection1"><div class="clock_cbb"><i></i></div><div class="why_task_cbb"><span>'+prs1+' №'+value[2]+'</span>';
-							
-							if(value[3]!=0)
-								{
-							//с кем то связана
-									if(value[3]==1)
-										{
-											//частное/потенц
-							temp_task=temp_task+', <span class="js-client ring-user js-glu-f-'+value[11]+'" iod="'+value[11]+'">«'+value[4]+'»</span>';
-										}
-								if(value[3]==2)
-										{
-											//организация
-							temp_task=temp_task+', <span class="js-org ring-user js-glo-n-'+value[11]+'" iod="'+value[11]+'">«'+value[4]+'»</span>';
-										}									
-								}
-									
-							temp_task=temp_task+'<div class="ring-comm">'+value[5]+'</div>'+prs2+'</div><div class="ring-time">';
-							
-														if(value[0]==3)
-								{
-									temp_task=temp_task+'<span class="red__task">'+value[6]+'</span>';
-								} else
-									{
-										temp_task=temp_task+'<div class="task__time1">'+value[6]+'</div>';
-									}
-							
-							
-							
-							temp_task=temp_task+'<div rel_taskk="'+value[2]+'" data-tooltip="Отметить как выполнена" class="task__click1"></div></div></div></div>';
-						}
-					
-					bbg.find('.block-ring-x').prepend(temp_task);
-					
-			
-					setTimeout ( function () { $('.task_clock_selection[id_task="'+value[2]+'"]').removeClass('new-task'); }, 4000 );
-					
-					
-
-					
-
-					
-				}
-
-        });	
-		
-		
-		
-							//разбираемся с кнопками еще для блоков сегодня, завтра, послезавтра, просроченные
-			for ( var t = 0; t < 4; t++ ) { 
-					var eshe_jv=$('.js-ring-'+t).find('.eshe-ring');
-					var max=eshe_jv.attr('max');
-					var all_block=$('.js-ring-'+t).find('.task_clock_selection').length;
-					var no_visible=parseInt(all_block)-parseInt(max);
-				//alert(no_visible);
-					
-					var eshe_v=0;
-					var eshe_o=0;
-					if(eshe_jv.is(':visible'))
-						{
-							//уже показывается кнопка
-							var eshe_v=1;
-						}
-					if(eshe_jv.is('.active-ring'))
-						{
-							//уже открыта
-							var eshe_o=1;
-						}
-					
-					if(eshe_v==0)
-					{
-						//не было видно но теперь видно и один надо скрыть
-						if(all_block>max)
-						{
- 						   eshe_jv.show();
-						   eshe_jv.find('.ring-x1').empty().append('еще '+no_visible);
-
-						   //скрыть те которые невидимые должны быть
-						   $('.js-ring-'+t).find('.task_clock_selection').removeClass('max-day-ring');
-							
-						   $('.js-ring-'+t).find('.task_clock_selection').each(function(i,elem) {
-							   
-							   if(i>=max)
-								   {
-									   $(this).addClass('max-day-ring').hide();
-								   }
-							   
-						   });
-							
-							
-						}
-					}
-					if(((eshe_v==1)&&(eshe_o==0)))
-					{
-						//кнопка еще уже есть и видна Но не нажата раскрыть все
-                        eshe_jv.find('.ring-x1').empty().append('еще '+no_visible);
-						$('.js-ring-'+t).find('.task_clock_selection').removeClass('max-day-ring');
-						$('.js-ring-'+t).find('.task_clock_selection').each(function(i,elem) {
-							   
-							   if(i>=max)
-								   {
-									   $(this).addClass('max-day-ring').hide();
-								   }
-							   
-						   });
-					}
-					if(((eshe_v==1)&&(eshe_o==1)))
-					{
-						//кнопка еще уже есть и видна и раскрыта показать все
-						 eshe_jv.find('.ring-x1').empty().append('еще '+no_visible);
-						 $('.js-ring-'+t).find('.task_clock_selection').removeClass('max-day-ring');
-							
-						   $('.js-ring-'+t).find('.task_clock_selection').each(function(i,elem) {
-							   
-							   if(i>=max)
-								   {
-									   $(this).addClass('max-day-ring');
-								   }
-							   
-						   });
-					}	
-					
-					
-					if(all_block<=max)
-					{
-						//alert("!");
-						eshe_jv.hide();
-					}
-			}
-		
-		
-		
-					//показать или скрыть всю правую сторону задач. вдруг там нет
-					
-					if(count_fa==3)
-					{
-							//Скрыть вообще правую часть
-						    $('.task-left').css("width", "100%");
-						    $('.task-right').hide();
-					} else
-					{
-						    $('.task-left').css("width", "50%");
-						    $('.task-right').show();							
-					}	
-		
-		
-	}
-}
-
-
-//постфункция определение новых уведомлений
-function AfterNotification(data,update)
-{
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-
-	if ( data.status=='ok' )
-	{
 		$('.users_rule').attr('not',data.tk);
 		if(data.not==0)
 		{
@@ -10299,14 +6735,58 @@ function AfterNotification(data,update)
 		{
 			$('.not_li').find('i').empty().append(data.not);
 			$('.not_li').find('i').show();
-			$('.view__not').css( "display", "inline-block" );
+			$('.view__not').show();
 			$('#chatAudio')[0].play();
-
-			alert_message('ok','У вас новые уведомления');
-
-
+			
+			//если есть колокольчик то выводим на пару секунд уведомление из-за которого все обновилось
+			if($('.view__not').length)
+			{
+				if( $('.noti_block').is(':visible') ) {	
+					//обновить 
+					$('.noti_block').find('.scro').empty().append('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');
+	                var data ='';
+                    AjaxClient('notification','view_notification','GET',data,'AfterVVN',1,0);	
+				} else
+				{
+					//открыть на пару секунд	
+					$('.menu1').append('<div class="noti_block"><div class="title_noti"><ul class="t_ul"><li>Новое уведомление</li><li><i class="noti_co" style="display:none;"><span class="noti_coc"></span></i></li></ul></div><div class="scro">'+data.echo+'</div></div>');
+					setTimeout ( function () { $( '.noti_block' ).remove (); }, 5000 );
+				}
+					
+			}
+			
+			
 		}
-
+		//сообщения
+		if(data.echo_m==0)
+		{
+			//скрываем уведомления и количество ставим 0	
+			$('.mess_li').find('i').empty();
+			$('.mess_li').hide();
+			//$('.view__not').hide(); //колокольчик
+		} else
+		{
+			$('.mess_li').find('i').empty().append(data.echo_m);
+			$('.mess_li').find('i').show();
+			//$('.view__not').show(); //колокольчик
+			$('#chatAudio')[0].play();					
+			
+			if($('.message_block').length!=0)
+		    {
+				
+				if($('.sego_mess').length==0)
+		        {
+			       $('.padding_mess').append('<div class="dialog_clear"></div><div class="message_date"><div><span class="sego_mess">сегодня</span></div></div>');	
+		        }
+				
+		        $('.padding_mess').append('<div class="dialog_clear"></div>'+data.echo_dialog);
+				
+				
+				scroll_to_bottom(2000);
+			}
+			
+			
+		}
 	}
 }
 	
@@ -10345,16 +6825,19 @@ function AfterMESS(data,update)
 	
 }
 
-
-
-
-function AfterTest(data,update)
+function AfterUCASH(data,update)
 {
-	$('.js-cloud').empty().append(data.test);
+	$('[cl_pay='+update+']').empty().append(data.echo);
+	$('[or_pay='+update+']').empty().append('<div class="font-rank rasp_pay" data-tooltip="Распровести" id_rel="'+update+'"><span class="font-rank-inner">x</span></div>');
+			$('.pay_summ2').remove();
+		$('.pay_summ3').remove();
+		$('.pay_summ4').remove();
+		$('.j_cash').after(data.echo2);
+	ToolTip();
 }
 
 
-function AfterSaveAnswer(data,update)
+function AfterUpdateStatusADA(data,update)
 {
 	if ( data.status=='reg' )
     {
@@ -10362,12 +6845,65 @@ function AfterSaveAnswer(data,update)
 	}
 	
 	if ( data.status=='error' )
+    {	
+		$('.loader_inter').remove();	
+	}
+	
+	
+	if ( data.status=='ok' )
     {
-		$('[op_rel='+update+']').find('.save_anna').show();
+		$('[id_ada='+update+']').empty().append(data.echo);
+		ToolTip();
+		$('.loader_inter').remove();		
+		$('[id_ada='+update+']').show();	
 	}
 }
 
 
+//постфункция обновление статуса после к оплате счет
+function AfterWalletSTx(data,update)
+{
+	//alert(update);
+	$('.billl[rel_id='+update+']').find('.loader_inter').remove();
+	
+	if ( data.status=='reg' )
+    {
+		$('.b-loading').hide();
+		WindowLogin();
+	}
+	
+	
+	if ( data.status=='ok' )
+    {
+		$('.billl[rel_id='+update+']').find('.status_wallet_ada').empty().append(data.echo);
+	    $('.billl[rel_id='+update+']').find('.button_ada_wall').empty().append(data.button);
+	}
+}
+
+function AfterChangeKvartal(data,update)
+{
+	if ( data.status=='reg' )
+    {
+		WindowLogin();
+	}
+	
+	if ( data.status=='ok' )
+    {
+        $('.menu3_prime').remove();
+		$('.menu2_prime').after(data.echo);
+		$(".slct").unbind('click.sys');
+		$(".slct").bind('click.sys', slctclick);
+		$(".drop").find("li").unbind('click');
+		$(".drop").find("li").bind('click', dropli);
+		
+		
+	} 
+	if ( data.status=='error' )
+    {		
+        $('.menu3_prime').show();	
+	}
+	//alert(data.echo);
+}
 
 //меню выбора города-квартала и дома в себестоимости
 //меню выбора города-квартала и дома в себестоимости

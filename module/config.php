@@ -6,6 +6,7 @@ include_once $url_system.'module/config_time.php';
 include_once $url_system.'module/version.php';
 
 $base_usr="https://eico.atsun.ru";
+$local_host="eico.atsun.ru"; //как называет домен в локалке
 
 /*
 $dblocation = "localhost";
@@ -23,6 +24,9 @@ $dbpasswd = "inter2017";*/
 $dbname = "atsunru_interstroi";
 $dbuser = "atsunru_inter";
 $dbpasswd = "inter2017";*/
+
+$base_cookie='eico.atsun.ru';
+
 
 //$dblocation = "mysql.hosting.nic.ru";
 $dblocation ="localhost";

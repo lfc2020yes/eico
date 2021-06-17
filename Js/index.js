@@ -2526,7 +2526,7 @@ function ExitSystem()
 function timesss() { 
 	  clearInterval(timerS);
 	  //если пароль не ввели через минут перезагрузить страницу
-	  setTimeout ( function () { autoReload(); }, 60000 );
+	  setTimeout ( function () { autoReloadHak(); }, 60000 );
       // Действия на отсутствие пользователя
 	  //alert('выход из системы');
 	  $(document).unbind('mousemove.time keydown.time scroll.time');
@@ -3911,36 +3911,10 @@ return false;
 
 	
 	};
-//редактировать раздел в себестоимости
-var edit_button_block = function() {
-	
 
 
-if ( $(this).is("[for]") )
-{
-	if($.isNumeric($(this).attr("for")))
-	{
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_edit_block.php?id='+$(this).attr("for"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
 
-  });
-}
-}
-  
-return false;
 
-	
-	};
 //добавить работу для блока в себестоимости
 var add_button_rabota = function() {
 
@@ -3970,38 +3944,7 @@ return false;
 	
 	
 }
-//добавить раздел в себестоимости
-var add_button_block = function() {
-	
 
-
-if ( $('.content_block').is("[dom]") )
-{
-
-	if($.isNumeric($('.content_block').attr("dom")))
-	{
-		
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_block.php?id='+$('.content_block').attr("dom"),
-    afterLoading: function(data, el) {
-        //alert('afterLoading');
-    },
-    afterLoadingOnShow: function(data, el) {
-        //alert('afterLoadingOnShow');
-    },
-	afterClose: function(data, el) { // после закрытия окна ArcticModal
-	clearInterval(timerId);
-    }
-
-  });
-}
-}
-  
-return false;
-
-	
-	};
 //раскрытие раздела в себестоисти
 var block_i_i = function() {	
 

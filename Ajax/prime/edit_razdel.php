@@ -8,13 +8,14 @@ header("Content-type: application/json");
 $status_ee='error';
 $eshe=0;
 $echo='';
+$echo_r=1;
 $debug='';
 $count_all_all=0;
 
-$id=htmlspecialchars($_GET['id']);
-$number=htmlspecialchars($_GET['number']);
-$text=htmlspecialchars($_GET['text']);
-$token=htmlspecialchars($_GET['tk']);
+$id=htmlspecialchars($_POST['id']);
+$number=htmlspecialchars($_POST['number_r']);
+$text=htmlspecialchars($_POST['text']);
+$token=htmlspecialchars($_POST['tk']);
 
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
@@ -55,18 +56,31 @@ $day_today=date("Y-m-d");
 		     } 		
 		   }
 
-if(token_access_new($token,'edit_block',$id,"s_form"))
+
+if(!token_access_new($token,'edit_block',$id,"rema",2880))
 {
+    $debug=h4a(100,$echo_r,$debug);
+    goto end_code;
+}
+
+if(!isset($_SESSION["user_id"])) {
+    $status_ee='reg';
+    $debug=h4a(102,$echo_r,$debug);
+    goto end_code;
+}
+
+if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
+{
+    $debug=h4a(103,$echo_r,$debug);
+    goto end_code;
+}
+
+if(((!isset($_POST['id']))or(!is_numeric($_POST['id'])))or((!isset($_POST['number_r']))or(!is_numeric($_POST['number_r'])))) {
+    $debug=h4a(104,$echo_r,$debug);
+    goto end_code;
+}
 
 
-
-
- if(((isset($_GET['id']))and(is_numeric($_GET['id'])))and((isset($_GET['number']))and(is_numeric($_GET['number']))))
-  {
-	  if(isset($_SESSION["user_id"]))
-	  { 
-		if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	    { 
 		  
 		$result_tx=mysql_time_query($link,'Select a.id_object,a.razdel1,a.name1 from i_razdel1 as a where a.id="'.htmlspecialchars(trim($id)).'"');
        $num_results_tx = $result_tx->num_rows;
@@ -79,8 +93,11 @@ if(token_access_new($token,'edit_block',$id,"s_form"))
 		//возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
 		$result_t1=mysql_time_query($link,'Select a.id from i_razdel1 as a where a.id_object="'.htmlspecialchars(trim($row_tx["id_object"])).'" and a.razdel1="'.htmlspecialchars(trim($number)).'" and not(id="'.htmlspecialchars(trim($id)).'")');
        $num_results_t1 = $result_t1->num_rows;
-	   if($num_results_t1==0)
-	   {  
+	   if($num_results_t1!=0) {
+           $status_ee='number';
+           $debug=h4a(105,$echo_r,$debug);
+           goto end_code;
+       }
 	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
 $status_ee='ok';
 
@@ -156,22 +173,9 @@ $result_t=mysql_time_query($link,'Select a.razdel1,a.name1 from i_razdel1 as a w
 			   
 		   $echo.='</span>'; 
 	   }
-	   } else
-	   {		   		   
-           $status_ee='number';
-	   }
 
-		}
-	  } else
-	  {
-		  $status_ee='reg';
-	  }
-	  
-  }
 
- 
-
-}
+end_code:
 
 
 $aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo);

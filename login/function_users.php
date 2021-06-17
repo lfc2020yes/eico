@@ -147,6 +147,7 @@ if($crypt==$pas)
 //при каждом зарегистрированном входе обновляем xah для того чтобы его не успели скопировать
 function login($key, $id,$flag,$link) 
 {
+    global $base_cookie;
 	//$flag=true для обычного входа с xah
 	//$flag=false для входа в первый раз когда надо создать новый xah
 	//проверим существует ли такой пользователь
@@ -163,7 +164,7 @@ function login($key, $id,$flag,$link)
 		//echo("!!!");
        while($u = mysqli_fetch_assoc($sql))
        {
-		  setcookie("tsl","1", time()+3600, "/", "eico.atsun.ru", false, false); //на год
+		  setcookie("tsl","1", time()+3600, "/", $base_cookie, false, false); //на год
 		   session_regenerate_id(true); //создаёт новый идентификатор сессии при каждом входе пользователя в систему
           $session_id = id_key_crypt($u['id']);
           //$session_username = $username;
@@ -185,6 +186,7 @@ function login($key, $id,$flag,$link)
 //удаляем строку из  users_xah
 function logout($link)
 {
+    global $base_cookie;
      // Need to delete auth key from database so cookie can no longer be used
      //$username = $_SESSION['user_id'];
      //$auth_query = mysql_time_query($link,"delete FROM users_xah where id=".htmlspecialchars(trim($username))." and xah=".htmlspecialchars(trim($_COOKIE['remixid'])));
@@ -196,7 +198,7 @@ function logout($link)
 	
 	//$.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false});
 	
-	 setcookie("tsl","0", time()+3600, "/", "eico.atsun.ru", false, false); //на год
+	 setcookie("tsl","0", time()+3600, "/", $base_cookie, false, false); //на год
 	 unset($_SESSION['da']);
 
      session_unset();

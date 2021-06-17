@@ -1,6 +1,20 @@
 ﻿<div class="mobile"><i>V</i></div>
 <div class="left_menu menu_flex scrollbar-inner">
-  <div class="logo_block"><a class="logo" href=""><img src="image/logo.png"></a><div class="hide_left"></div></div>
+  <div class="logo_block"><a class="logo" href="">
+<?php
+ $local='C:/OpenServer/domains/'.$local_host.'';
+
+
+if($_SERVER['DOCUMENT_ROOT']!=$local)
+{
+          echo'<img src="image/logo.png">';
+} else
+    {
+        echo'<img src="image/logo_local.png">';
+    }
+?>
+
+      </a><div class="hide_left"></div></div>
   <div class="menu_x">
  
 

@@ -7,14 +7,15 @@ header("Content-type: application/json");
 
 $status_ee='error';
 $eshe=0;
+$echo_r=0;
 $echo='';
 $debug='';
 $count_all_all=0;
 
-$id=htmlspecialchars($_GET['id']);
-$number=htmlspecialchars($_GET['number']);
-$text=htmlspecialchars($_GET['text']);
-$token=htmlspecialchars($_GET['tk']);
+$id=htmlspecialchars($_POST['id']);
+$number=htmlspecialchars($_POST['number_r']);
+$text=htmlspecialchars($_POST['text']);
+$token=htmlspecialchars($_POST['tk']);
 
 
 
@@ -47,26 +48,44 @@ $token=htmlspecialchars($_GET['tk']);
 			    array_push($stack_td, "object_area"); 
 		     } 		
 		   }
-if(token_access_new($token,'add_block',$id,"s_form"))
+
+//2 дня
+if(!token_access_new($token,'add_block',$id,"rema",2880))
+{
+    $debug=h4a(100,$echo_r,$debug);
+    goto end_code;
+}
+
+
+  if(((!isset($_POST['id']))or(!is_numeric($_POST['id'])))or((!isset($_POST['number_r']))or(!is_numeric($_POST['number_r'])))) {
+      $debug=h4a(101,$echo_r,$debug);
+      goto end_code;
+  }
+
+if(!isset($_SESSION["user_id"])) {
+    $status_ee='reg';
+    $debug=h4a(102,$echo_r,$debug);
+    goto end_code;
+}
+
+if ((!$role->permission('Себестоимость','A'))and($sign_admin!=1))
+{
+    $debug=h4a(103,$echo_r,$debug);
+    goto end_code;
+}
+
+$result_t1=mysql_time_query($link,'Select a.id from i_razdel1 as a where a.id_object="'.htmlspecialchars(trim($id)).'" and a.razdel1="'.htmlspecialchars(trim($number)).'"');
+$num_results_t1 = $result_t1->num_rows;
+if($num_results_t1!=0)
 {
 
+    $status_ee='number';
+    //$debug=h4a(104,$echo_r,$debug);
+    goto end_code;
+}
 
 
 
-  if(((isset($_GET['id']))and(is_numeric($_GET['id'])))and((isset($_GET['number']))and(is_numeric($_GET['number']))))
-  {
-	  if(isset($_SESSION["user_id"]))
-	  { 
-		if (($role->permission('Себестоимость','A'))or($sign_admin==1))
-	    { 
-		  
-	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
-		$result_t1=mysql_time_query($link,'Select a.id from i_razdel1 as a where a.id_object="'.htmlspecialchars(trim($id)).'" and a.razdel1="'.htmlspecialchars(trim($number)).'"');
-       $num_results_t1 = $result_t1->num_rows;
-	   if($num_results_t1==0)
-	   {  
-		  
-		  
 		  
 $status_ee='ok';
 
@@ -142,25 +161,16 @@ $echo.='<div rel="'.$ID_D.'" class="block_i"><div class="top_bl"><i class="i__">
 $echo.='<div class="count_basket_razdel"></div></div><div class="rls"></div></div>';		   
 		   
 	
-} else
-{
 
-$status_ee='number';
 
-}
 
-	  }
-	  } else
-	  {
-		  $status_ee='reg';
-	  }
 	  
-  }
+
 
  //}
 //}
-}
 
+end_code:
 
 $aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo,"id"=>$ID_D);
 require_once $url_system.'Ajax/lib/Services_JSON.php';

@@ -2,6 +2,7 @@
 // Используйте Compass (потому что он крут)
 @import "partials/_extend.scss";
 
+@import "partials/index/global_old.scss";
 @import "partials/index/global.scss";
 @import "partials/index/add_files.scss";
 @import "partials/index/fullPage.scss";
@@ -16,7 +17,7 @@
 
 
 
-@import "partials/calendar/calendar_ui.scss";
+//@import "partials/calendar/calendar_ui.scss";
 @import "partials/modal_windows/_modal.scss";
 //@import "partials/lightgallery/gallery.scss";
 

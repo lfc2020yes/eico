@@ -11,11 +11,11 @@ function new_connect(&$ret,$charset="utf8") {
        $numDB=$_POST['db'];     
     else $numDB=0;  
      $h= $numDB;
-    echo "<div class='div_info' id='info'>"
+    /*echo "<div class='div_info' id='info'>"
                              . "<br>numDB: $numDB"
                              . "<br>base: h[$h][0]=".$base->H[$h][0]
                              . '<br>каталог: '.getcwd()
-                             . "</div>";
+                             . "</div>";*/
     $dblocation = $base->H[$h][0];
     $dbname = $base->H[$h][1];
     $dbuser = $base->H[$h][2];
@@ -26,13 +26,11 @@ function new_connect(&$ret,$charset="utf8") {
              $ret=$mysqli->connect_errno;
              break;
          }
-         // echo "<p>step 1";
          // Установить кодировку
          if (!$mysqli->set_charset($charset)) {
              $ret=$mysqli->errno;
              break;
          }
-         //echo "<p>step 2";
     } while (1==0);
     return $mysqli;
 }

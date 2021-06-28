@@ -778,4 +778,21 @@ UPDATE `edo_state` SET id_status = $status WHERE id = $id_s
         }
         return $id_s;
     }
+
+    /**
+     * @param $id_run_item
+     * @return false/ $row
+     */
+    public function get_action($id_run_item){
+        $sql = "    
+SELECT * FROM `edo_run_items` R, `edo_action` A
+WHERE
+R.id = $id_run_item
+AND R.`id_action` = A.id
+";
+        if ($result = $this->mysqli->query($sql)) {
+            return $result->fetch_assoc();
+        }
+        return false;
+    }
 }

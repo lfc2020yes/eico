@@ -13578,6 +13578,7 @@ font-style: normal;}*/
 }
 
 .users {
+  margin-right: 20px;
   overflow: hidden;
   text-transform: uppercase;
   /* font-family:$fontSB;*/
@@ -13620,7 +13621,6 @@ font-style: normal;}*/
   background-color: #35deb8;
   cursor: pointer;
   height: 60px;
-  margin-left: 15px;
   margin-top: 0px;
   position: relative;
   transition: all 1s ease 0s;
@@ -14947,7 +14947,6 @@ font-style: normal;}*/
   /*border: 2px solid #72b7f8;*/
   cursor: pointer;
   height: 60px;
-  margin-left: 15px;
   margin-top: 0px;
   position: relative;
   transition: all 1s ease 0s;
@@ -15026,6 +15025,15 @@ font-style: normal;}*/
 
 .green-bb {
   background-color: #35deb8;
+}
+
+.red-bb {
+  background-color: #fd8080;
+}
+
+.yellow-bb {
+  background-color: #ffec57 !important;
+  color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .oka1 {
@@ -16915,6 +16923,132 @@ font-style: normal;}*/
   .px_bg_trips .px_left {
     width: 100% !important;
   }
+}
+
+.pass_tyu {
+  float: left;
+}
+
+.password_turs {
+  /*box-shadow: 1px 1px rgba(0, 0, 0, 0.03);
+  border-radius: 4px;*/
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 40px;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+}
+@media only screen and (max-width: 639px) {
+  .password_turs {
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+}
+.password_turs .input-choice-click-pass {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+}
+@media only screen and (max-width: 639px) {
+  .password_turs .input-choice-click-pass {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}
+.password_turs .input-choice-click-pass .choice-head {
+  width: 100%;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.2);
+  font-family: "GEInspiraBold";
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 20px 10px;
+}
+.password_turs .input-choice-click-pass .choice-radio {
+  width: 50px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  position: absolute;
+  right: 0px;
+  top: calc(50% - 12px);
+}
+.password_turs .input-choice-click-pass .choice-radio .center_vert1 {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+}
+.password_turs .input-choice-click-pass .choice-radio .center_vert1 i {
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.05);
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  position: relative;
+  display: block;
+  text-align: center;
+}
+.password_turs .input-choice-click-pass .choice-radio .center_vert1 i::before {
+  position: absolute;
+  content: "\E001";
+  left: 5px;
+  top: 0px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "icon1";
+  font-size: 14px;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transform: scale3d(0, 0, 1);
+  -o-transform: scale3d(0, 0, 1);
+  -ms-transform: scale3d(0, 0, 1);
+  -webkit-transform: scale3d(0, 0, 1);
+  transform: scale3d(0, 0, 1);
+}
+.password_turs .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb {
+  background-color: #ffdc57;
+}
+.password_turs .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb::before {
+  -moz-transform: scale3d(1, 1, 1);
+  -o-transform: scale3d(1, 1, 1);
+  -ms-transform: scale3d(1, 1, 1);
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+.password_turs .active_pass .choice-head {
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .input-block-2020 .list-image {

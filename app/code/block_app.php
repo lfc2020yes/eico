@@ -232,7 +232,7 @@ if(isset($new_pre)) {
     $task_cloud_block .= '</span>';
 }
 
-$tabs_menu_x = array( "Обзор","Процесс/Задача");
+$tabs_menu_x = array( "Задание","Процесс/Задача");
 $tabs_menu_x_js = array("","");
 $tabs_menu_x_id = array("1","2");
 $class_menu_pr='';

@@ -1509,7 +1509,12 @@ function resizeDatepicker() {
 		  
 
 		     echo'<script>
-				  $(function (){  $(\'.count_app_mater_\').change();  });
+				  $(function (){  $(\'.count_app_mater_\').change();  
+				  
+				  
+				  $(\'.tabs_005U[id=1]\').trigger(\'click\');
+				  
+				  });
 				  </script>';
 		  
 		  

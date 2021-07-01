@@ -66,6 +66,24 @@ var validate11 = function() {
   $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
 }
 
+
+function MemoButType(elem)
+{
+
+	var bbt=elem.parents('.save_button');
+	if(elem.val()==1)
+	{
+		bbt.addClass('yellow-bb');
+
+	} else
+	{
+		bbt.removeClass('yellow-bb');
+	}
+	bbt.find('.js-son').hide();
+	bbt.find('[son='+elem.val()+']').show();
+}
+
+
 //активация инпутов 2021
 function input_2021()
 {
@@ -79,6 +97,135 @@ function input_2021()
 		}
 	});
 
+}
+//нажатие на отдельные chtckbox залки в определенной группе
+//  |
+// \/
+function CheckboxGroup()
+{
+	/*
+    var active_old = $(this).parent().parent().find(".slct").attr("data_src");
+    var active_new = $(this).find("a").attr("rel");
+    */
+//var f = $(this).find("a").text();
+	var e = $(this).find("input").first().val();
+	var drop_object = $(this).parents('.js-group-c');
+
+	var active_jj=0;
+
+	if ($(this).find('i').is(".active_task_cb")) {
+
+		$(this).find('i').removeClass("active_task_cb");
+		$(this).find('input').last().val(0);
+		active_jj=1;
+	} else {
+
+		$(this).find('i').addClass("active_task_cb");
+		$(this).find('input').last().val(1);
+
+	}
+
+
+	//пробежаться по всей выбранному селекту
+	var select_li = '';
+	drop_object.find('.js-checkbox-group').each(function (i, elem) {
+		if ($(this).find('i').is(".active_task_cb")) {
+			if (select_li == '') {
+				select_li = $(this).find("input").first().val();
+			} else {
+				select_li = select_li + ',' + $(this).find("input").first().val();
+			}
+		}
+	});
+
+
+	//есть тип который позволяет выбрать только один пункт
+	if (drop_object.is('.js-tolko-one')) {
+
+
+		//select_li = one_li.find("a").attr("rel");
+		drop_object.find('i').removeClass("active_task_cb");
+
+		drop_object.find('.js-checkbox-group').each(function (i, elem) {
+			$(this).find('input').last().val(0);
+		});
+		//alert(active_jj);
+		if(active_jj==0)
+		{
+			$(this).find('i').addClass("active_task_cb");
+			$(this).find('input').last().val(1);
+		}
+
+	}
+
+
+	//есть класс который говорит что если выбрано первое в списке то убираем галки со всех остальных
+	//если есть что-то выбранное то первое в списке не горит
+	//если ничего не выбрано первое в списке зажечь
+
+	if (drop_object.is('.js-one-all-select')) {
+
+		var one_li=drop_object.find('.js-checkbox-group').first();
+
+
+		//если не одна галка не выделена то зажигаем первое
+		if (select_li == '') {
+
+			one_li.trigger('click');
+			return;
+
+		}
+
+		//нажимаем на первое в списке когда он не горел тогда тушим все остальные
+		if (($(this).find('i').is(".active_task_cb")) && (e == 0) && ((select_li != '') && (select_li != '0'))) {
+
+			select_li = one_li.find("a").attr("rel");
+			drop_object.find('i').removeClass("active_task_cb");
+
+			drop_object.find('.js-checkbox-group').each(function (i, elem) {
+				$(this).find('input').last().val(0);
+			});
+
+
+			one_li.find('i').addClass("active_task_cb");
+			one_li.find('input').last().val(1);
+
+		}
+
+
+		//если выбрали все кроме первого то потушить все а первый в списке зажечь
+		if(e != 0)
+		{
+			var count_all_li=drop_object.find('.js-checkbox-group').length;
+			var count_active_li=drop_object.find('.active_task_cb').length;
+			//alert(count_all_li);
+			if (parseInt(count_active_li + 1) == count_all_li) {
+				drop_object.find('i').removeClass("active_task_cb");
+
+				drop_object.find('.js-checkbox-group').each(function (i, elem) {
+					$(this).find('input').last().val(0);
+				});
+
+
+				one_li.find('i').addClass("active_task_cb");
+				one_li.find('input').last().val(1);
+			}
+		}
+
+
+		//alert(select_li_text);
+		//если что-то выбрано кроме первого то и первый гарид то потушить его
+		if ((select_li != '')&&(select_li != '0'))
+		{
+			if(one_li.find('i').is('.active_task_cb'))
+			{
+				one_li.trigger('click');
+				return;
+			}
+		}
+
+	}
+	MemoButType($(this).find("input"));
 }
 
 function animation_teps_supply()
@@ -2448,6 +2595,25 @@ function DellNarydWork1()
   
 return false;
 }
+
+
+//выбор какой паспорт
+function password_butt()
+{
+	var cb_h=$(this).parents('.password_turs').find('input');
+	if(cb_h.val()!=$(this).attr('id'))
+	{
+		cb_h.val($(this).attr('id'));
+
+		$(this).parents('.password_turs').find('.choice-radio i').removeClass('active_task_cb');
+		$(this).parents('.password_turs').find('.input-choice-click-pass').removeClass('active_pass');
+
+		$(this).find('.choice-radio i').addClass('active_task_cb');
+		$(this).addClass('active_pass');
+	}
+}
+
+
 
 //Обновление корзины при оформлении заявки на материал
 function BasketUpdate_Z(dom_id)
@@ -5014,6 +5180,13 @@ ToolTip();  //подсказки при наведении
 sl_message_width();
 $('.label_s').bind("change keyup input click", label_show);
 
+//форма добавление тура - выбор паспорт какой
+	$('body').on("change keyup input click",'.js-password-butt',password_butt);
+	//нажатие на отдельные chtckbox залки в определенной группе
+	$('body').on("change keyup input click",'.js-checkbox-group',CheckboxGroup);
+
+
+	$('body').on("change keyup input click",'.js-type-soft-view1',MemoButType);
 
 $('body').on("change keyup input click",'.tabs_005U',{key: "005U"},tabs_app);
 

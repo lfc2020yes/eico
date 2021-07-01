@@ -235,7 +235,35 @@ include_once $url_system.'module/notification.php';
 	      echo'<div class="save_button add_zay js-add-app add_clients  yellow-style">Сохранить   →</div>';
 		}
 
+
+        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8))and($row_list["ready"]==1))
+        {
+
+            echo'<form id="lalala_pod_form" action="app/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_app_order',$secret).'" type="hidden">
+</form>';
+            echo'<div class="save_button pod_zay pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-app add_clients yellow-style">Сохранить   →</div>';
+
+        }
+
+
+
+        //если уже заказано и нужно просто вывести по пользователю надо ему что-то делать в данный момент с этой заявкой или нет
+
+        echo'<div class="save_button  add_clients green-bb"><div class="pass_tyu"><div class="password_turs">
+<div id="1" class="input-choice-click-pass js-checkbox-group">
+<div class="choice-radio" data-tooltip="согласовать с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>
+
+</div><span son="0" class="js-son">Согласовать   →</span><span son="1" class="js-son none">Согласовать с замечанием   →</span>
+
+
+</div>';
+        echo'<div class="save_button pod_zay pod_pro add_clients red-bb">Отклонить   ⨰</div>';
+        echo'<div class="save_button pod_zay pod_pro add_clients">Переслать   ⥃</div>';
+
 		//заказать без привышений
+
+        /*
 		if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8))and($row_list["ready"]==1)and($memo_i==0))
 		{
 
@@ -278,7 +306,8 @@ include_once $url_system.'module/notification.php';
            echo'<div class="save_button pod_zay pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-app add_clients yellow-style">Сохранить   →</div>';
 
 	 }
-
+        */
+/*
 		//отменить
 		if(($row_list["id_user"]!=$id_user)and($row_list["status"]==3)and((((array_search($row_list["id_user"],$hie_user)!==false)and($role->permission('Заявки','S'))))or($sign_admin==1)))
 		{
@@ -290,7 +319,7 @@ include_once $url_system.'module/notification.php';
 			echo'<div class="save_button pod_del shoot add_clients ">отменить   →</div>';
 
 		}
-
+*/
 
 		//узнаем в данный момент может ли этот пользователь что-то сделать с данной заявкой. если статус уже на согласовании
 

@@ -811,6 +811,8 @@ if ( isset($_COOKIE["iss"]))
                       $edo = new EDO($link,$id_user,false);
                       $arr_document = $edo->my_documents(0, ht($_GET["id"]));
 
+                      //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
+
                       foreach ($arr_document as $key => $value) {
                           include $url_system . 'app/code/block_app.php';
                           echo($task_cloud_block);

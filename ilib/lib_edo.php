@@ -773,11 +773,13 @@ $limit
     /**
      * @param $id_s
      * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
+     * @param $comment - комментарий согласования
      * @return false / $id_s
      */
-    public function set_status($id_s, $status=2){
+    public function set_status($id_s, $status=2, $comment=null){
+        $comment_executor = ( $comment==null ) ? '' : ", comment_executor = '$comment'";
         $sql = "
-UPDATE `edo_state` SET id_status = $status WHERE id = $id_s
+UPDATE `edo_state` SET id_status = $status $comment_executor WHERE id = $id_s
         ";
         if (iDelUpd($this->mysqli,$sql,false)===false) {
             $this->error = 19;  // ошибка изменния статуса задания

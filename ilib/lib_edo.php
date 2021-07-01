@@ -684,7 +684,7 @@ $limit
                     $sql =
                         "
 SELECT 
-s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
+s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status,
 u.`name_user`
 FROM edo_state AS s 
 LEFT JOIN r_user AS u ON s.`id_executor` = u.id

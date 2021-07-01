@@ -2741,7 +2741,7 @@ function AfterWA(data,update)
 			$('.block_i[rel="'+update+'"]').find('.rls').empty().append(data.table+data.echo+'</tbody></table>');
 
 			//запусть freez для таблицы
-			OLD("#table_freez_"+$('#frezezz').val()).freezeHeader({'offset' : '67px'});
+			OLD("#table_freez_"+$('#frezezz').val()).freezeHeader({'offset' : '59px'});
 
 			jQuery.scrollTo('.n1n[rel_id="'+data.id+'"]', 1000, {offset:-200});
 

@@ -3,7 +3,7 @@ session_start();
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/'; include_once $url_system.'module/config.php'; include_once $url_system.'module/function.php'; include_once $url_system.'login/function_users.php'; initiate($link); include_once $url_system.'module/access.php';
 
 
-
+$active_menu='app';
 
 
 //правам к просмотру к действиям
@@ -73,6 +73,13 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 	$stack_error = array();  // общий массив ошибок
 	$error_count=0;  //0 - ошибок для сохранения нет
 	$flag_podpis=0;  //0 - все заполнено можно подписывать
+
+         if(trim($_POST['name_b'])=='')
+         {
+             array_push($stack_error, "name_b");
+
+         }
+
 
 	//print_r($stack_error);
 	//исполнитель			
@@ -268,7 +275,7 @@ a.id_i_material="'.htmlspecialchars(trim($rowx["id"])).'"  AND a.status NOT IN (
                      $timestamp=$dateTime->format('U');
 					  // echo($timestamp);
 					 //добавляем неподписанный наряд  
-				     mysql_time_query($link,'INSERT INTO z_doc (id,number,date,date_create,id_user,status,id_object) VALUES ("","'.$numer.'","'.$today[0].'","'.$date_.'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['id'])).'")');
+				     mysql_time_query($link,'INSERT INTO z_doc (id,name,number,date,date_create,id_user,status,id_object) VALUES ("","'.ht($_POST['name_b']).'","'.$numer.'","'.$today[0].'","'.$date_.'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['id'])).'")');
 			
 					   
 					 $ID_N=mysqli_insert_id($link);  
@@ -372,7 +379,7 @@ signedd_mem        tinyint(1)        (NULL)           YES             (NULL)    
 			 setcookie("basket1_".$id_user."_".htmlspecialchars($_GET['id']), "", time()-3600,"/", ".eico.atsun.ru", false, false);
 			
 			//echo($flag_podpis);
-			
+			/*
 			 if($flag_podpis==0)
 			 {
 			   //можно предложить сразу подписать его
@@ -382,11 +389,12 @@ signedd_mem        tinyint(1)        (NULL)           YES             (NULL)    
 			 {		 
 			    header("Location:".$base_usr."/app/");	
 			    die();
-			 }
-			
-		  
-		   
-		}
+			 }*/
+            header("Location:".$base_usr."/app/".$ID_N.'/');
+            die();
+
+
+        }
 	
 				/* if((isset($value['count']))and(is_numeric($value['count']))and(isset($value['price']))and(is_numeric($value['price']))and(isset($value['ed']))and(trim($value["ed"])!='')and(isset($value['name']))and(trim($value["name"])!='')) 
 		         {
@@ -499,23 +507,24 @@ if($error_header!=404){ SEO('app_add','','','',$link); } else { SEO('0','','',''
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
+
 //echo(mktime());
 
 /*
@@ -551,17 +560,42 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 	  include_once $url_system.'template/top_app_add.php';
 
 	?>
-<form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="section" id="section0">
+              <div class="height_100vh">
+                  <div class="oka_block_2019">
+
+                      <?
+                      echo'<div class="line_mobile_blue">Оформление заявки на материалы';
+                      $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+
+if(count($D)>0)
+{
+  echo'<span all="8" class="menu-mobile-count">'.count($D).'</span>';
+}
+
+echo'</div>';
+
+                      ?>
+                      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                          <div class="info-suit">
+<form class="js-add-app-material" id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
  <input name="save_naryad" value="1" type="hidden">
-  <?
+    <?
+
+
+    echo'<!--input start-->
+<div class="margin-input"><div class="input_2018 input_2018_resize  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").'"><label><i>Название заявки</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di gloab input_new_2018  text_area_otziv js-autoResize ">'.ipost_($_POST['name_b'],"").'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
+
+
+    echo'<span class="h3-f">Список материалов <span class="pol-card" >'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</span></span>';
+/*
 	
     echo'<div class="content_block1" id_content="'.$id_user.'">';
 
 //print_r($stack_error);
-	/*echo '<pre>';
-print_r($_POST["works"]);	
-	echo '</pre>';
-	*/
+
 //echo'<h3 style=" margin-bottom:0px;">Добавление наряда<div></div></h3>';
 echo'<div class="comme" >'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</div>';	  
 	
@@ -575,7 +609,15 @@ echo'<div class="comme" >'.$row_list["object_name"].' ('.$row_town["town"].', '.
 	  
 	  
 	  
-	  echo'</div><div class="content_block block_primes1">';			
+	  echo'</div>';
+	  */
+
+
+
+
+
+
+    echo'<div class="content_block block_primes1">';
 	
 					 
 	//echo($_COOKIE["basket_".htmlspecialchars(trim($_GET['id']))]);	
@@ -931,7 +973,7 @@ function resizeDatepicker() {
 		 
 	<?	  
 		   if($rrtt>0){ echo'</tbody></table>'; echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>'; }
 		 
 		  //запускаем загрузку лодеров выполенных работ
@@ -1072,6 +1114,7 @@ echo'</td>
 
 
 </form>
+                  </div></div></div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>
@@ -1090,3 +1133,13 @@ echo'<script type="text/javascript">var b_cm=\''.$b_cm.'\'</script>';
 </div>
 
 </body></html>
+
+<script type="text/javascript">
+    $(function() {
+        Zindex();
+        AutoResizeT();
+    });
+</script>
+<?
+//include_once $url_system.'template/form_js.php';
+?>

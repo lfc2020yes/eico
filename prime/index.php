@@ -105,7 +105,7 @@ if($error_header!=404){ SEO('prime','','','',$link); } else { SEO('0','','','',$
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
 	
@@ -128,22 +128,22 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 			    array_push($stack_td, "total_r0_realiz"); 
 				$count_rows=$count_rows-2; 
 		     } 	   
-		   }	
-	
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+		   }
+
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 /*
@@ -169,9 +169,43 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 	            }
 
 	  include_once $url_system.'template/top_prime_index.php';
+?>
+
+	            <div id="fullpage" class="margin_60  input-block-2020 ">
+      <div class="section" id="section0">
+          <div class="height_100vh">
+              <div class="oka_block_2019">
+
+                  <?
+                  echo'<div class="line_mobile_blue">Себестоимость';
+                 /*
+                  $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+
+                  if(count($D)>0)
+                  {
+                      echo'<span all="8" class="menu-mobile-count">'.count($D).'</span>';
+                  }
+*/
+                  echo'</div>';
+
+                  ?>
+      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+
+          <?
 
 
-    echo'<div class="content_block" id_content="'.$id_user.'">';
+
+
+
+
+          //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+
+     //  echo'<div class="info-suit">';
+
+
+echo'<span class="h3-f">Себестоимость</span>';
+
+          echo'<div class="content_block" id_content="'.$id_user.'">';
 	?>
 
   <?
@@ -278,10 +312,11 @@ $(document).ready(function(){
 
 </div>
 
+
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+      </div></div></div></div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 

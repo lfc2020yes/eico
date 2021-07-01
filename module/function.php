@@ -34,11 +34,117 @@ function ve($dir,$name,$extension)
 return 	$dir.$name.$end_version.'.'.$extension;
 	
 }
-*/		  
+*/
+
+
+// аргументов функции будет путь к файлу
+//определение размера файла
+function get_filesize($file)
+{
+    // идем файл
+    if(!file_exists($file)) return "Файл  не найден";
+    // теперь определяем размер файла в несколько шагов
+    $filesize = filesize($file);
+    // Если размер больше 1 Кб
+    if($filesize > 1024)
+    {
+        $filesize = ($filesize/1024);
+        // Если размер файла больше Килобайта
+        // то лучше отобразить его в Мегабайтах. Пересчитываем в Мб
+        if($filesize > 1024)
+        {
+            $filesize = ($filesize/1024);
+            // А уж если файл больше 1 Мегабайта, то проверяем
+            // Не больше ли он 1 Гигабайта
+            if($filesize > 1024)
+            {
+                $filesize = ($filesize/1024);
+                $filesize = round($filesize, 1);
+                return $filesize." ГБ";
+            }
+            else
+            {
+                $filesize = round($filesize, 1);
+                return $filesize." MБ";
+            }
+        }
+        else
+        {
+            $filesize = round($filesize, 1);
+            return $filesize." Кб";
+        }
+    }
+    else
+    {
+        $filesize = round($filesize, 1);
+        return $filesize." байт";
+    }
+}
 
 
 
 
+//название для файлов на сервере
+function rand_string_string_image($len, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_')
+{
+    $string = ''; for ($i = 0; $i < $len; $i++)
+{
+    $pos = rand(0, strlen($chars)-1);
+    $string .= $chars[$pos];
+}
+    return $string;
+}
+
+//разница минут между двумя датами
+function dateDiff_min($dt1, $dt2, $timeZone = 'GMT') {
+    $tZone = new DateTimeZone($timeZone);
+    $dt1 = new DateTime($dt1, $tZone);
+    $dt2 = new DateTime($dt2, $tZone);
+    $ts1 = $dt1->format('Y-m-d H:i:s');
+    $ts2 = $dt2->format('Y-m-d H:i:s');
+    $diff = strtotime($ts1)-strtotime($ts2);
+    $diff/= 60;
+    return floor($diff);
+}
+
+
+function ht($varr)
+{
+    return(htmlspecialchars(trim($varr)));
+
+}
+
+
+function htd($varr)
+{
+//return(htmlspecialchars_decode($varr));
+
+    return html_entity_decode($varr, ENT_NOQUOTES, 'utf-8');
+
+}
+
+//оставить только фамилию и имя если в строке есть и отчество
+function tolkofi($name)
+{
+    $new_name='';
+    $i=0;
+    $pr='';
+    $date_end1 = explode(" ", ht($name));
+    if(count($date_end1)==3)
+    {
+        foreach ($date_end1 as $index => $value) {
+            if($index<2)
+            {
+                $new_name.=$pr.$value;
+            }
+            $pr=' ';
+        }
+    } else
+    {
+        $new_name=$name;
+    }
+    return $new_name;
+}
 
 
 function h4a($er,$echo,$debug)
@@ -63,7 +169,7 @@ function header404($er,$echo)
    header("Status: 404 Not Found");
 	if($echo!=0)
 	{
-	echo($er);
+	//echo($er);
 	}
    include $url_system.'module/error404.php';
    die();
@@ -1094,269 +1200,272 @@ function CommentsColorAjax($count,$class_dop)
 //автоматическое определение limita у sql запроса для постраничного вывода
 function limitPage($varpage,$countwrite)
 {
-	//$varpage - название GET переменной которая передает номер страницы
-	//$countwrite - количество выводимого на одной странице
-  $count_otziv=0;
-  $kol_st_n=0;
-  if(isset($_GET[$varpage]))
-  {
-   if (is_numeric($_GET[$varpage])) {	
-	  $number_st=$_GET[$varpage];
-      $flag_ot=$_GET[$varpage];
-	} else
-	{
-      $number_st=1;
-      $flag_ot=1;	
-	}
-	
-  } else
-  {
-    $number_st=1;
-    $flag_ot=1;
-  }
-  
-  if($number_st==1)
-  {
-    $number_st=0;
-  } else
-  {
-    $number_st=($number_st*$countwrite)-$countwrite;
-  }
+    //$varpage - название GET переменной которая передает номер страницы
+    //$countwrite - количество выводимого на одной странице
+    $count_otziv=0;
+    $kol_st_n=0;
+    if(isset($_GET[$varpage]))
+    {
+        if (is_numeric($_GET[$varpage])) {
+            $number_st=$_GET[$varpage];
+            $flag_ot=$_GET[$varpage];
+        } else
+        {
+            $number_st=1;
+            $flag_ot=1;
+        }
 
-$limit=' limit '.$number_st.','.$countwrite;
+    } else
+    {
+        $number_st=1;
+        $flag_ot=1;
+    }
 
-return $limit;
+    if($number_st==1)
+    {
+        $number_st=0;
+    } else
+    {
+        $number_st=($number_st*$countwrite)-$countwrite;
+    }
+
+    $limit=' limit '.$number_st.','.$countwrite;
+
+    return $limit;
 }
 
 
 //определение номера активной страницы для постраничного вывода
 function NumberPageActive($varpage)
 {
-	//$varpage - название GET переменной которая передает номер страницы
-	//$countwrite - количество выводимого на одной странице
-  if(isset($_GET[$varpage]))
-  {
-   if (is_numeric($_GET[$varpage])) {	
-      $flag_ot=$_GET[$varpage];
-	} else
-	{
-      $flag_ot=1;	
-	}
-	
-  } else
-  {
-    $flag_ot=1;
-  }
+    //$varpage - название GET переменной которая передает номер страницы
+    //$countwrite - количество выводимого на одной странице
+    if(isset($_GET[$varpage]))
+    {
+        if (is_numeric($_GET[$varpage])) {
+            $flag_ot=$_GET[$varpage];
+        } else
+        {
+            $flag_ot=1;
+        }
 
-return $flag_ot;
+    } else
+    {
+        $flag_ot=1;
+    }
+
+    return $flag_ot;
 }
 
 
 function CountNews($sql,$link)
 {
-	$count_otziv=0;
-	$result_st=mysql_time_query($link,$sql);
-    $num_results_st = $result_st->num_rows; 
+    $count_otziv=0;
+    $result_st=mysql_time_query($link,$sql);
+    $num_results_st = $result_st->num_rows;
     if($num_results_st<>0)
     {
-       $row_st = mysqli_fetch_assoc($result_st);
-	   $count_otziv=$row_st['kol'];
-	}
-return $count_otziv;	
+        $row_st = mysqli_fetch_assoc($result_st);
+        $count_otziv=$row_st['kol'];
+    }
+    return $count_otziv;
 }
 
 
 function CountPage($sql,$link,$countwrite)
 {
-	$count_otziv=0;
-	$result_st=mysql_time_query($link,$sql);
-    $num_results_st = $result_st->num_rows; 
+    $count_otziv=0;
+    $result_st=mysql_time_query($link,$sql);
+    $num_results_st = $result_st->num_rows;
     if($num_results_st<>0)
     {
-       $row_st = mysqli_fetch_assoc($result_st);
-	   $count_otziv=ceil($row_st['kol']/$countwrite);
-	}
-return $count_otziv;	
+        $row_st = mysqli_fetch_assoc($result_st);
+        $count_otziv=ceil($row_st['kol']/$countwrite);
+    }
+    return $count_otziv;
 }
 
 
 //функция постраничные ссылки для статей, новостей, отзывов
 function displayPageLink_new($link_one,$link_start, $link_end, $flag_ot, $count_otziv,$count_list,$count_visible,$class,$type)
 {
-/*		
-        http://www.ulyanovskmenu.ru/place/kedy/news.php?page=2?go=news
-		----------------------------------------------------- --------
-		                $link_start                           $link_end
+    $style='';
+    /*
+            http://www.ulyanovskmenu.ru/place/kedy/news.php?page=2?go=news
+            ----------------------------------------------------- --------
+                            $link_start                           $link_end
 
 
-        http://www.ulyanovskmenu.ru/place/kedy/news/2/news/
-		-------------------------------------------- ------
-		                $link_start                 $link_end	
-		$link_start="http://www.ulyanovskmenu.ru/place/kedy/news/"               
-		$link_end="/news/"				
-*/	
-	
+            http://www.ulyanovskmenu.ru/place/kedy/news/2/news/
+            -------------------------------------------- ------
+                            $link_start                 $link_end
+            $link_start="http://www.ulyanovskmenu.ru/place/kedy/news/"
+            $link_end="/news/"
+    */
 
-     //$link_one       - ссылка первой страницы (чтобы не было дублей)
-	 //$link_start     - начало ссылки
-	 //$link_end       - конец ссылки
-	 //$count_list     - после какого номера страницы начинать движение остальных       const=10
-	 //$count_visible  - количество страниц видимых (10 -  1 2 3 4 5 6 7 8 9 10 ...)    const=20
-     //$flag_ot        - номер активной страницы
-     //$count_otziv    - количество страниц всего
-	 //$class          - какой класс
-	 //$type           - тип вывода 1-с кнопка предыдушая-следующая   0 - с кнопка первая-последняя
 
-    
+    //$link_one       - ссылка первой страницы (чтобы не было дублей)
+    //$link_start     - начало ссылки
+    //$link_end       - конец ссылки
+    //$count_list     - после какого номера страницы начинать движение остальных       const=10
+    //$count_visible  - количество страниц видимых (10 -  1 2 3 4 5 6 7 8 9 10 ...)    const=20
+    //$flag_ot        - номер активной страницы
+    //$count_otziv    - количество страниц всего
+    //$class          - какой класс
+    //$type           - тип вывода 1-с кнопка предыдушая-следующая   0 - с кнопка первая-последняя
+
+
     echo'<div class="pgs '.$style.'"><ul class="pgs_ul">';
 
 
-     if($flag_ot<=$count_list)
-	 {
-		//вывод если страница не больше чем когда первые страницы будут не видны 
-		if(($type==1)and($flag_ot!=1))
-		{
-			if(($flag_ot-1)==1)
-			{
-		       echo'<li class="pgs_li lefts"><a href="'.$link_one.'"><i></i></a></li>';
-			} else
-			{
-				echo'<li class="pgs_li lefts"><a href="'.$link_start.($flag_ot-1).$link_end.'"><i></i></a></li>';
-			}
-		}
-		 
-		 
+    if($flag_ot<=$count_list)
+    {
+        //вывод если страница не больше чем когда первые страницы будут не видны
+        if(($type==1)and($flag_ot!=1))
+        {
+            if(($flag_ot-1)==1)
+            {
+                echo'<li class="pgs_li lefts"><a href="'.$link_one.'"><i></i></a></li>';
+            } else
+            {
+                echo'<li class="pgs_li lefts"><a href="'.$link_start.($flag_ot-1).$link_end.'"><i></i></a></li>';
+            }
+        }
+
+
         for($i=1; (($i<=$count_visible)and($i<=$count_otziv)); $i++)
         {
-          if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; } 
-		  else { 
-		  if($i==1)
-		  {
-		    echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>"; 
-		  } else
-		  {
-			echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";   
-		  }
-		  }
+            if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; }
+            else {
+                if($i==1)
+                {
+                    echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>";
+                } else
+                {
+                    echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";
+                }
+            }
         }
-		if(($i<$count_otziv)and($type==0)) { echo"<li class='pgs_li end'><a href='".$link_start.$i.$link_end."'>...</a></li>";	}
-		
-		
-		if(($type==1)and($flag_ot!=$count_otziv))
-		{
-		    echo'<li class="pgs_li rights"><a href="'.$link_start.($flag_ot+1).$link_end.'"><i></i></a></li>';		 
-		}
-		
-	 }
-	 else
-	 {
-		
-		if(($flag_ot+$count_list)<=$count_otziv)
-		{
+        if(($i<$count_otziv)and($type==0)) { echo"<li class='pgs_li end'><a href='".$link_start.$i.$link_end."'>...</a></li>";	}
 
-		  $end_st=$flag_ot-$count_list;	
-		  
-		  if($type==0)
-		  {  
-		    if($end_st==1)
-		    {					
-		      echo"<li class='pgs_li end'><a href='".$link_one."'>...</a></li>";
-			} else
-			{
-			  echo"<li class='pgs_li end'><a href='".$link_start.$end_st.$link_end."'>...</a></li>";
-			}
-		  }
-		  if(($type==1)and($flag_ot!=1))
-		  {
-			if(($flag_ot-1)==1)
-			{
-		       echo'<li class="pgs_li lefts"><a href="'.$link_one.'"><i></i></a></li>';
-			} else
-			{
-				echo'<li class="pgs_li lefts"><a href="'.$link_start.($flag_ot-1).$link_end.'"><i></i></a></li>';
-			}
-		  }  
-		  
-		  
-		  for($i=($end_st+1); (($i<=($count_visible+$end_st))and($i<=$count_otziv)); $i++)
-          {
-            if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; } 
-		    else { 
-			
-			//echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>"; 
-		  if($i==1)
-		  {
-		    echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>"; 
-		  } else
-		  {
-			echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";   
-		  }
-			
-			
-			}
-          }
-		  if(($i<=$count_otziv)and($type==0)) { echo"<li class='pgs_li end'><a href='".$link_start.$i.$link_end."'>...</a></li>";	}
 
-		  if((($flag_ot+1)<=$count_otziv)and($type==1)) { echo"<li class='pgs_li rights'><a href='".$link_start.($flag_ot+1).$link_end."'><i></i></a></li>";	}		  
-		  
-		  
-		  
-		} else
-		{
-          $end_st=$count_otziv-$count_visible;
-		  if($end_st<0)
-		  {
-			 $end_st=0; 
-		  }
-		  if(($end_st>0)and($type==0))
-		  {
-			  if($end_st==1)
-			  {
-		          echo"<li class='pgs_li end'><a href='".$link_one."'>...</a></li>";	
-			  } else
-			  {
-				  echo"<li class='pgs_li end'><a href='".$link_start.$end_st.$link_end."'>...</a></li>";  
-			  }
-		  }
-		  
-		  
-		  if(($type==1)and(($flag_ot-1)>=1))
-		  {
-			  /*
-		  if(($end_st>0)and($type==1))
-		  {
-			  */
-			  if(($flag_ot-1)==1)
-			  {  
-		         echo"<li class='pgs_li lefts'><a href='".$link_one."'><i></i></a></li>";	
-			  } else
-			  {
-				 echo"<li class='pgs_li lefts'><a href='".$link_start.($flag_ot-1).$link_end."'><i></i></a></li>"; 
-			  }
-		  }		  
-		  
-          for($i=($end_st+1); (($i<=($count_visible+$end_st))and($i<=$count_otziv)); $i++)
-          {
-            if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; } 
-		    else { 
-			
-			if($i==1)
-			{
-			  echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>"; 
-			} else
-			{
-				echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>"; 
-			}
-			
-			}
-          }
-		  
-		  if((($flag_ot+1)<=$count_otziv)and($type==1)) { echo"<li class='pgs_li rights'><a href='".$link_start.($flag_ot+1).$link_end."'><i></i></a></li>";	}	
-		  
-		}		 
-	 }
-       echo'</ul></div>'; 
- }
+        if(($type==1)and($flag_ot!=$count_otziv))
+        {
+            echo'<li class="pgs_li rights"><a href="'.$link_start.($flag_ot+1).$link_end.'"><i></i></a></li>';
+        }
+
+    }
+    else
+    {
+
+        if(($flag_ot+$count_list)<=$count_otziv)
+        {
+
+            $end_st=$flag_ot-$count_list;
+
+            if($type==0)
+            {
+                if($end_st==1)
+                {
+                    echo"<li class='pgs_li end'><a href='".$link_one."'>...</a></li>";
+                } else
+                {
+                    echo"<li class='pgs_li end'><a href='".$link_start.$end_st.$link_end."'>...</a></li>";
+                }
+            }
+            if(($type==1)and($flag_ot!=1))
+            {
+                if(($flag_ot-1)==1)
+                {
+                    echo'<li class="pgs_li lefts"><a href="'.$link_one.'"><i></i></a></li>';
+                } else
+                {
+                    echo'<li class="pgs_li lefts"><a href="'.$link_start.($flag_ot-1).$link_end.'"><i></i></a></li>';
+                }
+            }
+
+
+            for($i=($end_st+1); (($i<=($count_visible+$end_st))and($i<=$count_otziv)); $i++)
+            {
+                if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; }
+                else {
+
+                    //echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";
+                    if($i==1)
+                    {
+                        echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>";
+                    } else
+                    {
+                        echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";
+                    }
+
+
+                }
+            }
+            if(($i<=$count_otziv)and($type==0)) { echo"<li class='pgs_li end'><a href='".$link_start.$i.$link_end."'>...</a></li>";	}
+
+            if((($flag_ot+1)<=$count_otziv)and($type==1)) { echo"<li class='pgs_li rights'><a href='".$link_start.($flag_ot+1).$link_end."'><i></i></a></li>";	}
+
+
+
+        } else
+        {
+            $end_st=$count_otziv-$count_visible;
+            if($end_st<0)
+            {
+                $end_st=0;
+            }
+            if(($end_st>0)and($type==0))
+            {
+                if($end_st==1)
+                {
+                    echo"<li class='pgs_li end'><a href='".$link_one."'>...</a></li>";
+                } else
+                {
+                    echo"<li class='pgs_li end'><a href='".$link_start.$end_st.$link_end."'>...</a></li>";
+                }
+            }
+
+
+            if(($type==1)and(($flag_ot-1)>=1))
+            {
+                /*
+            if(($end_st>0)and($type==1))
+            {
+                */
+                if(($flag_ot-1)==1)
+                {
+                    echo"<li class='pgs_li lefts'><a href='".$link_one."'><i></i></a></li>";
+                } else
+                {
+                    echo"<li class='pgs_li lefts'><a href='".$link_start.($flag_ot-1).$link_end."'><i></i></a></li>";
+                }
+            }
+
+            for($i=($end_st+1); (($i<=($count_visible+$end_st))and($i<=$count_otziv)); $i++)
+            {
+                if($flag_ot==$i) { echo"<li class='pgs_li here'>".$i."</li>"; }
+                else {
+
+                    if($i==1)
+                    {
+                        echo"<li class='pgs_li'><a href='".$link_one."'>".$i."</a></li>";
+                    } else
+                    {
+                        echo"<li class='pgs_li'><a href='".$link_start.$i.$link_end."'>".$i."</a></li>";
+                    }
+
+                }
+            }
+
+            if((($flag_ot+1)<=$count_otziv)and($type==1)) { echo"<li class='pgs_li rights'><a href='".$link_start.($flag_ot+1).$link_end."'><i></i></a></li>";	}
+
+        }
+    }
+    echo'</ul></div>';
+}
+
+
 
 
 

@@ -10,9 +10,9 @@ $noti=0;
 if($noti==0)
 {
 
-echo'<div style="display:none;" data-tooltip="Новые уведомления" class="icon1 icon_not view__not"><i></i></div>';
+echo'<a href="notification/" style="display:none;" data-tooltip="Новые уведомления" class="icon1 icon_not view__not"><i></i></a>';
 } else
 {
-echo'<div data-tooltip="Новые уведомления" class="icon1 icon_not view__not"><i></i></div>';	
+echo'<a href="notification/" data-tooltip="Новые уведомления" class="icon1 icon_not view__not"><i></i></a>';
 }
 ?>

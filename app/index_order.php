@@ -61,9 +61,9 @@ if(!isset($_GET["id"]))
 $token=htmlspecialchars($_POST['tk_sign']);
 $id=htmlspecialchars($_GET['id']);
 	
-if(!token_access_yes($token,'sign_app_order',$id,120))
-{	
-	header404(4,$echo_r);
+//if(!token_access_yes($token,'sign_app_order',$id,120))
+if(!token_access_new($token,'sign_app_order',$id,"rema",120)) {
+    header404(4, $echo_r);
 }
 //**************************************************
 $result_url=mysql_time_query($link,'select A.* from z_doc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
@@ -103,6 +103,80 @@ if(($status_user_zay[0]==0)and($status_user_zay[1]==0))
 {
 	header404(8,$echo_r);
 }
+
+
+include_once '../ilib/lib_interstroi.php';
+include_once '../ilib/lib_edo.php';
+
+
+$edo = new EDO($link,$id_user,false);
+if (($edo->next($id, 0))===false) {
+
+    //id_executor
+    mysql_time_query($link,'update z_doc set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+//меняем статусы у материалов на заказано
+    $result_tyd1=mysql_time_query($link,'Select a.id from z_doc_material as a where a.id_doc="'.htmlspecialchars(trim($_GET['id'])).'"');
+    $num_results_tyd1 = $result_tyd1->num_rows;
+
+    for ($ids=0; $ids<$num_results_tyd1; $ids++)
+    {
+        $row_tyd1 = mysqli_fetch_assoc($result_tyd1);
+        mysql_time_query($link,'update z_doc_material set status="9" where id = "'.htmlspecialchars(trim($row_tyd1['id'])).'"');
+    }
+
+    $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_list['id_object'])).'"');
+    $num_results_custom_url = $result_url->num_rows;
+    if($num_results_custom_url!=0)
+    {
+        $row_list1 = mysqli_fetch_assoc($result_url);
+    }
+
+    $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
+    $num_results_custom_town = $result_town->num_rows;
+    if($num_results_custom_town!=0)
+    {
+        $row_town = mysqli_fetch_assoc($result_town);
+    }
+echo(gettype($edo->arr_task));
+    foreach ($edo->arr_task as $key => $value)
+    {
+        //оправляем всем уведомления кому нужно рассмотреть этот документ далее
+
+
+				$user_send_new= array();
+                //уведомление
+               array_push($user_send_new, $value["id_executor"]);
+
+
+        $text_not='Вам поступил документ <a class="link-history" href="app/'.$row_list['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
+
+               //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
+				//отправка уведомления
+			    $user_send_new= array_unique($user_send_new);
+			    notification_send($text_not,$user_send_new,$id_user,$link);
+
+
+
+    }
+
+
+
+   // echo '<pre>arr_task:'.print_r($edo->arr_task,true) .'</pre>';
+
+    if ($edo->error == 1) {
+        // в array $edo->arr_task задания на согласование
+    } else {
+
+    }
+} else {
+    // процесс согласования со всеми заданиями выполнен
+   // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
+}
+header("Location:".$base_usr."/app/".$_GET['id'].'/');
+
+/*
+
+
 //**************************************************
 $memo_i=0; //нет
 $result_txs=mysql_time_query($link,'Select a.id from z_doc_material as a where a.id_doc="'.htmlspecialchars(trim($_GET['id'])).'" and ((not(a.memorandum="") and a.id_sign_mem=0)or(not(a.memorandum="") and not(a.id_sign_mem=0)and a.signedd_mem=0))');
@@ -142,18 +216,9 @@ while($value = mysqli_fetch_assoc($result_work_zz)) {
 			   if($value['id']!='') 
 			   {
 				   //echo($value['id'].'-');
-				 /*
-				$value['id']
-				$value['count_mat']
-				$value['max_count']
-				$value['count']
-				$value['date_base']
-				$value['text']
-				
-				$_POST['works'][0]["id"]
-				*/
+
 				   
-				//if($value['status']=='') { /*$error_count++;*/ $flag_podpis++; } 
+				//if($value['status']=='') {  $flag_podpis++; }
 				array_push($stack_id_work,$value['id']);
 				
 				$result_tx=mysql_time_query($link,'Select a.*,b.id_object,b.id_doc from i_material as a,z_doc_material as b where b.id_i_material=a.id and b.id="'.htmlspecialchars(trim($value['id'])).'"');
@@ -256,7 +321,7 @@ a.id_i_material="'.htmlspecialchars(trim($rowx["id"])).'"  AND a.status NOT IN (
 					if((trim($value['id_sign_mem'])==0)and($flag_work>0)) {    array_push($error_work, $value['id']."_w_text1"); }
 					//служебка с отрицательным ответом
 				    if((trim($value['id_sign_mem'])!=0)and($value['signedd_mem']==0)and($flag_work>0)) {  array_push($error_work, $value['id']."_w_text1"); }
-					if($flag_work>0) { array_push($stack_memorandum, $value['id']."_w_flag");  /*где- то в работе есть служебная записка*/	 }
+					if($flag_work>0) { array_push($stack_memorandum, $value['id']."_w_flag");  	 }
 				 
 
 				 if(count($error_work)!=0)
@@ -349,11 +414,11 @@ for ($ids=0; $ids<$num_results_tyd1; $ids++)
 				  //добавляем уведомления о новом наряде		  
 				  
 						  
-						  
+	*/
 						  
 				       
 		
-header("Location:".$base_usr."/app/".$_GET['id'].'/');
+//header("Location:".$base_usr."/app/".$_GET['id'].'/');
 
 
 	

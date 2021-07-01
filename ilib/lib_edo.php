@@ -60,6 +60,7 @@ class EDO
             ,'отказ по согласованию' //16
             ,'ожидание согласования' //17
             ,'ошибка записи процесса согласования' //18
+            ,'ошибка изменния статуса задания' //19
 
         );
         $this->arr_sql = array();
@@ -760,5 +761,38 @@ $limit
             $result->close();
         }
         return $arr_document;
+    }
+
+    /**
+     * @param $id_s
+     * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
+     * @return false / $id_s
+     */
+    public function set_status($id_s, $status=2){
+        $sql = "
+UPDATE `edo_state` SET id_status = $status WHERE id = $id_s
+        ";
+        if (iDelUpd($this->mysqli,$sql,false)===false) {
+            $this->error = 19;  // ошибка изменния статуса задания
+            return false;
+        }
+        return $id_s;
+    }
+
+    /**
+     * @param $id_run_item
+     * @return false/ $row
+     */
+    public function get_action($id_run_item){
+        $sql = "    
+SELECT * FROM `edo_run_items` R, `edo_action` A
+WHERE
+R.id = $id_run_item
+AND R.`id_action` = A.id
+";
+        if ($result = $this->mysqli->query($sql)) {
+            return $result->fetch_assoc();
+        }
+        return false;
     }
 }

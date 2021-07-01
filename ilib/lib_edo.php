@@ -695,7 +695,7 @@ $limit
                     $this->Debug($sql,__FUNCTION__);
                     if ($result2 = $this->mysqli->query($sql)) {
                         while ($row2 = $result2->fetch_assoc()) {
-                            $arr_document[$row[id]][state][] = $row;
+                            $arr_document[$row[id]][state][] = $row2;
                         }
                         $result2->close();
                     }

@@ -106,7 +106,7 @@ if ((isset($_GET["id"]))and((is_numeric($_GET["id"])))and(isset($_GET["summ"]))a
 		   
 		   
 		   $echo1.='</tbody></table><script>
-				  OLD(document).ready(function(){  OLD("#table_freez_cash").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_cash").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';
 	   }
 			 }

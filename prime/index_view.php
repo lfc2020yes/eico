@@ -377,20 +377,20 @@ include_once $url_system.'template/body_top.php';
 <div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 //echo($row_list["id_kvartal"]);
@@ -461,6 +461,97 @@ if(isset($_GET["add"]))
   include_once $url_system.'template/top_prime.php';
 }
 }
+?>
+<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+        <div class="div_ook hop_ds"><div class="search_task">
+                <?
+                $result_t=mysql_time_query($link,'Select a.id,a.town from i_town as a order by a.id');
+                $num_results_t = $result_t->num_rows;
+                if($num_results_t!=0)
+                {
+                    echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Город</label><div class="select eddd"><a class="slct" data_src="'.$row_town["id_town"].'">'.$row_town["town"].'</a><ul class="drop">';
+                    for ($i=0; $i<$num_results_t; $i++)
+                    {
+                        $row_t = mysqli_fetch_assoc($result_t);
+                        if((array_search($row_t["id"],$hie_town) !== false)or($sign_admin==1))
+                        {
+                            if($row_t["id"]==$row_town["id_town"])
+                            {
+                                echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["town"].'</a></li>';
+                            } else
+                            {
+                                echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["town"].'</a></li>';
+                            }
+                        }
+                    }
+                    echo'</ul><input type="hidden" name="city" id="city" value="'.$row_town["id_town"].'"></div></div>';
+                }
+
+
+                $result_t=mysql_time_query($link,'Select a.id,a.kvartal from i_kvartal as a where a.id_town="'.$row_town["id_town"].'" order by a.id');
+                $num_results_t = $result_t->num_rows;
+                if($num_results_t!=0)
+                {
+                    echo'<div class="left_drop menu2_prime book_menu_sel js--sort gop_io"><label>Квартал</label><div class="select eddd"><a class="slct" data_src="'.$row_list["id_kvartal"].'">'.$row_town["kvartal"].'</a><ul class="drop">';
+                    for ($i=0; $i<$num_results_t; $i++)
+                    {
+                        $row_t = mysqli_fetch_assoc($result_t);
+                        if((array_search($row_t["id"],$hie_kvartal) !== false)or($sign_admin==1))
+                        {
+                            if($row_t["id"]==$row_list["id_kvartal"])
+                            {
+                                echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["kvartal"].'</a></li>';
+                            } else
+                            {
+                                echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["kvartal"].'</a></li>';
+                            }
+                        }
+                    }
+                    echo'</ul><input type="hidden"  name="kvartal" id="kvartal" value="'.$row_list["id_kvartal"].'"></div></div>';
+                }
+
+
+
+
+                $result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$row_list["id_kvartal"].'" order by a.id');
+                $num_results_t = $result_t->num_rows;
+                if($num_results_t!=0)
+                {
+                    echo'<div class="left_drop menu3_prime book_menu_sel js--sort gop_io"><label>Объект</label><div class="select eddd"><a class="slct" data_src="'.$row_list["id"].'">'.$row_list["object_name"].'</a><ul class="drop">';
+                    for ($i=0; $i<$num_results_t; $i++)
+                    {
+                        $row_t = mysqli_fetch_assoc($result_t);
+                        $url_prime="prime/";
+
+
+                        if((array_search($row_t["id"],$hie_object) !== false)or($sign_admin==1))
+                        {
+                            //он может видеть этот объект
+
+                            if($row_t["id"]==$row_list["id"])
+                            {
+                                echo'<li class="sel_active"><a href="'.$url_prime.$row_t["id"].'/"  rel="'.$row_t["id"].'">'.$row_t["object_name"].'</a></li>';
+                            } else
+                            {
+                                echo'<li><a href="'.$url_prime.$row_t["id"].'/"  rel="'.$row_t["id"].'">'.$row_t["object_name"].'</a></li>';
+                            }
+                        }
+
+                    }
+                    echo'</ul><input type="hidden"  name="dom" id="dom" value="'.$row_list["id"].'"></div></div>';
+                }
+
+
+                ?>
+            </div>
+    </div>
+        <div class="oka_block">
+            <div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">
+
+<?
+//echo'<span class="h3-f">Себестоимость <span class="pol-card"> '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</span></span>';
+
 
     echo'<div class="content_block" dom="'.$row_list["id"].'" id_content="'.$id_user.'">';
 	?>
@@ -468,7 +559,7 @@ if(isset($_GET["add"]))
   <?
 
 
-echo'<h1>Себестоимость - '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</h1>';
+//echo'<h1>Себестоимость - '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</h1>';
 /*
 <div class="close_all_r">закрыть все</div>
 <div data-tooltip="Удалить всю себестоимость" class="del_seb"></div>
@@ -791,7 +882,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_reali
 	}
 				  
 				  echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_'.$i.'").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_'.$i.'").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';
                   
 	            }
@@ -846,7 +937,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_reali
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+</div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 <?

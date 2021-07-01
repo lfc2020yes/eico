@@ -376,7 +376,7 @@ echo'<tr idu_stock="'.$row__2["id"].'" class="tr_dop_supply_line"><td colspan="9
 					 }
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 					  

@@ -298,7 +298,7 @@ if($row__2["sign_rco"]!=0)
 					  
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_cash").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_cash").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 		/*			  
@@ -597,7 +597,7 @@ if($podpis!=0)
 					  
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 					  

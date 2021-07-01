@@ -87,6 +87,8 @@ $i:'icon1';
 @include font-face("LabGrotesque-Regular", $src-domain + "fonts/LabGrotesque-Regular/LabGrotesque-Regular", "normal", "normal");
 @include font-face("LabGrotesque-Light", $src-domain + "fonts/LabGrotesque-Light/LabGrotesque-Light", "normal", "normal");
 
+@include font-face("ProximaNova-Regular", $src-domain + "fonts/ProximaNova-Regular/ProximaNova-Regular", "normal", "normal");
+
 @include font-face("icon1", $src-domain + "fonts/icon1/icon1", "normal", "normal");
 @include font-face("icon2", $src-domain + "fonts/icon2/icon2", "normal", "normal");
 

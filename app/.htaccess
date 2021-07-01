@@ -13,7 +13,12 @@ RewriteRule ^order/([0-9]*)/$ app/index_order.php?id=$1 [L]
 RewriteRule ^cancel/([0-9]*)/$ app/index_cancel.php?id=$1 [L]
 
 
-RewriteRule ^.page-([0-9]*)$ app/index.php?n_st=$1 [L]
+RewriteRule ^\.page\-([0-9]*)$ app/index.php?n_st=$1 [L]
+
+RewriteRule ^.tabs-([0-9]*)$ app/index.php?tabs=$1 [L]
+RewriteRule ^.tabs-([0-9]*).page-([0-9]*)$ app/index.php?tabs=$1&n_st=$2 [L]
+
+
 
 RewriteRule ^okay/$ app/index.php?by=okay [L]
 RewriteRule ^okay/.page-([0-9]*)$ app/index.php?by=okay&n_st=$1 [L]

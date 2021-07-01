@@ -5,7 +5,6 @@ $url_system=$_SERVER['DOCUMENT_ROOT'].'/'; include_once $url_system.'module/conf
 
 
 
-
 //правам к просмотру к действиям
 $hie = new hierarchy($link,$id_user);
 //echo($id_user);
@@ -118,10 +117,8 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 				//и он должен обладать правами видеть все заявки пользователей R not A
 				if(($sign_admin!=1)and($row_list["id_user"]!=$id_user)and(($row_list["status"]==9)or($row_list["status"]==10))and($role->permission('Заявки','R'))and(!$role->permission('Заявки','S')))
 				{
-				   //echo("2");
 				   
-				   
-				 if((array_search($row_list["id_object"],$hie_object)===false)or(!$role->permission('Заявки','A')))
+				 if((array_search($row_list["id_object"],$hie_object)===false))
 			    {
 			      header("HTTP/1.1 404 Not Found");
 	              header("Status: 404 Not Found");
@@ -222,7 +219,12 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 	$id=htmlspecialchars($_GET['id']);
 	//echo("!!");
 	//токен доступен в течении 120 минут
-	if(token_access_yes($token,'save_mat_zay_x',$id,120))
+
+    if(token_access_new($token,'save_mat_zay_x',$id,"rema",120))
+
+
+
+       // if(token_access_yes($token,'save_mat_zay_x',$id,120))
     {
 		//echo("!");
 	//возможно проверка что этот пользователь это может делать
@@ -700,10 +702,10 @@ mysql_time_query($link,'update z_doc_material set
 
 
 
-
+/*
 $secret=rand_string_string(4);
 $_SESSION['s_t'] = $secret;	
-
+*/
 
 
 //89084835233
@@ -720,23 +722,23 @@ if($error_header!=404){ SEO('app_view','','','',$link); } else { SEO('0','','','
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 /*
@@ -747,12 +749,12 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 			$row_town = mysqli_fetch_assoc($result_town);	
 		}
 */
+/*
 			$result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_list["id_object"])).'"');
         $num_results_custom_url = $result_url->num_rows;
         if($num_results_custom_url!=0)
         {
 			$row_list1 = mysqli_fetch_assoc($result_url);
-	
 		}
 	
         $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
@@ -761,7 +763,7 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
         {
 			$row_town = mysqli_fetch_assoc($result_town);	
 		}	
-	
+	*/
 ?>
 
 <div class="left_block">
@@ -779,20 +781,112 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 	  include_once $url_system.'template/top_app_view.php';
 
 	?>
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+      <div class="section" id="section0">
+          <div class="height_100vh">
+              <div class="oka_block_2019">
+
+                  <?
+                  echo'<div class="line_mobile_blue">Заявка №'.$row_list["id"];
+                 /*
+                  $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+
+                  if(count($D)>0)
+                  {
+                      echo'<span all="8" class="menu-mobile-count">'.count($D).'</span>';
+                  }
+*/
+                  echo'</div>';
+
+                  ?>
+                  <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+
+                      <?
+                      echo '<div class="ring_block ring-block-line js-global-preorders-link">';
+                      $new_pre = 1;
+                      $task_cloud_block='';
+                      include_once '../ilib/lib_interstroi.php';
+                      include_once '../ilib/lib_edo.php';
+
+                      $edo = new EDO($link,$id_user,false);
+                      $arr_document = $edo->my_documents(0, ht($_GET["id"]));
+
+                      foreach ($arr_document as $key => $value) {
+                          include $url_system . 'app/code/block_app.php';
+                          echo($task_cloud_block);
+                      }
+                      echo'</div>';
+
+
+
+
+
+
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+
+                      if(($row_list["id_user"]==$id_user)and($row_list["status"]==1)) {
+                          $query_string .= '<div class="info-suit"><div class="input-block-2020">';
+
+
+                          $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="11" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
+
+                          $num_results_uu = $result_6->num_rows;
+
+                          $class_aa = '';
+                          $style_aa = '';
+                          if ($num_results_uu != 0) {
+                              $class_aa = 'eshe-load-file';
+                              $style_aa = 'style="display: block;"';
+                          }
+
+
+                          $query_string .= '<div class=""><div class="img_invoice_div js-image-gl"><div class="list-image" ' . $style_aa . '>';
+
+                          if ($num_results_uu != 0) {
+                              $i = 1;
+                              while ($row_6 = mysqli_fetch_assoc($result_6)) {
+                                  $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span><div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+                                  $i++;
+                              }
+                          }
+
+
+                          $query_string .= '</div><input type="hidden" name="files_9" value=""><div type_load="11" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div></div></div>';
+
+                          $query_string .= '</div></div>';
+
+
+                          echo $query_string;
+                      }
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+                      //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+                      //конец
+
+                      ?>
+
+
+                      <div class="info-suit">
+
+
+
+
+
 <form id="lalala_add_form" class="my_nn" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
  <input name="save_naryad" value="1" type="hidden">
  <input name="save_zayy" value="1" type="hidden">
   <?
 	
-    echo'<div class="content_block1" id_content="'.$id_user.'">';
+    //echo'<div class="content_block1" id_content="'.$id_user.'">';
 
 //print_r($stack_error);
 	/*echo '<pre>';
 print_r($_POST["works"]);	
 	echo '</pre>';
 	*/
-//echo'<h3 style=" margin-bottom:0px;">Добавление наряда<div></div></h3>';
-echo'<div class="comme" >'.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</div>';	  
+
 	
 	  
 	  
@@ -804,7 +898,7 @@ echo'<div class="comme" >'.$row_list1["object_name"].' ('.$row_town["town"].', '
 	  
 	  
 	  
-	  echo'</div><div class="content_block block_primes1">';			
+	  echo'<div class="content_block block_primes1">';
 	
 
 	//определяем какой столбик выводить а какой нет
@@ -885,9 +979,10 @@ echo'<div class="comme" >'.$row_list1["object_name"].' ('.$row_town["town"].', '
 					$rrtt++;
 					if($rrtt==1)
 					{
-		$token=token_access_compile($_GET['id'],'save_mat_zay_x',$secret);				
-						
-						echo'<input type="hidden" value="'.$token.'" name="tk">'; 
+		$token=token_access_compile($_GET['id'],'save_mat_zay_x',$secret);
+
+
+						echo'<input type="hidden" value="'.$token.'" name="tk">';
 						
 						
 						//заголовок таблицы
@@ -1403,7 +1498,7 @@ function resizeDatepicker() {
 		 
 	<?	  
 		   if($rrtt>0){ echo'</tbody></table>'; echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>'; }
 		 
 		  //запускаем загрузку лодеров выполенных работ
@@ -1452,6 +1547,7 @@ function resizeDatepicker() {
 
 
 </form>
+</div></div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>

@@ -782,7 +782,7 @@ echo'<div class="more_supply1 menu_click" ></div>';
 					 }
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 					  

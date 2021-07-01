@@ -992,7 +992,7 @@ echo'<div class="width-setter"><input style="margin-top:0px;" name="invoice['.$s
 	echo'<tr style="" class="jop1 mat itogss_nds"><td class="no_padding_left_ pre-wrap one_td title_itog_nds_invoice" colspan="7">В том числе НДС</td><td style="padding-left:10px;"><span  class="price_supply_ itog_invoice_nds"></span></td></tr>'; 	
 		  
 		   echo'</tbody></table></div>'; echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';
 
 		

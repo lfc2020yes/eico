@@ -1429,154 +1429,12 @@ textarea, input {
   transform: scale3d(1.1, 1.1, 1)
 }
 
-.select {
-  float: left;
-  width: 100% !important;
-  font-size: 1.2em;
-  position: relative;
-  padding: 0 !important;
-  z-index: 50
-}
 
-.select li {
-  position: relative;
-  z-index: 9;
-  padding: 1px 16px 2px 8px;
-  background: #fcfeff
-}
 
-.select li ul {
-  position: absolute;
-  z-index: 58;
-  top: 1.44em;
-  left: -1px;
-  width: 100%;
-  background: #fcfeff;
-  border: solid #bdddeb;
-  border-width: 0 1px 1px
-}
 
-.slct a {
-  color: #111;
-  text-decoration: none
-}
 
-.slct::before {
-  font-size: 11px;
-  right: 0px;
-  top: 1px;
-  position: absolute;
-  text-transform: lowercase;
-  transition: all 0s ease 0s, all 0.3s ease 0s;
-  content: "a";
-  font-family: "icon1";
-  color: #e0e0e0
-}
 
-.slct.active::before {
-  transform: rotate(-180deg)
-}
 
-.slct {
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-sizing: border-box;
-  border-bottom: 1px solid #e0e0e0;
-  color: rgba(0, 0, 0, 0.9);
-  font-family: "SegoeUIBold";
-  font-size: 13px;
-  text-transform: uppercase;
-  height: 35px;
-  padding-right: 20px;
-  line-height: 42px;
-  background-repeat: no-repeat
-}
-
-.drop {
-  padding: 0;
-  position: absolute;
-  text-decoration: none;
-  width: 100%;
-  z-index: 100;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-  transform-origin: left top 0px;
-  transform: scaleY(0);
-  border-radius: 2px;
-  margin-top: -44px;
-  max-height: 300px;
-  overflow: hidden;
-  overflow-y: auto
-}
-
-.drop li {
-  border-color: #e3e3e3;
-  border-top: 0px dotted #e3e3e3;
-  color: rgba(0, 0, 0, 0.9);
-  cursor: pointer;
-  font-family: arial;
-  font-size: 16px;
-  display: block;
-  list-style: outside none none;
-  padding: 10px 15px 10px 20px
-}
-
-.drop li:hover {
-  background-color: #323544;
-  color: #fff
-}
-
-.drop li.sel_active {
-  color: #fff;
-  background-color: #72b7f8
-}
-
-.drop li a {
-  font-weight: normal
-}
-
-.drop li a {
-  text-decoration: none !important;
-  border-bottom: 0px !important;
-  color: rgba(0, 0, 0, 0.9);
-  font-family: "SegoeUIBold";
-  font-size: 13px;
-  text-transform: uppercase;
-  line-height: 16px;
-  white-space: normal
-}
-
-.drop li.sel_active a {
-  color: #fff
-}
-
-.drop li:hover a {
-  color: #fff
-}
-
-.left_drop {
-  width: 145px;
-  float: left;
-  text-align: left;
-  margin-top: 15px;
-  margin-left: 15px;
-  position: relative
-}
-
-.left_drop label {
-  position: absolute;
-  top: -7px;
-  left: 0px;
-  font-family: "GEInspiraRegular";
-  font-size: 11px;
-  color: rgba(0, 0, 0, 0.3);
-  text-transform: uppercase
-}
 
 .iss {
   position: relative;
@@ -2934,11 +2792,12 @@ h3.head_h div {
 }
 
 .content_block {
-  min-height: calc(100vh - 67px);
-  padding: 20px;
-  padding-top: 87px;
-  background-color: #e3e7ed;
-  background-position: center center
+  min-height: calc(100vh - 60px);
+  //padding: 20px;
+  padding-top: 0px;
+  //background-color: #e3e7ed;
+  background-position: center center;
+  width: 100%;
 }
 
 .content_block h1 {
@@ -3052,7 +2911,7 @@ h3.head_h div {
 }
 
 .content_block .block_i .smeta .jop {
-  background-color: rgba(0, 0, 0, 0.05)
+  background-color: rgba(0, 0, 0, 0.02)
 }
 
 .content_block .block_i .smeta td {
@@ -3450,7 +3309,7 @@ h3.head_h div {
 }
 
 .content_block .active {
-  margin-bottom: 15px
+  //margin-bottom: 15px
 }
 
 .content_block .active .rls {
@@ -3560,23 +3419,23 @@ h3.head_h div {
   white-space: nowrap
 }
 
-.menu_top .menu1 #tabs2017 {
+.menu-09 #tabs2017 {
   float: left;
   display: inline-block
 }
 
-.menu_top .menu1 .icon1 {
+.menu-09 .icon1 {
   display: inline-block;
   vertical-align: top;
   height: 40px;
   width: 40px;
   position: relative;
-  margin-top: 13px;
+  //margin-top: 13px;
   cursor: pointer;
-  margin-right: 5px
+  //margin-right: 5px
 }
 
-.menu_top .menu1 .icon1 i::before {
+.menu-09 .icon1 i::before {
   font-family: "icon1";
   font-size: 16px;
   color: rgba(0, 0, 0, 0.9);
@@ -3587,59 +3446,59 @@ h3.head_h div {
   top: 7px
 }
 
-.menu_top .menu1 .icon2 i::before {
+.menu-09 .icon2 i::before {
   content: "s";
   font-size: 19px;
   top: 5px
 }
 
-.menu_top .menu1 .close_all_r i::before {
+.menu-09 .close_all_r i::before {
   content: "7";
   font-size: 19px;
   top: 5px
 }
 
-.menu_top .menu1 .icon17 i::before {
+.menu-09 .icon17 i::before {
   content: "8";
   font-size: 19px;
   top: 5px
 }
 
-.menu_top .menu1 .icon3 i::before {
+.menu-09 .icon3 i::before {
   content: "n";
   font-size: 18px
 }
 
-.menu_top .menu1 .icon4 i::before {
+.menu-09 .icon4 i::before {
   content: "J";
   font-size: 26px
 }
 
-.menu_top .menu1 .icon5 i::before {
+.menu-09 .icon5 i::before {
   content: "5";
   font-size: 18px
 }
 
-.menu_top .menu1 .icon6 i::before {
+.menu-09 .icon6 i::before {
   content: "6";
   font-size: 18px
 }
 
-.menu_top .menu1 .iconl i::before {
+.menu-09 .iconl i::before {
   content: "";
   font-size: 18px
 }
 
-.menu_top .menu1 .icon1:hover i::before {
+.menu-09 .icon1:hover i::before {
   color: #64a4e4
 }
 
-.menu_top .menu1 .icon_not i::before {
+.menu-09 .icon_not i::before {
   content: "-";
   font-size: 26px
 }
 
-.menu_top .menu1 .icon_not i::after {
+.menu-09 .icon_not i::after {
   background-color: red;
   border-radius: 50%;
   height: 6px;
@@ -3650,18 +3509,18 @@ h3.head_h div {
   width: 6px
 }
 
-.menu_top .menu1 .search_seb {
+.menu-09 .search_seb {
   float: right;
   height: 40px;
   width: 60px;
   display: none;
   position: relative;
-  margin-top: 10px;
+  margin-top: -4px;
   margin-right: 5px;
   transition: all 0s ease 0s, all 0.3s ease 0s
 }
 
-.menu_top .menu1 .search_seb i {
+.menu-09 .search_seb i {
   color: rgba(0, 0, 0, 0.9);
   font-family: "icon1";
   font-size: 18px;
@@ -3674,7 +3533,7 @@ h3.head_h div {
   z-index: 10
 }
 
-.menu_top .menu1 .search_seb .result_s {
+.menu-09 .search_seb .result_s {
   display: none;
   font-style: normal;
   right: 0px;
@@ -3683,7 +3542,7 @@ h3.head_h div {
   z-index: 10
 }
 
-.menu_top .menu1 .search_seb div {
+.menu-09 .search_seb div {
   display: inline-block;
   float: right;
   font-family: "GEInspiraRegular";
@@ -3692,13 +3551,13 @@ h3.head_h div {
   font-size: 14px
 }
 
-.menu_top .menu1 .search_seb div .s_ss {
+.menu-09 .search_seb div .s_ss {
   background-color: #fd0000;
   font-style: normal;
   color: #fff
 }
 
-.menu_top .menu1 .search_seb .se_prev, .menu_top .menu1 .search_seb .se_next {
+.menu-09 .search_seb .se_prev, .menu-09 .search_seb .se_next {
   font-family: "icon1";
   float: right;
   transition: all 0s ease 0s, all 0.3s ease 0s;
@@ -3709,7 +3568,7 @@ h3.head_h div {
   margin-right: 10px
 }
 
-.menu_top .menu1 .search_seb .se_prev:hover, .menu_top .menu1 .search_seb .se_next:hover {
+.menu-09 .search_seb .se_prev:hover, .menu-09 .search_seb .se_next:hover {
   transform: scale3d(1.3, 1.3, 1)
 }
 
@@ -4549,9 +4408,9 @@ var.highlight {
 }
 
 .material_end {
-  height: 67px;
+  height: 60px;
   float: left;
-  line-height: 67px;
+  line-height: 60px;
   margin-left: 35px;
   position: relative;
   cursor: pointer;
@@ -4640,10 +4499,10 @@ var.highlight {
 }
 
 .naryd_end {
-  height: 67px;
+  height: 60px;
   float: left;
-  line-height: 67px;
-  margin-left: 15px;
+  line-height: 60px;
+  margin-left: 25px;
   position: relative;
   cursor: pointer;
   top: 0;
@@ -4677,34 +4536,7 @@ var.highlight {
   width: 25px
 }
 
-.mobile {
-  display: none;
-  background-color: #64a4e4;
-  cursor: pointer;
-  height: 67px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 50px;
-  z-index: 1000
-}
 
-.mobile i {
-  color: #fff;
-  font-family: "icon1";
-  font-size: 16px;
-  position: absolute;
-  display: block;
-  font-style: normal;
-  right: 17px;
-  top: 23px;
-  transform: rotate(-180deg);
-  transition: all 0.3s ease 0s
-}
-
-.mobile:hover {
-  background-color: #323544
-}
 
 .logo_block {
   height: 67px;
@@ -4749,152 +4581,20 @@ var.highlight {
   background-color: #323544
 }
 
-.left_menu {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 250px;
-  background-color: #323544;
-  transition: all 1s ease 0s;
-  z-index: 1001
-}
 
-.users {
-  overflow: hidden;
-  text-transform: uppercase;
-  margin-top: 5px;
-  font-family: "SegoeUIBold";
-  font-size: 13px;
-  color: #fff;
-  padding: 17px
-}
 
-.users img {
-  float: left;
-  width: 48px;
-  border-radius: 50%;
-  height: 48px
-}
 
-.users .users_rule {
-  padding-left: 62px
-}
 
-.users .users_rule i {
-  font-style: normal;
-  color: #9699a0;
-  display: block
-}
 
-.users .users_rule strong {
-  font-style: normal;
-  font-weight: normal;
-  display: block
-}
 
-.nav {
-  font-family: "SegoeUIBold";
-  font-size: 13px;
-  text-transform: uppercase
-}
 
-.nav li {
-  display: block;
-  padding: 17px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  overflow: hidden
-}
 
-.nav li a {
-  color: #9699a0;
-  text-decoration: none;
-  padding-left: 20px;
-  float: left;
-  display: inline-block;
-  position: relative;
-  width:100%;
 
-}
 
-.nav li i {
-  background-color: #4d59a1;
-  border-radius: 20px;
-  color: #fff;
-  float: left;
-  font-family: "SegoeUIBold";
-  box-shadow: 0 1px 0 #1e202c;
-  font-size: 13px;
-  font-style: normal;
-  height: 25px;
-  margin-left: 10px;
-  text-align: center;
-  vertical-align: middle;
-  width: 25px
-}
 
-.nav li.line {
-  padding-top: 10px;
-  padding-bottom: 10px
-}
 
-.nav li.line div {
-  margin-top: 0px;
-  height: 1px;
-  background-color: #4d59a1
-}
 
-.nav li.actives {
-  background-color: #1e202c
-}
 
-.nav li.actives a {
-  color: #fff
-}
-
-.nav li:hover {
-  background-color: #1e202c
-}
-
-.nav li:hover a {
-  color: #fff
-}
-
-.nav li:hover.line {
-  background-color: #323544
-}
-
-.small .mobile {
-  display: block
-}
-
-.small .left_menu {
-  display: none
-}
-
-.small .left_block {
-  padding-left: 0px
-}
-
-.small .menu_top {
-  padding-left: 60px
-}
-
-.big .mobile {
-  display: none
-}
-
-.big .left_menu {
-  display: block
-}
-
-.big .left_block {
-  padding-left: 250px
-}
-
-.big .menu_top {
-  padding-left: 270px
-}
 
 .tabs_hed {
   margin-left: 0px !important;
@@ -6690,7 +6390,7 @@ tr.active_supplyx .supply_tr_o::before {
   position: relative;
   height: 100%;
   box-sizing: border-box;
-  margin-top: 14px;
+ // margin-top: 14px;
   display: inline-block;
   font-size: 16px;
   font-weight: normal;
@@ -6746,12 +6446,12 @@ tr.active_supplyx .supply_tr_o::before {
 .active1_in_2018 .two {
   transform: scaleX(1) !important
 }
-
+/*
 .required_in_2018 label {
   color: #ff2828;
   transform: scale(0.85) translate(0px, -28px) !important
 }
-
+*/
 .required_in_2018 .two {
   transform: scaleX(1) !important;
   border-bottom: 2px solid #ff2828 !important
@@ -6769,7 +6469,8 @@ tr.active_supplyx .supply_tr_o::before {
   display: inline-block;
   box-sizing: border-box;
   vertical-align: top;
-  width: 60%;
+  //width: 60%;
+  width: 100%;
   padding-left: 20px
 }
 
@@ -7966,9 +7667,7 @@ tr.active_supplyx .supply_tr_o::before {
   .mobile {
     display: block
   }
-  .left_menu {
-    display: none
-  }
+
   .left_block {
     padding-left: 0px
   }
@@ -9564,7 +9263,7 @@ tr.active_supplyx .supply_tr_o::before {
   color: rgba(0, 0, 0, 0.3);
   text-transform: uppercase
 }
-
+/*
 .invoice_upload {
   border: 1px dashed #9a9a9a;
   border-radius: 4px;
@@ -9578,7 +9277,7 @@ tr.active_supplyx .supply_tr_o::before {
   font-family: "GEInspiraRegular";
   font-size: 13px
 }
-
+*/
 .img_invoice_div .loaderr_scan {
   margin-top: 10px !important;
   margin-left: 0px !important;

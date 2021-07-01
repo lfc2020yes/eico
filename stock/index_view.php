@@ -232,7 +232,7 @@ echo'<tr idu_stock="'.$row__2["id"].'" class="tr_dop_supply_line itogss"><td></t
 					  
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 								  
@@ -331,7 +331,7 @@ echo'<tr idu_stock="'.$row__2["id"].'" class="tr_dop_supply_line"><td colspan="7
 					 }
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_2").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_2").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 
@@ -429,7 +429,7 @@ echo'<tr idu_stock="'.$row__2["id"].'" class="tr_dop_supply_line"><td colspan="6
 					 }
 echo'</tbody></table>'; 
 					 echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_3").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_3").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>';	 
 					  
 								  

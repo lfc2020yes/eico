@@ -1,4 +1,7 @@
-    <div class="menu_top"><div class="menu1">
+<?php
+/*
+?>
+<div class="menu_top"><div class="menu1">
     
     
     <div class="close_prime_dom"><i></i></div><a class="close_prime_dom_a" href="prime/"></a>
@@ -142,4 +145,98 @@
 	?>
    
     </div></div>
-    
+
+*/
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="menu-09  input-line" style="z-index:150;">
+        <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
+        <div class="menu-09-left">
+            <a href="/" class="menu-09-global"></a><a href="prime/" class="js-close_prime_dom js-close_prime_dom_a menu-09-prev"><i></i></a>
+
+            <?
+
+            echo'<span class="menu-09-pc-h" ><span > '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].') </span >';
+
+
+            echo'</span >';
+
+            ?>
+            <span class="add_nnn"></span>
+
+            <?
+    if (($role->permission('Заявки','A'))or($sign_admin==1))
+    {
+    echo'<span class="add_mmm"></span>';
+    }
+    ?>
+        </div>
+        <div class="menu-09-right tours-right-block">
+            <?
+
+
+
+            include_once $url_system.'module/notification.php';
+            include_once $url_system.'module/users.php';
+
+            ?>
+
+           <div data-tooltip="поиск по себестоимости" class="icon1 icon1-xxx icon3"><i></i></div>
+
+      <div class="search_seb"><i>n</i><input name="search_text" id="search_text" class="input_f_s input_100 white_inp" autocomplete="off" value="" type="text"><div class="result_s"><span  class="se_next">C</span><span class="se_prev">D</span><div>найдено: <span class="s_ss">45</span></div></div></div>
+      <?
+	    if (($role->permission('Объект','U'))or($sign_admin==1))
+	{
+		echo'<div data-tooltip="настройки по дому" class="icon1 icon1-xxx icon2"><i></i></div>';
+	}
+
+   	if((array_search('summa_r1',$stack_td) === false) or($sign_admin==1))
+	{
+    echo'<div '.$act_1.' data-tooltip="быстрый вывод итогов" class="icon1 icon1-xxx icon17"><i></i></div>';
+	}
+
+		?>
+
+            <div data-tooltip="закрыть все разделы" class="icon1 icon1-xxx close_all_r"><i></i></div>
+
+            <?
+            if (($role->permission('Себестоимость','A'))or($sign_admin==1))
+            {
+                echo'<div data-tooltip="добавить раздел" class="icon1 icon1-xxx icon4 add__razdel" style="margin-right: 40px;"><i></i></div>';
+                //echo'<div class="icon1 iconl"><i></i></div>';
+            }
+
+            echo'</div>';
+
+
+
+
+            ?>
+
+            <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->
+
+        </div>

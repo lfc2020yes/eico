@@ -23,5 +23,18 @@ $name_user=$row_town_user['name_user'];
 $role=new RoleUser($link,$id_user);  //создаем класс прав
 }
    
+
+//создание секрет для формы
+$secret=rand_string_string(16);
+//echo($secret);
+if(!isset($_SESSION['rema']))
+{
+    $_SESSION['rema'] = $secret;
+} else
+{
+    $secret=$_SESSION['rema'];
+}
+
+
    
 ?>

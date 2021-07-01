@@ -43,7 +43,7 @@ $result_t=mysql_time_query($link,'Select a.id,a.kvartal from i_kvartal as a wher
 		   $row_t = mysqli_fetch_assoc($result_t);
 		   		  if($num_results_t==1)
 	              {
-		   $echo.='<div class="left_drop menu2_prime"><div class="select eddd"><a class="slct" data_src="'.$row_t["id"].'">'.$row_t["kvartal"].'</a><ul class="drop">';
+		   $echo.='<div class="left_drop menu2_prime book_menu_sel js--sort gop_io"><div class="select eddd"><a class="slct" data_src="'.$row_t["id"].'">'.$row_t["kvartal"].'</a><ul class="drop">';
 				  } else
 				  {
 		   $echo.='<div class="left_drop menu2_prime"><div class="select eddd"><a class="slct" data_src="0">...</a><ul class="drop">';					  
@@ -84,7 +84,7 @@ $result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a w
 	   if($num_results_t!=0)
 	   {
 		   $row_t = mysqli_fetch_assoc($result_t);
-		   $echo.='<div class="left_drop menu3_prime"><div class="select eddd"><a class="slct" data_src="0">...</a><ul class="drop">';
+		   $echo.='<div class="left_drop menu3_prime book_menu_sel js--sort gop_io"><div class="select eddd"><a class="slct" data_src="0">...</a><ul class="drop">';
 		   $url_prime="prime/";
 		   $active=$row_t["id"];
 		   for ($i=0; $i<$num_results_t; $i++)

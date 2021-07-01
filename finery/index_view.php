@@ -1726,7 +1726,7 @@ if($row_list["id_user"]==$id_user)
 }
 		  
 		   if($rrtt>0){ echo'</tbody></table>'; echo'<script>
-				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'67px\'}); });
+				  OLD(document).ready(function(){  OLD("#table_freez_0").freezeHeader({\'offset\' : \'59px\'}); });
 				  </script>'; }
 		 
 		  //запускаем загрузку лодеров выполенных работ

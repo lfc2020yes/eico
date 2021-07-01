@@ -659,14 +659,20 @@ VALUES
     /** Мои неисполненные документы id_status =0
      * @param $type = 0,1,2
      * @param null $id_doc - один конкретный документ
+     * @param $status='=0' - только невыполненные задания
+     *                '>=0' - все задания
+     * @param $only_user = true - задания только для этого пользователя
      * @return array
      */
     public function my_documents($type,
                                  $id_doc=0,
+                                 $status_task = '=0',
+                                 $only_user = false,
                                  $order_by = 'ORDER BY date_create DESC',
                                  $limit='LIMIT 0,100')
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
+        $task_user = ($only_user)?"AND s.`id_executor`=".$this->id_user : '';
         $sql =
 "
 SELECT * FROM ".$this->arr_table[$type]."
@@ -684,12 +690,13 @@ $limit
                     $sql =
                         "
 SELECT 
-s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status,
+s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
 u.`name_user`
 FROM edo_state AS s 
 LEFT JOIN r_user AS u ON s.`id_executor` = u.id
 WHERE s.id_run=".$row[id_edo_run]."
-AND s.id_status=0
+AND s.id_status $status_task
+$task_user
 $limit            
 ";
                     $this->Debug($sql,__FUNCTION__);

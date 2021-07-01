@@ -61,6 +61,8 @@ class EDO
             ,'ожидание согласования' //17
             ,'ошибка записи процесса согласования' //18
             ,'ошибка изменния статуса задания' //19
+            ,'ошибка изменения статуса' //20
+            ,'ошибка перенаправления задания' //21
 
         );
         $this->arr_sql = array();
@@ -574,7 +576,7 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
      */
     private function get_state_row($id_run_item_after) {
         foreach ($this->arr_state as $row) {
-            if ($id_run_item_after == $row[id_run_item]) {
+            if ($id_run_item_after == $row[id_run_item] && $row[id_status]!=-1) {
                 return $row;
             }
         }
@@ -659,14 +661,20 @@ VALUES
     /** Мои неисполненные документы id_status =0
      * @param $type = 0,1,2
      * @param null $id_doc - один конкретный документ
+     * @param $status='=0' - только невыполненные задания
+     *                '>=0' - все задания
+     * @param $only_user = true - задания только для этого пользователя
      * @return array
      */
     public function my_documents($type,
                                  $id_doc=0,
+                                 $status_task = '=0',
+                                 $only_user = false,
                                  $order_by = 'ORDER BY date_create DESC',
                                  $limit='LIMIT 0,100')
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
+        $task_user = ($only_user)?"AND s.`id_executor`=".$this->id_user : '';
         $sql =
 "
 SELECT * FROM ".$this->arr_table[$type]."
@@ -684,12 +692,13 @@ $limit
                     $sql =
                         "
 SELECT 
-s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status,
+s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
 u.`name_user`
 FROM edo_state AS s 
 LEFT JOIN r_user AS u ON s.`id_executor` = u.id
 WHERE s.id_run=".$row[id_edo_run]."
-AND s.id_status=0
+AND s.id_status $status_task
+$task_user
 $limit            
 ";
                     $this->Debug($sql,__FUNCTION__);
@@ -766,12 +775,16 @@ $limit
     /**
      * @param $id_s
      * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
+     * @param $comment - комментарий согласования
      * @return false / $id_s
      */
-    public function set_status($id_s, $status=2){
+    public function set_status($id_s, $status=2, $comment=null, $next=null){
+        $comment_executor = ( $comment==null ) ? '' : ", comment_executor = '$comment'";
+        $next_data = ( $next==null ) ? '' : ", next = '$next'";
         $sql = "
-UPDATE `edo_state` SET id_status = $status WHERE id = $id_s
+UPDATE `edo_state` SET id_status = $status $comment_executor $next_data WHERE id = $id_s
         ";
+        $this->Debug($sql,__FUNCTION__);
         if (iDelUpd($this->mysqli,$sql,false)===false) {
             $this->error = 19;  // ошибка изменния статуса задания
             return false;
@@ -790,9 +803,74 @@ WHERE
 R.id = $id_run_item
 AND R.`id_action` = A.id
 ";
+        $this->Debug($sql,__FUNCTION__);
         if ($result = $this->mysqli->query($sql)) {
             return $result->fetch_assoc();
         }
         return false;
     }
+
+    /** Перенаправление выполнения задания
+     * @param $id_s - id задания
+     * @param $id_executor - Новый исполнитель
+     * @return false|int
+     */
+    public function send_task($id_s, $id_executor) { //id_status=4
+
+        $sql ="
+INSERT INTO edo_state (
+  `id_run`,
+  `id_run_item`,
+  `name`,
+  `descriptor`,
+  `id_executor`,
+  `comment_executor`,
+  `sign_executor`,
+  `id_checking`,
+  `sign_checking`,
+  `id_controller`,
+  `sign_controller`,
+  
+  `date_ready`,
+  `sign_owner`,
+  `timing`,
+  `displayOrder`,
+  `id_status`,
+  `prev`
+)
+( SELECT 
+`id_run`,
+  `id_run_item`,
+  `name`,
+  `descriptor`,
+  $id_executor,
+  NULL,
+  `sign_executor`,
+  `id_checking`,
+  `sign_checking`,
+  `id_controller`,
+  `sign_controller`,
+  
+  `date_ready`,
+  `sign_owner`,
+  `timing`,
+  `displayOrder`,
+  0,
+  $id_s
+  FROM  edo_state
+  WHERE id=$id_s
+  )
+        ";
+        $this->Debug($sql,__FUNCTION__);
+        if(($new_id = iInsert_1R($this->mysqli,$sql,$show=false))==0) {
+            $this->error = 21;  // ошибка перенаправления задания
+            return false;
+        }
+        if($this->set_status($id_s, -1, 'Перенаправленно',$new_id)===false) {
+            $this->error = 20;  // ошибка изменения статуса
+            return false;
+        }
+        return $new_id;
+    }
+
 }

@@ -1293,7 +1293,7 @@ font-style: normal;}*/
 }
 
 
-.users { overflow:hidden; text-transform:uppercase; /* font-family:$fontSB;*/ font-size:13px; color:rgba(0,0,0,0.7); padding: 10px; img { float:left; width:40px; border-radius:50%; height:40px;} .users_rule{ padding-left: 62px;
+.users { margin-right: 20px; overflow:hidden; text-transform:uppercase; /* font-family:$fontSB;*/ font-size:13px; color:rgba(0,0,0,0.7); padding: 10px; img { float:left; width:40px; border-radius:50%; height:40px;} .users_rule{ padding-left: 62px;
                                                                                                                                                                                                      text-align: left;
                                                                                                                                                                                                      line-height: 15px;
                                                                                                                                                                                                      padding-top: 5px;
@@ -1321,7 +1321,7 @@ font-style: normal;}*/
   //border: 2px solid #72b7f8;
   cursor: pointer;
   height: 60px;
-  margin-left: 15px;
+  //margin-left: 15px;
   margin-top: 0px;
   position: relative;
   transition: all 1s ease 0s;
@@ -2353,7 +2353,7 @@ font-style: normal;}*/
   //float: right;
   //box-shadow: -4px 4px rgba(0, 0, 0, 0.08);
   height: 60px;
-  margin-left: 15px;
+  //margin-left: 15px;
   margin-top: 0px;
   position: relative;
   transition: all 1s ease 0s;
@@ -2424,7 +2424,8 @@ font-style: normal;}*/
 }
 
 .green-bb {background-color: #35deb8;}
-
+.red-bb{background-color: #fd8080;}
+.yellow-bb { background-color: #ffec57 !important; color: rgba(0,0,0,0.6) !important; }
 
 .oka1 {
   @include flexbox();
@@ -4036,3 +4037,79 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
     }  }
 }
 
+.pass_tyu {float:left;}
+
+.password_turs
+{
+  /*box-shadow: 1px 1px rgba(0, 0, 0, 0.03);
+  border-radius: 4px;*/
+  @include flexbox();
+  width: 40px;
+  height: 60px;
+  overflow: hidden;
+  position: relative;
+  //background-color: rgba(0, 0, 0, 0.08);
+  //margin-top: 20px;
+  //margin-bottom: 10px;
+
+
+  @include sw('tablet-small') {
+    @include flex-wrap(wrap);
+  }
+  .input-choice-click-pass {
+    @include flexbox();
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    @include sw('tablet-small') {
+      width: 100%;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .choice-head {
+
+      width: 100%;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.2);
+      font-family: "GEInspiraBold";
+      text-transform: uppercase;
+      font-size: 10px;
+      padding: 20px 10px;
+
+    }
+    .choice-radio {
+
+      width: 50px;
+      @include flexbox();
+      @include justify-content(center);
+      position: absolute;
+      right: 0px;
+      top: calc(50% - 12px);
+      .center_vert1 {
+        @include align-self(center);
+
+        i {font-style:normal; height: 24px; width: 24px; line-height: 24px; border-radius: 4px; background-color: rgba(0, 0, 0, 0.05);  @include transition(all .4s cubic-bezier(.42,.01,.23,1)); position: relative; display: block; text-align: center; }
+
+        i::before {    position:absolute;
+          content: "\E001";
+          left:5px;
+          top:0px;
+          color:rgba(0,0,0,0.7);
+          font-family: $i;
+          font-size: 14px;
+          @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+          @include transform(scale3d(0,0,1));
+
+        }
+
+        i.active_task_cb { background-color: #ffdc57; }
+
+        i.active_task_cb::before { @include transform(scale3d(1,1,1)); }
+
+      }
+    }
+  }
+
+  .active_pass { .choice-head { color:rgba(0, 0, 0, 0.7);} }
+}

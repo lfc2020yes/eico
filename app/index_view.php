@@ -805,11 +805,7 @@ if ( isset($_COOKIE["iss"]))
                       echo '<div class="ring_block ring-block-line js-global-preorders-link">';
                       $new_pre = 1;
                       $task_cloud_block='';
-                      include_once '../ilib/lib_interstroi.php';
-                      include_once '../ilib/lib_edo.php';
 
-                      $edo = new EDO($link,$id_user,false);
-                      $arr_document = $edo->my_documents(0, ht($_GET["id"]));
 
                       //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
 

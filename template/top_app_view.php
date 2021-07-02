@@ -250,6 +250,16 @@ include_once $url_system.'module/notification.php';
 
         //если уже заказано и нужно просто вывести по пользователю надо ему что-то делать в данный момент с этой заявкой или нет
 
+        include_once '../ilib/lib_interstroi.php';
+        include_once '../ilib/lib_edo.php';
+
+        $edo = new EDO($link,$id_user,false);
+        $arr_document = $edo->my_documents(0, ht($_GET["id"]),'=0',false);
+
+        //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
+
+//$action_button=$edo->get_action();
+
         echo'<div class="save_button  add_clients green-bb"><div class="pass_tyu"><div class="password_turs">
 <div id="1" class="input-choice-click-pass js-checkbox-group">
 <div class="choice-radio" data-tooltip="согласовать с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>

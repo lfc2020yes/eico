@@ -697,8 +697,9 @@ VALUES
                                  $id_doc=0,
                                  $status_task = '=0',
                                  $only_user = false,
-                                 $order_by = 'ORDER BY date_create DESC',
-                                 $limit='LIMIT 0,100')
+                                 $limit='LIMIT 0,100',
+                                 $order_by = 'ORDER BY date_create DESC'
+                                 )
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
         $task_user = ($only_user)?"AND s.`id_executor`=".$this->id_user : '';
@@ -720,12 +721,15 @@ $limit
                         "
 SELECT 
 s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
-u.`name_user`
+u.`name_user`,
+ST.`name_status`       
 FROM edo_state AS s 
 LEFT JOIN r_user AS u ON s.`id_executor` = u.id
+LEFT JOIN edo_status AS ST ON s.`id_status` = ST.`id_status`
 WHERE s.id_run=".$row[id_edo_run]."
 AND s.id_status $status_task
 $task_user
+ORDER BY s.`displayOrder`,s.`date_create`
 $limit            
 ";
                     $this->Debug($sql,__FUNCTION__);

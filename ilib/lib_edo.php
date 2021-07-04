@@ -807,6 +807,7 @@ $limit
      * @param $id_s
      * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
      * @param $comment - комментарий согласования
+     * @param $next - ссылка (id) на запись, при пересылке или при дополнительном подтверждении
      * @return false / $id_s
      */
     public function set_status($id_s, $status=2, $comment=null, $next=null){

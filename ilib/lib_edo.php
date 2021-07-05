@@ -28,8 +28,10 @@ class EDO
     var $arr_rule;   //Короткий массив правил
     var $arr_state;  //Массив выполнения
     var $arr_task;   //Массив задания
+
     var $error;
     var $error_name;
+
     var $arr_sql;
     var $func;
     var $show;
@@ -63,6 +65,7 @@ class EDO
             ,'ошибка изменния статуса задания' //19
             ,'ошибка изменения статуса' //20
             ,'ошибка перенаправления задания' //21
+            ,'создано дополнительное согласование на превышение' //22
 
         );
         $this->arr_sql = array();
@@ -82,8 +85,10 @@ class EDO
 
             }
             $this->arr_state = $this->get_state($id_edo_run);
+
             // нужно по текущему состоянию $arr_state иcпользуя edo_run сгенерить новые согласования
             return $this->rule($id_edo_run);
+
 
         } while (1==0);
         return $ret;
@@ -461,6 +466,28 @@ values
                         $this->error = 16;
                         break;
                     }
+                    if ($row[id_status] > 1) {      //проверить на дополнительное согласование
+                        //========================================================================
+
+                        if ($this->show) {
+                            echo "<pre>ROW:" . print_r($row, true) . "</pre>";
+                            echo "<pre>id_document:" . print_r($this->arr_run[0][id_document], true) . "</pre>";
+                        }
+
+                        if ($row[id_checking]>0
+                            /*&& $row[sign_checking] == 0*/
+                            && $row[id_checking] <> $row[id_executor]     // Это уже контрольное согласование
+                            && $this->is_excess($this->arr_run[0][id_document])) {
+                            //echo 'STEP I<br>';
+                            if ($this->confirmation($row)) {
+                                //echo 'STEP II<br>';
+                                $ok_item = false;
+                                $this->error = 22; //создано дополнительное согласование на превышение
+                            }
+
+                        }
+                        break;
+                    }
                 }
                 if ($ok_item) { // все условия для этого задания одобрены
                     if (($row = $this->get_state_row($id_run_item)) !== false) { //Задание существует
@@ -576,7 +603,7 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
      */
     private function get_state_row($id_run_item_after) {
         foreach ($this->arr_state as $row) {
-            if ($id_run_item_after == $row[id_run_item] && $row[id_status]!=-1) {
+            if ($id_run_item_after == $row[id_run_item] && $row[id_status]>=0) {
                 return $row;
             }
         }
@@ -670,8 +697,9 @@ VALUES
                                  $id_doc=0,
                                  $status_task = '=0',
                                  $only_user = false,
-                                 $order_by = 'ORDER BY date_create DESC',
-                                 $limit='LIMIT 0,100')
+                                 $limit='LIMIT 0,100',
+                                 $order_by = 'ORDER BY date_create DESC'
+                                 )
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
         $task_user = ($only_user)?"AND s.`id_executor`=".$this->id_user : '';
@@ -693,12 +721,15 @@ $limit
                         "
 SELECT 
 s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
-u.`name_user`
+u.`name_user`,
+ST.`name_status`       
 FROM edo_state AS s 
 LEFT JOIN r_user AS u ON s.`id_executor` = u.id
+LEFT JOIN edo_status AS ST ON s.`id_status` = ST.`id_status`
 WHERE s.id_run=".$row[id_edo_run]."
 AND s.id_status $status_task
 $task_user
+ORDER BY s.`displayOrder`,s.`date_create`
 $limit            
 ";
                     $this->Debug($sql,__FUNCTION__);
@@ -776,6 +807,7 @@ $limit
      * @param $id_s
      * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
      * @param $comment - комментарий согласования
+     * @param $next - ссылка (id) на запись, при пересылке или при дополнительном подтверждении
      * @return false / $id_s
      */
     public function set_status($id_s, $status=2, $comment=null, $next=null){
@@ -813,10 +845,11 @@ AND R.`id_action` = A.id
     /** Перенаправление выполнения задания
      * @param $id_s - id задания
      * @param $id_executor - Новый исполнитель
+     * @param $id_status - новый статус
+     * @param $comment - измененный коментарий основной записи
      * @return false|int
      */
-    public function send_task($id_s, $id_executor) { //id_status=4
-
+    public function send_task($id_s, $id_executor, $id_status=-1, $comment='Перенаправлено') { //id_status=-1
         $sql ="
 INSERT INTO edo_state (
   `id_run`,
@@ -866,11 +899,52 @@ INSERT INTO edo_state (
             $this->error = 21;  // ошибка перенаправления задания
             return false;
         }
-        if($this->set_status($id_s, -1, 'Перенаправленно',$new_id)===false) {
+        if($this->set_status($id_s, $id_status, $comment, $new_id)===false) {
             $this->error = 20;  // ошибка изменения статуса
             return false;
         }
         return $new_id;
     }
 
+
+
+    /** Проверка на превышение заявки по себестоимости
+     * @param $id_doc
+     * @return bool
+     */
+    public function is_excess($id_doc)
+    {
+        $sql = "
+SELECT a.id 
+FROM z_doc_material AS a 
+WHERE 
+a.id_doc=$id_doc 
+AND 
+((NOT(a.memorandum = '') AND a.id_sign_mem = 0)
+OR
+(NOT(a.memorandum = '') AND NOT(a.id_sign_mem = 0) AND a.signedd_mem = 0))
+";
+        $this->Debug($sql,__FUNCTION__);
+        if ($result = $this->mysqli->query($sql)) {
+            if ($result->num_rows > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function confirmation( &$row_state){
+        $arr_action = $this->get_action($row_state[id_run_item]);
+        if($this->show) {
+            echo "<pre>arr_action:" . print_r($arr_action, true) . "</pre>";
+        }
+        if($arr_action[checking] == 1) { // нужно делать дополнительное согласование
+
+            // Не обрабатывается код возврата
+            $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), ''); // Создать задачу подтверждения
+            if($this->show) echo "нужно делать дополнительное согласование!<br";
+            return true;
+        }
+        return false;
+    }
 }

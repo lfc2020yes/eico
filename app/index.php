@@ -204,7 +204,7 @@ $sql_mass=$arr_document;
 
   if(!isset($_GET["tabs"]))
   {
-      $arr_document = $edo->my_documents(0, 0 , 'ORDER BY date_create DESC',limitPage('n_st',$count_write));
+      $arr_document = $edo->my_documents(0, 0 , limitPage('n_st',$count_write));
       $sql_mass=$arr_document;
   }
 

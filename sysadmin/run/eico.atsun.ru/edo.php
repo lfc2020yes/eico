@@ -52,7 +52,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       echo "<p>step one";
 //-----------------------------------------------------------------------------
       $id_user = 777;
-      $edo = new EDO($mysqli,$id_user,true);
+      $edo = new EDO($mysqli,$id_user,false);
       if (($edo->next($_POST["id_doc"], $_POST["type"]))===false) {
           echo '<pre>'.$edo->error.'='.$edo->error_name[$edo->error].'</pre>';
           echo '<pre>'.print_r($edo->arr_sql,true) .'</pre>';

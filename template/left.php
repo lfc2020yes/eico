@@ -278,14 +278,42 @@ if($active_menu=='booker')
     foreach ($nav_url as $key_nav => $value_nav) 
 	{
 	  if (($role->permission($nav_text[$key_nav],'R'))or($sign_admin==1))
-	  {	
-		if($found===$key_nav)
-		{
-		echo'<li class="actives"><a class="a11" href="'.$value_nav.'/">'.$nav_text[$key_nav].'</a></li>';
-		} else
-		{
-		echo'<li><a class="a11" href="'.$value_nav.'/">'.$nav_text[$key_nav].'</a></li>';
-		}
+	  {
+
+	     if($value_nav=='app')
+         {
+//по заявкам смотрим и выводим если есть сколько надо выполнить задач
+             if (!is_object($edo)) {
+
+                 include_once $url_system.'ilib/lib_interstroi.php';
+                 include_once $url_system.'ilib/lib_edo.php';
+                 $edo = new EDO($link, $id_user, false);
+
+             }
+             $arr_tasks = $edo->my_tasks(0, '=0' );
+             $class_left_l='';
+             $count_l=count($arr_tasks);
+if(count($arr_tasks)==0)
+{
+    $class_left_l='nonex';
+    $count_l='';
+}
+
+             if ($found === $key_nav) {
+                 echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+             } else {
+                 echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+             }
+
+
+         } else {
+
+             if ($found === $key_nav) {
+                 echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+             } else {
+                 echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+             }
+         }
 	  }
 	}
 	

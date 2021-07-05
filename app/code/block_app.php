@@ -232,9 +232,22 @@ if(isset($new_pre)) {
     $task_cloud_block .= '</span>';
 }
 
-$tabs_menu_x = array( "Задание","Процесс/Задача");
-$tabs_menu_x_js = array("","");
-$tabs_menu_x_id = array("1","2");
+
+if($value["status"]!=1)
+{
+
+
+if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)) {
+    $tabs_menu_x = array("Процесс/Задача");
+    $tabs_menu_x_js = array("");
+    $tabs_menu_x_id = array("2");
+} else {
+
+    $tabs_menu_x = array("Задание", "Процесс/Задача");
+    $tabs_menu_x_js = array("", "");
+    $tabs_menu_x_id = array("1", "2");
+}
+
 $class_menu_pr='';
 if ((isset($_GET['menu_id']))and(array_search($_GET['menu_id'], $tabs_menu_x_id) !== false)) {
     $class_menu_pr='active-trips-menu';
@@ -293,7 +306,7 @@ if (($role->permission('Обращения','D'))or($sign_admin==1)) {
 
 $task_cloud_block.='<div class="px_bg_trips">
 </div>';
-
+}
 if(isset($new_pre)) {
 
     $task_cloud_block .= '</div>';

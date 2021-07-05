@@ -4032,7 +4032,7 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
 
   .pass_wh label { color: rgba(0, 0, 0, 0.5) !important; }
 
-  .px_left {padding-left: 10px; padding-right: 10px;  width:  calc(100% / 3) !important;
+  .px_left {padding-left: 10px; padding-right: 10px;  width:  calc(100% /2) !important;
     @include sw('tablet-small') {  width: 100% !important;
     }  }
 }
@@ -4112,4 +4112,180 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
   }
 
   .active_pass { .choice-head { color:rgba(0, 0, 0, 0.7);} }
+}
+
+.gray-bb { background-color: #eee !important;
+  border-right: 1px solid #ddd; }
+
+.px_flex {
+  @include flexbox();
+
+  @include sw('tablet-small') { @include flex-wrap(wrap); }
+
+  .px_left,.px_right { width: 50%; @include sw('tablet-small') {  width:100%; } }
+
+  .pass_wh {
+
+    color: rgba(0, 0, 0, 0.2);
+    font-family: "GEInspiraBold";
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-bottom: 10px; position: relative; padding-top: 13px;
+    font-weight: normal;
+    label {  font-family: "GEInspiraRegular"; position: absolute; top:0px; left:0px; font-size: 10px; text-transform: uppercase;font-weight: normal; color: rgba(0, 0, 0, 0.3);
+    }
+    span { color: rgba(0, 0, 0, 0.7); line-height: 20px; }
+
+  }
+
+
+}
+.strong_wh_2020 {
+  //font-family: "GEInspiraBold";
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 21px;
+  color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 10px 10px;
+  font-family: "GEInspiraRegular";
+  text-align: center;
+  display: inline-block;
+  margin-bottom:10px;
+}
+
+.state-history
+{
+
+  @include flexbox();
+  width: 100%;
+  border: 1px solid rgba(0,0,0,.1);
+
+  text-align: left;
+  @include justify-content(space-between);
+
+  .st-state {
+    padding: 20px 15px;
+    width: 70px;
+    @include align-items(center);
+    @include align-self(center);
+
+    .state-class {
+
+      text-align: right;
+      background-color: #f5f5f6;
+      cursor: pointer;
+      display: block;
+      height: 25px;
+      /*@include box-shadow(0 2px 2px 0 rgba(0,0,0,.08));*/
+      overflow: hidden;
+      border-radius: 50%;
+      position: relative;
+      @include transition(all .3s ease 0s);
+      white-space: nowrap;
+      width: 25px;
+
+      &::before {
+        color: #72b7f8;
+        content: "1";
+        font-family: icon1;
+        font-size: 16px;
+        left: 5px;
+        line-height: 24px;
+        position: absolute;
+        top: 0;
+      }
+
+
+    }
+
+    .more-icon-0 {  }
+    .more-icon-2 { background-color: #25ae88 !important;  &::before { color: #fff !important; }  }
+    .more-icon-1 { background-color: #fd8080 !important;  &::before { content: "_";
+
+      font-family: icon1;
+      font-size: 10px; color: #fff !important; left:7px; } }
+    .more-icon-3 {   background-color: #ffdc57 !important;  &::before { color: rgba(0,0,0,0.6) !important; }}
+    .more-icon--1 { background-color: #00aeef !important; &::before { content: "⥃";
+      font-family: "GEInspiraRegular";
+      font-size: 19px;
+      color: #fff !important;
+      left: 4px; }  }
+    .more-icon--2 {}
+
+
+
+  }
+
+  .st-task {
+
+    @include align-self(center);
+    width: calc(100% - 520px);
+
+    font-size: 12px;
+    line-height: 16px;
+    position: relative;
+    color: rgba(0,0,0,.7);
+    padding: 20px 15px; padding-left:0px;
+
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+  }
+  .st-kto {     @include align-self(center);     position: relative;
+   padding: 20px 15px; padding-left:0px; width: 150px; color: rgba(0,0,0,.3);
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block;
+    line-height: 16px;
+    color: rgba(0,0,0,.7);
+    font-size: 11px;
+   }
+  .st-srok {     @include align-self(center);     position: relative;
+   padding: 20px 15px; padding-left:0px; color: rgba(0,0,0,.4); width: 150px;
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block; font-size: 12px; line-height: 16px;}
+  .st-date {     @include align-self(center);    position: relative;
+   padding: 20px 15px;  padding-left:0px;color: rgba(0,0,0,.4); width: 150px;
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block; font-size: 12px; line-height: 16px;}
+
+
+  &:hover {  background-color: rgba(0,0,0,0.02); .label-task-gg {display:inline-block;}  }
+
+  .label-task-gg {font-family: "GEInspiraRegular";
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: normal;@include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    color:
+            rgba(0, 0, 0, 0.3); display:none;@include sw('tablet3') { display:inline-block; }}
+}
+
+.gray-yy-0 {  .st-task { font-family: "GEInspiraBold" !important; }  }
+
+.nonex {display: none !important;}
+
+.remark-state { font-family: GEInspiraBold;
+  color: rgba(0,0,0,.7);
+
+  font-size: 11px;
+  line-height: 16px;
+
+  text-transform: uppercase; margin-left: 15px; position: relative;
+span {  border-bottom: 1px solid #fd8080;}
+  &::before { content: "→";
+    top: 0px;
+    left: -15px;
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+    color: #212121;
+    font-style: normal;
+    position: absolute;}
+
 }

@@ -137,7 +137,7 @@ if (($edo->next($id, 0))===false) {
     {
         $row_town = mysqli_fetch_assoc($result_town);
     }
-echo(gettype($edo->arr_task));
+//echo(gettype($edo->arr_task));
     foreach ($edo->arr_task as $key => $value)
     {
         //оправляем всем уведомления кому нужно рассмотреть этот документ далее

@@ -14,7 +14,16 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 
 <h1>ИЗВИНИТЕ! ТАКАЯ СТРАНИЦА НЕ СУЩЕСТВУЕТ.<br>
 ОНА БЫЛА. А ТЕПЕРЬ НЕТ!</h1>
-<div class="eee">404</div>
+<div class="eee">404
+    <?
+    if((isset($er))and($er!=0))
+    {
+        echo'<span>(error - '.$er.')</span>';
+    }
+    ?>
+
+
+</div>
 <h2>Такое происходит, когда переходите на несуществующую страницу.<br>
 Перейдите на <a href="">главную</a> и вы найдете всю необходимую информацию.
 </h2>

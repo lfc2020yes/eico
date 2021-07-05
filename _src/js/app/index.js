@@ -67,6 +67,48 @@ var validate11 = function() {
 }
 
 
+function SingFo()
+{
+	var fo=$(this);
+	if(!fo.hasClass("gray-bb"))
+	{
+	//alert("!");
+if(fo.find('input').val()==1)
+{
+	//открыть окно для вписание замечания
+	var pre=$('.preorders_block_global').attr('id_pre');
+	$.arcticmodal({
+		type: 'ajax',
+		url: 'forms/form_add_app_remark.php?id='+pre,
+		beforeOpen: function (data, el) {
+			//во время загрузки формы с ajax загрузчик
+			$('.loader_ada_forms').show();
+			$('.loader_ada1_forms').addClass('select_ada');
+		},
+		afterLoading: function (data, el) {
+			//после загрузки формы с ajax
+			data.body.parents('.arcticmodal-container').addClass('yoi');
+			$('.loader_ada_forms').hide();
+			$('.loader_ada1_forms').removeClass('select_ada');
+		},
+		beforeClose: function (data, el) { // после закрытия окна ArcticModal
+			if (typeof timerId !== "undefined") {
+				clearInterval(timerId);
+			}
+			BodyScrool();
+		}
+
+	});
+
+
+} else
+{
+	//Отправить прямую форму на согласование
+}
+	}
+
+}
+
 function MemoButType(elem)
 {
 
@@ -101,7 +143,7 @@ function input_2021()
 //нажатие на отдельные chtckbox залки в определенной группе
 //  |
 // \/
-function CheckboxGroup()
+function CheckboxGroup(event)
 {
 	/*
     var active_old = $(this).parent().parent().find(".slct").attr("data_src");
@@ -226,6 +268,8 @@ function CheckboxGroup()
 
 	}
 	MemoButType($(this).find("input"));
+    event.stopPropagation();
+
 }
 
 function animation_teps_supply()
@@ -5189,6 +5233,8 @@ $('.label_s').bind("change keyup input click", label_show);
 	$('body').on("change keyup input click",'.js-type-soft-view1',MemoButType);
 
 $('body').on("change keyup input click",'.tabs_005U',{key: "005U"},tabs_app);
+
+	$('body').on("change keyup input click",'.js-sign-1',SingFo);
 
 //делаем поля с классом только дробными и целыми числами		
 //$('.smeta1').on("change keyup input click",'.count_mask',function(){ $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));  });

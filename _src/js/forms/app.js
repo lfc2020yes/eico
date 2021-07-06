@@ -1,5 +1,75 @@
 
+//переслать заявку
+//  |
+// \/
+function js_add_forward_x()
+{
 
+
+        var box_active = $(this).closest('.box-modal');
+        var err = 0;
+//alert($('.js-form-register .gloab').length);
+// alert("!!");
+        box_active.find('.js-form-forward .gloab').each(function (i, elem) {
+            if ($(this).val() == '') {
+                $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {
+                $(this).parents('.input_2021').removeClass('required_in_2021');
+                $(this).parents('.list_2021').removeClass('required_in_2021');
+            }
+        });
+
+        if (err == 0) {
+
+            $('.js-form-forward').submit();
+
+        } else {
+            //найдем самый верхнюю ошибку и пролестнем к ней
+            //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+            //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+            alert_message('error', 'Не все поля заполнены');
+
+
+        }
+
+}
+
+
+//добавление причины по отклонению заявки
+//  |
+// \/
+function js_add_reject_x()
+{
+    var box_active = $(this).closest('.box-modal');
+    var err = 0;
+//alert($('.js-form-register .gloab').length);
+// alert("!!");
+    box_active.find('.js-form-reject .gloab').each(function(i,elem) {
+        if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+            $(this).parents('.list_2021').addClass('required_in_2021');
+            err++;
+            //alert($(this).attr('name'));
+        } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+    });
+
+    if(err==0)
+    {
+
+        $('.js-form-reject').submit();
+
+    } else
+    {
+        //найдем самый верхнюю ошибку и пролестнем к ней
+        //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+        //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+        alert_message('error','Не все поля заполнены');
+
+
+    }
+}
 
 //добавление нового замечания в форме согласовать
 //  |

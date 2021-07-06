@@ -7,7 +7,11 @@ RewriteRule ^([0-9]*)/$      app/index_view.php?id=$1 [L]
 
 RewriteRule ^add/([0-9]*)/$ app/index_add.php?id=$1 [L]
 RewriteRule ^plus/([0-9]*)/$ app/index_plus.php?id=$1 [L]
+
+RewriteRule ^forward/([0-9]*)/$ app/index_forward.php?id=$1 [L]
+RewriteRule ^reject/([0-9]*)/$ app/index_reject.php?id=$1 [L]
 RewriteRule ^sign/([0-9]*)/$ app/index_sign.php?id=$1 [L]
+RewriteRule ^sign_yes/([0-9]*)/$ app/index_sign_yes.php?id=$1 [L]
 RewriteRule ^order/([0-9]*)/$ app/index_order.php?id=$1 [L]
 
 RewriteRule ^cancel/([0-9]*)/$ app/index_cancel.php?id=$1 [L]

@@ -2343,6 +2343,8 @@ font-style: normal;}*/
 .s_pr_3 {  background-color: #25ae88 !important; color:#fff; }
 //отменить
 .s_pr_4 {  background-color: #fd8080 !important; color:#fff; }
+
+
 //согласовать
 
 
@@ -4114,7 +4116,7 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
   .active_pass { .choice-head { color:rgba(0, 0, 0, 0.7);} }
 }
 
-.gray-bb { background-color: #eee !important;
+.gray-bb { background-color: #ddd !important;
   border-right: 1px solid #ddd; }
 
 .px_flex {
@@ -4201,7 +4203,13 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
 
     }
 
-    .more-icon-0 {  }
+    .more-icon-0 {
+
+      @include animation(rippless 2s alternate ease-in-out infinite);
+      @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+
+
+    }
     .more-icon-2 { background-color: #25ae88 !important;  &::before { color: #fff !important; }  }
     .more-icon-1 { background-color: #fd8080 !important;  &::before { content: "_";
 
@@ -4288,4 +4296,17 @@ span {  border-bottom: 1px solid #fd8080;}
     font-style: normal;
     position: absolute;}
 
+}
+
+@include keyframes(rippless) {
+  0% {
+    @include transform(scale3d(0.2,0.2,1));
+  }
+  50%
+  {
+    @include transform(scale3d(1,1,1));
+  }
+  100% {
+    @include transform(scale3d(0.2,0.2,1));
+  }
 }

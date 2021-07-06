@@ -135,14 +135,14 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 					//и создатель заявки должен быть в его подчинении
 				 if(($sign_admin!=1)and($row_list["id_user"]!=$id_user)and($row_list["status"]!=1)and($row_list["status"]!=8))
 				{	
-					
+					/*
 					if((array_search($row_list["id_user"],$hie_user)===false)or(!$role->permission('Заявки','S')))
 			        {
 						header("HTTP/1.1 404 Not Found");
 	                    header("Status: 404 Not Found");
 	                    $error_header=404;	
 					}
-				
+				*/
 				}
 					
 				}

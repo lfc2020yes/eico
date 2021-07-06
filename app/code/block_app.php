@@ -79,7 +79,7 @@ $js_mod='';
     $color_status=1;
     if(($value["status"]==9)or($value["status"]==3)or($value["status"]==4)) {$color_status=2;}
     if($value["status"]==5) {$color_status=3;}
-    if($value["status"]==6) {$color_status=4;}
+    if($value["status"]==8) {$color_status=4;}
 
 //выводим статус заявки
 $result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=13');
@@ -185,7 +185,7 @@ if($small_block!=1) {
     }
 }
 if($small_block==1) {
-    if (!empty($value["name_s"])) {
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=2))) {
         $task_cloud_block .= '<a href="app/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a>';
     }
 }
@@ -237,7 +237,7 @@ if($value["status"]!=1)
 {
 
 
-if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)) {
+if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
     $tabs_menu_x = array("Процесс/Задача");
     $tabs_menu_x_js = array("");
     $tabs_menu_x_id = array("2");

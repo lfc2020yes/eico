@@ -1,5 +1,5 @@
 <?
-//загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
+//
 
 $query_string.='<div class="input-block-2020">';
 
@@ -9,7 +9,7 @@ include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
 $arr_document = $edo->my_documents(0, ht($_GET["id"]), '>=-10', false);
-$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
+//$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 foreach ($arr_document as $key => $value) {
     if ((is_array($value["state"])) and (!empty($value["state"]))) {
@@ -28,7 +28,7 @@ $name_kto='';
 
 
             $query_string.='<div class="state-history gray-yy-'.$val["id_status"].'">
-               <div class="st-state"><span data-tooltip="Не выполнена" class="state-class more-icon-'.$val["id_status"].'"></span></div>
+               <div class="st-state"><span data-tooltip="'.$val["name_status"].'" class="state-class more-icon-'.$val["id_status"].'"></span></div>
                <div class="st-task"><span class="label-task-gg ">Задача
 </span>'.$val["name_task"];
 

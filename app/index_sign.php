@@ -177,7 +177,7 @@ if (($edo->next($id, 0))===false) {
         array_push($user_send_new, $value["id_executor"]);
 
 
-        $text_not='Вам поступил документ <a class="link-history" href="app/'.$_GET['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
+        $text_not='Вам поступила задача <a class="link-history" href="app/'.$_GET['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
 
         //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
         //отправка уведомления

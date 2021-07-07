@@ -1,3 +1,7 @@
+    <?php
+/*
+ ?>
+
     <div class="menu_top"><div class="menu1 menu_jjs">
     
     
@@ -246,4 +250,135 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
 	?>
    
     </div></div>
-    
+
+    <?php
+    */
+    ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="menu-09  input-line" style="z-index:150;">
+        <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
+        <div class="menu-09-left">
+            <a href="/" class="menu-09-global"></a><a onclick="history.back();" class="menu-09-prev"><i></i></a>
+
+
+            <?
+
+            echo'<span class="menu-09-pc-h" ><span > Снабжение</span >';
+
+            echo'<span all="8" class="menu-09-count none"></span>';
+
+            echo'</span >';
+
+            ?>
+            <span class="add_nnn"></span>
+
+            <?
+            if (($role->permission('Заявки','A'))or($sign_admin==1))
+            {
+                echo'<span class="add_mmm"></span>';
+            }
+            ?>
+        </div>
+        <div class="menu-09-right tours-right-block">
+            <?
+
+
+
+            include_once $url_system.'module/notification.php';
+            include_once $url_system.'module/users.php';
+
+
+            echo'<div class="more_supply menu_click"></div>';
+
+            $menu = array( "Добавить счет", "Очистить корзину");
+            $menu_id = array("1", "2");
+
+            echo'<div class="menu_supply menu_su1"><ul class="drops no_active" data_src="0" style="right:-20px; top:10px;">';
+                    for ($it=0; $it<count($menu); $it++)
+                    {
+                    echo'<li><a href="javascript:void(0);"  rel="'.$menu_id[$it].'">'.$menu[$it].'</a></li>';
+
+
+                    }
+                    echo'</ul><input rel="x" type="hidden" name="vall" class="vall_basket" value="0"></div>';
+
+
+            echo'<span class="add_sss"></span>';
+            //echo'<a href="prime/'.$row_list["id_object"].'/add_a/'.$_GET['id'].'/" data-tooltip="добавить счет" class="add_score"><i class="score_plus"></i><i class="score_">1</i></a>';
+
+            echo'<div class="more_supply2 menu_click"></div>';
+
+            $menu = array( "Сохранить текущий", "Закрыть текущий","Просмотр");
+            $menu_id = array("1", "2","3");
+
+            echo'<div class="menu_supply menu_su1"><ul class="drops no_active" data_src="0" style="right:-40px; top:10px;">';
+                    for ($it=0; $it<count($menu); $it++)
+                    {
+                    echo'<li><a href="javascript:void(0);"  rel="'.$menu_id[$it].'">'.$menu[$it].'</a></li>';
+
+
+                    }
+                    echo'</ul><input rel="x" type="hidden" name="vall2" class="vall_basket2" value="0"></div>';
+
+            if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user])))
+            {
+            //определяем текущий счет и количество материалов в нем
+            $result_t_=mysql_time_query($link,'Select a.*,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss from z_acc as a where a.id="'.htmlspecialchars(trim($_COOKIE["current_supply_".$id_user])).'"');
+            $num_results_t_ = $result_t_->num_rows;
+            if($num_results_t_!=0)
+            {
+
+            $row_t_ = mysqli_fetch_assoc($result_t_);
+            $date_base__=explode("-",$row_t_["date"]);
+            echo'<div class="current_score"><div class="score_cc">текущий счет <div class="number_score">№'.$row_t_["number"].' от '.$date_base__[2].'.'.$date_base__[1].'.'.$date_base__[0].'</div></div><i class="count_scire" data-tooltip="сохранить текущий счет"><i class="count_numb_score">'.$row_t_["countss"].'</i></i></div>';
+
+            }
+
+            } else
+            {
+            echo'<div class="current_score"><div class="score_cc">текущий счет <div class="number_score"></div></div><i class="count_scire" data-tooltip="сохранить текущий счет"><i class="count_numb_score"></i></i></div>';
+
+            }
+
+
+            echo'</div>';
+
+
+
+
+            ?>
+
+            <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->
+
+        </div>

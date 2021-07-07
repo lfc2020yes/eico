@@ -79,25 +79,25 @@ if($error_header!=404){ SEO('supply','','','',$link); } else { SEO('0','','','',
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
 <div class="container">
-<?	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+<?
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -124,7 +124,202 @@ include_once $url_system.'template/body_top.php';
 
 	  include_once $url_system.'template/top_supply.php';
 
+	            ?>
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="oka_block_2019" style="min-height:auto;">
+              <div class="div_ook hop_ds"><div class="search_task">
+                      <?
+                      $os = array( "дата поставки", "по алфавиту","новые");
+                      $os_id = array("0", "1", "2");
 
+                      $su_1=0;
+                      if (( isset($_COOKIE["su_1"]))and(is_numeric($_COOKIE["su_1"]))and(array_search($_COOKIE["su_1"],$os_id)!==false))
+                      {
+                          $su_1=$_COOKIE["su_1"];
+                      }
+
+
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Сортировка</label><div class="select eddd"><a class="slct" list_number="t1" data_src="'.$os_id[$su_1].'">'.$os[$su_1].'</a><ul class="drop">';
+                      for ($i=0; $i<count($os); $i++)
+                      {
+                          if($su_1==$os_id[$i])
+                          {
+                              echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                          } else
+                          {
+                              echo'<li><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                          }
+
+                      }
+                      echo'</ul><input type="hidden" name="sort1" id="sort1" value="'.$os[$su_1].'"></div></div>';
+
+
+
+
+
+                      $os2 = array( "любая", "неделя","выбрать");
+                      $os_id2 = array("0", "1", "2");
+
+                      $su_2=0;
+                      $date_su='';
+                      if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and(array_search($_COOKIE["su_2"],$os_id2)!==false))
+                      {
+                          $su_2=$_COOKIE["su_2"];
+                      }
+                      $val_su2=$os2[$su_2];
+
+
+                      if ( isset($_COOKIE["sudd"]))
+                      {
+                          $date_base__=explode(".",$_COOKIE["sudd"]);
+                          if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2)and(checkdate(date_minus_null($date_base__[1]), date_minus_null($date_base__[0]),$date_base__[2])))
+                          {
+                              $date_su=$_COOKIE["sudd"];
+                              $val_su2=$_COOKIE["sudd"];
+                          }
+                      }
+
+
+                      echo'<input id="date_hidden_table" name="date" value="'.$date_su.'" type="hidden">';
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Дата</label><div class="select eddd"><a class="slct" list_number="t2" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
+                      for ($i=0; $i<count($os2); $i++)
+                      {
+                          if($su_2==$os_id2[$i])
+                          {
+                              echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id2[$i].'">'.$os2[$i].'</a></li>';
+                          } else
+                          {
+                              echo'<li><a href="javascript:void(0);"  rel="'.$os_id2[$i].'">'.$os2[$i].'</a></li>';
+                          }
+
+                      }
+                      echo'</ul><input type="hidden" name="sort2" id="sort2" value="'.$os2[$su_1].'"></div></div>';
+
+
+                      $os3 = array( "любой", "не обработанные","в работе","на согласовании","оплата");
+                      $os_id3 = array("0", "9", "11","12","13");
+
+                      $su_3=0;
+                      if (( isset($_COOKIE["su_3"]))and(is_numeric($_COOKIE["su_3"]))and(array_search($_COOKIE["su_3"],$os_id3)!==false))
+                      {
+                          $su_3=$_COOKIE["su_3"];
+                      }
+
+
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Статус</label><div class="select eddd"><a class="slct" list_number="t3" data_src="'.$os_id3[$su_3].'">'.$os3[array_search($_COOKIE["su_3"], $os_id3)].'</a><ul class="drop">';
+                      for ($i=0; $i<count($os3); $i++)
+                      {
+                          if($su_3==$os_id3[$i])
+                          {
+                              echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id3[$i].'">'.$os3[$i].'</a></li>';
+                          } else
+                          {
+                              echo'<li><a href="javascript:void(0);"  rel="'.$os_id3[$i].'">'.$os3[$i].'</a></li>';
+                          }
+
+                      }
+                      echo'</ul><input type="hidden" name="sort3" id="sort3" value="'.$os3[$su_3].'"></div></div>';
+
+
+
+                      $os4 = array( "краткий", "подробный");
+                      $os_id4 = array("0", "1");
+
+                      $su_4=0;
+                      if (( isset($_COOKIE["su_4"]))and(is_numeric($_COOKIE["su_4"]))and(array_search($_COOKIE["su_4"],$os_id4)!==false))
+                      {
+                          $su_4=$_COOKIE["su_4"];
+                      }
+
+
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Вид</label><div class="select eddd"><a class="slct" list_number="t4" data_src="'.$os_id4[$su_4].'">'.$os4[array_search($_COOKIE["su_4"], $os_id4)].'</a><ul class="drop">';
+                      for ($i=0; $i<count($os4); $i++)
+                      {
+                          if($su_4==$os_id4[$i])
+                          {
+                              echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id4[$i].'">'.$os4[$i].'</a></li>';
+                          } else
+                          {
+                              echo'<li><a href="javascript:void(0);"  rel="'.$os_id4[$i].'">'.$os4[$i].'</a></li>';
+                          }
+
+                      }
+                      echo'</ul><input type="hidden" name="sort4" id="sort4" value="'.$os4[$su_4].'"></div></div>';
+
+
+echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_reload">Поиск</a></div>';
+
+                      //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
+                      ?>
+                      <div id="date_table" class="table_suply_x"></div>
+
+                      <div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div>
+                      <script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
+                      <script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
+                      <script type="text/javascript">
+                          var disabledDays = [];
+                          $(document).ready(function(){
+
+                              $("#date_table").datepicker({
+                                  altField:'#date_hidden_table',
+                                  onClose : function(dateText, inst){
+                                      //alert(dateText); // Âûáðàííàÿ äàòà
+
+                                  },
+                                  altFormat:'dd.mm.yy',
+                                  defaultDate:null,
+                                  beforeShowDay: disableAllTheseDays,
+                                  dateFormat: "d MM yy"+' г.',
+                                  firstDay: 1,
+                                  autoclose: true,
+                                  minDate: "-1Y", maxDate: "+1Y",
+                                  beforeShow:function(textbox, instance){
+                                      //alert('before');
+                                      setTimeout(function () {
+                                          instance.dpDiv.css({
+                                              position: 'absolute',
+                                              top: 65,
+                                              left: 0
+                                          });
+                                      }, 10);
+
+                                      $('.bookingBox').append($('#ui-datepicker-div'));
+                                      $('#ui-datepicker-div').hide();
+                                  } }).hide().on('change', function(){
+                                  $('#date_table').hide();
+                                  $('[list_number=t2]').empty().append($('#date_hidden_table').val());
+                                  $.cookie("sudd", null, {path:'/',domain: window.is_session,secure: false});
+                                  CookieList("sudd",$('#date_hidden_table').val(),'add');
+                                  $('.show_sort_supply').removeClass('active_supply');
+                                  $('.show_sort_supply').addClass('active_supply');
+                              });
+
+                          });
+
+
+                          function resizeDatepicker() {
+                              setTimeout(function() { $('.bookingBox > .ui-datepicker').width('100%'); }, 10);
+                          }
+
+                          function jopacalendar(queryDate,queryDate1,date_all)
+                          {
+
+                              if(date_all!='')
+                              {
+                                  var dateParts = queryDate.match(/(\d+)/g), realDate = new Date(dateParts[0], dateParts[1] -1, dateParts[2]);
+                                  var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0], dateParts1[1] -1, dateParts1[2]);
+                              }
+                          }
+
+
+
+                      </script>
+                  </div>
+              </div>
+              <div class="oka_block">
+                  <div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">
+
+<?
     echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
 	?>
 
@@ -223,9 +418,10 @@ AND a.id_user in('.implode(',',$hie->user).') AND b.status NOT IN ("1","8","10",
 AND a.id_user in('.implode(',',$hie->user).') AND b.status NOT IN ("1","8","10","3","5","4") '.$sql_su2.' '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write));
 	  */
 $result_t221=mysql_time_query($link,$sql_count);	  
-$row__221= mysqli_fetch_assoc($result_t221);	  
+$row__221= mysqli_fetch_assoc($result_t221);
+echo'<div class="hidden-count-task">'.$row__221["kol"].'</div>';
 
-echo' <h3 class="head_h" style=" margin-bottom:0px;">Cнабжение<i>'.$row__221["kol"].'</i><div></div></h3> ';	  
+//echo' <h3 class="head_h" style=" margin-bottom:0px;">Cнабжение<i>'.$row__221["kol"].'</i><div></div></h3> ';
 	  
                    $num_results_t2 = $result_t2->num_rows;
 	              if($num_results_t2!=0)
@@ -820,7 +1016,7 @@ echo'</tbody></table>';
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+</div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 
@@ -832,7 +1028,8 @@ include_once $url_system.'template/left.php';
 
 <script type="text/javascript">
  $(document).ready(function(){ 
-$('.circlestat').circliful();	
+$('.circlestat').circliful();
+     count_task();
  });
 </script>
 

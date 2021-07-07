@@ -5748,7 +5748,8 @@ tr.active_supplyx .supply_tr_o::before {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%
+  width: 100%;
+  z-index: 20;
 }
 
 .no_sql {

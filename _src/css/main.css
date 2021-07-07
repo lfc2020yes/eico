@@ -5990,6 +5990,7 @@ tr.active_supplyx .supply_tr_o::before {
   top: 0px;
   left: 0px;
   width: 100%;
+  z-index: 20;
 }
 
 .no_sql {
@@ -16444,8 +16445,9 @@ font-style: normal;}*/
 .input-block-2020 .select li {
   position: relative;
   z-index: 9;
-  padding: 1px 16px 2px 8px;
-  background: #fcfeff;
+  /*padding: 1px 16px 2px 8px;
+  background:
+          #fcfeff;*/
 }
 .input-block-2020 .list_2018 {
   font-size: 16px;
@@ -17464,6 +17466,105 @@ font-style: normal;}*/
     transform: scale3d(0.2, 0.2, 1);
   }
 }
+.hop_ds {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+.hop_ds .gop_io {
+  margin-left: 0px !important;
+  max-width: 250px;
+}
+@media only screen and (max-width: 1023px) {
+  .hop_ds .gop_io {
+    max-width: none;
+    width: calc(50% - 0px) !important;
+  }
+}
+@media only screen and (max-width: 639px) {
+  .hop_ds .gop_io {
+    padding-right: 25px !important;
+  }
+}
+@media only screen and (max-width: 639px) {
+  .hop_ds .gop_add_users {
+    padding-right: 18px !important;
+    width: calc(100% - 0px) !important;
+  }
+}
+.hop_ds .object_search_1 {
+  display: inline-block;
+  min-width: 150px;
+}
+@media only screen and (max-width: 1023px) {
+  .hop_ds .object_search_1 {
+    width: calc(50% - 0px) !important;
+    padding-right: 0px !important;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  .hop_ds .object_search_1 .gop_io {
+    width: 100% !important;
+    padding-right: 25px !important;
+  }
+}
+.hop_ds .inline_reload {
+  display: inline-block;
+  /*
+@include sw('tablet3')  {
+width: calc(50% - 0px) !important;
+    }
+    */
+}
+@media only screen and (max-width: 639px) {
+  .hop_ds .inline_reload {
+    width: calc(100% - 0px) !important;
+    margin-bottom: 15px;
+  }
+}
+.hop_ds .show_reload {
+  transition: all 1s ease 0s;
+  padding: 20px 40px !important;
+  width: 0px;
+  display: none;
+  background-color: #75dae8 !important;
+  background-color: #fff !important;
+  vertical-align: top;
+  margin-left: 0px !important;
+  cursor: pointer;
+  height: 60px;
+  margin-left: 15px;
+  margin-top: 0px;
+  position: relative;
+  transition: all 1s ease 0s;
+  white-space: nowrap;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: "GEInspiraBold";
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: normal;
+  vertical-align: top;
+  text-decoration: none;
+  -moz-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+.hop_ds .active-r .show_reload {
+  width: auto !important;
+  display: inline-block !important;
+}
+@media only screen and (max-width: 1023px) {
+  .hop_ds .active-r .show_reload {
+    width: calc(100% - 0px) !important;
+    text-align: center;
+  }
+}
+
+.hidden-count-task {
+  display: none;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

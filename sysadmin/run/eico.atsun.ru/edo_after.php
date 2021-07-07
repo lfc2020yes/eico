@@ -115,9 +115,31 @@ ORDER BY I.displayOrder
                     <td class="FC6">'.$row[name_items].'
                     <td>'.$row[name_user].'
                     <td style="text-align: center;">('.$row[name_action].')';
+            // Нулевой - запуск со старта
+$sql2 = "
+SELECT * FROM edo_".TABLE."_item_after 
+WHERE 
+id_".TABLE."=".$row[id_.TABLE]." 
+  AND id_".TABLE."_item=".$row[id]." 
+  AND id_".TABLE."_item_after=0
+";
+            //echo "<pre> sql2=".print_r($sql2,true)."</pre>";
+            $CHK=''; $CData=0;
+            if ($result2 = $mysqli->query($sql2)) {
+                if ($row2 = $result2->fetch_assoc()) {
+                        $CHK = 'checked';
+                        $CData = 1;
+                }
+                $result2->close();
+            }
 
-
-
+            echo'<tr class="checkker"><td><td colspan="4"><div><input '.$CHK.' type="checkbox"
+                               value="'.$CData.'"
+                               name="w_'.$row['id_'.TABLE].'_'.$row['id'].'_0_0'
+                .'"><label style=" padding-left:2px;" >'.' со старта'
+                //.'w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
+                .'</label></div>';
+            // Очередность запуска
             $sql1 = "
 SELECT I.id AS idItem, I.`name_items`, I.`displayOrder` AS displayItem, I.`description`, A.* 
 FROM `edo_".TABLE."_items` I

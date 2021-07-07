@@ -41,7 +41,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad):<td>
     <input class="text"  name="type" size="2" value="<?=$type?>" />
 
-      <tr><td style="padding-right: 10px">Restart (0 1):<td>
+      <tr><td style="padding-right: 10px">restart (0 1):<td>
               <input class="text"  name="restart" size="2" value="<?=$restart?>" />
 <?php
    SHOW_tfoot(4,1,1,1);

@@ -79,7 +79,7 @@ class EDO
     /**
      * @param $id - id документа из таблицы z_doc, z_acc, n_nariad
      * @param $type 0 1 2 соответственно таблицам
-     * @param null $id_edo_run  Если не указан, береться из документа
+     * @param 0 $id_edo_run  Если не указан, береться из документа
      * @param false $restart Перезапуск процесса
      * @return bool
      */

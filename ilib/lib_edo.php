@@ -70,6 +70,7 @@ class EDO
         );
         $this->arr_sql = array();
         $this->func = array();
+        $this->arr_task = array();
         $this->show = $show;
     }
 

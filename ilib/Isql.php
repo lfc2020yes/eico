@@ -55,9 +55,11 @@ function iDelUpd($mysqli,$sql,$show=true) {   // Добавление тольк
   $arows=false;
   
   if (!$mysqli->query($sql)) {
-            if($show) echo "<p/>(".$mysqli->errno.')'.$sql;
+            if($show)
+                echo "<pre>".print_r($mysqli->errno,true)."</pre>";
   }
-  if($show) echo "<p/>".$sql.' arows='.$mysqli->affected_rows ;
+  if($show)
+      echo "<pre>".print_r($sql.' arows='.$mysqli->affected_rows,true)."</pre>";
   return $mysqli->affected_rows;
 }
 

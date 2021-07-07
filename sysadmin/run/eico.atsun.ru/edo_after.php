@@ -23,6 +23,41 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
       $styleF='style="background-color:'.$ROW_role['color2'].'; background-image:url();"';
     } else { $styleH=''; $styleF=''; }
+//==============================================================================
+    $ret=0;
+    $mysqli=new_connect($ret);
+    if (!$mysqli->connect_errno) {
+
+    if (isset($_POST["after"]) && $_POST["after"]>0) {
+        $sql="
+delete FROM `edo_".TABLE."_item_after` 
+where 
+id_".TABLE."=".$id;
+        iDelUpd($mysqli,$sql,true);
+
+        for ( $i=0; $i<count($_POST);$i++)        //Обход по полям формы
+        {  $pst=each($_POST);
+            if($pst[1]>'')              //value
+            { $name=explode('_',$pst[0]);
+                if($name[0]=='w')
+                { echo "<pre> i=$i".print_r($name,true).'</pre>';
+
+                    $sql = "
+insert into `edo_".TABLE."_item_after`
+(`id_".TABLE."`,`id_".TABLE."_item`,`id_".TABLE."_item_after`,displayOrder)
+values
+('$name[1]','$name[2]','$name[3]','$name[4]')
+                  ";
+
+                    if (iDelUpd($mysqli,$sql,true)!=1)
+                    { echo "<p> Ошибка INSERT</p>";
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 
 
   ?>        
@@ -36,10 +71,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 
 
       <?
-    $ret=0;
-    $mysqli=new_connect($ret);
-    //echo "<p/> result_connect mysqli=".$mysqli->connect_errno;
-    if (!$mysqli->connect_errno) {
+
 
       $sql = "
 SELECT I.*,U.`name_user`,A.`name_action` FROM `edo_".TABLE."_items` I 
@@ -99,10 +131,15 @@ ORDER BY I.displayOrder
                 while ($row1 = $result1->fetch_assoc()) {
                     if  ($row1['id_'.TABLE.'_item'] == $row[id])  { $CHK='checked';  $CData=1;}
                     else  { $CHK=''; $CData=0; }
+
+                    //echo "<pre> row1=".print_r($row1,true)."</pre>";
+
                     echo'<tr class="checkker"><td><td colspan="4"><div><input '.$CHK.' type="checkbox"
                                value="'.$CData.'"
-                               name="w_'.$row1['id_'.TABLE].'_'.$row1['id_'.TABLE.'_item'].'_'.$row1['id_'.TABLE.'_item'].'_'.$row1['displayOrder']
-                        .'"><label style=" padding-left:2px;" >'.$row1['displayItem'].' '.$row1['name_items'].'</label></div>';
+                               name="w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
+                        .'"><label style=" padding-left:2px;" >'.$row1['displayItem'].' '.$row1['name_items']
+                        .'w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
+                        .'</label></div>';
                 }
                 $result1->close();
             }
@@ -112,37 +149,15 @@ ORDER BY I.displayOrder
 
    SHOW_tfoot(4,1,1,1);
 
-//==============================================================================
-  if ($_POST["after"]>0) {
-      /*$STR='delete FROM custom_kind where id_custom="'.$id_custom.'"';
-      if(!mysql_query($STR))          //Выполнить INSERT
-          echo "<p> Ошибка DELETE $STR</p>";
-      else*/
-      for ( $i=0; $i<count($_POST);$i++)        //Обход по полям формы
-      {  $pst=each($_POST);
-          if($pst[1]>'')              //value
-          { $name=explode('_',$pst[0]);               //$name[1]-id_custom $name[2]-id_razdel $name[3]-id_type_custom
-              if($name[0]=='w')
-              { echo "<pre> i=$i".print_r($name,true).'</pre>';
 
-                  /*$STR="insert into custom_kind
-                         (id_custom,id_razdel,id_type_custom)
-                         values ('$name[1]','$name[2]','$name[3]')";
-                  if(!mysql_query($STR))          //Выполнить INSERT
-                  { echo "<p> Ошибка INSERT $STR</p>";
-                      break;
-                  }*/
-              }
-          }
-      }
-    } 
-    $mysqli->close();
-  }
 
 ?>
   </table><br>
   </form>
   </html>
 <?php
+        $mysqli->close();
+    }
+
 }
 ?>

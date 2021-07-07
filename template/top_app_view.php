@@ -236,6 +236,15 @@ include_once $url_system.'module/notification.php';
 		}
 
 
+        if (!is_object($edo)) {
+            include_once $url_system.'ilib/lib_interstroi.php';
+            include_once $url_system.'ilib/lib_edo.php';
+            $edo = new EDO($link, $id_user, false);
+        }
+
+        $arr_document = $edo->my_documents(0, ht($_GET["id"]), '>=-10', true);
+
+
         if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8))and($row_list["ready"]==1))
         {
 
@@ -244,33 +253,72 @@ include_once $url_system.'module/notification.php';
 </form>';
             echo'<div class="save_button pod_zay pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-app add_clients yellow-style">Сохранить   →</div>';
 
-        }
+        } else {
+
+
+            //если уже заказано и нужно просто вывести по пользователю надо ему что-то делать в данный момент с этой заявкой или нет
+
+           // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
+
+            $visible_gray=0;
+        foreach ($arr_document as $key => $value)
+        {
+            if((is_array($value["state"]))and(!empty($value["state"]))) {
+
+                $echo_bb='';
+                foreach ($value["state"] as $keys => $val)
+                {
+                    //echo($val["id_run_item"]);
+
+                    $class_by='';
+                    if($val["id_status"]!=0)
+                    {
+                        $visible_gray=1;  //Значит он выполнил уже и кнопки будут но просто серые
+                        $class_by='gray-bb';
+                    } else
+                    {
+                        $visible_gray=0;  //Значит он выполнил уже и кнопки будут но просто серые
+                        $class_by='';
+                    }
+
+                    $but_mass=$edo->get_action($val["id_run_item"]);
+                    //echo '<pre>arr_document:' . print_r($but_mass, true) . '</pre>';
+//echo($but_mass["name_action"]);
+                    //name_action
+//id_action
 
 
 
-        //если уже заказано и нужно просто вывести по пользователю надо ему что-то делать в данный момент с этой заявкой или нет
 
-        include_once '../ilib/lib_interstroi.php';
-        include_once '../ilib/lib_edo.php';
-
-        $edo = new EDO($link,$id_user,false);
-        $arr_document = $edo->my_documents(0, ht($_GET["id"]),'=0',false);
-
-        //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
-
-//$action_button=$edo->get_action();
-
-        echo'<div class="save_button  add_clients green-bb"><div class="pass_tyu"><div class="password_turs">
+                    $echo_bb='<div class="save_button  add_clients green-bb '.$class_by.' js-sign-'.$but_mass["id_action"].'">';
+if($class_by=='') {
+    $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
 <div id="1" class="input-choice-click-pass js-checkbox-group">
-<div class="choice-radio" data-tooltip="согласовать с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>
+<div class="choice-radio" data-tooltip="' . $but_mass["name_action"] . ' с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>
 
-</div><span son="0" class="js-son">Согласовать   →</span><span son="1" class="js-son none">Согласовать с замечанием   →</span>
+</div>
+   <form id="js-form-next-sign" class="none" action="app/sign_yes/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk" value="'.token_access_compile($_GET['id'],'sign_app_2021_next',$secret).'" type="hidden">  <input name="tk1" value="wEVR678vmrIrt" type="hidden">
+</form>';
+}
+
+    $echo_bb.='<span son="0" class="js-son">'.$but_mass["name_action"].'   →</span><span son="1" class="js-son none">'.$but_mass["name_action"].' с замечанием   →</span>
 
 
 </div>';
-        echo'<div class="save_button pod_zay pod_pro add_clients red-bb">Отклонить   ⨰</div>';
-        echo'<div class="save_button pod_zay pod_pro add_clients">Переслать   ⥃</div>';
+                    $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-app '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-app '.$class_by.'">Переслать   ⥃</div>';
 
+
+
+
+                }
+echo $echo_bb;
+            }
+
+        }
+
+
+        }
 		//заказать без привышений
 
         /*

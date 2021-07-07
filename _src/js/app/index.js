@@ -67,6 +67,108 @@ var validate11 = function() {
 }
 
 
+
+//переслать заявку
+function ForwardFo()
+{
+	if(!$(this).is('.gray-bb')) {
+		var pre = $('.preorders_block_global').attr('id_pre');
+		$.arcticmodal({
+			type: 'ajax',
+			url: 'forms/form_add_app_forward.php?id=' + pre,
+			beforeOpen: function (data, el) {
+				//во время загрузки формы с ajax загрузчик
+				$('.loader_ada_forms').show();
+				$('.loader_ada1_forms').addClass('select_ada');
+			},
+			afterLoading: function (data, el) {
+				//после загрузки формы с ajax
+				data.body.parents('.arcticmodal-container').addClass('yoi');
+				$('.loader_ada_forms').hide();
+				$('.loader_ada1_forms').removeClass('select_ada');
+			},
+			beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				if (typeof timerId !== "undefined") {
+					clearInterval(timerId);
+				}
+				BodyScrool();
+			}
+
+		});
+	}
+}
+
+//отклонить заявку
+function RejectFo()
+{
+	if(!$(this).is('.gray-bb')) {
+		var pre = $('.preorders_block_global').attr('id_pre');
+		$.arcticmodal({
+			type: 'ajax',
+			url: 'forms/form_add_app_reject.php?id=' + pre,
+			beforeOpen: function (data, el) {
+				//во время загрузки формы с ajax загрузчик
+				$('.loader_ada_forms').show();
+				$('.loader_ada1_forms').addClass('select_ada');
+			},
+			afterLoading: function (data, el) {
+				//после загрузки формы с ajax
+				data.body.parents('.arcticmodal-container').addClass('yoi');
+				$('.loader_ada_forms').hide();
+				$('.loader_ada1_forms').removeClass('select_ada');
+			},
+			beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				if (typeof timerId !== "undefined") {
+					clearInterval(timerId);
+				}
+				BodyScrool();
+			}
+
+		});
+	}
+}
+
+function SingFo()
+{
+	if(!$(this).is('.gray-bb')) {
+		var fo = $(this);
+		if (!fo.hasClass("gray-bb")) {
+			//alert("!");
+			if (fo.find('input').val() == 1) {
+				//открыть окно для вписание замечания
+				var pre = $('.preorders_block_global').attr('id_pre');
+				$.arcticmodal({
+					type: 'ajax',
+					url: 'forms/form_add_app_remark.php?id=' + pre,
+					beforeOpen: function (data, el) {
+						//во время загрузки формы с ajax загрузчик
+						$('.loader_ada_forms').show();
+						$('.loader_ada1_forms').addClass('select_ada');
+					},
+					afterLoading: function (data, el) {
+						//после загрузки формы с ajax
+						data.body.parents('.arcticmodal-container').addClass('yoi');
+						$('.loader_ada_forms').hide();
+						$('.loader_ada1_forms').removeClass('select_ada');
+					},
+					beforeClose: function (data, el) { // после закрытия окна ArcticModal
+						if (typeof timerId !== "undefined") {
+							clearInterval(timerId);
+						}
+						BodyScrool();
+					}
+
+				});
+
+
+			} else {
+				//Отправить прямую форму на согласование
+				$('#js-form-next-sign').submit();
+			}
+		}
+	}
+}
+
 function MemoButType(elem)
 {
 
@@ -101,7 +203,7 @@ function input_2021()
 //нажатие на отдельные chtckbox залки в определенной группе
 //  |
 // \/
-function CheckboxGroup()
+function CheckboxGroup(event)
 {
 	/*
     var active_old = $(this).parent().parent().find(".slct").attr("data_src");
@@ -226,6 +328,8 @@ function CheckboxGroup()
 
 	}
 	MemoButType($(this).find("input"));
+    event.stopPropagation();
+
 }
 
 function animation_teps_supply()
@@ -5190,6 +5294,12 @@ $('.label_s').bind("change keyup input click", label_show);
 
 $('body').on("change keyup input click",'.tabs_005U',{key: "005U"},tabs_app);
 
+	$('body').on("change keyup input click",'.js-sign-1',SingFo);
+
+
+	$('body').on("change keyup input click",'.js-reject-app',RejectFo);
+	$('body').on("change keyup input click",'.js-forward-app',ForwardFo);
+
 //делаем поля с классом только дробными и целыми числами		
 //$('.smeta1').on("change keyup input click",'.count_mask',function(){ $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));  });
 	$('body').on("click",'.burger_ok',SliceMM);
@@ -6129,9 +6239,60 @@ $(document).mouseup(function (e) {
 		$(".slct").removeClass("active");
     }
 });
-window.slctclick = function() { 
+window.slctclick = function() {
 
-	
+	if($(this).parents('.select').find('input').attr('readonly')==undefined) {
+
+		if($(this).is(".active"))
+		{
+			$(this).removeClass("active");
+			//$(this).next().hide();
+			$(this).next().css("transform", "scaleY(0)");
+			$(this).parents('.list_2021').removeClass('active1_in_2018x');
+		} else
+		{
+			$(this).addClass("active");
+			//$(this).next().show();
+			$(this).next().css("transform", "scaleY(1)");
+
+			$(this).parents('.list_2021').addClass('active1_in_2018x');
+		}
+
+
+
+
+		var elemss=$(this).attr('list_number');
+//var elemss1=$(this);
+
+		$('.slct').not(this).each(function(i,elem)
+		{
+			var att=$(this).attr('data_src');
+			//закрыть все кроме себя
+			//if($(this).not(elemss1))
+			//	{
+
+			//if ($(this).attr('list_number')!=elemss) {
+			$(this).removeClass("active");
+			//$(this).next().hide();
+			$(this).next().css("transform", "scaleY(0)");
+			$(this).parents('.list_2021').removeClass('active1_in_2018x');
+			//}
+		});
+
+//скрываем все списки по поиску
+		$('.drop-search').each(function(i,elem)
+		{
+			$(this).parents('.input-search-list').find('i').removeClass('open-search-active');
+			$(this).css("transform", "scaleY(0)");
+
+		});
+
+
+
+		return false;
+	}
+
+/*
 	  if($(this).is(".active")) 
 	  {
 		  $(this).removeClass("active");
@@ -6165,7 +6326,7 @@ $('.slct').each(function(i,elem)
 	 
 		  
 return false;
-
+*/
 }
 
 $(".slct").bind('click.sys', slctclick);
@@ -6233,7 +6394,7 @@ var active_new=$(this).find("a").attr("rel");
 			 // $(this).parent().parent().find(".slct").removeClass("active").html(f);
 			   $(this).parent().parent().find(".slct").removeClass("active").empty().append(f);
 			   $(this).parent().parent().find(".slct").attr("data_src",e);
-			  
+				  $(this).parents('.list_2021').addClass('active_in_2018x');
 			   //$(this).parent().parent().find(".drop").hide();
 				  $(this).parent().parent().find(".drop").css("transform", "scaleY(0)");
 			  

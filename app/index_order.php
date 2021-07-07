@@ -137,7 +137,7 @@ if (($edo->next($id, 0))===false) {
     {
         $row_town = mysqli_fetch_assoc($result_town);
     }
-echo(gettype($edo->arr_task));
+//echo(gettype($edo->arr_task));
     foreach ($edo->arr_task as $key => $value)
     {
         //оправляем всем уведомления кому нужно рассмотреть этот документ далее
@@ -148,7 +148,7 @@ echo(gettype($edo->arr_task));
                array_push($user_send_new, $value["id_executor"]);
 
 
-        $text_not='Вам поступил документ <a class="link-history" href="app/'.$row_list['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
+        $text_not='Вам поступила задача <a class="link-history" href="app/'.$row_list['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
 
                //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
 				//отправка уведомления

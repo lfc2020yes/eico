@@ -191,20 +191,20 @@ $sql_mass=$arr_document;
   //необходимо выполнить
   if((isset($_GET["tabs"]))and($_GET["tabs"]==1))
   {
-      $arr_tasks = $edo->my_tasks(0, '=0' );
+      $arr_tasks = $edo->my_tasks(0, '=0','ORDER BY d.date_create DESC',limitPage('n_st',$count_write) );
       $sql_mass=$arr_tasks;
   }
 
   //уже как то выполнено
   if((isset($_GET["tabs"]))and($_GET["tabs"]==2))
   {
-      $arr_tasks = $edo->my_tasks(0, '>0' );
+      $arr_tasks = $edo->my_tasks(0, '>0','ORDER BY d.date_create DESC',limitPage('n_st',$count_write));
       $sql_mass=$arr_tasks;
   }
 
   if(!isset($_GET["tabs"]))
   {
-      $arr_document = $edo->my_documents(0, 0 , limitPage('n_st',$count_write));
+      $arr_document = $edo->my_documents(0, 0 ,false, limitPage('n_st',$count_write));
       $sql_mass=$arr_document;
   }
 

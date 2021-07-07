@@ -138,7 +138,7 @@ ORDER BY I.displayOrder
                                value="'.$CData.'"
                                name="w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
                         .'"><label style=" padding-left:2px;" >'.$row1['displayItem'].' '.$row1['name_items']
-                        .'w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
+                        //.'w_'.$row['id_'.TABLE].'_'.$row['id'].'_'.$row1['idItem'].'_'.$row1['displayItem']
                         .'</label></div>';
                 }
                 $result1->close();

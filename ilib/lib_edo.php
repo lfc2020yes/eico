@@ -75,13 +75,21 @@ class EDO
     }
 
     // произвести следующее действие над документом или получить его текущий статус
-    public function next ( $id, $type, $id_edo_run=null ) {
+
+    /**
+     * @param $id - id документа из таблицы z_doc, z_acc, n_nariad
+     * @param $type 0 1 2 соответственно таблицам
+     * @param null $id_edo_run  Если не указан, береться из документа
+     * @param false $restart Перезапуск процесса
+     * @return bool
+     */
+    public function next ( $id, $type, $id_edo_run=0, $restart=false ) {
         $ret = false;
         do {
-            if ($id_edo_run == null) {
+            if ($id_edo_run == 0) {
                 if(($id_edo_run = $this->get_id_run($id, $type))===false) break; // получить id_edo_run из документа
             }
-            if (!($id_edo_run>0) and count($this->arr_state)==0) { //нет записей процесса - это первый запуск
+            if ((!($id_edo_run>0) /*and count($this->arr_state)==0*/) or $restart) { //нет записей процесса - это первый запуск
                 if (($id_edo_run = $this->make($id, $type))===false) break;
 
             }

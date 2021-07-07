@@ -15,6 +15,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
   } else $DAY1=$_POST["date"];*/
     $id_doc =  (isset($_POST["id_doc"]))?$_POST["id_doc"]:0;
     $type =  (isset($_POST["type"]))?$_POST["type"]:0;
+    $restart =  (isset($_POST["restart"]))?$_POST["restart"]:0;
   
           if ($ROW_role!=0) {
               $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
@@ -39,6 +40,9 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 
     <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad):<td>
     <input class="text"  name="type" size="2" value="<?=$type?>" />
+
+      <tr><td style="padding-right: 10px">Restart (0 1):<td>
+              <input class="text"  name="restart" size="2" value="<?=$restart?>" />
 <?php
    SHOW_tfoot(4,1,1,1);
 
@@ -53,7 +57,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 //-----------------------------------------------------------------------------
       $id_user = 777;
       $edo = new EDO($mysqli,$id_user,false);
-      if (($edo->next($_POST["id_doc"], $_POST["type"]))===false) {
+      if (($edo->next($_POST["id_doc"], $_POST["type"],0,$restart))===false) {
           echo '<pre>'.$edo->error.'='.$edo->error_name[$edo->error].'</pre>';
           echo '<pre>'.print_r($edo->arr_sql,true) .'</pre>';
           echo '<pre>'.print_r($edo->func,true) .'</pre>';

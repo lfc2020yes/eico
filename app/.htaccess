@@ -4,6 +4,10 @@ RewriteBase /
 RewriteRule ^.htaccess$ - [F]
 DirectoryIndex index.php
 RewriteRule ^([0-9]*)/$      app/index_view.php?id=$1 [L]
+RewriteRule ^([0-9]*)/yes/$      app/index_view.php?id=$1&a=yes [L]
+RewriteRule ^([0-9]*)/no/$      app/index_view.php?id=$1&a=no [L]
+RewriteRule ^([0-9]*)/forward/$      app/index_view.php?id=$1&a=forward [L]
+RewriteRule ^([0-9]*)/order/$      app/index_view.php?id=$1&a=order [L]
 
 RewriteRule ^add/([0-9]*)/$ app/index_add.php?id=$1 [L]
 RewriteRule ^plus/([0-9]*)/$ app/index_plus.php?id=$1 [L]

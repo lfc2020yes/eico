@@ -256,7 +256,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/app/".$_GET['id'].'/');
+header("Location:".$base_usr."/app/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

@@ -191,6 +191,43 @@ if($small_block==1) {
 }
 
 //определим последнее действие по обращению
+
+$arr_document_end = $edo->my_documents(0, ht($value["id"]), '>=-10', false);
+//echo '<pre>arr_document:'.print_r($arr_document_end, true) . '</pre>';
+
+$id_end_step='';
+foreach ($arr_document_end as $key1 => $value1)
+{
+    if((is_array($value1["state"]))and(!empty($value1["state"]))) {
+
+        foreach ($value1["state"] as $keys1 => $val1) {
+//echo($val["id_run_item"]);
+
+            //выбираем последний выполненное действие
+            if ($val1["id_status"] != 0) {
+                $id_end_step=$keys1;
+              //  echo($val1["id_status"]);
+                $end_step_id_user=$val1["id_executor"];
+                $end_step_name=$val1["name_user"];
+                $end_step_task=$val1["name_status"];
+
+            }
+        }}
+}
+//echo $id_end_step;
+if($id_end_step!=='')
+{
+    $kem='<span class="send_mess" sm="'.$end_step_id_user.'">'.$end_step_name.'</span>';
+    $task_cloud_block .= '<div class="strong_wh_2020 st-202020">↓ Последнее событие</div>';
+
+    //$task_cloud_block .= '<div class="oto-z-pr">'.$kem.' ('.time_stamp($row_85["datetimes"]).')</div><div class="oto-z-pr1">'.$end_step_task.'</div>';
+    $task_cloud_block .= '<div class="oto-z-pr">'.$kem.' </div><div class="oto-z-pr1">'.$end_step_task.'</div>';
+}
+
+
+
+
+
 /*
 $result_85 = mysql_time_query($link,'SELECT A.id,A.action_history,A.id_user, A.datetimes,A.edit,A.comment  FROM preorders_status_history_new AS A WHERE A.id_preorder="'.ht($row_list["id"]).'" and not(A.action_history=4) order by A.id desc,A.datetimes desc limit 1');
 

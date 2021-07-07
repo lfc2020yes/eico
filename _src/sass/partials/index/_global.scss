@@ -3604,9 +3604,9 @@ font-style: normal;}*/
   .select li {
     position: relative;
     z-index: 9;
-    padding: 1px 16px 2px 8px;
+    /*padding: 1px 16px 2px 8px;
     background:
-            #fcfeff;
+            #fcfeff;*/
   }
 
   .list_2018 {
@@ -4310,3 +4310,91 @@ span {  border-bottom: 1px solid #fd8080;}
     @include transform(scale3d(0.2,0.2,1));
   }
 }
+
+
+.hop_ds {padding-bottom: 10px;
+
+  padding-top: 10px;
+
+  background-color: rgba(255,255,255,0.6);
+
+
+
+
+
+  .gop_io {margin-left: 0px !important; max-width: 250px;  @include sw('tablet3')  { max-width:none; width: calc(50% - 0px) !important;   } @include sw('tablet-small') {  padding-right: 25px !important; }   }
+
+
+  .gop_add_users { @include sw('tablet-small') {  padding-right: 18px !important; width: calc(100% - 0px) !important;  } }
+
+  .object_search_1 {display:inline-block; min-width: 150px; @include sw('tablet3')  { width: calc(50% - 0px) !important;
+    padding-right: 0px !important;  }
+
+    .gop_io {
+      @include sw('tablet3')  {
+        width: 100% !important;
+        padding-right: 25px !important;
+      }
+
+    }
+
+  }
+
+  .inline_reload {display: inline-block;
+    /*
+  @include sw('tablet3')  {
+  width: calc(50% - 0px) !important;
+      }
+      */
+
+    @include sw('tablet-small') {
+      width: calc(100% - 0px) !important;
+      margin-bottom: 15px;
+    }
+  }
+
+
+  .show_reload {
+
+
+
+
+
+    transition: all 1s ease 0s;
+    padding: 20px 40px !important;
+
+
+
+    width: 0px; display: none;
+    background-color: #75dae8 !important;
+    background-color: #fff !important;
+    vertical-align: top;
+    margin-left: 0px !important;
+    cursor: pointer;
+    height: 60px;
+    margin-left: 15px;
+    margin-top: 0px;
+    position: relative;
+    transition: all 1s ease 0s;
+    white-space: nowrap;
+    color: rgba(0,0,0,0.5);
+    font-family: "GEInspiraBold";
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: normal;
+    vertical-align: top;
+    text-decoration: none;
+    @include box-shadow(0px 10px 30px -10px rgba(0, 0, 0, 0.1));
+
+    //background-image: linear-gradient(136.78deg, #505add 34.4%, #be40c0 66.11%, #fba82b 96.37%);
+    border-radius: 4px;
+
+
+  }
+
+  .active-r .show_reload {width: auto !important; display: inline-block !important; 	@include sw('tablet3')  {
+    width: calc(100% - 0px) !important; text-align: center;
+  }}
+
+}
+.hidden-count-task { display: none;}

@@ -162,25 +162,37 @@ if (($edo->next($id, 0))===false) {
     }
 
 //echo(gettype($edo->arr_task));
-    foreach ($edo->arr_task as $key => $value)
-    {
-        //оправляем всем уведомления кому нужно рассмотреть этот документ далее
+    if(isset($edo->arr_task)) {
+        foreach ($edo->arr_task as $key => $value) {
+            //оправляем всем уведомления кому нужно рассмотреть этот документ далее
 
 
-        $user_send_new= array();
-        //уведомление
-        array_push($user_send_new, $value["id_executor"]);
+            $user_send_new = array();
+            //уведомление
+            array_push($user_send_new, $value["id_executor"]);
+
+            //если это задача на подготовить счета
+            if($value["id_action"]==4)
+            {
+
+            //    $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
+
+                $text_not='Вам поступила задача по заявке <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].').' . $value["description"].'Детали в разделе <a class="link-history" href="supply/">cнабжение</a>.';
 
 
-        $text_not='Вам поступила задача <a class="link-history" href="app/'.$_GET['id'].'/">'.$row_list['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')'.$value["description"];
 
-        //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
-        //отправка уведомления
-        $user_send_new= array_unique($user_send_new);
-        notification_send($text_not,$user_send_new,$id_user,$link);
+            } else {
+
+                $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
+            }
+
+            //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
+            //отправка уведомления
+            $user_send_new = array_unique($user_send_new);
+            notification_send($text_not, $user_send_new, $id_user, $link);
 
 
-
+        }
     }
 
 
@@ -257,7 +269,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/app/".$_GET['id'].'/');
+header("Location:".$base_usr."/app/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

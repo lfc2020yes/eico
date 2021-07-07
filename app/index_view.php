@@ -70,7 +70,7 @@ $url_404=$_SERVER['REQUEST_URI'];
 $D_404 = explode('/', $url_404);
 
 
-if ( count($_GET) == 1 ) //--Если были приняты данные из HTML-формы
+if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были приняты данные из HTML-формы
 {
 
   if($D_404[4]=='')
@@ -817,6 +817,51 @@ if ( isset($_COOKIE["iss"]))
 
 
 
+                      //сообщения после добавление редактирования чего то
+                      //сообщения после добавление редактирования чего то
+                      //сообщения после добавление редактирования чего то
+
+                      $echo_help=0;
+                      if (( isset($_GET["a"])))
+                      {
+
+                          $echo_help++;
+                      }
+
+                      if($echo_help!=0)
+                      {
+                          ?>
+                          <script type="text/javascript">
+
+                              <?
+                              echo'var text_xx=\''.$end_step_task.'\';';
+                              ?>
+                              $(function (){
+                                  setTimeout ( function () {
+
+                                      $('.js-hide-help').slideUp("slow");
+<?
+                                      if (( isset($_GET["a"]))and($_GET["a"]=='order')) {
+                                          echo "alert_message('ok', 'отправлено на согласование');";
+                                      } else
+                                      {
+                                          echo "alert_message('ok', text_xx);";
+                                      }
+?>
+                                      var title_url=$(document).attr('title'); var url=window.location.href;
+                                      url=url.replace('yes/', '');
+                                      url=url.replace('order/', '');
+                                      //var url1 = removeParam("a", url);
+                                      History.pushState('', title_url, url);
+
+                                  }, 1000 );
+                              });
+                          </script>
+                          <?
+                      }
+                      //сообщения после добавление редактирования чего то
+                      //сообщения после добавление редактирования чего то
+                      //сообщения после добавление редактирования чего то
 
 
 

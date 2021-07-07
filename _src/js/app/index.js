@@ -67,6 +67,48 @@ var validate11 = function() {
 }
 
 
+function count_task()
+{
+var count_dr=$('.hidden-count-task').text();
+if(count_dr!='')
+{
+	$('.menu-09-count').empty().append($('.hidden-count-task').text());
+	$('.menu-09-count').show();
+}
+
+}
+
+
+//удаление параметра из url
+//var url = "http://someUrl.ru?param1=123&param2=234&param3=435";
+//var url1 = removeParam("param1", url);
+function removeParam(key, sourceURL) {
+	var splitUrl = sourceURL.split('?'),
+		rtn = splitUrl[0],
+		param,
+		params_arr = [],
+		queryString = (sourceURL.indexOf("?") !== -1) ? splitUrl[1] : '';
+
+	if (queryString !== '') {
+		params_arr = queryString.split('&');
+		for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+			param = params_arr[i].split('=')[0];
+			if (param === key) {
+				params_arr.splice(i, 1);
+			}
+		}
+		rtn = rtn + '?' + params_arr.join('&');
+	}
+
+	if(rtn.toString().slice(-1)=='?')
+	{
+		rtn=rtn.slice(0, -1);
+	}
+
+	return rtn;
+}
+
+
 
 //переслать заявку
 function ForwardFo()
@@ -6428,8 +6470,9 @@ var list_number	= function() {
 var changesort2 = function() {  
 $.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_2",$(this).val(),'add');
-$('.show_sort_supply').removeClass('active_supply');
-$('.show_sort_supply').addClass('active_supply');
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
+
 
 if($(this).val()==2)
 {
@@ -6463,8 +6506,9 @@ $('[list_number=t2]').next().find('li').bind('click', list_number);
 var changesort1 = function() {  
 $.cookie("su_1", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_1",$(this).val(),'add');
-$('.show_sort_supply').removeClass('active_supply');
-$('.show_sort_supply').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
+
 
 };
 $('#sort1').bind('change', changesort1);	
@@ -6643,8 +6687,9 @@ $('#sortb3').bind('change', changesortbill3);
 var changesort3 = function() {  
 $.cookie("su_3", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_3",$(this).val(),'add');
-$('.show_sort_supply').removeClass('active_supply');
-$('.show_sort_supply').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
+
 
 };
 $('#sort3').bind('change', changesort3);	
@@ -6653,8 +6698,9 @@ $('#sort3').bind('change', changesort3);
 var changesort4 = function() {  
 $.cookie("su_4", null, {path:'/',domain: window.is_session,secure: false}); 	
 CookieList("su_4",$(this).val(),'add');
-$('.show_sort_supply').removeClass('active_supply');
-$('.show_sort_supply').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
+
 
 };
 $('#sort4').bind('change', changesort4);	

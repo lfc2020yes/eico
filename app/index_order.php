@@ -110,6 +110,15 @@ include_once '../ilib/lib_edo.php';
 
 
 $edo = new EDO($link,$id_user,false);
+
+
+if(($row_list["id_edo_run"]!='')and($row_list["id_edo_run"]!=0))
+{
+    //значит ему возвращали уже и это просто пересоглашение
+
+}
+
+
 if (($edo->next($id, 0))===false) {
 
     //id_executor
@@ -172,7 +181,7 @@ if (($edo->next($id, 0))===false) {
     // процесс согласования со всеми заданиями выполнен
    // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
 }
-header("Location:".$base_usr."/app/".$_GET['id'].'/');
+header("Location:".$base_usr."/app/".$_GET['id'].'/order/');
 
 /*
 

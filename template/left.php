@@ -333,10 +333,10 @@ $result_t=mysql_time_query($link,'Select count(a.id) as cc from r_message as a w
 			 if($row_t["cc"]!=0)
 			 {
 			 
-echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщения</a><i>'.$row_t["cc"].'</i></li>';
+echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщения<i>'.$row_t["cc"].'</i></a></li>';
 			 } else
 			 {
-echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщения</a><i style="display:none;"></i></li>';
+echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщения<i style="display:none;"></i></a></li>';
 			 }
 		 }	
 	

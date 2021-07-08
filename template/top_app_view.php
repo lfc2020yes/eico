@@ -285,27 +285,29 @@ include_once $url_system.'module/notification.php';
                     //echo '<pre>arr_document:' . print_r($but_mass, true) . '</pre>';
 //echo($but_mass["name_action"]);
                     //name_action
-//id_action
 
 
+//id_action - 4 выписать счета
 
+if($but_mass["id_action"]!=4) {
 
-                    $echo_bb='<div class="save_button  add_clients green-bb '.$class_by.' js-sign-'.$but_mass["id_action"].'">';
-if($class_by=='') {
-    $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
+    $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-' . $but_mass["id_action"] . '">';
+    if ($class_by == '') {
+        $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
 <div id="1" class="input-choice-click-pass js-checkbox-group">
 <div class="choice-radio" data-tooltip="' . $but_mass["name_action"] . ' с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>
 
 </div>
-   <form id="js-form-next-sign" class="none" action="app/sign_yes/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
-  <input name="tk" value="'.token_access_compile($_GET['id'],'sign_app_2021_next',$secret).'" type="hidden">  <input name="tk1" value="wEVR678vmrIrt" type="hidden">
+   <form id="js-form-next-sign" class="none" action="app/sign_yes/' . $_GET["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk" value="' . token_access_compile($_GET['id'], 'sign_app_2021_next', $secret) . '" type="hidden">  <input name="tk1" value="wEVR678vmrIrt" type="hidden">
 </form>';
-}
+    }
 
-    $echo_bb.='<span son="0" class="js-son">'.$but_mass["name_action"].'   →</span><span son="1" class="js-son none">'.$but_mass["name_action"].' с замечанием   →</span>
+    $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span><span son="1" class="js-son none">' . $but_mass["name_action"] . ' с замечанием   →</span>
 
 
 </div>';
+}
                     $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-app '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-app '.$class_by.'">Переслать   ⥃</div>';
 
 

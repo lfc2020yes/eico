@@ -288,7 +288,7 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
                                   } }).hide().on('change', function(){
                                   $('#date_table').hide();
                                   $('[list_number=t2]').empty().append($('#date_hidden_table').val());
-                                  $.cookie("sudd", null, {path:'/',domain: window.is_session,secure: false});
+                                  $.cookie("sudd", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
                                   CookieList("sudd",$('#date_hidden_table').val(),'add');
                                   $('.show_sort_supply').removeClass('active_supply');
                                   $('.show_sort_supply').addClass('active_supply');
@@ -326,25 +326,6 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
   <?
 
 
-//echo'<span class="hh1" style=" margin-bottom:0px;">Наряды</span>';
-
-	
-	//echo'</div><div class="content_block block_primes1">';  
-	  
-	//echo'</div>';
-	
-	//echo'<div class="content_block1">';	
-/*
-<div class="close_all_r">закрыть все</div>
-<div data-tooltip="Удалить всю себестоимость" class="del_seb"></div>
-<div data-tooltip="Добавить раздел" class="add_seb"></div>
-';
-*/
-  
-	  
-	  	//echo'</div>';  
-	   //$os = array( "дата поставки", "по алфавиту","новые");
-	   //$os_id = array("0", "1", "2");	
 	  $sql_su1=' order by b.date_delivery';
 	  $sql_su1_=' order by a.date_delivery';
  		if (( isset($_COOKIE["su_1"]))and(is_numeric($_COOKIE["su_1"]))and(array_search($_COOKIE["su_1"],$os_id)!==false))

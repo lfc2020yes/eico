@@ -319,6 +319,16 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
             include_once $url_system.'module/users.php';
 
 
+
+            echo '<div class="menu_jjs js-basket-supply basket-items fix-mobile-two" style="display:none;"><div class="more_supply1 menu_click"><i>3</i></div><div class="menu_supply menu_su1"><ul style="right: 10px; top: 10px; transform: scaleY(0);" class="drops no_active" data_src="0">
+
+<li class="no-more-number js-menu-jjs-basket"><a  href="javascript:void(0);" rel="1">Добавить счет</a></li>
+<li class="no-more-number js-menu-jjs-basket"><a  href="javascript:void(0);" rel="2">Очистить корзину</a></li>
+</ul></div></div>';
+
+
+
+/*
             echo'<div class="more_supply menu_click"></div>';
 
             $menu = array( "Добавить счет", "Очистить корзину");
@@ -333,8 +343,18 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
                     }
                     echo'</ul><input rel="x" type="hidden" name="vall" class="vall_basket" value="0"></div>';
 
-
+*/
             echo'<span class="add_sss"></span>';
+
+
+
+
+
+
+
+
+
+
             //echo'<a href="prime/'.$row_list["id_object"].'/add_a/'.$_GET['id'].'/" data-tooltip="добавить счет" class="add_score"><i class="score_plus"></i><i class="score_">1</i></a>';
 
             echo'<div class="more_supply2 menu_click"></div>';

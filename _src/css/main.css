@@ -6124,13 +6124,14 @@ tr.active_supplyx .supply_tr_o::before {
   transform: rotate(-180deg);
 }
 
+/*
 .more_supply1 {
   position: relative;
   display: inline-block;
   margin-top: 0px;
   width: 20px;
   height: 40px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .more_supply1::before {
@@ -6142,11 +6143,11 @@ tr.active_supplyx .supply_tr_o::before {
   font-style: normal;
   left: -9px;
   position: absolute;
-  top: 8px;
+  top: 8px
 }
 
 .more_supply1:hover::before {
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.3)
 }
 
 .more_supply {
@@ -6156,7 +6157,7 @@ tr.active_supplyx .supply_tr_o::before {
   margin-top: 13px;
   width: 20px;
   height: 40px;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .more_supply::before {
@@ -6168,13 +6169,13 @@ tr.active_supplyx .supply_tr_o::before {
   font-style: normal;
   left: -9px;
   position: absolute;
-  top: 8px;
+  top: 8px
 }
 
 .more_supply:hover::before {
-  color: #64a4e4;
+  color: #64a4e4
 }
-
+*/
 .more_supply2 {
   position: relative;
   float: right;
@@ -16872,8 +16873,11 @@ font-style: normal;}*/
   font-size: 13px;
   font-family: "LabGrotesque-Light";
   text-transform: uppercase;
-  float: right;
   margin-right: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
   -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
   -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
   -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
@@ -17563,6 +17567,238 @@ width: calc(50% - 0px) !important;
 
 .hidden-count-task {
   display: none;
+}
+
+.fix-mobile-two {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.menu_jjs {
+  z-index: 10;
+}
+
+.menu_click {
+  cursor: pointer;
+  cursor: pointer;
+  padding: 5px;
+  background-color: #eeefee;
+  border-radius: 4px;
+}
+
+.more_supply1 {
+  position: relative;
+  display: inline-block;
+  /*margin-top: 10px;*/
+  width: 50px;
+  height: 40px;
+}
+.more_supply1::after {
+  color: rgba(0, 0, 0, 0.2);
+  content: "S";
+  font-family: "icon1";
+  font-size: 16px;
+  font-style: normal;
+  left: 5px;
+  position: absolute;
+  top: 8px;
+}
+.more_supply1::before {
+  color: rgba(0, 0, 0, 0.4);
+  content: "M";
+  font-family: "icon1";
+  font-size: 25px;
+  font-style: normal;
+  right: 5px;
+  position: absolute;
+  top: 8px;
+}
+.more_supply1 i {
+  position: absolute;
+  display: none;
+  height: 24px;
+  width: 24px;
+  font-style: normal;
+  line-height: 24px;
+  text-align: center;
+  font-family: GEInspiraBold;
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  font-size: 14px;
+  top: 7px;
+  right: 30px;
+}
+
+.more-active-s .more_supply1 {
+  width: 80px;
+}
+.more-active-s .more_supply1 i {
+  display: block !important;
+}
+.more-active-s .more_supply1::after {
+  color: #25ae88;
+}
+.more-active-s .no-more-number {
+  display: block !important;
+}
+
+.more-active-s1 .more_supply1::after {
+  color: #25ae88;
+}
+.more-active-s1 .no-hide-check {
+  display: none !important;
+}
+.more-active-s1 .no-hide-nocheck {
+  display: block !important;
+}
+
+.no-hide-check {
+  display: block !important;
+}
+
+.no-hide-nocheck {
+  display: none !important;
+}
+
+.no-display {
+  display: none !important;
+}
+
+.no-more-number {
+  display: none !important;
+}
+
+.menu_jjs {
+  z-index: 10;
+}
+
+.more_supply1:hover::before {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.more_supply1:hover::after {
+  color: #25ae88;
+}
+
+.more_supply {
+  position: relative;
+  float: right;
+  display: none;
+  margin-top: 13px;
+  width: 20px;
+  height: 40px;
+  cursor: pointer;
+}
+.more_supply::before {
+  color: rgba(0, 0, 0, 0.7);
+  content: "M";
+  font-family: "icon1";
+  font-size: 38px;
+  transform: rotate(-90deg);
+  font-style: normal;
+  right: 10px;
+  position: absolute;
+  top: 8px;
+}
+
+.more_supply:hover::before {
+  color: #64a4e4;
+}
+
+.more_supply2 {
+  position: relative;
+  float: right;
+  display: none;
+  margin-top: 13px;
+  margin-left: 20px;
+  width: 20px;
+  height: 40px;
+  cursor: pointer;
+}
+.more_supply2::before {
+  color: rgba(0, 0, 0, 0.7);
+  content: "M";
+  font-family: "icon1";
+  font-size: 38px;
+  transform: rotate(-90deg);
+  font-style: normal;
+  left: -9px;
+  position: absolute;
+  top: 8px;
+}
+
+.more_supply2:hover::before {
+  color: #64a4e4;
+}
+
+.menu_click {
+  cursor: pointer;
+  cursor: pointer;
+  padding: 5px;
+  background-color: #eeefee;
+  border-radius: 4px;
+}
+
+.menu_supply {
+  position: relative;
+}
+.menu_supply .drops {
+  padding: 0;
+  position: absolute;
+  text-decoration: none;
+  width: 100%;
+  z-index: 100;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  transform-origin: left top 0px;
+  transform: scaleY(0);
+  border-radius: 2px;
+  margin-top: -22px;
+  /*margin-top: 1px;*/
+  max-height: 300px;
+  overflow: hidden;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  overflow-y: auto;
+}
+.menu_supply li {
+  border-color: #e3e3e3;
+  border-top: 0px dotted #e3e3e3;
+  color: rgba(0, 0, 0, 0.9);
+  margin-left: 15px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-family: arial;
+  font-size: 16px;
+  display: block;
+  list-style: outside none none;
+  padding: 10px 15px 10px 20px;
+}
+.menu_supply li a {
+  text-decoration: none !important;
+  border-bottom: 0px !important;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "GEInspiraBold";
+  font-size: 13px;
+  text-transform: uppercase;
+  line-height: 16px;
+  white-space: normal;
+}
+.menu_supply li:hover {
+  background-color: #323544;
+  color: #fff;
+}
+.menu_supply li:hover a {
+  color: #fff;
+}
+.menu_supply li.sel_active_sss {
+  color: #fff;
+  background-color: #72b7f8;
+}
+.menu_supply li.sel_active_sss a {
+  color: #fff;
 }
 
 .input-block-2020 .list-image {
@@ -18657,7 +18893,6 @@ left: calc(50% - 92.5px);*/
 .fix-mobile-two {
   display: inline-block;
   margin-right: 10px;
-  margin-top: 10px;
   margin-left: 10px;
 }
 

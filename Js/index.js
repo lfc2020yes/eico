@@ -1149,7 +1149,7 @@ function option_score1() {
 	
 }
 
-
+/*
 //сохранить текущий счет	
 function save_soply() { 
 	var iu=$('.content_block').attr('iu');	
@@ -1164,7 +1164,7 @@ function save_soply() {
 	}
 	
 }
-
+*/
 
 function scroll_to_bottom(speed) {
 	var height= $("body").height(); 

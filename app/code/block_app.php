@@ -275,14 +275,14 @@ if($value["status"]!=1)
 
 
 if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
-    $tabs_menu_x = array("Процесс/Задача");
+    $tabs_menu_x = array("Процесс/Задача","История");
     $tabs_menu_x_js = array("");
-    $tabs_menu_x_id = array("2");
+    $tabs_menu_x_id = array("2","3");
 } else {
 
-    $tabs_menu_x = array("Задание", "Процесс/Задача");
+    $tabs_menu_x = array("Задание", "Процесс/Задача","История");
     $tabs_menu_x_js = array("", "");
-    $tabs_menu_x_id = array("1", "2");
+    $tabs_menu_x_id = array("1", "2","3");
 }
 
 $class_menu_pr='';

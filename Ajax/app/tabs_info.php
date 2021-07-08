@@ -107,6 +107,12 @@ if($id_tabs==2)
     include $url_system.'app/code/tabs_task.php';
 }
 
+// история
+if($id_tabs==3)
+{
+    include $url_system.'app/code/tabs_history.php';
+}
+
 
 end_code:
 

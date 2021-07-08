@@ -942,6 +942,10 @@ OR
         return false;
     }
 
+    /** Дополнительное согласование
+     * @param $row_state
+     * @return bool
+     */
     public function confirmation( &$row_state){
         $arr_action = $this->get_action($row_state[id_run_item]);
         if($this->show) {
@@ -955,5 +959,54 @@ OR
             return true;
         }
         return false;
+    }
+
+    /** История согласования документа
+     * @param $id_document
+     * @param $type
+     */
+    public function history( $id_document, $type) {
+        $arr_history = array();
+        $sql = "
+SELECT * FROM `edo_run` 
+WHERE 
+`id_document` = $id_document 
+  AND `table_name` = '".$this->arr_table[$type]."'        
+        ";
+        $this->Debug($sql,__FUNCTION__);
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                //$arr_history[] = $row;
+
+                $sql1 = "
+SELECT 
+s.*,
+-- s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.`id_checking`, s.id_status, s.comment_executor,
+u.`name_user`, u1.`name_user` AS name_user_checking,
+ST.`name_status`       
+FROM edo_state AS s 
+LEFT JOIN r_user AS u ON s.`id_executor` = u.id
+LEFT JOIN r_user AS u1 ON s.`id_checking` = u1.id
+LEFT JOIN edo_status AS ST ON s.`id_status` = ST.`id_status`
+WHERE s.id_run=" . $row[id] . "
+AND s.id_status 
+ORDER BY s.`displayOrder`,s.`date_create`
+
+      
+            ";
+                $this->Debug($sql1, __FUNCTION__);
+                if ($result1 = $this->mysqli->query($sql1)) {
+                    while ($row1 = $result1->fetch_assoc()) {
+                        //История согласования
+                        $row[state][] = $row1;
+                    }
+                    $result1->close();
+                }
+                $arr_history[] = $row;
+
+            }
+            $result->close();
+        }
+        return $arr_history;
     }
 }

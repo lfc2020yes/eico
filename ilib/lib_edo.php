@@ -172,7 +172,14 @@ class EDO
      */
     private function get_doc($id_acc) {
         $ret = false;
-        $sql = "select id,id_doc,id_acc from z_doc_material_acc where id_acc=$id_acc";
+        $sql = "
+SELECT A.id,A.id_doc_material,A.id_acc,
+M.`id_doc` 
+FROM 
+z_doc_material_acc A, z_doc_material M
+WHERE A.id_acc=$id_acc
+AND A.`id_doc_material` = M.`id`
+";
         $this->Debug($sql,__FUNCTION__);
         if ($result = $this->mysqli->query($sql)) {
             if ($row = $result->fetch_assoc()) {

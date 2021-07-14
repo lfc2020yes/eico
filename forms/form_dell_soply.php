@@ -1,61 +1,7 @@
 <?php
 //форма редактирование раздела в себестоимости дома
-
-function reset_url($url) {
-    $value = str_replace ( "http://", "", $url );
-    $value = str_replace ( "https://", "", $value );
-    $value = str_replace ( "www.", "", $value );
-    $value = explode ( "/", $value );
-    $value = reset ( $value );
-    return $value;
-}
-
-$_SERVER['HTTP_REFERER'] = reset_url ( $_SERVER['HTTP_REFERER'] );
-$_SERVER['HTTP_HOST'] = reset_url ( $_SERVER['HTTP_HOST'] );
- 
- 
- 
- 
- 
-if ($_SERVER['HTTP_HOST'] != $_SERVER['HTTP_REFERER']) {
-
-    // @header ( 'Location: ' . $config['http_home_url'] );
-	header("HTTP/1.1 404 Not Found");
-	header("Status: 404 Not Found");
-    die ();
-}
-     
-     
- 
-if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    /* значит ajax-запрос */
-     
-    /* обрабатываем */
-     
-} else {
-
-	header("HTTP/1.1 404 Not Found");
-	header("Status: 404 Not Found");    
-	die ();
-}
-
-//Проверяем вдруг это взлом. смотрим есть ли такой тип, относятся ли эти условия поиска к этому типу, существует ли сортировка
-
-
-define( '_SECRETJ', 7 );
-session_start();
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
-//подключение к базе
-include_once $url_system.'module/config.php';
-//подключение написанных функций для сайта
-include_once $url_system.'module/function.php';
-include_once $url_system.'login/function_users.php';
-initiate($link);
-
-
-//создание секрет для формы
-$secret=rand_string_string(4);
-$_SESSION['s_form'] = $secret;
+include_once $url_system.'module/ajax_access.php';
 
 $status=0;
 

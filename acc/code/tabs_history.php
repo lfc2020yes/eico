@@ -9,7 +9,7 @@ include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
 
-$arr_document = $edo->history(ht($_GET["id"]), 0);
+$arr_document = $edo->history(ht($_GET["id"]), 1);
 //$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 $status_state=0;
 foreach ($arr_document as $key => $value) {

@@ -2,7 +2,7 @@ $(function (){
 
     //кликнуть на что то в раскрывающем меню корзины
     $('body').on("change keyup input click",'.menu_jjs .js-menu-jjs-basket',menu_supply_basket_21);
-
+    $('body').on("change keyup input click",'.menu_jjs .js-menu-jjs-basket-acc',menu_supply_basket_acc_21);
     $('.scope_scope').on("change",'.option_score1',option_score1);
 
     $('.tr_dop_supply').on("click",'.st_div_supply',st_div_supply);
@@ -77,6 +77,154 @@ function menu_supply_basket_21(event)
 }
 
 
+//кликнуть на что то в раскрывающем меню корзины
+function menu_supply_basket_acc_21(event)
+{
+    event.stopPropagation();
+
+    var rel=$(this).find('a').attr('rel');
+//alert(rel);
+    if(rel==1)
+    {
+        //сохранить
+        save_soply();
+
+    }
+    if(rel==2)
+    {
+        //закрыть текущий
+        var iu=$('.content_block').attr('iu');
+        $.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+
+
+        //скрыть текущий сверху
+        /*
+        $('.current_score').find('.number_score').empty();
+        $('.current_score').find('.count_numb_score').empty();
+        $('.current_score').hide();
+        $('.more_supply2').hide();
+*/
+        $('.js-basket-supply-acc').hide();
+        $('.js-basket-supply-acc').removeClass('more-active-s');
+        $('.js-basket-supply-acc').removeClass('more-active-s1');
+        $('.js-basket-supply-acc .more_supply1').find('i').empty();
+
+        //убрать выделения на мателиалах
+        $('.checher_supply').removeClass('checher_supply');
+
+        //убрать активность со счета
+        $('.score_active').removeClass('score_active');
+
+        alert_message('ok','Текущий счет закрыт');
+    }
+
+    if(rel==3)
+    {
+
+        //var id_acc_s= $(this).parents('.menu_supply').prev().attr('rel_score');
+        var cookie_flag_current = $.cookie('current_supply_'+iu);
+        //alert(cookie_new);
+        if(cookie_flag_current!=null) {
+            $.arcticmodal({
+                type: 'ajax',
+                url: 'forms/form_sign_acc.php?id=' + cookie_flag_current,
+                beforeOpen: function (data, el) {
+                    //во время загрузки формы с ajax загрузчик
+                    $('.loader_ada_forms').show();
+                    $('.loader_ada1_forms').addClass('select_ada');
+                },
+                afterLoading: function (data, el) {
+                    //после загрузки формы с ajax
+                    data.body.parents('.arcticmodal-container').addClass('yoi');
+                    $('.loader_ada_forms').hide();
+                    $('.loader_ada1_forms').removeClass('select_ada');
+                },
+                beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                    if (typeof timerId !== "undefined") {
+                        clearInterval(timerId);
+                    }
+                    BodyScrool();
+                }
+
+            });
+        }
+
+        /*
+        //открыть
+        if (typeof timerId != 'undefined') {
+
+            clearInterval(timerId);
+            $.arcticmodal('close');
+
+        }
+
+        event.stopPropagation();
+
+
+        //открыть
+        var iu=$('.content_block').attr('iu');
+        var cookie_flag_current = $.cookie('current_supply_'+iu);
+        //alert(cookie_new);
+        if(cookie_flag_current!=null)
+        {
+            id_soply=cookie_flag_current;
+
+
+            $.arcticmodal({
+                type: 'ajax',
+                url: 'forms/form_update_soply.php?id='+id_soply,
+                beforeOpen: function (data, el) {
+                    //во время загрузки формы с ajax загрузчик
+                    $('.loader_ada_forms').show();
+                    $('.loader_ada1_forms').addClass('select_ada');
+                },
+                afterLoading: function (data, el) {
+                    //после загрузки формы с ajax
+                    data.body.parents('.arcticmodal-container').addClass('yoi');
+                    $('.loader_ada_forms').hide();
+                    $('.loader_ada1_forms').removeClass('select_ada');
+                },
+                beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                    if (typeof timerId !== "undefined") {
+                        clearInterval(timerId);
+                    }
+                    BodyScrool();
+                }
+
+            });
+        }
+*/
+        /*
+                $.arcticmodal({
+                    type: 'ajax',
+                    url: 'forms/items/form_basket.php',
+                    beforeOpen: function (data, el) {
+                        //во время загрузки формы с ajax загрузчик
+                        $('.loader_ada_forms').show();
+                        $('.loader_ada1_forms').addClass('select_ada');
+                    },
+                    afterLoading: function (data, el) {
+                        //после загрузки формы с ajax
+                        data.body.parents('.arcticmodal-container').addClass('yoi');
+                        $('.loader_ada_forms').hide();
+                        $('.loader_ada1_forms').removeClass('select_ada');
+                    },
+                    beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                        if (typeof timerId !== "undefined") {
+                            clearInterval(timerId);
+                        }
+                        BodyScrool();
+                    }
+
+                });
+        */
+    }
+
+}
+
+
 //корзина счетов новый/текущий инициализация обновление
 function basket_supply()
 {
@@ -124,12 +272,25 @@ function basket_supply()
         }
     } else
     {
+
+        $('.js-basket-supply').hide();
+        $('.js-basket-supply').removeClass('more-active-s');
+
+        $('.js-basket-supply-acc').show();
+        $('.js-basket-supply-acc').removeClass('more-active-s1');
+        $('.js-basket-supply-acc').addClass('more-active-s');
         //значит активен текущий счет
+        /*
         $('.add_score').remove(); $('.more_supply').hide();
         $('.current_score').show();  $('.more_supply2').show();
 
         $('.current_score').find('.count_scire').show();
         $('.menu_supply').find('[rel=1]').parents('li').show();
+*/
+        //$('.js-basket-supply-acc .menu_supply').find('[rel=1]').parents('li').show();
+        //$('.js-basket-supply-acc .more_supply1').find('i').empty().append(counts);
+
+
         if(cookie_score!=null)
         {
             var cc = cookie_score.split('.');
@@ -137,13 +298,16 @@ function basket_supply()
         } else
         {
             counts='';
-            $('.current_score').find('.count_scire').hide();
-            $('.menu_supply').find('[rel=1]').parents('li').hide();
+            //$('.current_score').find('.count_scire').hide();
+            //$('.menu_supply').find('[rel=1]').parents('li').hide();
+            $('.js-basket-supply-acc').addClass('more-active-s1');
+            $('.js-basket-supply-acc').removeClass('more-active-s');
+
         }
 
         //$('.add_score .score_').empty().append(counts);
-        $('.current_score').find('.count_numb_score').empty().append(counts);
-
+        //$('.current_score').find('.count_numb_score').empty().append(counts);
+        $('.js-basket-supply-acc .more_supply1').find('i').empty().append(counts);
         //$('.current_score').find('.count_scire').hide();
 
     }
@@ -163,7 +327,7 @@ function add_soply()
 
         $.arcticmodal({
             type: 'ajax',
-            url: 'forms/form_add_soply.php',
+            url: 'forms/form_add_soply_2021.php',
             beforeOpen: function (data, el) {
                 //во время загрузки формы с ajax загрузчик
                 $('.loader_ada_forms').show();
@@ -268,9 +432,16 @@ function Afterupdate_soply(data,update)
         {
             var tr=$('[supply_id='+cc[t]+']');
 
-            tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" class="menu_click score_a  "><i>'+cc.length+'</i><span>№'+data.number+'</span></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
 
+
+            tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" data-tooltip="счет №'+data.number+' ('+data.dates+')" class="menu_click score_a"><span>№'+data.number+' ('+data.date+')</span><strong><label>'+$.number(parseFloat(data.sum).toFixed(2), 2, '.', ' ')+'</label></strong><i>'+cc.length+'</i><form class="none"  action="acc/'+cookie_flag_current+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
+
+
+/*
+            tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" class="menu_click score_a  "><i>'+cc.length+'</i><span>№'+data.number+'</span></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
+*/
         }
+        alert_message('ok','Текущий счет сохранен');
 
 
 
@@ -280,10 +451,18 @@ function Afterupdate_soply(data,update)
         $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
         $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 
+        /*
         $('.current_score').find('.number_score').empty();
         $('.current_score').find('.count_numb_score').empty();
         $('.current_score').hide();
         $('.more_supply2').hide();
+        */
+
+        $('.js-basket-supply-acc').hide();
+        $('.js-basket-supply-acc').removeClass('more-active-s');
+        $('.js-basket-supply-acc').removeClass('more-active-s1');
+        $('.js-basket-supply-acc .more_supply1').find('i').empty();
+        $('.js-basket-supply-acc .more_supply1').find('.dop-21').empty();
 
         $('.checher_supply').removeClass('checher_supply');
         $('.score_active').removeClass('score_active');
@@ -326,8 +505,30 @@ function option_score1() {
     {
 
         //согласовать счет
-        var data ='url='+window.location.href+'&id='+id_soply;
-        AjaxClient('supply','app_soply','GET',data,'Afterapp_soply',id_soply,0);
+        var id_acc_s= $(this).parents('.menu_supply').prev().attr('rel_score');
+        //alert(id_acc_s);
+            $.arcticmodal({
+                type: 'ajax',
+                url: 'forms/form_sign_acc.php?id=' + id_acc_s,
+                beforeOpen: function (data, el) {
+                    //во время загрузки формы с ajax загрузчик
+                    $('.loader_ada_forms').show();
+                    $('.loader_ada1_forms').addClass('select_ada');
+                },
+                afterLoading: function (data, el) {
+                    //после загрузки формы с ajax
+                    data.body.parents('.arcticmodal-container').addClass('yoi');
+                    $('.loader_ada_forms').hide();
+                    $('.loader_ada1_forms').removeClass('select_ada');
+                },
+                beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                    if (typeof timerId !== "undefined") {
+                        clearInterval(timerId);
+                    }
+                    BodyScrool();
+                }
+
+            });
 
 
     }
@@ -335,7 +536,9 @@ function option_score1() {
     {
 
         //открыть счет
+        $('[rel_score='+id_soply+']:first').find('form').submit();
 
+/*
         $.arcticmodal({
             type: 'ajax',
             url: 'forms/form_update_soply.php?id='+id_soply,
@@ -358,6 +561,7 @@ function option_score1() {
             }
 
         });
+        */
     }
 
 
@@ -399,6 +603,7 @@ function option_score1() {
 }
 
 //постфункция согласовать счет
+/*
 function Afterapp_soply(data,update)
 {
     if ( data.status=='reg' )
@@ -468,4 +673,98 @@ function Afterapp_soply(data,update)
     {
 
     }
+}
+*/
+//обновить сколько осталось сколько на складе и так далее
+function UpdateStatusADA(id)
+{
+    if(id!=0)
+    {
+        $('[id_ada='+id+']').hide().after('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');
+        var data ='url='+window.location.href+'&id='+id;
+        AjaxClient('supply','update_ada','GET',data,'AfterUpdateStatusADA',id,0);
+    }
+}
+
+//обновление данных по складу и по заявкам
+function AfterUpdateStatusADA(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+    }
+
+    if ( data.status=='error' )
+    {
+        $('.loader_inter').remove();
+    }
+
+
+    if ( data.status=='ok' )
+    {
+        $('[id_ada='+update+']').empty().append(data.echo);
+        ToolTip();
+        $('.loader_inter').remove();
+        $('[id_ada='+update+']').show();
+    }
+}
+
+
+//постфункция сделать текущим
+function Aftercurrent_soply(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+    }
+
+    if ( data.status=='ok' )
+    {
+        var iu=$('.content_block').attr('iu');
+        $('.js-basket-supply-acc').show();
+        $('.js-basket-supply-acc').find('.dop-21').empty().append('<label>текущий счет</label>'+data.status_echo);
+        $('.js-basket-supply-acc').find('i').empty().append(data.count);
+       // $('.current_score').show();
+
+        $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+
+        CookieList("basket_score_"+iu,data.basket,'add');
+
+        //выделить все элементы если они есть на странице с такими id
+        var cc = data.basket.split('.');
+        for ( var t = 0; t < cc.length; t++ )
+        {
+            $('[supply_id='+cc[t]+']').addClass('checher_supply');
+        }
+        basket_supply();
+    }
+    if ( data.status=='error' )
+    {
+
+    }
+}
+
+
+function tek_acc(id)
+{
+
+    $('.checher_supply').removeClass('checher_supply');
+
+
+
+    var iu=$('.content_block').attr('iu');
+    $.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+    CookieList("current_supply_"+iu,id,'add');
+
+    $('.score_active').removeClass('score_active');
+    $('[rel_score='+id+']').addClass('score_active');
+
+
+
+
+
+    var data ='url='+window.location.href+'&id='+id;
+    AjaxClient('supply','current_soply','GET',data,'Aftercurrent_soply',id,0);
+
+
 }

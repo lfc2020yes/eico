@@ -28,21 +28,22 @@ $status_echo='';
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
-$echo_r=0; //выводить или нет ошибку 0 -нет
+$echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
-
-if(!token_access_new($token,'add_soply',$id,"s_form"))
+if(!token_access_new($token,'add_soply',$id,"rema",2880))
 {
    $debug=h4a(111,$echo_r,$debug);
    goto end_code;	
 }
 
 //**************************************************
+/*
 if (( count($_GET) != 10 )&&( count($_GET) != 12 ))
 {
    $debug=h4a(1,$echo_r,$debug);
    goto end_code;	
 }
+*/
 //**************************************************
  if ((!$role->permission('Счета','A'))and($sign_admin!=1))
 {
@@ -89,6 +90,7 @@ if((!isset($_GET['name_c']))or(trim($_GET['name_c']=='')or!isset($_GET['inn_c'])
 	
 }
 }
+$dates=ht($_GET["date1"]);
 //**************************************************
 //**************************************************
 //проверка что количество не больше нужного
@@ -111,7 +113,7 @@ a.id="'.trim(htmlspecialchars($D[$i])).'"');
 			$debug=h4a(79,$echo_r,$debug);
 		    goto end_code;	
 		}
-		if(($xvg1[1]==0)or(!is_numeric($xvg1[1])))
+		if(($xvg1[1]==0)or(!is_numeric(trimc($xvg1[1]))))
 		{
 			$debug=h4a(89,$echo_r,$debug);
 		    goto end_code;	
@@ -126,11 +128,13 @@ a.id="'.trim(htmlspecialchars($D[$i])).'"');
 		} else
 		{
 		       $row__3= mysqli_fetch_assoc($result_t3);
+		       /*
 			if($row__3["count_units"]<$xvg1[0])
 			{
 					    $debug=h4a(777,$echo_r,$debug);
 		                goto end_code;	
 			}
+		       */
 		}
 	
 			  // mysql_time_query($link,'INSERT INTO z_doc_material_acc (id_doc_material,count_material,id_acc) VALUES ("'.htmlspecialchars(trim($D[$i])).'","'.htmlspecialchars(trim($xvg[$i])).'","'.$ID_D.'")');			   
@@ -179,12 +183,29 @@ mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor
 			   $xvg1= explode(':', $xvg[$i]);
 			   mysql_time_query($link,'INSERT INTO z_doc_material_acc (id_doc_material,count_material,price_material,id_acc) VALUES ("'.htmlspecialchars(trim($D[$i])).'","'.htmlspecialchars(trim($xvg1[0])).'","'.htmlspecialchars(trim($xvg1[1])).'","'.$ID_D.'")');			   
 		   }
-	
+
+
+if($_GET['files']!='')
+{
+    $license=explode(",",$_GET['files']);
+    foreach ($license as $key => $value)
+    {
+        if(FileBase($value,$link))
+        {
+
+            mysql_time_query($link,'update image_attach set id_object="'.$ID_D.'" where name = "'.ht($value).'"');
+
+        }
+    }
+
+}
+
+
 
 
 end_code:
 
-$aRes = array("debug"=>$debug,"status"   => $status_ee,"status_echo"   => $status_echo,"ty" => $ID_D,"basket"=>$basket,"summa"=>$summaa);
+$aRes = array("debug"=>$debug,"status"   => $status_ee,"status_echo"   => $status_echo,"ty" => $ID_D,"basket"=>$basket,"summa"=>$summaa,"dates"=>$dates);
 require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

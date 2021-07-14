@@ -8,15 +8,14 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-
-$arr_document = $edo->history(ht($_GET["id"]), 0);
+$arr_document = $edo->my_documents(1, ht($_GET["id"]), '>=-10', false);
 //$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
-$status_state=0;
+
 foreach ($arr_document as $key => $value) {
     if ((is_array($value["state"])) and (!empty($value["state"]))) {
 
         foreach ($value["state"] as $keys => $val) {
-            $status_state=1;
+
 $name_kto='';
             $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($val["id_executor"]) . '"');
             $num_results_uu = $result_uu->num_rows;
@@ -31,7 +30,7 @@ $name_kto='';
             $query_string.='<div class="state-history gray-yy-'.$val["id_status"].'">
                <div class="st-state"><span data-tooltip="'.$val["name_status"].'" class="state-class more-icon-'.$val["id_status"].'"></span></div>
                <div class="st-task"><span class="label-task-gg ">Задача
-</span>'.$val["name"];
+</span>'.$val["name_task"];
 
             //если есть какое то решение отказ замечание передача на кого то
            //→
@@ -51,10 +50,6 @@ $name_kto='';
 
         }
     }
-}
-if($status_state==0)
-{
-    $query_string.='<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Истории пока нет.</span></span></div>';
 }
 
 

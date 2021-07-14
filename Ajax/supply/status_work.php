@@ -53,20 +53,15 @@ if($num_results_t!=0)
 {	
 	$row_t = mysqli_fetch_assoc($result_t);
 	//проверяем может ли видеть этот наряд
-	if(($row_t["status"]!=9)and($row_t["status"]!=11))
+	if(($row_t["status"]!=20)and($row_t["status"]!=11)and($row_t["status"]!=9))
 	{ 
 		$debug=h4a(5,$echo_r,$debug);
 		goto end_code;
 	}
 }
 //**************************************************
-if(array_search($row_t["id_object"],$hie_object)===false)
-{ 
-	$debug=h4a(6,$echo_r,$debug);
-	goto end_code;
-}
 //**************************************************
-if ((!isset($_GET["val"]))or((!is_numeric($_GET["val"])))or(($_GET["val"]!=9)and($_GET["val"]!=11))) 
+if ((!isset($_GET["val"]))or((!is_numeric($_GET["val"])))or(($_GET["val"]!=20)and($_GET["val"]!=11)and($_GET["val"]!=9)))
 {
 	$debug=h4a(7,$echo_r,$debug);
 	goto end_code;

@@ -320,10 +320,11 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
 
 
 
-            echo '<div class="menu_jjs js-basket-supply basket-items fix-mobile-two" style="display:none;"><div class="more_supply1 menu_click"><i>3</i></div><div class="menu_supply menu_su1"><ul style="right: 10px; top: 10px; transform: scaleY(0);" class="drops no_active" data_src="0">
+            echo '<div class="menu_jjs js-basket-supply basket-items fix-mobile-two" style="display:none;"><div class="more_supply1 menu_click"><i></i></div><div class="menu_supply menu_su1"><ul style="right: 10px; top: 10px; transform: scaleY(0);" class="drops no_active" data_src="0">
 
 <li class="no-more-number js-menu-jjs-basket"><a  href="javascript:void(0);" rel="1">Добавить счет</a></li>
-<li class="no-more-number js-menu-jjs-basket"><a  href="javascript:void(0);" rel="2">Очистить корзину</a></li>
+<li class="no-more-number js-menu-jjs-basket"><a  href="javascript:void(0);" rel="2">Отменить выбранное</a></li>
+
 </ul></div></div>';
 
 
@@ -351,12 +352,41 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
 
 
 
+$name_tek='';
+$count_tek='';
+            if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user])))
+            {
+                //определяем текущий счет и количество материалов в нем
+                $result_t_=mysql_time_query($link,'Select a.*,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss from z_acc as a where a.id="'.htmlspecialchars(trim($_COOKIE["current_supply_".$id_user])).'"');
+                $num_results_t_ = $result_t_->num_rows;
+                if($num_results_t_!=0)
+                {
+
+                    $row_t_ = mysqli_fetch_assoc($result_t_);
+                    $date_base__=explode("-",$row_t_["date"]);
+                   // echo'<div class="current_score"><div class="score_cc">текущий счет <div class="number_score">№'.$row_t_["number"].' от '.$date_base__[2].'.'.$date_base__[1].'.'.$date_base__[0].'</div></div><i class="count_scire" data-tooltip="сохранить текущий счет"><i class="count_numb_score">'.$row_t_["countss"].'</i></i></div>';
+                    $count_tek=$row_t_["countss"];
+                    $name_tek='№'.$row_t_["number"].' от '.$date_base__[2].'.'.$date_base__[1].'.'.$date_base__[0];
+                }
+
+            }
+
+
+            echo '<div class="menu_jjs js-basket-supply-acc basket-supply-21 fix-mobile-two" style="display:none;"><div class="more_supply1 menu_click"><div class="dop-21"><label>текущий счет</label>'.$name_tek.'</div><i>'.$count_tek.'</i></div><div class="menu_supply menu_su1"><ul style="right: 10px; top: 10px; transform: scaleY(0);" class="drops no_active" data_src="0">
+
+<li class=" no-hide-check js-menu-jjs-basket-acc"><a  href="javascript:void(0);" rel="1">Сохранить текущий</a></li>
+<li class=" js-menu-jjs-basket-acc"><a  href="javascript:void(0);" rel="2">Закрыть текущий</a></li>
+<li class=" js-menu-jjs-basket-acc"><a  href="javascript:void(0);" rel="3">Открыть</a></li>
+
+</ul><input rel="x" type="hidden" name="vall2" class="vall_basket2" value="0"></div></div>';
+
+
 
 
 
 
             //echo'<a href="prime/'.$row_list["id_object"].'/add_a/'.$_GET['id'].'/" data-tooltip="добавить счет" class="add_score"><i class="score_plus"></i><i class="score_">1</i></a>';
-
+/*
             echo'<div class="more_supply2 menu_click"></div>';
 
             $menu = array( "Сохранить текущий", "Закрыть текущий","Просмотр");
@@ -390,7 +420,7 @@ var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0],
             echo'<div class="current_score"><div class="score_cc">текущий счет <div class="number_score"></div></div><i class="count_scire" data-tooltip="сохранить текущий счет"><i class="count_numb_score"></i></i></div>';
 
             }
-
+*/
 
             echo'</div>';
 

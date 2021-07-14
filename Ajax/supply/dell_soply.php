@@ -19,10 +19,13 @@ $status_echo='';
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
-$echo_r=0; //выводить или нет ошибку 0 -нет
+$echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
 //**************************************************
-if(!token_access_new($token,'dell_soply',$id,"s_form"))
+//if(!token_access_new($token,'dell_soply',$id,"s_form"))
+    if(!token_access_new($token,'dell_soply',$id,"rema",2880))
+
+
 {
    $debug=h4a(100,$echo_r,$debug);
    goto end_code;
@@ -83,8 +86,16 @@ if(($row_t["id_user"]!=$id_user)and($sign_admin!=1))
 
 $status_ee='ok';
 mysql_time_query($link,'delete FROM z_acc where id="'.htmlspecialchars(trim($_GET['id'])).'"');
-mysql_time_query($link,'delete FROM z_acc_attach where id_acc="'.htmlspecialchars(trim($_GET['id'])).'"');
+//mysql_time_query($link,'delete FROM z_acc_attach where id_acc="'.htmlspecialchars(trim($_GET['id'])).'"');
+
+
+mysql_time_query($link, 'delete FROM image_attach where id_object="' . ht($_GET['id']) . '" and for_what=8');
+
+
 mysql_time_query($link,'delete FROM z_doc_material_acc where id_acc="'.htmlspecialchars(trim($_GET['id'])).'"');
+
+
+
 
 
 

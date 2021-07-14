@@ -261,7 +261,7 @@ include_once $url_system.'module/notification.php';
 
            // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
-            $visible_gray=0;
+            $visible_gray=0;  //не выполнил
         foreach ($arr_document as $key => $value)
         {
             if((is_array($value["state"]))and(!empty($value["state"]))) {
@@ -287,12 +287,12 @@ include_once $url_system.'module/notification.php';
 //echo($but_mass["name_action"]);
                     //name_action
 
-
+//echo($visible_gray);
 //id_action - 4 выписать счета
 
 if($but_mass["id_action"]!=4) {
 
-    $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a' . $but_mass["id_action"] . '">';
+    $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a1">';
     if ($class_by == '') {
         $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
 <div id="1" class="input-choice-click-pass js-checkbox-group">
@@ -309,6 +309,9 @@ if($but_mass["id_action"]!=4) {
 
 </div>';
 }
+
+
+
                     $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';
 
 

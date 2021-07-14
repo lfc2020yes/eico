@@ -59,7 +59,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 	
-if((!$role->permission('Заявки','R'))and($sign_admin!=1)) {
+if((!$role->permission('Счета','R'))and($sign_admin!=1)) {
 
     header404(4,$echo_r);
 
@@ -77,7 +77,7 @@ if((!isset($_POST["remark"]))or(trim($_POST["remark"])==''))
 }
 //header404(94,$echo_r);
 //**************************************************
-$result_url=mysql_time_query($link,'select A.* from z_doc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_url=mysql_time_query($link,'select A.* from z_acc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url==0)
 {
@@ -92,7 +92,7 @@ if($num_results_custom_url==0)
 	$id=htmlspecialchars($_GET['id']);
 
 
-        if(!token_access_new($token,'sign_app_remark',$id,"rema",120)) {
+        if(!token_access_new($token,'sign_acc_remark',$id,"rema",120)) {
             header404(4, $echo_r);
         }
 
@@ -101,7 +101,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(0, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
  //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 $id_s=0;
@@ -138,7 +138,7 @@ if($array_status==false)
 
 
 //отправляем следующим уведомления
-if (($edo->next($id, 0))===false) {
+if (($edo->next($id, 1))===false) {
 
     //id_executor
     //mysql_time_query($link,'update z_doc set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
@@ -154,19 +154,7 @@ if (($edo->next($id, 0))===false) {
     }
 */
 
-    $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_list['id_object'])).'"');
-    $num_results_custom_url = $result_url->num_rows;
-    if($num_results_custom_url!=0)
-    {
-        $row_list1 = mysqli_fetch_assoc($result_url);
-    }
 
-    $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
-    $num_results_custom_town = $result_town->num_rows;
-    if($num_results_custom_town!=0)
-    {
-        $row_town = mysqli_fetch_assoc($result_town);
-    }
 
 //echo(gettype($edo->arr_task));
     if(isset($edo->arr_task)) {
@@ -178,18 +166,28 @@ if (($edo->next($id, 0))===false) {
             //уведомление
             array_push($user_send_new, $value["id_executor"]);
 
+            $name_c='';
+            $result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+            $num_results_uu = $result_uu->num_rows;
+
+            if ($num_results_uu != 0) {
+                $row_uud = mysqli_fetch_assoc($result_uu);
+                $name_c='Контрагент - '.$row_uud["name"];
+            }
+
+
             //если это задача на подготовить счета
             if($value["id_action"]==4)
             {
 
                 //    $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
 
-                $text_not='Вам поступила задача по заявке <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].').' . $value["description"].'Детали в разделе <a class="link-history" href="supply/">cнабжение</a>.';
+                $text_not='Вам поступила задача по счету <a class="link-history" href="acc/' . $_GET['id'] . '/">' . $row_list['name'] . '</a>. '.$name_c.' ' . $value["description"].'';
 
 
 
             } else {
-                $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
+                $text_not = 'Вам поступила задача по счету <a class="link-history" href="acc/' . $_GET['id'] . '/">№'.$value['number'].' от '.date_ex(0,$value['date']).'</a>. ' . $name_c . ' ' . $value["description"];
             }
 
             //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
@@ -274,7 +272,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/app/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/acc/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

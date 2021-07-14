@@ -57,7 +57,7 @@ foreach ($value["state"] as $keys => $val) {
 
 	    //составление секретного ключа формы
 		//составление секретного ключа формы	
-		$token=token_access_compile($_GET['id'],'sign_aсс_remark',$secret);
+		$token=token_access_compile($_GET['id'],'sign_acc_remark',$secret);
         //составление секретного ключа формы
 		//составление секретного ключа формы
 
@@ -73,7 +73,7 @@ foreach ($value["state"] as $keys => $val) {
 
 echo'<div class="na-100">
 
-<form class="js-form-remark" action="aсс/sign/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
+<form class="js-form-remark" action="acc/sign/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
 
 echo'<input type="hidden" value="'.htmlspecialchars(trim($_GET['id'])).'" name="id">';
 echo'<input type="hidden" value="'.$token.'" name="tk">';

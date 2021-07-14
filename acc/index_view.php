@@ -512,6 +512,7 @@ if ( isset($_COOKIE["iss"]))
                                       var title_url=$(document).attr('title'); var url=window.location.href;
                                       url=url.replace('add/', '');
                                       url=url.replace('order/', '');
+                                      url=url.replace('yes/', '');
                                       url=url.replace('dell/', '');
                                       url=url.replace('save/', '');
                                       var url1 = removeParam("a", url);
@@ -848,4 +849,19 @@ echo'<script type="text/javascript">var b_cm=\''.$b_cm.'\'</script>';
         });
     });
 </script>
+<?php
+echo'<script>
+    $(function (){';
 
+        if($visible_gray==0)
+        {
+            echo'$(\'.tabs_006U[id=1]\').trigger(\'click\');';
+
+        }
+
+
+
+        echo'});
+</script>';
+
+?>

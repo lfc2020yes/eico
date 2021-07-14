@@ -779,17 +779,19 @@ if($row__2["id_stock"]==0)
 	    if($num_results_score!=0)
 	    {
            $status_score = array("1","2","3","5","4");
-		   $status_score_class = array("", "score_app","score_pay","score_no","score_paid");	
-		   for ($ss=0; $ss<$num_results_score; $ss++)
+		   //$status_score_class = array("", "score_app","score_pay","score_no","score_paid");
+            $status_score_class = array("", "","","","");
+            for ($ss=0; $ss<$num_results_score; $ss++)
 		   {			   			  			   
 			   $row_score = mysqli_fetch_assoc($result_score);
 			   $tec='';
+			   /*
 			   if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user]))and($_COOKIE["current_supply_".$id_user]==$row_score["id"]))
 		       {
 				   //если выбран этот счет текущим
 				   $tec='score_active'; 
 			   }
-			   
+			   */
 			   $too='';
 			   if($row_score["status"]==2)
 			   {
@@ -900,7 +902,7 @@ if($row__2["id_stock"]==0)
                        }
 
 //выводим статус заявки
-                       $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=13');
+                       $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=16');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
                        if ($result_status->num_rows != 0) {
                            $row_status = mysqli_fetch_assoc($result_status);

@@ -66,7 +66,7 @@ if($status_user_zay[0]!=1)
 
 $status=1;
 echo'
-
+<div id="Modal-one" class="box-modal js-box-modal-two table-modal eddd2 input-block-2020 none"><div class="box-modal-pading"><div class="top_modal"><div class="box-modal_close arcticmodal-close"></div>
 <form class="js-form-sign-min none" id="form-sign-min" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
 
 echo'<input type="hidden" value="'.htmlspecialchars(trim($_GET['id'])).'" name="id">';
@@ -75,7 +75,7 @@ echo'<input type="hidden" value="'.$token.'" name="tk">';
 echo'<input name="tk1" value="weER23DvmrIrt" type="hidden">';
 
 
-                    echo'</form>';
+                    echo'</form></div></div></div>';
 
 
 end_code:

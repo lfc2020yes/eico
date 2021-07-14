@@ -106,6 +106,11 @@ function AfterSignAcc(data,update)
 
         alert_message('error', 'Ошибка - попробуйте еще раз');
     }
+
+    var box = $('.box-modal:last');
+    clearInterval(timerId);
+    box.find('.arcticmodal-close').click();
+
 }
 
 //отклонить заявку

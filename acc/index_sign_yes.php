@@ -131,7 +131,7 @@ if($array_status==false)
 
 
 //отправляем следующим уведомления
-if (($edo->next($id, 0))===false) {
+if (($edo->next($id, 1))===false) {
 
     //id_executor
     //mysql_time_query($link,'update z_doc set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
@@ -172,7 +172,16 @@ if (($edo->next($id, 0))===false) {
             {
 */
             //    $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
+            $name_c='';
+            $result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+            $num_results_uu = $result_uu->num_rows;
 
+            if ($num_results_uu != 0) {
+
+                $row_uud = mysqli_fetch_assoc($result_uu);
+                $name_c='Контрагент - '.$row_uud["name"];
+
+            }
 
             $text_not='Вам поступила задача по счету <a class="link-history" href="acc/'.$row_list['id'].'/">Счет №'.$row_list['number'].' от '.date_ex(0,$row_list['date']).'</a>. '.$name_c.' '.$value["description"];
 
@@ -266,7 +275,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/aсс/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/acc/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

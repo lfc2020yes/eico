@@ -95,14 +95,30 @@ if ($edo->next($id, 1,0,$restart)===false) {
 
     $status_ee='ok';
     //id_executor
-    mysql_time_query($link,'update z_acc set status="2" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+    mysql_time_query($link,'update z_acc set status="2" where id = "'.htmlspecialchars(trim($_POST['id'])).'"');
 
 
-    $result_uu = mysql_time_query($link, 'select status from z_acc where id="' . ht($_GET['id']) . '"');
+    $result_uu = mysql_time_query($link, 'select status from z_acc where id="' . ht($_POST['id']) . '"');
     $num_results_uu = $result_uu->num_rows;
 
     if ($num_results_uu != 0) {
         $row_uu = mysqli_fetch_assoc($result_uu);
+
+        $color_status=1;
+        if(( $row_uu["status"]==2)) {$color_status=2;}
+//к оплате
+        if ( $row_uu["status"] == 3) {
+            $color_status = 3;
+        }
+//оплачено
+        if ( $row_uu["status"] == 4) {
+            $color_status = 5;
+        }
+//отказано
+        if (( $row_uu["status"] == 8)or( $row_uu["status"] == 5)) {
+            $color_status = 4;
+        }
+
 
         $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_uu["status"] . '" and a.id_system=16');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
@@ -110,7 +126,7 @@ if ($edo->next($id, 1,0,$restart)===false) {
             $row_status = mysqli_fetch_assoc($result_status);
 
 
-            $echo = '<div class="js-state-acc-link"><div id_status="' . $row_score["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
+            $echo = '<div class="js-state-acc-link"><div id_status="' . $row_uu["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
 
         }
     }

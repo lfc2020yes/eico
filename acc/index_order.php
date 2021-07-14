@@ -145,7 +145,7 @@ if ($edo->next($id, 1,0,$restart)===false) {
             $name_c='Контрагент - '.$row_uud["name"];
         }
 
-        $text_not='Вам поступила задача <a class="link-history" href="acc/'.$row_list['id'].'/">Счет №'.$row_list['number'].' от '.date_ex(0,$row_list['date']).'</a>. '.$name_c.' '.$value["description"];
+        $text_not='Вам поступила задача по счету <a class="link-history" href="acc/'.$row_list['id'].'/">№'.$row_list['number'].' от '.date_ex(0,$row_list['date']).'</a>. '.$name_c.' '.$value["description"];
 
                //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
 				//отправка уведомления

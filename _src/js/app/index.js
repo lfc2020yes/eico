@@ -5100,7 +5100,7 @@ $('.label_s').bind("change keyup input click", label_show);
 
 $('body').on("change keyup input click",'.tabs_005U',{key: "005U"},tabs_app);
 
-	$('body').on("change keyup input click",'.js-sign-1',SingFo);
+	$('body').on("change keyup input click",'.js-sign-a',SingFo);
 
 
 	$('body').on("change keyup input click",'.js-reject-app',RejectFo);

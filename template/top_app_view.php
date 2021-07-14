@@ -291,7 +291,7 @@ include_once $url_system.'module/notification.php';
 
 if($but_mass["id_action"]!=4) {
 
-    $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-' . $but_mass["id_action"] . '">';
+    $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a">';
     if ($class_by == '') {
         $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
 <div id="1" class="input-choice-click-pass js-checkbox-group">

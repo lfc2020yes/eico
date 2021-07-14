@@ -59,10 +59,8 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 	
-if((!$role->permission('Заявки','R'))and($sign_admin!=1)) {
-
+if((!$role->permission('Счета','R'))and($sign_admin!=1)) {
     header404(4,$echo_r);
-
 }
 
 
@@ -77,7 +75,7 @@ if((!isset($_POST["remark"]))or(trim($_POST["remark"])==''))
 }
 //header404(94,$echo_r);
 //**************************************************
-$result_url=mysql_time_query($link,'select A.* from z_doc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_url=mysql_time_query($link,'select A.* from z_acc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url==0)
 {
@@ -92,7 +90,7 @@ if($num_results_custom_url==0)
 	$id=htmlspecialchars($_GET['id']);
 
 
-        if(!token_access_new($token,'sign_app_reject',$id,"rema",120)) {
+        if(!token_access_new($token,'sign_acc_reject',$id,"rema",120)) {
             header404(4, $echo_r);
         }
 
@@ -101,7 +99,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(0, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
  //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
  $id_s=0;
@@ -131,7 +129,13 @@ foreach ($arr_document as $key => $value)
 $array_status=$edo->set_status($id_s, 1,ht(trim($_POST["remark"])));
 if($array_status==false)
 {
+    echo '<pre>'.print_r($edo->arr_sql,true) .'</pre>';
+    //$edo->$arr_sql
+         //echo '<pre>arr_document:' . print_r($edo->$arr_sql, true) . '</pre>';
     header404(78, $echo_r);
+
+
+
 }
 
 //уведомление создателю заявки
@@ -142,26 +146,21 @@ if($array_status==false)
 $user_send= array();
 $user_send_new= array();
 
-$result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($value['id_object'])).'"');
-$num_results_custom_url = $result_url->num_rows;
-if($num_results_custom_url!=0)
-{
-    $row_list1 = mysqli_fetch_assoc($result_url);
+
+
+$name_c='';
+$result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+$num_results_uu = $result_uu->num_rows;
+
+if ($num_results_uu != 0) {
+    $row_uud = mysqli_fetch_assoc($result_uu);
+    $name_c='Контрагент - '.$row_uud["name"];
 }
-
-$result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
-$num_results_custom_town = $result_town->num_rows;
-if($num_results_custom_town!=0)
-{
-    $row_town = mysqli_fetch_assoc($result_town);
-}
-
-
 
 //отправляем создателю заявки что его служебные приняты и заявка изменила статус
 $user_send_new= array();
 array_push($user_send_new,$value['id_user']);
-$text_not='Ваша <a class="link-history" href="app/'.$value['id'].'/">Заявка №'.$value['id'].'</a> отклонена.';
+$text_not='Ваш <a class="link-history" href="acc/'.$value['id'].'/">Счет №'.$value['number'].' от '.date_ex(0,$value['date']).'</a> отклонен. '.$name_c.'.';
 //отправка уведомления
 $user_send_new= array_unique($user_send_new);
 notification_send($text_not,$user_send_new,$id_user,$link);
@@ -174,8 +173,8 @@ notification_send($text_not,$user_send_new,$id_user,$link);
 
 
 //изменение статуса заявки
-mysql_time_query($link,'update z_doc set status="8" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
-mysql_time_query($link,'update z_doc_material set status="8" where id_doc = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update z_acc set status="8" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+//mysql_time_query($link,'update z_a_material set status="8" where id_doc = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 
 /*
@@ -237,7 +236,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/app/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/acc/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

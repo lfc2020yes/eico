@@ -87,7 +87,7 @@ if ($value["status"] == 4) {
     $color_status = 5;
 }
 //отказано
-if (($$value["status"] == 8)or($value["status"] == 5)) {
+if (($value["status"] == 8)or($value["status"] == 5)) {
     $color_status = 4;
 }
 
@@ -225,7 +225,7 @@ if($small_block==1) {
 
 //определим последнее действие по обращению
 
-$arr_document_end = $edo->my_documents(0, ht($value["id"]), '>=-10', false);
+$arr_document_end = $edo->my_documents(1, ht($value["id"]), '>=-10', false);
 //echo '<pre>arr_document:'.print_r($arr_document_end, true) . '</pre>';
 
 $id_end_step='';

@@ -66,6 +66,7 @@ class EDO
             ,'ошибка изменения статуса' //20
             ,'ошибка перенаправления задания' //21
             ,'создано дополнительное согласование на превышение' //22
+            ,'ожидание согласования текущее' //23
 
         );
         $this->arr_sql = array();
@@ -473,7 +474,7 @@ values
                     if ($row[id_status] == 0) {
                         $ok_item = false;
                         if($this->show) echo "на согласовании";
-                        $this->error(17);
+                        $this->error(17);  // ожидание согласования
                         break;
                     }
                     if ($row[id_status] == 1) {
@@ -499,10 +500,11 @@ values
                                 //echo 'STEP II<br>';
                                 $ok_item = false;
                                 $this->error = 22; //создано дополнительное согласование на превышение
+                                break;
                             }
 
                         }
-                        break;
+                        continue;
                     }
                 }
                 if ($ok_item) { // все условия для этого задания одобрены
@@ -511,7 +513,7 @@ values
                             case 0: // активное - ждем рассмотрения
                                 $ok_item = false;
                                 //$ok = false;
-                                $this->error(17); //ожидание согласования
+                                $this->error(23); //ожидание согласования
                                 break;
                             case 1: // отказ - больше не продолжать
                                 $ok_item = false;
@@ -532,6 +534,7 @@ values
                     }
                 } else {  //Условия не выполнены
                     continue;
+                    //break;
                 }
                 if($ok===false) break;
 
@@ -820,24 +823,24 @@ $limit
     }
 
     /**
-     * @param $id_s
+     * @param $id_task - id из edo_state ($id_s)
      * @param int $status 0 - на рассмотрении, 1-отказ, 2-согласованно, 3-согласованно с замечаиями
      * @param $comment - комментарий согласования
      * @param $next - ссылка (id) на запись, при пересылке или при дополнительном подтверждении
-     * @return false / $id_s
+     * @return false / $id_task
      */
-    public function set_status($id_s, $status=2, $comment=null, $next=null){
+    public function set_status($id_task, $status=2, $comment=null, $next=null){
         $comment_executor = ( $comment==null ) ? '' : ", comment_executor = '$comment'";
         $next_data = ( $next==null ) ? '' : ", next = '$next'";
         $sql = "
-UPDATE `edo_state` SET id_status = $status $comment_executor $next_data WHERE id = $id_s
+UPDATE `edo_state` SET id_status = $status $comment_executor $next_data WHERE id = $id_task
         ";
         $this->Debug($sql,__FUNCTION__);
         if (iDelUpd($this->mysqli,$sql,false)===false) {
             $this->error = 19;  // ошибка изменния статуса задания
             return false;
         }
-        return $id_s;
+        return $id_task;
     }
 
     /**

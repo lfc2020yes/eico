@@ -97,8 +97,8 @@ if($_SERVER['DOCUMENT_ROOT']!=$local)
 }
 
 
-$nav_text=array("Себестоимость","Наряды","Заявки","Касса","Исполнители","Накладные","Склад","Прием-Передача");
-$nav_url=array("prime","finery","app","cashbox","implementer","invoices","stock","aktpp/res");						 
+$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Касса","Исполнители","Накладные","Склад","Прием-Передача");
+$nav_url=array("prime","finery","app","acc","cashbox","implementer","invoices","stock","aktpp/res");
 $found = array_search($active_menu,$nav_url);
 
 ?>
@@ -126,7 +126,7 @@ echo'<li class="not_li" style=""><a class="a11" href="notification/">Уведо�
 		 }
 	
 	
-	
+	/*
 //счета на материалы
 	  if (($role->permission('Счета','R'))or($sign_admin==1))
 	  {	
@@ -157,7 +157,7 @@ if($active_menu=='bill')
 		  
 		  
 	  }
-	
+	*/
 	
 	
 //служебные записки	
@@ -307,11 +307,38 @@ if(count($arr_tasks)==0)
 
 
          } else {
+             if($value_nav=='acc')
+             {
+//по заявкам смотрим и выводим если есть сколько надо выполнить задач
+                 if (!is_object($edo)) {
 
+                     include_once $url_system.'ilib/lib_interstroi.php';
+                     include_once $url_system.'ilib/lib_edo.php';
+                     $edo = new EDO($link, $id_user, false);
+
+                 }
+                 $arr_tasks = $edo->my_tasks(1, '=0' );
+                 $class_left_l='';
+                 $count_l=count($arr_tasks);
+                 if(count($arr_tasks)==0)
+                 {
+                     $class_left_l='nonex';
+                     $count_l='';
+                 }
+
+                 if ($found === $key_nav) {
+                     echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                 } else {
+                     echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                 }
+
+
+             } else {
              if ($found === $key_nav) {
                  echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
              } else {
                  echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+             }
              }
          }
 	  }

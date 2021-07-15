@@ -1,4 +1,43 @@
 <?
+
+//удаление пробельный символов
+function trimc($input)
+{
+    return str_replace(' ', '', $input);
+}
+
+function FileBase($value,$link)
+{
+    $result=mysql_time_query($link,'select A.id from image_attach as A where A.visible=1 and A.id_object=0 and A.for_what IN ("8","11") and A.name="'.ht($value).'"');
+    $num_results = $result->num_rows;
+    if($num_results!=0)
+    {
+        return 1; //ok
+    } else
+    {
+        return 0;  //с файлом что-то не так
+    }
+}
+
+//перевод даты из формата 15.07.2020 в формат 2020-07-15 (sql)  -> ex=1
+//перевод даты из формата 2020-07-15 (sql) в формат 15.07.2020  -> ex=0
+
+function date_ex($ex,$date)
+{
+    if(($date!='')and($date!='00.00.0000')and($date!='0000-00-00'))
+    {
+        if($ex==1) {
+            $date_ex = explode(".", htmlspecialchars(trim($date)));
+            $date_start = $date_ex[2] . '-' . $date_ex[1] . '-' . $date_ex[0];
+        } else
+        {
+            $date_ex = explode("-", htmlspecialchars(trim($date)));
+            $date_start = $date_ex[2] . '.' . $date_ex[1] . '.' . $date_ex[0];
+        }
+    }
+    return  $date_start;
+}
+
 //взятие файла с последней версией
 /*
 index-0.0.2.js
@@ -552,6 +591,9 @@ function token_access_new($token,$sale,$id,$name_session,$minutes=30)
     {
         global $link;
 
+//какой то ошибка. сбрасываем secret
+        $secret=rand_string_string(16);
+        $_SESSION['rema'] = $secret;
 
         mysql_time_query($link,'insert into v_error (module,error,date_error)  values ("'.htmlspecialchars($_SERVER['REQUEST_URI']).'","'.htmlspecialchars($v_error).'","'.date("y.m.d").' '.date("H:i:s").'")');
 
@@ -836,12 +878,68 @@ function sms_podver($link,$len, $chars = '0123456789')
    } while($row1222["r"]!=0);
    
 	return $string; 
- } 
+ }
 
 
+function encode_x($unencoded,$key){//Шифруем
+    /*
+$string=base64_encode($unencoded);//Переводим в base64
+echo'<br><br>';
+echo $string.'<br>';
+$arr=array();//Это массив
+$x=0;
+	$newstr='';
+while ($x++< strlen($string)) {//Цикл
+$arr[$x-1] = md5(md5($key.$string[$x-1]).$key);//Почти чистый md5
+$newstr = $newstr.$arr[$x-1][4].$arr[$x-1][7].$arr[$x-1][2].$arr[$x-1][8];//Склеиваем символы
+    echo $newstr.'   - md5-'.$arr[$x-1].' что - '.$key.$string[$x-1].'<br>';
+}
+    echo'<br><br>';
+return $newstr;//Вертаем строку*/
+
+    //$string=base64_encode($unencoded);
+    $encrypt_method = "AES-256-CBC";
+    $key = hash('sha256', $key);
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', ENCRYPTION_KEY), 0, 16);
+    $output = base64_encode(openssl_encrypt($unencoded, $encrypt_method, $key, 0, $iv));
+
+    return $output;
+}
+
+function decode_x($encoded, $key){//расшифровываем
+    //    150b9d7a1714bc17150b195d150b21d4c7670cff74fa38d8150b195d83f5bc17
+    //Mjk5MTYyMjQzM192f55
+    /*
+$strofsym="qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPASDFGHJKLZXCVBNM=";//Символы, с которых состоит base64-ключ
+$x=1;
+    echo'<br><br>';
+    echo $encoded.'<br>';
+while ($x<= strlen($strofsym)) {//Цикл
+$tmp = md5(md5($key.$strofsym[$x-1]).$key);//Хеш, который соответствует символу, на который его заменят.
+$encoded = str_replace($tmp[4].$tmp[7].$tmp[2].$tmp[8], $strofsym[$x-1], $encoded);//Заменяем №3,6,1,2 из хеша на символ
+
+    echo $encoded.' что- '.$key.$strofsym[$x-1].'   - md5-'.$tmp.' - кусок -'.$tmp[4].$tmp[7].$tmp[2].$tmp[8].'  на - '.$strofsym[$x-1].'<br>';
+    $x++;
+}
+    echo'<br><br>';
+return base64_decode($encoded);//Вертаем расшифрованную строку*/
+
+    $encrypt_method = "AES-256-CBC";
+    $key = hash('sha256', $key);
+    //echo '<br>key - '.$key.'<br>';
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', ENCRYPTION_KEY), 0, 16);
+    //echo '<br>iv - '.$iv.'<br>';
+    $output = openssl_decrypt(base64_decode($encoded), $encrypt_method, $key, 0, $iv);
+
+    return $output;
 
 
+}
 
+
+/*
 
 function encode_x($unencoded,$key){//Шифруем
 $string=base64_encode($unencoded);//Переводим в base64
@@ -865,7 +963,7 @@ $encoded = str_replace($tmp[4].$tmp[7].$tmp[2].$tmp[8], $strofsym[$x-1], $encode
 return base64_decode($encoded);//Вертаем расшифрованную строку
 }
 
-
+*/
 
 function rand_string_string($len, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789') 
  { 

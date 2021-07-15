@@ -61,6 +61,14 @@ var tabs_app = function(event) {
 	}
 }
 
+// Функция удаления пробелов
+function ctrim(str)
+{
+	str = str.replace(/\s/g, '');
+	return str;
+}
+
+
 //функция проверки ввода только чисел и с запятой
 var validate11 = function() {
   $(this).val($(this).val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
@@ -1210,15 +1218,6 @@ function InputBlurNew()
 }
 
 
-function UpdateStatusADA(id)
-{
-	if(id!=0)
-	{
-	  $('[id_ada='+id+']').hide().after('<div class="loader_inter"><div></div><div></div><div></div><div></div></div>');	
-	  var data ='url='+window.location.href+'&id='+id;
-      AjaxClient('supply','update_ada','GET',data,'AfterUpdateStatusADA',id,0);	
-	}
-}
 
 //удалить фото из накладной
 function DellImageInvoice()
@@ -1517,41 +1516,7 @@ function xvg_no()
 }
 
 
-//добавить новый счет
-function add_soply()
-{
-	var iu=$('.content_block').attr('iu');
-	var cookie_new = $.cookie('basket_supply_'+iu);
-	if(cookie_new!=null)
-	{
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_soply.php',
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
 
-  });
-	 		
-		
-		
-	}
-	
-}
 
 
 function vall_supply() {  
@@ -1758,123 +1723,10 @@ function xvg_bill()
 	jQuery.scrollTo('.billl[rel_id='+id_soply+']', 1000, {offset:-120});
 }
 
-function option_score1() {
-	var el_v=$(this).val();
-	var soply=$(this).parents('.menu_supply').prev();
-	var id_soply=soply.attr('rel_score');
-	if(el_v==2)	
-	{
-		//сделать текущим		
-		
-		$('.checher_supply').removeClass('checher_supply');
-		
-
-		
-		var iu=$('.content_block').attr('iu');		
-		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-        CookieList("current_supply_"+iu,id_soply,'add');
-		
-		$('.score_active').removeClass('score_active');
-		$('[rel_score='+id_soply+']').addClass('score_active');
-		
-		
-		
-		
-		
-		var data ='url='+window.location.href+'&id='+id_soply;
-	    AjaxClient('supply','current_soply','GET',data,'Aftercurrent_soply',id_soply,0);		
-	}
-	if(el_v==3)	
-	{
-
-	   //согласовать счет
-	  var data ='url='+window.location.href+'&id='+id_soply;
-	  AjaxClient('supply','app_soply','GET',data,'Afterapp_soply',id_soply,0);
-		
-		
-	}
-	if(el_v==1)	
-	{
-
-	   //открыть счет
-	  
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_update_soply.php?id='+id_soply,
-	  beforeOpen: function (data, el) {
-		  //во время загрузки формы с ajax загрузчик
-		  $('.loader_ada_forms').show();
-		  $('.loader_ada1_forms').addClass('select_ada');
-	  },
-	  afterLoading: function (data, el) {
-		  //после загрузки формы с ajax
-		  data.body.parents('.arcticmodal-container').addClass('yoi');
-		  $('.loader_ada_forms').hide();
-		  $('.loader_ada1_forms').removeClass('select_ada');
-	  },
-	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
-		  if (typeof timerId !== "undefined") {
-			  clearInterval(timerId);
-		  }
-		  BodyScrool();
-	  }
-
-  });	
-}
-		
-		
-		
-	
-	if(el_v==4)	
-	{
-		//удалить счет
-		
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_dell_soply.php?id='+id_soply,
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
-
-  });
-		
-		//var data ='url='+window.location.href+'&id='+id_soply;
-	    //AjaxClient('supply','dell_soply','GET',data,'Afterdell_soply',id_soply,0);		
-		
-	}
-	
-	
-}
 
 
-//сохранить текущий счет	
-function save_soply() { 
-	var iu=$('.content_block').attr('iu');	
-	var cookie_flag_current = $.cookie('current_supply_'+iu);
-	//alert(cookie_new);
-	if(cookie_flag_current!=null) 
-	{
-	
-	  var data ='url='+window.location.href;
-	  AjaxClient('supply','update_soply','GET',data,'Afterupdate_soply',1,0);
-		
-	}
-	
-}
+
+
 
 
 function scroll_to_bottom(speed) {
@@ -3349,7 +3201,7 @@ function timesss() {
 	  //завершение сессии пользователя
 	  //$.cookie('user_id', null, {path:'/'});  
 	  //$.cookie('da', null, {path:'/'}); 
-	  $.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false});
+	  $.cookie("tsl", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	  //открытие формы для входа
 
 	/*
@@ -3396,63 +3248,7 @@ function timesss() {
 
 
 
-//корзина счетов новый/текущий
-function basket_supply()
-{
-	var iu=$('.content_block').attr('iu');
-	var cookie_new = $.cookie('basket_supply_'+iu);
-	var cookie_score = $.cookie('basket_score_'+iu);
-	var cookie_flag_current = $.cookie('current_supply_'+iu);
-	//alert(cookie_new);
-	if(cookie_flag_current==null) 
-	{
-		//значит новый счет выводить
-		if(cookie_new==null) { $('.add_score').remove(); $('.more_supply').hide();  } else
-	    {
-		   $('.add_nar').show();
-		   $('.add_zayy').show();
-		   if(!$(".add_score").length)
-		   {
-			  $('.add_sss').after('<a data-tooltip="добавить счет" class="add_score"><i class="score_plus"></i><i class="score_"></i></a>'); 
-			  $('.more_supply').show(); 
-			   
-			  ToolTip(); 
-		   }
-		   var cc = cookie_new.split('.');
-	       var counts=cc.length;
-		   $('.add_score .score_').empty().append(counts);
 
-		   $('.add_score .score_').animate({scale: "1.5"}, 200, function() {  $('.add_score .score_').animate({scale: "1"}, 200); });
-		   $('#nprogress').show();
-		   $('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
-	    }
-	} else
-	{
-		//значит активен текущий счет
-		$('.add_score').remove(); $('.more_supply').hide();		
-		$('.current_score').show();  $('.more_supply2').show();
-		
-		$('.current_score').find('.count_scire').show();
-		$('.menu_supply').find('[rel=1]').parents('li').show();
-        if(cookie_score!=null)
-			{
-		var cc = cookie_score.split('.');
-	    var counts=cc.length;
-			} else
-				{
-					counts='';
-					$('.current_score').find('.count_scire').hide();
-					$('.menu_supply').find('[rel=1]').parents('li').hide();
-				}
-		
-		//$('.add_score .score_').empty().append(counts);
-		$('.current_score').find('.count_numb_score').empty().append(counts);
-		
-		//$('.current_score').find('.count_scire').hide();
-		
-	}
-	
-}
 
 
 
@@ -3610,7 +3406,7 @@ function CookieList(name,id,command,sort)
 //alert($.cookie(name));
 var cookie = $.cookie(name);
 	//alert(cookie);
-if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_session,secure: false});
+if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_session,secure: false,samesite:'lax'});
  } else
 {
 	if(command=='del')
@@ -3638,17 +3434,17 @@ if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_s
 	}
 	if(text=='')
 	{
-		$.cookie(name, null, {path:'/',domain: window.is_session,secure: false}); 
+		$.cookie(name, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	} else
 	{
-	    $.cookie(name, text, {path: '/',domain: window.is_session,secure: false});  //60 дней
+	    $.cookie(name, text, {path: '/',domain: window.is_session,secure: false,samesite:'lax'});  //60 дней
 	}
 	
 	} else
 	{
 		//alert(sort);
 		  if (sort === undefined) {
-               $.cookie(name, cookie+'.'+id, {path: '/',domain: window.is_session,secure: false}); //60 дней
+               $.cookie(name, cookie+'.'+id, {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
           } else
 	      {
 				  if(sort=='sort')
@@ -3658,7 +3454,7 @@ if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_s
 					  
 					   jon_cc= jon_cc.sort(compareNumbers);
 					   //alert(jon_cc.join("."));
-					   $.cookie(name, jon_cc.join("."), {path: '/',domain: window.is_session,secure: false}); //60 дней
+					   $.cookie(name, jon_cc.join("."), {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
 					    
 				  }
 				  
@@ -4415,6 +4211,8 @@ var save_zayava = function()
 			$(this).addClass('error_formi');
 		}
     });
+
+
 	$('.mat_zz').find('.count_app_mater_').removeClass('error_formi');
 	$('.mat_zz').find('.calendar_zay').removeClass('error_formi');
 	
@@ -5096,47 +4894,13 @@ var nm_div = function() {
 var close_prime_dom = function() {
    //CookieList(window.b_co+"_"+id_dom,$(this).parents('[rel_id]').attr('rel_id'),'del');
    var id_dom=$('.content_block').attr('dom'); 
-   $.cookie("pr_", null, {path:'/',domain: window.is_session,secure: false}); 
+   $.cookie("pr_", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	//alert("!");
    $('.close_prime_dom_a')[0].click(); ;	
 }
 
 
-//нажать на материал в снабжении - добавить/убрать из корзины счетов
-var st_div_supply = function() {
-	
-	var iu=$('.content_block').attr('iu');
-	var tr=$(this).parents('.tr_dop_supply');
-	
-	//var cookie_new = $.cookie('basket_supply_'+iu);
-	var cookie_flag_current = $.cookie('current_supply_'+iu);
-	//alert(cookie_new);
-	if(cookie_flag_current==null) 
-	{
-		var ssup='basket_supply_';
-	} else
-	{
-		var ssup='basket_score_';	
-	}
-	
-	//alert(ssup);
-	  if(tr.is(".checher_supply")) 
-	  {
-		  tr.removeClass("checher_supply");
-		  CookieList(ssup+iu,tr.attr('supply_id'),'del');	
-		 // alert($(this).parents('[rel_id]').attr('rel_id'));
-		  basket_supply();  
-		  ToolTip();
-	  } else
-	  {
-		  tr.addClass("checher_supply");
-		  CookieList(ssup+iu,tr.attr('supply_id'),'add');
-		  basket_supply();	
-		  ToolTip();	  
-	  }	
-	
-	
-}
+
 
 //нажать на работу в разделе - добавить в корзину
 var st_div = function() {
@@ -5336,7 +5100,7 @@ $('.label_s').bind("change keyup input click", label_show);
 
 $('body').on("change keyup input click",'.tabs_005U',{key: "005U"},tabs_app);
 
-	$('body').on("change keyup input click",'.js-sign-1',SingFo);
+	$('body').on("change keyup input click",'.js-sign-a',SingFo);
 
 
 	$('body').on("change keyup input click",'.js-reject-app',RejectFo);
@@ -5363,7 +5127,10 @@ $('.save_button2').bind("change keyup input click", send_meee);
 $('.content').on("click",'.send_mess',SendMessage);	
 $('.help_user').on("click",'.send_mess',SendMessage);
 
-$('.menu_jjs').on("change keyup input click",'.menu_click',menuclick);
+//$('.menu_jjs').on("change keyup input click",'.menu_click',menuclick);
+
+$('body').on("change keyup input click",'.menu_click',menuclick);
+
 //$('.menu_click').bind("change keyup input click", menuclick);
 	
 $('.js-close_prime_dom	').on('click', close_prime_dom);
@@ -5676,7 +5443,7 @@ jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 	jQuery(document).on("click",'.print_stock_',PrintStock_);
 	
 $('.suppp_tr').on("click",'.supply_tr_o',ChangeSupply);
-$('.tr_dop_supply').on("click",'.st_div_supply',st_div_supply);
+
 
 $('.notif_imp').on("click",'.del_notif',DellNotif);
 	$('.notif_div_2018').on("click",'.del_notif',DellNotif);
@@ -5730,6 +5497,9 @@ setTimeout ( function () {
 	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  var thiss = $(this); var work=thiss.parents('[mat_zz]').attr('mat_zz'); $('[mat_zz='+work+']').find('.edit_12').remove(); $('[mat_zz='+work+']').find('.edit_123').find('i').removeClass('active'); $('[mat_zz='+work+']').find('.decision_mes').val("-1");     }  });	
 	//если переход в любое редактируемое поле служебной записки то сбрасывать кнопку заказать на сохранить
 	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
+
+	$('.js-acc-view').on("change keyup input click",'.count_xvg_,.price_xvg_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
+
 	
 	$('.zay_2020').on("change keyup input click",'.del_material_zayva1,.zayva_del_naf',function(){ if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); } });
 	
@@ -5775,10 +5545,10 @@ nprogress=0; //показывать загрузчик линию при ajax з
 
 
 
-	basket_supply();
+
 update_block();
 $('.menu1').on("click",'.count_numb_score',save_soply);
-$('.menu1').on("click",'.score_plus,.score_',add_soply);
+
 	
 	
 
@@ -5788,7 +5558,7 @@ $('.mkr_').on("change",'.option_mat',option_mat);
 	
 $('.button_ada_wall').on("change",'.option_mat1',option_mat1);	
 	
-$('.scope_scope').on("change",'.option_score1',option_score1);
+//$('.scope_scope').on("change",'.option_score1',option_score1);
 $('.statusis').on("change",'.vall_supply', vall_supply);	
 //$(".drops").find("li").bind('click', droplis);
 	
@@ -6272,6 +6042,7 @@ $('body').on("click",'.drop_box li',dropli_box1);
 	
 	
 /*клик на раскрывающее меню квартал*/
+	/*
 $(document).mouseup(function (e) {
     var container = $(".select");
     if (container.has(e.target).length === 0){
@@ -6281,6 +6052,39 @@ $(document).mouseup(function (e) {
 		$(".slct").removeClass("active");
     }
 });
+*/
+	$(document).mouseup(function (e) {
+		var container = $(".select");
+		var open_cont_list = $(".js-drop-search");
+		var open_cont_list1 = $(".js-open-search");
+		/*
+        if ((container.has(e.target).length === 0)&&(!open_cont_list.is(e.target))&&(!open_cont_list1.is(e.target)))
+        {
+            //клик вне блока и включающих в него элементов
+            //$(".drop").hide();
+            //alert("!");
+            $(".drop").css("transform", "scaleY(0)");
+            $(".slct").removeClass("active");
+            $(".drop").parents('.input-search-list').find('i').removeClass('open-search-active');
+        }
+        */
+		//alert(container.has(e.target).length);
+		if ((container.has(e.target).length === 0)&&(!open_cont_list.is(e.target))&&(!open_cont_list1.is(e.target)))
+		{
+			//клик вне блока и включающих в него элементов
+			//$(".drop").hide();
+			//alert("!");
+			$(".drop").css("transform", "scaleY(0)");
+			$(".drop-radio").css("transform", "scaleY(0)");
+			$(".slct").removeClass("active");
+			$(".drop").parents('.input-search-list').find('i').removeClass('open-search-active');
+			$(".drop-radio").parents('.input-search-list').find('i').removeClass('open-search-active');
+		}
+
+
+	});
+
+
 window.slctclick = function() {
 
 	if($(this).parents('.select').find('input').attr('readonly')==undefined) {
@@ -6468,7 +6272,7 @@ var list_number	= function() {
 	
 /*клик на раскрывающее меню сортировка снабжение*/
 var changesort2 = function() {  
-$.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_2",$(this).val(),'add');
 	$('.js-reload-top').removeClass('active-r');
 	$('.js-reload-top').addClass('active-r');
@@ -6504,7 +6308,7 @@ $('#sort2').bind('change', changesort2);
 $('[list_number=t2]').next().find('li').bind('click', list_number);		
 
 var changesort1 = function() {  
-$.cookie("su_1", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_1", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_1",$(this).val(),'add');
 	$('.js-reload-top').removeClass('active-r');
 	$('.js-reload-top').addClass('active-r');
@@ -6516,7 +6320,7 @@ $('#sort1').bind('change', changesort1);
 
 	
 var changesort_stock3 = function() {  
-$.cookie("su_st_3", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_st_3", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_3",$(this).val(),'add');
 $('.show_sort_stock').removeClass('active_supply');
 $('.show_sort_stock').addClass('active_supply');	
@@ -6526,7 +6330,7 @@ $('#sort_stock3').bind('change', changesort_stock3);
 	
 
 var changesort_stock1 = function() {  
-$.cookie("su_st_1", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_st_1", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_1",$(this).val(),'add');
 $('.show_sort_stock').removeClass('active_supply');
 $('.show_sort_stock').addClass('active_supply');	
@@ -6535,7 +6339,7 @@ $('.show_sort_stock').addClass('active_supply');
 $('#sort_stock1').bind('change', changesort_stock1);	
 	
 var changesort_stock2__= function() {  
-	$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false}); 	
+	$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	$(this).prev().val('');
     $('.show_sort_stock').removeClass('active_supply');
     $('.show_sort_stock').addClass('active_supply');
@@ -6544,7 +6348,7 @@ var changesort_stock2__= function() {
 	
 	
 var changesort_stock2= function() {  
-$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_2",$(this).val(),'add');
 $('.show_sort_stock').removeClass('active_supply');
 $('.show_sort_stock').addClass('active_supply');
@@ -6563,18 +6367,10 @@ $('.name_stock_search_input').bind('change keyup input click', changesort_stock2
 $('.dell_stock_search').bind('change keyup input click', changesort_stock2__);	
 
 
-//очистить корзину счетов
-var erase_basket = function() { 
-		
-	    var iu=$('.content_block').attr('iu');
-	    $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 
-	
-	    $('.checher_supply').removeClass('checher_supply');
-		basket_supply();  
-}
 
 
 
+/*
 var vall_basket2 = function() {  
 	var el_v=$(this).val();
 	//alert(el_v);
@@ -6587,9 +6383,9 @@ var vall_basket2 = function() {
 	{
 		//закрыть текущий
 		var iu=$('.content_block').attr('iu');		
-		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-		$.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		$.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
+		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+		$.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+		$.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 		
 		$('.current_score').find('.number_score').empty();
 		$('.current_score').find('.count_numb_score').empty();
@@ -6636,9 +6432,9 @@ var vall_basket2 = function() {
 	}
 	}
 };	
-
+*/
 	
-	
+	/*
 var vall_basket = function() {  
 	var el_v=$(this).val();
 	//alert(el_v);
@@ -6660,14 +6456,14 @@ var vall_basket = function() {
 	//var data ='url='+window.location.href+'&id='+$(this).attr('rel')+'&val='+el_v;
 	//AjaxClient('supply','status_work','GET',data,'Aftervall_supply',$(this).attr('rel'),0);			
 };	
-
-$('.vall_basket').bind('change', vall_basket);	
-$('.vall_basket2').bind('change', vall_basket2);	
+*/
+//$('.vall_basket').bind('change', vall_basket);
+//$('.vall_basket2').bind('change', vall_basket2);
 	
 //$('.option_score1').bind('change', option_score1);		
 
 var changesortbill4 = function() {  
-$.cookie("bi_4", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("bi_4", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("bi_4",$(this).val(),'add');
 $('.show_sort_supply').removeClass('active_supply');
 $('.show_sort_supply').addClass('active_supply');	
@@ -6676,7 +6472,7 @@ $('.show_sort_supply').addClass('active_supply');
 $('#sortb4').bind('change', changesortbill4);		
 
 var changesortbill3 = function() {  
-$.cookie("bi_3", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("bi_3", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("bi_3",$(this).val(),'add');
 $('.show_sort_supply').removeClass('active_supply');
 $('.show_sort_supply').addClass('active_supply');	
@@ -6685,7 +6481,7 @@ $('.show_sort_supply').addClass('active_supply');
 $('#sortb3').bind('change', changesortbill3);	
 	
 var changesort3 = function() {  
-$.cookie("su_3", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_3", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_3",$(this).val(),'add');
 	$('.js-reload-top').removeClass('active-r');
 	$('.js-reload-top').addClass('active-r');
@@ -6696,7 +6492,7 @@ $('#sort3').bind('change', changesort3);
 	
 	
 var changesort4 = function() {  
-$.cookie("su_4", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_4", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_4",$(this).val(),'add');
 	$('.js-reload-top').removeClass('active-r');
 	$('.js-reload-top').addClass('active-r');
@@ -6708,7 +6504,7 @@ $('#sort4').bind('change', changesort4);
 	
 
 var changesort_stock4 = function() {  
-$.cookie("su_st_4", null, {path:'/',domain: window.is_session,secure: false}); 	
+$.cookie("su_st_4", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_4",$(this).val(),'add');
 $('.show_sort_stock').removeClass('active_supply');
 $('.show_sort_stock').addClass('active_supply');	
@@ -6828,38 +6624,7 @@ function AfterSendMM(data,update)
 	}
 }
 
-function Aftercurrent_soply(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {
-		var iu=$('.content_block').attr('iu');	
-		$('.more_supply2').show();
-		$('.current_score').find('.number_score').empty().append(data.status_echo);
-		$('.current_score').find('.count_numb_score').empty().append(data.count);
-		$('.current_score').show();
 
-		$.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-        
-		CookieList("basket_score_"+iu,data.basket,'add');
-		
-		//выделить все элементы если они есть на странице с такими id
-	var cc = data.basket.split('.');
-	for ( var t = 0; t < cc.length; t++ ) 
-	{ 	
-		$('[supply_id='+cc[t]+']').addClass('checher_supply');
-	}
-		basket_supply();		
-	}
-	if ( data.status=='error' )
-    {
-		
-	}
-}
 
 //постфункция обновление актов на отбраковку и фоток брака
 function AfterUpdateAkt(data,update)
@@ -6890,131 +6655,7 @@ function AfterUpdateAkt(data,update)
 
 
 
-//постфункция сохранить текущий счет
-function Afterupdate_soply(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {
-		var iu=$('.content_block').attr('iu');	
-		
-		var basket_score_ = $.cookie('basket_score_'+iu);
-		var cookie_flag_current = $.cookie('current_supply_'+iu);
-		var cc = basket_score_.split('.');
-	    
-		
-		//удаляем все старые иконки счетов и обновляем на новые
-		
-		$('[rel_score='+cookie_flag_current+']').next().remove();
-		$('[rel_score='+cookie_flag_current+']').remove();
-		
-		for ( var t = 0; t < cc.length; t++ ) 
-	    { 	
-			var tr=$('[supply_id='+cc[t]+']');
-			
-			tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" class="menu_click score_a  "><i>'+cc.length+'</i><span>№'+data.number+'</span></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
-			
-		}
-		
 
-		
-		
-		
-		$.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-		  $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		  $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		
-		$('.current_score').find('.number_score').empty();
-		$('.current_score').find('.count_numb_score').empty();
-		$('.current_score').hide();
-		$('.more_supply2').hide();
-		
-		$('.checher_supply').removeClass('checher_supply');
-		$('.score_active').removeClass('score_active');
-		
-	}
-	if ( data.status=='error' )
-    {
-		
-	}
-}
-
-
-//постфункция согласовать счет
-function Afterapp_soply(data,update)
-{
-if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='ok' )
-    {
-		$('[rel_score='+update+']').addClass('score_app');
-		
-		
-		var hf=$('[rel_score='+update+']').parents('[supply_stock]');
-		hf.each(function(i,elem) {
-			var rttt=$(this).attr('supply_stock');
-			var hf1= [];
-			hf1=rttt.split('_');
-		//alert(hf1[0]);
-		    UpdateStatusADA(hf1[0]);
-		});
-		
-		//alert(hf.length);
-		
-		//var hf1=hf.split('_');
-		//alert(hf1[0]);
-		//UpdateStatusADA(hf1[0]);
-		
-		
-		var iu=$('.content_block').attr('iu');
-	
-		$('[rel_score='+update+']').next().find('[rel=2]').parents('li').hide();
-		$('[rel_score='+update+']').next().find('[rel=3]').parents('li').hide();
-		$('[rel_score='+update+']').next().find('[rel=4]').parents('li').hide();
-		
-	  var cookie_flag_current = $.cookie('current_supply_'+iu);	
-	  if((cookie_flag_current!=null)&&(cookie_flag_current==update)) 
-	  {	
-		  $.cookie("current_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false}); 	
-		  $.cookie("basket_score_"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		  $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false});
-		
-		$('.current_score').find('.number_score').empty();
-		$('.current_score').find('.count_numb_score').empty();
-		$('.current_score').hide();
-		$('.more_supply2').hide();
-		
-		$('.checher_supply').removeClass('checher_supply');
-		$('.score_active').removeClass('score_active');
-	  }
-		
-	  var id_mateo='';	
-	  $('[rel_score='+update+']').each(function (index, value) { 
-       if(index==0)
-		   {
-             id_mateo=id_mateo+$(this).parents('[supply_id]').attr('supply_id');
-		   } else
-		   {
-			 id_mateo=id_mateo+'.'+$(this).parents('[supply_id]').attr('supply_id');   
-		   }
-
-      }); 	
-	  var data ='url='+window.location.href+'&id='+id_mateo;
-	  AjaxClient('supply','update_status','GET',data,'Afterupdate_status',id_mateo,0);	
-		
-	}
-		if ( data.status=='error' )
-    {
-		
-	}
-}
 
 //постфункция обновление статусов
 function Afterupdate_status(data,update)
@@ -7427,27 +7068,6 @@ function AfterUCASH(data,update)
 }
 
 
-function AfterUpdateStatusADA(data,update)
-{
-	if ( data.status=='reg' )
-    {
-		WindowLogin();
-	}
-	
-	if ( data.status=='error' )
-    {	
-		$('.loader_inter').remove();	
-	}
-	
-	
-	if ( data.status=='ok' )
-    {
-		$('[id_ada='+update+']').empty().append(data.echo);
-		ToolTip();
-		$('.loader_inter').remove();		
-		$('[id_ada='+update+']').show();	
-	}
-}
 
 
 //постфункция обновление статуса после к оплате счет
@@ -9427,3 +9047,8 @@ var Build = {
 
 
 (function(a){a.fn.circliful=function(b,d){var c=a.extend({fgcolor:"#556b2f",bgcolor:"#eee",fill:false,width:15,dimension:200,fontsize:15,percent:50,animationstep:1,iconsize:"20px",iconcolor:"#999",border:"default",complete:null},b);return this.each(function(){var w=["fgcolor","bgcolor","fill","width","dimension","fontsize","animationstep","endPercent","icon","iconcolor","iconsize","border"];var f={};var F="";var n=0;var t=a(this);var A=false;var v,G;t.addClass("circliful");e(t);if(t.data("text")!=undefined){v=t.data("text");if(t.data("icon")!=undefined){F=a("<i></i>").addClass("fa "+a(this).data("icon")).css({color:f.iconcolor,"font-size":f.iconsize})}if(t.data("type")!=undefined){j=a(this).data("type");if(j=="half"){s(t,"circle-text-half",(f.dimension/1.45))}else{s(t,"circle-text",f.dimension)}}else{s(t,"circle-text",f.dimension)}}if(a(this).data("total")!=undefined&&a(this).data("part")!=undefined){var I=a(this).data("total")/100;percent=((a(this).data("part")/I)/100).toFixed(3);n=(a(this).data("part")/I).toFixed(3)}else{if(a(this).data("percent")!=undefined){percent=a(this).data("percent")/100;n=a(this).data("percent")}else{percent=c.percent/100}}if(a(this).data("info")!=undefined){G=a(this).data("info");if(a(this).data("type")!=undefined){j=a(this).data("type");if(j=="half"){D(t,0.9)}else{D(t,1.25)}}else{D(t,1.25)}}a(this).width(f.dimension+"px");var i=a("<canvas></canvas>").attr({width:f.dimension,height:f.dimension}).appendTo(a(this)).get(0);var g=i.getContext("2d");var r=i.width/2;var q=i.height/2;var C=f.percent*360;var H=C*(Math.PI/180);var l=i.width/2.5;var B=2.3*Math.PI;var z=0;var E=false;var o=f.animationstep===0?n:0;var p=Math.max(f.animationstep,0);var u=Math.PI*2;var h=Math.PI/2;var j="";var k=true;if(a(this).data("type")!=undefined){j=a(this).data("type");if(j=="half"){B=2*Math.PI;z=3.13;u=Math.PI*1;h=Math.PI/0.996}}function s(J,x,y){a("<span></span>").appendTo(J).addClass(x).text(v).prepend(F).css({"line-height":y+"px","font-size":f.fontsize+"px"})}function D(y,x){a("<span></span>").appendTo(y).addClass("circle-info-half").css("line-height",(f.dimension*x)+"px")}function e(x){a.each(w,function(y,J){if(x.data(J)!=undefined){f[J]=x.data(J)}else{f[J]=a(c).attr(J)}if(J=="fill"&&x.data("fill")!=undefined){A=true}})}function m(x){g.clearRect(0,0,i.width,i.height);g.beginPath();g.arc(r,q,l,z,B,false);g.lineWidth=f.width+1;g.strokeStyle=f.bgcolor;g.stroke();if(A){g.fillStyle=f.fill;g.fill()}g.beginPath();g.arc(r,q,l,-(h),((u)*x)-h,false);if(f.border=="outline"){g.lineWidth=f.width+13}else{if(f.border=="inline"){g.lineWidth=f.width-13}}g.strokeStyle=f.fgcolor;g.stroke();if(o<n){o+=p;requestAnimationFrame(function(){m(Math.min(o,n)/100)},t)}if(o==n&&k&&typeof(b)!="undefined"){if(a.isFunction(b.complete)){b.complete();k=false}}}m(o/100)})}}(jQuery));
+
+
+
+!function(e){"use strict";function t(e,t){if(this.createTextRange){var a=this.createTextRange();a.collapse(!0),a.moveStart("character",e),a.moveEnd("character",t-e),a.select()}else this.setSelectionRange&&(this.focus(),this.setSelectionRange(e,t))}function a(e){var t=this.value.length;if(e="start"==e.toLowerCase()?"Start":"End",document.selection){var a,i,n,l=document.selection.createRange();return a=l.duplicate(),a.expand("textedit"),a.setEndPoint("EndToEnd",l),i=a.text.length-l.text.length,n=i+l.text.length,"Start"==e?i:n}return"undefined"!=typeof this["selection"+e]&&(t=this["selection"+e]),t}var i={codes:{46:127,188:44,109:45,190:46,191:47,192:96,220:92,222:39,221:93,219:91,173:45,187:61,186:59,189:45,110:46},shifts:{96:"~",49:"!",50:"@",51:"#",52:"$",53:"%",54:"^",55:"&",56:"*",57:"(",48:")",45:"_",61:"+",91:"{",93:"}",92:"|",59:":",39:'"',44:"<",46:">",47:"?"}};e.fn.number=function(n,l,s,r){r="undefined"==typeof r?",":r,s="undefined"==typeof s?".":s,l="undefined"==typeof l?0:l;var u="\\u"+("0000"+s.charCodeAt(0).toString(16)).slice(-4),h=new RegExp("[^"+u+"0-9]","g"),o=new RegExp(u,"g");return n===!0?this.is("input:text")?this.on({"keydown.format":function(n){var u=e(this),h=u.data("numFormat"),o=n.keyCode?n.keyCode:n.which,c="",v=a.apply(this,["start"]),d=a.apply(this,["end"]),p="",f=!1;if(i.codes.hasOwnProperty(o)&&(o=i.codes[o]),!n.shiftKey&&o>=65&&90>=o?o+=32:!n.shiftKey&&o>=69&&105>=o?o-=48:n.shiftKey&&i.shifts.hasOwnProperty(o)&&(c=i.shifts[o]),""==c&&(c=String.fromCharCode(o)),8!=o&&45!=o&&127!=o&&c!=s&&!c.match(/[0-9]/)){var g=n.keyCode?n.keyCode:n.which;if(46==g||8==g||127==g||9==g||27==g||13==g||(65==g||82==g||80==g||83==g||70==g||72==g||66==g||74==g||84==g||90==g||61==g||173==g||48==g)&&(n.ctrlKey||n.metaKey)===!0||(86==g||67==g||88==g)&&(n.ctrlKey||n.metaKey)===!0||g>=35&&39>=g||g>=112&&123>=g)return;return n.preventDefault(),!1}if(0==v&&d==this.value.length?8==o?(v=d=1,this.value="",h.init=l>0?-1:0,h.c=l>0?-(l+1):0,t.apply(this,[0,0])):c==s?(v=d=1,this.value="0"+s+new Array(l+1).join("0"),h.init=l>0?1:0,h.c=l>0?-(l+1):0):45==o?(v=d=2,this.value="-0"+s+new Array(l+1).join("0"),h.init=l>0?1:0,h.c=l>0?-(l+1):0,t.apply(this,[2,2])):(h.init=l>0?-1:0,h.c=l>0?-l:0):h.c=d-this.value.length,h.isPartialSelection=v==d?!1:!0,l>0&&c==s&&v==this.value.length-l-1)h.c++,h.init=Math.max(0,h.init),n.preventDefault(),f=this.value.length+h.c;else if(45!=o||0==v&&0!=this.value.indexOf("-"))if(c==s)h.init=Math.max(0,h.init),n.preventDefault();else if(l>0&&127==o&&v==this.value.length-l-1)n.preventDefault();else if(l>0&&8==o&&v==this.value.length-l)n.preventDefault(),h.c--,f=this.value.length+h.c;else if(l>0&&127==o&&v>this.value.length-l-1){if(""===this.value)return;"0"!=this.value.slice(v,v+1)&&(p=this.value.slice(0,v)+"0"+this.value.slice(v+1),u.val(p)),n.preventDefault(),f=this.value.length+h.c}else if(l>0&&8==o&&v>this.value.length-l){if(""===this.value)return;"0"!=this.value.slice(v-1,v)&&(p=this.value.slice(0,v-1)+"0"+this.value.slice(v),u.val(p)),n.preventDefault(),h.c--,f=this.value.length+h.c}else 127==o&&this.value.slice(v,v+1)==r?n.preventDefault():8==o&&this.value.slice(v-1,v)==r?(n.preventDefault(),h.c--,f=this.value.length+h.c):l>0&&v==d&&this.value.length>l+1&&v>this.value.length-l-1&&isFinite(+c)&&!n.metaKey&&!n.ctrlKey&&!n.altKey&&1===c.length&&(p=d===this.value.length?this.value.slice(0,v-1):this.value.slice(0,v)+this.value.slice(v+1),this.value=p,f=v);else n.preventDefault();f!==!1&&t.apply(this,[f,f]),u.data("numFormat",h)},"keyup.format":function(i){var n,s=e(this),r=s.data("numFormat"),u=i.keyCode?i.keyCode:i.which,h=a.apply(this,["start"]),o=a.apply(this,["end"]);0!==h||0!==o||189!==u&&109!==u||(s.val("-"+s.val()),h=1,r.c=1-this.value.length,r.init=1,s.data("numFormat",r),n=this.value.length+r.c,t.apply(this,[n,n])),""===this.value||(48>u||u>57)&&(96>u||u>105)&&8!==u&&46!==u&&110!==u||(s.val(s.val()),l>0&&(r.init<1?(h=this.value.length-l-(r.init<0?1:0),r.c=h-this.value.length,r.init=1,s.data("numFormat",r)):h>this.value.length-l&&8!=u&&(r.c++,s.data("numFormat",r))),46!=u||r.isPartialSelection||(r.c++,s.data("numFormat",r)),n=this.value.length+r.c,t.apply(this,[n,n]))},"paste.format":function(t){var a=e(this),i=t.originalEvent,n=null;return window.clipboardData&&window.clipboardData.getData?n=window.clipboardData.getData("Text"):i.clipboardData&&i.clipboardData.getData&&(n=i.clipboardData.getData("text/plain")),a.val(n),t.preventDefault(),!1}}).each(function(){var t=e(this).data("numFormat",{c:-(l+1),decimals:l,thousands_sep:r,dec_point:s,regex_dec_num:h,regex_dec:o,init:this.value.indexOf(".")?!0:!1});""!==this.value&&t.val(t.val())}):this.each(function(){var t=e(this),a=+t.text().replace(h,"").replace(o,".");t.number(isFinite(a)?+a:0,l,s,r)}):this.text(e.number.apply(window,arguments))};var n=null,l=null;e.isPlainObject(e.valHooks.text)?(e.isFunction(e.valHooks.text.get)&&(n=e.valHooks.text.get),e.isFunction(e.valHooks.text.set)&&(l=e.valHooks.text.set)):e.valHooks.text={},e.valHooks.text.get=function(t){var a,i=e(t),l=i.data("numFormat");return l?""===t.value?"":(a=+t.value.replace(l.regex_dec_num,"").replace(l.regex_dec,"."),(0===t.value.indexOf("-")?"-":"")+(isFinite(a)?a:0)):e.isFunction(n)?n(t):void 0},e.valHooks.text.set=function(t,a){var i=e(t),n=i.data("numFormat");if(n){var s=e.number(a,n.decimals,n.dec_point,n.thousands_sep);return e.isFunction(l)?l(t,s):t.value=s}return e.isFunction(l)?l(t,a):void 0},e.number=function(e,t,a,i){i="undefined"==typeof i?"1000"!==new Number(1e3).toLocaleString()?new Number(1e3).toLocaleString().charAt(1):"":i,a="undefined"==typeof a?new Number(.1).toLocaleString().charAt(1):a,t=isFinite(+t)?Math.abs(t):0;var n="\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4),l="\\u"+("0000"+i.charCodeAt(0).toString(16)).slice(-4);e=(e+"").replace(".",a).replace(new RegExp(l,"g"),"").replace(new RegExp(n,"g"),".").replace(new RegExp("[^0-9+-Ee.]","g"),"");var s=isFinite(+e)?+e:0,r="",u=function(e,t){return""+ +(Math.round((""+e).indexOf("e")>0?e:e+"e+"+t)+"e-"+t)};return r=(t?u(s,t):""+Math.round(s)).split("."),r[0].length>3&&(r[0]=r[0].replace(/\B(?=(?:\d{3})+(?!\d))/g,i)),(r[1]||"").length<t&&(r[1]=r[1]||"",r[1]+=new Array(t-r[1].length+1).join("0")),r.join(a)}}(jQuery);
+//# sourceMappingURL=jquery.number.min.js.map

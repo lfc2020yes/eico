@@ -96,7 +96,7 @@ $hie_user=$hie->user;
 
 //создание секрет для формы
 $secret=rand_string_string(16);
-//echo($secret);
+//echo($_SESSION['rema']);
 if(!isset($_SESSION['rema']))
 {
     $_SESSION['rema'] = $secret;

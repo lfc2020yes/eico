@@ -5,6 +5,7 @@ RewriteRule ^.htaccess$ - [F]
 DirectoryIndex index.php
 
 RewriteRule ^.page-([0-9]*)$ supply/index.php?n_st=$1 [L]
+RewriteRule ^add/([0-9]*)/$ supply/index.php?id=$1&step=add [L]
 
 
 php_flag session.use_trans_sid off

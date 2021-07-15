@@ -1630,6 +1630,7 @@ textarea, input {
 }
 
 .status_materialz {
+  /*
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
   font-size: 11px;
@@ -1638,13 +1639,26 @@ textarea, input {
   text-transform: uppercase;
   vertical-align: middle;
   margin-left: 40px;
-  float: left
+  float: left;
+*/
+  padding: 10px !important;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+  display: inline-block;
+  background-color: #f59e00 !important;
+  color: #fff;
+  white-space: nowrap;
+  border-radius: 0px !important;
+
 }
 
 .status_materialz::before {
   background-color: #00aeef;
   border-radius: 50%;
-  content: "";
+  //content: "";
   display: block;
   height: 4px;
   line-height: 0;
@@ -2197,7 +2211,14 @@ textarea, input {
   padding-left: 0px;
   font-size: 14px;
   font-family: "GEInspiraRegular";
-  color: #00aeef
+  color: #00aeef;
+
+  font-size: 18px !important;
+  font-family: "ProximaNova-Regular";
+  position: relative;
+  line-height: 25px !important;
+  color: #2c60a4;
+
 }
 
 .smeta2 .nm i {
@@ -5680,7 +5701,8 @@ var.highlight {
   font-size: 10px;
   line-height: 10px;
   color: rgba(0, 0, 0, 0.3);
-  text-transform: uppercase
+  text-transform: uppercase;
+  margin-bottom: 5px;
 }
 
 .tr_dop_supply td {
@@ -5690,7 +5712,16 @@ var.highlight {
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
   font-size: 14px;
-  vertical-align: middle
+  vertical-align: middle;
+
+
+  font-family: GEInspiraBold;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height:14px;
+
+
 }
 
 .supl {
@@ -5760,7 +5791,8 @@ tr.active_supplyx .supply_tr_o::before {
   position: relative;
   height: 40px;
   display: inline-block;
-  width: 40px
+  width: 40px;
+  line-height: 22px;
 }
 
 .st_div_supply i {
@@ -5882,7 +5914,7 @@ tr.active_supplyx .supply_tr_o::before {
 .add_score i.score_plus:hover::before {
   transform: rotate(-180deg)
 }
-
+/*
 .more_supply1 {
   position: relative;
   display: inline-block;
@@ -5933,7 +5965,7 @@ tr.active_supplyx .supply_tr_o::before {
 .more_supply:hover::before {
   color: #64a4e4
 }
-
+*/
 .more_supply2 {
   position: relative;
   float: right;
@@ -6210,14 +6242,14 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .score_a strong {
-  display: block;
-  position: absolute;
-  font-size: 11px;
+  display: inline-block;
+  /* position: absolute; */
+  font-size: 10px;
   text-align: center;
   top: 28px;
-  margin-left: 5px;
-  width: 65px;
-  font-style: normal
+  margin-left: 20px;
+  /* width: 65px; */
+  font-style: normal;
 }
 
 .score_a strong label {
@@ -6225,12 +6257,12 @@ tr.active_supplyx .supply_tr_o::before {
   display: inline-block;
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
-  font-size: 11px
+  font-size: 10px
 }
 
 .score_a strong label::after {
   position: absolute;
-  top: 1px;
+  top: 0px;
   left: -9px;
   content: "₽";
   color: rgba(0, 0, 0, 0.3);
@@ -6241,19 +6273,28 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .score_a i {
-  display: block;
-  font-family: "SegoeUIBold";
-  font-size: 16px !important;
+  display: inline-block;
+  font-family: "GEInspiraBold";
+  font-size: 13px !important;
   font-style: normal;
-  height: 40px;
-  line-height: 32px;
+  /* height: 40px; */
+  /* line-height: 32px; */
   padding: 0;
-  position: absolute;
-  top: 34px;
+  /* position: absolute; */
+  //top: 34px;
   text-align: center;
   vertical-align: middle;
-  width: 65px;
-  color: #72b7f8
+  /* width: 65px; */
+  color: #fff;
+  border-radius: 2px;
+  bbackground-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: linear-gradient(to right, #35deb8, #6dcaf3);
+  margin-left: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 22px;
 }
 
 .score_a .date_proc {
@@ -6265,15 +6306,23 @@ tr.active_supplyx .supply_tr_o::before {
   text-align: center;
   top: 76px
 }
+.score_a {background-color: #fff !important;
+  border: none;
+  white-space: nowrap;
+  width: auto;
+  height: auto;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;}
 
 .score_a span {
-  display: block;
-  position: absolute;
-  width: 65px;
-  height: 10px;
+  display: inline-block;
+  /* position: absolute; */
+  /* width: 65px; */
+  /* height: 10px; */
   font-size: 10px;
   text-align: center;
-  top: 10px
+  top: 10px;
 }
 
 .score_app {
@@ -6349,7 +6398,7 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .live_menu::after {
-  content: "a";
+ // content: "a";
   font-family: "icon1";
   color: #e0e0e0;
   display: block;

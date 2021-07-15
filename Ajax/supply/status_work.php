@@ -47,26 +47,21 @@ if ((!isset($_GET["id"]))or((!is_numeric($_GET["id"]))))
    goto end_code;	
 }
 //**************************************************
-$result_t=mysql_time_query($link,'Select a.*,b.id_object,b.id as id_docc,b.id_user,b.number,c.material from i_material as c, z_doc_material as a,z_doc as b where c.id=a.id_i_material and a.id_doc=b.id and a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_t=mysql_time_query($link,'Select a.*,b.name as name_r,b.id_object,b.id as id_docc,b.id_user,b.number,c.material from i_material as c, z_doc_material as a,z_doc as b where c.id=a.id_i_material and a.id_doc=b.id and a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_t = $result_t->num_rows;
 if($num_results_t!=0)
 {	
 	$row_t = mysqli_fetch_assoc($result_t);
 	//проверяем может ли видеть этот наряд
-	if(($row_t["status"]!=9)and($row_t["status"]!=11))
+	if(($row_t["status"]!=20)and($row_t["status"]!=11)and($row_t["status"]!=9))
 	{ 
 		$debug=h4a(5,$echo_r,$debug);
 		goto end_code;
 	}
 }
 //**************************************************
-if(array_search($row_t["id_object"],$hie_object)===false)
-{ 
-	$debug=h4a(6,$echo_r,$debug);
-	goto end_code;
-}
 //**************************************************
-if ((!isset($_GET["val"]))or((!is_numeric($_GET["val"])))or(($_GET["val"]!=9)and($_GET["val"]!=11))) 
+if ((!isset($_GET["val"]))or((!is_numeric($_GET["val"])))or(($_GET["val"]!=20)and($_GET["val"]!=11)and($_GET["val"]!=9)))
 {
 	$debug=h4a(7,$echo_r,$debug);
 	goto end_code;
@@ -142,7 +137,7 @@ if($result_status->num_rows!=0)
                  $user_send_new= array();		
 				 array_push($user_send_new, $row_t["id_user"]);
 					
-				 $text_not='В вашей <a href="app/'.$row_t['id_docc'].'/">заявке на материал №'.$row_t['number'].'</a>, позиция <strong>'.$row_t['material'].'</strong> изменила свой статус - <strong>'.$row_status["name_status"].'</strong>.';	
+				 $text_not='В вашей заявке <a href="app/'.$row_t['id_docc'].'/">'.$row_t['name_r'].'</a>, позиция <strong>'.$row_t['material'].'</strong> изменила свой статус - <strong>'.$row_status["name_status"].'</strong>.';
 				//отправка уведомления
 			    $user_send_new= array_unique($user_send_new);	
 			    notification_send($text_not,$user_send_new,$id_user,$link);

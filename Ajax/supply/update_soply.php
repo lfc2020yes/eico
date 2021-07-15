@@ -103,7 +103,7 @@ if($num_results_del!=0)
        $row_del= mysqli_fetch_assoc($result_del);
 	   if(array_search($row_del["id_doc_material"],$update)==false)
 	   {
-		   mysql_time_query($link,'delete FROM z_doc_material_acc where id_acc="'.htmlspecialchars(trim($row_del["id"])).'"');
+		   mysql_time_query($link,'delete FROM z_doc_material_acc where id="'.htmlspecialchars(trim($row_del["id"])).'"');
 	   }
 	   
    }
@@ -128,11 +128,23 @@ if($num_results_del==0)
 			   }
 			   
 }
-		
+
+$sum='';
+$date='';
+
+$result_t=mysql_time_query($link,'Select a.* from z_acc as a where a.id="'.htmlspecialchars(trim($_COOKIE["current_supply_".$id_user])).'"');
+$num_results_t = $result_t->num_rows;
+if($num_results_t!=0) {
+    $row_t = mysqli_fetch_assoc($result_t);
+    $sum=$row_t["summa"];
+    $date=date_ex(0,$row_t["date"]);
+}
+
+
 
 end_code:
 
-$aRes = array("debug"=>$debug,"status"   => $status_ee,"status_echo"   => $status_echo,"number" => $dom,"basket"=>$basket);
+$aRes = array("debug"=>$debug,"status"   => $status_ee,"status_echo"   => $status_echo,"number" => $dom,"basket"=>$basket,"sum"=>$sum,"date"=>$date);
 require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

@@ -111,16 +111,17 @@ include_once '../ilib/lib_edo.php';
 
 $edo = new EDO($link,$id_user,false);
 
-
+$restart=false;
 if(($row_list["id_edo_run"]!='')and($row_list["id_edo_run"]!=0))
 {
     //значит ему возвращали уже и это просто пересоглашение
-
+    $restart=true;
 }
+//echo($next_edo);
 
 
-if (($edo->next($id, 0))===false) {
-
+if ($edo->next($id, 0,0,$restart)===false) {
+//echo("!");
     //id_executor
     mysql_time_query($link,'update z_doc set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 //меняем статусы у материалов на заказано

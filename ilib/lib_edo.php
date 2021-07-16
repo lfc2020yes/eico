@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
-
+//include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/task_time.php';
 //==============example
 //$mysqli
 //$id_user
@@ -635,8 +635,10 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
      */
     private function write_state_row($row) {
         $ret = false;
+        //$timeReady = \CCM\TimeReady\srok_vip(date('Y.m.d H:i:s', time()),$row[timing]*60,$this->mysqli);
+
         $sql ="
-INSERT INTO `atsunru_interstroi`.`edo_state` (
+INSERT INTO `edo_state` (
   `id_run`,
   `id_run_item`,
   `name`,
@@ -647,7 +649,7 @@ INSERT INTO `atsunru_interstroi`.`edo_state` (
   -- `sign_checking`,
   `id_controller`,
   -- `sign_controller`,
- -- `date_ready`,
+  -- `date_ready`,
   -- `sign_owner`,
   `timing`,
   `displayOrder`,
@@ -665,7 +667,7 @@ VALUES
     -- '$row[sign_checking]',
     '$row[id_controller]',
     -- '$row[sign_controller]',
-  --  'date_ready',
+    --date_ready,
     -- '$row[sign_owner]',
     '$row[timing]',
     '$row[displayOrder]',
@@ -790,14 +792,19 @@ $limit
     /** Задания мне
      * @param $type = 0,1,2
      * @param string $status =0-неисполненные =1-отказанные >1-исполненные
+     * @param string $order_by 'ORDER BY d.date_create DESC'
+     * @param string $limit 'LIMIT 0,100'
+     * @param null $id_action 1,2,3,4,5,6,7,8
      * @return array
      */
     public function my_tasks($type,
                              $status='=0',
                              $order_by = 'ORDER BY d.date_create DESC',
-                             $limit='LIMIT 0,100' )  {
+                             $limit='LIMIT 0,100',
+                             $id_action = null)  {
+        $action = ($id_action == null)? '' : "AND R.`id_action` = $id_action";
         $sql=
-"
+/*"
 SELECT 
 d.*,
 s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
@@ -810,7 +817,39 @@ WHERE
     s.`id_executor`=".$this->id_user." AND d.`id_user` = u.`id`
 $order_by
 $limit 
-";
+";*/
+ "
+ SELECT
+d.*,
+T.*,
+u.`name_user`
+FROM ".$this->arr_table[$type]." AS d
+LEFT JOIN 
+    (
+        SELECT 
+        s.id AS id_s, s.id_run, s.id_run_item, s.name AS name_s,s.descriptor, s.`id_executor`, s.id_status,
+        R.`id_action`
+        ,A.`name_action`
+        FROM edo_state s, edo_run_items R, edo_action A 
+        WHERE 
+        s.`id_executor`=".$this->id_user." 
+        AND s.id_status $status 
+        $action
+        AND s.id_run_item = R.`id`
+        AND R.`id_action` = A.`id`
+    )
+        AS T ON d.`id_edo_run` = T.`id_run`
+, r_user AS u
+WHERE
+T.id_status $status AND
+T.`id_executor`=".$this->id_user." AND 
+d.`id_user` = u.`id`
+
+$order_by
+$limit 
+ ";
+
+
         $this->Debug($sql,__FUNCTION__);
         $arr_document = array();
         if ($result = $this->mysqli->query($sql)) {

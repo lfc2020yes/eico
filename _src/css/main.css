@@ -3305,6 +3305,7 @@ h3.head_h div {
   color: #00aeef;
 }
 
+/*
 .content_block .block_i .smeta .material .name_m .nm i {
   transition: all 0s ease 0s, all 1s ease 0s;
   position: absolute;
@@ -3314,9 +3315,30 @@ h3.head_h div {
   line-height: 0;
   width: 42px;
   background-color: #00aeef;
-  display: block;
+  display: block
 }
 
+ */
+.content_block .block_i .smeta .material .name_m .nm i {
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  position: relative;
+  display: block;
+  text-align: center;
+  position: absolute;
+  left: 10px;
+}
+
+/*
 .content_block .block_i .smeta .material .name_m .nm i:before {
   background-color: #fff;
   border: 3px solid #00aeef;
@@ -3329,7 +3351,26 @@ h3.head_h div {
   right: -8px;
   top: -4px;
   width: 4px;
-  transition: all 0s ease 0s, all 1s ease 0s;
+  transition: all 0s ease 0s, all 1s ease 0s
+}
+*/
+.content_block .block_i .smeta .material .name_m .nm i:before {
+  position: absolute;
+  content: "\E001";
+  left: 5px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: icon1;
+  font-size: 14px;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transform: scale3d(0, 0, 1);
+  -o-transform: scale3d(0, 0, 1);
+  -ms-transform: scale3d(0, 0, 1);
+  -webkit-transform: scale3d(0, 0, 1);
+  transform: scale3d(0, 0, 1);
 }
 
 .content_block .block_i .smeta .material.chechers {
@@ -3344,13 +3385,27 @@ h3.head_h div {
   color: #fff;
 }
 
+/*
 .content_block .block_i .smeta .material.chechers .name_m .nm i {
-  background-color: #323544;
+  background-color: #323544
+}
+*/
+.content_block .block_i .smeta .material.chechers .name_m .nm i {
+  background-color: #ffec57;
 }
 
+/*
 .content_block .block_i .smeta .material.chechers .name_m .nm i:before {
   right: 38px;
-  border-color: #323544;
+  border-color: #323544
+}
+*/
+.content_block .block_i .smeta .material.chechers .name_m .nm i:before {
+  -moz-transform: scale3d(1, 1, 1);
+  -o-transform: scale3d(1, 1, 1);
+  -ms-transform: scale3d(1, 1, 1);
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
 }
 
 .content_block .block_i .smeta .musa {
@@ -9283,6 +9338,7 @@ tr.active_supplyx .supply_tr_o::before {
   font-size: 14px;
 }
 
+/*
 .dop_status_app {
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
@@ -9292,7 +9348,19 @@ tr.active_supplyx .supply_tr_o::before {
   line-height: 14px;
   position: relative;
   text-transform: uppercase;
-  margin-bottom: 5px;
+  margin-bottom: 5px
+}
+*/
+.dop_status_app {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "GEInspiraRegular";
+  font-size: 11px;
+  display: inline-block;
+  /* margin-left: 38px; */
+  line-height: 16px;
+  position: relative;
+  text-transform: uppercase;
+  /* margin-bottom: 5px; */
 }
 
 .circliful {
@@ -14983,7 +15051,7 @@ font-style: normal;}*/
   color: #fff;
 }
 
-.s_pr_3 {
+.s_pr_3, .s_pr_5 {
   background-color: #25ae88 !important;
   color: #fff;
 }
@@ -17274,6 +17342,16 @@ font-style: normal;}*/
   color: #fff !important;
   left: 4px;
 }
+.state-history .st-state .more-icon--2 {
+  background-color: #ffdc57 !important;
+}
+.state-history .st-state .more-icon--2::before {
+  color: rgba(0, 0, 0, 0.6) !important;
+  content: "F";
+  font-family: icon2;
+  font-size: 15px;
+  top: 1px;
+}
 .state-history .st-task {
   -webkit-align-self: center;
   -moz-align-self: center;
@@ -18464,6 +18542,18 @@ width: calc(50% - 0px) !important;
 .status_z0 {
   background-color: #ffec57 !important;
   color: rgba(0, 0, 0, 0.4);
+}
+
+.new-aa-2021 {
+  font-size: 20px !important;
+  font-family: "ProximaNova-Regular" !important;
+  position: relative !important;
+  line-height: 25px !important;
+  color: #2c60a4 !important;
+  text-decoration: none !important;
+}
+.new-aa-2021 span {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .input-block-2020 .list-image {

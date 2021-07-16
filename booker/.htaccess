@@ -9,5 +9,10 @@ RewriteRule ^paid/$ booker/index.php?by=paid [L]
 RewriteRule ^paid/.page-([0-9]*)$ booker/index.php?by=paid&n_st=$1 [L]
 
 
+RewriteRule ^.tabs-([0-9]*)$ booker/index.php?tabs=$1 [L]
+RewriteRule ^.tabs-([0-9]*).page-([0-9]*)$ booker/index.php?tabs=$1&n_st=$2 [L]
+
+
+
 php_flag session.use_trans_sid off
 php_flag session.use_only_cookies on

@@ -6,9 +6,10 @@ include_once $url_system.'module/ajax_access.php';
 
 
 //создание секрет для формы
+/*
 $secret=rand_string_string(4);
 $_SESSION['s_form'] = $secret;
-
+*/
 $status=0;
 
 
@@ -25,7 +26,7 @@ if ((count($_GET) != 1)or(!isset($_GET["id"]))or((!is_numeric($_GET["id"]))))
 	goto end_code;	
 }	
 
-if ((!$role->permission('Счета','S'))and($sign_admin!=1))
+if ((!$role->permission('Счета','U'))and($sign_admin!=1))
 {
     goto end_code;	
 }
@@ -71,7 +72,8 @@ $status=1;
 
 	
 
-	echo'<div class="" style="width:100%;">';
+	echo'<div class="" style="width:100%; z-index: 200;
+position: relative;">';
 		
 				
 				$date_graf2  = explode("-",$row_t["date"]);
@@ -324,27 +326,17 @@ margin-top: 0px;">
 				
 	//echo'<br><div class="img_ssoply1"><span>Комментарий к счету:</span></div>';	
 				?>
-				<div class="option_slice_xxg  bg_xxg">
-<div class="div_textarea_otziv" style="border-width: 1px 1px 1px 1px !important; margin-top:0px;">
-			<div class="otziv_add">
-<?
-           echo'<textarea cols="20" rows="1" id="otziv_area_adaxx" name="text_comment" class="di text_area_otziv no_comment_bill"></textarea>';
-		   ?>
-        </div></div>
-        <?
-        	  echo'<script type="text/javascript"> 
-	  $(function (){ 
-$(\'#otziv_area_adaxx\').autoResize({extraSpace : 30});
-$(\'#otziv_area_adaxx\').trigger(\'keyup\');
+				<div class="input-block-2020 option_slice_xxg  bg_xxg ">
 
-ToolTip();
-});
+       <?
+       echo'<!--input start-->
+<div class="margin-input" style="background-color: #fff;"><div class="input_2018 input_2018_resize  gray-color '.iclass_("comm_b",$stack_error,"required_in_2018").'"><label><i>Комментарий</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="text_comment" id="otziv_area_adaxx" class="di input_new_2018  text_area_otziv js-autoResize "></textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
 
-	</script>';
-           				
 
-				
-	?>
+         ?>
+
+
 	</div>			
 						
 			
@@ -393,6 +385,15 @@ if($status==0)
 
 ?>
 <script type="text/javascript">initializeTimer();</script>
+
+<script type="text/javascript">
+    $(function() {
+        AutoResizeT();
+    });
+</script>
+
+
+
 <?
 include_once $url_system.'template/form_js.php';
 ?>

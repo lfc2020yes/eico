@@ -3102,14 +3102,32 @@ function AfterWalletBill(data,update)
 	if ( data.status=='reg' )
 	{
 		WindowLogin();
+		return;
 	}
 
-	if ( data.status=='ok' )
-	{
-		UpdateWalletStatus(update);
+	if ( data.status=='ok' ) {
+		//UpdateWalletStatus(update);
+		//}
+		clearInterval(timerId);
+		$.arcticmodal('close');
+
+		var title_url = $(document).attr('title');
+		var url = window.location.href;
+		url = url+'yes/';
+		History.pushState('', title_url, url);
+
+		autoReloadHak();
+return;
 	}
-	clearInterval(timerId);
-	$.arcticmodal('close');
+
+	alert_message('error','Ошибка - попробуйте еще раз');
+	var box = $('.box-modal:last');
+	//в случае если что-то пошло не так чтобы не висло
+	box.find('#yes_bill_non').show();
+	box.find('.b_loading_small').remove();
+
+
+
 }
 
 
@@ -3119,14 +3137,32 @@ function AfterBookerYes(data,update)
 	if ( data.status=='reg' )
 	{
 		WindowLogin();
+		return;
 	}
 
-	if ( data.status=='ok' )
-	{
+	if ( data.status=='ok' ) {
+		//UpdateWalletStatus(update);
+		//}
 		clearInterval(timerId);
 		$.arcticmodal('close');
-		autoReload();
+
+if($('.booker_yes').length==0) {
+	var title_url = $(document).attr('title');
+	var url = window.location.href;
+	url = url + 'yes/';
+	History.pushState('', title_url, url);
+}
+
+		autoReloadHak();
+		return;
 	}
+
+	alert_message('error','Ошибка - попробуйте еще раз');
+	var box = $('.box-modal:last');
+	//в случае если что-то пошло не так чтобы не висло
+	box.find('#yes_bill_non').show();
+	box.find('.b_loading_small').remove();
+
 
 }
 

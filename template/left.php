@@ -245,16 +245,12 @@ if($active_menu=='supply')
 //бухгалтерия	
 	
 	
-	
-$result_t=mysql_time_query($link,'Select count(DISTINCT b.id) as kol from z_acc as b where  b.status=3 ');	
-$num_results_t = $result_t->num_rows;	
+
+
+$num_results_t = $result_t->num_rows;
 $new_zay=0;
-if($num_results_t!=0)
-{				 
-			 $row_t = mysqli_fetch_assoc($result_t);
-			 $new_zay=$new_zay+$row_t["kol"];		 
-}
-	
+
+
 	
 	
 	if((($role->permission('Бухгалтерия','R')))or($sign_admin==1))

@@ -243,7 +243,7 @@ echo'<div class="js-list-acc none"></div>';
           displayPageLink_new('acc/.tabs-'.$_GET["tabs"].'','acc/.tabs-'.$_GET["tabs"].'.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
       } else
       {
-          displayPageLink_new('acc/','cc/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
+          displayPageLink_new('acc/','acc/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
       }
 
   }

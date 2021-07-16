@@ -2340,7 +2340,7 @@ font-style: normal;}*/
 //заказано
 .s_pr_2 {  background-color: #f59e00 !important; color:#fff; }
 //выполнено
-.s_pr_3 {  background-color: #25ae88 !important; color:#fff; }
+.s_pr_3,.s_pr_5 {  background-color: #25ae88 !important; color:#fff; }
 //отменить
 .s_pr_4 {  background-color: #fd8080 !important; color:#fff; }
 
@@ -4228,7 +4228,11 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
       font-size: 19px;
       color: #fff !important;
       left: 4px; }  }
-    .more-icon--2 {}
+
+
+    .more-icon--2 { background-color: #ffdc57 !important; &::before { color: rgba(0,0,0,0.6) !important;  content: "F";
+      font-family: icon2;
+      font-size: 15px; top:1px; }  }
 
 
 
@@ -5125,3 +5129,9 @@ span {  border-bottom: 1px solid #fd8080;}
 
 .status_z0 {  background-color: #ffec57 !important;
   color: rgba(0, 0, 0, 0.4);  }
+
+.new-aa-2021 {font-size: 20px !important;
+  font-family: "ProximaNova-Regular" !important;
+  position: relative !important;
+  line-height: 25px !important;
+  color: #2c60a4 !important; text-decoration: none !important; span {border-bottom: 1px solid rgba(0, 0, 0, 0.1);}}

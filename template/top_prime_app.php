@@ -22,21 +22,21 @@
                         if($_GET["tabs"]==2) {$mym=2;}
                     }
 //выполненные все
-                    $arr_tasks1 = $edo->my_tasks(0, '>0' );
+                    $arr_tasks1 = $edo->my_tasks(0, '<>0' );
                     // echo count($arr_document) ;
                     array_push($subor_cc,count($arr_tasks1));
                     //если у него нет своих заявок то выводить только задания и выполненные
 
                     if($menu_no_my!=0)
                     {
-                        $tabs_menu_x = array("Ваши заявки", "Необходимо выполнить", "Выполненные вами");
+                        $tabs_menu_x = array("Ваши заявки", "Выполнить", "Исполнено");
                         $tabs_menu_x_id = array("0", "1", "2");
                         $tabs_menu_x_link = array("", ".tabs-1",".tabs-2");
                         $tabs_menu_x_class = array("", "", "");
                         $tabs_menu_x_count = array($subor_cc[0], $subor_cc[1],$subor_cc[2]);
                     } else
                     {
-                        $tabs_menu_x = array("Необходимо выполнить", "Выполненные вами");
+                        $tabs_menu_x = array("Выполнить", "Исполнено");
                         $tabs_menu_x_id = array("1", "2");
                         $tabs_menu_x_link = array(".tabs-1", ".tabs-2");
                         $tabs_menu_x_class = array("", "");

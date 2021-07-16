@@ -196,8 +196,8 @@ if ( isset($_COOKIE["iss"]))
                       echo'</ul><input type="hidden" name="sort2" id="sort2" value="'.$os2[$su_1].'"></div></div>';
 
 
-                      $os3 = array( "любой", "не обработанные","в работе","на согласовании","оплата");
-                      $os_id3 = array("0", "9", "11","12","13");
+                      $os3 = array( "любой", "не обработанные","в работе","на согласовании","заказано");
+                      $os_id3 = array("0", "9", "11","12","20");
 
                       $su_3=0;
                       if (( isset($_COOKIE["su_3"]))and(is_numeric($_COOKIE["su_3"]))and(array_search($_COOKIE["su_3"],$os_id3)!==false))

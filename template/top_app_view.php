@@ -186,7 +186,7 @@ include_once $url_system.'module/notification.php';
 <div class="menu-09  input-line" style="z-index:150;">
     <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
     <div class="menu-09-left">
-        <a href="/" class="menu-09-global"></a><a onclick="history.back();" class="menu-09-prev"><i></i></a>
+        <a href="/" class="menu-09-global"></a><a href="app/" class="menu-09-prev"><i></i></a>
 
         <?
         //$D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);

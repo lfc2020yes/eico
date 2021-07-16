@@ -667,7 +667,7 @@ VALUES
     -- '$row[sign_checking]',
     '$row[id_controller]',
     -- '$row[sign_controller]',
-    --date_ready,
+    -- date_ready,
     -- '$row[sign_owner]',
     '$row[timing]',
     '$row[displayOrder]',

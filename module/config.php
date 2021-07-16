@@ -71,7 +71,7 @@ if ($result = mysqli_query($link,$query)) {
 
 } else
 {
-	echo'ошибка в запросе -'.$query;
+	echo'ошибка в запросе - '.$query;
 }
 
 $second_write=2;  // минимум секунд выполнения запроса для записи для наблюдений

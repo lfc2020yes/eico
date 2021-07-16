@@ -209,7 +209,7 @@ if($small_block!=1) {
         if ($num_results_uu != 0) {
             while ($row_6 = mysqli_fetch_assoc($result_6)) {
 
-                $task_cloud_block .= '<div class="li-image download-file"><span class="name-img"><a class="bold_file" target="_blank" href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="size-img">' . $row_6["type"] . ', ' . get_filesize('../../upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '') . '</span></div>';
+                $task_cloud_block .= '<div class="li-image download-file"><span class="name-img"><a class="bold_file" target="_blank" href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="size-img">' . $row_6["type"] . ', ' . get_filesize($url_system.'upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '') . '</span></div>';
 
             }
         }
@@ -219,7 +219,7 @@ if($small_block!=1) {
 }
 if($small_block==1) {
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=2))) {
-        $task_cloud_block .= '<a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a>';
+        $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
     }
 }
 

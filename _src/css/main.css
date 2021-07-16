@@ -17274,6 +17274,16 @@ font-style: normal;}*/
   color: #fff !important;
   left: 4px;
 }
+.state-history .st-state .more-icon--2 {
+  background-color: #ffdc57 !important;
+}
+.state-history .st-state .more-icon--2::before {
+  color: rgba(0, 0, 0, 0.6) !important;
+  content: "F";
+  font-family: icon2;
+  font-size: 15px;
+  top: 1px;
+}
 .state-history .st-task {
   -webkit-align-self: center;
   -moz-align-self: center;

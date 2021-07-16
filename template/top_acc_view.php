@@ -187,7 +187,7 @@ include_once $url_system.'module/notification.php';
 <div class="menu-09  input-line" style="z-index:150;">
     <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
     <div class="menu-09-left">
-        <a href="/" class="menu-09-global"></a><a onclick="history.back();" class="menu-09-prev"><i></i></a>
+        <a href="/" class="menu-09-global"></a><a href="acc/" class="menu-09-prev"><i></i></a>
 
         <?
         //$D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
@@ -270,7 +270,7 @@ include_once $url_system.'module/notification.php';
                 foreach ($value["state"] as $keys => $val)
                 {
                     //echo($val["id_run_item"]);
-
+                    $echo_bb='';
                     $class_by='';
                     if($val["id_status"]!=0)
                     {
@@ -290,7 +290,7 @@ include_once $url_system.'module/notification.php';
 //echo($visible_gray);
 //id_action - 4 выписать счета
 
-if($but_mass["id_action"]!=4) {
+if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)) {
 
     $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a1">';
     if ($class_by == '') {
@@ -310,6 +310,13 @@ if($but_mass["id_action"]!=4) {
 </div>';
 }
 
+//подтвердить оплату
+if($but_mass["id_action"]==2)
+{
+
+                        $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-end">';
+                        $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span></div>';
+}
 
 
                     $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';

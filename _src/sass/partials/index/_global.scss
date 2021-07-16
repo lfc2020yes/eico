@@ -4228,7 +4228,11 @@ rgba(0, 0, 0, 0); cursor: auto; background-color:rgba(0, 0, 0, 0.05);   color: r
       font-size: 19px;
       color: #fff !important;
       left: 4px; }  }
-    .more-icon--2 {}
+
+
+    .more-icon--2 { background-color: #ffdc57 !important; &::before { color: rgba(0,0,0,0.6) !important;  content: "F";
+      font-family: icon2;
+      font-size: 15px; top:1px; }  }
 
 
 

@@ -25,11 +25,15 @@ $status_echo='';
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
-$echo_r=0; //выводить или нет ошибку 0 -нет
+$echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
-
+if(!token_access_new($token,'yes_bill',$id,"rema",2880))
+{
+    /*
+}
 if(!token_access_new($token,'yes_bill',$id,"s_form"))
 {
+    */
    $debug=h4a(111,$echo_r,$debug);
    goto end_code;	
 }
@@ -41,7 +45,7 @@ if (( count($_GET) != 8 ))
    goto end_code;	
 }
 //**************************************************
- if ((!$role->permission('Счета','S'))and($sign_admin!=1))
+ if ((!$role->permission('Счета','U'))and($sign_admin!=1))
 {
   $debug=h4a(2,$echo_r,$debug);
   goto end_code;	
@@ -79,6 +83,19 @@ if($num_results_t!=0)
 	    $debug=h4a(6,$echo_r,$debug);
 		goto end_code;
 }
+
+
+$name_c='';
+$result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_t['id_contractor']) . '"');
+$num_results_uu = $result_uu->num_rows;
+
+if ($num_results_uu != 0) {
+
+    $row_uud = mysqli_fetch_assoc($result_uu);
+    $name_c='Контрагент - '.$row_uud["name"];
+
+}
+
 //**************************************************
 if ((!isset($_GET["summa"]))or((!is_numeric($_GET["summa"])))or(($_GET["summa"]==0))) 
 {
@@ -109,6 +126,44 @@ if ((!isset($_GET["add"]))or((($_GET["add"]==''))))
 
 //**************************************************
 
+include_once $url_system.'/ilib/lib_interstroi.php';
+include_once $url_system.'/ilib/lib_edo.php';
+
+$edo = new EDO($link, $id_user, false);
+$id_s=0;
+$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
+foreach ($arr_document as $key => $value) {
+    if ((is_array($value["state"])) and (!empty($value["state"]))) {
+
+        $echo_bb = '';
+        foreach ($value["state"] as $keys => $val) {
+            //echo($val["id_run_item"]);
+            $id_s=$val["id_s"];
+            $class_by = '';
+            if ($val["id_status"] != 0) {
+                $visible_gray = 1;  //Значит он выполнил уже и кнопки будут но просто серые
+                $class_by = 'gray-bb';
+            } else {
+                $visible_gray = 0;  //Значит он выполнил уже и кнопки будут но просто серые
+                $class_by = '';
+            }
+
+            $but_mass = $edo->get_action($val["id_run_item"]);
+            if($but_mass["id_action"]!=2) {
+
+                $debug=h4a(78,$echo_r,$debug);
+                goto end_code;
+
+            }
+        }
+    }
+}
+
+
+
+
+
+
 $date_ada='';
 if ((isset($_GET["date"]))and((($_GET["date"]!='')))) 
 {
@@ -118,11 +173,68 @@ if ((isset($_GET["date"]))and((($_GET["date"]!=''))))
 
 $status_ee='ok';
 
+
+
+
+$array_status=$edo->set_status($id_s, 2);
+if($array_status==false)
+{
+    header404(78, $echo_r);
+}
+
+
+//отправляем следующим уведомления
+if (($edo->next($id, 1))===false) {
+
+
+
+
+//echo(gettype($edo->arr_task));
+    if(isset($edo->arr_task)) {
+        foreach ($edo->arr_task as $key => $value) {
+            //оправляем всем уведомления кому нужно рассмотреть этот документ далее
+
+
+            $user_send_new = array();
+            //уведомление
+            array_push($user_send_new, $value["id_executor"]);
+
+
+
+            $text_not='Вам поступила задача по счету <a class="link-history" href="acc/'.$row_t['id'].'/">Счет №'.$row_t['number'].' от '.date_ex(0,$row_t['date']).'</a>. '.$name_c.' '.$value["description"];
+
+            //отправка уведомления
+            $user_send_new = array_unique($user_send_new);
+            notification_send($text_not, $user_send_new, $id_user, $link);
+
+
+        }
+    }
+
+
+
+    // echo '<pre>arr_task:'.print_r($edo->arr_task,true) .'</pre>';
+
+    if ($edo->error == 1) {
+        // в array $edo->arr_task задания на согласование
+    } else {
+
+    }
+} else {
+    // процесс согласования со всеми заданиями выполнен
+    // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
+}
+
+
+
+
 if($_GET["pol"]==0)
 {
+    //к оплате
 mysql_time_query($link,'update z_acc set status="3",path_summa="'.htmlspecialchars(trim($sum_ada)).'",date_buy="'.$date_ada.'",comment_status="'.htmlspecialchars(trim($_GET['comm'])).'" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 } else
 {
+    //оплатить после получения
 mysql_time_query($link,'update z_acc set status="20",path_summa="'.htmlspecialchars(trim($sum_ada)).'",date_buy="'.$date_ada.'",comment_status="'.htmlspecialchars(trim($_GET['comm'])).'" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');	
 }
 
@@ -146,11 +258,11 @@ if($_GET["pol"]==0)
         $user_send_new= array();		
 		array_push($user_send_new,$row_t["id_user"]);
 					
-		$text_not='<strong>Счет №'.$row_t['number'].'</strong> изменил свой статус - <strong>'.$row_status["name_status"].'</strong>.';
+		$text_not='<a class="link-history" href="acc/'.$row_t['id'].'/">Счет №'.$row_t['number'].' от '.date_ex(0,$row_t['date']).'</a> изменил свой статус - <strong>'.$row_status["name_status"].'</strong>. '.$name_c;
 		//отправка уведомления
 		$user_send_new= array_unique($user_send_new);	
 		notification_send($text_not,$user_send_new,$id_user,$link);	
-
+/*
 if($_GET["pol"]==0)
 {      
        
@@ -164,7 +276,7 @@ if($_GET["pol"]==0)
 		notification_send($text_not,$user_send_new,$id_user,$link);	
 
 }
-
+*/
 
 $D = explode('.',htmlspecialchars(trim($_GET['add'])));
 for ($i=0; $i<count($D); $i++)
@@ -215,13 +327,9 @@ $result_score=mysql_time_query($link,'Select b.id,b.id_doc from z_doc_material_a
 			   
 			   if(array_search($row_score1["status"],$os_status)!==false)
 			   {
-			   $plus++;
-				   
+			     $plus++;
 			   }
-			   
 		   }
-			   
-			
 		}
 			   
 			   
@@ -251,7 +359,7 @@ $result_score=mysql_time_query($link,'Select b.id,b.id_doc from z_doc_material_a
         $user_send_new= array();		
 		array_push($user_send_new,$row_noti["id_user"]);
 					
-		$text_not='В вашей <a href="app/'.$row_noti['id'].'/">заявке на материал №'.$row_noti['number'].'</a>, позиция <strong>'.$row_noti['material'].'</strong> изменила свой статус - <strong>'.$row_status["name_status"].'</strong>.';
+		$text_not='В вашей заявке на материал <a href="app/'.$row_noti['id'].'/">'.$row_noti['name'].'</a>, позиция <strong>'.$row_noti['material'].'</strong> изменила свой статус - <strong>'.$row_status["name_status"].'</strong>.';
 				     
 		//отправка уведомления
 		$user_send_new= array_unique($user_send_new);	

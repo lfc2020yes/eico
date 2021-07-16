@@ -218,7 +218,7 @@ if($small_block!=1) {
     }
 }
 if($small_block==1) {
-    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=2))) {
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=3))) {
         $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
     }
 }

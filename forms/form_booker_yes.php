@@ -6,9 +6,10 @@ include_once $url_system.'module/ajax_access.php';
 
 
 //создание секрет для формы
+/*
 $secret=rand_string_string(4);
 $_SESSION['s_form'] = $secret;
-
+*/
 $status=0;
 
 
@@ -25,7 +26,7 @@ if ((count($_GET) != 1)or(!isset($_GET["id"]))or((!is_numeric($_GET["id"]))))
 	goto end_code;	
 }	
 
-if ((!$role->permission('Бухгалтерия','U'))and($sign_admin!=1))
+if ((!$role->permission('Счета','U'))and($sign_admin!=1))
 {
     goto end_code;	
 }
@@ -46,6 +47,44 @@ if($row_t['status']!=3)
 {
 	goto end_code;
 }
+
+
+include_once $url_system.'/ilib/lib_interstroi.php';
+include_once $url_system.'/ilib/lib_edo.php';
+
+$edo = new EDO($link, $id_user, false);
+$id_s=0;
+$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
+foreach ($arr_document as $key => $value) {
+    if ((is_array($value["state"])) and (!empty($value["state"]))) {
+
+        $echo_bb = '';
+        foreach ($value["state"] as $keys => $val) {
+            //echo($val["id_run_item"]);
+            $id_s=$val["id_s"];
+            $class_by = '';
+            if ($val["id_status"] != 0) {
+                $visible_gray = 1;  //Значит он выполнил уже и кнопки будут но просто серые
+                $class_by = 'gray-bb';
+            } else {
+                $visible_gray = 0;  //Значит он выполнил уже и кнопки будут но просто серые
+                $class_by = '';
+            }
+
+            $but_mass = $edo->get_action($val["id_run_item"]);
+            if($but_mass["id_action"]!=3) {
+
+                $debug=h4a(78,$echo_r,$debug);
+                goto end_code;
+
+            }
+        }
+    }
+}
+
+
+
+
 //составление секретного ключа формы
 //составление секретного ключа формы
 //соль для данного действия

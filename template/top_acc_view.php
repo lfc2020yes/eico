@@ -317,7 +317,13 @@ if($but_mass["id_action"]==2)
                         $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-end">';
                         $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span></div>';
 }
+//оплатить
+                    if($but_mass["id_action"]==3)
+                    {
 
+                        $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-pay">';
+                        $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span></div>';
+                    }
 
                     $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';
 

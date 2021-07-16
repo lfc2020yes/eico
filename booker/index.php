@@ -189,7 +189,7 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class
 		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Счет</th><th class="t_1">Сумма</th><th class="t_1">Оплатить</th><th class="t_1">Поставщик</th><th class="t_1">Документы</th><th class="t_1"></th><th class="t_8 center_">Действия</th><th class="t_10"></th></tr></thead><tbody>';
 			
 			$date_paid='';		  
-		  foreach ($sql_mass as $key => $value) {
+		  foreach ($arr_tasks as $key => $value) {
 		      
 
                   $cll = '';
@@ -253,7 +253,7 @@ margin-top: 20px;"><span class="title_book" style="padding-left: 0px; margin: 0p
                   }
 
 
-                  echo '<tr class="book nary n1n suppp_tr" rel_id="' . $value["id"] . '"><td class="middle_"></td><td  class="middle_"><div class="nm supl"><a href="acc/' . $value["id"] . '/" class="s_j">Счет №' . $value["number"] . '</a></div>';
+                  echo '<tr class="book nary n1n suppp_tr" rel_id="' . $value["id"] . '"><td class="middle_"></td><td  class="middle_"><div class="nm supl"><a href="acc/' . $value["id"] . '/" class="s_j new-aa-2021"><span>Счет №' . $value["number"] . '</span></a></div>';
                   $date_graf2 = explode("-", $value["date"]);
                   echo '<span class="stock_name_mat">от ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . '</span>';
 
@@ -397,22 +397,27 @@ echo'</tbody></table>';
 					  
 					 echo'<script>
 				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
-				  </script>';	 
-					  
-					  
-	  $count_pages=CountPage($sql_count,$link,$count_write);
-	  if($count_pages>1)
-	  {
-			displayPageLink_new('booker/'.$_GET["by"].'/','booker/'.$_GET["by"].'/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
-		  } else
-		  {
-			  displayPageLink_new('booker/','booker/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
-		  }
+				  </script>';
+
+
+                      $count_pages=ceil($subor_cc[$mym]/$count_write);
+
+                      if($count_pages>1)
+                      {
+                          if(isset($_GET["tabs"]))
+                          {
+                              displayPageLink_new('booker/.tabs-'.$_GET["tabs"].'','booker/.tabs-'.$_GET["tabs"].'.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
+                          } else
+                          {
+                              displayPageLink_new('booker/','booker/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
+                          }
+
+                      }
 
 	  } else
                   {
 
-                      echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Пока новых счетов в разделе нет.</span></span></div>';
+                      echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Пока счетов в разделе нет.</span></span></div>';
 
 
                   }

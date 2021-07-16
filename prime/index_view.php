@@ -819,7 +819,12 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
 					  
 				  echo'<tr class="material '.$actv2.'" rel_ma="'.$row_t3["id"].'">
            
-           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm '.$actv3.'"><i></i><span class="s_j">'.$row_t3["material"].'</span><span class="edit_panel_">';
+           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm '.$actv3.'">';
+
+
+				  echo'<i></i>';
+
+                      echo'<span class="s_j">'.$row_t3["material"].'</span><span class="edit_panel_">';
 					if (($role->permission('Себестоимость','U'))or($sign_admin==1))
 	                  {		  
 		                 echo'<span data-tooltip="редактировать материал" for="'.$row_t3["id"].'" class="edit_icon_m">3</span>';

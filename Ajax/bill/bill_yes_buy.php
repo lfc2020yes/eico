@@ -27,7 +27,7 @@ $status_echo='';
 
 $echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
-if(!token_access_new($token,'yes_bill',$id,"rema",2880))
+if(!token_access_new($token,'yes_bill',$id,"rema",60))
 {
     /*
 }

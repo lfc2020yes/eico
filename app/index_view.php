@@ -1305,7 +1305,7 @@ if($result_status->num_rows!=0)
        echo'<div class="status_material1">'.$row_status["name_status"].'</div><div class="user_mat naryd_yes"></div>';	
 	} else
 	{
-		echo'<div class="status_materialz status_z'.$row_work_zz["status"].'">'.$row_status["name_status"].'</div><br>';
+		echo'<div style="margin-right: 20px;" class="status_materialz status_z'.$row_work_zz["status"].'">'.$row_status["name_status"].'</div>';
 		if($row_work_zz["status"]==14)
 		{
 		//если статус оплачено

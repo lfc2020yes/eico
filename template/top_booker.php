@@ -59,7 +59,7 @@
                     include_once $url_system.'ilib/lib_edo.php';
 
                     $edo = new EDO($link,$id_user,false);
-                    $subor_сс = array();
+                    $subor_cc = array();
                     //невыполненные
                     $arr_tasks = $edo->my_tasks(1,'=0' ,'ORDER BY d.date_create DESC','LIMIT 0,10000', '3');
                     array_push($subor_cc,count($arr_tasks));
@@ -68,8 +68,8 @@
                     // echo count($arr_tasks) ;
                     if(isset($_GET["tabs"]))
                     {
-                        if($_GET["tabs"]==1) {$mym=1;}
-                        if($_GET["tabs"]==2) {$mym=2;}
+                        if($_GET["tabs"]==1) {$mym=2;}
+                        if($_GET["tabs"]==2) {$mym=1;}
                     }
                     //выполненные все
                     $arr_tasks1 = $edo->my_tasks(1, '<>0','ORDER BY d.date_create DESC','LIMIT 0,10000', '3' );
@@ -79,10 +79,10 @@
 
 
                         $tabs_menu_x = array("К оплате", "Оплаченные");
-                        $tabs_menu_x_id = array("1", "2");
+                        $tabs_menu_x_id = array("0", "1");
                         $tabs_menu_x_link = array("", ".tabs-2");
                         $tabs_menu_x_class = array("", "");
-                        $tabs_menu_x_count = array($subor_cc[1],$subor_cc[2]);
+                        $tabs_menu_x_count = array($subor_cc[0],$subor_cc[1]);
 
 
 
@@ -95,10 +95,10 @@
 
                             if((isset($_GET['tabs']))and($_GET['tabs']==$tabs_menu_x_id[$i]))
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="booker/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             } else
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="booker/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             }
 
                         } else

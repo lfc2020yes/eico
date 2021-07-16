@@ -11,7 +11,8 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
   $GT=array();
   GET_PARAM($GT,$PARAM);
 
-    $status =  (isset($_POST["status"]))?$_POST["status"]:'=0';
+    $status =  (isset($_POST["status"]))?$_POST["status"] : '=0';
+    $action =  (isset($_POST["action"]))?$_POST["action"] : null;
     $type =  (isset($_POST["type"]))?$_POST["type"]:0;
     $id_user =  (isset($_POST["id_user"]))?$_POST["id_user"]:0;
   
@@ -38,6 +39,9 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       <tr><td style="padding-right: 10px">status [=0 =1 >0 >1 =3...]:<td>
       <input class="text"  name="status" size="2" value="<?=$status?>" />
 
+      <tr><td style="padding-right: 10px">action [2,6]:<td>
+              <input class="text"  name="action" size="2" value="<?=$action?>" />
+
       <tr><td style="padding-right: 10px">id_user:<td>
       <input class="text"  name="id_user" size="2" value="<?=$id_user?>" />
 
@@ -55,7 +59,10 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       echo "<p>step one";
 //-----------------------------------------------------------------------------
       $edo = new EDO($mysqli,$id_user,false);
-      $arr_tasks = $edo->my_tasks($_POST["type"], $_POST["status"] );
+      $arr_tasks = $edo->my_tasks($_POST["type"], $_POST["status"]
+      ,'ORDER BY d.date_create DESC'
+      ,'LIMIT 0,100'
+      , $action);
           echo '<pre>'.print_r($edo->arr_sql,true) .'</pre>';
           echo '<pre>'.print_r($edo->func,true) .'</pre>';
       echo '<pre>arr_document:'.print_r($arr_tasks,true) .'</pre>';

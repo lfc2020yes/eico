@@ -670,7 +670,7 @@ VALUES
     -- '$row[sign_checking]',
     '$row[id_controller]',
     -- '$row[sign_controller]',
-    '$timeReady' -- date_ready,
+    '$timeReady', 
     -- '$row[sign_owner]',
     '$row[timing]',
     '$row[displayOrder]',

@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
-//include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/task_time.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/task_time.php';
 //==============example
 //$mysqli
 //$id_user
@@ -636,6 +636,9 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
     private function write_state_row($row) {
         $ret = false;
         //$timeReady = \CCM\TimeReady\srok_vip(date('Y.m.d H:i:s', time()),$row[timing]*60,$this->mysqli);
+        $day_now = date('d.m.Y H:i:s', time());
+        $timeReady = \CCM\TimeReady\srok_vip($day_now,$row[timing]*60,$this->mysqli);
+        if ($timeReady===false) $timeReady = null;
 
         $sql ="
 INSERT INTO `edo_state` (
@@ -649,7 +652,7 @@ INSERT INTO `edo_state` (
   -- `sign_checking`,
   `id_controller`,
   -- `sign_controller`,
-  -- `date_ready`,
+   `date_ready`,
   -- `sign_owner`,
   `timing`,
   `displayOrder`,
@@ -667,7 +670,7 @@ VALUES
     -- '$row[sign_checking]',
     '$row[id_controller]',
     -- '$row[sign_controller]',
-    --date_ready,
+    '$timeReady', 
     -- '$row[sign_owner]',
     '$row[timing]',
     '$row[displayOrder]',

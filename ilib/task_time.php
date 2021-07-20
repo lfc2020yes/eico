@@ -1,7 +1,9 @@
 <?php
+namespace CCM\TimeReady;
 
-$url_system=$_SERVER['DOCUMENT_ROOT'].'/';
-include_once $url_system.'module/config.php';
+
+ $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
+ include_once $url_system.'module/config.php';
 
 function ht($varr)
 {
@@ -65,11 +67,11 @@ function date_step_sql_more_x($date,$step)
     return  $date_step;
 }
 
-//разница минут между двумя отческами времени
+//разница минут между двумя отсечками времени
 function raz_min($dt1, $dt2, $timeZone = 'GMT') {
-    $tZone = new DateTimeZone($timeZone);
-    $dt1 = new DateTime($dt1, $tZone);
-    $dt2 = new DateTime($dt2, $tZone);
+    $tZone = new \DateTimeZone($timeZone);
+    $dt1 = new \DateTime($dt1, $tZone);
+    $dt2 = new \DateTime($dt2, $tZone);
     $ts1 = $dt1->format('H:i:s');
     $ts2 = $dt2->format('H:i:s');
     $diff = strtotime($ts1)-strtotime($ts2);
@@ -80,8 +82,8 @@ function raz_min($dt1, $dt2, $timeZone = 'GMT') {
 function time_unix($dt1,$timeZone = 'GMT')
 {
   //преобразование времени в метку времени Unix для сравнения
-    $tZone = new DateTimeZone($timeZone);
-    $dt1 = new DateTime($dt1, $tZone);
+    $tZone = new \DateTimeZone($timeZone);
+    $dt1 = new \DateTime($dt1, $tZone);
     $ts1 = $dt1->format('H:i:s');
     return $ts1;
 }
@@ -120,14 +122,9 @@ $minutes - сколько минут дается на выполнения за
 
 //-> крайний срок выполнения в дате
 //srok_vip('21.05.2021 17:11:00', 60)
-function srok_vip($data_start,$minutes)
+function srok_vip($data_start, $minutes, $link)
 {
-    //$data_start 2021-05-45 17:11:00
-    $date_mass_xyh = explode(" ", ht($data_start));
-    $date_mass_xyh1 = explode("-", ht($date_mass_xyh[0]));
-    $data_start = $date_mass_xyh1[2] . '.' . $date_mass_xyh[1] . '.' . $date_mass_xyh[0].' '.$date_mass_xyh[1];
-
-    global $link;
+    //global $link;
     $date_exp = explode(" ", $data_start);
     $minutes_work = 0;  //сколько времени потратил на выполнения
     $new_day = 0;  //искать дату выполнения в следующих днях
@@ -135,7 +132,7 @@ function srok_vip($data_start,$minutes)
 $return_date=date_ex(1, $date_exp[0]);
 $return_time='';
 
-    $result_uuy = mysql_time_query($link, 'select A.* from ccm_working_calendar as A where A.time_end>"' . ht($date_exp[1]) . '" and A.data="' . date_ex(1, $date_exp[0]) . '" 
+    $result_uuy = \mysql_time_query($link, 'select A.* from ccm_working_calendar as A where A.time_end>"' . ht($date_exp[1]) . '" and A.data="' . date_ex(1, $date_exp[0]) . '" 
     and A.isworkday=1');
     $num_results_uuy = $result_uuy->num_rows;
     if ($num_results_uuy != 0) {
@@ -319,6 +316,14 @@ $return_time='';
 return ($return_date.' '.$return_time);
 }
 
-echo(srok_vip('21.05.2021 14:11:00', 520));
+/*$tek = date('d.m.Y H:i:s', time());
+echo "$tek --> ";
+echo srok_vip($tek, 520,$link);
+
+
+echo "<p>";
+$tek2 = '21.05.2021 14:11:00';
+echo "$tek2 --> ";
+echo srok_vip($tek2, 520,$link);*/
 
 ?>

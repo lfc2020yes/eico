@@ -2,7 +2,7 @@
 //узнаем есть ли меморандум у материалов этой заявки
  
 $count_image=0;
-$result_scores=mysql_time_query($link,'Select count(a.id) as cc from z_invoice_attach as a where a.id_invoice="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_scores=mysql_time_query($link,'Select count(a.id) as cc from image_attach as a where a.id_object="'.htmlspecialchars(trim($_GET['id'])).'" and a.for_what="9" and a.visible=1');
 $num_results_scores = $result_scores->num_rows;
 if($num_results_scores!=0)
 {	  
@@ -30,7 +30,7 @@ if($num_results_scores!=0)
   $count_no_price=$row_scores["cc"];
 }
 
-
+/*
 ?>
  
  <div class="menu_top" style="border-bottom:0; box-shadow: 0 20px 30px -30px rgba(0, 0, 0, 0.6);"><div class="menu1">
@@ -129,4 +129,64 @@ if($result_status->num_rows!=0)
 include_once $url_system.'module/notification.php';
 ?>
 	</div></div>
+
+*/
+?>
+
+
+
+
+
+
+<div class="menu-09  input-line" style="z-index:150;">
+    <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
+    <div class="menu-09-left">
+        <a href="/" class="menu-09-global"></a><a  href="invoices/" class="menu-09-prev"><i></i></a>
+
+        <?
+        $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+        echo'<span class="menu-09-pc-h" ><span >Накладная №'.$row_list["number"].'</span >';
+
+        if($count_material>0)
+        {
+            echo'<span all="8" class="menu-09-count">'.$count_material.'</span>';
+        }
+
+        echo'</span >';
+
+        ?>
+
+    </div>
+    <div class="menu-09-right tours-right-block">
+        <?
+
+
+
+        include_once $url_system.'module/notification.php';
+        include_once $url_system.'module/users.php';
+
+        echo'</div>';
+        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1))and($row_list["ready"]==1)and($count_image!=0)and($count_material!=0)and($count_no_price==0)) {
+
+            echo'<form id="lalala_pod_form" action="invoices/take/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk_sign" value="'.token_access_compile($_GET['id'],'take_invoices_2018',$secret).'" type="hidden">
+</form>';
+
+            echo'<div data-tooltip="Принять на склад" class="save_button transfer_invoicess add_clients green-bb">Принять   →</div><div style="display:none;" class="add_invoicess1 add_clients yellow-style hide-mobile">Сохранить   →</div>';
+
+        } else {
+
+            if (($row_list["id_user"] == $id_user) and (($row_list["status"] == 1))) {
+                echo '<a data-tooltip="сохранить накладную" class="add_invoicess1 add_clients yellow-style hide-mobile">Сохранить   →</a>';
+            }
+        }
+
+
+        ?>
+
+        <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->
+
+    </div>
+
+
 	

@@ -2362,7 +2362,7 @@ textarea, input {
 .smeta1 .title_smeta th {
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
-  font-size: 14px;
+  font-size: 11px;
   text-transform: uppercase;
   vertical-align: middle;
   border: 1px solid #e2e0e0;
@@ -6339,8 +6339,8 @@ tr.active_supplyx .supply_tr_o::before {
 .score_a .date_proc {
   display: block;
   position: absolute;
-  width: 80px;
-  height: 10px;
+  /*width: 80px;*/
+  height: 15px;
   font-size: 11px;
   text-align: center;
   top: 76px
@@ -9337,14 +9337,20 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .invoices_mess {
-  background-color: #72b7f8;
-  color: #fff;
-  font-family: "GEInspiraBold";
-  margin-top: 20px;
+  cursor: pointer;
+  background-color: rgba(0,0,0,.05);
+  border-radius: 4px;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  width: 100%;
+  text-align: center;
+  color: rgba(0,0,0,.7);
+  font-family: GEInspiraBold;
   text-transform: uppercase;
-  font-size: 17px;
-  padding: 30px;
-  text-align: center
+  font-size: 10px;
+  padding: 20px 10px;
+  &:hover {
+    background-color: #ffec57;
+  }
 }
 
 .add_invoicess, .add_invoicess1 {
@@ -9485,7 +9491,8 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .add_material_invoice {
-  cursor: pointer
+  cursor: pointer;
+
 }
 
 .mmet {

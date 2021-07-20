@@ -254,7 +254,7 @@ else
  
 $replace = "<strong>$1</strong>";// На что заменить
 
-setlocale(LC_ALL, 'ru_RU.CP1251'); 
+setlocale(LC_ALL, 'ru_RU.CP1251');
 $endText = PREG_REPLACE($patterns,$replace,$beginText);// Замена
  
 return $endText;
@@ -2327,14 +2327,16 @@ function day_nedeli_x($number)
 
 function NumToIndexPadej($num)
 {
- if ($num>=5 or $num==0) $ind=2; 
- else    //1 2-4
- {
-   $octatok=$num%10;
-   if ($octatok>1) $ind=1; else $ind=0; 
- }
- return $ind;
+    $octatok=$num%10;
+
+
+    $ind=2;
+    if(($octatok==1)and($num!=11)) { $ind=0;  }
+    if(($octatok>1)and($octatok<5)and(($num<11)or($num>14))) {  $ind=1;  }
+    return $ind;
+
 }
+
 /*
          1    3    10
 $skl='акцию,акции,акций';

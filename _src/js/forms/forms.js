@@ -86,23 +86,6 @@ function stock_town_x()
 }
 
 
-function option_demo()
-{
-	//alert($(this).val());
-	var val=$(this).val();
-	if((val!='')&&(val!=0)&&(val!= undefined)&&($.isNumeric(val)))
-	{
-		$('.search_bill').hide();
-
-
-		$('#yes_material_invoice').hide().after('<div class="b_loading_small"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
-		$('.no_bill_material').hide();
-		var col=$('.h111').attr('col');
-		var data ='url='+window.location.href+'&id='+val+'&col='+col;
-		AjaxClient('invoices','search_bill','GET',data,'AfterOptionDemoS',val,0);
-	}
-}
-
 function option_checkbox_xvg()
 {
 	//alert("!");
@@ -508,7 +491,7 @@ $(document).ready(function(){
 	$('.box-modal').on("change keyup input click",'.option_xvg2',option_checkbox_xvg);
 
 
-	$('.invoice_step_1').on("change",'.demo-5',option_demo);
+	//$('.invoice_step_1').on("change",'.demo-5',option_demo);
 
 
 	$('.print_stocks').on("change",'#stock_town_',stock_town_x);
@@ -2424,26 +2407,6 @@ function AfterDellSUPM(data,update)
 }
 
 
-function AfterOptionDemoS(data,update)
-{
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-	if ( data.status=='ok' )
-	{
-		$('#yes_material_invoice').next().remove();
-		$('#yes_material_invoice').show();
-		$('.search_bill').empty().append(data.echo).show();
-
-		if(data.echo=='')
-		{
-			$('.no_bill_material').show();
-		}
-
-		$('.demo-6').selectMania({themes: ['orange3'], placeholder: '',removable: true,search: true});
-	}
-}
 
 
 function AfterSVS(data,update)
@@ -3235,64 +3198,7 @@ function AfterUIS(data,update)
 }
 
 
-//постфункция добавление материала в накладную
-function AfterOptionDemo(data,update)
-{
 
-	clearInterval(timerId);
-	$.arcticmodal('close');
-
-	if ( data.status=='reg' )
-	{
-		WindowLogin();
-	}
-	if ( data.status=='ok' )
-	{
-		var ss=$('[name=ss]').val();
-		var value=parseInt(ss)+1;
-		$('[name=ss]').val(value);
-
-
-
-
-		if(value==1)
-		{
-			$('.block_invoice_2019').show();
-		}
-
-		$('.itogss').before(data.echo);
-
-		$('.messa_form_a').append(data.echo1);
-
-		ToolTip();
-		itog_invoice();
-
-
-		var nds_x=$('[name=nds_ff]').val();
-
-		if(!$('#number_invoice').is('.grey_edit'))
-		{
-
-			if((nds_x==0))
-			{
-
-				$('.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');
-				$('.price_in_').val(0);
-				$('.price_in_').prop('readonly',true).addClass('grey_edit');
-			} else
-			{
-				$('.price_in_').removeAttr('readonly').removeClass('grey_edit');
-				$('.price_nds_in_').val(0);
-				$('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
-			}
-		}
-
-
-
-
-
-	}
-}
 
 
 //удаление наименование из склада

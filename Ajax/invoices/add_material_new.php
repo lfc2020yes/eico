@@ -13,6 +13,9 @@ $debug='';
 $count_all_all=0;
 $basket='';
 
+$id=ht($_GET["id"]);
+$token=ht($_GET["tk"]);
+
 //$query=htmlspecialchars($_GET['query']);
 $dom=0;
 $status_echo='';
@@ -23,7 +26,7 @@ $echo_r=0; //выводить или нет ошибку 0 -нет
 $debug='';
 
 //**************************************************
-if ( count($_GET) != 6 ) 
+if ( count($_GET) != 7 )
 {
    $debug=h4a(1,$echo_r,$debug);
    goto end_code;	
@@ -69,6 +72,14 @@ if ((!isset($_GET["group"]))or((!is_numeric($_GET["group"]))))
    $debug=h4a(4,$echo_r,$debug);
    goto end_code;	
 }
+
+
+if(!token_access_new($token,'add_material_invoice',$id,"rema",2880))
+{
+    $debug=h4a(111,$echo_r,$debug);
+    goto end_code;
+}
+
 
 $result_t=mysql_time_query($link,'Select a.status from z_invoice as a where a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_t = $result_t->num_rows;
@@ -118,12 +129,24 @@ $status_ee='ok';
 $number_acc='';
 
 
- mysql_time_query($link,'INSERT INTO z_stock (name,units,id_stock_group) VALUES ("'.htmlspecialchars(trim($_GET['name'])).'","'.htmlspecialchars(trim($_GET["ed"])).'","'.htmlspecialchars(trim($_GET["group"])).'")');	
+$os = array('шт','м3','м2','т','пог.м','маш/час','компл');
+$os_id = array('0','1','2','3','4','5','6');
+
+$name_ed='';
+$rtyy=array_search(ht($_GET["ed"]), $os_id );
+if ($rtyy !== false) {
+
+    $name_ed=$os[$rtyy];
+
+}
+
+
+ mysql_time_query($link,'INSERT INTO z_stock (name,units,id_stock_group) VALUES ("'.htmlspecialchars(trim($_GET['name'])).'","'.htmlspecialchars(trim($name_ed)).'","'.htmlspecialchars(trim($_GET["group"])).'")');
 $ID_P=mysqli_insert_id($link);	
 
 
 
-mysql_time_query($link,'INSERT INTO z_invoice_material (id,id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("","'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.$ID_P.'","0","0","0","0")');
+mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.$ID_P.'","0","0","0","0")');
 
 $ID_D=mysqli_insert_id($link);	
 
@@ -131,7 +154,7 @@ $ID_D=mysqli_insert_id($link);
 
 $echo.='<tr invoice_material="'.$ID_D.'" style="background-color:#f0f4f6;" class="jop">';
 
-$echo.='<td class="no_padding_left_ pre-wrap one_td">'.$_GET['name'].' <span class="invoice_units">('.$_GET['ed'].')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div>
+$echo.='<td class="no_padding_left_ pre-wrap one_td">'.$_GET['name'].' <span class="invoice_units">('.$name_ed.')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div>
 
 <div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div>	   
 		

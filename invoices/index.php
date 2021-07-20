@@ -31,8 +31,8 @@ $role->GetPermission();
 
 $menu_b=array("Новые","История");
 	
-$menu_title=array("Накладные новые","История накладных");	
-	
+$menu_title=array("Новые накладные","История накладных");
+	/*
 $menu_get=array("","old");
 $menu_url=array("","old/");
 $menu_role_sign0=array(1,1);
@@ -52,7 +52,7 @@ $menu_sql1=array();
 
 $var_get='by';	
 
-
+*/
 
 $active_menu='invoices';  // в каком меню
 
@@ -86,6 +86,7 @@ if((($role->permission('Накладные','R')))or($sign_admin==1)){} else
 
 if (( count($_GET) == 1 )or( count($_GET) == 0 )or( count($_GET) == 2 )) //--Åñëè áûëè ïðèíÿòû äàííûå èç HTML-ôîðìû
 {
+    /*
  if(( count($_GET) == 1 )and(isset($_GET["by"])))
  {
    //не на главной в побочных страницах
@@ -169,8 +170,7 @@ if (( count($_GET) == 1 )or( count($_GET) == 0 )or( count($_GET) == 2 )) //--Å�
  }
  }
  
-	
-	
+*/
 
 	
 } else
@@ -186,6 +186,17 @@ if($error_header==404)
 	die();
 }
 
+if(!isset($_GET['tabs'])) {
+    if ($subor_cc[0] == 0) {
+
+            header("Location:" . $base_usr . "/invoices/.tabs-2");
+
+
+    }
+}
+
+
+
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
@@ -196,7 +207,7 @@ if($error_header!=404){ SEO('invoices','','','',$link); } else { SEO('0','','','
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
@@ -204,20 +215,20 @@ include_once $url_system.'template/body_top.php';
 <div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -244,6 +255,12 @@ include_once $url_system.'template/body_top.php';
 
 	  include_once $url_system.'template/top_invoices.php';
 
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
+
+
 
     echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
 	?>
@@ -255,23 +272,25 @@ include_once $url_system.'template/body_top.php';
   
 	  
 	  	//echo'</didv>';  
-if(($_GET["by"]=='old'))	
-{	  
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b '.$menu_sql1[$title_key].' order by b.date_create '.limitPage('n_st',$count_write));
+  if((isset($_GET["tabs"]))and($_GET["tabs"]==2))
+  {
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where not(b.status=1) and b.id_user="'.$id_user.'" order by b.date_create '.limitPage('n_st',$count_write));
+      $count=$subor_cc[1];
+      $title_key=1;
 } else
 {
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where '.$menu_sql1[$title_key].' order by b.date_create  '.limitPage('n_st',$count_write));	
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where b.id_user="'.$id_user.'" and b.status=1 order by b.date_create  '.limitPage('n_st',$count_write));
+    $count=$subor_cc[0];
+    $title_key=0;
 }
    //запрос для определения общего количества = 
 	  /*
    $sql_count='select count(a.id) as kol from n_nariad as a where a.id_object in('.implode(',', $hie->obj ).')
 AND a.id_user in('.implode(',',$hie->user).')';
 */
-	  $sql_count=$menu_sql[$title_key];
-$result_t221=mysql_time_query($link,$sql_count);	  
-$row__221= mysqli_fetch_assoc($result_t221);	  
 
-echo' <h3 class="head_h" style=" margin-bottom:0px;">'.$menu_title[$title_key].'<i>'.$row__221["kol"].'</i><div></div></h3> ';	  
+
+echo' <h3 class="head_h" style=" margin-bottom:0px;">'.$menu_title[$title_key].'<i>'.$count.'</i><div></div></h3> ';
 	  
                    $num_results_t2 = $result_t2->num_rows;
 	              if($num_results_t2!=0)
@@ -281,7 +300,7 @@ echo' <h3 class="head_h" style=" margin-bottom:0px;">'.$menu_title[$title_key].'
 				  
 				  
 echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class="smeta2 invoice_table block_invoice_20188"><thead>
-		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Накладная</th><th class="t_1">Дата</th><th class="t_1">Сумма</th><th class="t_1">Поставщик</th><th class="t_1">Документы</th><th class="t_1"></th><th class="t_8 center_">Статус</th><th class="t_10"></th></tr></thead><tbody>';
+		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Накладная</th><th class="t_1">Дата</th><th class="t_1">Сумма</th><th class="t_1">Поставщик</th><th class="t_1" colspan="2">Документы</th><th class="t_8 center_">Статус</th><th class="t_10"></th></tr></thead><tbody>';
 			
 			$date_paid='';		  
 					  
@@ -348,11 +367,20 @@ echo'<td>';
 						 echo'<span class="s_j pay_summ_in">'.$ddd.'</span>';
 						 
 	$result_scorex=mysql_time_query($link,'Select count(b.id) as vv from z_invoice_material as b where b.defect=1 and b.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
+
+	//echo('Select count(b.id) as vv from z_invoice_material as b where b.defect=1 and b.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
+
     $num_results_scorex = $result_scorex->num_rows;
     if($num_results_scorex!=0)
     {
 		$row_scorex = mysqli_fetch_assoc($result_scorex);
-		$result_scorex1=mysql_time_query($link,'SELECT COUNT(DISTINCT b.id_invoice_material) AS vv FROM z_invoice_attach_defect AS b,z_invoice_material AS c WHERE b.type_invoice=0 AND b.id_invoice_material=c.id AND c.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
+
+		if($row_scorex["vv"]!=0)
+        {
+		$result_scorex1=mysql_time_query($link,'SELECT COUNT(DISTINCT b.id) AS vv FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
+
+		//echo('SELECT COUNT(DISTINCT b.id) AS vv FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
+
 	    $num_results_scorex1 = $result_scorex1->num_rows;
 			   
         if($num_results_scorex1!=0)
@@ -364,7 +392,7 @@ echo'<td>';
 			}
         }
 	
-	
+	}
 	
     }
 						 
@@ -387,7 +415,20 @@ echo'</td>';
 						 
 echo'<td>'.$row_t1["name"].'</td>
 
-<td>';
+<td colspan="2">';
+                         $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="9" and A.visible=1 and A.id_object="' . ht($row__2['id']) . '"');
+
+                         $num_results_uu = $result_6->num_rows;
+
+                         if ($num_results_uu != 0) {
+                             while ($row_6 = mysqli_fetch_assoc($result_6)) {
+
+                                 echo '<div class="li-image download-file"><span class="name-img"><a class="bold_file" target="_blank" href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="size-img">' . $row_6["type"] . ', ' . get_filesize($url_system . 'upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '') . '</span></div>';
+
+                             }
+                         }
+
+/*
 $result_score=mysql_time_query($link,'Select a.* from z_invoice_attach as a where a.id_invoice="'.htmlspecialchars(trim($row__2['id'])).'"');
 	
 
@@ -410,10 +451,11 @@ if($num_results_score!=0)
 		}
 	}
 	echo'</ul></div>';		
-}								 
+}
+*/
 echo'</td>';
-echo'<td >';
-
+//echo'<td >';
+/*
 						 $result_txs=mysql_time_query($link,'Select a.id,a.name_user,a.timelast from r_user as a where a.id="'.htmlspecialchars(trim($row__2["id_user"])).'"');
       
 	    if($result_txs->num_rows!=0)
@@ -424,9 +466,9 @@ echo'<td >';
 				  if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}		
 		echo'<div  sm="'.$row__2["id_user"].'"   data-tooltip="Создал счет - '.$rowxs["name_user"].'" class="user_soz send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["id_user"],'_100x100.jpg">').'</div>';
 	    }		
+		*/
 						 
-						 
-echo'</td >';						 
+//echo'</td >';
 				 
 		 
 echo'<td colspan="2" class="menu_jjs button_ada_wall">';
@@ -441,7 +483,7 @@ if($result_status->num_rows!=0)
 	
    //$status_class=array("status_z1","Наряды","Служебные записки","Заявки на материалы","Касса","Исполнители");
 	
-	
+	/*
 	if($row__2["status"]==3)
 	{
        echo'<div class="user_mat naryd_yes" style="margin-left:0px;"></div><div class="status_material1">'.$row_status["name_status"].'</div>';	
@@ -449,6 +491,8 @@ if($result_status->num_rows!=0)
 	{
 		echo'<div class="status_material2 status_z'.$row__2["status"].' memo_zay">'.$row_status["name_status"].'</div>';	
 	}
+	*/
+    echo'<div class="status_invoice s_pr_'.$row__2["status"].'">'.$row_status["name_status"].'</div>';
 }						 
 
 echo'</td>';
@@ -473,53 +517,30 @@ echo'</tbody></table>';
 					  
 					 echo'<script>
 				  OLD(document).ready(function(){  OLD("#table_freez_1").freezeHeader({\'offset\' : \'59px\'}); });
-				  </script>';	 
-					  
-					  
-	  $count_pages=CountPage($sql_count,$link,$count_write);
-	  if($count_pages>1)
-	  {
-		  if(isset($_GET["by"]))
-		  {
-			displayPageLink_new('booker/'.$_GET["by"].'/','booker/'.$_GET["by"].'/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);	  
-		  } else
-		  {
-			  displayPageLink_new('booker/','booker/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
-		  }
-	    
-	  }
-					  
-					  
- }
+				  </script>';
+
+
+                      $count_pages=ceil($subor_cc[$title_key]/$count_write);
+
+                      if($count_pages>1)
+                      {
+                          if(isset($_GET["tabs"]))
+                          {
+                              displayPageLink_new('invoices/.tabs-'.$_GET["tabs"].'','invoices/.tabs-'.$_GET["tabs"].'.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
+                          } else
+                          {
+                              displayPageLink_new('invoices/','invoices/.page-',"", NumberPageActive('n_st'),$count_pages ,5,9,"journal_oo",1);
+                          }
+                      }
+ } else
+                  {
+                      echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Таких накладных в разделе пока нет.</span></span></div>';
+
+                  }
 	  
 ?>
 
-    <script>
-$(document).ready(function(){
-		
-	
-	var tabs = $('#tabs2017');
-		
-	
-    //$('.tabs-content > div.tb', tabs).each(function(i){ if ( i != 0 ) { $(this).hide(0); }});
-   
-	
-	
-	tabs.on('click', '.tab', function(e){
 
-		$(this).children('a')[0].click();
-		
-	});
-	function tabs_activation(tabs)
-	{
-		tabs.find(".slider").css({left: tabs.find('li.active').position().left + "px",width: tabs.find('li.active').width()+"px"});
-    };	
-
-	tabs_activation(tabs);
-	
-	   });	
-
-	</script>         
         
   <?       
 
@@ -529,7 +550,7 @@ $(document).ready(function(){
   </div>
 
 </div>
-
+</div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>

@@ -122,6 +122,11 @@ $minutes - сколько минут дается на выполнения за
 //srok_vip('21.05.2021 17:11:00', 60)
 function srok_vip($data_start,$minutes)
 {
+    //$data_start 2021-05-45 17:11:00
+    $date_mass_xyh = explode(" ", ht($data_start));
+    $date_mass_xyh1 = explode("-", ht($date_mass_xyh[0]));
+    $data_start = $date_mass_xyh1[2] . '.' . $date_mass_xyh[1] . '.' . $date_mass_xyh[0].' '.$date_mass_xyh[1];
+
     global $link;
     $date_exp = explode(" ", $data_start);
     $minutes_work = 0;  //сколько времени потратил на выполнения

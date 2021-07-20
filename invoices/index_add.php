@@ -4,6 +4,7 @@ $url_system=$_SERVER['DOCUMENT_ROOT'].'/'; include_once $url_system.'module/conf
 
 
 
+$active_menu='invoices';  // в каком меню
 
 
 //правам к просмотру к действиям
@@ -36,7 +37,12 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 	$id=htmlspecialchars($_GET['id']);
 	
 	//токен доступен в течении 120 минут
-	if(token_access_yes($token,'add_invoicess_x',$id,120))
+    $stack_error = array();  // общий массив ошибок
+    $error_count=0;  //0 - ошибок для сохранения нет
+        if(token_access_new($token,'add_invoicess_x',$id,"rema",120))
+
+
+
     {
 		//echo("!");
 	//возможно проверка что этот пользователь это может делать
@@ -44,8 +50,7 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 	 {	
 	
 	$stack_memorandum = array();  // общий массив ошибок
-	$stack_error = array();  // общий массив ошибок
-	$error_count=0;  //0 - ошибок для сохранения нет
+
 	$flag_podpis=0;  //0 - все заполнено можно подписывать
 
 	//print_r($stack_error);
@@ -81,7 +86,7 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 		
 
 			
-		   mysql_time_query($link,'INSERT INTO z_invoice (id,number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("","'.htmlspecialchars($_POST['number_invoices']).'","'.htmlspecialchars($_POST['date_invoice']).'","'.date("y-m-d").' '.date("H:i:s").'","'.date("y-m-d").' '.date("H:i:s").'","0","'.htmlspecialchars(trim($_POST["ispol_work"])).'","'.$id_user.'","1")');
+		   mysql_time_query($link,'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("'.htmlspecialchars($_POST['number_invoices']).'","'.htmlspecialchars($_POST['date_invoice']).'","'.date("y-m-d").' '.date("H:i:s").'","'.date("y-m-d").' '.date("H:i:s").'","0","'.htmlspecialchars(trim($_POST["ispol_work"])).'","'.$id_user.'","1")');
 			$ID_N=mysqli_insert_id($link); 
 			
 			//переадрессуем для дальнейшего сохранения
@@ -92,16 +97,20 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 
 }
 
-}
+} else
+        {
+            array_push($stack_error, "token");
+            $error_count++;
+        }
 	
 	
 }
 
 
-
+/*
 $secret=rand_string_string(4);
 $_SESSION['s_t'] = $secret;	
-
+*/
 
 
 
@@ -155,7 +164,7 @@ if($error_header!=404){ SEO('invoices_add','','','',$link); } else { SEO('0','',
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
@@ -163,20 +172,20 @@ include_once $url_system.'template/body_top.php';
 <div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -207,11 +216,67 @@ include_once $url_system.'template/body_top.php';
 	  include_once $url_system.'template/top_invoices_add.php';
 
 	?>
-<form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="section" id="section0">
+              <div class="height_100vh">
+                  <div class="oka_block_2019">
+                      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                          <div class="info-suit">
+                              <span class="h3-f">Данные из накладной</span>
+<form id="lalala_add_form" class="js-save-form-invoices" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
  <input name="save_invoice" value="1" type="hidden">
   <?
-	
-    echo'<div class="content_block1" id_content="'.$id_user.'">';
+
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Номер накладной</i><span>*</span></label><input name="number_invoices" value="'.ipost_($_POST['number_invoices'],"").'" class="input_new_2021 gloab required  no_upperr js-number-acc-new" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата</i><span>*</span></label><input name="datess" id="date_table" readonly="true" value="'.ipost_($_POST['datess'],"").'" class="input_new_2021 gloab required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div><input id="date_hidden_table" name="date_invoice" value="'.ipost_($_POST['date_invoice'],"").'" type="hidden"></div>';
+  echo'<!--input end	-->';
+
+
+  $su_5_name=ipost_($_POST['ispol_work'],"","z_contractor","name",$link);
+  $su_5=ipost_($_POST['ispol_work'],"0");
+
+  echo'<!--input start	-->';
+
+  echo'<div class=" big_list">';
+  //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
+
+  echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-name"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="ispol_work1" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab" name="ispol_work" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+//выбирать только тех у кого есть какие то счета на этом контрагенте
+  $result_work_zz=mysql_time_query($link,"SELECT A.name,A.id,A.inn,(select count(g.id) from z_acc as g where g.status IN ('3','4','20')) as kol FROM z_contractor as A,z_acc as B WHERE B.id_contractor=A.id and B.status IN ('3','4','20') ORDER BY kol limit 0,40");
+
+
+
+  $num_results_work_zz = $result_work_zz->num_rows;
+  if($num_results_work_zz!=0)
+  {
+      //echo'<li><a href="javascript:void(0);" rel="0"></a></li>';
+      for ($i=0; $i<$num_results_work_zz; $i++)
+      {
+          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+
+          $yop='';
+          if($row_work_zz["id"]==$su_5) {
+              $yop='sel_active';
+          }
+
+          echo'<li class="'.$yop.'"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].' <span class="gray-date">(ИНН-'.$row_work_zz["inn"].')</span></a></li>';
+
+      }
+  }
+
+  echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
+
+
+
+
+  //echo'<div class="content_block1" id_content="'.$id_user.'">';
 
 //print_r($stack_error);
 	/*echo '<pre>';
@@ -219,78 +284,19 @@ print_r($_POST["works"]);
 	echo '</pre>';
 	*/
 //echo'<h3 style=" margin-bottom:0px;">Добавление наряда<div></div></h3>';
-echo'<div class="comme" >Необходимые данные</div>';	  
-	
-	  
-	  
-	  $rrtt=0;
-	  
 
-	       
-					
-	echo'<div style="height:70px;"><div class="_50_na_50_1" style="width:33.3%; float:left;">';
-	
-	echo'<div class="width-setter1"><label style="display: none; margin-top: 20px;">Номер</label><input style=" margin-top: 20px;" name="number_invoices"  placeholder="Номер" class="input_f_1 input_100 white_inp label_s save__s" autocomplete="off" id="number_invoice" value="'.ipost_($_POST['number_invoices'],"").'" type="text"></div>';
-	
-		   
-		echo'</div>';
-		
-		echo'<div class="_50_na_50_1" style="width:33.3%; float:left;">';
-		   echo'<div class="input-width m10_right" style="position:relative; margin-left: 10px; ">';
-		    
-		    echo'<input id="date_hidden_table" name="date_invoice" value="'.ipost_($_POST['date_invoice'],"").'" type="hidden"><label style="display: none; margin-top: 20px; top:9px; text-transform: uppercase;">Дата с накладной</label>';
-			
-			echo'<input readonly="true" name="datess" value="'.ipost_($_POST['datess'],"").'" id="date_table" class="input_f_1 input_100 calendar_t label_s save__s white_inp '.iclass_("date_naryad",$stack_error,"error_formi").'" placeholder="Дата"  autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
-		
-		echo'<div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div>';
-		
-		echo'';
-	  
-		  
-		  
-		  
-			echo'<div class="_50_na_50_1" style="width:33.3%; float:left;">';
-		   
-	echo'<div class="input-width m10_left" style="margin-left:10px;">';
-		
-		
-	$result_t=mysql_time_query($link,'Select a.id,a.name from z_contractor as a order by a.name');
-       $num_results_t = $result_t->num_rows;
-	   if($num_results_t!=0)
-	   {
-		   echo'<div class="select_box eddd_box "><a class="slct_box save__s '.iclass_('ispol_work',$stack_error,"error_formi").'" data_src="0"><span class="ccol">'.ipost_($_POST['ispol_work'],"Поставщик","z_contractor","name",$link).'</span></a><ul class="drop_box">';
-		  // echo'<li><a href="javascript:void(0);"  rel="0">--</a></li>';
-		   for ($i=0; $i<$num_results_t; $i++)
-             {  
-               $row_t = mysqli_fetch_assoc($result_t);
-
-				  echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["name"].'</a></li>'; 
-			  
-			 }
-		   echo'</ul><label style="display: none; margin-top: 20px; top:-9px; text-transform: uppercase;">Поставщик</label><input class="label_s" name="ispol_work" id="ispol" value="'.ipost_($_POST['ispol_work'],"0").'" type="hidden"></div>'; 
-	   }
-		
-		
-		
-		
-		echo'</div>';
-	
-	echo'';
-	
-	
-	// echo'<div class="pad10" style="padding: 0; width:100%;"><span class="bookingBox1"></span></div>';
-	  echo'</div>';
 	  
 	?>  
 	<script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
 	<script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
 <script type="text/javascript">var disabledDays = [];
- $(document).ready(function(){           
+ $(document).ready(function(){
+     input_2021();
             $("#date_table").datepicker({ 
 altField:'#date_hidden_table',
 onClose : function(dateText, inst){
         //alert(dateText); // Âûáðàííàÿ äàòà 
-		
+    input_2021();
     },
 altFormat:'yy-mm-dd',
 defaultDate:null,
@@ -303,7 +309,7 @@ beforeShow:function(textbox, instance){
 	setTimeout(function () {
             instance.dpDiv.css({
                 position: 'absolute',
-				top: 65,
+				top: 0,
                 left: 0
             });
         }, 10);
@@ -361,7 +367,7 @@ $('#date_table1').val(date_all);
 	  
 	  
 	  
-	  echo'</div><div class="invoices_mess">Заполните и нажмите кнопку сохранить</div><div class="content_block block_primes1">';			
+
 					
 			$token=token_access_compile($_GET['id'],'add_invoicess_x',$secret);				
 						
@@ -393,11 +399,12 @@ $('#date_table1').val(date_all);
 
 	
     ?>
-    </div>
-  </div>
+
+
 
 
 </form>
+                  </div></div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>
@@ -415,3 +422,18 @@ echo'<script type="text/javascript">var b_co=\''.$b_co.'\'</script>';
 </div>
 
 </body></html>
+
+<?php
+if((count($stack_error)!=0))
+{
+    ?>
+    <script type="text/javascript">
+    $(function (){
+    setTimeout ( function () {
+        alert_message('error', 'Ошибка - попробуйте еще раз');
+    });
+    });
+    </script>
+    <?php
+}
+?>

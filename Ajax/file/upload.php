@@ -122,20 +122,16 @@ switch ($_POST["type"]) {
         $allowedExts = array("pdf", "jpg","jpeg","png"); 
         break;
     case 6:
-        $allowedExts = array("docx");
-        break;
     case 3:
 	case 4:
 	case 5:
 	case 8:
+    case 7:
     case 9:
     case 10:
     case 11:
 		$allowedExts = array("pdf","jpg","jpeg","png","doc","docx","zip","xls","xlsx");
         break;
-	case 7:	
-		$allowedExts = array("pdf","jpg","jpeg","png","zip"); 
-        break;	
 	default:
         $allowedExts = array("pdf", "jpg","jpeg","png"); 
 }	
@@ -166,8 +162,11 @@ $uploadfile = $uploaddir.$file_na;
 	
  //загрузился
   mysql_time_query($link,'update image_attach set visible="1",name="'.$name_imgs.'",name_user="'.ht($_FILES["thefile"]["name"]).'",type="'.$allowedExts[array_search($extension, $allowedExts)].'" where id = "'.$ID_D.'"');
+
+
+    $link='/upload/file/'. $ID_D.'_'.$name_imgs.'.'.$allowedExts[array_search($extension, $allowedExts)];
 	
-$aRes = array("echo"=>$name_imgs);
+$aRes = array("echo"=>$name_imgs,"type"=>$allowedExts[array_search($extension, $allowedExts)],"link"=>$link);
 /*require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

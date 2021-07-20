@@ -2635,7 +2635,7 @@ textarea, input {
 .smeta1 .title_smeta th {
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
-  font-size: 14px;
+  font-size: 11px;
   text-transform: uppercase;
   vertical-align: middle;
   border: 1px solid #e2e0e0;
@@ -6582,8 +6582,8 @@ tr.active_supplyx .supply_tr_o::before {
 .score_a .date_proc {
   display: block;
   position: absolute;
-  width: 80px;
-  height: 10px;
+  /*width: 80px;*/
+  height: 15px;
   font-size: 11px;
   text-align: center;
   top: 76px;
@@ -9567,14 +9567,24 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .invoices_mess {
-  background-color: #72b7f8;
-  color: #fff;
-  font-family: "GEInspiraBold";
-  margin-top: 20px;
-  text-transform: uppercase;
-  font-size: 17px;
-  padding: 30px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  width: 100%;
   text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 20px 10px;
+}
+.invoices_mess:hover {
+  background-color: #ffec57;
 }
 
 .add_invoicess, .add_invoicess1 {
@@ -13940,6 +13950,7 @@ font-style: normal;}*/
   position: relative;
   margin-bottom: 10px !important;
   width: 100%;
+  background-color: #f6f7f8 !important;
 }
 .preorders_block_global .ggh-e, .preorders_block_history .ggh-e, .doc_block_contracts .ggh-e, .doc_block_contracts1 .ggh-e {
   margin-bottom: 10px;
@@ -14737,7 +14748,7 @@ font-style: normal;}*/
   }
 }
 .preorders_block_global .mm_w-preorders, .preorders_block_history .mm_w-preorders, .doc_block_contracts .mm_w-preorders, .doc_block_contracts1 .mm_w-preorders {
-  height: 0px;
+  height: 58px;
   overflow: hidden;
   -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
   -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
@@ -18267,6 +18278,10 @@ width: calc(50% - 0px) !important;
   -ms-justify-content: space-between;
   justify-content: space-between;
   -ms-flex-pack: space-between;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
   background-color: #fff;
   text-align: left;
   position: relative;
@@ -18554,6 +18569,295 @@ width: calc(50% - 0px) !important;
 }
 .new-aa-2021 span {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.status_invoice {
+  display: inline-block;
+  padding: 2px 0px;
+  line-height: 14px;
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+}
+
+.gray-date {
+  padding: 5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.link-acc-2021 {
+  border-bottom: 1px solid #a6c9e7;
+  color: #00aeef;
+  font-family: "GEInspiraRegular";
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 22px;
+  text-decoration: none;
+}
+
+.state-invoice {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: left;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: space-between;
+}
+.state-invoice .st-task {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+  width: calc(100% - 520px);
+  font-size: 12px;
+  line-height: 16px;
+  position: relative;
+  color: rgba(0, 0, 0, 0.7);
+  padding: 20px 15px;
+  padding-left: 0px;
+  font-family: GEInspiraRegular;
+  text-transform: uppercase;
+}
+.state-invoice .st-kto {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+  position: relative;
+  padding: 20px 15px;
+  padding-left: 0px;
+  width: 150px;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: GEInspiraRegular;
+  text-transform: uppercase;
+  display: inline-block;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 11px;
+}
+.state-invoice .st-srok {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+  position: relative;
+  padding: 20px 15px;
+  padding-left: 0px;
+  color: rgba(0, 0, 0, 0.4);
+  width: 150px;
+  font-family: GEInspiraRegular;
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 16px;
+}
+.state-invoice .st-date {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+  position: relative;
+  padding: 20px 15px;
+  padding-left: 0px;
+  color: rgba(0, 0, 0, 0.4);
+  width: 150px;
+  font-family: GEInspiraRegular;
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 16px;
+}
+.state-invoice:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+.state-invoice:hover .label-task-gg {
+  display: inline-block;
+}
+.state-invoice .label-task-gg {
+  font-family: "GEInspiraRegular";
+  position: absolute;
+  top: 5px;
+  left: 0px;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: normal;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  color: rgba(0, 0, 0, 0.3);
+  display: none;
+}
+@media only screen and (max-width: 1023px) {
+  .state-invoice .label-task-gg {
+    display: inline-block;
+  }
+}
+
+.upload-but-2021, .upload-but-2022 {
+  position: relative;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 44px;
+  width: 44px;
+  background-color: #fff !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-right: 10px !important;
+}
+.upload-but-2021::before, .upload-but-2022::before {
+  color: rgba(0, 0, 0, 0.3);
+  content: "ФОТО";
+  left: 11px;
+  font-family: "GEInspiraRegular";
+  position: absolute;
+  font-size: 9px;
+  top: 22px;
+}
+.upload-but-2021::after, .upload-but-2022::after {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "icon2";
+  position: absolute;
+  font-size: 14px;
+  content: "B";
+  top: 5px;
+  left: 14px;
+}
+
+.upload-but-2022::before {
+  content: "АКТ";
+  left: 14px;
+}
+
+.img_invoice_div1 {
+  display: inline-block;
+}
+.img_invoice_div1 .list-image-icons {
+  padding: 0px !important;
+}
+.img_invoice_div1 .list-image-icons .li-image {
+  height: 44px;
+  width: 44px;
+  background-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: linear-gradient(to right, #35deb8, #6dcaf3);
+  padding: 0px;
+  border-radius: 4px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  display: inline-block !important;
+}
+.img_invoice_div1 .list-image-icons .li-image .type-img {
+  color: #fff;
+  left: 12px;
+  font-family: "GEInspiraRegular";
+  position: absolute;
+  font-size: 10px;
+  top: 14px;
+}
+.img_invoice_div1 .list-image-icons .li-image .name-img {
+  padding-left: 0px;
+}
+.img_invoice_div1 .list-image-icons .li-image .name-img::before {
+  display: none;
+}
+.img_invoice_div1 .list-image-icons .li-image .name-img a {
+  display: block;
+  height: 44px;
+  width: 44px;
+  font-size: 0px;
+  border: 0px;
+}
+.img_invoice_div1 .list-image-icons .li-image .size-img {
+  display: none;
+}
+.img_invoice_div1 .list-image-icons .li-image .del-img {
+  right: 3px;
+  top: 0px;
+  display: block;
+  position: absolute;
+}
+.img_invoice_div1 .list-image-icons .li-image .progress-img {
+  padding-left: 5px;
+  background: none;
+  padding-right: 5px;
+  bottom: 10px;
+  position: absolute;
+}
+.img_invoice_div1 .list-image-icons .li-image .progress-img .p-img {
+  background: #ffec57;
+}
+
+.loaderr-acc {
+  position: relative;
+  height: 2px;
+  width: 100%;
+}
+.loaderr-acc div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 2px;
+  background-color: rgba(133, 185, 64, 0.8);
+}
+.loaderr-acc div .teps {
+  overflow: visible !important;
+}
+.loaderr-acc div div {
+  position: relative;
+  display: block;
+  background-color: transparent;
+}
+.loaderr-acc .peg_div {
+  background-color: transparent;
+  left: 10px;
+  overflow: hidden;
+  padding-bottom: 10px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.loaderr-acc .peg {
+  -moz-box-shadow: 0 0 10px #fd0000, 0 0 5px #fd0000;
+  -webkit-box-shadow: 0 0 10px #fd0000, 0 0 5px #fd0000;
+  box-shadow: 0 0 10px #fd0000, 0 0 5px #fd0000;
+  display: block;
+  height: 100%;
+  opacity: 1;
+  position: absolute;
+  right: 10px;
+  -moz-transform: rotate(3deg) translateY(-4px);
+  -o-transform: rotate(3deg) translateY(-4px);
+  -ms-transform: rotate(3deg) translateY(-4px);
+  -webkit-transform: rotate(3deg) translateY(-4px);
+  transform: rotate(3deg) translateY(-4px);
+  width: 100px;
+}
+
+.obi-x {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  display: inline-block;
 }
 
 .input-block-2020 .list-image {

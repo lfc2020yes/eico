@@ -874,8 +874,9 @@ $limit
     public function set_status($id_task, $status=2, $comment=null, $next=null){
         $comment_executor = ( $comment==null ) ? '' : ", comment_executor = '$comment'";
         $next_data = ( $next==null ) ? '' : ", next = '$next'";
+        $date_now = date('Y-m-d H:i:s', time());
         $sql = "
-UPDATE `edo_state` SET id_status = $status $comment_executor $next_data WHERE id = $id_task
+UPDATE `edo_state` SET id_status = $status , date_execute='$date_now' $comment_executor $next_data WHERE id = $id_task
         ";
         $this->Debug($sql,__FUNCTION__);
         if (iDelUpd($this->mysqli,$sql,false)===false) {

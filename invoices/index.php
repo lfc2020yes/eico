@@ -298,12 +298,12 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
 	  	//echo'</didv>';  
   if((isset($_GET["tabs"]))and($_GET["tabs"]==2))
   {
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where not(b.status=1) and b.id_user="'.$id_user.'" order by b.date_create '.limitPage('n_st',$count_write));
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where not(b.status=1) and b.id_user="'.$id_user.'" order by b.date_create desc '.limitPage('n_st',$count_write));
       $count=$subor_cc[1];
       $title_key=1;
 } else
 {
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where b.id_user="'.$id_user.'" and b.status=1 order by b.date_create  '.limitPage('n_st',$count_write));
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where b.id_user="'.$id_user.'" and b.status=1 order by b.date_create desc  '.limitPage('n_st',$count_write));
     $count=$subor_cc[0];
     $title_key=0;
 }

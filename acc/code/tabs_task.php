@@ -74,7 +74,7 @@ $name_kto='';
             $date_ex=date_ex_time(0,$val["date_execute"]);
 
             $class_ddf='';
-            if((dateDiff_2021($val["date_execute"],$val["date_ready"])<0)and($val["id_status"]!=0))
+            if((dateDiff_2021($val["date_ready"],$val["date_execute"])<0)and($val["id_status"]!=0))
             {
                 $class_ddf='reddecision2';
             }

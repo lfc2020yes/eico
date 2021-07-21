@@ -387,10 +387,10 @@ $count_material=0;
 		{
 			mysql_time_query($link,'update z_invoice set ready="0" where id = "'.htmlspecialchars($_GET['id']).'"');
 		}
-
+/*
             header("Location:".$base_usr."/invoices/".$_GET["id"].'/save/');
             die();
-
+*/
 
         }
 		}

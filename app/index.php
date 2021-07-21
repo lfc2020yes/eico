@@ -198,7 +198,7 @@ $sql_mass=$arr_document;
   //уже как то выполнено
   if((isset($_GET["tabs"]))and($_GET["tabs"]==2))
   {
-      $arr_tasks = $edo->my_tasks(0, '>0','ORDER BY d.date_create DESC',limitPage('n_st',$count_write));
+      $arr_tasks = $edo->my_tasks(0, '<>0','ORDER BY d.date_create DESC',limitPage('n_st',$count_write));
       $sql_mass=$arr_tasks;
   }
 

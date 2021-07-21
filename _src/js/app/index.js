@@ -2957,7 +2957,7 @@ function BasketMaterial()
 		
 		if(!$("div").is(".material_end"))
 		{
-			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d</a><i></i></div>');
+			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d<i></i></a></div>');
 		}
 		var cc = cookie.split('.');
 	    var counts=cc.length;
@@ -3029,7 +3029,7 @@ function BasketFinery()
 		
 		if(!$("div").is(".naryd_end"))
 		{
-			$('.add_nnn').after('<div class="naryd_end" data-tooltip="Оформить наряд"><a href="finery/add/'+id_dom+'/">4</a><i></i></div>');
+			$('.add_nnn').after('<div class="naryd_end" data-tooltip="Оформить наряд"><a href="finery/add/'+id_dom+'/">4<i></i></a></div>');
 		}
 		var cc = cookie.split('.');
 	    var counts=cc.length;

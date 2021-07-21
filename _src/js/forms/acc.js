@@ -223,7 +223,7 @@ if(err==0)
         var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&post_p='+box_active.find("[name=id_kto]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     } else
     {
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&name_c='+box_active.find("[name=name_contractor]").val()+'&address_c='+box_active.find("[name=address_contractor]").val()+'&inn_c='+box_active.find("[name=inn_contractor]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&name_c='+encodeURIComponent(box_active.find("[name=name_contractor]").val())+'&address_c='+encodeURIComponent(box_active.find("[name=address_contractor]").val())+'&inn_c='+box_active.find("[name=inn_contractor]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     }
 
     AjaxClient('supply','add_soply','GET',data,'AfterAACC',$(".js-number-acc-new").val(),0);

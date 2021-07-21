@@ -184,9 +184,19 @@ if($small_block!=1) {
 
     }
 }
+/*
 if($small_block==1) {
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=2))) {
         $task_cloud_block .= '<div><a href="app/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+    }
+}
+*/
+if($small_block==1) {
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==1))) {
+        $task_cloud_block .= '<div><a href="app/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+    }
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
+        $task_cloud_block .= '<div class="pass_wh_trips" ><label>Задача</label><div class="obi">' . $value["name_s"] . '</div></div>';
     }
 }
 

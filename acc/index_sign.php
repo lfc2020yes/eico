@@ -182,8 +182,8 @@ if (($edo->next($id, 1))===false) {
 
                 //    $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
 
-                $text_not='Вам поступила задача по счету <a class="link-history" href="acc/' . $_GET['id'] . '/">' . $row_list['name'] . '</a>. '.$name_c.' ' . $value["description"].'';
-
+               /* $text_not='Вам поступила задача по счету <a class="link-history" href="acc/' . $_GET['id'] . '/">' . $row_list['name'] . '</a>. '.$name_c.' ' . $value["description"].'';*/
+                $text_not = 'Вам поступила задача по счету <a class="link-history" href="acc/' . $_GET['id'] . '/">№'.$value['number'].' от '.date_ex(0,$value['date']).'</a>. ' . $name_c . ' ' . $value["description"];
 
 
             } else {

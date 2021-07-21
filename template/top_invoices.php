@@ -76,26 +76,7 @@
                 <ul class="tabs_hedi js-tabs-menuxx">
                     <?
 
-                    $subor_cc = array();
-                    //невыполненные
 
-                    $subor_cc[0]=0;
-                    $result_uu = mysql_time_query($link, 'Select count(DISTINCT b.id) as kol from z_invoice as b where b.status=1 and b.id_user="'.ht($id_user).'"');
-                    $num_results_uu = $result_uu->num_rows;
-
-                    if ($num_results_uu != 0) {
-                        $row_uu = mysqli_fetch_assoc($result_uu);
-                        $subor_cc[0]=$row_uu["kol"];
-                    }
-
-                    $subor_cc[1]=0;
-                    $result_uu = mysql_time_query($link, 'Select count(DISTINCT b.id) as kol from z_invoice as b where not(b.status=1) and b.id_user="'.ht($id_user).'"');
-                    $num_results_uu = $result_uu->num_rows;
-
-                    if ($num_results_uu != 0) {
-                        $row_uu = mysqli_fetch_assoc($result_uu);
-                        $subor_cc[1]=$row_uu["kol"];
-                    }
 
 
                     $mym=0;

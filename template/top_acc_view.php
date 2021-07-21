@@ -290,7 +290,7 @@ include_once $url_system.'module/notification.php';
 //echo($visible_gray);
 //id_action - 4 выписать счета
 
-if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)) {
+if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)and($but_mass["id_action"]!=5)) {
 
     $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a1">';
     if ($class_by == '') {

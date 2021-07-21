@@ -156,7 +156,12 @@ if((isset($_POST['save_invoice_two_step']))and($_POST['save_invoice_two_step']==
 					if((!is_numeric($count_mat_akt))or($count_mat_akt<=0)or($count_mat<$count_mat_akt)) { $flag_podpis++; array_push($error_work, $value['id']."_w_count_defect");}
 					
 					//смотрим есть ли прикрепленные акты
-					$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+					//$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+					$result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+
+
 	                $num_results_scorexx = $result_scorexx->num_rows;
                     if($num_results_scorexx==0)
                     {  
@@ -232,7 +237,12 @@ $count_material=0;
 					if((!is_numeric($count_mat_akt))or($count_mat_akt<=0)or($count_mat<$count_mat_akt)) { $flag_podpis++; array_push($error_work, $value['id']."_w_count_defect");}
 					
 					//смотрим есть ли прикрепленные акты
-					$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+					//$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+                       $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+
+
 	                $num_results_scorexx = $result_scorexx->num_rows;
                     if($num_results_scorexx==0)
                     {  
@@ -301,12 +311,20 @@ $count_material=0;
 				   {
 					   //удаляем всю инфу по актам по этому материалу
 					   
-					   
+					   /*
 					   $uploaddir = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_akt/';
 				       $uploaddir1 = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_material/';
 					   
 					   $result_scorex1=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+
+
+
                        $num_results_scorex1 = $result_scorex1->num_rows;
+
+
+
                        if($num_results_scorex1!=0)
 					   {
 						   for ($ssx=0; $ssx<$num_results_scorex1; $ssx++)
@@ -320,8 +338,21 @@ $count_material=0;
 					   
 					   
 					   }
-                      
-					   mysql_time_query($link,'delete FROM z_invoice_attach_defect where id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+                      */
+					  // mysql_time_query($link,'delete FROM z_invoice_attach_defect where id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+                       //mysql_time_query($link,'delete FROM image_attach as b where ((b.for_what=7)or(b.for_what=6)) AND b.visible=1 and b.id_object="'.htmlspecialchars(trim($value['id'])).'"');
+
+                       mysql_time_query($link, 'update image_attach set
+                       
+                       visible="0"
+                       
+                       where ((for_what=7)or(for_what=6)) AND visible=1 and id_object="'.htmlspecialchars(trim($value['id'])).'"');
+
+                      // $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+
 					   
 				   }
 					

@@ -836,8 +836,8 @@ function dateDiff_2021($dt1, $dt2, $timeZone = 'GMT') {
     $ts1 = $dt1->format('Y-m-d H:i:s');
     $ts2 = $dt2->format('Y-m-d H:i:s');
     $diff = strtotime($ts1)-strtotime($ts2);
-    $diff/= 3600*24;
-    return floor($diff);
+   //$diff/= 3600*24;
+    return floor($diff/60);
 }
 
 //разница дней между двумя датами

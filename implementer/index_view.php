@@ -110,23 +110,23 @@ if($error_header!=404){ SEO('implementer','','','',$link); } else { SEO('0','','
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -152,7 +152,34 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 	            }
 
 	  include_once $url_system.'template/top_implementer_view.php';
+?>
+	                  <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="oka_block_2019" style="min-height:auto;">
+              <div class="div_ook hop_ds"><div class="search_task" style="text-align: right;">
 
+<?
+
+
+if($row_list["summa_made"]>0)
+{
+    echo'<div class="pay_summ4">'.rtrim(rtrim(number_format($row_list["summa_made"], 2, '.', ' '),'0'),'.').'</div>';
+}
+if($row_list["summa_paid"]>0)
+{
+    echo'<div class="pay_summ3" style="margin-left: 50px;">'.rtrim(rtrim(number_format($row_list["summa_paid"], 2, '.', ' '),'0'),'.').'</div>';
+}
+if($row_list["summa_debt"]>0)
+{
+    echo'<div class="pay_summ2" style="margin-left: 80px;">'.rtrim(rtrim(number_format($row_list["summa_debt"], 2, '.', ' '),'0'),'.').'</div>';
+}
+
+?>
+
+                  </div>
+              </div>
+              <div class="oka_block">
+                  <div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">
+	<?
 
     echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$row_list["id"].'">';
 	?>
@@ -624,7 +651,7 @@ echo'</tbody></table>';
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+                      </div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 

@@ -38,6 +38,32 @@ function date_ex($ex,$date)
     return  $date_start;
 }
 
+function date_ex_time($ex,$date)
+{
+    $date_start='';
+    if(($date!='')and($date!='00.00.0000 00:00')and($date!='0000-00-00 00:00:00'))
+    {
+        if($ex==1) {
+            $date_ex_t = explode(" ", htmlspecialchars(trim($date)));
+            $date_ex = explode(".", htmlspecialchars(trim($date_ex_t[0])));
+            $date_start = $date_ex[2] . '-' . $date_ex[1] . '-' . $date_ex[0];
+            $time=$date_ex_t[1].':00';
+
+            $date_start=$date_start.' '.$time;
+        } else
+        {
+            $date_ex_t = explode(" ", htmlspecialchars(trim($date)));
+            $date_ex = explode("-", htmlspecialchars(trim($date_ex_t[0])));
+            $date_start = $date_ex[2] . '.' . $date_ex[1] . '.' . $date_ex[0];
+            $time_t=explode(":", htmlspecialchars(trim($date_ex_t[1])));
+            $time=$time_t[0].':'.$time_t[1];
+
+            $date_start=$date_start.' '.$time;
+        }
+    }
+    return  $date_start;
+}
+
 //взятие файла с последней версией
 /*
 index-0.0.2.js
@@ -254,7 +280,7 @@ else
  
 $replace = "<strong>$1</strong>";// На что заменить
 
-setlocale(LC_ALL, 'ru_RU.CP1251'); 
+setlocale(LC_ALL, 'ru_RU.CP1251');
 $endText = PREG_REPLACE($patterns,$replace,$beginText);// Замена
  
 return $endText;
@@ -800,6 +826,18 @@ function ipost_($vars,$ret,$table=false,$name_rows=false,$link=false)
 	return $ret;
 	}
 	
+}
+
+
+function dateDiff_2021($dt1, $dt2, $timeZone = 'GMT') {
+    $tZone = new DateTimeZone($timeZone);
+    $dt1 = new DateTime($dt1, $tZone);
+    $dt2 = new DateTime($dt2, $tZone);
+    $ts1 = $dt1->format('Y-m-d H:i:s');
+    $ts2 = $dt2->format('Y-m-d H:i:s');
+    $diff = strtotime($ts1)-strtotime($ts2);
+    $diff/= 3600*24;
+    return floor($diff);
 }
 
 //разница дней между двумя датами
@@ -2327,14 +2365,16 @@ function day_nedeli_x($number)
 
 function NumToIndexPadej($num)
 {
- if ($num>=5 or $num==0) $ind=2; 
- else    //1 2-4
- {
-   $octatok=$num%10;
-   if ($octatok>1) $ind=1; else $ind=0; 
- }
- return $ind;
+    $octatok=$num%10;
+
+
+    $ind=2;
+    if(($octatok==1)and($num!=11)) { $ind=0;  }
+    if(($octatok>1)and($octatok<5)and(($num<11)or($num>14))) {  $ind=1;  }
+    return $ind;
+
 }
+
 /*
          1    3    10
 $skl='акцию,акции,акций';

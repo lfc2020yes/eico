@@ -712,8 +712,52 @@ a.id="'.$row__2["idd"].'"');
 
 
 
-                  echo'<div style="background-color: #f0f4f6;" class="js-acc-block items_acc_basket   " yi_sopp_="'.$row__2["id"].'">
-                <input type="hidden" value="'.$row__2["id"].'" name="material['.$rr.'][id]">
+                  $PROC=0;
+
+                  $result_proc=mysql_time_query($link,'select sum(a.count_units) as summ,sum(a.count_defect) as summ1  from 
+             
+             z_invoice_material as a,
+             z_invoice as b,
+             z_doc_material_acc as y
+                                                                     
+             
+
+where 
+      y.id_acc=a.id_acc and
+      a.id_acc="'.$row__2["id_acc"].'" and
+      b.id=a.id_invoice and 
+      not(b.status=1) and 
+      y.id="'.$row__2["id"].'"');
+
+                  //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
+                  $num_results_proc = $result_proc->num_rows;
+                  if($num_results_proc!=0)
+                  {
+                      $row_proc = mysqli_fetch_assoc($result_proc);
+
+
+                      $result_uu9=mysql_time_query($link,'select a.count_material as summa from z_doc_material_acc as a where a.id="'.ht($row__2["id"]).'"');
+                      $num_results_uu9 = $result_uu9->num_rows;
+
+                      if($num_results_uu9!=0)
+                      {
+                          $row_uu9 = mysqli_fetch_assoc($result_uu9);
+                          $PROC=round((($row_proc["summ"]-$row_proc["summ1"])*100)/$row_uu9["summa"]);
+                      }
+                      if($PROC>100) {$PROC=100;}
+                  }
+
+
+                  echo'<div data-tooltip="Получено '.($row_proc["summ"]-$row_proc["summ1"]).' '.$row_work_zz['units'].' из '.$row_uu9["summa"].' '.$row_work_zz['units'].'"  class="loaderr-acc"><div id_loader="'.$row__2["id"].'" class="teps" rel_w="'.$PROC.'" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>';
+
+                  echo'<div style="background-color: #f0f4f6;" class="js-acc-block items_acc_basket   " yi_sopp_="'.$row__2["id"].'">';
+
+
+
+
+
+
+                  echo'<input type="hidden" value="'.$row__2["id"].'" name="material['.$rr.'][id]">
 					 
                 <div class="name-user-57"><span class="label-task-gg ">Название
 </span><div class="h57-2020"><span class="name-items">'.$row1ss__341["name"].'</span>

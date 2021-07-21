@@ -36,6 +36,7 @@ var UploadInvoice = function()
 //  |
 // \/
 function NumberBlockFile() {
+    //alert("!");
 //расставляется только при загрузке. в процессе нельзя менять номера так как в это время может грузится файл с этим номером блока
     var number_file=1;
     $('.js-upload-file').each(function (i, elem) {
@@ -78,7 +79,14 @@ var UploadScanSChange = function()
 
     file = this.files[0];
     if (file) {
-        gll.find('.list-image').append('<div number_li="'+number_li+'" class="li-image"><span class="name-img">'+this.files[0].name+'</span><span class="del-img js-dell-image"></span><span class="size-img">'+(this.files[0].size / 1024 / 1024).toFixed(2)+' МБ</span><div class="progress-img"><div class="p-img" style="width: 0%;"></div></div></div>');
+var size_blu='';
+       if(gll.find('.list-image-icons').length!=0)
+       {
+           size_blu='<span class="type-img"></span>';
+       }
+
+
+        gll.find('.list-image').append('<div number_li="'+number_li+'" class="li-image"><span class="name-img"><a>'+this.files[0].name+'</a></span>'+size_blu+'<span class="del-img js-dell-image"></span><span class="size-img">'+(this.files[0].size / 1024 / 1024).toFixed(2)+' МБ</span><div class="progress-img"><div class="p-img" style="width: 0%;"></div></div></div>');
 
         gll.find('.list-image').show();
 
@@ -152,8 +160,15 @@ function uploadS(file,type,id_object,number_li,number_block) {
 
 
             var r=JSON.parse(this.responseText);
-
+            //alert_message('ok',r.type);
             gll.find('[number_li='+number_li+'] .del-img').attr('id',r.echo);
+
+            if(gll.find('[number_li='+number_li+'] .type-img').length!=0)
+            {
+                gll.find('[number_li='+number_li+'] .type-img').empty().append(r.type);
+            }
+
+            gll.find('[number_li='+number_li+'] .name-img a').attr('href',r.link);
 
             name_sql_image=r.echo;  //id фотки которую загрузили
 

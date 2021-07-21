@@ -6,9 +6,10 @@ include_once $url_system.'module/ajax_access.php';
 
 
 //создание секрет для формы
+/*
 $secret=rand_string_string(4);
 $_SESSION['s_form'] = $secret;
-
+*/
 $status=0;
 
 

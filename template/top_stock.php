@@ -1,4 +1,7 @@
-    <div class="menu_top"><div class="menu1 menu_jjs">
+<?php
+/*
+
+<div class="menu_top"><div class="menu1 menu_jjs">
     
     
     
@@ -186,4 +189,82 @@
 	?>
    
     </div></div>
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+?>
+
+
+
+
+
+
+    <div class="menu-09  input-line" style="z-index:150;">
+        <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
+        <div class="menu-09-left">
+            <a href="/" class="menu-09-global"></a><a onclick="history.back();" class="menu-09-prev"><i></i></a>
+
+
+            <?
+
+            echo'<span class="menu-09-pc-h" ><span >Склад</span >';
+
+            echo'<span all="8" class="menu-09-count none" style="display: none;"></span>';
+
+            echo'</span >';
+
+            ?>
+
+
+            <?
+
+            ?>
+        </div>
+        <div class="menu-09-right tours-right-block">
+            <?
+
+
+
+            include_once $url_system.'module/notification.php';
+            include_once $url_system.'module/users.php';
+
+            echo'<a data-tooltip="Печатать" class="js-print-stock add_clients ser-style hide-mobile">Печать →</a>';
+
+
+            if (($role->permission('Склад','A'))or($sign_admin==1))
+            {
+               // echo'<div data-tooltip="добавить наименование" class="add_invoice1"><i></i></div>';
+                //echo'<div class="icon1 iconl"><i></i></div>';
+                echo'<a data-tooltip="добавить наименование" class="js-add-stock add_clients yellow-style hide-mobile">Добавить →</a>';
+            }
+
+
+
+
+
+            echo'</div>';
+
+
+
+
+            ?>
+
+            <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->
+
+        </div>

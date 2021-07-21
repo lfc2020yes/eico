@@ -921,7 +921,7 @@ font-style: normal;}*/
   }
 
 
-  .menu-09-left {  @include flex-grow(1); padding-left: 70px; text-align: left; @include sw('tablet-small') { /*width: 165px !important;*/ }
+  .menu-09-left {  @include flex-grow(1); padding-left: 70px; text-align: left; @include sw('tablet-small') { /*width: 165px !important;*/ overflow: hidden; }
 
 
     @include flexbox();@include justify-content(left);@include align-items(center);
@@ -1016,6 +1016,7 @@ font-style: normal;}*/
     vertical-align: top;
     line-height: 60px;
     white-space: nowrap;
+    overflow: hidden;
 
     @include sw('tablet-small') {display: none;}
 
@@ -1302,10 +1303,10 @@ font-style: normal;}*/
                                                                                                                                                                                                        font-family: "GEInspiraBold";
                                                                                                                                                                                                        text-transform: uppercase;
                                                                                                                                                                                                        font-size: 10px;
-                                                                                                                                                                                                       display: block;}
+                                                                                                                                                                                                       white-space: nowrap;                                                                                                               display: block;}
                                                                                                                                                                                                      strong { font-style: normal;
                                                                                                                                                                                                        font-weight: normal;
-                                                                                                                                                                                                       display: block;
+                                                                                                                                                                                                       white-space: nowrap;                                                                                                              display: block;
                                                                                                                                                                                                        color: rgba(0, 0, 0, 0.7);
                                                                                                                                                                                                        font-family: "GEInspiraBold";
                                                                                                                                                                                                        text-transform: uppercase;
@@ -1341,6 +1342,7 @@ font-style: normal;}*/
 }
 
 .yellow-style  {  background-color: #ffec57 !important; color: rgba(0,0,0,0.6) !important; }
+.ser-style  {  background-color:transparent !important; color: rgba(0,0,0,0.6) !important; border-left: 1px solid #ddd; }
 
 .logi-hovi { float:left; display: inline-block; height: 40px; width: 40px; overflow: hidden; position: relative; border-radius: 50%;
 
@@ -1886,7 +1888,7 @@ font-style: normal;}*/
 
   @include sw('tablet3') { margin-bottom: 20px !important;
     padding-top: 10px; }
-
+  background-color:#f6f7f8 !important;
   &:hover {background-color:#f6f7f8 !important;}
 
   .js-update-block-trips,.js-update-block-preorders,.js-update-block-preorders-h,.js-update-block-doc-h{@include flex-wrap(wrap);@include flexbox();@include justify-content(space-between);background-color:
@@ -2144,7 +2146,8 @@ font-style: normal;}*/
 
   .mm_w-preorders {
 
-    height: 0px;
+    //height: 0px;
+    height: 58px;
     overflow: hidden;
     @include transition(all .4s cubic-bezier(.42,.01,.23,1));
     width:100%;
@@ -4906,7 +4909,7 @@ span {  border-bottom: 1px solid #fd8080;}
 //@include flex-wrap(wrap);
   @include flexbox();
   @include justify-content(space-between);
-
+@include flex-wrap(wrap);
   background-color: #fff;
   text-align: left;
   position: relative;
@@ -5135,3 +5138,226 @@ span {  border-bottom: 1px solid #fd8080;}
   position: relative !important;
   line-height: 25px !important;
   color: #2c60a4 !important; text-decoration: none !important; span {border-bottom: 1px solid rgba(0, 0, 0, 0.1);}}
+
+
+.status_invoice { display: inline-block;
+  padding: 2px 0px; line-height:14px;
+
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+
+  font-family: GEInspiraRegular;
+}
+
+.gray-date {padding: 5px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.6) !important;}
+
+.link-acc-2021 {border-bottom: 1px solid #a6c9e7;
+  color: #00aeef;
+  font-family: "GEInspiraRegular";
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 22px;
+  text-decoration: none;}
+
+.state-invoice
+{
+
+  @include flexbox();
+  width: 100%;
+  border: 1px solid rgba(0,0,0,.1);
+
+  text-align: left;
+  @include justify-content(space-between);
+
+
+  .st-task {
+
+    @include align-self(center);
+    width: calc(100% - 520px);
+
+    font-size: 12px;
+    line-height: 16px;
+    position: relative;
+    color: rgba(0,0,0,.7);
+    padding: 20px 15px; padding-left:0px;
+
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+  }
+  .st-kto {     @include align-self(center);     position: relative;
+    padding: 20px 15px; padding-left:0px; width: 150px; color: rgba(0,0,0,.3);
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block;
+    line-height: 16px;
+    color: rgba(0,0,0,.7);
+    font-size: 11px;
+  }
+  .st-srok {     @include align-self(center);     position: relative;
+    padding: 20px 15px; padding-left:0px; color: rgba(0,0,0,.4); width: 150px;
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block; font-size: 12px; line-height: 16px;}
+  .st-date {     @include align-self(center);    position: relative;
+    padding: 20px 15px;  padding-left:0px;color: rgba(0,0,0,.4); width: 150px;
+    font-family: GEInspiraRegular;
+    text-transform: uppercase;
+    display: inline-block; font-size: 12px; line-height: 16px;}
+
+
+  &:hover {  background-color: rgba(0,0,0,0.02); .label-task-gg {display:inline-block;}  }
+
+  .label-task-gg {font-family: "GEInspiraRegular";
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: normal;@include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    color:
+            rgba(0, 0, 0, 0.3); display:none;@include sw('tablet3') { display:inline-block; }}
+}
+
+
+.upload-but-2021,.upload-but-2022 {      position: relative;
+  display: inline-block;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 44px;
+  width: 44px;
+  background-color: #fff !important;
+  padding: 0 !important;
+  margin:0 !important;
+  margin-right: 10px !important;
+
+  &::before {
+    color: rgba(0,0,0,0.3);
+    content: "ФОТО";
+    left: 11px;
+    font-family: "GEInspiraRegular";
+    position: absolute;
+    font-size: 9px;
+    top:22px;
+  }
+  &::after {
+    color: rgba(0,0,0,0.6);
+    font-family: "icon2";
+    position: absolute;
+    font-size: 14px;
+    content: "B";
+    top: 5px;
+    left: 14px;
+  }
+}
+.upload-but-2022 {
+  &::before { content: "АКТ"; left: 14px;}
+}
+
+.img_invoice_div1 {display: inline-block;
+
+  .list-image-icons {
+padding: 0px !important;
+    .li-image { height: 44px;
+      width: 44px; background-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
+      background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
+      background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+      background-image: linear-gradient(to right, #35deb8, #6dcaf3);
+      padding: 0px; border-radius: 4px;
+      margin-bottom: 0px;
+      margin-right: 10px;
+      display: inline-block !important;
+
+      .type-img {   color: #fff;
+        left: 12px;
+        font-family: "GEInspiraRegular";
+        position: absolute;
+        font-size: 10px;
+        top: 14px; }
+
+    .name-img {padding-left: 0px;
+
+      &::before {display: none;}
+a {    display: block;
+  height: 44px;
+  width: 44px; font-size: 0px; border: 0px;
+}}
+      .size-img {display: none;}
+      .del-img { right: 3px; top: 0px;
+        display: block;
+        position: absolute;}
+      .progress-img { padding-left: 5px; background: none;
+        padding-right: 5px; bottom: 10px; position: absolute;
+        .p-img {background: #ffec57;}
+
+      }
+
+    }
+
+    }
+
+  }
+
+
+.loaderr-acc {
+
+  position: relative;
+  height: 2px;
+  //background-color: rgba(0, 0, 0, 0.05) !important;
+  width: 100%;
+
+  div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 2px;
+    background-color: rgba(133, 185, 64, 0.8);
+    .teps {
+      overflow: visible !important;
+    }
+
+     div {
+      position: relative;
+      display: block;
+      background-color: transparent;
+    }
+
+  }
+  .peg_div {
+    background-color: transparent;
+    left: 10px;
+    overflow: hidden;
+    padding-bottom: 10px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+
+  .peg {
+    @include box-shadow(0 0 10px #fd0000, 0 0 5px #fd0000);
+    display: block;
+    height: 100%;
+    opacity: 1;
+    position: absolute;
+    right: 10px;
+
+    @include transform(rotate(3deg) translateY(-4px));
+    width: 100px;
+  }
+
+}
+
+.obi-x {font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  display: inline-block;}

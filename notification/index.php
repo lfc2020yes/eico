@@ -213,7 +213,11 @@ echo'<div id="fullpage" class="margin_60" id_content="'.$id_user.'">';
                               $rowxs = mysqli_fetch_assoc($result_txs);
                               $online='';
                               if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}
+                              /*
                               echo'<div class="yop_count1"><div  sm="'.$row__2["sign_user"].'"   data-tooltip="'.$rowxs["name_user"].'" class="user_soz send_mess logi-hovi">'.$online.avatar_img('<img src="img/users/',$row__2["sign_user"],'_100x100.jpg?a='.$rowxs["img_xah"].'">').'</div></div>';
+*/
+
+                              echo'<div class="yop_count1"></div>';
                           }
 
 

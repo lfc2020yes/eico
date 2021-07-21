@@ -19,11 +19,13 @@ $status_echo='';
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
-$echo_r=0; //выводить или нет ошибку 0 -нет
+$echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
+$id=ht($_GET["id"]);
+$token=ht($_GET["tk"]);
 
 //**************************************************
-if ( count($_GET) != 5 ) 
+if ( count($_GET) != 6 )
 {
    $debug=h4a(1,$echo_r,$debug);
    goto end_code;	
@@ -41,6 +43,14 @@ if ( count($_GET) != 5 )
   $debug=h4a(3,$echo_r,$debug);
   goto end_code;
 }
+
+if(!token_access_new($token,'add_material_invoice',$id,"rema",2880))
+{
+    $debug=h4a(111,$echo_r,$debug);
+    goto end_code;
+}
+
+
 //**************************************************
 if ((!isset($_GET["id"]))or((!is_numeric($_GET["id"])))) 
 {
@@ -111,7 +121,7 @@ $status_ee='ok';
 $number_acc='';
 if ((isset($_GET["number"]))and((is_numeric($_GET["number"])))) 
 {
-	$result_t1=mysql_time_query($link,'Select a.status,a.number,a.date from z_acc as a where a.id="'.htmlspecialchars(trim($_GET['number'])).'"');
+	$result_t1=mysql_time_query($link,'Select a.status,a.number,a.date,a.id from z_acc as a where a.id="'.htmlspecialchars(trim($_GET['number'])).'"');
     $num_results_t1 = $result_t1->num_rows;
     if($num_results_t1!=0)
     {
@@ -175,7 +185,7 @@ if ((isset($_GET["number"]))and((is_numeric($_GET["number"]))))
 }
 
 
-mysql_time_query($link,'INSERT INTO z_invoice_material (id,id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("","'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.htmlspecialchars(trim($_GET['demo'])).'","0","0","0","0")');
+mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.htmlspecialchars(trim($_GET['demo'])).'","0","0","0","0")');
 
 $ID_D=mysqli_insert_id($link);	
 
@@ -186,7 +196,7 @@ $echo.='<tr invoice_material="'.$ID_D.'" style="background-color:#f0f4f6;" class
 $echo.='<td class="no_padding_left_ pre-wrap one_td">'.$row_t2["name"].' <span class="invoice_units">('.$row_t2["units"].')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div><div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div></td>';
 if($number_acc!='')
 {
-	$echo.='<td class="pre-wrap center_text_td number_st_invoice">'.$row_t1["number"].'</td><td class="pre-wrap center_text_td invoice_units">'.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</td><td class="pre-wrap center_text_td count_st_invoice">'.$summ.'</td>';
+	$echo.='<td class="pre-wrap center_text_td number_st_invoice"><a class="link-acc-2021" href="acc/'.$row_t1["id"].'/">'.$row_t1["number"].'</a></td><td class="pre-wrap center_text_td invoice_units">'.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</td><td class="pre-wrap center_text_td count_st_invoice">'.$summ.'</td>';
 	
 	
 } else
@@ -227,10 +237,10 @@ $echo.='</div></td><td class="t_7 jk5"><span class="price_supply_ summa_ii"></sp
 
 
 $echo.='<tr invoice_group="'.$ID_D.'" invoices_messa="'.$ID_D.'" class=" jop messa_invoice" style="display: none;"><td><span class="hsi">Акт на отбраковку<div></div></span><div class="del_invoice_akt" data-tooltip="Удалить акт" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div></td><td style="padding:0px;white-space: nowrap"><div class="img_akt"><ul></ul></div><div id_upload_a="'.$ID_D.'" data-tooltip="загрузить акт на отбраковку" class="add_akt_defect"></div><div class="b_loading_small_akt"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div></td><td colspan="2" style="padding:0px;white-space: nowrap"><div class="img_akt1"><ul></ul></div><div id_upload_a1="'.$ID_D.'" data-tooltip="загрузить фото с браком" class="add_akt_defect1"></div><div class="b_loading_small_akt1"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div></td><td><div class="width-setter"><label style="display: inline;">КОЛ-ВО БРАКА</label><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][count_defect]" id="count_invoice_defect_'.$_GET["ss"].'" class="input_f_1 akt_ss input_100 white_inp label_s count_defect_in_  count_mask   " autocomplete="off" value="0" type="text"></div></td><td colspan="3"><div class="width-setter"><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][text]" placeholder="Комментарий по браку" class="akt_ss input_f_1 input_100   white_inp label_s text_zayva_message_ " autocomplete="off" value="" type="text"></div></td></tr><tr class="loader_tr" style="height:2px;"><td colspan="8"></td></tr>';
-
+/*
 $echo1='<form  class="form_up" id="upload_akt1_'.$ID_D.'" id_a="'.$ID_D.'" name="upload_akt1'.$ID_D.'"><input class="invoice_file_photo" type="file" name="myfilephoto'.$ID_D.'"></form>';	
 $echo1.='<form  class="form_up" id="upload_akt_'.$ID_D.'" id_a="'.$ID_D.'" name="upload_akt'.$ID_D.'"><input class="invoice_file_akt" type="file" name="myfileakt'.$ID_D.'"></form>';
-
+*/
 end_code:
 
 $aRes = array("debug"=>$debug,"status"   => $status_ee,"status_echo"   => $status_echo,"echo1" => $echo1,"echo"=>$echo);

@@ -68,11 +68,14 @@ if ((!isset($_GET["id"]))or((!is_numeric($_GET["id"]))))
 //**************************************************
 $token=htmlspecialchars($_POST['tk_sign']);
 $id=htmlspecialchars($_GET['id']);
-if(!token_access_yes($token,'take_invoices_2018',$id,120))
-{	
-   $debug=h4a(4,$echo_r,$debug);
-   goto end_code;			
-}
+//if(!token_access_yes($token,'take_invoices_2018',$id,120))
+
+    if(!token_access_new($token,'take_invoices_2018',$id,"rema",120)) {
+        header404(4, $echo_r);
+    }
+
+
+
 
 //**************************************************
 $result_url=mysql_time_query($link,'Select a.* from z_invoice as a where a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
@@ -113,10 +116,41 @@ $num_results_score = $result_score->num_rows;
 
 if($num_results_score!=0)
 {
+    $nak='';
 	for ($ss=0; $ss<$num_results_score; $ss++)
 	{			   			  			   
 		$row_score = mysqli_fetch_assoc($result_score);
-		
+
+
+
+		//если есть счет отправить создателю уведомление о том что пришел товар
+		if(($row_score["id_acc"]!=0)and($row_score["id_acc"]!=''))
+        {
+if($nak!=$row_score["id_acc"]) {
+    $result_uu8 = mysql_time_query($link, 'select number,date,id_contractor,id_user from z_acc where id="' . ht($row_score["id_acc"]) . '"');
+    $num_results_uu8 = $result_uu8->num_rows;
+
+    if ($num_results_uu8 != 0) {
+        $row_uu8 = mysqli_fetch_assoc($result_uu8);
+
+
+        $user_send_new = array();
+        //уведомление
+        array_push($user_send_new, $row_uu8["id_user"]);
+        $text_not = 'По счету <a class="link-history" href="acc/' . $row_score["id_acc"] . '/">№' . $row_uu8['number'] . ' от ' . date_ex(0, $row_uu8["date"]) . '</a> поступил материал. Подробности в накладной <a class="link-history" href="/invoices/' . $_GET['id'] . '/">№' . $row_t["number"] . '</a>.';
+        $user_send_new = array_unique($user_send_new);
+        notification_send($text_not, $user_send_new, $id_user, $link);
+    }
+}
+            $nak=$row_score["id_acc"];
+
+        }
+
+
+
+
+
+
 		
 		$price=0;
 		if($row_t["type_contractor"]==1)
@@ -198,22 +232,22 @@ if($num_results_score1!=0)
 						
 			
 		//создателя договора	
-		$text_not='По счету №'.$row_list11["number"].' от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>'.$text_not.'. Необходимо связаться с поставщиком и <strong>переделать накладную №'.$row_t["number"].'</strong> согласно принятых материалов на сумму '.($row_t["summa"]-$sum_defect_all).' рублей';
+		$text_not='По счету <a class="link-history" href="acc/' . $row_score["id_acc"] . '/">№'.$row_list11["number"].'</a> от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a class="link-history" href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>'.$text_not.'. Необходимо связаться с поставщиком и <strong>переделать накладную <a class="link-history" href="invoices/'.$_GET['id'].'/">№'.$row_t["number"].'</a></strong> согласно принятых материалов на сумму '.($row_t["summa"]-$sum_defect_all).' рублей';
 			
 		//в бухгалтерию	
-		$text_not1='По счету №'.$row_list11["number"].' от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>. В ближайшее время вам поступит от снабженца переделанная накладная №'.$row_t["number"].' от '.$row_list11["name"].', на сумму '.($row_t["summa"]-$sum_defect_all).' рублей.';
-					
+		/*$text_not1='По счету №'.$row_list11["number"].' от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>. В ближайшее время вам поступит от снабженца переделанная накладная №'.$row_t["number"].' от '.$row_list11["name"].', на сумму '.($row_t["summa"]-$sum_defect_all).' рублей.';
+		*/
 			
 
 				//отправка уведомления
 			    $user_send_new= array_unique($user_send_new);	
 			    notification_send($text_not,$user_send_new,$id_user,$link);
-				  
+				  /*
 	            $FUSER=new find_user($link,'*','U','','buh');
 		        $user_send_new=$FUSER->id_user;
                 $user_send_new= array_unique($user_send_new);	
 			    notification_send($text_not1,$user_send_new,$id_user,$link);
-  
+  */
 				  		  
 						  
 				  //добавляем уведомления о новом наряде
@@ -228,7 +262,7 @@ if($num_results_score1!=0)
 
 
 //echo($error);
-header("Location:".$base_usr."/invoices/".$_GET['id'].'/');
+header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
 
 end_code:
 

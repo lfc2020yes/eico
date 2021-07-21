@@ -540,35 +540,7 @@ function BodyScrool()
 }
 
 
-//добавить наименование на склад
-function add_invoice1()
-{
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_stock.php',
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
 
-  });
-	
-}
 
 
 function dell_invoice()
@@ -601,34 +573,8 @@ function dell_invoice()
 	
 }
 
-//убрать акт на брак
-function material_defect_dell()
-{
-	var attr=$(this).attr('id_rel');
-	$('[invoice_material='+attr+']').find('.defect_inp').val('0');
-	$('[invoice_material='+attr+']').next().hide();
-	$('[invoices_messa='+attr+']').find('.count_defect_in_').val('');
-		$('[invoices_messa='+attr+']').find('.text_zayva_message_').val('');
-}
 
-//добавить - убрать акт на брак
-function material_defect()
-{
-	var attr=$(this).attr('id_rel');
-	var defect=$('[invoice_material='+attr+']').find('.defect_inp').val();
-	
-	if(defect==0)
-	{
-			$('[invoice_material='+attr+']').find('.defect_inp').val('1');
-		    $('[invoice_material='+attr+']').next().show();
-	} else
-	{
-		    $('[invoice_material='+attr+']').find('.defect_inp').val('0');
-			$('[invoice_material='+attr+']').next().hide();
-		$('[invoices_messa='+attr+']').find('.count_defect_in_').val('');
-		$('[invoices_messa='+attr+']').find('.text_zayva_message_').val('');
-	}
-}
+
 
 
 function  UpdateImageInvoiceAkt(id,type)
@@ -638,91 +584,8 @@ function  UpdateImageInvoiceAkt(id,type)
 }
 
 
-function dell_invoice_material()
-{
-	var attr=$(this).attr('id_rel');
-	$('[invoice_material='+attr+']').hide();
-	$('[invoices_messa='+attr+']').hide();
-	
-	var data ='url='+window.location.href+'&id='+attr;
-    AjaxClient('invoices','dell_material','GET',data,'AfterDellMaterialInvoice',attr,0);	
-	
-}
 
 
-function nds_invoice()
-{
-	var nds=$('#ispol_type_invoice').val();
-	
-	
-	if(!$('#number_invoice').is('[readonly]'))
-			{
-	
-	$('.price_in_,.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');	
-		}
-	
-	if(nds==1)
-		{
-			$('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
-			$('.cosy_title').empty().append('Цена');
-			$('.price_in_').prev('label').empty().append('ЦЕНА');
-			$('.price_nds_in_').val(0);
-			$('.title_itog_invoice').empty().append('Итого сумма');
-			
-			$('.checkbox_cost_inv').hide();
-			
-		} else
-			{
-				$('.checkbox_cost_inv').show();
-				$('.cosy_title').empty().append('Цена без Ндс<div class="checkbox_cost_inv no_nds"><i></i></div>');
-				
-				if($('.yes_nds').length==0)
-				{
-					$('.checkbox_cost_inv').remove();
-				}
-				
-				$('.price_in_').prev('label').empty().append('ЦЕНА БЕЗ НДС');
-				
-				var nds_x=$('[name=nds_ff]').val();
-				var mojno= $('#number_invoice').is('.grey_edit');
-				if(!$('#number_invoice').is('.grey_edit'))
-					{
-	
-				if((nds_x==0))
-				{		
-				
-				$('.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');	
-				$('.price_in_').val(0);
-				$('.price_in_').prop('readonly',true).addClass('grey_edit');
-				} else
-				{
-				$('.price_in_').removeAttr('readonly').removeClass('grey_edit');		
-				$('.price_nds_in_').val(0);
-				$('.price_nds_in_').prop('readonly',true).addClass('grey_edit');						
-				}
-					}
-				$('.title_itog_invoice').empty().append('Итого сумма с ндс');
-				
-				
-				var nds_x=$('[name=nds_ff]').val();
-$('.yes_nds,.no_nds').parents('th').removeClass('active_n_ac');
-	if(nds_x==0)
-		{
-			$('.yes_nds').parents('th').addClass('active_n_ac');
-		} else
-		{	
-			$('.no_nds').parents('th').addClass('active_n_ac');
-		}
-				
-			}
-	
-	
-	
-	
-	//пересчитать сумму накладной
-	itog_invoice();
-	//cosy_title
-}
 
 
 
@@ -774,27 +637,7 @@ function BrakError()
 	
 }
 
-function change_option_invoice()
-{
-	var nds_x=$('[name=nds_ff]').val();
-	$('.price_in_,.price_nds_in_').val(0);
-	
-	
-	
-	
-	if(nds_x==0)
-		{
-			$('[name=nds_ff]').val('1');
-			$('.yes_nds').parents('th').removeClass('active_n_ac');
-			$('.no_nds').parents('th').addClass('active_n_ac');
-		} else
-		{
-			$('[name=nds_ff]').val('0');	
-			$('.no_nds').parents('th').removeClass('active_n_ac');
-			$('.yes_nds').parents('th').addClass('active_n_ac');
-		}
-	nds_invoice();
-}
+
 
 
 function countErrorMax()
@@ -815,129 +658,7 @@ function countErrorMax()
 
 
 
-function itog_invoice()
-{
-	var nds=$('#ispol_type_invoice').val();
-	
-	var xvg=$('[invoice_material]');
-	var summ_xvg=0;
-	var summ_defect=0;
-	xvg.each(function(i,elem) {
-		
-		
-			var count= parseFloat($(this).find('.count_in_').val());
-	        var price= parseFloat($(this).find('.price_in_').val());
-		    var price_nds= parseFloat($(this).find('.price_nds_in_').val());
-		    var defect_in=parseFloat($(this).find('.defect_inp').val());
-		
-		if(nds==0)
-		{
-				//с ндс 
-			
-			    //если указана цена с ндс то просто умножаем на количество
-			
-			var nds_x=$('[name=nds_ff]').val();
-			
-			
-			//alert(price_nds);
-			    if((price_nds!=0)&&(price_nds!='')&&($.isNumeric(price_nds))&&(nds_x==0))
-				{
-					var value=(count*price_nds).toFixed(2);
-					$(this).find('.price_in_').val(((price_nds*100)/118).toFixed(2));
-					if(price_nds==0)
-						{
-							//$(this).val(0);
-						}
-				if(defect_in!=0)
-				{
-					var count_defff=$(this).next().find('.count_defect_in_').val();
-					if(($.isNumeric(count_defff))&&(count_defff!=''))
-						{
-							summ_defect=(summ_defect+(count_defff*price_nds));
-						}
-				}				
-					
-				} else
-				{
-				//если цена с ндс пусто то обычную цену +18% ндс
-					if((nds_x==1)&&($.isNumeric(price))&&(price!=''))
-						{
-				var value=(count*(price*1.18)).toFixed(2);
-				$(this).find('.price_nds_in_').val((price*1.18).toFixed(2));
-						}
-					
-					
-					if(defect_in!=0)
-				{
-					var count_defff=$(this).next().find('.count_defect_in_').val();
-					if(($.isNumeric(count_defff))&&(count_defff!=''))
-						{
-							summ_defect=(summ_defect+(count_defff*(price*1.18)));
-						}
-				}
-					
-					
-				}	    
-		} else
-		{
-				//без ндс
-			
-			    //просто умножаем количество на стоимость
-			    var value=(count*price).toFixed(2);	
-			
-			    if(defect_in!=0)
-				{
-					var count_defff=$(this).next().find('.count_defect_in_').val();
-					if(($.isNumeric(count_defff))&&(count_defff!=''))
-						{
-							summ_defect=(summ_defect+(count_defff*price));
-						}
-				}
-			
-		}
-		
-				
-		if((value!=0)&&(value!='')&&($.isNumeric(value)))
-	    {    
-		    $(this).find('.summa_ii').empty().append(value);
-			summ_xvg=(parseFloat(summ_xvg)+parseFloat(value)).toFixed(2);
-	    } else
-		{
-			$(this).find('.summa_ii').empty().append('0');	
-		}
-		
-		
-	});
-	
-	if((summ_defect!=0)&&(summ_defect!='')&&($.isNumeric(summ_defect)))
-	{ 
-		$('.itogss_defect').show();
-		$('.itog_invoice_defect').empty().append(summ_defect.toFixed(2));
-		
-	} else
-		{
-		$('.itogss_defect').hide();
-		$('.itog_invoice_defect').empty().append('0');	
-		}
-	
-	
-	$('.itog_invoice').empty().append(summ_xvg);
-	
-	if((summ_xvg!=0)&&(nds==0))
-	{
-	  var summ_xvg_nds=(summ_xvg/1.18*0.18).toFixed(2);
-	  $('.itog_invoice_nds').empty().append(summ_xvg_nds);
-		$('.itogss_nds').show();
-	} else
-	{
-		$('.itog_invoice_nds').empty();
-		$('.itogss_nds').hide();
-	}
-		
-	
-	
-	
-}
+
 
 
 function search_posta_li2()
@@ -1239,68 +960,7 @@ function UpdateContractorInvoice()
 
 
 
-//открыть форму сформировать отчет
-function PrintStock_()
-{
-    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_print_stock.php?id='+$('#sort_stock4').val(),
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
 
-  });	
-}
-
-
-//добавить материал в накладной
-function AddInvoiceMaterial()
-{
-	if ( $(this).is("[for]") )
-{
-	if($.isNumeric($(this).attr("for")))
-	{
-  $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_material_invoice.php?id='+$(this).attr("for")+'&col='+$(this).attr("col"),
-	  beforeOpen: function (data, el) {
-		  //во время загрузки формы с ajax загрузчик
-		  $('.loader_ada_forms').show();
-		  $('.loader_ada1_forms').addClass('select_ada');
-	  },
-	  afterLoading: function (data, el) {
-		  //после загрузки формы с ajax
-		  data.body.parents('.arcticmodal-container').addClass('yoi');
-		  $('.loader_ada_forms').hide();
-		  $('.loader_ada1_forms').removeClass('select_ada');
-	  },
-	  beforeClose: function (data, el) { // после закрытия окна ArcticModal
-		  if (typeof timerId !== "undefined") {
-			  clearInterval(timerId);
-		  }
-		  BodyScrool();
-	  }
-
-  });
-}
-}
-  
-return false;	
-}
 
 
 
@@ -4282,110 +3942,8 @@ var save_zayava = function()
 		
 }
 
-var save_invoicess1 = function()
-{
-	var error=0;
-   
-	$('.save__s').removeClass('error_formi');
-	$('.akt_ss').removeClass('redaas_invcoice');
-
-    if($('#ispol').val()==0)
-	{
-	   $('#ispol').prev().prev().addClass('error_formi');
-		error=1;
-	}
-    if($('#date_hidden_table').val()=='')
-	{
-	   $('#date_hidden_table').next('.save__s').addClass('error_formi');
-		error=1;
-	}
-    if($('#number_invoice').val()=='')
-	{
-	   $('#number_invoice').addClass('error_formi');
-		error=1;
-	}
-	
-
-	$('.messa_invoice:visible').each(function(i,elem) {
-	    var id=$(this).attr('invoices_messa');
-		
-		
-	var count=parseFloat($('[invoice_material='+id+']').find('.count_in_').val());
-	var count_akt=parseFloat($('[invoices_messa='+id+']').find('.count_defect_in_').val());
-	var comment=$('[invoices_messa='+id+']').find('.text_zayva_message_').val();
-	//alert(id);
-	
-	if((count_akt=='')||(count_akt>count)||(count_akt==0))
-	{
-		    error=1;
-			$('[invoices_messa='+id+']').find('.count_defect_in_').addClass('redaas_invcoice');
-	} 
-	
-	var akt_photo=$('[invoices_messa='+id+']').find('.img_akt li').length;	
-		
-	if((comment=='')&&(akt_photo==0))
-	{
-		error=1;
-		$('[invoices_messa='+id+']').find('.text_zayva_message_').addClass('redaas_invcoice');
-	}
-		
 
 
-		
-    });	
-	
-	
-	if(error==1)
-		{
-			
-			$('.error_text_add').empty().append('Не все поля заполнены для сохранения').show();
-			setTimeout ( function () { $('.error_text_add').hide(); }, 7000 );
-			
-		} else
-		{	
-		    $('#lalala_add_form').submit();		
-		}
-	
-	
-		
-}
-
-//сохранить накладную первый этап
-var save_invoicess = function()
-{
-	var error=0;
-   
-	$('.save__s').removeClass('error_formi');	
-
-    if($('#ispol').val()==0)
-	{
-	   $('#ispol').prev().prev().addClass('error_formi');
-		error=1;
-	}
-    if($('#date_hidden_table').val()=='')
-	{
-	   $('#date_hidden_table').next('.save__s').addClass('error_formi');
-		error=1;
-	}
-    if($('#number_invoice').val()=='')
-	{
-	   $('#number_invoice').addClass('error_formi');
-		error=1;
-	}	
-	if(error==1)
-		{
-			
-			$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
-			setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
-			
-		} else
-		{	
-		    $('#lalala_add_form').submit();		
-		}
-	
-	
-		
-}
 
 //сохранить наряд
 var save_naryad = function()
@@ -5372,10 +4930,10 @@ $('.count_mask').bind("change keyup input click", validate11);
 
 	$('.block_invoice_20188').on("change keyup input click",".del_invoice", dell_invoice);
 
-	$('.invoice_block').on("change keyup input click",".del_invoice_material", dell_invoice_material);	
-	$('.invoice_block').on("change keyup input click",".material_defect", material_defect);
+//	$('.invoice_block').on("change keyup input click",".del_invoice_material", dell_invoice_material);
+//	$('.invoice_block').on("change keyup input click",".material_defect", material_defect);
 	
-	$('.invoice_block').on("change keyup input click",".del_invoice_akt", material_defect_dell);
+//	$('.invoice_block').on("change keyup input click",".del_invoice_akt", material_defect_dell);
 	
 	
 	$('.messa_form_a').on("change",'.invoice_file_photo',UploadInvoicePhotoChange);
@@ -5386,21 +4944,20 @@ $('.count_mask').bind("change keyup input click", validate11);
 	
 	$('.invoice_block').on("change keyup input click",".count_defect_in_,.text_zayva_message_,.del_invoice_akt",function(){ $(this).parents('[invoices_messa]').find('.print_invoice_akt').hide(); });
 	
-	$('.invoice_block').on("change keyup input click",".price_nds_in_,.price_in_,.count_in_,.count_defect_in_,.del_invoice_akt,.material_defect", itog_invoice);
-	$('.invoice_block').on("change keyup input click",".checkbox_cost_inv", change_option_invoice);
+
 	
 	$('.invoice_block').on("change keyup input click",".count_defect_in_,.count_in_", BrakError);
 	
 		$('.invoice_block').on("change keyup input click",".count_in_", ErrorMax);
 	
 
-	$('.invoice_block').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,#number_invoice,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });		
+
 	
 	
 $('.invoice_block').on("change",'#ispol_invoice',UpdateContractorInvoice);
-$('.invoice_block').on("change",'#ispol_type_invoice',nds_invoice);	
+//$('.invoice_block').on("change",'#ispol_type_invoice',nds_invoice);
 	
-$('.invoice_block').on("click",'.add_material_invoice',AddInvoiceMaterial);
+
 
 $('.img_invoice_div').on("click",'.del_image_invoice',DellImageInvoice);	
 
@@ -5440,7 +4997,7 @@ jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
 
 
-	jQuery(document).on("click",'.print_stock_',PrintStock_);
+	//jQuery(document).on("click",'.print_stock_',PrintStock_);
 	
 $('.suppp_tr').on("click",'.supply_tr_o',ChangeSupply);
 
@@ -5571,10 +5128,10 @@ $('.skladd_nei').bind('click', slide_skkk);
 	
 	
 //выдать наличные исполнителю за работу
-$(".pay_baks,.pay_baks_top").bind('click', pay_imlementer);	
+$(".pay_baks,.js-pay_baks_top").bind('click', pay_imlementer);
 
 //выдача аванса
-$(".pay_avans,.pay_avans_top").bind('click', pay_imlementer_avans);		
+$(".pay_avans,.js-pay_avans_top").bind('click', pay_imlementer_avans);
 	
 //Редактировать данные по исполнителю	
 $(".imp_option").bind('click', option_imlementer);	
@@ -5602,15 +5159,14 @@ $(".add_nar").bind('click', save_naryad);
 	
 
 //нажатие на кнопку добавить наименование на склад
-$(".add_invoice1").bind('click', add_invoice1);	
+//$(".add_invoice1").bind('click', add_invoice1);
 	
 	
 	
-//нажатие на кнопку добавить накладную
-$(".add_invoicess").bind('click', save_invoicess);	
+
 
 //нажатие на кнопку сохранить накладную
-$(".add_invoicess1").bind('click', save_invoicess1);		
+//$(".add_invoicess1").bind('click', save_invoicess1);
 
 //нажатие на кнопку сохранить заявку на материал
 $(".js-add-app").bind('click', save_zayava);
@@ -6322,8 +5878,8 @@ $('#sort1').bind('change', changesort1);
 var changesort_stock3 = function() {  
 $.cookie("su_st_3", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_3",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock3').bind('change', changesort_stock3);		
@@ -6332,8 +5888,8 @@ $('#sort_stock3').bind('change', changesort_stock3);
 var changesort_stock1 = function() {  
 $.cookie("su_st_1", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_1",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock1').bind('change', changesort_stock1);	
@@ -6341,8 +5897,14 @@ $('#sort_stock1').bind('change', changesort_stock1);
 var changesort_stock2__= function() {  
 	$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	$(this).prev().val('');
-    $('.show_sort_stock').removeClass('active_supply');
-    $('.show_sort_stock').addClass('active_supply');
+
+	$('.js--sort').removeClass('greei_input');
+	$('.js--sort').find('input').removeAttr('readonly');
+
+
+
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 	$(this).hide();	
 }
 	
@@ -6350,15 +5912,24 @@ var changesort_stock2__= function() {
 var changesort_stock2= function() {  
 $.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_2",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 	if($(this).val()!='')
-		{
-			$(this).next().show();
-		}else
-			{
-			$(this).next().hide();	
-			}
+	{
+		$(this).next().show();
+		//скрыть другие элементы поиска
+		$('.js--sort').addClass('greei_input');
+		$('.js--sort').find('input').prop('readonly',true);
+
+	}else
+	{
+		$(this).next().hide();
+		//показать другие элементы поиска
+		$('.js--sort').removeClass('greei_input');
+		$('.js--sort').find('input').removeAttr('readonly');
+
+	}
+
 
 };
 $('.name_stock_search_input').bind('change keyup input click', changesort_stock2);	
@@ -6506,8 +6077,8 @@ $('#sort4').bind('change', changesort4);
 var changesort_stock4 = function() {  
 $.cookie("su_st_4", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_4",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock4').bind('change', changesort_stock4);	

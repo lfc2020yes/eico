@@ -218,8 +218,11 @@ if($small_block!=1) {
     }
 }
 if($small_block==1) {
-    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]!=3))) {
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==1))) {
         $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+    }
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
+        $task_cloud_block .= '<div class="pass_wh_trips" ><label>Задача</label><div class="obi">' . $value["name_s"] . '</div></div>';
     }
 }
 
@@ -312,14 +315,14 @@ if($value["status"]!=1)
 
 
 if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
-    $tabs_menu_x = array("Процесс/Задача","История");
+    $tabs_menu_x = array("Процесс/Задача","История","Накладные");
     $tabs_menu_x_js = array("");
-    $tabs_menu_x_id = array("2","3");
+    $tabs_menu_x_id = array("2","3","4");
 } else {
 
-    $tabs_menu_x = array("Задание", "Процесс/Задача","История");
+    $tabs_menu_x = array("Задание", "Процесс/Задача","История","Накладные");
     $tabs_menu_x_js = array("", "");
-    $tabs_menu_x_id = array("1", "2","3");
+    $tabs_menu_x_id = array("1", "2","3","4");
 }
 
 $class_menu_pr='';

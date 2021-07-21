@@ -113,6 +113,11 @@ if($id_tabs==3)
     include $url_system.'acc/code/tabs_history.php';
 }
 
+if($id_tabs==4)
+{
+    include $url_system.'acc/code/tabs_invoice.php';
+}
+
 
 end_code:
 

@@ -839,7 +839,7 @@ if($row__2["id_stock"]==0)
 			   //echo($date_delivery1);
 			   
 			   $style_book='';
-			   if(dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)
+			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
 			   {
 				   $style_book='reddecision1';
 			   }   
@@ -853,7 +853,7 @@ if($row__2["id_stock"]==0)
 			   //echo($date_delivery1);
 			   
 			   $style_book='';
-			   if(dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)
+			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
 			   {
 				   $style_book='reddecision1';
 			   }   

@@ -2362,7 +2362,7 @@ textarea, input {
 .smeta1 .title_smeta th {
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraRegular";
-  font-size: 14px;
+  font-size: 11px;
   text-transform: uppercase;
   vertical-align: middle;
   border: 1px solid #e2e0e0;
@@ -6339,8 +6339,8 @@ tr.active_supplyx .supply_tr_o::before {
 .score_a .date_proc {
   display: block;
   position: absolute;
-  width: 80px;
-  height: 10px;
+  /*width: 80px;*/
+  height: 15px;
   font-size: 11px;
   text-align: center;
   top: 76px
@@ -9337,14 +9337,20 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .invoices_mess {
-  background-color: #72b7f8;
-  color: #fff;
-  font-family: "GEInspiraBold";
-  margin-top: 20px;
+  cursor: pointer;
+  background-color: rgba(0,0,0,.05);
+  border-radius: 4px;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  width: 100%;
+  text-align: center;
+  color: rgba(0,0,0,.7);
+  font-family: GEInspiraBold;
   text-transform: uppercase;
-  font-size: 17px;
-  padding: 30px;
-  text-align: center
+  font-size: 10px;
+  padding: 20px 10px;
+  &:hover {
+    background-color: #ffec57;
+  }
 }
 
 .add_invoicess, .add_invoicess1 {
@@ -9485,7 +9491,8 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .add_material_invoice {
-  cursor: pointer
+  cursor: pointer;
+
 }
 
 .mmet {
@@ -9833,7 +9840,7 @@ tr.active_supplyx .supply_tr_o::before {
 .option_inv::before {
   right: 15px
 }
-
+/*
 .name_stock_search_input {
   display: block;
   width: 100%;
@@ -9855,6 +9862,33 @@ tr.active_supplyx .supply_tr_o::before {
   background-repeat: no-repeat;
   background: none
 }
+*/
+.name_stock_search_input {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background-repeat: no-repeat;
+  font-family: GEInspiraBold;
+  font-weight: 400;
+  font-size: 18px;
+  color: rgba(0,0,0,.7);
+  text-transform: uppercase;
+  height: 22px;
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background: 0 0;
+}
+
+.greei_input { label {color:#e0e0e0 !important;} a.slct {color:#e0e0e0 !important;} a.slct::before { color:#e0e0e0 !important;}  .js-keyup-search {color:#e0e0e0 !important;} .js-open-search::before { color:#e0e0e0 !important;}   }
+
 
 .dell_stock_search {
   color: #e0e0e0;
@@ -9864,7 +9898,7 @@ tr.active_supplyx .supply_tr_o::before {
   text-align: center;
   cursor: pointer;
   position: absolute;
-  top: 19px;
+  top: 8px;
   right: 0px
 }
 

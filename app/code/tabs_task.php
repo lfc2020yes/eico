@@ -43,9 +43,54 @@ $name_kto='';
                <div class="st-kto"><span class="label-task-gg ">Исполнитель
 </span><span class="send_mess" sm="'.$val["id_executor"].'">'.$name_kto.'</span></div>
                <div class="st-srok"><span class="label-task-gg ">Срок исполнения
-</span>23.06.2021 14:00</div>
+</span>';
+
+            $class_ddf1='';
+            if($val["id_status"]==0)
+            {
+
+                if(dateDiff_2021($val["date_ready"],date('Y-m-d H:i:s'))<0)
+                {
+                    $class_ddf1='reddecision1';
+                }
+
+            }
+
+
+            if(date_ex_time(0,$val["date_ready"])!='')
+            {
+                $query_string.='<span class="'.$class_ddf1.'">'.date_ex_time(0,$val["date_ready"]).'</span>';
+            } else
+            {
+                $query_string.='—';
+            }
+
+
+
+            $query_string.='</div>
                <div class="st-date"><span class="label-task-gg ">Дата исполнения
-</span>23.06.2021 14:00</div>
+</span>';
+
+            $date_ex=date_ex_time(0,$val["date_execute"]);
+
+            $class_ddf='';
+            if(dateDiff_2021($val["date_execute"],$val["date_ready"])<0)
+            {
+                $class_ddf='reddecision1';
+            }
+
+
+            if($date_ex!='')
+            {
+                $query_string.='<span class="'.$class_ddf.'">'.$date_ex.'</span>';
+            }else
+            {
+                $query_string.='<span class="'.$class_ddf.'">—</span>';
+            }
+
+
+
+            $query_string.='</div>
             </div>';
 
         }

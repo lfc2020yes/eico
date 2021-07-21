@@ -108,8 +108,14 @@ $result_score=mysql_time_query($link,
         $num_results_score = $result_score->num_rows;
 	    if($num_results_score!=0)
 	    {
+            $echo.='<!--select start-->';
+
+            $os = array();
+            $os_id = array();
+
+	        /*
 			$echo.='<select class="demo-6" name="posta_posta">';	  
-            $echo.='<option selected value="0">Выберите счет</option>';
+            $echo.='<option selected value="0">Выберите счет</option>';*/
 		   for ($ss=0; $ss<$num_results_score; $ss++)
 		   {			   			  			   
 			   $row_score = mysqli_fetch_assoc($result_score);
@@ -164,10 +170,43 @@ $result_score=mysql_time_query($link,
 			   
 			   
 			   $date_graf2  = explode("-",$row_score["date"]);
-			   $echo.='<option '.$select.' '.$class.' value="'.$row_score["id"].'">№'.$row_score["number"].' от '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].' на сумму '.$row_score["summa"].' руб. Поставщик - '.$class.'. - '.$PROC.'%</option>'; 
+			   //$echo.='<option '.$select.' '.$class.' value="'.$row_score["id"].'">№'.$row_score["number"].' от '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].' на сумму '.$row_score["summa"].' руб. Поставщик - '.$class.'. - '.$PROC.'%</option>';
+
+                   array_push($os, '№'.$row_score["number"].' от '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].' на сумму '.$row_score["summa"].' руб. Поставщик - '.$class.'. - '.$PROC.'%');
+                   array_push($os_id, $row_score["id"]);
+
+
+
 			   }
 		   }
-			$echo.='</select>';
+
+            $su_1=-1;
+
+            $class_s='';
+            if($su_1!=-1)
+            {
+                $class_s='active_in_2018x';
+            }
+
+
+            $echo.='<div class="margin-input" style="margin-bottom: 10px;"><div class="list_2021 gray-color js-zindex "><label><i>Счет</i><span>*</span></label><div class="select eddd"><a class="slct" data_src=""></a><ul class="drop">';
+
+
+            for ($i=0; $i<count($os); $i++)
+            {
+                if($su_1==$os_id[$i])
+                {
+                    $echo.='<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                } else
+                {
+                    $echo.='<li><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                }
+
+            }
+            $echo.='</ul><input type="hidden" class="gloab2 demo-6" name="posta-posta1"  value=""></div></div></div>';
+            $echo.='<!--select end-->';
+
+			//$echo.='</select>';
 		}
 
 

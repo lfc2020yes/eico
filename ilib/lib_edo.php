@@ -574,7 +574,7 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
         $arr_run = array();
         $sql =
             "
-SELECT * FROM `edo_run` r
+SELECT *, i.`displayOrder` AS dOrd  FROM `edo_run` r
 ,`edo_run_items` i
 , `edo_run_item_after` a
 WHERE
@@ -673,7 +673,7 @@ VALUES
     '$timeReady', 
     -- '$row[sign_owner]',
     '$row[timing]',
-    '$row[displayOrder]',
+    '$row[dOrd]',
     0
   );        
         ";
@@ -874,8 +874,9 @@ $limit
     public function set_status($id_task, $status=2, $comment=null, $next=null){
         $comment_executor = ( $comment==null ) ? '' : ", comment_executor = '$comment'";
         $next_data = ( $next==null ) ? '' : ", next = '$next'";
+        $date_now = date('Y-m-d H:i:s', time());
         $sql = "
-UPDATE `edo_state` SET id_status = $status $comment_executor $next_data WHERE id = $id_task
+UPDATE `edo_state` SET id_status = $status , date_execute='$date_now' $comment_executor $next_data WHERE id = $id_task
         ";
         $this->Debug($sql,__FUNCTION__);
         if (iDelUpd($this->mysqli,$sql,false)===false) {
@@ -1042,9 +1043,7 @@ LEFT JOIN r_user AS u1 ON s.`id_checking` = u1.id
 LEFT JOIN edo_status AS ST ON s.`id_status` = ST.`id_status`
 WHERE s.id_run=" . $row[id] . "
 -- AND s.id_status 
-ORDER BY s.`displayOrder`,s.`date_create`
-
-      
+ORDER BY s.`date_create`, s.`displayOrder`
             ";
                 $this->Debug($sql1, __FUNCTION__);
                 if ($result1 = $this->mysqli->query($sql1)) {

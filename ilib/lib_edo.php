@@ -1043,9 +1043,7 @@ LEFT JOIN r_user AS u1 ON s.`id_checking` = u1.id
 LEFT JOIN edo_status AS ST ON s.`id_status` = ST.`id_status`
 WHERE s.id_run=" . $row[id] . "
 -- AND s.id_status 
-ORDER BY s.`displayOrder`,s.`date_create`
-
-      
+ORDER BY s.`date_create`,s.`displayOrder`
             ";
                 $this->Debug($sql1, __FUNCTION__);
                 if ($result1 = $this->mysqli->query($sql1)) {

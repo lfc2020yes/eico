@@ -5361,3 +5361,19 @@ a {    display: block;
   color: rgba(0, 0, 0, 0.7);
   font-size: 12px;
   display: inline-block;}
+
+.white_inp::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.2)
+}
+
+.white_inp:-moz-placeholder {
+    color: rgba(0, 0, 0, 0.2)
+  }
+
+.white_inp::-moz-placeholder {
+    color: rgba(0, 0, 0, 0.2)
+  }
+
+.white_inp:-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.2)
+  }

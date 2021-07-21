@@ -262,14 +262,15 @@ $count_material=0;
 				   $s_tr1=0;	
 				   $cost_table=0;
 				   $cost_table_nds=0;
-					
+
+				   echo'sum-'.$summ_tr.'<br>';
 					
 				   if($summ_tr==0)
 				   {
 					   if($_POST["ispol_type"]==0)
 					   {
-						   
-						  if($_POST['nds_ff']==0)
+
+					       if($_POST['nds_ff']==0)
 					     {
 					       $s_tr=$price_nds_mat*$count_mat;
 						   $s_tr1=$price_nds_mat*$count_mat_akt;	 
@@ -306,6 +307,9 @@ $count_material=0;
 				   $summa_all=$summa_all+$s_tr;	
 					//echo('update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'" where id = "'.htmlspecialchars($value['id']).'"');
 				   mysql_time_query($link,'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"');
+
+				   echo'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"';
+				   echo'<br>';
 					
 				   if($value['defect']==0)
 				   {

@@ -13314,6 +13314,7 @@ font-style: normal;}*/
 @media only screen and (max-width: 639px) {
   .menu-09 .menu-09-left {
     /*width: 165px !important;*/
+    overflow: hidden;
   }
 }
 .menu-09 .menu-09-left .name_pae {
@@ -18908,6 +18909,22 @@ width: calc(50% - 0px) !important;
   color: rgba(0, 0, 0, 0.7);
   font-size: 12px;
   display: inline-block;
+}
+
+.white_inp::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.white_inp:-moz-placeholder {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.white_inp::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.white_inp:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .input-block-2020 .list-image {

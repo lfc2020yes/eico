@@ -921,7 +921,7 @@ font-style: normal;}*/
   }
 
 
-  .menu-09-left {  @include flex-grow(1); padding-left: 70px; text-align: left; @include sw('tablet-small') { /*width: 165px !important;*/ }
+  .menu-09-left {  @include flex-grow(1); padding-left: 70px; text-align: left; @include sw('tablet-small') { /*width: 165px !important;*/ overflow: hidden; }
 
 
     @include flexbox();@include justify-content(left);@include align-items(center);
@@ -1016,6 +1016,7 @@ font-style: normal;}*/
     vertical-align: top;
     line-height: 60px;
     white-space: nowrap;
+    overflow: hidden;
 
     @include sw('tablet-small') {display: none;}
 
@@ -1302,10 +1303,10 @@ font-style: normal;}*/
                                                                                                                                                                                                        font-family: "GEInspiraBold";
                                                                                                                                                                                                        text-transform: uppercase;
                                                                                                                                                                                                        font-size: 10px;
-                                                                                                                                                                                                       display: block;}
+                                                                                                                                                                                                       white-space: nowrap;                                                                                                               display: block;}
                                                                                                                                                                                                      strong { font-style: normal;
                                                                                                                                                                                                        font-weight: normal;
-                                                                                                                                                                                                       display: block;
+                                                                                                                                                                                                       white-space: nowrap;                                                                                                              display: block;
                                                                                                                                                                                                        color: rgba(0, 0, 0, 0.7);
                                                                                                                                                                                                        font-family: "GEInspiraBold";
                                                                                                                                                                                                        text-transform: uppercase;
@@ -1341,6 +1342,7 @@ font-style: normal;}*/
 }
 
 .yellow-style  {  background-color: #ffec57 !important; color: rgba(0,0,0,0.6) !important; }
+.ser-style  {  background-color:transparent !important; color: rgba(0,0,0,0.6) !important; border-left: 1px solid #ddd; }
 
 .logi-hovi { float:left; display: inline-block; height: 40px; width: 40px; overflow: hidden; position: relative; border-radius: 50%;
 

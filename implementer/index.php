@@ -114,23 +114,22 @@ if($error_header!=404){ SEO('implementers','','','',$link); } else { SEO('0','',
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -156,9 +155,13 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 	            }
 
 	  include_once $url_system.'template/top_prime_implementer.php';
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
 
 
-    echo'<div class="content_block" id_content="'.$id_user.'">';
+echo'<div class="content_block" id_content="'.$id_user.'">';
 	?>
 
   <?
@@ -224,10 +227,10 @@ echo'<tr class="nary n1n '.$cll.'" rel_id="'.$row__2["id"].'"><td></td>';
                   echo'<td class="no_padding_left_ pre-wrap">';
 						 						if (($role->permission('Исполнители','R'))or($sign_admin==1))
 	        {	
-						 echo'<a href="implementer/'.$row__2["id"].'/"><span class="s_j">'.$row__2["implementer"].'</span></a>';
+						 echo'<a href="implementer/'.$row__2["id"].'/"><span class="s_j">'.htmlspecialchars_decode($row__2["implementer"]).'</span></a>';
 			} else
 			{
-				echo'<span class="s_j">'.$row__2["implementer"].'</span>';
+				echo'<span class="s_j">'.htmlspecialchars_decode($row__2["implementer"]).'</span>';
 			}
 						 echo'</td>';
 /*
@@ -330,7 +333,7 @@ $(document).ready(function(){
   </div>
 
 </div>
-
+</div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>

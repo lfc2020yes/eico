@@ -9840,7 +9840,7 @@ tr.active_supplyx .supply_tr_o::before {
 .option_inv::before {
   right: 15px
 }
-
+/*
 .name_stock_search_input {
   display: block;
   width: 100%;
@@ -9862,6 +9862,33 @@ tr.active_supplyx .supply_tr_o::before {
   background-repeat: no-repeat;
   background: none
 }
+*/
+.name_stock_search_input {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background-repeat: no-repeat;
+  font-family: GEInspiraBold;
+  font-weight: 400;
+  font-size: 18px;
+  color: rgba(0,0,0,.7);
+  text-transform: uppercase;
+  height: 22px;
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background: 0 0;
+}
+
+.greei_input { label {color:#e0e0e0 !important;} a.slct {color:#e0e0e0 !important;} a.slct::before { color:#e0e0e0 !important;}  .js-keyup-search {color:#e0e0e0 !important;} .js-open-search::before { color:#e0e0e0 !important;}   }
+
 
 .dell_stock_search {
   color: #e0e0e0;
@@ -9871,7 +9898,7 @@ tr.active_supplyx .supply_tr_o::before {
   text-align: center;
   cursor: pointer;
   position: absolute;
-  top: 19px;
+  top: 8px;
   right: 0px
 }
 

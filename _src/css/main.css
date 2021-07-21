@@ -10075,6 +10075,7 @@ tr.active_supplyx .supply_tr_o::before {
   right: 15px;
 }
 
+/*
 .name_stock_search_input {
   display: block;
   width: 100%;
@@ -10094,7 +10095,47 @@ tr.active_supplyx .supply_tr_o::before {
   padding-right: 20px;
   line-height: 42px;
   background-repeat: no-repeat;
-  background: none;
+  background: none
+}
+*/
+.name_stock_search_input {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-decoration: none;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  background-repeat: no-repeat;
+  font-family: GEInspiraBold;
+  font-weight: 400;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  height: 22px;
+  padding-right: 20px;
+  background-repeat: no-repeat;
+  background: 0 0;
+}
+
+.greei_input label {
+  color: #e0e0e0 !important;
+}
+.greei_input a.slct {
+  color: #e0e0e0 !important;
+}
+.greei_input a.slct::before {
+  color: #e0e0e0 !important;
+}
+.greei_input .js-keyup-search {
+  color: #e0e0e0 !important;
+}
+.greei_input .js-open-search::before {
+  color: #e0e0e0 !important;
 }
 
 .dell_stock_search {
@@ -10105,7 +10146,7 @@ tr.active_supplyx .supply_tr_o::before {
   text-align: center;
   cursor: pointer;
   position: absolute;
-  top: 19px;
+  top: 8px;
   right: 0px;
 }
 
@@ -13375,6 +13416,7 @@ font-style: normal;}*/
   vertical-align: top;
   line-height: 60px;
   white-space: nowrap;
+  overflow: hidden;
 }
 @media only screen and (max-width: 639px) {
   .menu-09 .menu-09-pc-h {
@@ -13734,11 +13776,13 @@ font-style: normal;}*/
   font-family: "GEInspiraBold";
   text-transform: uppercase;
   font-size: 10px;
+  white-space: nowrap;
   display: block;
 }
 .users .users_rule strong {
   font-style: normal;
   font-weight: normal;
+  white-space: nowrap;
   display: block;
   color: rgba(0, 0, 0, 0.7);
   font-family: "GEInspiraBold";
@@ -13769,6 +13813,12 @@ font-style: normal;}*/
 .yellow-style {
   background-color: #ffec57 !important;
   color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.ser-style {
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  border-left: 1px solid #ddd;
 }
 
 .logi-hovi {

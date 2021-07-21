@@ -540,35 +540,7 @@ function BodyScrool()
 }
 
 
-//добавить наименование на склад
-function add_invoice1()
-{
-	
-	
-	$.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_add_stock.php',
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
 
-  });
-	
-}
 
 
 function dell_invoice()
@@ -986,34 +958,6 @@ function UpdateContractorInvoice()
     }
 }
 
-
-
-//открыть форму сформировать отчет
-function PrintStock_()
-{
-    $.arcticmodal({
-    type: 'ajax',
-    url: 'forms/form_print_stock.php?id='+$('#sort_stock4').val(),
-		beforeOpen: function (data, el) {
-			//во время загрузки формы с ajax загрузчик
-			$('.loader_ada_forms').show();
-			$('.loader_ada1_forms').addClass('select_ada');
-		},
-		afterLoading: function (data, el) {
-			//после загрузки формы с ajax
-			data.body.parents('.arcticmodal-container').addClass('yoi');
-			$('.loader_ada_forms').hide();
-			$('.loader_ada1_forms').removeClass('select_ada');
-		},
-		beforeClose: function (data, el) { // после закрытия окна ArcticModal
-			if (typeof timerId !== "undefined") {
-				clearInterval(timerId);
-			}
-			BodyScrool();
-		}
-
-  });	
-}
 
 
 
@@ -5053,7 +4997,7 @@ jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
 
 
-	jQuery(document).on("click",'.print_stock_',PrintStock_);
+	//jQuery(document).on("click",'.print_stock_',PrintStock_);
 	
 $('.suppp_tr').on("click",'.supply_tr_o',ChangeSupply);
 
@@ -5184,10 +5128,10 @@ $('.skladd_nei').bind('click', slide_skkk);
 	
 	
 //выдать наличные исполнителю за работу
-$(".pay_baks,.pay_baks_top").bind('click', pay_imlementer);	
+$(".pay_baks,.js-pay_baks_top").bind('click', pay_imlementer);
 
 //выдача аванса
-$(".pay_avans,.pay_avans_top").bind('click', pay_imlementer_avans);		
+$(".pay_avans,.js-pay_avans_top").bind('click', pay_imlementer_avans);
 	
 //Редактировать данные по исполнителю	
 $(".imp_option").bind('click', option_imlementer);	
@@ -5215,7 +5159,7 @@ $(".add_nar").bind('click', save_naryad);
 	
 
 //нажатие на кнопку добавить наименование на склад
-$(".add_invoice1").bind('click', add_invoice1);	
+//$(".add_invoice1").bind('click', add_invoice1);
 	
 	
 	
@@ -5934,8 +5878,8 @@ $('#sort1').bind('change', changesort1);
 var changesort_stock3 = function() {  
 $.cookie("su_st_3", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_3",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock3').bind('change', changesort_stock3);		
@@ -5944,8 +5888,8 @@ $('#sort_stock3').bind('change', changesort_stock3);
 var changesort_stock1 = function() {  
 $.cookie("su_st_1", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_1",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock1').bind('change', changesort_stock1);	
@@ -5953,8 +5897,14 @@ $('#sort_stock1').bind('change', changesort_stock1);
 var changesort_stock2__= function() {  
 	$.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 	$(this).prev().val('');
-    $('.show_sort_stock').removeClass('active_supply');
-    $('.show_sort_stock').addClass('active_supply');
+
+	$('.js--sort').removeClass('greei_input');
+	$('.js--sort').find('input').removeAttr('readonly');
+
+
+
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 	$(this).hide();	
 }
 	
@@ -5962,15 +5912,24 @@ var changesort_stock2__= function() {
 var changesort_stock2= function() {  
 $.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_2",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 	if($(this).val()!='')
-		{
-			$(this).next().show();
-		}else
-			{
-			$(this).next().hide();	
-			}
+	{
+		$(this).next().show();
+		//скрыть другие элементы поиска
+		$('.js--sort').addClass('greei_input');
+		$('.js--sort').find('input').prop('readonly',true);
+
+	}else
+	{
+		$(this).next().hide();
+		//показать другие элементы поиска
+		$('.js--sort').removeClass('greei_input');
+		$('.js--sort').find('input').removeAttr('readonly');
+
+	}
+
 
 };
 $('.name_stock_search_input').bind('change keyup input click', changesort_stock2);	
@@ -6118,8 +6077,8 @@ $('#sort4').bind('change', changesort4);
 var changesort_stock4 = function() {  
 $.cookie("su_st_4", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_4",$(this).val(),'add');
-$('.show_sort_stock').removeClass('active_supply');
-$('.show_sort_stock').addClass('active_supply');	
+	$('.js-reload-top').removeClass('active-r');
+	$('.js-reload-top').addClass('active-r');
 
 };
 $('#sort_stock4').bind('change', changesort_stock4);	

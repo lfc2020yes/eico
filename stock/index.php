@@ -79,25 +79,25 @@ if($error_header!=404){ SEO('stock','','','',$link); } else { SEO('0','','','',$
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
 <div class="container">
-<?	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+<?
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 /*
@@ -123,9 +123,193 @@ include_once $url_system.'template/body_top.php';
 	            }
 
 	  include_once $url_system.'template/top_stock.php';
+	            ?>
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="oka_block_2019" style="min-height:auto;">
+              <div class="div_ook hop_ds"><div class="search_task">
+                      <?
+
+                      $class_js_search='';
+                      $class_js_readonly='';
+                      if(( isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!=''))
+                      {
+                          $class_js_search='greei_input';
+                          $class_js_readonly='readonly=""';
+                      }
 
 
-    echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
+
+
+
+
+                      $os = array("по алфавиту", "по количеству");
+                      $os_id = array("0", "1");
+
+                      $su_1=0;
+                      if (( isset($_COOKIE["su_st_1"]))and(is_numeric($_COOKIE["su_st_1"]))and(array_search($_COOKIE["su_st_1"],$os_id)!==false))
+                      {
+                          $su_1=$_COOKIE["su_st_1"];
+                      }
+
+
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'"><label>Сортировка</label><div class="select eddd"><a class="slct" list_number="t1" data_src="'.$os_id[$su_1].'">'.$os[$su_1].'</a><ul class="drop">';
+                      for ($i=0; $i<count($os); $i++)
+                      {
+                          if($su_1==$os_id[$i])
+                          {
+                              echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                          } else
+                          {
+                              echo'<li><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
+                          }
+
+                      }
+                      echo'</ul><input type="hidden" '.$class_js_readonly.' name="sort_stock1" id="sort_stock1" value="'.$os[$su_1].'"></div></div>';
+
+
+
+
+
+
+
+
+
+
+
+                      $su_4=0;
+                      $su4_name='Любой';
+                      if (( isset($_COOKIE["su_st_4"]))and(is_numeric($_COOKIE["su_st_4"]))and($_COOKIE["su_st_4"]!=0))
+                      {
+                          $su_4=$_COOKIE["su_st_4"];
+
+                          $result_url1=mysql_time_query($link,'select A.name from z_stock_group as A where A.id="'.htmlspecialchars(trim($_COOKIE["su_st_4"])).'"');
+                          $num_results_custom_url1 = $result_url1->num_rows;
+                          if($num_results_custom_url1!=0)
+                          {
+                              $row_list11 = mysqli_fetch_assoc($result_url1);
+                              $su4_name=$row_list11["name"];
+                          }
+
+                      }
+
+
+                      $result_t=mysql_time_query($link,'Select a.* from z_stock_group as a order by a.name');
+                      $num_results_t = $result_t->num_rows;
+                      if($num_results_t!=0)
+                      {
+                          $active_id=0;
+                          echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'"><label>Тип</label><div class="select eddd"><a class="slct" list_number="t4" data_src="'.$su_4.'">'.$su4_name.'</a><ul class="drop">';
+                          echo'<li><a href="javascript:void(0);"  rel="0">Любой</a></li>';
+                          for ($i=0; $i<$num_results_t; $i++)
+                          {
+                              $row_t = mysqli_fetch_assoc($result_t);
+                              if($su_4==$row_t["id"])
+                              {
+                                  echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["name"].'</a></li>';
+                              } else
+                              {
+                                  echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["name"].'</a></li>';
+                              }
+
+                          }
+                          echo'</ul><input type="hidden" '.$class_js_readonly.' name="sort_stock4" id="sort_stock4" value="'.$su_4.'"></div></div>';
+
+                      }
+
+
+
+
+
+
+
+
+
+
+
+                      $su_5=0;
+                      $su5_name='Любой';
+                      if (( isset($_COOKIE["su_st_3"]))and(is_numeric($_COOKIE["su_st_3"]))and($_COOKIE["su_st_3"]!=0)and((array_search($_COOKIE["su_st_3"],$hie_object) !== false)or($sign_admin==1)))
+                      {
+                          $su_5=$_COOKIE["su_st_3"];
+
+                          $result_url1=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id="'.htmlspecialchars(trim($_COOKIE["su_st_3"])).'"');
+                          $num_results_custom_url1 = $result_url1->num_rows;
+                          if($num_results_custom_url1!=0)
+                          {
+                              $row_list11 = mysqli_fetch_assoc($result_url1);
+                              $su5_name=$row_list11["object_name"];
+                          }
+
+                      }
+
+
+                      $result_t=mysql_time_query($link,'Select a.id,a.object_name,a.id_town from i_object as a where a.enable=1 order by a.id');
+                      $num_results_t = $result_t->num_rows;
+                      if($num_results_t!=0)
+                      {
+                          $active_id=0;
+                          echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'"><label>Объект</label><div class="select eddd"><a class="slct" list_number="t4" data_src="'.$su_4.'">'.$su5_name.'</a><ul class="drop">';
+                          echo'<li><a href="javascript:void(0);"  rel="0">Любой</a></li>';
+                          for ($i=0; $i<$num_results_t; $i++)
+                          {
+                              $row_t = mysqli_fetch_assoc($result_t);
+
+                              if((array_search($row_t["id"],$hie_object) !== false)or($sign_admin==1))
+                              {
+
+                                  $result_town=mysql_time_query($link,'select B.* from i_town as B where B.id="'.$row_t["id_town"].'"');
+
+                                  $num_results_custom_town = $result_town->num_rows;
+                                  if($num_results_custom_town!=0)
+                                  {
+                                      $row_town = mysqli_fetch_assoc($result_town);
+                                  }
+
+
+                                  if($su_5==$row_t["id"])
+                                  {
+                                      echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["object_name"].' ('.$row_town["town"].')</a></li>';
+                                  } else
+                                  {
+                                      echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["object_name"].' ('.$row_town["town"].')</a></li>';
+                                  }
+                              }
+
+                          }
+                          echo'</ul><input type="hidden" '.$class_js_readonly.' name="sort_stock3" id="sort_stock3" value="'.$su_5.'"></div></div>';
+
+                      }
+
+
+
+
+
+
+
+                      echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Поиск по названию</label><div class="select eddd">
+		   
+		   <input name="sort_stock2" id="name_stock_search" class="name_stock_search_input" autocomplete="off" value="'.$_COOKIE["su_st_2"].'" type="text">';
+                      if (( isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!=''))
+                      {
+                          echo'<div style="display:block;" class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+                      } else
+                      {
+                          echo'<div  class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+                      }
+                      echo'</div></div>';
+
+
+
+                      //echo'<a href="stock/" class="show_sort_stock"><i>Применить</i></a>';
+                      echo'<div class="inline_reload js-reload-top"><a href="stock/" class="show_reload">Поиск</a></div>';
+?>
+</div>
+              </div>
+              <div class="oka_block">
+                  <div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">
+<?
+
+                      echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
 	?>
 
   <?
@@ -145,7 +329,10 @@ include_once $url_system.'template/body_top.php';
 			}
 		}
 
-	  
+	  $sql_select='';
+      $sql_select_='';
+$sql_select1='';
+$sql_select1_='';
 	  $sql_su2='';
 	  $sql_su2_='';
  		if (( isset($_COOKIE["su_st_4"]))and(is_numeric($_COOKIE["su_st_4"]))and($_COOKIE["su_st_4"]!=0))
@@ -153,7 +340,11 @@ include_once $url_system.'template/body_top.php';
 				$sql_su2=' and b.id_stock_group='.htmlspecialchars(trim($_COOKIE["su_st_4"]));
 				$sql_su2_=' and a.id_stock_group='.htmlspecialchars(trim($_COOKIE["su_st_4"]));
 			//WHERE ("'.date("Y").'-'.date("m").'-'.date("d").'" between sk.start_date and sk.end_date)
-			
+
+            $sql_select=' ,z_stock_group as a ';
+            $sql_select_=$sql_select;
+            $sql_select1=' and not(a.id=0) ';
+            $sql_select1_=' and not(a.id=0) ';
 		}		  
 	  //echo("!".$sql_su2);
 	  
@@ -161,8 +352,11 @@ include_once $url_system.'template/body_top.php';
 	  $sql_su3_='';
  		if (( isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!=''))
 		{
-				$sql_su3=' and LOWER(b.name) LIKE "'.htmlspecialchars(trim($_COOKIE["su_st_2"])).'%"';
-				$sql_su3_=' and LOWER(a.name) LIKE "'.htmlspecialchars(trim($_COOKIE["su_st_2"])).'%"';
+            $query=mb_convert_case(htmlspecialchars($_COOKIE["su_st_2"]), MB_CASE_LOWER, "UTF-8");
+
+
+            $sql_su3=' and LOWER(b.name) LIKE "'.ht($query).'%"';
+				$sql_su3_=' and LOWER(b.name) LIKE "'.ht($query).'%"';
 		}	  
 
 	  $sql_su4='';
@@ -174,17 +368,32 @@ include_once $url_system.'template/body_top.php';
 		}		  
 	  
 	  
-if ((isset($_COOKIE["su_st_3"]))and($_COOKIE["su_st_3"]!='')and($_COOKIE["su_st_3"]!=0))
-{  
+if ((isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!='')and($_COOKIE["su_st_2"]!=0))
+{
+    /*
   $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_group as a,z_stock_material as c where c.id_stock=b.id and not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4.' '.$sql_su1.' '.limitPage('n_st',$count_write));
+
+
 	
-	
-  $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_group as a,z_stock_material as c where  c.id_stock=b.id and not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4_;	
-	
+  $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_group as a,z_stock_material as c where  c.id_stock=b.id and not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4_;
+*/
+
+    $sql_su1=' order by b.name';
+    $sql_su1_=' order by a.name';
+    $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where c.id_stock=b.id '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write));
+
+    echo 'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where c.id_stock=b.id '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write);
+
+
+    $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_material as c where  c.id_stock=b.id   '.$sql_su3_;
+
 } else
 {
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_group as a where not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4.' '.$sql_su1.' '.limitPage('n_st',$count_write));	  
-  $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_group as a where not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4_;
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c '.$sql_select.' where c.id_stock=b.id  '.$sql_select1.' '.$sql_su2.'  '.$sql_su4.' '.$sql_su1.' '.limitPage('n_st',$count_write));
+
+//echo 'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c '.$sql_select.' where c.id_stock=b.id  '.$sql_select1.' '.$sql_su2.'  '.$sql_su4.' '.$sql_su1.' '.limitPage('n_st',$count_write);
+
+  $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_material as c '.$sql_select_.' where c.id_stock=b.id '.$sql_select1_.' '.$sql_su2.'  '.$sql_su4_;
 }
 	
 $result_t221=mysql_time_query($link,$sql_count);	  
@@ -394,7 +603,8 @@ echo'</tbody></table>';
  } else
 				  {
 					  
-					 echo'<div class="no_sql">С такими параметрами ничего не найдено</div>';
+
+                      echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>С такими параметрами ничего не найдено.</span></span></div>';
 					  
 				  }
 	  
@@ -414,7 +624,7 @@ echo'</tbody></table>';
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+ </div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 

@@ -342,6 +342,7 @@ if(count($arr_tasks)==0)
 	
 	
 //сообщения
+/*
 	$actt='';
 if($active_menu=='message')
 {
@@ -362,7 +363,7 @@ echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщен
 echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщения<i style="display:none;"></i></a></li>';
 			 }
 		 }	
-	
+	*/
 ?>	
 	<!--
  <li class="actives"><a href="prime/">Себестоимость</a></li>
@@ -379,8 +380,9 @@ echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщен
          <li><a href="">Безопасность</a></li>
 -->
           <li><a class="a11" href="quit/">Выход</a></li>
+    <li class="line"><div></div></li>
  <?         
-	
+	/*
 	   $result_t56=mysql_time_query($link,'Select a.id,a.name_user from r_user as a,r_role as b where a.id_role=b.id and b.name_role="admin" and a.id="'.id_key_crypt_encrypt(htmlspecialchars(trim($_SESSION['user_id']))).'"');
          $num_results_t56 = $result_t56->num_rows;
 	     if($num_results_t56==0)
@@ -396,7 +398,7 @@ echo'<li class="mess_li '.$actt.'"><a class="a11" href="message/">Сообщен
            echo'<li class="help_user"><a class="a11" href="javascript:void(0)" sm="'.$row_t56["id"].'"  data-tooltip="Написать Администратору" class="send_mess">Помощь</a></li>';
 			 
 		 }
-		 }
+		 }*/
 ?>
 
 </ul>

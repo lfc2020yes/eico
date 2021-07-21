@@ -44,11 +44,14 @@ if ($num_results_uu != 0) {
                     $query_string .= '→';
                 } else {
                     $query_string .= '<a class="link-acc-2021" href="invoice/' . $row_uu["id"] . '/">№' . $row_uu2["number"] . '</a>';
+                    $query_string .= '<div class="pass_wh_trips" style="margin-top: 10px;"><label>Принял</label><div class="obi">' . $name_kto . '</div></div>';
                 }
 
                 $invoice = $row_uu["id"];
 
-                $query_string .= '<div class="pass_wh_trips" style="margin-top: 10px;"><label>Принял</label><div class="obi">' . $name_kto . '</div></div></div>
+
+
+$query_string .= '</div>
                <div class="st-kto"><span class="label-task-gg ">Материал
 </span><span class="send_mess" sm="35">' . $row_uu2["name"] . '</span></div>
                <div class="st-srok"><span class="label-task-gg ">Количество

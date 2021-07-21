@@ -727,14 +727,14 @@ where
       a.id_acc="'.$row__2["id_acc"].'" and
       b.id=a.id_invoice and 
       not(b.status=1) and 
-      y.id="'.$row__2["id"].'"');
-
+      y.id="'.$row__2["id"].'" and a.id_stock="'.$row__2["id_stock"].'"');
+$POL=0;
                   //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
                   $num_results_proc = $result_proc->num_rows;
                   if($num_results_proc!=0)
                   {
                       $row_proc = mysqli_fetch_assoc($result_proc);
-
+                      $POL=$row_proc["summ"]-$row_proc["summ1"];
 
                       $result_uu9=mysql_time_query($link,'select a.count_material as summa from z_doc_material_acc as a where a.id="'.ht($row__2["id"]).'"');
                       $num_results_uu9 = $result_uu9->num_rows;
@@ -748,7 +748,7 @@ where
                   }
 
 
-                  echo'<div data-tooltip="Получено '.($row_proc["summ"]-$row_proc["summ1"]).' '.$row_work_zz['units'].' из '.$row_uu9["summa"].' '.$row_work_zz['units'].'"  class="loaderr-acc"><div id_loader="'.$row__2["id"].'" class="teps" rel_w="'.$PROC.'" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>';
+                  echo'<div data-tooltip="Получено '.$POL.' '.$row_work_zz['units'].' из '.$row_uu9["summa"].' '.$row_work_zz['units'].'"  class="loaderr-acc"><div id_loader="'.$row__2["id"].'" class="teps" rel_w="'.$PROC.'" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>';
 
                   echo'<div style="background-color: #f0f4f6;" class="js-acc-block items_acc_basket   " yi_sopp_="'.$row__2["id"].'">';
 

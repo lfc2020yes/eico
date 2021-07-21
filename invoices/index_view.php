@@ -214,8 +214,9 @@ $count_material=0;
 				$_POST['invoice'][0]["id"]
 				*/		
 				   
-				$summ_tr=0;   
-				
+				$summ_tr=0;
+                   echo'id-'.$value['id'].'<br>';
+
 				$result_tx=mysql_time_query($link,'Select a.id from z_invoice_material as a where a.id="'.htmlspecialchars(trim($value['id'])).'"');
                 $num_results_tx = $result_tx->num_rows;
 	            if($num_results_tx!=0)

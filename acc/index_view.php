@@ -728,6 +728,7 @@ where
       b.id=a.id_invoice and 
       not(b.status=1) and 
       y.id="'.$row__2["id"].'" and a.id_stock="'.$row__2["id_stock"].'"');
+
 $POL=0;
                   //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
                   $num_results_proc = $result_proc->num_rows;

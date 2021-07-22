@@ -119,8 +119,24 @@ if(($row_t["id_user"]!=$id_user)and($sign_admin!=1))
 $status_ee='ok';
 
 $number_acc='';
+
+$id_doc_material_acc='';
+
+
+
 if ((isset($_GET["number"]))and((is_numeric($_GET["number"])))) 
 {
+
+    $result_uup = mysql_time_query($link, 'select Y.id from z_doc_material_acc as Y,z_doc_material as T where Y.id_acc="' . ht($_GET["number"]) . '" and Y.id_doc_material=T.id and T.id_stock="'.$_GET['demo'].'"');
+    $num_results_uup = $result_uup->num_rows;
+
+    if ($num_results_uup != 0) {
+        $row_uup = mysqli_fetch_assoc($result_uup);
+        $id_doc_material_acc=$row_uup["id"];
+    }
+
+
+
 	$result_t1=mysql_time_query($link,'Select a.status,a.number,a.date,a.id from z_acc as a where a.id="'.htmlspecialchars(trim($_GET['number'])).'"');
     $num_results_t1 = $result_t1->num_rows;
     if($num_results_t1!=0)
@@ -185,7 +201,7 @@ if ((isset($_GET["number"]))and((is_numeric($_GET["number"]))))
 }
 
 
-mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.htmlspecialchars(trim($_GET['demo'])).'","0","0","0","0")');
+mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_doc_material_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.$id_doc_material_acc.'","'.htmlspecialchars(trim($_GET['demo'])).'","0","0","0","0")');
 
 $ID_D=mysqli_insert_id($link);	
 

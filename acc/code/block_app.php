@@ -90,7 +90,10 @@ if ($value["status"] == 4) {
 if (($value["status"] == 8)or($value["status"] == 5)) {
     $color_status = 4;
 }
-
+//получено
+if ($value["status"] == 7) {
+    $color_status = 7;
+}
 //выводим статус заявки
 $result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=16');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');

@@ -225,7 +225,40 @@ AND S.`id` = M.`id_stock`
                             }
                             $result_t->close();
                         }
+                        //-------------------------------Накладные
+                        $sql_n = "
+SELECT
+  N.`id`,
+  N.`id_invoice`,
+  N.`id_acc`,
+  N.`id_doc_material_acc`,
+  N.`id_stock`,
+  N.`count_units`,
+  N.`price`,
+  N.`price_nds`,
+  N.`subtotal`,
+  N.`subtotal_defect`,
+  N.`count_defect`,
+  N.`defect`,
+  N.`defect_comment`,
+  V.*,
+  S.`name_status`,
+  U.`name_user`
+FROM
+`z_invoice_material` N, 
+z_invoice V
+LEFT JOIN `r_status` S ON(V.`status` = S.`numer_status` AND S.`id_system` = 17)
+LEFT JOIN `r_user` U ON (V.`id_user` = U.`id`)
 
+WHERE N.`id_stock` = ".$row_m[id_stock]."
+AND N.`id_invoice` = V.`id`                        
+                        ";
+                        if ($result_n = $mysqli->query($sql_n)) {
+                            if ($row_n = $result_n->fetch_assoc()) {
+                                $this->row_doc[material][$i][invoice][id_stock] = $row_n;
+                            }
+                            $result_n->close();
+                        }
                     }
                     $result_m->close();
                 }

@@ -496,13 +496,13 @@ values
                             && $row[id_checking] <> $row[id_executor]     // Это уже контрольное согласование
                             && $this->is_excess($this->arr_run[0][id_document])) {
                             //echo 'STEP I<br>';
-                            if ($this->confirmation($row)) {
-                                //echo 'STEP II<br>';
-                                $ok_item = false;
-                                $this->error = 22; //создано дополнительное согласование на превышение
-                                break;
-                            }
+                                if (!($new_id = $this->confirmation($row))===false) {
+                                    //echo 'STEP II<br>';
 
+                                    $this->error = 22; //создано дополнительное согласование на превышение
+                                }
+                                $ok_item = false;
+                                break;
                         }
                         continue;
                     }
@@ -545,26 +545,6 @@ values
     }
 
 
-
-/*
-SELECT * FROM `edo_shablon` r
-,`edo_shablon_items` i
-, `edo_shablon_item_after` a
-WHERE
-r.`id` = 1 AND
-i.`id_shablon` = r.`id` AND
-i.`id` = a.`id_shablon_item`
-ORDER BY r.`displayOrder`,i.`displayOrder`
-
-SELECT * FROM `edo_run` r
-,`edo_run_items` i
-, `edo_run_item_after` a
-WHERE
-r.`id` = 1 AND
-i.`id_run` = r.`id` AND
-i.`id` = a.`id_run_item`
-ORDER BY r.`displayOrder`,i.`displayOrder`
-*/
 
     /** Получить массив правил по ID -> [id_run_item][id_run_item_after] в последовательности выполнения
      * @param $id_edo_run
@@ -912,7 +892,11 @@ AND R.`id_action` = A.id
      * @param $comment - измененный коментарий основной записи
      * @return false|int
      */
-    public function send_task($id_s, $id_executor, $id_status=-1, $comment='Перенаправлено') { //id_status=-1
+    public function send_task($id_s, $id_executor, $id_status=-1, $comment='Перенаправлено', $timing=0) { //id_status=-1
+        $day_now = date('d.m.Y H:i:s', time());
+        $timeReady = \CCM\TimeReady\srok_vip($day_now,$timing*60,$this->mysqli);
+        if ($timeReady===false) $timeReady = null;
+
         $sql ="
 INSERT INTO edo_state (
   `id_run`,
@@ -947,7 +931,7 @@ INSERT INTO edo_state (
   `id_controller`,
   `sign_controller`,
   
-  `date_ready`,
+  '$timeReady',
   `sign_owner`,
   `timing`,
   `displayOrder`,
@@ -998,7 +982,7 @@ OR
 
     /** Дополнительное согласование
      * @param $row_state
-     * @return bool
+     * @return false|int
      */
     public function confirmation( &$row_state){
         $arr_action = $this->get_action($row_state[id_run_item]);
@@ -1008,9 +992,14 @@ OR
         if($arr_action[checking] == 1) { // нужно делать дополнительное согласование
 
             // Не обрабатывается код возврата
-            $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), ''); // Создать задачу подтверждения
-            if($this->show) echo "нужно делать дополнительное согласование!<br";
-            return true;
+            if(!(($new_id = $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), ''))===false)) { // Создать задачу подтверждения
+                if ($this->show) echo "создано дополнительное согласование!<br";
+                $row = $row_state;
+                $row[id_executor] = $row[id_checking];
+                $row[id_status] = 0;
+                $this->arr_task[$new_id] = $row;  // Для уведомления о созданной задаче
+                return $new_id;
+            }
         }
         return false;
     }

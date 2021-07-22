@@ -127,7 +127,7 @@ $id_doc_material_acc='';
 if ((isset($_GET["number"]))and((is_numeric($_GET["number"])))) 
 {
 
-    $result_uup = mysql_time_query($link, 'select id from z_doc_material_acc as Y,z_doc_material as T where Y.id_acc="' . ht($_GET["number"]) . '" and Y.id_doc_material=T.id and T.id_stock="'.$_GET['demo'].'"');
+    $result_uup = mysql_time_query($link, 'select Y.id from z_doc_material_acc as Y,z_doc_material as T where Y.id_acc="' . ht($_GET["number"]) . '" and Y.id_doc_material=T.id and T.id_stock="'.$_GET['demo'].'"');
     $num_results_uup = $result_uup->num_rows;
 
     if ($num_results_uup != 0) {

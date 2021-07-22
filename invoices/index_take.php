@@ -289,10 +289,19 @@ $PROC_STEP=0;
              z_invoice_material as a,
              z_invoice as b                                                                              
 where 
-      a.id_acc="'.$row__2["id_acc"].'" and
+      a.id_acc="'.$row_score["id_acc"].'" and
       b.id=a.id_invoice and 
       not(b.status=1) and 
       a.id_doc_material_acc="'.$row_uu_in["id"].'"');
+
+                    /*echo 'select sum(a.count_units) as summ,sum(a.count_defect) as summ1  from
+             z_invoice_material as a,
+             z_invoice as b                                                                              
+where 
+      a.id_acc="'.$row__2["id_acc"].'" and
+      b.id=a.id_invoice and 
+      not(b.status=1) and 
+      a.id_doc_material_acc="'.$row_uu_in["id"].'"<br>';*/
 
                     //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
                     $num_results_proc = $result_proc->num_rows;
@@ -309,14 +318,14 @@ where
                         {
                             $PROC_STEP = $row_uu_in["count_material"] - $row_proc["summ"];
                         }
-
+                        //echo('PROC_STEP-'.$PROC_STEP."<br>");
                         if($PROC_STEP<=0) {$PROC_All=$PROC_All+100;}
-                        echo $row_uu_in["id"]."<br>";
+                        //echo $row_uu_in["id"]."<br>";
                     }
                 }
             }
-echo('All-'.$PROC_All."<br>");
-echo('Number-'.($num_results_uu_in*100));
+//echo('All-'.$PROC_All."<br>");
+//echo('Number-'.($num_results_uu_in*100));
 if($PROC_All==($num_results_uu_in*100))
 {
     //можно закрывать
@@ -436,7 +445,7 @@ if($PROC_All==($num_results_uu_in*100))
 
 
 //echo($error);
-//header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
 
 end_code:
 

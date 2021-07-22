@@ -311,11 +311,12 @@ where
                         }
 
                         if($PROC_STEP<=0) {$PROC_All=$PROC_All+100;}
+                        echo $row_uu_in["id"]."<br>";
                     }
                 }
             }
-
-
+echo('All-'.$PROC_All."<br>");
+echo('Number-'.($num_results_uu_in*100));
 if($PROC_All==($num_results_uu_in*100))
 {
     //можно закрывать
@@ -435,7 +436,7 @@ if($PROC_All==($num_results_uu_in*100))
 
 
 //echo($error);
-header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
+//header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
 
 end_code:
 

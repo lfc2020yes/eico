@@ -415,6 +415,8 @@ if($PROC_All==($num_results_uu_in*100))
         // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
     }
 
+    mysql_time_query($link, 'update z_acc set status="7" where id = "' . ht($row_score["id_acc"]) . '"');
+
     end_code1:
 
 

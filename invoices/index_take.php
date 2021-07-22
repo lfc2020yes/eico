@@ -294,6 +294,15 @@ where
       not(b.status=1) and 
       a.id_doc_material_acc="'.$row_uu_in["id"].'"');
 
+                    echo 'select sum(a.count_units) as summ,sum(a.count_defect) as summ1  from             
+             z_invoice_material as a,
+             z_invoice as b                                                                              
+where 
+      a.id_acc="'.$row__2["id_acc"].'" and
+      b.id=a.id_invoice and 
+      not(b.status=1) and 
+      a.id_doc_material_acc="'.$row_uu_in["id"].'"<br>';
+
                     //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
                     $num_results_proc = $result_proc->num_rows;
                     if($num_results_proc!=0)

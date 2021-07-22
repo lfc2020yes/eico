@@ -155,7 +155,7 @@ if(($row_t["id_user"]!=$id_user)and($sign_admin!=1))
 
 $status_ee='ok';
 
-	
+	//echo($_GET['name_c']);
 //добавить новых поставщиков если надо
 if((!isset($_GET['post_p']))and($_GET["new_c"]==1))
 {	
@@ -171,8 +171,11 @@ $DATER1 = explode('.', trim(htmlspecialchars($_GET['date1'])));
 
 //$DATER2 = explode('.', trim(htmlspecialchars($_GET['date2'])));
 		
-	
+	/*
 mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor,summa,date_delivery,delivery_day,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","'.$summaa.'","","'.htmlspecialchars(trim($_GET['date2'])).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
+*/
+
+mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor,summa,date_delivery,delivery_day,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","0","","'.htmlspecialchars(trim($_GET['date2'])).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
 
 	$ID_D=mysqli_insert_id($link);	
 

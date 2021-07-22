@@ -25,8 +25,8 @@
 /tours/doc/intermediate/*
 !/tours/doc/intermediate/readme.txt
 
-/img/users/*
-!/img/users/readme.txt
+#/img/users/*
+#!/img/users/readme.txt
 
 package-lock.json
 package.json

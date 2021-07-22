@@ -33,6 +33,9 @@ $role->GetPermission();
 
 if((isset($_POST['save_invoice_two_step']))and($_POST['save_invoice_two_step']==1))
 {
+    //print_r($_POST);
+
+
 	$token=htmlspecialchars($_POST['tk']);
 	$id=htmlspecialchars($_GET['id']);
 	
@@ -199,6 +202,9 @@ if((isset($_POST['save_invoice_two_step']))and($_POST['save_invoice_two_step']==
 		   $summa_all=0;
 				
 $count_material=0;
+
+//echo(count($works));
+
         foreach ($works as $key => $value) 
 	    {
 			   //смотрим вдруг был удален этот материал при оформлении	 
@@ -214,8 +220,9 @@ $count_material=0;
 				$_POST['invoice'][0]["id"]
 				*/		
 				   
-				$summ_tr=0;   
-				
+				$summ_tr=0;
+                //echo'id-'.$value['id'].'<br>';
+
 				$result_tx=mysql_time_query($link,'Select a.id from z_invoice_material as a where a.id="'.htmlspecialchars(trim($value['id'])).'"');
                 $num_results_tx = $result_tx->num_rows;
 	            if($num_results_tx!=0)
@@ -262,14 +269,15 @@ $count_material=0;
 				   $s_tr1=0;	
 				   $cost_table=0;
 				   $cost_table_nds=0;
-					
+
+				  // echo'sum-'.$summ_tr.'<br>';
 					
 				   if($summ_tr==0)
 				   {
 					   if($_POST["ispol_type"]==0)
 					   {
-						   
-						  if($_POST['nds_ff']==0)
+
+					       if($_POST['nds_ff']==0)
 					     {
 					       $s_tr=$price_nds_mat*$count_mat;
 						   $s_tr1=$price_nds_mat*$count_mat_akt;	 
@@ -306,6 +314,9 @@ $count_material=0;
 				   $summa_all=$summa_all+$s_tr;	
 					//echo('update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'" where id = "'.htmlspecialchars($value['id']).'"');
 				   mysql_time_query($link,'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"');
+
+				   //echo'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"';
+				   //echo'<br>';
 					
 				   if($value['defect']==0)
 				   {
@@ -527,7 +538,7 @@ if ( isset($_COOKIE["iss"]))
                   <div class="oka_block_2019">
                       <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
 
-
+                          <form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
 
 
 
@@ -586,7 +597,7 @@ if(($row_list["id_user"]==$id_user)) {
     //echo'<div class="content_block1 invoice_block" id_content="'.$id_user.'">';
 ?>
                           <div class="info-suit">
-<form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+
  <input name="save_invoice_two_step" value="1" type="hidden">
   <?
 		
@@ -1245,8 +1256,9 @@ echo'<input type="hidden" class="popa_nds" value="'.ipost_($_POST['nds_ff'],$row
     
 
 
-</form>
+
                   </div></div></div></div></div></div>
+      </form>
 <?
 echo'<div class="messa_form_a">'.$echo.'</div>';
 include_once $url_system.'template/left.php';

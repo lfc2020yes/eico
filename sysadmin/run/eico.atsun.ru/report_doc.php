@@ -64,7 +64,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <td><?=$item[price]?>
         <td><?=$item[subtotal]?>
         <td>
-    <tr><td colspan="2">закрыто:
+    <tr><td colspan="2">по нарядам:
         <td>
         <td>
         <td><?=$item[count_realiz]?>
@@ -82,6 +82,28 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <td><?=$acc[price_material]?>
         <td><?=($acc[count_material]*$acc[price_material])?>
         <td><?=$acc[date_delivery]?>
+            <?php
+            }
+            if(isset($item[invoice][acc]))
+            foreach ($item[invoice][acc] as $invoice) {
+                ?>
+                <tr><td colspan="2">накладные по счету:
+                <td>№ <?=$invoice[number]?> от <?=$invoice[date]?> <?=$invoice[name_user]?> [ <?=$invoice[name_status]?> ]
+                <td>
+                <td><?=$invoice[count_units]?> / <?=$invoice[count_defect]?>
+                <td><?=$invoice[price_nds]?> / <?=$invoice[price]?>
+                <td><?=$invoice[subtotal]?>
+                <?php
+            }
+            if(isset($item[invoice][stock]))
+            foreach ($item[invoice][stock] as $invoice) {
+                ?>
+    <tr><td colspan="2">накладные по складу:
+        <td>№ <?=$invoice[number]?> от <?=$invoice[date]?> <?=$invoice[name_user]?> [ <?=$invoice[name_status]?> ]
+        <td>
+        <td><?=$invoice[count_units]?> / <?=$invoice[count_defect]?>
+        <td><?=$invoice[price_nds]?> / <?=$invoice[price]?>
+        <td><?=$invoice[subtotal]?>
             <?php
             }
             ?>
@@ -183,7 +205,7 @@ AND D.`id_i_material` = M.`id`
                         //----------------------------------------счета по материалу
                         $sql_a = "
 SELECT
-  M.`id`,
+  M.`id` as id_doc_material_acc,
   M.`id_doc_material`,
   M.`count_material`,
   M.`price_material`,
@@ -204,6 +226,40 @@ AND M.`id_acc` = A.`id`
                         if ($result_a = $mysqli->query($sql_a)) {
                             while ($row_a = $result_a->fetch_assoc()) {
                                 $this->row_doc[material][$i][acc][] = $row_a;
+//-------------------------------Накладные по счету
+                                $sql_na = "
+SELECT
+  N.`id`,
+  N.`id_invoice`,
+  N.`id_acc`,
+  N.`id_doc_material_acc`,
+  N.`id_stock`,
+  N.`count_units`,
+  N.`price`,
+  N.`price_nds`,
+  N.`subtotal`,
+  N.`subtotal_defect`,
+  N.`count_defect`,
+  N.`defect`,
+  N.`defect_comment`,
+  V.*,
+  S.`name_status`,
+  U.`name_user`
+FROM
+`z_invoice_material` N, 
+z_invoice V
+LEFT JOIN `r_status` S ON(V.`status` = S.`numer_status` AND S.`id_system` = 17)
+LEFT JOIN `r_user` U ON (V.`id_user` = U.`id`)
+
+WHERE N.`id_doc_material_acc` = ".$row_a[id_doc_material_acc]."
+AND N.`id_invoice` = V.`id`                        
+                        ";
+                                if ($result_na = $mysqli->query($sql_na)) {
+                                    while ($row_na = $result_na->fetch_assoc()) {
+                                        $this->row_doc[material][$i][invoice][acc][] = $row_na;
+                                    }
+                                    $result_na->close();
+                                }
 
                             }
                             $result_a->close();
@@ -225,7 +281,7 @@ AND S.`id` = M.`id_stock`
                             }
                             $result_t->close();
                         }
-                        //-------------------------------Накладные
+                        //-------------------------------Накладные по складу
                         $sql_n = "
 SELECT
   N.`id`,
@@ -254,8 +310,8 @@ WHERE N.`id_stock` = ".$row_m[id_stock]."
 AND N.`id_invoice` = V.`id`                        
                         ";
                         if ($result_n = $mysqli->query($sql_n)) {
-                            if ($row_n = $result_n->fetch_assoc()) {
-                                $this->row_doc[material][$i][invoice][id_stock] = $row_n;
+                            while ($row_n = $result_n->fetch_assoc()) {
+                                $this->row_doc[material][$i][invoice][stock][] = $row_n;
                             }
                             $result_n->close();
                         }

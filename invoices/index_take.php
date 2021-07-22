@@ -415,6 +415,9 @@ if($PROC_All==($num_results_uu_in*100))
         // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
     }
 
+    end_code1:
+
+
 }
 
 

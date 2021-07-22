@@ -309,7 +309,7 @@ where
                         {
                             $PROC_STEP = $row_uu_in["count_material"] - $row_proc["summ"];
                         }
-
+                        echo('PROC_STEP-'.$PROC_STEP."<br>");
                         if($PROC_STEP<=0) {$PROC_All=$PROC_All+100;}
                         echo $row_uu_in["id"]."<br>";
                     }

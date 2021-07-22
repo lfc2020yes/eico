@@ -288,9 +288,9 @@ include_once $url_system.'module/notification.php';
 
 
 //id_action - 4 выписать счета
-
+/*
 if($but_mass["id_action"]!=4) {
-
+*/
     $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a">';
     if ($class_by == '') {
         $echo_bb .= '<div class="pass_tyu"><div class="password_turs">
@@ -307,7 +307,7 @@ if($but_mass["id_action"]!=4) {
 
 
 </div>';
-}
+//}
                     $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-app '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-app '.$class_by.'">Переслать   ⥃</div>';
 
 

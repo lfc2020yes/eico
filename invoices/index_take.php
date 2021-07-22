@@ -261,6 +261,174 @@ if($num_results_score1!=0)
 
 
 
+//проверяем закрываем счет или нет
+
+$DEFECT_FLAG=0;   //0 - учитывать и закрывать только с дефектом 1- закрывать без учета дефекта
+//начисляем все материалы которые есть в накладной на него
+$result_score=mysql_time_query($link,'select DISTINCT a.* from z_invoice_material as a where a.id_invoice="'.htmlspecialchars(trim($_GET['id'])).'" order by a.id');
+
+$num_results_score = $result_score->num_rows;
+
+if($num_results_score!=0) {
+
+    for ($ss = 0; $ss < $num_results_score; $ss++) {
+        $row_score = mysqli_fetch_assoc($result_score);
+
+
+        if(($row_score["id_acc"]!=0)and($row_score["id_acc"]!=''))
+        {
+            $PROC_All=0;
+
+            $result_uu_in = mysql_time_query($link, 'select a.*,b.id_contractor,b.number,b.date from z_doc_material_acc as a,z_acc as b where a.id_acc="' . ht($row_score["id_acc"]) . '" and a.id_acc=b.id');
+            $num_results_uu_in = $result_uu_in->num_rows;
+            if ($result_uu_in) {
+                while ($row_uu_in = mysqli_fetch_assoc($result_uu_in)) {
+$PROC_STEP=0;
+
+                    $result_proc=mysql_time_query($link,'select sum(a.count_units) as summ,sum(a.count_defect) as summ1  from             
+             z_invoice_material as a,
+             z_invoice as b                                                                              
+where 
+      a.id_acc="'.$row__2["id_acc"].'" and
+      b.id=a.id_invoice and 
+      not(b.status=1) and 
+      a.id_doc_material_acc="'.$row_uu_in["id"].'"');
+
+                    //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
+                    $num_results_proc = $result_proc->num_rows;
+                    if($num_results_proc!=0)
+                    {
+                        $row_proc = mysqli_fetch_assoc($result_proc);
+                        //$PROC_STEP=$row_proc["summ"]-$row_proc["summ1"];
+
+
+                        //$PROC_STEP=round((($row_proc["summ"]-$row_proc["summ1"])*100)/$row_uu_in["count_material"]);
+                        if($DEFECT_FLAG==0) {
+                            $PROC_STEP = $row_uu_in["count_material"] - ($row_proc["summ"] - $row_proc["summ1"]);
+                        } else
+                        {
+                            $PROC_STEP = $row_uu_in["count_material"] - $row_proc["summ"];
+                        }
+
+                        if($PROC_STEP<=0) {$PROC_All=$PROC_All+100;}
+                    }
+                }
+            }
+
+
+if($PROC_All==($num_results_uu_in*100))
+{
+    //можно закрывать
+
+    include_once $url_system.'/ilib/lib_interstroi.php';
+    include_once $url_system.'/ilib/lib_edo.php';
+
+    $edo = new EDO($link, $id_user, false);
+    $arr_document = $edo->my_documents(1, ht($row_score["id_acc"]), '=0', true);
+    //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
+
+    $id_s=0;
+    foreach ($arr_document as $key => $value)
+    {
+        if((is_array($value["state"]))and(!empty($value["state"]))) {
+
+            foreach ($value["state"] as $keys => $val) {
+//echo($val["id_run_item"]);
+                $id_s=$val["id_s"];
+                $class_by = '';
+                if ($val["id_status"] != 0) {
+                    goto end_code1;
+                }
+
+                $but_mass = $edo->get_action($val["id_run_item"]);
+            }} else
+        {
+            goto end_code1;
+        }
+
+
+    }
+
+//изменяем статус по
+
+    $array_status=$edo->set_status($id_s, 2);
+    if($array_status==false)
+    {
+        goto end_code1;
+    }
+
+
+//отправляем следующим уведомления
+    if (($edo->next($id, 1))===false) {
+
+
+        $name_c='';
+        $result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_uu_in['id_contractor']) . '"');
+        $num_results_uu = $result_uu->num_rows;
+
+        if ($num_results_uu != 0) {
+            $row_uud = mysqli_fetch_assoc($result_uu);
+            $name_c='Контрагент - '.$row_uud["name"];
+        }
+
+//echo(gettype($edo->arr_task));
+        if(isset($edo->arr_task)) {
+            foreach ($edo->arr_task as $key => $value) {
+                //оправляем всем уведомления кому нужно рассмотреть этот документ далее
+
+
+                $user_send_new = array();
+                //уведомление
+                array_push($user_send_new, $value["id_executor"]);
+
+
+
+                $text_not='Вам поступила задача по счету <a class="link-history" href="acc/'.$row_score["id_acc"].'/">Счет №'.$row_uu_in['number'].' от '.date_ex(0,$row_uu_in['date']).'</a>. '.$name_c.' '.$value["description"];
+
+                /*
+
+                            } else {
+
+                                $text_not = 'Вам поступила задача <a class="link-history" href="app/' . $_GET['id'] . '/">' . $row_list['name'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . ')' . $value["description"];
+                            }
+                */
+                //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
+                //отправка уведомления
+                $user_send_new = array_unique($user_send_new);
+                notification_send($text_not, $user_send_new, $id_user, $link);
+
+
+            }
+        }
+
+
+
+        // echo '<pre>arr_task:'.print_r($edo->arr_task,true) .'</pre>';
+
+        if ($edo->error == 1) {
+            // в array $edo->arr_task задания на согласование
+        } else {
+
+        }
+    } else {
+        // процесс согласования со всеми заданиями выполнен
+        // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
+    }
+
+}
+
+
+
+        }
+
+    }
+}
+
+
+
+
+
+
 //echo($error);
 header("Location:".$base_usr."/invoices/".$_GET['id'].'/yes/');
 

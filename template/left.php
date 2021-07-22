@@ -90,7 +90,7 @@ $local='C:/OpenServer/domains/'.$local_host.'';
 
 if($_SERVER['DOCUMENT_ROOT']!=$local)
 {
-    echo'<a class="link_suitt" href="">construction costs<br>monitoring</a>';
+    echo'<a class="link_suitt" href="">COST CONTROL<br>MANAGER</a>';
 } else
 {
     echo'<a class="link_suitt" href="">ccm local hay</a>';

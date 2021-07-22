@@ -146,7 +146,7 @@ $ID_P=mysqli_insert_id($link);
 
 
 
-mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'","'.$ID_P.'","0","0","0","0")');
+mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_doc_material_acc,id_stock,count_units,price,price_nds,subtotal) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($number_acc)).'",NULL,"'.$ID_P.'","0","0","0","0")');
 
 $ID_D=mysqli_insert_id($link);	
 

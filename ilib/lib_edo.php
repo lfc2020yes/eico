@@ -991,8 +991,7 @@ OR
         }
         if($arr_action[checking] == 1) { // нужно делать дополнительное согласование
 
-            // Не обрабатывается код возврата
-            if(!(($new_id = $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), ''))===false)) { // Создать задачу подтверждения
+            if(!(($new_id = $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), '',$row_state[timing]))===false)) { // Создать задачу подтверждения
                 if ($this->show) echo "создано дополнительное согласование!<br";
                 $row = $row_state;
                 $row[id_executor] = $row[id_checking];

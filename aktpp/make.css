@@ -2,7 +2,7 @@
     cursor: pointer;
     float: right;
     margin-right: 0px;
-    margin-top: 10px;
+    //margin-top: 10px;
     position: relative;
 }
 .money {
@@ -12,12 +12,12 @@
     background-color: #ffd8d8 !important;
 }
 .user_press {
-    float: left;
-    margin-left: 15px;
+    display: inline-block;
+    margin-right: 15px;
     border-radius: 50%;
-    margin-top: 13px;
+    //margin-top: 13px;
     height: 40px;
-    width: 40px;
+    min-width: 40px;
     position: relative;
     background-color: #fff;
 }
@@ -34,6 +34,17 @@
     position: absolute;
     top: 8px;
 }
+.add_work_nary {border: 1px solid #ccc;}
+.add_work_nary::after {
+    color: #01a5fe;
+    content: "\E007";
+    font-family: "icon1";
+    font-size: 18px;
+    left: 9px;
+    position: absolute;
+    top: 8px;
+}
+
 .key_delete {
     border: 1px solid #ccc; /*#01a5fe; */
     border-radius: 50px;

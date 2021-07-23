@@ -1,4 +1,12 @@
-<div class="menu_top" style="border-bottom:0; box-shadow: 0 20px 30px -30px rgba(0, 0, 0, 0.6);"><div class="menu1">
+<!--<div class="menu_top" style="border-bottom:0; box-shadow: 0 20px 30px -30px rgba(0, 0, 0, 0.6);"><div class="menu1">
+-->
+
+        <div class="menu-09  input-line" style="z-index:150;">
+            <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
+            <div class="menu-09-left">
+                <a href="/" class="menu-09-global"></a><a onclick="history.back();" class="menu-09-prev"><i></i></a>
+
+
   <?php
                     //--------------Заполнить информацию по заявке
     function Get_info_doc ($id_zay,$link) {                
@@ -109,11 +117,22 @@ and z.status=s.numer_status'
                  сохранить шапку акта
                  сохранить всю корзину в теле акта
                  */
-            }                                            //<div></div>
+            }
+            /*//<div></div>
             echo '<div style="float:left;">';
             echo'<h3 class="head_h" style=" margin-bottom:0px; float:left;">'.$dt.'</h3>';
 	    if($id_zay>0) echo '<h4 style="line-height: 10px; clear: left; float:left; font-size: 14px;">'.$zay_info.' </h4>';
-	    echo '</div>';
+	    echo '</div>';*/
+
+  echo'<span class="menu-09-pc-h" ><span class="js-acc-name-top">'.$dt;
+
+ if($id_zay>0)  echo'<i class="ystal">('.$zay_info.')</i>';
+
+  echo'</span >';
+
+
+	        echo '</div>
+    <div class="menu-09-right tours-right-block">';
             
 	//если не пользователь ее создатель выводим историю создателей и подписавших
 	/*
@@ -293,238 +312,253 @@ and z.status=s.numer_status'
 			echo'<div class="status_nana">утвержден</div>';
 		}
 	}
-//================================================================================
-      //if (isset($_GET['id'])) {
-      //  $id=htmlspecialchars(trim($_GET['id']));
-      if ($id_edit>0) { 
-	if(($role->permission('Прием-Передача','U'))or($sign_admin==1))
- 	   echo'<a href="aktpp/mat/'.$id_edit.'/" data-tooltip="добавить материалы" class="add_work_nary"><i></i></a>';
- 	echo'<a target="_blank" href="aktpp/print/'.$id_edit.'/" data-tooltip="Печатать документа" class="user_press naryd_print"></a>';
-        echo '<a href="aktpp/work/'.$id_edit.'/" data-tooltip="Документы" class="user_press key_work"><i></i></a>';
-        if(($role->permission('Прием-Передача','D'))or($sign_admin==1))
+
+
+  include_once $url_system.'module/notification.php';
+  include_once $url_system.'module/users.php';
+
+  //================================================================================
+  //if (isset($_GET['id'])) {
+  //  $id=htmlspecialchars(trim($_GET['id']));
+  if ($id_edit>0) {
+      if(($role->permission('Прием-Передача','U'))or($sign_admin==1))
+          echo'<a href="aktpp/mat/'.$id_edit.'/" data-tooltip="добавить материалы" class="user_press add_work_nary"><i></i></a>';
+      echo'<a target="_blank" href="aktpp/print/'.$id_edit.'/" data-tooltip="Печатать документа" class="user_press naryd_print"></a>';
+      echo '<a href="aktpp/work/'.$id_edit.'/" data-tooltip="Документы" class="user_press key_work"><i></i></a>';
+      if(($role->permission('Прием-Передача','D'))or($sign_admin==1))
           echo '<div class="div_delete"  id="'.$id_edit.'" id_rel="'.$dt.' от '.$ddate.'"><a target="_blank"  data-tooltip="Удалить" class="user_press key_delete"><i></i></a></div>';
-      } {
-		//прораб
-		//сохранить
-		//подписать
-		//подписано
+  } {
+      //прораб
+      //сохранить
+      //подписать
+      //подписано
 
 
 
 //	    if(($row_list["ready"]==1)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-		echo'<form id="lalala_pod_form" action="finery/sign/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      {
+          //все заполнено и не подписано им или выше
+          echo'<form id="lalala_pod_form" action="finery/sign/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
                     <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_naryd_plus',$secret).'" type="hidden">
                     </form>';
-                //if ($save_akt==false) {   //pod_nar pod_pro
-                    echo '<div class="save_button pod_nar send_akt" style="display:none;"><i>Отправить</i></div>';
-                //}
-                if ($save_akt)  $saveshow="block";
-                else            $saveshow="none";
-                echo '<div class="save_button save_akt" id_rel="'.$id_edit.'" style="display:'.$saveshow.';"><i>Сохранить</i></div>';
-                if((isset($stack_error))and((count($stack_error)!=0)))
-                    $style='block'; else $style='none';
-                echo'<div style="display:'.$style.';" class="error_text_add">Не все поля заполнены для сохранения</div>';
-            }
+          //if ($save_akt==false) {   //pod_nar pod_pro
+         // echo '<div class="save_button pod_nar send_akt" style="display:none;"><i>Отправить</i></div>';
 
-            /*
-            if(($podpis==0)and($row_list["signedd_nariad"]==0))
-            {
-                    echo'<div class="save_button green_nar"><i>Подписан</i></div><div class="error_text_green">Не допускается изменения в наряде</div>';
-            }
-            */
+          echo '<div class="save_button add_zay send_akt add_clients green-bb" style="display:none;">Отправить   →</div>';
 
-	}
-        //==========================================================$sign_level==2
-	if(($sign_level==2)and($sign_admin!=1))//====================================
-	{
-		//начальник участка
-		//сохранить
-		//утвердить - если все заполнено и нет служебных записок
-		//согласовать - если все заполнено но есть служебные записки
-		//снять подпись снизу - если не он сам создатель наряда и не утверждено и не согласовано им или выше
+          //}
+          if ($save_akt)  $saveshow="block";
+          else            $saveshow="none";
+          //echo '<div class="save_button save_akt" id_rel="'.$id_edit.'" style="display:'.$saveshow.';"><i>Сохранить</i></div>';
+
+          echo '<div class="save_button add_zay save_akt add_clients yellow-style" id_rel="'.$id_edit.'" style="display:'.$saveshow.';">Сохранить   →</div>';
+
+          if((isset($stack_error))and((count($stack_error)!=0)))
+              $style='block'; else $style='none';
+          //echo'<div style="display:'.$style.';" class="error_text_add">Не все поля заполнены для сохранения</div>';
+      }
+
+      /*
+      if(($podpis==0)and($row_list["signedd_nariad"]==0))
+      {
+              echo'<div class="save_button green_nar"><i>Подписан</i></div><div class="error_text_green">Не допускается изменения в наряде</div>';
+      }
+      */
+
+  }
+  //==========================================================$sign_level==2
+  if(($sign_level==2)and($sign_admin!=1))//====================================
+  {
+      //начальник участка
+      //сохранить
+      //утвердить - если все заполнено и нет служебных записок
+      //согласовать - если все заполнено но есть служебные записки
+      //снять подпись снизу - если не он сам создатель наряда и не утверждено и не согласовано им или выше
 
 
 
-		//echo($slyjj);
+      //echo($slyjj);
 
-		if(($row_list["ready"]==1)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-            if($slyjj==0)
-			{
-			echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      if(($row_list["ready"]==1)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          if($slyjj==0)
+          {
+              echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'seal_naryd_xx',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
-			} else
-			{
-			echo'<form id="lalala_pod_form" action="finery/sign/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+              echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
+          } else
+          {
+              echo'<form id="lalala_pod_form" action="finery/sign/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_naryd_plus',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_nar sog_nar sogl_pro"><i>Согласовать</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
-			}
-	 	   if((isset($stack_error))and((count($stack_error)!=0)))
-           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		   } else
-		   {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		   }
-	    }
-
-		if(($row_list["ready"]==0)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
-		  if((isset($stack_error))and((count($stack_error)!=0)))
+              echo'<div class="save_button pod_nar sog_nar sogl_pro"><i>Согласовать</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
+          }
+          if((isset($stack_error))and((count($stack_error)!=0)))
           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		  } else
-		  {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		  }
-	    }
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
 
-		//echo($niz_podpis);
-		//echo($niz_podpis);
-		if(($niz_podpis!=-1)and($podpis==1))
-		{
-			//cнять подпись
-			echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      if(($row_list["ready"]==0)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
+          if((isset($stack_error))and((count($stack_error)!=0)))
+          {
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
+
+      //echo($niz_podpis);
+      //echo($niz_podpis);
+      if(($niz_podpis!=-1)and($podpis==1))
+      {
+          //cнять подпись
+          echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'shoot_naryd_user',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
-		}
+          echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
+      }
 
 
-	}
-	if(($sign_level==3)and($sign_admin!=1))//=====================================
-	{
-		//главный инженер
-		//сохранить
-		//утвердить - если он согласен со всеми служебными записками
-		//снять подпись снизу - если не он сам создатель наряда и не не утвержено
+  }
+  if(($sign_level==3)and($sign_admin!=1))//=====================================
+  {
+      //главный инженер
+      //сохранить
+      //утвердить - если он согласен со всеми служебными записками
+      //снять подпись снизу - если не он сам создатель наряда и не не утвержено
 
-		//echo($niz_podpis);
+      //echo($niz_podpis);
 
 
 
-		if(($row_list["ready"]==1)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-            if(decision_memo($link,$_GET["id"])==0)
-			{
-			echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      if(($row_list["ready"]==1)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          if(decision_memo($link,$_GET["id"])==0)
+          {
+              echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'seal_naryd_xx',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
-			} else
-			{
-			echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
-			}
-	 	   if((isset($stack_error))and((count($stack_error)!=0)))
-           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		   } else
-		   {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		   }
-	    }
-
-
-		if(($row_list["ready"]==0)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
-		  if((isset($stack_error))and((count($stack_error)!=0)))
+              echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
+          } else
           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		  } else
-		  {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		  }
-	    }
+              echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
+          }
+          if((isset($stack_error))and((count($stack_error)!=0)))
+          {
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
 
 
-		if(($niz_podpis!=-1)and($podpis==1))
-		{
-			//cнять подпись
-			echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      if(($row_list["ready"]==0)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
+          if((isset($stack_error))and((count($stack_error)!=0)))
+          {
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
+
+
+      if(($niz_podpis!=-1)and($podpis==1))
+      {
+          //cнять подпись
+          echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'shoot_naryd_user',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
-		}
+          echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
+      }
 
 
-	}
-	if($sign_admin==1)  //==================================================
-	{
-	   //директор
-	   //сохранить
-	   //утвердить
-	   //распровести
-	   if($podpis==0)
-	   {
-	     echo'<div class="save_button rasp_nar"><i>Распровести</i></div>';
-		   echo'<form id="lalala_disband_form" action="finery/disband/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  }
+  if($sign_admin==1)  //==================================================
+  {
+      //директор
+      //сохранить
+      //утвердить
+      //распровести
+      if($podpis==0)
+      {
+          echo'<div class="save_button rasp_nar"><i>Распровести</i></div>';
+          echo'<form id="lalala_disband_form" action="finery/disband/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'disband_naryd_admin',$secret).'" type="hidden">
 </form>';
-	   }
+      }
 
 
-		if(($row_list["ready"]==1)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-            if(decision_memo($link,$_GET["id"])==0)
-			{
-				echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+      if(($row_list["ready"]==1)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          if(decision_memo($link,$_GET["id"])==0)
+          {
+              echo'<form id="lalala_seal_form" action="finery/seal/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'seal_naryd_xx',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
-			} else
-			{
-			echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
-			}
-	 	   if((isset($stack_error))and((count($stack_error)!=0)))
-           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		   } else
-		   {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		   }
-	    }
-
-
-
-		if(($row_list["ready"]==0)and($podpis==1))
-	    {
-		 //все заполнено и не подписано им или выше
-          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
-		  if((isset($stack_error))and((count($stack_error)!=0)))
+              echo'<div class="save_button pod_nar ut_nar"><i>Утвердить</i></div><div style="display:none;" class="save_button add_nar"><i>Сохранить</i></div>';
+          } else
           {
-		      echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
-		  } else
-		  {
-			 echo'<div style="display:none;" class="error_text_add"></div>';
-		  }
-	    }
+              echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
+          }
+          if((isset($stack_error))and((count($stack_error)!=0)))
+          {
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
 
 
-		if(($niz_podpis!=-1)and($podpis==1))
-		{
-			//cнять подпись
-			echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+
+      if(($row_list["ready"]==0)and($podpis==1))
+      {
+          //все заполнено и не подписано им или выше
+          echo'<div class="save_button add_nar"><i>Сохранить</i></div>';
+          if((isset($stack_error))and((count($stack_error)!=0)))
+          {
+              echo'<div class="error_text_add">Не все поля заполнены для сохранения</div>';
+          } else
+          {
+              echo'<div style="display:none;" class="error_text_add"></div>';
+          }
+      }
+
+
+      if(($niz_podpis!=-1)and($podpis==1))
+      {
+          //cнять подпись
+          echo'<form id="lalala_shoot_form" action="finery/shoot/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'shoot_naryd_user',$secret).'" type="hidden">
 </form>';
-			echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
-		}
+          echo'<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
+      }
 
 
 
-	}
+  }
 
-include_once $url_system.'module/notification.php';
-?>
-	</div></div>
+  ?>
+
+
+
+    </div>
+
+</div>

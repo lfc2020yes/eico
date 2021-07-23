@@ -648,7 +648,23 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					    $z_rabota3=$row1ss_["summ"];
 					  }
 					  $echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
-				 }		
+				 }
+
+//узнаем сколько материала получено по счету
+    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'" AND a.id_acc=b.id AND b.status=7');
+    $z_take=0;
+    $num_results_t1_ = $result_t1_->num_rows;
+    if($num_results_t1_!=0)
+    {
+        //такая работа есть
+        $row1ss_ = mysqli_fetch_assoc($result_t1_);
+        if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
+        {
+            $z_take=$row1ss_["summ"];
+        }
+        //$echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
+    }
+
 //узнаем сколько материала необходимо еще
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
 					$z_zakaz=0;	             	 
@@ -662,7 +678,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					    $z_zakaz=$row1ss_["summ"];
 					  }
 					 
-					  $neo=round(($z_zakaz-$z_rabota1-$z_rabota2-$z_rabota3),2);
+					  $neo=round(($z_zakaz-$z_rabota1-$z_rabota2-$z_rabota3-$z_take),2);
 					 $class_ada="red_ada";
 					  if($neo<=0)
 					  {

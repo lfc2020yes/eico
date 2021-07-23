@@ -5377,3 +5377,47 @@ a {    display: block;
 .white_inp:-ms-input-placeholder {
     color: rgba(0, 0, 0, 0.2)
   }
+
+
+.mat_div_x
+{
+  position: relative;
+  height: 24px;
+  width: 24px;
+
+i {
+  font-style: normal;
+  height: 24px;
+  cursor: pointer;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  @include transition(all .4s cubic-bezier(.42, .01, .23, 1));
+  position: relative;
+  display: block;
+  text-align: center;
+  position: absolute;
+  left: 10px;
+
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: rgba(0, 0, 0, .7);
+    font-family: icon1;
+    font-size: 14px;
+    @include transition(all .4s cubic-bezier(.42, .01, .23, 1));
+    @include transform(scale3d(0, 0, 1));
+  }
+}
+
+}
+
+.active_yy i {
+  background-color: #ffec57;
+
+  &::before {
+    @include transform(scale3d(1, 1, 1));
+  }
+}

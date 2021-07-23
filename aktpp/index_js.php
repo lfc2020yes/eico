@@ -64,7 +64,7 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
              });
 }
 //-----------------------------------------------------------------------------
-   $(document).on('click', ".mat_div" , function(){
+   $(document).on('click', ".mat_div_x" , function(){
    //$(".mat_div").on("click",function(){  	//Отметить материал
        //console.log(".mat_div id: "+$(this).attr("id"));
        var id=$(this).attr("id");
@@ -72,27 +72,38 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
        var cnt=0;
        var make_akt = document.getElementById('make_akt');
 
-       //alert (make_akt);
+       //alert ("!");
        //var make_akt_i=$(make_akt).children('i')[0];
        //alert (make_akt_i);
 
-       if  ($(this).children('i')[0].textContent=='y') {
-            $(this).children('i')[0].textContent='';
+       //if  ($(this).children('i')[0].textContent=='y') {
+
+       if  ($(this).is('.active_yy')) {
+            //$(this).children('i')[0].textContent='';
+           $(this).removeClass('active_yy');
             cnt=DelFromCookie('material'+id_user_visor,id,60,'/');
             if (cnt>0) {
-              $(make_akt).children('i')[0].textContent=cnt;
-              make_akt.style.display = 'block';
+              //$(make_akt).children('i')[0].textContent=cnt;
+
+                $(make_akt).find('i').empty().append(cnt);
+              make_akt.style.display = 'inline-block';
               //document.getElementById('make_akt').innerHTML=make+cnt+'</i>';
             } else {
-              $(make_akt).children('i')[0].textContent='';
+             // $(make_akt).children('i')[0].textContent='';
+                $(make_akt).find('i').empty();
+
+                $(make_akt).find('i').empty();
               make_akt.style.display = 'none';
               //document.getElementById('make_akt').innerHTML='';
             }
         } else {
-            $(this).children('i')[0].textContent='y';
+            //$(this).children('i')[0].textContent='y';
+           $(this).addClass('active_yy');
             cnt=AddToCookie('material'+id_user_visor,id,60,'/');
-            $(make_akt).children('i')[0].textContent=cnt;
-            make_akt.style.display = 'block';
+           // $(make_akt).children('i')[0].textContent=cnt;
+           $(make_akt).find('i').empty().append(cnt);
+            //alert("!");
+            make_akt.style.display = 'inline-block';
             //document.getElementById('make_akt').innerHTML=make+cnt+'</i>';
         }
     });
@@ -112,10 +123,14 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
         var display = document.getElementById(id_mat).style.display;
         if (display=='none') {
             document.getElementById(id_mat).style.display = 'table-row';
-            $(this).children('i')[0].textContent='-';
+            //$(this).children('i')[0].textContent='-';
+
+            $(this).find('i').empty().append('-');
         } else {
             document.getElementById(id_mat).style.display = 'none';
-            $(this).children('i')[0].textContent='+';
+            //$(this).children('i')[0].textContent='+';
+
+            $(this).find('i').empty().append('+');
         }
     });
 

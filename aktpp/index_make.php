@@ -14,7 +14,7 @@ $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 //if(($role->permission('Прием-Передача','R'))or($sign_admin==1))   //RAUD S- Супервизор, управление чужими актами
-$active_menu='mmake';
+$active_menu='aktpp/res';  // в каком меню
 
 //подготовка для вызова POST
 //=========================================$id_visor
@@ -93,24 +93,24 @@ if($error_header!=404){ SEO('make','','','',$link); } else { SEO('0','','','',$l
 include_once $url_system.'module/config_url.php';
 include $url_system.'template/head.php';
 ?>
-<link rel="stylesheet" type="text/css" href="aktpp/make.css" />
-</head><body><div class="container">
+<link rel="stylesheet" type="text/css" href="aktpp/make.css?542363" />
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?php
 
 
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';
-		  }
-		} else
-		{
-			echo'<div class="iss">';
-		}
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss big">';
+}
 //echo(mktime());
 
 ?>
@@ -138,7 +138,12 @@ include_once $url_system.'aktpp/top_prime_aktpp_view.php';
  <input name="save_form" value="1" type="hidden">
 <?php
 
-    echo'<div class="content_block1"  iu="'.$id_user.'"  id_content="'.$id_user.'">';
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
+
+    echo'<div class="content_block1" style="width: 100%; padding-top: 20px;"  iu="'.$id_user.'"  id_content="'.$id_user.'">';
 
 //print_r($stack_error);
 	/*echo '<pre>';
@@ -874,6 +879,7 @@ echo'<div class="width-setter mess_slu"><input defaultv="'.ipost_($_POST['works'
     ?>
     </div>
   </div>
+</div></div></div></div>
 </form>
 <?php
 }  //права доступа

@@ -48,9 +48,13 @@
                 $('.error_text_add').show();
                 //$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
                 //setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
+            /*
                 setTimeout ( function () {
                     $('.error_text_add').hide();
                 }, 7000 );
+                */
+            alert_message('error','Не все поля заполнены');
+
             //}
 
         } else{

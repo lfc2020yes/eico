@@ -1,17 +1,17 @@
 
 function menu_anime() {
-       var tabs = $('#tabs2017');
+   /*    var tabs = $('#tabs2017');
        tabs.on('click', '.tab', function(e){
            $(this).children('a')[0].click();
 
        });
-       tabs_activation(tabs);
+       tabs_activation(tabs);*/
 }
-
+/*
 function tabs_activation(tabs) {
   tabs.find(".slider").css({left: tabs.find('li.active').position().left + "px",width: tabs.find('li.active').width()+"px"});
 }
-
+*/
 
 function AjaxDelete(id) {   //
     jQuery.ajax({

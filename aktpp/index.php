@@ -9,14 +9,17 @@ initiate($link);
 require_once $url_system.'module/access.php';
 
 
+
+
+
 //правам к просмотру к действиям
 $hie = new hierarchy($link,$id_user);
 $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 
-$active_menu='aktpp';  // в каком меню
-
+//$active_menu='aktpp';  // в каком меню
+$active_menu='aktpp/res';  // в каком меню
 $err=0;
 $error_header=0;
 $url_404=$_SERVER['REQUEST_URI'];
@@ -69,19 +72,22 @@ if($error_header!=404)
 include_once $url_system.'module/config_url.php';
 include $url_system.'template/head.php';
 ?>
-<link rel="stylesheet" type="text/css" href="aktpp/index.css" />
-</head><body><div class="container">
+<link rel="stylesheet" type="text/css" href="aktpp/index.css?2137" />
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 
 <?php
 if ( isset($_COOKIE["iss"]))
 {
-    if($_COOKIE["iss"]=='s'){
+    if($_COOKIE["iss"]=='s')
+    {
         echo'<div class="iss small">';
-    } else {
+    } else
+    {
         echo'<div class="iss big">';
     }
-} else {
-    echo'<div class="iss">';
+} else
+{
+    echo'<div class="iss big">';
 }
 //echo(mktime());
 $act_='display:none;';

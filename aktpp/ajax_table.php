@@ -92,6 +92,14 @@ $field_button=array(
 
 include_once $url_system.'aktpp/top_prime_aktpp.php';
 //echo " title_key=$title_key";
+
+
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
+
+
 echo'<div class="content_block" id_content="'.$id_visor.'">';   //???????
 
 
@@ -287,11 +295,12 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
         if(($role->permission('Прием-Передача','A'))
         or  (($role->permission('Прием-Передача','U')) and (isset($_GET['id'])) and ($_GET['id']>0))
                 or($sign_admin==1)) {
-            if (IsDataIn(&$arr,$row__2["idsm"])) $ok='y';
-            else $ok='';
+            if (IsDataIn(&$arr,$row__2["idsm"])) { $ok='y'; $ok_st='active_yy'; }
+            else { $ok=''; $ok_st=''; }
+
             echo '<tr class="nary n1n">'
                . '<td class="middle_" style="width: 5%;">'
-              . '<div class="mat_div" id="'.$row__2["idsm"].'" id_usv="'.$id_user.'_'.$id_visor.'"><i>'.$ok.'</i></div></td>';
+              . '<div class="mat_div_x '.$ok_st.'" id="'.$row__2["idsm"].'" id_usv="'.$id_user.'_'.$id_visor.'"><i></i></div></td>';
         } else
           echo '<tr class="nary n1n"><td></td>';
 
@@ -379,3 +388,8 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
 echo'</tbody></table>';
 echo '</div>';
 }
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';

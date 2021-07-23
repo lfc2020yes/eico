@@ -792,11 +792,23 @@ a.id_i_material="'.htmlspecialchars(trim($D[$i])).'"  AND a.status NOT IN ("1","
 					 
 							  //линия сколько товара уже заказано и есть
 					echo'<tr works="'.$row1ss["id_razdel2"].'"  mat_zz="'.$row1ss["id"].'" class="loader_tr"><td colspan="6"><div class="loaderr"><div id_loader="'.$row1ss["id"].'" class="teps" rel_w="'.$proc_view.'" style="width:0%"><div class="peg_div"><div><i class="peg"></i></div></div></div></div></td></tr>';
-					 
-					 
+
+					$dava='';
+                     $class_dava='';
+                     if($row1ss["alien"]==1)
+                     {
+                         $class_dava='dava';
+
+                     }
+
+                     if($row1ss["alien"]==1)
+                     {
+                         $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                     }
+
 							  //вывод материала
 							echo'<tr works="'.$row1ss["id_razdel2"].'" mat_zz="'.$row1ss["id"].'" style="background-color:#f0f4f6;" class="jop1 mat_zz" rel_w="'.$row1ss["id"].'" rel_mat_zz="'.$row1ss["id"].'">
-                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j">'. $row1ss["material"].'</span></div><input type=hidden value="'.$row1ss["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
+                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j '.$class_dava.'">'. $row1ss["material"].'</span>'. $dava.'</div><input type=hidden value="'.$row1ss["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
 					 
 				             //вдруг товар уже связан с каким то товаром на складе выводим его название на складе
 					 if($row1ss["id_stock"]!='')

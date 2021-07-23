@@ -9,7 +9,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     $GT=array();
     GET_PARAM($GT,$PARAM);
 
-    $id_doc =  (isset($_POST["id_doc"]))?$_POST["id_doc"]:0;
+    $id_doc =  (isset($_POST["id_doc"])) ? $_POST["id_doc"] : 0;
 
     if ($ROW_role!=0) {
         $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
@@ -24,9 +24,22 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     if ($_POST["id_doc"]>0) {
 
         $doc_date = new Doc_Data($_POST["id_doc"],$mysqli);
+        $docz = new DocZ($doc_date->row_doc);
+        $docz->analyze();
+        // $doc_date->si->Show();
         echo "<pre> id_doc=".$_POST["id_doc"]." <br>".print_r($doc_date->row_doc,true)."</pre>";
 
 ?>
+<style>
+    .red {
+        color: red;
+        font-style: italic;
+    }
+    .blue {
+        color: blue;
+        font-style: italic;
+    }
+</style>
 
 <table border='1' style='border-collapse: collapse;'>
     <tr><td colspan="2">заявка № <?=$doc_date->row_doc[number]?> от <?=$doc_date->row_doc[date]?> [<?=$doc_date->row_doc[name]?>]
@@ -39,7 +52,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     <tr><th>раздел<th>статья<th>наименование<th>ед<th>кол<th>цена<th>сумма/статус<th>поставка
             <?php
 
-        foreach ($doc_date->row_doc[material] as $item) {
+        foreach ($doc_date->row_doc[material] as $key => $item) {
             ?>
     <tr><td>
         <td>
@@ -76,7 +89,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
             foreach ($item[acc] as $acc) {
             ?>
     <tr><td colspan="2">Счет:
-        <td>№ <?=$acc[number]?> от <?=$acc[date]?> на сумму: <?=$acc[summa]?>
+        <td>№ <?=$acc[number]?> от <?=$acc[date]?> на сумму: <?=$acc[summa]?> [ <?=$acc[name_status]?> ]
         <td>
         <td><?=$acc[count_material]?>
         <td><?=$acc[price_material]?>
@@ -97,24 +110,44 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
             }
             if(isset($item[invoice][stock]))
             foreach ($item[invoice][stock] as $invoice) {
+                if ($invoice[in]==0) {
                 ?>
-    <tr><td colspan="2">накладные по складу:
-        <td>№ <?=$invoice[number]?> от <?=$invoice[date]?> <?=$invoice[name_user]?> [ <?=$invoice[name_status]?> ]
-        <td>
-        <td><?=$invoice[count_units]?> / <?=$invoice[count_defect]?>
-        <td><?=$invoice[price_nds]?> / <?=$invoice[price]?>
-        <td><?=$invoice[subtotal]?>
-            <?php
+                <tr><td colspan="2">накладные по складу:
+                    <td>№ <?=$invoice[number]?> от <?=$invoice[date]?> <?=$invoice[name_user]?> [ <?=$invoice[name_status]?> ] <?=$invoice[in]?>
+                    <td>
+                    <td><?=$invoice[count_units]?> / <?=$invoice[count_defect]?>
+                    <td><?=$invoice[price_nds]?> / <?=$invoice[price]?>
+                    <td><?=$invoice[subtotal]?>
+                <?php
+                }
             }
             ?>
-    <tr><td colspan="2">склад:
+    <tr><td colspan="2">склад итого:
         <td><?=$item[stock][name]?>
         <td><?=$item[stock][units]?>
         <td><?=$item[stock][count_units]?>
         <td><td><?=$item[stock][subtotal]?>
             <?php
+            if(isset($item[stock_user]))
+            foreach ($item[stock_user] as $stock_user) {
+                    ?>
+                <tr><td colspan="2">у кого:
+                    <td><?=$stock_user[name_user]?>
+                    <td><?=$stock_user[units]?>
+                    <td><?=$stock_user[count_units]?>
+                    <td><?=$stock_user[price]?>
+                    <td><?=$stock_user[subtotal]?>
+                    <?php
+            }
+            ?>
+    <tr><td colspan="1" class="blue"><?=$docz->status[$key][0]?>
+        <td colspan="2" class="blue"><?=$docz->status[$key][1]?>
+            <?php
         }
         ?>
+    <tr><td colspan="1" class="red"><?=$docz->status_all[0]?>
+        <td colspan="7" class="red"><?=$docz->status_all[1]?>
+
         </table></table>
             <?php
     }
@@ -144,8 +177,10 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 class Doc_Data {
     var $mysqli;
     var $row_doc;
+    var $si;  //SqlInfo
 
     public function Doc_Data($id_doc,$mysqli) {
+        $this->si = new SqlInfo();
         $this->row_doc = array();
         $this->mysqli = $mysqli;
         $sql ="
@@ -170,6 +205,7 @@ FROM
 WHERE
 D.id = $id_doc
     ";
+        $this->si->Save($sql,__FUNCTION__);
         if ($result = $mysqli->query($sql)) {
             if ($this->row_doc = $result->fetch_assoc()) {
                 // ------------------- материалы заявки, в смете и статусы по материалам
@@ -198,6 +234,7 @@ WHERE
 D.id_doc=$id_doc
 AND D.`id_i_material` = M.`id`                 
                 ";
+                $this->si->Save($sql_m,__FUNCTION__);
                 if ($result_m = $mysqli->query($sql_m)) {
                     while ($row_m = $result_m->fetch_assoc()) {
                         $this->row_doc[material][] = $row_m;
@@ -223,6 +260,7 @@ WHERE
 M.`id_doc_material` = ".$row_m[id_doc_material]."
 AND M.`id_acc` = A.`id`                        
                         ";
+                        $this->si->Save($sql_a,__FUNCTION__);
                         if ($result_a = $mysqli->query($sql_a)) {
                             while ($row_a = $result_a->fetch_assoc()) {
                                 $this->row_doc[material][$i][acc][] = $row_a;
@@ -254,6 +292,7 @@ LEFT JOIN `r_user` U ON (V.`id_user` = U.`id`)
 WHERE N.`id_doc_material_acc` = ".$row_a[id_doc_material_acc]."
 AND N.`id_invoice` = V.`id`                        
                         ";
+                                $this->si->Save($sql_na,__FUNCTION__);
                                 if ($result_na = $mysqli->query($sql_na)) {
                                     while ($row_na = $result_na->fetch_assoc()) {
                                         $this->row_doc[material][$i][invoice][acc][] = $row_na;
@@ -264,7 +303,7 @@ AND N.`id_invoice` = V.`id`
                             }
                             $result_a->close();
                         }
-                        //--------------------------------склад
+                        //--------------------------------склад суммой
                         $sql_t = "
 SELECT 
 S.`id`, S.`name`, S.`units`
@@ -275,11 +314,33 @@ WHERE
 S.`id`=".$row_m[id_stock]."
 AND S.`id` = M.`id_stock`                            
                             ";
+                        $this->si->Save($sql_t,__FUNCTION__,"Склад суммой");
                         if ($result_t = $mysqli->query($sql_t)) {
                             if ($row_t = $result_t->fetch_assoc()) {
                                 $this->row_doc[material][$i][stock] = $row_t;
                             }
                             $result_t->close();
+                        }
+//--------------------------------склад по ответственным
+                        $sql_ts = "
+SELECT
+S.*,M.*,
+U.`name_user`
+FROM
+`z_stock` S, 
+`z_stock_material` M
+LEFT JOIN `r_user` U ON (M.`id_user` = U.`id`)
+WHERE
+S.`id`=".$row_m[id_stock]."
+AND S.`id` = M.`id_stock`
+                     
+                            ";
+                        $this->si->Save($sql_ts,__FUNCTION__,"Склад по ответственным");
+                        if ($result_ts = $mysqli->query($sql_ts)) {
+                            while ($row_ts = $result_ts->fetch_assoc()) {
+                                $this->row_doc[material][$i][stock_user][] = $row_ts;
+                            }
+                            $result_ts->close();
                         }
                         //-------------------------------Накладные по складу
                         $sql_n = "
@@ -309,8 +370,10 @@ LEFT JOIN `r_user` U ON (V.`id_user` = U.`id`)
 WHERE N.`id_stock` = ".$row_m[id_stock]."
 AND N.`id_invoice` = V.`id`                        
                         ";
+                        $this->si->Save($sql_n,__FUNCTION__,'Накладные по id_stock');
                         if ($result_n = $mysqli->query($sql_n)) {
                             while ($row_n = $result_n->fetch_assoc()) {
+                                $row_n[in] = $this->is_acc_in_array($row_n, $this->row_doc[material][$i][invoice][acc] );  //Проверить, есть ли уже такая накладная, связанная со счетом
                                 $this->row_doc[material][$i][invoice][stock][] = $row_n;
                             }
                             $result_n->close();
@@ -322,6 +385,111 @@ AND N.`id_invoice` = V.`id`
             $result->close();
 
         }
+    }
+
+
+    /** Проверить наличие накладной полученной по id_stock как накладной, связанной со счетом
+     * @param $acc array
+     * @param $arr array[]
+     * @return int 0 1
+     */
+    private function is_acc_in_array ($acc, $arr) {
+        //echo "<pre> ACC=".print_r($acc,true)."</pre>";
+        foreach ($arr as $item) {
+            if ( $acc[number] == $item[number]
+                AND $acc[date] == $item[date]
+                AND $acc[summa] == $item[summa]
+                AND $acc[date_create] == $item[date_create]
+                AND $acc[id_user] == $item[id_user])
+                return 1;
+
+        }
+        return 0;
+    }
+
+}
+
+class SqlInfo {
+    /** Сбор последовательности запросов
+     * @param $sql
+     * @param $name_function
+     */
+    var $debug;
+    public function SqlInfo(){
+        $debug = array();
+    }
+
+    /** Сохранить запрос
+     * @param $sql
+     * @param $name_function
+     * @param string $comment
+     */
+    public function Save($sql, $name_function,$comment='') {
+        $this->debug[][name] = $name_function;
+        $i = count($this->debug) - 1;
+
+        if (!($comment==''))
+            $this->debug[$i][comment] = $comment;
+        $this->debug[$i][sql] = $sql;
+    }
+
+    /**
+     *  вывести все запросы
+     */
+    public function Show() {
+        echo '<pre>'.print_r($this->debug,true) .'</pre>';
+        echo '<pre>=====================================</pre>';
+    }
+}
+
+        //Анализировать массив данных по заявке
+class DocZ {
+    var $status_all;
+    var $status;
+    var $doc;
+
+    public function DocZ(&$arr) {
+        $this->status = array();
+        $this->doc = $arr;
+    }
+
+    public function analyze() {
+      // $doc[id_user] - владелец заявки
+      foreach($this->doc[material] as $material)  {
+          $count_user = 0;
+          $count =0;
+          if (isset($material[stock_user]))
+          foreach($material[stock_user] as $material_user) {
+              $count += $material_user[count_units];
+              if ($material_user[id_user] == $this->doc[id_user]) {
+                  $count_user += $material_user[count_units];
+              }
+          }
+          $status = 0; $comment = '';
+          if (($material[count_units_doc] - $material[count_units_act]) <= $count_user) {
+              $status = 1; // позиция готова к закрытию заявки
+              $comment = 'готова к закрытию заявки';
+          } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count) {
+              $status = 2; // необходимо передать материал со склада на владельца заявки
+              $comment = "Необходимо передать ".($material[count_units_doc] - $material[count_units_act] - $count_user)
+                  ." ".$material[units]." со склада [".$this->doc[name_user]."]";
+          } elseif ($count==0) {
+              $status = 3;
+              $comment = "Необходимо получить материал на склад";
+          }  elseif ($count>0) {
+              $status = 4;
+              $comment = "Недостаточно материала на складе";
+          }
+          $st = array($status,$comment);
+          $this->status[] = $st;
+      }
+      $this->status_all = array(0,'');
+      foreach ($this->status as $item) {
+          if ($this->status_all[0] < $item[0]) {
+              $this->status_all[0] = $item[0];
+              $this->status_all[1] = $item[1];
+          }
+      }
     }
 }
 ?>

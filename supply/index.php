@@ -406,7 +406,8 @@ i_material AS c,
 edo_state AS edo
 
 WHERE 
-c.id=b.id_i_material 
+c.`alien` = 0      
+AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
  AND edo.id_status = 0
@@ -464,7 +465,8 @@ i_material AS c,
 edo_state AS edo
 
 WHERE 
-c.id=b.id_i_material 
+c.`alien` = 0      
+AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
  AND edo.id_status = 0

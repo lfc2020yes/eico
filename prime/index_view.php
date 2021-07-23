@@ -823,8 +823,20 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
 
 
 				  echo'<i></i>';
+				  $class_dava='';
+                      if($row_t3["alien"]==1)
+                      {
+                          $class_dava='dava';
 
-                      echo'<span class="s_j">'.$row_t3["material"].'</span><span class="edit_panel_">';
+                      }
+                      echo'<span class="s_j '.$class_dava.'">'.$row_t3["material"].'</span>';
+if($row_t3["alien"]==1)
+{
+    echo'<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+}
+
+
+                      echo'<span class="edit_panel_">';
 					if (($role->permission('Себестоимость','U'))or($sign_admin==1))
 	                  {		  
 		                 echo'<span data-tooltip="редактировать материал" for="'.$row_t3["id"].'" class="edit_icon_m">3</span>';

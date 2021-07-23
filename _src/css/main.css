@@ -18985,6 +18985,36 @@ width: calc(50% - 0px) !important;
   transform: scale3d(1, 1, 1);
 }
 
+.chat_kk {
+  position: relative;
+  cursor: pointer;
+  /* height: 20px; */
+  /* width: 100%; */
+  /* margin-top: 5px; */
+  display: inline-block;
+  /* line-height: 22px; */
+  width: 22px;
+  height: 14px;
+  margin-left: 5px;
+}
+.chat_kk::before {
+  content: "L";
+  line-height: 22px;
+  font-size: 12px;
+  color: #53b374;
+  font-family: icon2;
+  font-style: normal;
+  position: absolute;
+  top: -1px;
+  left: 4px;
+}
+
+.dava {
+  border-bottom: 2px solid #53b374;
+  background-color: #53b374;
+  color: #fff;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

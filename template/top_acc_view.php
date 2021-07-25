@@ -252,7 +252,7 @@ include_once $url_system.'module/notification.php';
             echo'<form id="lalala_pod_form" action="acc/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_acc_order',$secret).'" type="hidden">
 </form>';
-            echo'<div class="save_button pod_zay pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-acc-save add_clients yellow-style">Сохранить   →</div>';
+            echo'<div class="save_button pod_zay js-pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-acc-save add_clients yellow-style">Сохранить   →</div>';
 
         } else {
 
@@ -325,7 +325,7 @@ if($but_mass["id_action"]==2)
                         $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span></div>';
                     }
 
-                    $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';
+                    $echo_bb.='<div class="save_button pod_zay js-pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';
 
 
 

@@ -1854,9 +1854,9 @@ function serv_mess_m(thiss)
 	    {
 			$('.mat[rel_mat='+rel_mat+']').next().next().find('.messa_my').stop(true).slideDown( "slow" );
 			
-			$('.ut_nar').hide();
-			$('.pod_nar').hide();
-			$('.add_nar').show();
+			$('.js-ut_nar').hide();
+			$('.js-pod_nar').hide();
+			$('.js-add_nar').show();
 			
 			
 		} else
@@ -2998,19 +2998,13 @@ function BasketFinery()
 	{
 		//alert("!");
 	//добавление в существующий наряд
-	if(cookie==null) { $('.font-rank11').remove(); $('.add_nar').hide(); $('.add_zayy').hide(); $('.js-update-mat-app').hide();     } else
+		/*
+	if(cookie==null) { $('.font-rank11').remove(); $('.js-add_nar').hide(); $('.add_zayy').hide(); $('.js-update-mat-app').hide();     } else
 	{
-		$('.add_nar').show();
+		$('.js-add_nar').show();
 		$('.add_zayy').show();
 		$('.js-update-mat-app').show();
-		/*
-		if($(".font-rank11").length)
-		{
-		} else {
-			$('.add_nnn').after('<div class="font-rank11"><span class="font-rank-inner11 basket_order"></span></div>');
-		}
 
-		 */
 		var cc = cookie.split('.');
 	    var counts=cc.length;
 		$('.font-rank-inner11').empty().append(counts);
@@ -3020,6 +3014,28 @@ function BasketFinery()
 		 $('#nprogress').show();
 		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
 	}
+*/
+
+		if(cookie==null) {  $('.js-count-mat-update-app').slideUp("slow"); $('.js-add_nar').hide(); } else
+		{
+			$('.js-add_nar').show();
+			var cc = cookie.split('.');
+			var counts=cc.length;
+			$('.js-count-mat-update-app').empty().append(counts);
+
+			$('.js-count-mat-update-app').slideDown("slow");
+
+			//$('.naryd_end i').css('transform','scale(2)');
+			//$('.naryd_end i').scale(1.5);
+			/*
+            $('.font-rank-inner11').animate({scale: "1.5"}, 200, function() {  $('.font-rank-inner11').animate({scale: "1"}, 200); });
+    */
+
+			$('#nprogress').show();
+			$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
+		}
+
+
 	} else
 	{		
 	//оформление наряда		
@@ -3841,7 +3857,7 @@ var decision_mess = function()
 	var dec=-1;
 	if(!$(this).parents('.edit_122').is('.ready'))
 	{
-		$('.pod_nar').hide(); $('.add_nar').show();
+		$('.js-pod_nar').hide(); $('.js-add_nar').show();
 		$(this).parents('.edit_122').find('i').removeClass('active');
 	   	if($(this).is('.yes')) { dec=1; }
 		if($(this).is('.no')) { dec=0; }
@@ -3945,91 +3961,6 @@ var save_zayava = function()
 
 
 
-//сохранить наряд
-var save_naryad = function()
-{
-	var error=0;
-
-	$('.messa:visible').find('.text_finery_message_').removeClass('error_formi');	
-	$('.messa:visible').find('.text_finery_message_').each(function(i,elem) {
-	
-		var text=$(this).val();
-		if(text=='')
-	    {
-			error=1;
-			$(this).addClass('error_formi');
-		}
-    });
-	$('.work__s').find('.price_finery_').removeClass('error_formi');
-	$('.work__s').find('.count_finery_').removeClass('error_formi');
-	$('.mat').find('.price_finery_mater_').removeClass('error_formi');
-	$('.mat').find('.count_finery_mater_').removeClass('error_formi');
-	
-	$('.messa:visible').each(function(i,elem) {
-	    var id_work=$(this).attr('id_mes');
-		//проверим что все поля для каждой служебной записки заполнены
-		
-		
-		//определим отностимся записка к работе или материалу
-		var aa = id_work.split('_');
-		if(aa.length==1)
-		{
-		    //это работа
-		} else
-		{
-		   //материал
-		}
-		id_work=aa[0];
-		
-		var count=$('.work__s[rel_id='+id_work+']').find('.count_finery_').val();
-		var price=$('.work__s[rel_id='+id_work+']').find('.price_finery_').val();
-		$('.work__s[rel_id='+id_work+']').find('.price_finery_').removeClass('error_formi');
-		$('.work__s[rel_id='+id_work+']').find('.count_finery_').removeClass('error_formi');
-		if((count==0)||(count=='')||(!$.isNumeric(count)))
-	    {
-			$('.work__s[rel_id='+id_work+']').find('.count_finery_').addClass('error_formi');
-			error=1;
-		}
-		if((price==0)||(price=='')||(!$.isNumeric(price)))
-	    {
-			$('.work__s[rel_id='+id_work+']').find('.price_finery_').addClass('error_formi');
-			error=1;
-		}
-		
-		
-		$('.mat[rel_w='+id_work+']').each(function(i,elem) {
-		var count=$(this).find('.count_finery_mater_').val();
-		var price=$(this).find('.price_finery_mater_').val();
-		$(this).find('.price_finery_mater_').removeClass('error_formi');
-		$(this).find('.count_finery_mater_').removeClass('error_formi');	
-		if((count==0)||(count=='')||(!$.isNumeric(count)))
-	    {
-			$(this).find('.count_finery_mater_').addClass('error_formi');
-			error=1;
-		}
-		if((price==0)||(price=='')||(!$.isNumeric(price)))
-	    {
-			$(this).find('.price_finery_mater_').addClass('error_formi');
-			error=1;
-		}
-		});
-		
-		
-    });
-	if(error==1)
-		{
-			
-			$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
-			setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
-			
-		} else
-		{	
-		    $('#lalala_add_form').submit();		
-		}
-	
-	
-		
-}
 
 //редактировать материал к работе в разделе в себестоимости
 var edit_m_button_click = function() {
@@ -4582,8 +4513,8 @@ var savedefault = function (thiss)
 	var atrr=$('#save').attr('save');
 	if(atrr==1)
 		{
-			$('.add_nar').show();
-			$('.pod_nar').hide();
+			$('.js-add_nar').show();
+			$('.js-pod_nar').hide();
 		}
 	}
 }
@@ -5046,7 +4977,7 @@ setTimeout ( function () {
 
 	
 		//если переход в любое редактируемое поле наряда то сбрасывать кнопку подписать и показывать кнопку сохранить
-	$('.my_n').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1',function(){  $('.pod_nar').hide(); $('.add_nar').show();   });
+	$('.my_n').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1',function(){  $('.js-pod_nar').hide(); $('.js-add_nar').show();   });
 	
 	
 	
@@ -5155,7 +5086,9 @@ $(".edit_122").find('i').bind('click', decision_mess);
 $(".edit_123").find('i').bind('click', decision_mess_app);		
 	
 //нажатие на кнопку сохранить наряд
-$(".add_nar").bind('click', save_naryad);	
+//$(".add_nar").bind('click', save_naryad);
+
+
 	
 
 //нажатие на кнопку добавить наименование на склад
@@ -5172,7 +5105,7 @@ $(".add_nar").bind('click', save_naryad);
 $(".js-add-app").bind('click', save_zayava);
 	
 //нажатие на кнопку подписать наряд
-$(".pod_pro").bind('click', sign_naryad);	
+$(".js-pod_pro").bind('click', sign_naryad);
 
 //нажатие на кнопку подписать наряд
 $(".transfer_invoicess").bind('click', take_invoice);		
@@ -5181,10 +5114,10 @@ $(".transfer_invoicess").bind('click', take_invoice);
 $(".sogl_pro").bind('click', sign_naryad);	
 	
 //нажатие на кнопку утвердить наряд
-$(".ut_nar").bind('click', seal_naryad);	
+$(".js-ut_nar").bind('click', seal_naryad);
 
 //нажатие на кнопку распровести наряд
-$(".rasp_nar").bind('click', disband_naryad);	
+$(".js-rasp_nar").bind('click', disband_naryad);
 	
 //снять подпись
 $(".shoot").bind('click', shoot_naryad);	

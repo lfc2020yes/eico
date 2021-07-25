@@ -648,7 +648,7 @@ if($error_header!=404){ SEO('finery_add','','','',$link); } else { SEO('0','',''
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
@@ -656,20 +656,21 @@ include_once $url_system.'template/body_top.php';
 <div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
+
 //echo(mktime());
 
 /*
@@ -703,13 +704,32 @@ include_once $url_system.'template/body_top.php';
 	            }
 
 	  include_once $url_system.'template/top_prime_finery_add.php';
+	            ?>
+      <div id="fullpage" class="margin_60  input-block-2020 ">
+          <div class="section" id="section0">
+              <div class="height_100vh">
+                  <div class="oka_block_2019">
 
-	?>
+                      <?
+                      echo'<div class="line_mobile_blue">Оформление наряда';
+                      $D = explode('.', $_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+
+if(count($D)>0)
+{
+  echo'<span all="8" class="menu-mobile-count">'.count($D).'</span>';
+}
+
+echo'</div>';
+
+                      ?>
+      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+          <div class="info-suit">
+
 <form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
  <input name="save_naryad" value="1" type="hidden">
   <?
 	
-    echo'<div class="content_block1" id_content="'.$id_user.'">';
+    echo'<div class="content_block1" style="padding-top:20px;" id_content="'.$id_user.'">';
 
 //print_r($stack_error);
 	/*echo '<pre>';
@@ -1365,6 +1385,7 @@ echo'</td>
 
 
 </form>
+                  </div></div></div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>

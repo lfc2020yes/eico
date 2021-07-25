@@ -500,6 +500,7 @@ values
                                     //echo 'STEP II<br>';
 
                                     $this->error = 22; //создано дополнительное согласование на превышение
+                                    break 2;
                                 }
                                 $ok_item = false;
                                 break;
@@ -890,10 +891,12 @@ AND R.`id_action` = A.id
      * @param $id_executor - Новый исполнитель
      * @param $id_status - новый статус
      * @param $comment - измененный коментарий основной записи
+     * @param int $timing
      * @return false|int
      */
-    public function send_task($id_s, $id_executor, $id_status=-1, $comment='Перенаправлено', $timing=0) { //id_status=-1
+    public function send_task($id_s, $id_executor, $id_status=-1, $comment='Перенаправлено', $timing=0) {
         $day_now = date('d.m.Y H:i:s', time());
+        //echo "<br>--timing=$timing";
         $timeReady = \CCM\TimeReady\srok_vip($day_now,$timing*60,$this->mysqli);
         if ($timeReady===false) $timeReady = null;
 
@@ -991,8 +994,7 @@ OR
         }
         if($arr_action[checking] == 1) { // нужно делать дополнительное согласование
 
-            // Не обрабатывается код возврата
-            if(!(($new_id = $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), ''))===false)) { // Создать задачу подтверждения
+            if(!(($new_id = $this->send_task($row_state[id], $row_state[id_checking], -($row_state[id_status]), '',$row_state[timing]))===false)) { // Создать задачу подтверждения
                 if ($this->show) echo "создано дополнительное согласование!<br";
                 $row = $row_state;
                 $row[id_executor] = $row[id_checking];

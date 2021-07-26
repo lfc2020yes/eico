@@ -2558,9 +2558,10 @@ function myHandler()
 //контроль ввода суммы за единицу работы при оформлении наряда
 function myHandler1()
 {
+	alert('var1-'.$(this).val());
 	maskk1($(this));
 
-	console.log('var-'.$(this).val());
+	alert('var2-'.$(this).val());
 
 	var rel_id=$(this).parents('.work__s').attr('rel_id');
 	var id_trr=$(this).parents('.work__s').attr('id_trr');

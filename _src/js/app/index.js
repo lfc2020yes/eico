@@ -1473,7 +1473,7 @@ function sl_message_width()
 function maskk(thiss)
 {
 	thiss.val(thiss.val().replace(/[^\d.]*/g, '').replace(/([.])[.]+/g, '$1').replace(/^[^\d]*(\d+([.]\d{0,5})?).*$/g, '$1'));
-	alert(thiss.val());
+	//alert(thiss.val());
 	if($('[name=save_zayy]').length > 0)
 		{
 	savedefault_zay(thiss);
@@ -1562,7 +1562,11 @@ function maskk_max(thiss)
 //маска вводить только целые
 function maskk1(thiss)
 {
+	console.log(thiss.val());
 	thiss.val(thiss.val().replace(/[^\d]*/g, '').replace(/([])[]+/g, '$1').replace(/^[^\d]*(\d+([]\d{0,5})?).*$/g, '$1'));
+
+	console.log(thiss.val());
+
 		if($('[name=save_zayy]').length > 0)
 		{
 	savedefault_zay(thiss);

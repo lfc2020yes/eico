@@ -2559,6 +2559,9 @@ function myHandler()
 function myHandler1()
 {
 	maskk1($(this));
+
+	console.log('var-'.$(this).val());
+
 	var rel_id=$(this).parents('.work__s').attr('rel_id');
 	var id_trr=$(this).parents('.work__s').attr('id_trr');
 	

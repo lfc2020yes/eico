@@ -199,7 +199,7 @@ and z.status=s.numer_status'
             {
                 $row_z = mysqli_fetch_assoc($res_zay);
                 echo'<li><a href="javascript:void(0);"  rel="'.$row_z["id"]
-                        .'">№ '.$row_z['number']
+                        .'">№ '.$row_z['id']
                         .' '.$row_z['date']
                         .' '.$row_z['name_user']
                         .'</a><div class=info_mat><font size="1" color="grey"> ['.$row_z['name_status'].']</font></div></li>';

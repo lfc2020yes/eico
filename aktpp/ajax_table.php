@@ -170,7 +170,7 @@ if ($title_key==3) {
     $res_zay=mysql_time_query($link,'
 Select z.*,u.name_user,s.name_status from z_doc z, r_user u, r_status s
 where z.ready=1
-and z.status in (13,14,15) 
+and z.status in (13,14,15,9) 
 and z.id_object in ('.implode(',',$hie->obj).')
 and z.id_user=u.id
 and s.id_system = 13 

@@ -179,7 +179,34 @@ $num_results_work_zz = $result_work_zz->num_rows;
 		   }	
 		} else
 		{
-			
+/*
+		    //если ничего не найдено то пробуем найти в фнс
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_URL,"https://api-fns.ru/api/search");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "q='.$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+
+            if (curl_errno($ch)) {
+                $debug='Error:' . curl_error($ch);
+            }
+
+            $server_output = curl_exec ($ch);
+            curl_close ($ch);
+
+            if ($server_output == "OK") {
+
+                $clientlist = (array) json_decode($server_output, true);
+                print_r($clientlist);
+
+
+            } else { $debug.=' ошибка fns'; }
+
+*/
+
+
 						   $query_string.='<li><a href="javascript:void(0);" rel="0">Ничего не найдено</a></li>';
 			
 

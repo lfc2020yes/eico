@@ -1562,10 +1562,10 @@ function maskk_max(thiss)
 //маска вводить только целые
 function maskk1(thiss)
 {
-	console.log(thiss.val());
+	//console.log(thiss.val());
 	thiss.val(thiss.val().replace(/[^\d]*/g, '').replace(/([])[]+/g, '$1').replace(/^[^\d]*(\d+([]\d{0,5})?).*$/g, '$1'));
 
-	console.log(thiss.val());
+	//console.log(thiss.val());
 
 		if($('[name=save_zayy]').length > 0)
 		{
@@ -2558,10 +2558,10 @@ function myHandler()
 //контроль ввода суммы за единицу работы при оформлении наряда
 function myHandler1()
 {
-	alert('var1-'.$(this).val());
-	maskk1($(this));
+	//alert('var1-'+$(this).val());
+	maskk($(this));
 
-	alert('var2-'.$(this).val());
+	//alert('var2-'+$(this).val());
 
 	var rel_id=$(this).parents('.work__s').attr('rel_id');
 	var id_trr=$(this).parents('.work__s').attr('id_trr');

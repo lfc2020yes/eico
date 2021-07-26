@@ -127,38 +127,38 @@
         {
             if(($row_list["id_signed0"]!=0)and($row_list["id_signed1"]==0)and($row_list["signedd_nariad"]==0)and($slyjj==0))
             {
-                echo'<div class="status_nana">подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на утверждение</div>';
             }
             if(($row_list["id_signed0"]!=0)and($row_list["id_signed1"]==0)and($row_list["signedd_nariad"]==0)and($slyjj!=0))
             {
-                echo'<div class="status_nana">подписан на согласование</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на согласование</div>';
             }
             if(($row_list["id_signed1"]!=0)and($row_list["signedd_nariad"]==0))
             {
-                echo'<div class="status_nana">подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на утверждение</div>';
             }
             if(($row_list["signedd_nariad"]==1))
             {
-                echo'<div class="status_nana">утвержден</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">утвержден</div>';
             }
         }
         if(($sign_level==2)and($sign_admin!=1))
         {
             if(($row_list["signedd_nariad"]==1))
             {
-                echo'<div class="status_nana">утвержден</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">утвержден</div>';
             }
 
             if(($podpis==0)and($slyjj!=0)and($row_list["signedd_nariad"]==0))
             {
-                echo'<div class="status_nana">Подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">Подписан на утверждение</div>';
             }
         }
         if(($sign_level==3)and($sign_admin!=1))
         {
             if(($row_list["signedd_nariad"]==1))
             {
-                echo'<div class="status_nana">утвержден</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">утвержден</div>';
             }
         }
 
@@ -166,24 +166,24 @@
         {
             if(($row_list["id_signed0"]!=0)and($row_list["id_signed1"]==0)and($row_list["signedd_nariad"]==0)and($slyjj==0))
             {
-                echo'<div class="status_nana">подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на утверждение</div>';
             }
             if(($row_list["id_signed0"]!=0)and($row_list["id_signed1"]==0)and($row_list["signedd_nariad"]==0)and($slyjj!=0))
             {
-                echo'<div class="status_nana">подписан на согласование</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на согласование</div>';
             }
             if(($row_list["id_signed0"]!=0)and($row_list["id_signed1"]!=0)and($row_list["signedd_nariad"]==0)and($slyjj!=0))
             {
-                echo'<div class="status_nana">подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на утверждение</div>';
             }
 
             if(($row_list["id_signed0"]==0)and($row_list["id_signed1"]!=0)and($row_list["signedd_nariad"]==0)and($slyjj!=0))
             {
-                echo'<div class="status_nana">подписан на утверждение</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">подписан на утверждение</div>';
             }
             if(($row_list["signedd_nariad"]==1))
             {
-                echo'<div class="status_nana">утвержден</div>';
+                echo'<div class="status_nana" style="margin-left: 20px; margin-top: 0px;">утвержден</div>';
             }
         }
 

@@ -269,9 +269,9 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					  	if($my_material<$count_user) {  $flag_podpis++; }	
 						
 					  if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }	
-						
+						/*
 				      if($price_sys<$price_user) {  $flag_matter++;  $flag_message=1; if((!is_numeric($price_user))or($price_user==0)) { array_push($error_work, $value1['id']."_m_price");  }  }
-						
+						*/
 					  if((!is_numeric($price_user))or($price_user<=0)) {  $flag_podpis++; }
 					  
 					  if((trim($value1['text'])=='')and($flag_matter>0)) {  $flag_podpis++; array_push($error_work, $value1['id']."_m_text"); } 

@@ -1062,6 +1062,7 @@ echo'<div class="width-setter"><label>MAX('.$row1ss["price"].')</label><input st
 {
 //проставлять макс сумму по себестоимости
 //запретить редактировать
+    echo($_POST['works'][$i]["price"]);
 echo'<div class="width-setter"><label>MAX('.$row1ss["price"].')</label><input readonly="true" style="margin-top:0px;" name="works['.$i.'][price]" max="'.$row1ss["price"].'" id="price_work_'.$i.'" placeholder="MAX - '.$row1ss["price"].'" class="input_f_1 input_100 white_inp label_s price_finery_ grey_edit '.iclass_($row1ss["id"].'_w_price',$stack_error,"error_formi").'" autocomplete="off" type="text" value="'.ipost_($_POST['works'][$i]["price"],$row1ss["price"]).'"></div>';
 }
 echo'</td>

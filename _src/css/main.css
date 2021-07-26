@@ -19027,6 +19027,16 @@ width: calc(50% - 0px) !important;
   color: #fff;
 }
 
+.my-new-2021-list {
+  text-decoration: none !important;
+  border-bottom: 0px !important;
+  font-family: "GEInspiraRegular" !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  line-height: 16px !important;
+  white-space: normal !important;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

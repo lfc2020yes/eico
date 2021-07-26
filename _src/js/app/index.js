@@ -1740,8 +1740,8 @@ function Mydblclick()
 function serv_mess(id_trr)
 {
 	var id_work=$('.work__s[id_trr='+id_trr+']').attr('rel_id');
-	var count=$('#count_work_'+id_trr).val();
-	var price=$('#price_work_'+id_trr).val();
+	var count=parseFloat($('#count_work_'+id_trr).val());
+	var price=parseFloat($('#price_work_'+id_trr).val());
 	//alert(price);
 	var max_count=parseFloat($('#count_work_'+id_trr).attr('max'));	
 	var max_price=parseFloat($('#price_work_'+id_trr).attr('max'));
@@ -1792,8 +1792,8 @@ function serv_mess_m(thiss)
 	
 	//alert(rel_mat);
 	
-	var count=$('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val();
-	var price=$('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val();
+	var count=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').val());
+	var price=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.price_finery_mater_').val());
 	
 	//alert(price);
 	var max_count=parseFloat($('.mat[rel_mat='+rel_mat+']').find('.count_finery_mater_').attr('max'));
@@ -1806,7 +1806,7 @@ function serv_mess_m(thiss)
 	if(count!='')
 		{
 	if((count!=max_count)&&(!isNaN(max_count))) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
-	if(price>max_price) {flag_show=1;}
+	//if(price>max_price) {flag_show=1;}
 		
 	if($('[name=status_naryad]').length==0)
 		{
@@ -2521,7 +2521,7 @@ function myHandler()
 	var id_trr=$(this).parents('.work__s').attr('id_trr');
 	var loader=$('[id_loader='+rel_id+']');
 	var max=parseFloat($(this).attr('max'));
-	var value=$(this).val();
+	var value=parseFloat($(this).val());
 	
 	$(this).removeClass('redaas');
 	if((value!=0)&&(value!='')&&($.isNumeric(value)))

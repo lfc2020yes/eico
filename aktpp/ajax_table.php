@@ -186,7 +186,7 @@ order by date');
               . '<span class="ccol">'.get_box_data($id_zay,"все материалы [Заявки]"
 ,"z_doc"
 //0   1     2     3    4    5     6    7           8     9    10   11         12
-,"id,№ ,number, ,от ,date, ,отв: ,name_user, ,[,name_status,]"
+,"id,№ ,id, ,от ,date, ,отв: ,name_user, ,[,name_status,]"
 ,$link
 ,'Select z.*,u.name_user,s.name_status from z_doc z, r_user u, r_status s
 where z.id="'.$id_zay.'"
@@ -198,11 +198,13 @@ and z.status=s.numer_status'
             for ($i=0; $i<$res_zay->num_rows; $i++)
             {
                 $row_z = mysqli_fetch_assoc($res_zay);
-                echo'<li><a href="javascript:void(0);"  rel="'.$row_z["id"]
+                echo'<li><a href="javascript:void(0);" class="my-new-2021-list"  rel="'.$row_z["id"]
                         .'">№ '.$row_z['id']
-                        .' '.$row_z['date']
-                        .' '.$row_z['name_user']
-                        .'</a><div class=info_mat><font size="1" color="grey"> ['.$row_z['name_status'].']</font></div></li>';
+                        .' ('.date_ex(0,$row_z['date'])
+                        .') '.$row_z['name'].' <span style=" font-size: 11px;
+opacity: 0.4;">('.$row_z['name_user'].')</span>
+                    <span class="gray-date">'.$row_z['name_status'].'</span>
+                        </a></li>';
             }
         echo'</ul>'
             .'<input defaultv="'.ipost_x($id_zay,"0","0")

@@ -315,7 +315,7 @@ if(($error=="0")&&(isset($_SESSION['user_id'])))
 
 
 
-$url_system.'template/html.php';
+include $url_system.'template/html.php';
 include $url_system.'module/seo.php';
 SEO('0','','','',$link);   
 

@@ -1257,7 +1257,10 @@ echo'<td class="pre-wrap center_text_td"></td>
           {
 	
 		     echo'<script>
+				  /*
 				  $(function (){  $(\'.count_finery_,.price_finery_,.count_finery_mater_,.price_finery_mater_\').change();  });
+				  */
+				   
 				  </script>';
 		  
 		  }

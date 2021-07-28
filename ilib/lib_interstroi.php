@@ -225,7 +225,117 @@ if ($role->permission("Себестоимость",'R')) {};   //R A U D
 if ($role->permission("Себестоимость",'A')) {};
  
  */
+/** Заполнение заявок по материалам при закрытии наряда (только +) - распровести нельзя
+ * @param $mysqli
+ * @param $row_nariad
+ * @param $row_n_work
+ * @param $row_n_material
+ * @return string - sql срипт
+ */
+function material_from_doc(&$mysqli, $row_nariad, $row_n_material){
+    $sqls = ''; $COMA='';
 
+    //$row_nariad[id_user]
+    //row_n_work[id_razdeel2]
+    $count_units_m = $row_n_material[count_units_material];
+    $sql="
+SELECT M.id as id_doc_material,
+       M.*,
+       S.*,N.*
+FROM `z_doc_material` M, `z_stock_material` S, z_stock N 
+WHERE
+M.`id_i_material` = ".$row_n_material[id_material]." 
+ AND M.`id_stock` = S.`id_stock`
+AND M.`id_stock` = N.`id`
+AND S.`id_user` = ".$row_nariad[id_user]
+    ;
+    if ($result_z = $mysqli->query($sql)) {
+        while ($row_z = $result_z->fetch_assoc()) { //перебор заявок с материалами по данной работе
+            if($count_units_m==0) break;
+            $count_z = $row_z[count_units]-$row_z[count_units_nariad];
+            if($count_z > 0) { //Есть что списать
+                $update_count = ($count_units_m > $count_z) ? $count_z : $count_units_m; //спишем часть или ВСЕ
+                $sqls .=$COMA. "
+update z_doc_material 
+set count_units_nariad = count_units_nariad + $update_count 
+where 
+      id = ".$row_z[id_doc_material];
+// id_i_material = ".$row_n_material[id_material];
+                $COMA=';';
+                $sqls .=$COMA. "
+INSERT INTO `z_doc_material_nariad` (
+  `id_doc_materil`,
+  `count_units`
+)
+VALUES
+  (
+    ".$row_z[id_doc_material].",
+    $update_count
+  );      
+                ";
+                $count_units_m -=$update_count;
+            }
+
+        }
+        $result_z->close();
+    }
+    return ($count_units_m>0) ? false : $sqls;
+}
+
+/** Списание с пользователя материалов
+ * @param $mysqli
+ * @param $row_nariad
+ * @param $row_n_material
+ * @return false|string
+ */
+function material_from_user(&$mysqli,$row_nariad,$row_n_material){
+    $sqls = ''; $COMA='';
+    $count_units_m = $row_n_material[count_units_material];
+    $sql="
+SELECT
+S.`id` AS id_stock_materil,       
+I.*, S.*
+FROM
+`i_material` I,
+`z_stock_material` S
+WHERE 
+I.`id` = ".$row_n_material[id_material]."
+AND I.`id_stock` = S.`id_stock`
+AND S.`id_user` = ".$row_nariad[id_user];
+    if ($result_s = $mysqli->query($sql)) {
+        while ($row_s = $result_s->fetch_assoc()) { //перебор полученных пользователем материалов
+            if ($count_units_m == 0) break;
+            $count_z = $row_s[count_units];
+            if ($count_z > 0) { //Есть что списать
+                $update_count = ($count_units_m > $count_z) ? $count_z : $count_units_m; //спишем часть или ВСЕ
+                $sqls .= $COMA . "
+update z_stock_material 
+set count_units = count_units - $update_count 
+where 
+id = " . $row_s[id_stock_materil];
+                $COMA = ';';
+                //Аст списания материалов (по транзакциям от полученных с разными ценами)
+                $sqls .= $COMA . "
+INSERT INTO `n_material_act` (
+  `id_n_materil`,
+  `id_stock_material`,
+  `count_units`
+)
+VALUES
+  (
+    " . $row_n_material[id] . ",
+    " . $row_s[id_stock_materil] . ",
+    " . $update_count . "
+  );             
+                ";
+                $count_units_m -= $update_count;
+            }
+
+        }
+        $result_s->close();
+    }
+    return ($count_units_m>0) ? false : $sqls;
+}
 //===========================================================================
 // Расчет выполнение при подписи наряда
 // nariad_sign(&$mysqli,$id);
@@ -248,7 +358,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                            .' name_work='.$codecP->iconv($row1['name_work'])
                            .' count='. $row1['count_units'] .' summa='.$row1['subtotal']; 
              //----------------------------------обход по материалам
-             $summa_mat=0;
+             //$summa_mat=0;
              if ($sql_nmat = $mysqli->query("select * from n_material where id_nwork='".$row1['id']."'")) {
                while( $row2 = $sql_nmat->fetch_assoc() ){ 
                  if($show)  
@@ -260,8 +370,12 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                                     . " , summa_realiz=summa_realiz".$plus.$row2['subtotal']  
                                     . " , id_implementer=".$row0['id_implementer'] 
                                     . " where id=".$row2['id_material'];
-                 $summa_mat+=$row2['subtotal'];
-                 $COMA=';';            
+               //  $summa_mat+=$row2['subtotal'];
+                   $COMA=';';
+                   if (($sm = material_from_user($mysqli,$row0,$row2))===false) { /* ошибка недостаточно материалов у пользователя */}//Списать материал с пользователя
+                   else $sql.=$COMA.$sm;
+                   if (($sm = material_from_doc($mysqli,$row0,$row2))===false) { /* ошибка недостаточно материалов в заявках */}//Списание материалов c заявок
+                   else $sql.=$COMA.$sm;
                } //row2
                $sql_nmat->close();
              } //nmat 
@@ -308,7 +422,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
          if($show)
          echo "<p/> sql=".$sql;
          
-         $ret=Nariad_transaction(&$mysqli,&$sql,$show);
+         $ret=Nariad_transaction($mysqli,$sql,$show);
      } //row0
      $sql_nariad->close();
     } //nariad

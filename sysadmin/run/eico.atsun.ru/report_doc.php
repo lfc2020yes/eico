@@ -466,9 +466,14 @@ class DocZ {
               }
           }
           $status = 0; $comment = '';
-          if (($material[count_units_doc] - $material[count_units_act]) <= $count_user) {
-              $status = 1; // позиция готова к закрытию заявки
-              $comment = 'готова к закрытию заявки';
+          if (($material[count_units_doc] - $material[count_units_act]) <= $count_user) { //Передача по акту приемо-передачи
+              if (($material[count_units_doc] - $material[сount_units_nariad]) == 0 ) {  //Закрытие по нарыду
+                  $status = 1; // позиция готова к закрытию заявки
+                  $comment = 'позиция готова к закрытию заявки';
+              } else {
+                  $status = 5; // позиция готова к закрытию заявки
+                  $comment = 'Материал получен';
+              }
           } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count) {
               $status = 2; // необходимо передать материал со склада на владельца заявки
               $comment = "Необходимо передать ".($material[count_units_doc] - $material[count_units_act] - $count_user)

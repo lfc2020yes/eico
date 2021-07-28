@@ -178,7 +178,7 @@ if(err==0)
     var for_id=box_active.find('.gloab-cc').attr('for');
 
     var files=box_active.find('.js-files-docs-new').val();
-alert(files);
+//alert(files);
     if((contractor_new==0))
     {
 

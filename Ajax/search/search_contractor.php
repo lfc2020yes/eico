@@ -30,25 +30,25 @@ if(!token_access_new($token,'bt_booking_end_client',$id,"s_form"))
    $debug=h4a(100,$echo_r,$debug);
    goto end_code;
 }
-*/	
-	
+*/
+
 	/*
-if ( count($_GET) != 4 ) 
+if ( count($_GET) != 4 )
 {
    $debug=h4a(1,$echo_r,$debug);
-   goto end_code;	
+   goto end_code;
 }
 */
 //**************************************************
- if ((!$role->permission('Счета','A'))and($sign_admin!=1))
+ if ((!$role->permission('Счета','A'))and($sign_admin!=1)and(!$role->permission('Накладные','A')))
 {
   $debug=h4a(2,$echo_r,$debug);
-  goto end_code;	
+  goto end_code;
 }
 //**************************************************
  if(!isset($_SESSION["user_id"]))
-{ 
-  $status_ee='reg';	
+{
+  $status_ee='reg';
   $debug=h4a(3,$echo_r,$debug);
   goto end_code;
 }
@@ -56,13 +56,13 @@ if ( count($_GET) != 4 )
 if ((!isset($_GET['search'])))
 {
    $debug=h4a(4,$echo_r,$debug);
-   goto end_code;	
+   goto end_code;
 }
 /*
 if(($_GET['search']=='')or(strlen($_GET['search'])<'1'))
 {
 	   $debug=h4a(224,$echo_r,$debug);
-   goto end_code;	
+   goto end_code;
 }
 */
 //**************************************************
@@ -70,14 +70,14 @@ if(($_GET['search']=='')or(strlen($_GET['search'])<'1'))
 $result_t=mysql_time_query($link,'Select b.id_user,b.status,b.ready,b.id_object from booking as b where b.id="'.htmlspecialchars(trim($_GET['id'])).'"');
            $num_results_t = $result_t->num_rows;
 	       if($num_results_t!=0)
-	       {	
-			 
+	       {
+
 			 $row_t = mysqli_fetch_assoc($result_t);
-			   
+
 		   } else
 		   {
 			      $debug=h4a(6,$echo_r,$debug);
-   goto end_code;	
+   goto end_code;
 		   }
 */
 
@@ -95,25 +95,25 @@ function search_text_strong_2019($regime,$search,$beginText)
 //$regime    //Режим поиска (1 - точный поиск, 0 - вхождение)
 //$search    // Что ищем (в примере: $search = "про"; )
 //$beginText // Текст по которому необходимо провести поиск
- 
-/* Точный поиск. (Найдёт: "...не [B]про[/B] меня", 
+
+/* Точный поиск. (Найдёт: "...не [B]про[/B] меня",
 Не найдёт "Этот ком[U]про[/U]мат не..." - ) отдельное слово */
 
-if($regime == 1)                                       
+if($regime == 1)
   { $patterns = "/(\b".$search."\b)+/i"; }// Регулярное выражение
- 
- 
-/* Отдельное слово и Вхождение в другие слова. 
-(Найдёт: "...не [B]про[/B] меня", 
+
+
+/* Отдельное слово и Вхождение в другие слова.
+(Найдёт: "...не [B]про[/B] меня",
 Найдёт: "Этот ком[B]про[/B]мат не...") */
-else                                                       
+else
   { $patterns = "/(".$search.")+/i"; }// Регулярное выражение
- 
+
 $replace = "<strong>$1</strong>";// На что заменить
 
-setlocale(LC_ALL, 'ru_RU.CP1251'); 
+setlocale(LC_ALL, 'ru_RU.CP1251');
 $endText = PREG_REPLACE($patterns,$replace,$beginText);// Замена
- 
+
 return $endText;
 }
 
@@ -165,50 +165,73 @@ $num_results_work_zz = $result_work_zz->num_rows;
 	    if($num_results_work_zz!=0)
 	    {
 		   for ($i=0; $i<$num_results_work_zz; $i++)
-		   {			   			  			   
-			   $row_work_zz = mysqli_fetch_assoc($result_work_zz);	
+		   {
+			   $row_work_zz = mysqli_fetch_assoc($result_work_zz);
 			   if($query!='')
 			   {
-			   $query_string.='<li><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.search_text_strong(0,$query,$row_work_zz["name"]).'<span class="gray-date">(ИНН-'.search_text_strong(0,$query,$row_work_zz["inn"]).')</span></a></li>';
+			   $query_string.='<li><a style="padding-right: 50px; position: relative;" href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.search_text_strong(0,$query,$row_work_zz["name"]).'<span class="gray-date">(ИНН-'.search_text_strong(0,$query,$row_work_zz["inn"]).')</span><span class="green-base">ccm</span></a></li>';
 			   } else
 			   {
-			   $query_string.='<li><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].'<span class="gray-date">(ИНН-'.$row_work_zz["inn"].')</span></a></li>';
+			   $query_string.='<li><a style="padding-right: 50px; position: relative;" href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].'<span class="gray-date">(ИНН-'.$row_work_zz["inn"].')</span>><span class="green-base">ccm</span></a></li>';
 			   }
-			   
-			   
-		   }	
+
+
+		   }
 		} else
 		{
-/*
-		    //если ничего не найдено то пробуем найти в фнс
-            $ch = curl_init();
+            $search_fns = 0;
+		    if($_GET["option"]==1) {
 
-            curl_setopt($ch, CURLOPT_URL,"https://api-fns.ru/api/search");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "q='.$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                if ((is_numeric($query)) and ((strlen($query) == 10) or (strlen($query) == 12))) {
+
+                    //если ничего не найдено то пробуем найти в фнс
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api-fns.ru/api/search?q=" . $query . "&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
+                    //$debug .= "GET:https://api-fns.ru/api/search?q=".$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4";
+
+                    //curl_setopt($ch, CURLOPT_POST, 1);
+                    //curl_setopt($ch, CURLOPT_POSTFIELDS, "q='.$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
+                    //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 
-            if (curl_errno($ch)) {
-                $debug='Error:' . curl_error($ch);
+                    $headers = array("Content-Type: application/json; charset=utf-8");//изменить на нужный
+                    //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    //curl_setopt($ch, CURLOPT_HEADER , true);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+
+                    if (curl_errno($ch)) {
+                        $debug .= 'Error:' . curl_error($ch);
+                        $error_msg = curl_error($ch);
+                    }
+
+                    $server_output = curl_exec($ch);
+                    curl_close($ch);
+
+                    if (!isset($error_msg)) {
+                        //$debug .= 'Ответ:' .$server_output;
+                        $storage = json_decode($server_output, true);
+                        if ($storage != null) {
+                            foreach ($storage[items] as $item) {
+                                //echo "<pre>".$item[ЮЛ][ИНН]." ".$item[ЮЛ][НаимСокрЮЛ]." ".$item[ЮЛ][Статус]."</pre>";
+
+                                $query_string .= '<li><a style="padding-right: 50px; position: relative;" href="javascript:void(0);" rel="n' . $item[ЮЛ][ИНН] . '">' . $item[ЮЛ][НаимСокрЮЛ] . ' - ' . $item[ЮЛ][АдресПолн] . ' <span class="gray-date">(ИНН-' . $item[ЮЛ][ИНН] . ')</span><span class="gray-date">(статус-' . $item[ЮЛ][Статус] . ')</span><span class="red-fns">ФНС</span></a></li>';
+                                $search_fns = 1;
+                            }
+                        }
+                    } else {
+                        $debug .= ' ошибка fns-' . $server_output;
+                    }
+
+                }
             }
 
-            $server_output = curl_exec ($ch);
-            curl_close ($ch);
-
-            if ($server_output == "OK") {
-
-                $clientlist = (array) json_decode($server_output, true);
-                print_r($clientlist);
-
-
-            } else { $debug.=' ошибка fns'; }
-
-*/
-
-
-						   $query_string.='<li><a href="javascript:void(0);" rel="0">Ничего не найдено</a></li>';
-			
+if($search_fns==0) {
+    $query_string .= '<li><a href="javascript:void(0);" rel="0">Ничего не найдено</a></li>';
+}
 
 		}
 

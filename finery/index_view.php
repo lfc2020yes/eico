@@ -605,7 +605,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 												
 						
 	//----------
-		/*	
+
 	    $count_all_matt = $rowxx["count_units"];
 		$count_end=0;   
 		$count_end = (($count_all_matt*$value['count'])/$rowx['count_units']); 
@@ -616,7 +616,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 		{
 		  $count_end=$count_ost_matt; 
 		}
-		*/
+
     //----------						
 				  if(($sign_level!=3)and($sign_admin!=1))
 				  {		
@@ -711,7 +711,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 if(($sign_level!=3)and($sign_admin!=1))
 				     {	   
 					   mysql_time_query($link,'update n_material set 				 
-					 count_units="'.htmlspecialchars(trim($value1['count'])).'",					 
+					 count_units="'.htmlspecialchars(trim($value1['count'])).'",
+					 count_units_material="'.$count_end.'",					 
 					 price="'.htmlspecialchars(trim($value1['price'])).'",
 					 memorandum="'.$memo.'",
 					 id_sign_mem="0", 
@@ -721,7 +722,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 } else
 					 {
 					   mysql_time_query($link,'update n_material set 				 
-					 count_units="'.htmlspecialchars(trim($value1['count'])).'",					 
+					 count_units="'.htmlspecialchars(trim($value1['count'])).'",
+					 count_units_material="'.$count_end.'",					 
 					 price="'.htmlspecialchars(trim($value1['price'])).'",
 					 memorandum="'.$memo.'",
 					 id_sign_mem="'.$user_dec_memo.'", 
@@ -734,7 +736,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					   } else
 					   {
 					   mysql_time_query($link,'update n_material set 				 
-					 count_units="'.htmlspecialchars(trim($value1['count'])).'",					 
+					 count_units="'.htmlspecialchars(trim($value1['count'])).'",		
+					 count_units_material="'.$count_end.'",			 
 					 memorandum="'.$memo.'",
 					 id_sign_mem="0", 
 					 signedd_mem="'.$status_memo.'" 

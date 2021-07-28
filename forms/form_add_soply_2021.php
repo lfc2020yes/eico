@@ -77,12 +77,12 @@ $status=1;
             echo'<div class="js-more-options-supply">';
                     echo'<!--input start	-->		
 <div class="password_acc">
-<div id="0" class="input-choice-click-pass js-password-acc js-type-soft-view active_pass">
+<div id="0" class="input-choice-click-pass js-password-acc js-type-soft-view js-ajax-new-profi active_pass">
 <div class="choice-head">поставщик</div>
 <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 </div>	
 
-<div id="1" class="input-choice-click-pass js-password-acc js-type-soft-view">
+<div id="1" class="input-choice-click-pass js-password-acc js-type-soft-view js-ajax-new-profi">
 <div class="choice-head">Новый поставщик</div>
 <div class="choice-radio"><div class="center_vert1"><i></i></div></div>
 </div>
@@ -102,7 +102,7 @@ echo'<div class="js-options-supply-0">';
                     echo'<div class=" big_list">';
                     //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
 
-                    echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-name"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2" name="id_kto" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+                    echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-icon"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" fns="1" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2 js-id-kto-ajax" name="id_kto" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
 
 
 
@@ -142,16 +142,27 @@ echo'</div>';
                     echo'<div class="js-options-supply-1 option-new-contractor none">';
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Название поставщика</i><span>*</span></label><input name="name_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Полное название поставщика</i><span>*</span></label><input name="name_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
                         echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Адрес поставщика</i><span>*</span></label><input name="address_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Директор</i><span>*</span></label><input name="dir_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
+
                                     echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>ИНН поставщика</i><span>*</span></label><input name="inn_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>ОГРН поставщика</i><span>*</span></label><input name="ogrn_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+echo'<input name="name_small_contractor" value=""  type="hidden">';
+echo'<input name="status_contractor" value=""  type="hidden">';
+
 
                     echo'</div>';
 
@@ -159,7 +170,7 @@ echo'</div>';
 
 
                     echo'<!--input start-->
-<div class="margin-input" style="margin-top: 20px;"><div class="input_2018 input_2018_resize  gray-color '.iclass_("comm_b",$stack_error,"required_in_2018").'"><label><i>Комментарий</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="text_comment" class="di input_new_2018  text_area_otziv js-autoResize "></textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<div class="margin-input" style="margin-top: 20px;"><div class="input_2018 input_2018_resize  gray-color '.iclass_("comm_b",$stack_error,"required_in_2018").'"><label><i>Комментарий к счету</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="text_comment" class="di input_new_2018  text_area_otziv js-autoResize "></textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
 <!--input end	-->';
 
 

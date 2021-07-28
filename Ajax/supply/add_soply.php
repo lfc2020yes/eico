@@ -159,7 +159,7 @@ $status_ee='ok';
 //добавить новых поставщиков если надо
 if((!isset($_GET['post_p']))and($_GET["new_c"]==1))
 {	
- mysql_time_query($link,'INSERT INTO z_contractor (name,adress,inn) VALUES ("'.htmlspecialchars(trim($_GET['name_c'])).'","'.htmlspecialchars(trim($_GET['address_c'])).'","'.htmlspecialchars(trim($_GET['inn_c'])).'")');	
+ mysql_time_query($link,'INSERT INTO z_contractor (name,name_small,adress,inn,ogrn,status,dir) VALUES ("'.htmlspecialchars(trim($_GET['name_c'])).'","'.htmlspecialchars(trim($_GET['name_small_c'])).'","'.htmlspecialchars(trim($_GET['address_c'])).'","'.htmlspecialchars(trim($_GET['inn_c'])).'","'.htmlspecialchars(trim($_GET['ogrn_c'])).'","'.htmlspecialchars(trim($_GET['status_c'])).'","'.htmlspecialchars(trim($_GET['dir_c'])).'")');
 $ID_P=mysqli_insert_id($link);	
 } else
 {

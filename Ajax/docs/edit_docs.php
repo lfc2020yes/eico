@@ -28,7 +28,7 @@ $day_today=date("Y-m-d");
 */
 
 
-if(!token_access_new($token,'edit_acc_more_x',$id,"rema",2880))
+if(!token_access_new($token,'edit_docs_more_x',$id,"rema",2880))
 {
     $debug=h4a(100,$echo_r,$debug);
     goto end_code;
@@ -40,7 +40,7 @@ if(!isset($_SESSION["user_id"])) {
     goto end_code;
 }
 
-if ((!$role->permission('Счета','U'))and($sign_admin!=1))
+if ((!$role->permission('Договора','U'))and($sign_admin!=1))
 {
     $debug=h4a(103,$echo_r,$debug);
     goto end_code;
@@ -52,7 +52,7 @@ if(((!isset($_POST['id']))or(!is_numeric($_POST['id'])))) {
 }
 
 
-$result_t=mysql_time_query($link,'Select a.* from z_acc as a where a.id="'.htmlspecialchars(trim($_POST['id'])).'"');
+$result_t=mysql_time_query($link,'Select a.* from z_dogovor as a where a.id="'.htmlspecialchars(trim($_POST['id'])).'"');
 $num_results_t = $result_t->num_rows;
 if($num_results_t==0) {
     $debug=h4a(108,$echo_r,$debug);
@@ -62,7 +62,7 @@ if($num_results_t==0) {
     $row_t = mysqli_fetch_assoc($result_t);
 }
 
-if(($row_t["status"]!=1)and($row_t["status"]!=8))
+if(($row_t["status"]!=1)and($row_t["status"]!=4))
 {
     $debug=h4a(145,$echo_r,$debug);
     goto end_code;
@@ -80,6 +80,8 @@ if($_POST["new_contractor_"]==1)
 
     mysql_time_query($link,'INSERT INTO z_contractor (name,name_small,adress,inn,ogrn,status,dir) VALUES ("'.htmlspecialchars(trim($_POST['name_c'])).'","'.htmlspecialchars(trim($_POST['name_small_c'])).'","'.htmlspecialchars(trim($_POST['address_c'])).'","'.htmlspecialchars(trim($_POST['inn_c'])).'","'.htmlspecialchars(trim($_POST['ogrn_c'])).'","'.htmlspecialchars(trim($_POST['status_c'])).'","'.htmlspecialchars(trim($_POST['dir_c'])).'")');
 
+
+
     $ID_P=mysqli_insert_id($link);
 } else
 {
@@ -87,9 +89,9 @@ if($_POST["new_contractor_"]==1)
 }
 
 
-mysql_time_query($link,'update z_acc set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",delivery_day="'.ht($_POST["date_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update z_dogovor set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
 
-$names='Счет №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
+$names='Договор №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
 
 if (!is_object($edo)) {
     include_once $url_system.'ilib/lib_interstroi.php';
@@ -97,7 +99,7 @@ if (!is_object($edo)) {
     $edo = new EDO($link, $id_user, false);
 }
 
-$arr_document = $edo->my_documents(1, ht($id), '>=-10', true);
+$arr_document = $edo->my_documents(3, ht($id), '>=-10', true);
 
 $new_pre = 1;
 $task_cloud_block='';
@@ -108,7 +110,7 @@ if($_POST["list"]==1) {
 //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
 
 foreach ($arr_document as $key => $value) {
-    include $url_system . 'acc/code/block_app.php';
+    include $url_system . 'docs/code/block_app.php';
     //echo($task_cloud_block);
 }
 

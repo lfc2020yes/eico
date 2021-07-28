@@ -1,0 +1,38 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+RewriteRule ^([0-9]*)/$      docs/index_view.php?id=$1 [L]
+RewriteRule ^([0-9]*)/yes/$      docs/index_view.php?id=$1&a=yes [L]
+RewriteRule ^([0-9]*)/no/$      docs/index_view.php?id=$1&a=no [L]
+RewriteRule ^([0-9]*)/forward/$      docs/index_view.php?id=$1&a=forward [L]
+RewriteRule ^([0-9]*)/order/$      docs/index_view.php?id=$1&a=order [L]
+
+RewriteRule ^([0-9]*)/dell/$      docs/index_view.php?id=$1&a=dell [L]
+RewriteRule ^([0-9]*)/save/$      docs/index_view.php?id=$1&a=save [L]
+
+
+RewriteRule ^add/([0-9]*)/$ docs/index_add.php?id=$1 [L]
+RewriteRule ^plus/([0-9]*)/$ docs/index_plus.php?id=$1 [L]
+
+RewriteRule ^forward/([0-9]*)/$ docs/index_forward.php?id=$1 [L]
+RewriteRule ^reject/([0-9]*)/$ docs/index_reject.php?id=$1 [L]
+RewriteRule ^sign/([0-9]*)/$ docs/index_sign.php?id=$1 [L]
+RewriteRule ^sign_yes/([0-9]*)/$ docs/index_sign_yes.php?id=$1 [L]
+RewriteRule ^order/([0-9]*)/$ docs/index_order.php?id=$1 [L]
+
+RewriteRule ^cancel/([0-9]*)/$ docs/index_cancel.php?id=$1 [L]
+
+
+RewriteRule ^\.page\-([0-9]*)$ docs/index.php?n_st=$1 [L]
+
+RewriteRule ^.tabs-([0-9]*)$ docs/index.php?tabs=$1 [L]
+RewriteRule ^.tabs-([0-9]*).page-([0-9]*)$ docs/index.php?tabs=$1&n_st=$2 [L]
+
+
+
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

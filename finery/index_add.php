@@ -410,11 +410,11 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 if($count_ost_matt<0)
 				     {
 					     $count_ost_matt=0;
-					 }						
-												
-						
+					 }
+
+
 	//----------
-		/*	
+
 	    $count_all_matt = $rowxx["count_units"];
 		$count_end=0;   
 		$count_end = (($count_all_matt*$value['count'])/$rowx['count_units']); 
@@ -425,7 +425,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 		{
 		  $count_end=$count_ost_matt; 
 		}
-		*/
+
     //----------						
 						
 						

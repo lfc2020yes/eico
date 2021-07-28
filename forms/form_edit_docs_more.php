@@ -20,13 +20,13 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 	}
 
 
-	if ((!$role->permission('Счета','U'))and($sign_admin!=1))
+	if ((!$role->permission('Договора','U'))and($sign_admin!=1))
 	{
 	   goto end_code;
 	}
 
 
-$result_t=mysql_time_query($link,'Select a.* from z_acc as a where a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_t=mysql_time_query($link,'Select a.* from z_dogovor as a where a.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_t = $result_t->num_rows;
 if($num_results_t==0) {
 
@@ -37,14 +37,14 @@ if($num_results_t==0) {
     $row_t = mysqli_fetch_assoc($result_t);
 }
 
-if(($row_t["status"]!=1)and($row_t["status"]!=8))
+if(($row_t["status"]!=1)and($row_t["status"]!=4))
 {
     goto end_code;
 }
 
 	    //составление секретного ключа формы
 		//составление секретного ключа формы	
-		$token=token_access_compile($_GET['id'],'edit_acc_more_x',$secret);
+		$token=token_access_compile($_GET['id'],'edit_docs_more_x',$secret);
         //составление секретного ключа формы
 		//составление секретного ключа формы
 
@@ -56,11 +56,11 @@ if(($row_t["status"]!=1)and($row_t["status"]!=8))
 <div id="Modal-one" class="box-modal js-box-modal-two table-modal eddd1 input-block-2020"><div class="box-modal-pading"><div class="top_modal"><div class="box-modal_close arcticmodal-close"></div>
 
 <?
-			echo'<h1 class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Редактирование данных по счету</span><span class="clock_table"></span></h1><span class="tii">Счет №'.$row_t["number"].' от '.date_ex(0,$row_t["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
+			echo'<h1 class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Редактирование данных по договору</span><span class="clock_table"></span></h1><span class="tii">Договор №'.$row_t["number"].' от '.date_ex(0,$row_t["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
 
 echo'<div class="na-100">
 
-<form class="js-form-acc-edit" id="form_acc_edit_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
+<form class="js-form-docs-edit" id="form_docs_edit_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
 
 echo'<input type="hidden" value="'.htmlspecialchars(trim($_GET['id'])).'" name="id">';
 echo'<input type="hidden" value="'.$token.'" name="tk">';
@@ -75,27 +75,27 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
 
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Номер счета</i><span>*</span></label><input name="number_soply1" value="'.$row_t["number"].'" class="input_new_2021 gloab required  no_upperr js-number-acc-new" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Номер договора</i><span>*</span></label><input name="number_soply1" value="'.$row_t["number"].'" class="input_new_2021 gloab required  no_upperr js-number-docs-new" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата счета</i><span>*</span></label><input name="date_soply" value="'.date_ex(0,$row_t["date"]).'" class="input_new_2021 gloab required  no_upperr date_picker_x" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата договора</i><span>*</span></label><input name="date_soply" value="'.date_ex(0,$row_t["date"]).'" class="input_new_2021 gloab required  no_upperr date_picker_x" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Срок поставки в днях</i><span>*</span></label><input name="date_soply1" value="'.$row_t["delivery_day"].'" class="input_new_2021 gloab required  no_upperr mask-count" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма договора</i><span>*</span></label><input name="summa_soply" value="'.$row_t["delivery_day"].'" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
 
             echo'<div class="js-more-options-supply">';
             echo'<!--input start	-->		
-<div class="password_acc">
-<div id="0" class="input-choice-click-pass js-password-acc js-type-soft-view active_pass">
+<div class="password_docs">
+<div id="0" class="input-choice-click-pass js-password-docs js-type-soft-view active_pass">
 <div class="choice-head">поставщик</div>
 <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 </div>	
 
-<div id="1" class="input-choice-click-pass js-password-acc js-type-soft-view">
+<div id="1" class="input-choice-click-pass js-password-docs js-type-soft-view">
 <div class="choice-head">Новый поставщик</div>
 <div class="choice-radio"><div class="center_vert1"><i></i></div></div>
 </div>
@@ -187,6 +187,7 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
             echo'<!--input end	-->';
             echo'<input name="name_small_contractor" value=""  type="hidden">';
             echo'<input name="status_contractor" value=""  type="hidden">';
+
             echo'</div>';
 
             echo'</div>';
@@ -215,7 +216,7 @@ echo'<input name="list" value="0" type="hidden">';
                 <div class="na-50">
                     <div id="no_rd223" class="no_button js-exit-window-add-task-two"><i>Отменить</i></div>
                 </div>
-                <div class="na-50"><div  class="save_button js-edit-save-acc-x"><i>Сохранить</i></div></div>
+                <div class="na-50"><div  class="save_button js-edit-save-docs-x"><i>Сохранить</i></div></div>
             </div>
 
 <!--
@@ -293,12 +294,12 @@ include_once $url_system.'template/form_js.php';
         $('.js-box-modal-two').on("change keyup input click",'.js-exit-window-add-task-two',js_exit_form_sel1);
 
         //кнопка принять решение
-        $('.js-box-modal-two').on("change keyup input click",'.js-edit-save-acc-x',js_edit_save_acc_x);
+        $('.js-box-modal-two').on("change keyup input click",'.js-edit-save-docs-x',js_edit_save_docs_x);
 
         $('.mask-count').mask('99999');
 
 
-        var cc_le=$('.js-list-acc').length;
+        var cc_le=$('.js-list-docs').length;
 
         if(cc_le>0)
         {

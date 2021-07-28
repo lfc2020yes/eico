@@ -187,11 +187,11 @@ include_once $url_system.'module/notification.php';
 <div class="menu-09  input-line" style="z-index:150;">
     <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
     <div class="menu-09-left">
-        <a href="/" class="menu-09-global"></a><a href="acc/" class="menu-09-prev"><i></i></a>
+        <a href="/" class="menu-09-global"></a><a href="docs/" class="menu-09-prev"><i></i></a>
 
         <?
         //$D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
-        echo'<span class="menu-09-pc-h" ><span class="js-acc-name-top"> Счет №'.$row_list["number"].' от '.date_ex(0,$row_list["date"]).' </span >';
+        echo'<span class="menu-09-pc-h" ><span class="js-docs-name-top"> Договор №'.$row_list["number"].' от '.date_ex(0,$row_list["date"]).' </span >';
 /*
         if(count($D)>0)
         {
@@ -211,14 +211,6 @@ include_once $url_system.'module/notification.php';
         include_once $url_system.'module/notification.php';
         include_once $url_system.'module/users.php';
 
-        //добавить еще материал
-        if((isset($_GET["id"]))and($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
-        {
-
-
-
-            echo'<a href="supply/?step=add&id='.$_GET['id'].'" data-tooltip="добавить позиции в счет" class="add_invoice22 hide-mobile"><i></i></a>';
-        }
 
         echo'</div>';
 
@@ -243,16 +235,16 @@ include_once $url_system.'module/notification.php';
             $edo = new EDO($link, $id_user, false);
         }
 
-        $arr_document = $edo->my_documents(1, ht($_GET["id"]), '>=-10', true);
+        $arr_document = $edo->my_documents(3, ht($_GET["id"]), '>=-10', true);
 
 
-        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
+        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4)))
         {
 
-            echo'<form id="lalala_pod_form" action="acc/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
-  <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_acc_order',$secret).'" type="hidden">
+            echo'<form id="lalala_pod_form" action="docs/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_docs_order',$secret).'" type="hidden">
 </form>';
-            echo'<div class="save_button pod_zay js-pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-acc-save add_clients yellow-style">Сохранить   →</div>';
+            echo'<div class="save_button pod_zay js-pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-docs-save add_clients yellow-style">Сохранить   →</div>';
 
         } else {
 
@@ -290,7 +282,7 @@ include_once $url_system.'module/notification.php';
 //echo($visible_gray);
 //id_action - 4 выписать счета
 
-if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)and($but_mass["id_action"]!=5)) {
+//if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)and($but_mass["id_action"]!=5)) {
 
     $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a1">';
     if ($class_by == '') {
@@ -299,8 +291,8 @@ if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)and($but_mass["id_ac
 <div class="choice-radio" data-tooltip="' . $but_mass["name_action"] . ' с замечанием"><div class="center_vert1"><i class=""></i><input name="kto_komy" class="js-type-soft-view1" value="0" type="hidden"></div></div></div></div>
 
 </div>
-   <form id="js-form-next-sign" class="none" action="acc/sign_yes/' . $_GET["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
-  <input name="tk" value="' . token_access_compile($_GET['id'], 'sign_acc_2021_next', $secret) . '" type="hidden">  <input name="tk1" value="wEVR678vmrIrt" type="hidden">
+   <form id="js-form-next-sign" class="none" action="docs/sign_yes/' . $_GET["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+  <input name="tk" value="' . token_access_compile($_GET['id'], 'sign_docs_2021_next', $secret) . '" type="hidden">  <input name="tk1" value="wEVR678vmrIrt" type="hidden">
 </form>';
     }
 
@@ -308,8 +300,8 @@ if(($but_mass["id_action"]!=2)and($but_mass["id_action"]!=3)and($but_mass["id_ac
 
 
 </div>';
-}
-
+//}
+/*
 //подтвердить оплату
 if($but_mass["id_action"]==2)
 {
@@ -324,8 +316,8 @@ if($but_mass["id_action"]==2)
                         $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-pay">';
                         $echo_bb .= '<span son="0" class="js-son">' . $but_mass["name_action"] . '   →</span></div>';
                     }
-
-                    $echo_bb.='<div class="save_button pod_zay js-pod_pro add_clients red-bb js-reject-acc '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-acc '.$class_by.'">Переслать   ⥃</div>';
+*/
+                    $echo_bb.='<div class="save_button pod_zay js-pod_pro add_clients red-bb js-reject-docs '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-docs '.$class_by.'">Переслать   ⥃</div>';
 
 
 
@@ -407,7 +399,7 @@ echo $echo_bb;
 
 
             $edo = new EDO($link, $id_user, false);
-            if (($edo->next($id, 1)) === false) {
+            if (($edo->next($id, 3)) === false) {
 
 
 

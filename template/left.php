@@ -97,8 +97,8 @@ if($_SERVER['DOCUMENT_ROOT']!=$local)
 }
 
 
-$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Касса","Исполнители","Накладные","Склад","Прием-Передача");
-$nav_url=array("prime","finery","app","acc","cashbox","implementer","invoices","stock","aktpp/res");
+$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Склад","Прием-Передача");
+$nav_url=array("prime","finery","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res");
 $found = array_search($active_menu,$nav_url);
 
 ?>
@@ -223,11 +223,11 @@ AND a.id_user in('.implode(',',$hie->user).')  and ((not(b.memorandum="") and b.
 	{
 			  if($new_zay!=0)
 			 {				 
-                 echo'<li class="a11 '.$actt1.'"><a href="decision/'.$rt_url.'/">Служебные записки</a><i>'.$new_zay.'</i></li>';
+                 echo'<li class=" '.$actt1.'"><a class="a11" href="decision/'.$rt_url.'/">Служебные записки<i>'.$new_zay.'</i></a></li>';
 			 } else
 			 {
 	
-				 echo'<li class="a11 '.$actt1.'" style="display:none;"><a href="decision/'.$rt_url.'/">Служебные записки</a><i></i></li>';
+				 echo'<li class=" '.$actt1.'" style="display:none;"><a class="a11" href="decision/'.$rt_url.'/">Служебные записки<i></i></a></li>';
 			 }
 	}
 	

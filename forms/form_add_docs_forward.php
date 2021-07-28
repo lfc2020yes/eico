@@ -20,7 +20,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 
-	if ((!$role->permission('Счета','R'))and($sign_admin!=1))
+	if ((!$role->permission('Договора','R'))and($sign_admin!=1))
 	{
 	   goto end_code;
 	}
@@ -30,7 +30,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(3, ht($_GET["id"]), '=0', true);
 // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 $visible_gray=0;
@@ -57,7 +57,7 @@ foreach ($value["state"] as $keys => $val) {
 
 	    //составление секретного ключа формы
 		//составление секретного ключа формы	
-		$token=token_access_compile($_GET['id'],'sign_acc_forward_2',$secret);
+		$token=token_access_compile($_GET['id'],'sign_docs_forward_2',$secret);
         //составление секретного ключа формы
 		//составление секретного ключа формы
 
@@ -69,11 +69,11 @@ foreach ($value["state"] as $keys => $val) {
 			<div id="Modal-one" class="box-modal js-box-modal-two table-modal eddd1 input-block-2020"><div class="box-modal-pading"><div class="top_modal"><div class="box-modal_close arcticmodal-close"></div>
 
 <?
-			echo'<h1 style="margin-bottom: 0px;" class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Переслать Задачу по счету</span><span class="clock_table"></span></h1><span class="tii">Счет №'.$value["number"].' от '.date_ex(0,$value["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
+			echo'<h1 style="margin-bottom: 0px;" class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Переслать Задачу по договору</span><span class="clock_table"></span></h1><span class="tii">Договор №'.$value["number"].' от '.date_ex(0,$value["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
 
 echo'<div class="na-100">
 
-<form class="js-form-forward" action="acc/forward/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
+<form class="js-form-forward" action="docs/forward/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
 
 echo'<input type="hidden" value="'.htmlspecialchars(trim($_GET['id'])).'" name="id">';
 echo'<input type="hidden" value="'.$token.'" name="tk">';
@@ -105,7 +105,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
             $mass_ee=array();
             $query_ob='';
 
-            $FUSER=new find_user($link,$value['id_object'],'R','Счета');
+            $FUSER=new find_user($link,$value['id_object'],'R','Договора');
             $user_send_new=$FUSER->id_user;
 //print_r($FUSER);
             //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';

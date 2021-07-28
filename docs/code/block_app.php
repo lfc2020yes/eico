@@ -44,7 +44,7 @@ $time_z='—';
 if(isset($new_pre))
 {
 	
-$task_cloud_block.='<div class="preorders_block_global new-acc-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
+$task_cloud_block.='<div class="preorders_block_global new-docs-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
 }
 
 $task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'</div>';
@@ -58,7 +58,7 @@ $task_cloud_block.='</div>
 </span>';
 
 if($small_block==1) {
-    $task_cloud_block .= '<a style="display:block;" href="acc/'.$value["id"].'/"><span class="spans ggh-e name-blue"><span>№' . $value["number"] . ' ('.date_ex(0,$value["date"]).')</span></span></a>';
+    $task_cloud_block .= '<a style="display:block;" href="docs/'.$value["id"].'/"><span class="spans ggh-e name-blue"><span>№' . $value["number"] . ' ('.date_ex(0,$value["date"]).')</span></span></a>';
 } else {
     $task_cloud_block .= '<div><span class="spans ggh-e name-blue">№' . $value["number"] . ' ('.date_ex(0,$value["date"]).')</span></div>';
 }
@@ -76,26 +76,22 @@ if($small_block==1) {
 $js_mod='';
 //статус обращения
 
+//сохранено
     $color_status=1;
+
+    //на согласовании
     if(($value["status"]==2)) {$color_status=2;}
-//к оплате
+
+//согласовано
 if ($value["status"] == 3) {
-    $color_status = 3;
-}
-//оплачено
-if ($value["status"] == 4) {
     $color_status = 5;
 }
 //отказано
-if (($value["status"] == 8)or($value["status"] == 5)) {
+if (($value["status"] == 4)) {
     $color_status = 4;
 }
-//получено
-if ($value["status"] == 7) {
-    $color_status = 7;
-}
 //выводим статус заявки
-$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=16');
+$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=21');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
 if($result_status->num_rows!=0) {
     $row_status = mysqli_fetch_assoc($result_status);
@@ -115,7 +111,7 @@ if($num_results_uu!=0)
     $task_cloud_block.='<div class="pass_wh_trips" style="margin-top: 10px;"><label>Создатель</label><div class="obi">'.$row_uu['name_user'].'</div></div>';
 }
 
-
+/*
 $ddd='';
 if($value["delivery_day"] != 0)
 {
@@ -127,11 +123,11 @@ if($ddd!='')
 
     //$task_cloud_block.='<div class="stock_name_mat">срок поставки ~ '.$ddd.' '.PadejNumber($ddd,'день,дня,дней').'</div>';
 }
+*/
 
 
 
-
-$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">сумма/поставщик
+$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">сумма/организация
 </span>';
 
 $kuda_trips='—';
@@ -209,7 +205,7 @@ if($small_block!=1) {
 
     if (($value["id_user"] != $id_user) or ($value["status"] != 1)) {
 //если заявка уже отправлена на согласования файлы просто выводятся списком. никто их исправлять не может
-        $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="8" and A.visible=1 and A.id_object="' . ht($value["id"]) . '"');
+        $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="3" and A.visible=1 and A.id_object="' . ht($value["id"]) . '"');
 
         $num_results_uu = $result_6->num_rows;
 
@@ -226,7 +222,7 @@ if($small_block!=1) {
 }
 if($small_block==1) {
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==1))) {
-        $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+        $task_cloud_block .= '<div><a href="docs/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
     }
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
         $task_cloud_block .= '<div class="pass_wh_trips" ><label>Задача</label><div class="obi">' . $value["name_s"] . '</div></div>';
@@ -235,7 +231,7 @@ if($small_block==1) {
 
 //определим последнее действие по обращению
 
-$arr_document_end = $edo->my_documents(1, ht($value["id"]), '>=-10', false);
+$arr_document_end = $edo->my_documents(3, ht($value["id"]), '>=-10', false);
 //echo '<pre>arr_document:'.print_r($arr_document_end, true) . '</pre>';
 
 $id_end_step='';
@@ -297,7 +293,7 @@ if($num_85>0) {
 
 $task_cloud_block.='</div>';
 if(($value["status"]==1)or($value["status"]==8)) {
-    $task_cloud_block .= '<div class="trips-b-bb"><div id_rel="22" class="del-item js-edit-acc-more del_basket_jooss" data-tooltip="Изменить данные по счету"></div></div>';
+    $task_cloud_block .= '<div class="trips-b-bb"><div id_rel="'.$value["id"].'" class="del-item js-edit-docs-more del_basket_jooss" data-tooltip="Изменить данные по договору"></div></div>';
 }
 /*
 	$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">Комментарий/последнее событие
@@ -322,14 +318,14 @@ if($value["status"]!=1)
 
 
 if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
-    $tabs_menu_x = array("Процесс/Задача","История","Накладные");
+    $tabs_menu_x = array("Процесс/Задача","История");
     $tabs_menu_x_js = array("");
-    $tabs_menu_x_id = array("2","3","4");
+    $tabs_menu_x_id = array("2","3");
 } else {
 
-    $tabs_menu_x = array("Задание", "Процесс/Задача","История","Накладные");
+    $tabs_menu_x = array("Задание", "Процесс/Задача","История");
     $tabs_menu_x_js = array("", "");
-    $tabs_menu_x_id = array("1", "2","3","4");
+    $tabs_menu_x_id = array("1", "2","3");
 }
 
 $class_menu_pr='';

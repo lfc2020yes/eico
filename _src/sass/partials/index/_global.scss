@@ -4706,7 +4706,7 @@ span {  border-bottom: 1px solid #fd8080;}
 }}
 
 
-.password_acc
+.password_acc,.password_docs
 {
   box-shadow: 1px 1px rgba(0, 0, 0, 0.03);
   border-radius: 4px;
@@ -4824,6 +4824,47 @@ span {  border-bottom: 1px solid #fd8080;}
     left: 5px;
     color: #25ae88;
     top: 2px;
+    font-family: "icon1";
+    font-size: 14px;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+  }
+}
+
+.click-search-icon
+{
+
+  display:none;
+
+
+  position: absolute;
+  right: 30px;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-family: "GEInspiraRegular";
+  //padding: 6px 10px;
+  padding-left: 10px;
+  line-height: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  padding-left: 30px;
+  background-color: rgba(0, 0, 0, 0.05);
+  top: 18px;
+  left: -40px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+
+
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: #25ae88;
+    top: 5px;
     font-family: "icon1";
     font-size: 14px;
     border-radius: 50%;
@@ -5080,7 +5121,7 @@ span {  border-bottom: 1px solid #fd8080;}
 .help-link {color:#fff;}
 
 
-.new-acc-block-2021 {.trips-b-comment {
+.new-acc-block-2021,.new-docs-block-2021 {.trips-b-comment {
   width: calc( 100% - 50px - 150px - 400px - 20px );
 }
 .trips-b-bb {line-height: 22px;
@@ -5153,7 +5194,7 @@ span {  border-bottom: 1px solid #fd8080;}
   font-family: GEInspiraRegular;
 }
 
-.gray-date {padding: 5px;
+.gray-date,.red-fns,.green-base {padding: 5px;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 10px;
@@ -5161,6 +5202,20 @@ span {  border-bottom: 1px solid #fd8080;}
   font-family: GEInspiraRegular;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.6) !important;}
+
+.red-fns {  background-color: #ffec57;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+  line-height: 10px; }
+.green-base {   background-color: #25ae88;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+  line-height: 10px;
+  color: #fff !important; }
 
 .link-acc-2021 {border-bottom: 1px solid #a6c9e7;
   color: #00aeef;

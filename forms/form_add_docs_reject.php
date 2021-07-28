@@ -1,5 +1,5 @@
 <?php
-//переслать заявку другому
+//форма отклонить
 
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/ajax_access.php';
@@ -20,7 +20,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 
-	if ((!$role->permission('Счета','R'))and($sign_admin!=1))
+	if ((!$role->permission('Договора','R'))and($sign_admin!=1))
 	{
 	   goto end_code;
 	}
@@ -30,7 +30,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(1, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(3, ht($_GET["id"]), '=0', true);
 // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 $visible_gray=0;
@@ -57,7 +57,7 @@ foreach ($value["state"] as $keys => $val) {
 
 	    //составление секретного ключа формы
 		//составление секретного ключа формы	
-		$token=token_access_compile($_GET['id'],'sign_acc_forward_2',$secret);
+		$token=token_access_compile($_GET['id'],'sign_docs_reject',$secret);
         //составление секретного ключа формы
 		//составление секретного ключа формы
 
@@ -69,16 +69,16 @@ foreach ($value["state"] as $keys => $val) {
 			<div id="Modal-one" class="box-modal js-box-modal-two table-modal eddd1 input-block-2020"><div class="box-modal-pading"><div class="top_modal"><div class="box-modal_close arcticmodal-close"></div>
 
 <?
-			echo'<h1 style="margin-bottom: 0px;" class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Переслать Задачу по счету</span><span class="clock_table"></span></h1><span class="tii">Счет №'.$value["number"].' от '.date_ex(0,$value["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
+			echo'<h1 style="margin-bottom: 0px;" class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>Отклонить договор</span><span class="clock_table"></span></h1><span class="tii">Договор №'.$value["number"].' от '.date_ex(0,$value["date"]).'</span></div><div class="center_modal"><div class="form-panel white-panel form-panel-form" style="padding-bottom: 10px;">';
 
 echo'<div class="na-100">
 
-<form class="js-form-forward" action="acc/forward/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
+<form class="js-form-reject" action="docs/reject/'.$_GET["id"].'/" id="form_prime_add_block" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">';
 
 echo'<input type="hidden" value="'.htmlspecialchars(trim($_GET['id'])).'" name="id">';
 echo'<input type="hidden" value="'.$token.'" name="tk">';
 
-echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
+echo'<input name="tk1" value="weER23DvmrIrr" type="hidden">';
 
 
 ?>	
@@ -98,68 +98,10 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
 		//если ввел и такой уже есть подсвечивать красным поле   
 
 
-            echo'<!--select start-->';
-            $os = array();
-            $os_id = array();
 
-            $mass_ee=array();
-            $query_ob='';
-
-            $FUSER=new find_user($link,$value['id_object'],'R','Счета');
-            $user_send_new=$FUSER->id_user;
-//print_r($FUSER);
-            //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';
-
-            foreach ($FUSER->id_user as $key => $value)
-            {
-
-                $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($value) . '"');
-                $num_results_uu = $result_uu->num_rows;
-
-                if ($num_results_uu != 0) {
-                    $row_uu = mysqli_fetch_assoc($result_uu);
-                    array_push($os,$row_uu["name_user"]);
-                }
-
-
-                array_push($os_id, $value);
-
-            }
-
-
-            rm_from_array($id_user,$os_id);
-            /*
-                        $result_6 = mysql_time_query($link,"select A.id,A.name_user from r_user as A where A.enabled=1");
-                        //$row_1 = mysqli_fetch_assoc($result2);
-                        if($result_6)
-                        {
-                            while($row_6 = mysqli_fetch_assoc($result_6)){
-                                array_push($os,$row_6["name_user"]);
-                                array_push($os_id,$row_6["id"]);
-                            }
-                        }
-            */
-
-
-            $su_1=-1;
-
-            echo'<div class="margin-input"><div class="list_2021 gray-color js-zindex"><label><i>Ответственный</i><span>*</span></label><div class="select eddd"><a class="slct" data_src=""></a><ul class="drop">';
-
-
-            for ($i=0; $i<count($os_id); $i++)
-            {
-                if(isset($os_id[$i])) {
-                    if ($su_1 == $os_id[$i]) {
-                        echo '<li class="sel_active"><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
-                    } else {
-                        echo '<li><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
-                    }
-                }
-            }
-            echo'</ul><input type="hidden" class="gloab" name="forward_id" value=""></div></div></div>';
-            echo'<!--select end-->';
-
-
+            echo'<!--input start-->
+<div class="margin-input"><div class="input_2021 input_2021_resize  gray-color '.iclass_("text",$stack_error,"required_in_2021").'"><label><i>Причина</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="remark" class="di gloab input_new_2021  text_area_otziv js-autoResize "></textarea></div><div class="div_new_2021"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
 
 				?>
 
@@ -173,7 +115,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
                     <div id="no_rd223" class="no_button js-exit-window-add-task-two"><i>Отменить</i></div>
                 </div>
     <?
-                echo'<div class="na-50"><div id="yes_ra" class="save_button js-add-forward-x"><i>Переслать</i></div></div>';
+                echo'<div class="na-50"><div id="yes_ra" class="save_button js-add-reject-x"><i>Отклонить</i></div></div>';
 
                 ?>
             </div>
@@ -233,7 +175,6 @@ include_once $url_system.'template/form_js.php';
             oncleared: function () { self.Value(''); }
         });
 
-
         ToolTip();
         input_2021();
 
@@ -254,7 +195,7 @@ include_once $url_system.'template/form_js.php';
         $('.js-box-modal-two').on("change keyup input click",'.js-exit-window-add-task-two',js_exit_form_sel1);
 
         //кнопка принять решение
-        $('.js-box-modal-two').on("change keyup input click",'.js-add-forward-x',js_add_forward_x);
+        $('.js-box-modal-two').on("change keyup input click",'.js-add-reject-x',js_add_reject_x);
 
         $('.mask-count').mask('99999');
 

@@ -8,7 +8,7 @@ function trimc($input)
 
 function FileBase($value,$link)
 {
-    $result=mysql_time_query($link,'select A.id from image_attach as A where A.visible=1 and A.id_object=0 and A.for_what IN ("8","11") and A.name="'.ht($value).'"');
+    $result=mysql_time_query($link,'select A.id from image_attach as A where A.visible=1 and A.id_object=0 and A.for_what IN ("8","11","3") and A.name="'.ht($value).'"');
     $num_results = $result->num_rows;
     if($num_results!=0)
     {

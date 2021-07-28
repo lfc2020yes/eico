@@ -2,7 +2,7 @@
 
 
 //сохранить изменения в форме редактирование счета
-function js_edit_save_acc_x() {
+function js_edit_save_docs_x() {
     var box_active = $(this).closest('.box-modal');
     var err = 0;
 //alert($('.js-form-register .gloab').length);
@@ -53,10 +53,10 @@ function js_edit_save_acc_x() {
         var for_id = box_active.find('.gloab-cc').attr('for');
 
 
-        AjaxClient('acc', 'edit_acc', 'POST', 0, 'AfterEditAcc', for_id, 'form_acc_edit_block');
+        AjaxClient('docs', 'edit_docs', 'POST', 0, 'AfterEditdocs', for_id, 'form_docs_edit_block');
 
 
-        box_active.find('.js-edit-save-acc-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+        box_active.find('.js-edit-save-docs-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
 
 
     } else {
@@ -70,7 +70,7 @@ function js_edit_save_acc_x() {
 }
 
 
-function AfterEditAcc(data,update)
+function AfterEditdocs(data,update)
 {
     if ( data.status=='reg' )
     {
@@ -82,13 +82,13 @@ function AfterEditAcc(data,update)
 
         //обновляем вывод
         alert_message('ok','Данные сохранены');
-        $('.js-acc-name-top').empty().append(data.name);
-        $('.new-acc-block-2021[id_pre='+update+']').addClass('js-remove-block');
+        $('.js-docs-name-top').empty().append(data.name);
+        $('.new-docs-block-2021[id_pre='+update+']').addClass('js-remove-block');
 
 
-        $('.new-acc-block-2021[id_pre='+update+']').after(data.block);
+        $('.new-docs-block-2021[id_pre='+update+']').after(data.block);
         $('.js-remove-block').remove();
-        //$('.new-acc-block-2021[id_pre='+update+']:first').remove();
+        //$('.new-docs-block-2021[id_pre='+update+']:first').remove();
 
         var box = $('.box-modal:last');
         clearInterval(timerId);
@@ -99,7 +99,7 @@ function AfterEditAcc(data,update)
 
     var box = $('.box-modal:last');
     //в случае если что-то пошло не так чтобы не висло
-    box.find('.js-edit-save-acc-x').show();
+    box.find('.js-edit-save-docs-x').show();
     box.find('.b_loading_small').remove();
 
 
@@ -109,7 +109,7 @@ function AfterEditAcc(data,update)
 //удалить раздел в себестоимости
 //  |
 // \/
-function js_dell_acc_x()
+function js_dell_docs_x()
 {
     var box_active = $(this).closest('.box-modal');
     //clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
@@ -130,7 +130,7 @@ function js_dell_acc_x()
 //добавление нового счета проверка в форме добавления
 //  |
 // \/
-function js_add_acc_x()
+function js_add_docs_x()
 {
     var box_active = $(this).closest('.box-modal');
 var err = 0;
@@ -170,68 +170,28 @@ var err = 0;
 
    // js-type-soft-view1 0 1
     var iu=$('.content_block').attr('iu');
-    var cookie_flag_current = $.cookie('current_supply_'+iu);
-    //alert(cookie_new);
-    if(cookie_flag_current==null)
-    {
-        var ssup='basket_supply_';
-    } else
-    {
-        var ssup='basket_score_';
-    }
-
-    var basket_score_ = $.cookie(ssup+iu);
-    var cc = basket_score_.split('.');
-    var xvg='';
-
-
-
-    if(cc.length==0)
-    {
-        err++;
-    }
-
-
-
-
-
 
 
 if(err==0)
 {
 
-    for ( var t = 0; t < cc.length; t++ )
-    {
-        var numty=$('[count='+cc[t]+']').val();
-        var price=ctrim($('[price='+cc[t]+']').val());
-        if(xvg=='')
-        {
-            xvg=numty+':'+price;
-        } else
-        {
-            xvg=xvg+'-'+numty+':'+price;
-        }
-
-    }
-
-
     var for_id=box_active.find('.gloab-cc').attr('for');
 
-    var files=box_active.find('.js-files-acc-new').val();
-
+    var files=box_active.find('.js-files-docs-new').val();
+alert(files);
     if((contractor_new==0))
     {
 
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&post_p='+box_active.find("[name=id_kto]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&summa='+box_active.find("[name=summa_soply]").val()+'&new_c='+contractor_new+'&post_p='+box_active.find("[name=id_kto]").val()+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     } else
     {
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&name_c='+encodeURIComponent(box_active.find("[name=name_contractor]").val())+'&address_c='+encodeURIComponent(box_active.find("[name=address_contractor]").val()) +'&inn_c='+box_active.find("[name=inn_contractor]").val() +'&ogrn_c='+box_active.find("[name=ogrn_contractor]").val() +'&name_small_c='+encodeURIComponent(box_active.find("[name=name_small_contractor]").val()) +'&status_c='+encodeURIComponent(box_active.find("[name=status_contractor]").val()) +'&dir_c='+encodeURIComponent(box_active.find("[name=dir_contractor]").val())+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&summa='+box_active.find("[name=summa_soply]").val()+'&new_c='+contractor_new+'&name_c='+encodeURIComponent(box_active.find("[name=name_contractor]").val())+'&address_c='+encodeURIComponent(box_active.find("[name=address_contractor]").val()) +'&inn_c='+box_active.find("[name=inn_contractor]").val() +'&ogrn_c='+box_active.find("[name=ogrn_contractor]").val() +'&name_small_c='+encodeURIComponent(box_active.find("[name=name_small_contractor]").val()) +'&status_c='+encodeURIComponent(box_active.find("[name=status_contractor]").val()) +'&dir_c='+encodeURIComponent(box_active.find("[name=dir_contractor]").val())+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     }
 
-    AjaxClient('supply','add_soply','GET',data,'AfterAACC',$(".js-number-acc-new").val(),0);
+    AjaxClient('docs','add_docs','GET',data,'AfterAdocs',$(".js-number-docs-new").val(),0);
 
 
-    box_active.find('.js-add-acc-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+    box_active.find('.js-add-docs-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
 
 } else
 {
@@ -246,7 +206,7 @@ if(err==0)
 
 
 //постфункция добавление нового счета
-function AfterAACC(data,update)
+function AfterAdocs(data,update)
 {
     if ( data.status=='reg' )
     {
@@ -262,33 +222,10 @@ function AfterAACC(data,update)
 
         //пройтись по кукка этого счета и добавить иконки о новом счете в нужные места
 
-        var cc = $.cookie('basket_supply_'+iu).split('.');
-        for ( var t = 0; t < cc.length; t++ )
-        {
-          //  $('[supply_id='+cc[t]+']').find('.scope_scope').append('<div rel_score="'+data.ty+'" class="menu_click score_a"><i>'+cc.length+'</i><span>№'+update+'</span><strong><label>'+data.summa+'</label></strong></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
-
-            $('[supply_id='+cc[t]+']').find('.scope_scope').append('<div rel_score="'+data.ty+'" data-tooltip="счет №'+update+' ('+data.dates+')" class="menu_click score_a"><span>№'+update+' ('+data.dates+')</span><strong><label>'+$.number(data.summa.toFixed(2), 2, '.', ' ')+'</label></strong><i>'+cc.length+'</i><form class="none"  action="acc/'+data.ty+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
-
-
-            alert_message('ok','Новый счет добавлен');
-
-
-            var hf=$('[supply_id='+cc[t]+']').attr('supply_stock');
-            var hf1=hf.split('_');
-            //alert(hf1);
-            UpdateStatusADA(hf1[0]);
-
-            var box = $('.box-modal:last');
-            clearInterval(timerId);
-            box.find('.arcticmodal-close').click();
-
-
-        }
-
-        $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
-        $('.checher_supply').removeClass('checher_supply');
-        basket_supply();
-
+        //перейти в договор внутрь
+$('.js-open-docss').remove();
+        $('body').append('<form class="none js-open-docss" action="docs/'+data.ty+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form>');
+$('.js-open-docss').submit();
         /*
         //показать панель для загрузки фото к договору
         $('.new_qqe').empty().append('Счет №'+update);
@@ -312,7 +249,7 @@ function AfterAACC(data,update)
 //редактирование раздела в себестоимость
 //  |
 // \/
-function js_edit_acc_x()
+function js_edit_docs_x()
 {
     var box_active = $(this).closest('.box-modal');
     var err = 0;
@@ -361,7 +298,7 @@ function js_edit_acc_x()
 //удалить мат их счета
 //  |
 // \/
-function js_dell_acc_mat()
+function js_dell_docs_mat()
 {
     var box_active = $(this).closest('.box-modal');
     //clearInterval(timerId); // îñòàíàâëèâàåì âûçîâ ôóíêöèè ÷åðåç êàæäóþ ñåêóíä
@@ -371,7 +308,7 @@ function js_dell_acc_mat()
 
 
 
-    AjaxClient('acc','dell_acc_material','GET',data,'AfterDMa',for_id,0);
+    AjaxClient('docs','dell_docs_material','GET',data,'AfterDMa',for_id,0);
 
     box_active.find('.js-dell-prime-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
 

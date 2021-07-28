@@ -26,7 +26,7 @@ $role->GetRows();
 $role->GetPermission();
 
 
-$active_menu='acc';
+$active_menu='docs';
 //правам к просмотру к действиям
 //$user_send_new=array();
 
@@ -40,7 +40,7 @@ $podpis=0;  //по умолчанию нельзя редактировать с
 //никто выше не может изменять чужие заявки
 //выше могут ставить решение по служебным запискам
 //выше могут ставить соответствие заказанного материала с материалом на складе
-$result_url=mysql_time_query($link,'select A.id from z_acc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=8))');
+$result_url=mysql_time_query($link,'select A.id from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=4))');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url!=0)
 {
@@ -84,7 +84,7 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
 
 		
        
-		$result_url=mysql_time_query($link,'select A.* from z_acc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+		$result_url=mysql_time_query($link,'select A.* from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
         $num_results_custom_url = $result_url->num_rows;
         if($num_results_custom_url==0)
         {
@@ -96,7 +96,7 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
 
 			$row_list = mysqli_fetch_assoc($result_url);
 			//проверим может пользователь вообще не может работать с себестоимостью
-			if (($role->permission('Счета','R'))or($sign_admin==1)or($role->permission('Счета','S')))
+			if (($role->permission('Договора','R'))or($sign_admin==1)or($role->permission('Договора','S')))
 	        {
 				//имеет ли он доступ в эту заявку	
 
@@ -119,7 +119,7 @@ if($row_list["id_user"]!=$id_user) {
         $edo = new EDO($link, $id_user, false);
     }
 
-    $arr_document = $edo->my_documents(1, ht($_GET["id"]), '>=-10', true);
+    $arr_document = $edo->my_documents(3, ht($_GET["id"]), '>=-10', true);
     //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 
@@ -212,7 +212,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 	//токен доступен в течении 120 минут
 
-    if(token_access_new($token,'save_mat_acc_x',$id,"rema",120))
+    if(token_access_new($token,'save_mat_docs_x',$id,"rema",120))
 
 
 
@@ -220,7 +220,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
     {
 
 	//возможно проверка что этот пользователь это может делать
-	 if (($role->permission('Счета','U'))and($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
+	 if (($role->permission('Договора','U'))and($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4)))
 	 {	
 	//echo("!");
 	$edit_zay=0;	 
@@ -334,7 +334,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 		
 
-			   header("Location:".$base_usr."/acc/".$_GET["id"].'/save/');
+			   header("Location:".$base_usr."/docs/".$_GET["id"].'/save/');
 			   die();				 
 			
 		    }
@@ -421,7 +421,7 @@ if ( isset($_COOKIE["iss"]))
 					$act_1='on="show"';
 	            }
 
-	  include_once $url_system.'template/top_acc_view.php';
+	  include_once $url_system.'template/top_docs_view.php';
 
 	?>
       <div id="fullpage" class="margin_60  input-block-2020 ">
@@ -430,7 +430,7 @@ if ( isset($_COOKIE["iss"]))
               <div class="oka_block_2019">
 
                   <?
-                  echo'<div class="line_mobile_blue">Счет №'.$row_list["id"];
+                  echo'<div class="line_mobile_blue">Договор №'.$row_list["number"];
                  /*
                   $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
 
@@ -453,7 +453,7 @@ if ( isset($_COOKIE["iss"]))
                       //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
 
                       foreach ($arr_document as $key => $value) {
-                          include $url_system . 'acc/code/block_app.php';
+                          include $url_system . 'docs/code/block_app.php';
                           echo($task_cloud_block);
                       }
                       echo'</div>';
@@ -490,7 +490,7 @@ if ( isset($_COOKIE["iss"]))
                                       {
                                           if(( isset($_GET["a"]))and($_GET["a"]=='dell'))
                                           {
-                                              echo "alert_message('ok', 'позиция удалена из счета');";
+                                              echo "alert_message('ok', 'позиция удалена');";
                                           } else {
 
                                               if(( isset($_GET["a"]))and($_GET["a"]=='save'))
@@ -539,11 +539,11 @@ if ( isset($_COOKIE["iss"]))
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
 
-                      if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8))) {
+                      if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4))) {
                           $query_string .= '<div class="info-suit"><div class="input-block-2020">';
 
 
-                          $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="8" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
+                          $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="3" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
 
                           $num_results_uu = $result_6->num_rows;
 
@@ -566,7 +566,7 @@ if ( isset($_COOKIE["iss"]))
                           }
 
 
-                          $query_string .= '</div><input type="hidden" name="files_9" value=""><div type_load="8" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div></div></div>';
+                          $query_string .= '</div><input type="hidden" name="files_9" value=""><div type_load="3" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div></div></div>';
 
                           $query_string .= '</div></div>';
 
@@ -581,286 +581,7 @@ if ( isset($_COOKIE["iss"]))
                       ?>
 
 
-                      <div class="info-suit">
-
-
-
-
-
-<form id="lalala_add_form" class="js-save-form-acc my_nn" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
- <input name="save_naryad" value="1" type="hidden">
- <input name="save_zayy" value="1" type="hidden">
-  <?
-	
-    //echo'<div class="content_block1" id_content="'.$id_user.'">';
-
-//print_r($stack_error);
-	/*echo '<pre>';
-print_r($_POST["works"]);	
-	echo '</pre>';
-	*/
-
-	
-	  
-	  
-	  $rrtt=0;
-	  $rr=0;
-	  
-
-	  
-	  
-	  
-	  
-	  
-	  echo'<div class="content_block block_primes1">';
-
-
-
-  echo'<span class="h3-f h-25">Материалы из заявок содержащиеся в счете</span>';
-
-  $sql='';
-
-  $result_work_zz45=mysql_time_query($link,'Select a.* from z_doc_material_acc as a where a.id_acc="'.htmlspecialchars($_GET['id']).'" order by a.id');
-
-
-
-  $num_results_work_zz45 = $result_work_zz45->num_rows;
-  if($num_results_work_zz45!=0) {
-
-
-      $id_work = 0;
-      echo'<div class="xvg_add_material option_slice_xxg active_xxg js-acc-view">';
-      $ddf=1;
-      for ($i = 0; $i < $num_results_work_zz45; $i++) {
-          $row1ssx = mysqli_fetch_assoc($result_work_zz45);
-          $rrtt++;
-          $result_t2=mysql_time_query($link,'SELECT 
-       
-       a.id AS id_acc, 
-       f.id_stock,
-       f.id as idd,
-       b.id,
-       rt.name,
-       rt.id AS id_doc,
-       b.count_material,
-       b.price_material,
-       b.path_buy
-
-FROM 
-z_acc AS a,
-z_doc_material_acc AS b,
-i_material AS c,
-z_doc_material AS f,
-z_doc AS rt 
-
-WHERE rt.id=f.id_doc AND f.id=b.id_doc_material AND b.id="'.ht($row1ssx["id"]).'" AND c.id=f.id_i_material AND a.id=b.id_acc');
-
-
-          $num_results_t2 = $result_t2->num_rows;
-          if($num_results_t2!=0)
-          {
-              $row__2= mysqli_fetch_assoc($result_t2);
-
-
-
-              $result_work_zz=mysql_time_query($link,'
-			SELECT a.count_units AS ss,
-c.price AS mm,
-c.units
-FROM 
-z_doc_material AS a,
-i_material AS c
-WHERE 
-a.id_i_material=c.id AND
-a.id="'.$row__2["idd"].'"');
-
-              $num_results_work_zz = $result_work_zz->num_rows;
-              if($num_results_work_zz!=0)
-              {
-                  $id_work=0;
-
-                  $row_work_zz = mysqli_fetch_assoc($result_work_zz);
-                  //echo('<div>'.$row_work_zz['count_units'].' '.$row_material['units'].'</div>');
-
-                  $xmd='';
-                  $result_t3=mysql_time_query($link,'SELECT a.id
-FROM 
-z_doc_material AS a
-WHERE 
-a.id="'.$row__2["idd"].'"');
-                  $num_results_t3 = $result_t3->num_rows;
-                  if($num_results_t3!=0)
-                  {
-                      for ($op=0; $op<$num_results_t3; $op++)
-                      {
-                          $row__3= mysqli_fetch_assoc($result_t3);
-                          if($op==0) {$xmd=$row__3["id"];} else {$xmd=$xmd.'.'.$row__3["id"];}
-                      }
-                  }
-
-
-
-                  if($row__2["id_stock"]!='')
-                  {
-                      $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row__2["id_stock"].'"');
-                      $num_results_t1__341 = $result_t1__341->num_rows;
-                      if($num_results_t1__341!=0)
-                      {
-                          $row1ss__341 = mysqli_fetch_assoc($result_t1__341);
-                      }
-                  }
-
-
-
-                  $PROC=0;
-
-                  $result_proc=mysql_time_query($link,'select sum(a.count_units) as summ,sum(a.count_defect) as summ1  from 
-             
-             z_invoice_material as a,
-             z_invoice as b,
-             z_doc_material_acc as y
-                                                                     
-             
-
-where 
-      y.id_acc=a.id_acc and
-      a.id_acc="'.$row__2["id_acc"].'" and
-      b.id=a.id_invoice and 
-      not(b.status=1) and 
-      y.id="'.$row__2["id"].'" and a.id_stock="'.$row__2["id_stock"].'"');
-
-$POL=0;
-                  //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
-                  $num_results_proc = $result_proc->num_rows;
-                  if($num_results_proc!=0)
-                  {
-                      $row_proc = mysqli_fetch_assoc($result_proc);
-                      $POL=$row_proc["summ"]-$row_proc["summ1"];
-
-                      $result_uu9=mysql_time_query($link,'select a.count_material as summa from z_doc_material_acc as a where a.id="'.ht($row__2["id"]).'"');
-                      $num_results_uu9 = $result_uu9->num_rows;
-
-                      if($num_results_uu9!=0)
-                      {
-                          $row_uu9 = mysqli_fetch_assoc($result_uu9);
-                          $PROC=round((($row_proc["summ"]-$row_proc["summ1"])*100)/$row_uu9["summa"]);
-                      }
-                      if($PROC>100) {$PROC=100;}
-                  }
-
-
-                  echo'<div data-tooltip="Получено '.$POL.' '.$row_work_zz['units'].' из '.$row_uu9["summa"].' '.$row_work_zz['units'].'"  class="loaderr-acc"><div id_loader="'.$row__2["id"].'" class="teps" rel_w="'.$PROC.'" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>';
-
-                  echo'<div style="background-color: #f0f4f6;" class="js-acc-block items_acc_basket   " yi_sopp_="'.$row__2["id"].'">';
-
-
-
-
-
-
-                  echo'<input type="hidden" value="'.$row__2["id"].'" name="material['.$rr.'][id]">
-					 
-                <div class="name-user-57"><span class="label-task-gg ">Название
-</span><div class="h57-2020"><span class="name-items">'.$row1ss__341["name"].'</span>
-                <a href="app/'.$row__2["id_doc"].'/" class="app-items" data-tooltip="Для заявки">'.$row__2["name"].'</a></div>
-            
-</div>
-<div class="tender-date"><span class="label-task-gg ">Единица измерения
-</span>
-                <span class="item-ed">'.$row_work_zz['units'].'</span>
-</div>
-
-<div class="tender-col">';
-                  echo'<!--input start-->';
-
-                  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Кол-во (MAX '.$row_work_zz['ss'].')</i><span>*</span></label><input  name="material['.$rr.'][count]" value="'.ipost_($_POST['material'][$rr]["count"],$row__2["count_material"]).'" count="'.$row__2["id"].'" max="'.$row_work_zz['ss'].'" class="input_new_2021 gloab required   no_upperr count_mask count_xvg_ '.$status_class.'" style="padding-right: 20px;" '.$status_edit.' autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
-                  echo'<!--input end-->';
-                  echo'</div>               
-  
- <div class="tender-col">';
-
-                  echo'<!--input start-->';
-                  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Цена (MAX '.$row_work_zz['mm'].')</i><span>*</span></label><input  name="material['.$rr.'][price]" value="'.ipost_($_POST['material'][$rr]["price"],$row__2["price_material"]).'" price="'.$row__2["id"].'" data-tooltip="Цена в счете за единицу с ндс" max="'.$row_work_zz['mm'].'" class="input_new_2021 gloab required  no_upperr money_mask1 price_xvg_ '.$status_class.'" '.$status_edit.' style="padding-right: 20px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
-                  echo'<!--input end-->';
-
-                  echo'</div>  
-    <div class="tender-summ all_price_count_xvg"><span class="pay_summ_bill1">0</span>
- </div>               
-                <div class="tender-but" style="padding-left: 10px;">';
-
-                  if($status_edit=='') {
-                      echo'<div id_rel="'.$row__2["id"].'" class="del-item js-del-items-basket-view del_basket_jooss" data-tooltip="Удалить из счета" ></div >';
-                }
-                echo'</div>
-                
-                
-                
-                </div>';
-                  $rr=$rr+1;
-              }
-
-          }
-
-
-          }
-
-      echo'<div class="all_xvg none"><div class="all-xvg-2021">
-			      <div class=" wall--1">Итого по счету</div>
-				  <div class=" wall--6 all_summa_xvg"><span class="pay_summ_bill1"></span></div>
-				  
-			  </div></div>';
-
-
-      echo'</div>';
-      }
-
-
-					 
-	
-
-	  
-	  if($rrtt==0)
-	  {
-		  //echo'Добавьте необходимые материалы в разделе снабжение для отправки счета на согласование';
-
-          echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Добавьте необходимые материалы в разделе <a class="help-link" href="supply/">снабжение</a> для отправки счета на согласование.</span></span></div>';
-
-
-	  } else
-      {
-          $token=token_access_compile($_GET['id'],'save_mat_acc_x',$secret);
-
-
-          echo'<input type="hidden" value="'.$token.'" name="tk">';
-      }
-	  
-		   
-	//echo'<div class="content_block1">';	
-/*
-<div class="close_all_r">закрыть все</div>
-<div data-tooltip="Удалить всю себестоимость" class="del_seb"></div>
-<div data-tooltip="Добавить раздел" class="add_seb"></div>
-';
-*/
-  
-	  
-	  	//echo'</div>';  
-	
-
-	
- 
-
-   
-	  
-
-	
-    ?>
-    </div>
-  </div>
-
-
-</form>
-</div></div></div></div></div></div>
+                      </div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>

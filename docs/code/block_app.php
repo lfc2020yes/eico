@@ -332,7 +332,7 @@ $class_menu_pr='';
 if ((isset($_GET['menu_id']))and(array_search($_GET['menu_id'], $tabs_menu_x_id) !== false)) {
     $class_menu_pr='active-trips-menu';
 }
-$task_cloud_block.='<div class="mm_w-preorders form006U '.$class_menu_pr.'">
+$task_cloud_block.='<div class="mm_w-preorders form007U '.$class_menu_pr.'">
 	   <ul class="tabs_hedi js-tabs-menu">';
 
 
@@ -342,9 +342,9 @@ $task_cloud_block.='<div class="mm_w-preorders form006U '.$class_menu_pr.'">
         $pay_string='';
 
         if ((isset($_GET['menu_id']))and($_GET['menu_id'] == $tabs_menu_x_id[$i])) {
-            $task_cloud_block .= '<li class="tabs_006U active ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. '</li>';
+            $task_cloud_block .= '<li class="tabs_007U active ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. '</li>';
         } else {
-            $task_cloud_block .= '<li class="tabs_006U ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. ' </li>';
+            $task_cloud_block .= '<li class="tabs_007U ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. ' </li>';
         }
 
     }

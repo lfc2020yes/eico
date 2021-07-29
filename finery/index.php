@@ -617,7 +617,7 @@ echo'</tbody></table>';
     <script>
 $(document).ready(function(){
 		
-	
+	/*
 	var tabs = $('#tabs2017');
 		
 	
@@ -636,7 +636,7 @@ $(document).ready(function(){
     };	
 
 	tabs_activation(tabs);
-	
+	*/
 	   });	
 
 	</script>         

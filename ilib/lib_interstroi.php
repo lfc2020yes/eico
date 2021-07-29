@@ -353,7 +353,7 @@ VALUES
  * @param $sign_level
  * @param int $id_user
  * @param false $show
- * @return false|mixed
+ * @return false|mixed 0-false 1-true 2-недостаточно материалов у пользователя 3-недостаточно материалов в заявках
  */
 function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$show=false) {
      $codecP= new codec();            
@@ -385,10 +385,16 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                                     . " where id=".$row2['id_material'];
                //  $summa_mat+=$row2['subtotal'];
                    $COMA=';';
-                   if (($sm = material_from_user($mysqli,$row0,$row2))===false) { /* ошибка недостаточно материалов у пользователя */}//Списать материал с пользователя
-                   else $sql.=$COMA.$sm;
-                   if (($sm = material_from_doc($mysqli,$row0,$row2))===false) { /* ошибка недостаточно материалов в заявках */}//Списание материалов c заявок
-                   else $sql.=$COMA.$sm;
+                   if (($sm = material_from_user($mysqli,$row0,$row2))===false) {  //Списать материал с пользователя
+                       /* ошибка недостаточно материалов у пользователя */
+                       $ret=2;
+                       break 3;
+                   } else $sql.=$COMA.$sm;
+                   if (($sm = material_from_doc($mysqli,$row0,$row2))===false) { //Списание материалов c заявок
+                       /* ошибка недостаточно материалов в заявках */
+                       $ret=3;
+                       break 3;
+                   } else $sql.=$COMA.$sm;
                } //row2
                $sql_nmat->close();
              } //nmat 
@@ -427,18 +433,18 @@ WHERE id={$row1[id]}
                      $id_signed='id_signed2';
                      break;
              }
-         $sql.= $COMA."update n_nariad set"
-                                    . " signedd_nariad=".$signedd
-                                    . " , status=2"                //подписан
-                                    . " , ".$id_signed."=".$id_user
-                                    . " where id=".$id_nariad;
+             $sign_status=2;
          } else {  //снять подпись
-             $sql.= $COMA."update n_nariad set"
-                                    . " signedd_nariad=".$signedd
-                                    . " , status=0"               //в работе
-                                    //. " ,  id_signed0=null, id_signed1=null, id_signed2=null"
-                                    . " where id=".$id_nariad;
+             $sign_status=0;
          }
+          $sql.= $COMA."update n_nariad set"
+              . " signedd_nariad=".$signedd
+              . " , status=$sign_status"                //подписан / в работе
+              . " , ".$id_signed."=".$id_user
+              //. " ,  id_signed0=null, id_signed1=null, id_signed2=null"
+              . " where id=".$id_nariad;
+
+
          //============================выполнить транзакцию
 
          $ret=Nariad_transaction($mysqli,$sql,$show);
@@ -465,7 +471,7 @@ function Nariad_transactionA(&$mysqli,&$sql,$show=false) {
   $arr=explode(';',$sql);
   if ($show) {
       echo "<pre>" . print_r($arr, true) . "</pre>";
-      //return $ret;
+      return $ret;
   }
   for ($i=0; $i<count($arr); $i++) {
       if($show) echo "<p/> $i=".$arr[$i];

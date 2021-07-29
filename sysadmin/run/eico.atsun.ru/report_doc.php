@@ -77,12 +77,12 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <td><?=$item[price]?>
         <td><?=$item[subtotal]?>
         <td>
-    <tr><td colspan="2">по нарядам:
+    <tr><td colspan="2">реализация/по нарядам:
         <td>
         <td>
-        <td><?=$item[count_realiz]?>
+        <td class="blue"><?=$item[count_realiz]?> / <?=$item[count_units_nariad]?>
         <td>
-        <td><?=$item[summa_realiz]?>
+        <td class="blue"><?=$item[summa_realiz]?>
         <td>
             <?php
             if(isset($item[acc]))
@@ -218,6 +218,7 @@ SELECT
   D.`id_object`,
   D.`count_units` AS count_units_doc,
   D.`count_units_act`,
+  D.count_units_nariad, 
   D.`date_delivery`,
   D.`id_group_material`,
   D.`status`,
@@ -466,14 +467,13 @@ class DocZ {
               }
           }
           $status = 0; $comment = '';
-          if (($material[count_units_doc] - $material[count_units_act]) <= $count_user) { //Передача по акту приемо-передачи
-              if (($material[count_units_doc] - $material[сount_units_nariad]) == 0 ) {  //Закрытие по нарыду
-                  $status = 1; // позиция готова к закрытию заявки
-                  $comment = 'позиция готова к закрытию заявки';
-              } else {
-                  $status = 5; // позиция готова к закрытию заявки
-                  $comment = 'Материал получен';
-              }
+          //echo "<pre>{$material[count_units_doc]} - {$material[count_units_nariad]} = ".($material[count_units_doc] - $material[count_units_nariad])."</pre>";
+          if (($material[count_units] - $material[count_units_nariad]) <= 0 ) {  //Закрытие по наряду
+              $status = 1; // позиция готова к закрытию заявки
+              $comment = 'закрыта по наряду - готова к закрытию заявки';
+          } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count_user) { //Передача по акту приемо-передачи
+              $status = 5; //
+              $comment = 'Материал получен';
           } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count) {
               $status = 2; // необходимо передать материал со склада на владельца заявки
               $comment = "Необходимо передать ".($material[count_units_doc] - $material[count_units_act] - $count_user)

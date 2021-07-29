@@ -15,7 +15,7 @@ $(function (){
 
     $('body').on("change keyup input click",'.js-edit-docs-more',edit_more_docs);
 
-    $('body').on("change keyup input click",'.tabs_006U',{key: "006U"},tabs_docs);
+    $('body').on("change keyup input click",'.tabs_007U',{key: "007U"},tabs_docs);
 
 
     $('body').on("change keyup input click",'.js-reject-docs',RejectFoD);

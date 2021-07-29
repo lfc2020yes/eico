@@ -83,7 +83,7 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма договора</i><span>*</span></label><input name="summa_soply" value="'.$row_t["delivery_day"].'" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма договора</i><span>*</span></label><input name="summa_soply" value="'.$row_t["summa"].'" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
 
@@ -127,7 +127,7 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
             echo'<div class=" big_list">';
             //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
 
-            echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-name"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" fns="1" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2" name="id_kto" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+            echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-icon"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" fns="1" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2" name="id_kto" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
 
 
 

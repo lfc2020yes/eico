@@ -869,7 +869,7 @@ if ( isset($_COOKIE["iss"]))
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
 
-                      if(($row_list["id_user"]==$id_user)and($row_list["status"]==1)) {
+                      if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8))) {
                           $query_string .= '<div class="info-suit"><div class="input-block-2020">';
 
 

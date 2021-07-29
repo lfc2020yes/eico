@@ -31,6 +31,11 @@ function KeyUpS() {
     //обнуляем выбор
     var search_input2=$(this);
     var sopen=$(this).attr('sopen');
+    var options=0;
+    if($(this).is('[fns]'))
+    {
+        options=$(this).attr('fns');
+    }
 
     var ls=search_input2.parents('.input_2021').attr('list_number');
 
@@ -48,7 +53,7 @@ function KeyUpS() {
         if(jQuery.trim(search_input2.val().length) >= search_min2)
         {
             var data ='url='+window.location.href+
-                '&search='+encodeURIComponent(search_input2.val());
+                '&search='+encodeURIComponent(search_input2.val())+'&option='+options;
 
             search_input2.parents('.input_2021').find('.b_loading_small').empty().append('<div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div>').show();
 
@@ -142,16 +147,24 @@ function open_search()
 //выбор из поиска в input
 function drop_search()
 {
-    var f=$(this).find("a").text();
+    var f1=$(this).find("a").html();
+    var obj = $("<div>" + f1 + "</div>");
+    obj.find(".green-base").remove();
+    var f=obj.text();
+    //var f=$(this).find("a").text();
+
+
     var e=$(this).find("a").attr("rel");
 
     var input_pr=$(this).parents('.input_2021');
 
     input_pr.find('.click-search-name').empty().append(f).slideDown("slow");
-
+    input_pr.find('.click-search-icon').slideDown("slow");
 
     input_pr.find('.js-hidden-search').val(e).change();
+
     input_pr.find('.js-keyup-search').val(f);
+
     input_pr.removeClass('required_in_2021');
     $(this).parents('.input-search-list').find('i').removeClass('open-search-active');
 

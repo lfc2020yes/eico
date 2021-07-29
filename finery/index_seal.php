@@ -183,7 +183,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
    
 						   if($flag_podpis!=0)
 						   {
-							   
+							   echo("!");
 							   mysql_time_query($link,'update n_nariad set ready="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 							   header("Location:".$base_usr."/finery/".htmlspecialchars(trim($_GET['id'])).'/');	
 			                   die();

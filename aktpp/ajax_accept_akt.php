@@ -46,6 +46,9 @@ where id_act='$this->id_act'
         $transaction=true;
         for ($i=0;$i<$res_0->num_rows;$i++) {
             $row_0 = mysqli_fetch_assoc($res_0);
+
+//здесь
+
             if ($row_0['id_stock_material'] <> null) {
                //если количество по id_stock_material ==count_units
                if ($row_0['count_units_akt']==$row_0['count_units']) {     //все передается

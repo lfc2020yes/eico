@@ -105,7 +105,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
             $mass_ee=array();
             $query_ob='';
 
-            $FUSER=new find_user($link,$value['id_object'],'R','Заявки');
+            $FUSER=new find_user($link,$value['id_object'],'R','Счета');
             $user_send_new=$FUSER->id_user;
 //print_r($FUSER);
             //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';

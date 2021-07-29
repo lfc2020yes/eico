@@ -251,7 +251,7 @@ include_once $url_system.'module/notification.php';
             echo'<form id="lalala_pod_form" action="app/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="tk_sign" value="'.token_access_compile($_GET['id'],'sign_app_order',$secret).'" type="hidden">
 </form>';
-            echo'<div class="save_button pod_zay pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-app add_clients yellow-style">Сохранить   →</div>';
+            echo'<div class="save_button pod_zay js-pod_pro add_clients green-bb">Согласовать   →</div><div style="display:none;" class="save_button add_zay js-add-app add_clients yellow-style">Сохранить   →</div>';
 
         } else {
 
@@ -289,7 +289,23 @@ include_once $url_system.'module/notification.php';
 
 //id_action - 4 выписать счета
 
-if($but_mass["id_action"]!=4) {
+
+//вдруг все материалы давальческие тогда выводить кнопку для снабженца
+$result_uu = mysql_time_query($link, 'select count(a.id) as alli from z_doc_material as a,z_doc as b,i_material as c  where a.id_doc=b.id and a.id_i_material=c.id and c.alien=0 and  b.id="' . ht($_GET["id"]) . '"');
+$num_results_uu = $result_uu->num_rows;
+$alli=0;
+if ($num_results_uu != 0) {
+                        $row_uu = mysqli_fetch_assoc($result_uu);
+                        if($row_uu["alli"]==0)
+                        {
+                            $alli=1;
+                        }
+}
+
+
+
+
+if(($but_mass["id_action"]!=4)or($alli==1)) {
 
     $echo_bb = '<div class="save_button  add_clients green-bb ' . $class_by . ' js-sign-a">';
     if ($class_by == '') {
@@ -308,7 +324,7 @@ if($but_mass["id_action"]!=4) {
 
 </div>';
 }
-                    $echo_bb.='<div class="save_button pod_zay pod_pro add_clients red-bb js-reject-app '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-app '.$class_by.'">Переслать   ⥃</div>';
+                    $echo_bb.='<div class="save_button pod_zay js-pod_pro add_clients red-bb js-reject-app '.$class_by.'">Отклонить   ⨰</div><div class="save_button pod_zay pod_pro add_clients js-forward-app '.$class_by.'">Переслать   ⥃</div>';
 
 
 

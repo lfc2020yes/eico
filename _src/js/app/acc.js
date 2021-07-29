@@ -30,10 +30,60 @@ $(function (){
 
     $('body').on("change keyup input click",'.js-sign-pay',SingFoPay);
 
-
+    $('body').on("change",'.js-id-kto-ajax',kto_fns);
 
 
 });
+
+function kto_fns()
+{
+    //alert("!");
+    var kto=$(this).val().slice(1);
+    var new_s=$(this).val()[0];
+    if(new_s=='n')
+    {
+        //это новый пользователь с фнс
+
+        //перейти на вкладку новый контрагент
+        $('.js-ajax-new-profi[id=1]').trigger('click');
+
+        $('.js-options-supply-1').hide();
+
+        $('.js-options-supply-1').after('<div class="b_loading_small js-metka" style="position:relative; margin-bottom: 20px; "><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+        var data = 'url='+window.location.href+'&inn='+kto;
+        //alert(data);
+        AjaxClient('acc','new_contractor','GET',data,'Afterkto_fns',0,0);
+
+    }
+}
+
+function Afterkto_fns(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        $('.js-options-supply-1').find('[name=name_contractor]').val(data.name).trigger('click');
+        $('.js-options-supply-1').find('[name=address_contractor]').val(data.adress).trigger('click');
+        $('.js-options-supply-1').find('[name=dir_contractor]').val(data.dir).trigger('click');
+        $('.js-options-supply-1').find('[name=inn_contractor]').val(data.inn).trigger('click');
+        $('.js-options-supply-1').find('[name=ogrn_contractor]').val(data.ogrn).trigger('click');
+
+        $('.js-options-supply-1').find('[name=name_small_contractor]').val(data.name_small);
+        $('.js-options-supply-1').find('[name=status_contractor]').val(data.status_f);
+
+        $('.js-metka').remove();
+        $('.js-options-supply-1').slideDown("slow");
+        return;
+    }
+    alert_message('error','Ошибка выбора поставщика. Попробуйте еще раз.');
+}
+
 
 function AfterSignAcc(data,update)
 {

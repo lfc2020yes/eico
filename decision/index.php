@@ -232,23 +232,23 @@ if($error_header!=404){ SEO('decision','','','',$link); } else { SEO('0','','','
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 /*
@@ -275,7 +275,10 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 
 	  include_once $url_system.'template/top_prime_decision.php';
 
-
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
     echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
 	?>
 
@@ -403,7 +406,7 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 		          $rowxs = mysqli_fetch_assoc($result_txs);
 				  $online='';	
 				  if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}	
-			   echo'<div sm="'.$stack_users[$is].'"  data-tooltip="Создан/Подписан - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess">'.$online.avatar_img('<img src="img/users/',$stack_users[$is],'_100x100.jpg">').'</div>';
+			   echo'<div sm="'.$stack_users[$is].'"  data-tooltip="Создан/Подписан - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess" style="display:inline-block; float:left;">'.$online.avatar_img('<img src="img/users/',$stack_users[$is],'_100x100.jpg">').'</div>';
 				}
 		   } else
 		   {
@@ -416,7 +419,7 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 		            $rowxs = mysqli_fetch_assoc($result_txs);
 									  $online='';	
 				  if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}	   
-				    echo'<div sm="'.$row__2["id_user"].'"  data-tooltip="Создан - '.$rowxs["name_user"].'" class="user_soz send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["id_user"],'_100x100.jpg">').'</div>';	
+				    echo'<div sm="'.$row__2["id_user"].'"  data-tooltip="Создан - '.$rowxs["name_user"].'" class="user_soz send_mess" style="display:inline-block; float:left;">'.$online.avatar_img('<img src="img/users/',$row__2["id_user"],'_100x100.jpg">').'</div>';
 		           }
 			   }
 			    $hiex = new hierarchy($link,$stack_users[$is]);
@@ -447,7 +450,7 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 		          $rowxs = mysqli_fetch_assoc($result_txs);
 									  $online='';	
 				  if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}	
-			      echo'<div sm="'.$stack_users[$is].'"  data-tooltip="'.$but_text.' - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess">'.$online.avatar_img('<img src="img/users/',$stack_users[$is],'_100x100.jpg">').'</div>';
+			      echo'<div sm="'.$stack_users[$is].'"  data-tooltip="'.$but_text.' - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess" style="display:inline-block; float:left;">'.$online.avatar_img('<img src="img/users/',$stack_users[$is],'_100x100.jpg">').'</div>';
 				}
 		   }
 		   
@@ -464,14 +467,14 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 		$rowxs = mysqli_fetch_assoc($result_txs);
 											  $online='';	
 				  if(online_user($rowxs["timelast"],$rowxs["id"],$id_user)) { $online='<div class="online"></div>';}		
-		echo'<div  sm="'.$row__2["id_user"].'"   data-tooltip="Создан - '.$rowxs["name_user"].'" class="user_soz send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["id_user"],'_100x100.jpg">').'</div>';
+		echo'<div  sm="'.$row__2["id_user"].'"   data-tooltip="Создан - '.$rowxs["name_user"].'" class="user_soz send_mess" style="display:inline-block; float:left;">'.$online.avatar_img('<img src="img/users/',$row__2["id_user"],'_100x100.jpg">').'</div>';
 	    }
 	}
 	
 	if($row__2["signedd_nariad"]==1)
 	{
 	   //утвержден проведен
-	   echo'<div data-tooltip="Утвержден" class="user_soz naryd_yes"></div>';	
+	   echo'<div data-tooltip="Утвержден" class="user_soz naryd_yes" style="display:inline-block; float:left;"></div>';
 	}
 	
 	
@@ -487,38 +490,38 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 	{
 		if(($row__2["id_signed0"]!=0)and($row__2["id_signed1"]==0)and($row__2["signedd_nariad"]==0)and($slyjj==0))
 		{
-			echo'<div class="status_nana">подписан на утверждение</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на утверждение</div>';
 		}
 		if(($row__2["id_signed0"]!=0)and($row__2["id_signed1"]==0)and($row__2["signedd_nariad"]==0)and($slyjj!=0))
 		{
-			echo'<div class="status_nana">подписан на согласование</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на согласование</div>';
 		}		
 		if(($row__2["id_signed1"]!=0)and($row__2["signedd_nariad"]==0))
 		{
-			echo'<div class="status_nana">подписан на утверждение</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на утверждение</div>';
 		}	
 		if(($row__2["signedd_nariad"]==1))
 		{
-			echo'<div class="status_nana">утвержден</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">утвержден</div>';
 		}	
 	}
 	if(($sign_level==2)and($sign_admin!=1))
 	{	
         if(($row__2["signedd_nariad"]==1))
 		{
-			echo'<div class="status_nana">утвержден</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">утвержден</div>';
 		}
 		
 		if(($podpis==0)and($slyjj!=0)and($row__2["signedd_nariad"]==0))
 		{
-			echo'<div class="status_nana">Подписан на утверждение</div>';	
+			echo'<div class="status_nana" style="margin-top: 15px;">Подписан на утверждение</div>';
 		}			
 	}
 	if(($sign_level==3)and($sign_admin!=1))
 	{	
         if(($row__2["signedd_nariad"]==1))
 		{
-			echo'<div class="status_nana">утвержден</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">утвержден</div>';
 		}
 	}
 	
@@ -526,24 +529,24 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 	{
 		if(($row__2["id_signed0"]!=0)and($row__2["id_signed1"]==0)and($row__2["signedd_nariad"]==0)and($slyjj==0))
 		{
-			echo'<div class="status_nana">подписан на утверждение</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на утверждение</div>';
 		}
 		if(($row__2["id_signed0"]!=0)and($row__2["id_signed1"]==0)and($row__2["signedd_nariad"]==0)and($slyjj!=0))
 		{
-			echo'<div class="status_nana">подписан на согласование</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на согласование</div>';
 		}
 		if(($row__2["id_signed0"]!=0)and($row__2["id_signed1"]!=0)and($row__2["signedd_nariad"]==0)and($slyjj!=0))
 		{
-			echo'<div class="status_nana">подписан на утверждение</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на утверждение</div>';
 		}	
 	
 		if(($row__2["id_signed0"]==0)and($row__2["id_signed1"]!=0)and($row__2["signedd_nariad"]==0)and($slyjj!=0))
 		{
-			echo'<div class="status_nana">подписан на утверждение</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">подписан на утверждение</div>';
 		}			
 		if(($row__2["signedd_nariad"]==1))
 		{
-			echo'<div class="status_nana">утвержден</div>';
+			echo'<div class="status_nana" style="margin-top: 15px;">утвержден</div>';
 		}		
 	}						 
 						 
@@ -649,6 +652,8 @@ if($podpis!=0)
 					 
 					echo $row_work_zz["name_work"];
 			   echo'</div><td><div class="mat_memo_zay">';
+			//   echo('count_units-'.$row_work_zz["count_units"].'<br>');
+            //   echo('count_units_razdel2-'.$row_work_zz["count_units_razdel2"].'<br>');
 			   if($row_work_zz["count_units"]>$row_work_zz["count_units_razdel2"])
 			   {
 			     echo' <b data-tooltip="Max возможное значение">(MAX '.$row_work_zz["count_units_razdel2"].' '.$row_work_zz["units"].'</b> &#8594; <span data-tooltip="введенное значение" class="red_zat">'.$row_work_zz["count_units"].' '.$row_work_zz["units"].'</span>)';
@@ -710,12 +715,19 @@ echo'</td><td><div class="mat_memo_zay">РАБОТА</div></td><td></td></tr>';
 					 
 					echo $row_work_zz1["material"];
 			   echo'</div><td><div class="mat_memo_zay">';
-			   if($row_work_zz1["count_units"]>$row_work_zz1["count_units_material"])
+
+               //echo('count_units-'.$row_work_zz1["count_units"].'<br>');
+               //echo('count_units_razdel2-'.$row_work_zz1["count_units_material"].'<br>');
+/*
+               $count_end = round((($row_work_zz1["count_units_material_all"]*$row_work_zz["count_units"])/$row_work_zz["count_units_razdel2"]),4);
+               echo('count_end-'.$count_end.'<br>');
+               if($count_end!=$row_work_zz1["count_units"])*/
+			   if($row_work_zz1["count_units"]!=$row_work_zz1["count_units_material"])
 			   {
-			     echo'(<span data-tooltip="введенное значение" class="red_zat">'.$row_work_zz1["count_units"].' '.$row_work_zz1["units"].'</span>)';
+                   echo' <b data-tooltip="Нужное значение">('.$row_work_zz1["count_units_material"].' '.$row_work_zz1["units"].'</b> &#8594;<span data-tooltip="введенное значение" class="red_zat">'.$row_work_zz1["count_units"].' '.$row_work_zz1["units"].'</span>)';
 			   } else
 			   {
-				 echo' <b data-tooltip="Нужное значение">('.$row_work_zz1["price_material"].'руб.</b> &#8594; <span data-tooltip="введенное значение" class="red_zat">'.$row_work_zz1["price"].'руб.</span>)';  
+				 echo' <b data-tooltip="Нужное значение">('.$row_work_zz1["price_material"].'руб.</b> &#8594; <span data-tooltip="введенное значение" class="red_zat">'.$row_work_zz1["price"].'руб.</span>)';
 			   }
 					
 					echo'</div>';
@@ -1161,7 +1173,7 @@ $(document).ready(function(){
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+</div></div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 

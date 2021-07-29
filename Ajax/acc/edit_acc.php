@@ -76,7 +76,10 @@ $status_ee='ok';
 //добавить новых поставщиков если надо
 if($_POST["new_contractor_"]==1)
 {
-    mysql_time_query($link,'INSERT INTO z_contractor (name,adress,inn) VALUES ("'.htmlspecialchars(trim($_POST['name_contractor'])).'","'.htmlspecialchars(trim($_POST['address_contractor'])).'","'.htmlspecialchars(trim($_POST['inn_contractor'])).'")');
+   // mysql_time_query($link,'INSERT INTO z_contractor (name,adress,inn) VALUES ("'.htmlspecialchars(trim($_POST['name_contractor'])).'","'.htmlspecialchars(trim($_POST['address_contractor'])).'","'.htmlspecialchars(trim($_POST['inn_contractor'])).'")');
+
+    mysql_time_query($link,'INSERT INTO z_contractor (name,name_small,adress,inn,ogrn,status,dir) VALUES ("'.htmlspecialchars(trim($_POST['name_c'])).'","'.htmlspecialchars(trim($_POST['name_small_c'])).'","'.htmlspecialchars(trim($_POST['address_c'])).'","'.htmlspecialchars(trim($_POST['inn_c'])).'","'.htmlspecialchars(trim($_POST['ogrn_c'])).'","'.htmlspecialchars(trim($_POST['status_c'])).'","'.htmlspecialchars(trim($_POST['dir_c'])).'")');
+
     $ID_P=mysqli_insert_id($link);
 } else
 {
@@ -84,7 +87,7 @@ if($_POST["new_contractor_"]==1)
 }
 
 
-mysql_time_query($link,'update z_acc set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",delivery_day="'.$_POST["date_soply1"].'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update z_acc set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",delivery_day="'.ht($_POST["date_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
 
 $names='Счет №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
 

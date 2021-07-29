@@ -587,11 +587,9 @@ textarea, input {
 }
 
 .user_soz {
-  float: left;
   margin-left: 15px;
   border-radius: 50%;
-  box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.6);
-  margin-top: 13px;
+  /*margin-top: 13px;*/
   height: 40px;
   width: 40px;
   position: relative;
@@ -637,6 +635,15 @@ textarea, input {
 .naryd_print {
   border: 1px solid #ccc;
   border-radius: 50px;
+  margin-right: 15px;
+  line-height: 0px;
+  display: inline-block;
+  font-size: 0px;
+  overflow: hidden;
+  padding: 0px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
 }
 
 .naryd_print::after {
@@ -646,7 +653,7 @@ textarea, input {
   font-size: 16px;
   left: 11px;
   position: absolute;
-  top: 8px;
+  top: 18px;
 }
 
 .naryd_upload {
@@ -13826,6 +13833,11 @@ font-style: normal;}*/
   border-left: 1px solid #ddd;
 }
 
+.red-style {
+  background-color: #fd8080 !important;
+  color: #fff !important;
+}
+
 .logi-hovi {
   float: left;
   display: inline-block;
@@ -18040,7 +18052,7 @@ width: calc(50% - 0px) !important;
   top: 8px;
 }
 
-.password_acc {
+.password_acc, .password_docs {
   box-shadow: 1px 1px rgba(0, 0, 0, 0.03);
   border-radius: 4px;
   display: -webkit-box;
@@ -18056,14 +18068,14 @@ width: calc(50% - 0px) !important;
   margin-bottom: 10px;
 }
 @media only screen and (max-width: 639px) {
-  .password_acc {
+  .password_acc, .password_docs {
     -webkit-flex-wrap: wrap;
     -moz-flex-wrap: wrap;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
   }
 }
-.password_acc .input-choice-click-pass {
+.password_acc .input-choice-click-pass, .password_docs .input-choice-click-pass {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -18079,12 +18091,12 @@ width: calc(50% - 0px) !important;
   transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
 }
 @media only screen and (max-width: 639px) {
-  .password_acc .input-choice-click-pass {
+  .password_acc .input-choice-click-pass, .password_docs .input-choice-click-pass {
     width: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
   }
 }
-.password_acc .input-choice-click-pass .choice-head {
+.password_acc .input-choice-click-pass .choice-head, .password_docs .input-choice-click-pass .choice-head {
   width: 100%;
   text-align: center;
   color: rgba(0, 0, 0, 0.2);
@@ -18093,7 +18105,7 @@ width: calc(50% - 0px) !important;
   font-size: 10px;
   padding: 20px 10px;
 }
-.password_acc .input-choice-click-pass .choice-radio {
+.password_acc .input-choice-click-pass .choice-radio, .password_docs .input-choice-click-pass .choice-radio {
   width: 50px;
   display: -webkit-box;
   display: -moz-box;
@@ -18109,13 +18121,13 @@ width: calc(50% - 0px) !important;
   right: 0px;
   top: calc(50% - 12px);
 }
-.password_acc .input-choice-click-pass .choice-radio .center_vert1 {
+.password_acc .input-choice-click-pass .choice-radio .center_vert1, .password_docs .input-choice-click-pass .choice-radio .center_vert1 {
   -webkit-align-self: center;
   -moz-align-self: center;
   -ms-align-self: center;
   align-self: center;
 }
-.password_acc .input-choice-click-pass .choice-radio .center_vert1 i {
+.password_acc .input-choice-click-pass .choice-radio .center_vert1 i, .password_docs .input-choice-click-pass .choice-radio .center_vert1 i {
   font-style: normal;
   height: 24px;
   width: 24px;
@@ -18131,7 +18143,7 @@ width: calc(50% - 0px) !important;
   display: block;
   text-align: center;
 }
-.password_acc .input-choice-click-pass .choice-radio .center_vert1 i::before {
+.password_acc .input-choice-click-pass .choice-radio .center_vert1 i::before, .password_docs .input-choice-click-pass .choice-radio .center_vert1 i::before {
   position: absolute;
   content: "\E001";
   left: 5px;
@@ -18149,17 +18161,17 @@ width: calc(50% - 0px) !important;
   -webkit-transform: scale3d(0, 0, 1);
   transform: scale3d(0, 0, 1);
 }
-.password_acc .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb {
+.password_acc .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb, .password_docs .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb {
   background-color: #ffec57;
 }
-.password_acc .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb::before {
+.password_acc .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb::before, .password_docs .input-choice-click-pass .choice-radio .center_vert1 i.active_task_cb::before {
   -moz-transform: scale3d(1, 1, 1);
   -o-transform: scale3d(1, 1, 1);
   -ms-transform: scale3d(1, 1, 1);
   -webkit-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
 }
-.password_acc .active_pass .choice-head {
+.password_acc .active_pass .choice-head, .password_docs .active_pass .choice-head {
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -18205,6 +18217,39 @@ width: calc(50% - 0px) !important;
   left: 5px;
   color: #25ae88;
   top: 2px;
+  font-family: "icon1";
+  font-size: 14px;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.click-search-icon {
+  display: none;
+  position: absolute;
+  right: 30px;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-family: "GEInspiraRegular";
+  padding-left: 10px;
+  line-height: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  padding-left: 30px;
+  background-color: rgba(0, 0, 0, 0.05);
+  top: 18px;
+  left: -40px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.click-search-icon::before {
+  position: absolute;
+  content: "\E001";
+  left: 5px;
+  color: #25ae88;
+  top: 5px;
   font-family: "icon1";
   font-size: 14px;
   border-radius: 50%;
@@ -18556,17 +18601,17 @@ width: calc(50% - 0px) !important;
   color: #fff;
 }
 
-.new-acc-block-2021 .trips-b-comment {
+.new-acc-block-2021 .trips-b-comment, .new-docs-block-2021 .trips-b-comment {
   width: calc( 100% - 50px - 150px - 400px - 20px );
 }
-.new-acc-block-2021 .trips-b-bb {
+.new-acc-block-2021 .trips-b-bb, .new-docs-block-2021 .trips-b-bb {
   line-height: 22px;
   width: 10px;
   text-align: right;
   padding: 10px;
   position: relative;
 }
-.new-acc-block-2021 .del-item {
+.new-acc-block-2021 .del-item, .new-docs-block-2021 .del-item {
   display: none;
   width: 32px;
   height: 32px;
@@ -18578,7 +18623,7 @@ width: calc(50% - 0px) !important;
   z-index: 10;
   right: 10px;
 }
-.new-acc-block-2021 .del-item::before {
+.new-acc-block-2021 .del-item::before, .new-docs-block-2021 .del-item::before {
   position: absolute;
   top: 5px;
   text-transform: none;
@@ -18590,7 +18635,7 @@ width: calc(50% - 0px) !important;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
 }
-.new-acc-block-2021:hover .del-item {
+.new-acc-block-2021:hover .del-item, .new-docs-block-2021:hover .del-item {
   background-color: #fff;
   display: inline-block;
 }
@@ -18638,7 +18683,7 @@ width: calc(50% - 0px) !important;
   font-family: GEInspiraRegular;
 }
 
-.gray-date {
+.gray-date, .red-fns, .green-base {
   padding: 5px;
   font-weight: 400;
   text-transform: uppercase;
@@ -18647,6 +18692,25 @@ width: calc(50% - 0px) !important;
   font-family: GEInspiraRegular;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.red-fns {
+  background-color: #ffec57;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+  line-height: 10px;
+}
+
+.green-base {
+  background-color: #25ae88;
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+  top: -2px;
+  line-height: 10px;
+  color: #fff !important;
 }
 
 .link-acc-2021 {
@@ -19013,6 +19077,16 @@ width: calc(50% - 0px) !important;
   border-bottom: 2px solid #53b374;
   background-color: #53b374;
   color: #fff;
+}
+
+.my-new-2021-list {
+  text-decoration: none !important;
+  border-bottom: 0px !important;
+  font-family: "GEInspiraRegular" !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  line-height: 16px !important;
+  white-space: normal !important;
 }
 
 .input-block-2020 .list-image {

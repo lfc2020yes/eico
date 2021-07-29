@@ -215,7 +215,7 @@ if($error_header!=404){ SEO('finery','','','',$link); } else { SEO('0','','','',
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
@@ -223,20 +223,20 @@ include_once $url_system.'template/body_top.php';
 <div class="container">
 <?
 
-	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 /*
@@ -262,7 +262,10 @@ include_once $url_system.'template/body_top.php';
 	            }
 
 	  include_once $url_system.'template/top_prime_finery.php';
-
+echo'<div id="fullpage" class="margin_60  input-block-2020 ">
+    <div class="oka_block_2019" style="min-height:auto;">
+ <div class="oka_block">
+<div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
 
     echo'<div class="content_block" iu="'.$id_user.'" id_content="'.$id_user.'">';
 	?>
@@ -650,7 +653,7 @@ $(document).ready(function(){
 <?
 include_once $url_system.'template/left.php';
 ?>
-
+</div></div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
 

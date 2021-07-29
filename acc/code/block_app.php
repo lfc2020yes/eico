@@ -152,14 +152,18 @@ $task_cloud_block.='<span class="s_j pay_summ" style="margin-left: -3px;">'.rtri
 
 
 
-$result_uu = mysql_time_query($link, 'select name from z_contractor where id="' . ht($value['id_contractor']) . '"');
+$result_uu = mysql_time_query($link, 'select name,name_small from z_contractor where id="' . ht($value['id_contractor']) . '"');
 $num_results_uu = $result_uu->num_rows;
 
 if ($num_results_uu != 0) {
     $row_uu = mysqli_fetch_assoc($result_uu);
 
-
+if($row_uu["name_small"]!='')
+{
+    $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;"><span class="kuda-trips">' . $row_uu["name_small"] . '</span></div>';
+} else {
     $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;"><span class="kuda-trips">' . $row_uu["name"] . '</span></div>';
+}
 }
 
 $kuda_trips='';

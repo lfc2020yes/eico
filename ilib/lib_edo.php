@@ -40,7 +40,7 @@ class EDO
     {
         $this->mysqli = $mysqli;
         $this->id_user = $id_user;
-        $this->arr_table = array('z_doc', 'z_acc', 'n_nariad'); // связан с id edo_name_process
+        $this->arr_table = array('z_doc', 'z_acc', 'n_nariad','z_dogovor'); // связан с id edo_name_process
         $this->error_name = array(
             'завершен' //0
             ,'ок' //1    - в массиве arr_task задания на выполнение согласования

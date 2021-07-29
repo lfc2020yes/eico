@@ -341,7 +341,15 @@ VALUES
 // nariad_sign(&$mysqli,$id);
 
 // nariad_sign(&$mysqli,$id, 1, $id_user);
-
+/**
+ * @param $mysqli
+ * @param $id_nariad
+ * @param $signedd
+ * @param $sign_level
+ * @param int $id_user
+ * @param false $show
+ * @return false|mixed
+ */
 function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$show=false) {
      $codecP= new codec();            
      if($signedd==1) $plus='+'; else $plus='-';   
@@ -434,9 +442,20 @@ function Nariad_Stop(&$mysqli) {
          $mysqli->close();
     }
 */
+
+/**  Выполнить sql-запросы по массиву
+ * @param $mysqli
+ * @param $sql
+ * @param false $show - только выводит на экран, не выполняет
+ * @return false
+ */
 function Nariad_transactionA(&$mysqli,&$sql,$show=false) {
   $ret=false;
   $arr=explode(';',$sql);
+  if ($show) {
+      echo "<pre>" . print_r($arr, true) . "</pre>";
+      return $ret;
+  }
   for ($i=0; $i<count($arr); $i++) {
       if($show) echo "<p/> $i=".$arr[$i];
       if (($ret=$mysqli->query(trim($arr[$i])))!==true) {

@@ -89,7 +89,7 @@ if($_POST["new_contractor_"]==1)
 }
 
 
-mysql_time_query($link,'update z_dogovor set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update z_dogovor set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
 
 $names='Договор №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
 

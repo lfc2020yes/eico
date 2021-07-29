@@ -125,7 +125,7 @@ $DATER1 = explode('.', trim(htmlspecialchars($_GET['date1'])));
 mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor,summa,date_delivery,delivery_day,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","'.$summaa.'","","'.htmlspecialchars(trim($_GET['date2'])).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
 */
 
-mysql_time_query($link,'INSERT INTO z_dogovor (number,date,date_create,id_contractor,summa,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
+mysql_time_query($link,'INSERT INTO z_dogovor (number,id_object,date,date_create,id_contractor,summa,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.htmlspecialchars(trim($_GET['object'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
 
 	$ID_D=mysqli_insert_id($link);	
 

@@ -266,7 +266,7 @@ include_once $url_system.'module/notification.php';
                     $class_by='';
                     if($val["id_status"]!=0)
                     {
-                        $visible_gray=1;  //Значит он выполнил уже и кнопки будут но просто серые
+                        $visible_gray=1;
                         $class_by='gray-bb';
                     } else
                     {

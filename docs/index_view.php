@@ -621,7 +621,7 @@ echo'<script>
 
         if($visible_gray==0)
         {
-            echo'$(\'.tabs_006U[id=1]\').trigger(\'click\');';
+            echo'$(\'.tabs_007U[id=1]\').trigger(\'click\');';
 
         }
 

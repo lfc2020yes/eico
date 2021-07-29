@@ -66,9 +66,60 @@ $status=1;
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата договора</i><span>*</span></label><input name="date_soply" value="" class="input_new_2021 gloab required  no_upperr date_picker_x" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
+
+
+
+
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма договора</i><span>*</span></label><input name="summa_soply" value="" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
+
+
+            echo'<!--select start-->';
+            $os = array();
+            $os_id = array();
+
+            $mass_ee=array();
+            $query_ob='';
+
+            //print_r($FUSER);
+            //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';
+
+            $result_t=mysql_time_query($link,'Select a.id,a.object_name,a.id_town from i_object as a where a.enable=1 order by a.id');
+            $num_results_t = $result_t->num_rows;
+            if($num_results_t!=0) {
+                for ($i = 0; $i < $num_results_t; $i++) {
+                    $row_t = mysqli_fetch_assoc($result_t);
+                    if((array_search($row_t["id"],$hie_object) !== false)or($sign_admin==1))
+                    {
+                        array_push($os,$row_t["object_name"]);
+                        array_push($os_id, $row_t["id"]);
+
+                    }
+                }
+            }
+
+
+
+            rm_from_array($id_user,$os_id);
+
+            $su_1=-1;
+
+            echo'<div class="margin-input"><div class="list_2021 gray-color js-zindex"><label><i>Объект</i><span>*</span></label><div class="select eddd"><a class="slct" data_src=""></a><ul class="drop">';
+
+
+            for ($i=0; $i<count($os_id); $i++)
+            {
+                if(isset($os_id[$i])) {
+                    if ($su_1 == $os_id[$i]) {
+                        echo '<li class="sel_active"><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
+                    } else {
+                        echo '<li><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
+                    }
+                }
+            }
+            echo'</ul><input type="hidden" class="gloab" name="forward_id" value=""></div></div></div>';
+            echo'<!--select end-->';
 
 
             echo'<div class="js-more-options-supply">';

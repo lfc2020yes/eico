@@ -1239,11 +1239,9 @@ $('#date_table1').val(date_all);
 			     //если наряд проведен то выводим информацию какая была на момент проводки а не та которая сейчас по этому наряду в зависимости от себестоимости
 			     if($row_list["signedd_nariad"]==1)
 				 {
-					
 					$result_t1_=mysql_time_query($link,'Select a.count_units_razdel2_realiz as count_r2_realiz,a.count_units_razdel2 as count_all,a.count_units from n_work as a where a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');		
 				 } else
 				 {
-					
 					$result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');
 				 }
 			   
@@ -1260,6 +1258,8 @@ $('#date_table1').val(date_all);
 						 $flag_history=1;
 					 }
 				 }
+	             //сколько всего осталось сделать работ на момент утверждения
+
 					 $ostatok=$row1ss_["count_all"]-$summ;
 			   //echo($ostatok);
 					 if($ostatok<0)

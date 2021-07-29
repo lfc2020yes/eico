@@ -1,5 +1,37 @@
 <?
 
+//вывод value полей при отправле форм
+
+//vars - переменная $_POST['bb'] или $_GET[]
+//ret - значение по умолчанию "" или 0 допустим или значение с базы $row[]
+
+//если есть vars то выбираем его или ret.
+//если это значение равно mask то делаем значение на выходе функции value_mask
+//нужно для селект полей когда пустое значение со значение -1
+
+//mask - если значение
+
+function ipost_new($vars,$ret,$mask='',$value_mask='')
+{
+    $end_value='';
+    if((isset($vars))and($vars!=''))
+    {
+        $end_value=(htd($vars));
+    }
+    else
+    {
+
+        $end_value=$ret;
+
+    }
+    if($end_value==$mask)
+    {
+        $end_value=$value_mask;
+    }
+    return $end_value;
+}
+
+
 //удаление пробельный символов
 function trimc($input)
 {

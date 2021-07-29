@@ -110,7 +110,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						  //добавляем у пользователя материалы которые были в этом наряде
 						  //добавляем у пользователя материалы которые были в этом наряде
 						  //добавляем у пользователя материалы которые были в этом наряде
-							   
+							/*
 						  $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and a.id=b.id_nwork');
                            $num_results_pro = $result_pro->num_rows;
 	                       if($num_results_pro!=0)
@@ -124,7 +124,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 							 }
 							   
 						   }
-							   
+							*/
 						  //добавляем у пользователя материалы которые были в этом наряде
 						  //добавляем у пользователя материалы которые были в этом наряде
 						  //добавляем у пользователя материалы которые были в этом наряде					   
@@ -197,8 +197,8 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 				     mysql_time_query($link,'update n_nariad set id_signed'.$niz_podpis.'="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 					   
 				   }
-				   
-				   
+
+                   header("Location:".$base_usr."/finery/".$_GET['id'].'/disband/');
 						   
 					  
 			     
@@ -250,7 +250,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 }
 
 //echo($error);
-header("Location:".$base_usr."/finery/".$_GET['id'].'/');
+header("Location:".$base_usr."/finery/".$_GET['id'].'/no/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

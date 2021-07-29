@@ -4,6 +4,11 @@ RewriteBase /
 RewriteRule ^.htaccess$ - [F]
 DirectoryIndex index.php
 RewriteRule ^([0-9]*)/$      finery/index_view.php?id=$1 [L]
+RewriteRule ^([0-9]*)/no/$     finery/index_view.php?id=$1&a=no [L]
+RewriteRule ^([0-9]*)/sign/$     finery/index_view.php?id=$1&a=sign [L]
+RewriteRule ^([0-9]*)/shoot/$     finery/index_view.php?id=$1&a=shoot [L]
+RewriteRule ^([0-9]*)/seal/$     finery/index_view.php?id=$1&a=seal [L]
+RewriteRule ^([0-9]*)/disband/$     finery/index_view.php?id=$1&a=disband [L]
 
 RewriteRule ^add/([0-9]*)/$ finery/index_add.php?id=$1 [L]
 RewriteRule ^plus/([0-9]*)/$ finery/index_plus.php?id=$1 [L]

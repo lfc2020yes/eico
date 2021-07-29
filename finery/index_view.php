@@ -807,7 +807,7 @@ $url_404=$_SERVER['REQUEST_URI'];
 $D_404 = explode('/', $url_404);
 
 
-if ( count($_GET) == 1 ) //--Если были приняты данные из HTML-формы
+if (( count($_GET) == 1 )or( count($_GET) == 2)) //--Если были приняты данные из HTML-формы
 {
 
   if($D_404[4]=='')
@@ -1909,3 +1909,83 @@ include_once $url_system.'template/left.php';
 </div>
 
 </body></html>
+<?php
+    //сообщения после добавление редактирования чего то
+    //сообщения после добавление редактирования чего то
+    //сообщения после добавление редактирования чего то
+
+    $echo_help=0;
+    if (( isset($_GET["a"]))or(isset($_POST["save_naryad"])))
+    {
+
+    $echo_help++;
+    }
+
+    if($echo_help!=0)
+    {
+    ?>
+    <script type="text/javascript">
+
+        <?
+        echo'var text_xx=\''.$end_step_task.'\';';
+        ?>
+        $(function (){
+            setTimeout ( function () {
+
+                $('.js-hide-help').slideUp("slow");
+                <?
+                if (( isset($_GET["a"]))and($_GET["a"]=='seal')) {
+                    echo "alert_message('ok', 'Наряд утвержден');";
+                }
+                if(( isset($_GET["a"]))and($_GET["a"]=='sign'))
+                 {
+                        echo "alert_message('ok', 'Наряд отправлен на подпись');";
+                 }
+                if(( isset($_GET["a"]))and($_GET["a"]=='shoot'))
+                {
+                    echo "alert_message('ok', 'Подпись снята с наряда');";
+                }
+                if(( isset($_GET["a"]))and($_GET["a"]=='disband'))
+                {
+                    echo "alert_message('ok', 'Наряд распроведен');";
+                }
+                 if(( isset($_GET["a"]))and($_GET["a"]=='no'))
+                 {
+                            echo "alert_message('error', 'Ошибка! Попробуйте еще раз!');";
+                 }
+
+
+                if((isset($_POST["save_naryad"]))and((count($stack_error)==0)and($error_count==0)))
+                {
+                    echo "alert_message('ok', 'данные сохранены');";
+                }
+                if((isset($_POST["save_naryad"]))and((count($stack_error)!=0)or($error_count!=0)))
+                {
+                    echo "alert_message('error', 'ошибка сохранения наряда');";
+                }
+                ?>
+                var title_url=$(document).attr('title'); var url=window.location.href;
+                url=url.replace('seal/', '');
+                url=url.replace('sign/', '');
+                url=url.replace('disband/', '');
+                url=url.replace('shoot/', '');
+                url=url.replace('yes/', '');
+                url=url.replace('no/', '');
+                url=url.replace('save/', '');
+                var url1 = removeParam("a", url);
+                History.pushState('', title_url, url1);
+
+            }, 500 );
+
+
+
+
+        });
+    </script>
+<?
+}
+
+
+//сообщения после добавление редактирования чего то
+//сообщения после добавление редактирования чего то
+//сообщения после добавление редактирования чего то

@@ -185,7 +185,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						   {
 							   //echo("!");
 							   mysql_time_query($link,'update n_nariad set ready="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
-							   header("Location:".$base_usr."/finery/".htmlspecialchars(trim($_GET['id'])).'/');	
+							   header("Location:".$base_usr."/finery/".htmlspecialchars(trim($_GET['id'])).'/no/');
 			                   die();
 						   } else
 						   {
@@ -385,7 +385,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде						   
-						   
+                               header("Location:".$base_usr."/finery/".$_GET['id'].'/seal/');
 						   
 						   }
 					   }  
@@ -439,7 +439,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 }
 
 //echo($error);
-header("Location:".$base_usr."/finery/".$_GET['id'].'/');
+header("Location:".$base_usr."/finery/".$_GET['id'].'/no/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

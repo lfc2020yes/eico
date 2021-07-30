@@ -1,8 +1,8 @@
 <?php
-
-include_once '../ilib/lib_edo.php';
-include_once '../ilib/lib_report.php';
-include_once '../ilib/Isql.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_edo.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_report.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'module/function.php';
 
 /*
 
@@ -406,7 +406,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                    }
                } //row2
                $sql_nmat->close();
-             } //nmat 
+             } //nmat                          //Учет работы
              $sql.= $COMA."update i_razdel2 set"
                                     . " count_r2_realiz=count_r2_realiz".$plus.$row1['count_units']
                                     . " , summa_r2_realiz=summa_r2_realiz".$plus.$row1['subtotal']  
@@ -459,26 +459,64 @@ WHERE id={$row1[id]}
               echo "<pre>" . print_r(explode(';',$sql), true) . "</pre>";
               echo "<pre> arr_docs:" . print_r($arr_docs, true) . "</pre>";
           }
-          if ($exec)
-            $ret=Nariad_transaction($mysqli,$sql,$show);
+          if ($exec) {
+              if ($show) echo "<p>===================================>>>";
+              $ret = Nariad_transaction($mysqli, $sql, $show);
+          }
             if($ret === true) {
+                if($show) { echo "<p>step 10__";}
                 // Закрытие заявок, затронутых в наряде
                 $edo = new EDO($mysqli,11,false);  // От администратора
                 foreach($arr_docs as $id_doc) {
+                    if($show) { echo "<p>step 11__ $id_doc"; }
                     $doc_date = new Doc_Data($id_doc, $mysqli);
                     if(!($doc_date->row_doc[status] == 10)) {  //  Если не исполнена
                         $doc_date->Get_Data();
                         $docz = new DocZ($doc_date->row_doc);
                         $docz->analyze();
+                        if ($show) { echo "<pre> docz:" . print_r($docz->status_all[0], true) . "</pre>"; }
+
                         if ($docz->status_all[0]==1) {
                             // Закрыть задание по заявке
                             $arr_document = $edo->my_documents(0, $id_doc );
-                            if (isset($arr_document[state]) )
-                            foreach($arr_document[state] as $task) {
-                                $edo->set_status($task[id_s],10,'Автоматическое закрытие');
+                            if ($show) { echo "<pre> arr_document:" . print_r($arr_document, true) . "</pre>"; }
+                            foreach($arr_document as $document) {
+                                if (isset($document[state])) {
+                                    foreach ($document[state] as $task) {
+                                        if ($show) { echo "<pre> task:" . print_r($task, true) . "</pre>"; }
+                                        if (($id_task=$edo->set_status($task[id_s], 2, 'Автоматическое закрытие'))===false) {
+                                            $ret=false;
+                                            if ($show) { echo "<pre> ERROR: {$edo->error} {$edo->error_name}</pre>"; }
+                                            break 2;
+                                        } else if ($show) { echo "<pre> ЗАКРЫТА id_task: $id_task </pre>";}
+                                    }
+                                    $edo->next($id_doc, 0);
+                                    //разослать уведомления, если есть новые задачи
+
+                                    if(isset($edo->arr_task)) {
+                                        foreach ($edo->arr_task as $id_task => $value) {
+                                            //оправляем всем уведомления кому нужно рассмотреть этот документ далее
+                                            $user_send_new = array();
+                                            //array_push($user_send_new, $value[id_executor]);
+                                            //$user_send_new = array_unique($user_send_new);
+                                            $user_send_new[] = $value[id_executor];
+                                            $text_note = 'Вам поступила задача по заявке: <a class="link-history" href="app/' . $value[id_document] . '/">' . $value[name].' - '. $value[name_items]. '</a>';
+                                            //отправка уведомления
+
+                                            notification_send($text_note, $user_send_new, $id_user, $mysqli);
+                                        }
+                                    }
+
+                                    // записать статус заявке 10 - исполнено
+                                    if (iDelUpd($mysqli,"UPDATE z_doc SET status = 10 WHERE id = $id_doc",false)===false) {
+                                        // ошибка изменния статуса заявки
+                                        $ret = false;
+                                        break;
+                                    }
+
+                                }
+
                             }
-                            $edo->next($id_doc,0);
-                            // записать статус заявке 10 - исполнено
                         }
                     }
                 }

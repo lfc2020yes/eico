@@ -1,7 +1,7 @@
 <?php
 
 include_once '../ilib/lib_interstroi.php';
-include_once '../ilib/lib_edo.php';
+//include_once '../ilib/lib_edo.php';
 include_once '../ilib/Isql.php';
 
 function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)

@@ -1,5 +1,9 @@
 <?php
 
+include_once '../ilib/lib_edo.php';
+include_once '../ilib/lib_report.php';
+include_once '../ilib/Isql.php';
+
 /*
 
 DELIMITER $$
@@ -227,12 +231,13 @@ if ($role->permission("Себестоимость",'A')) {};
  */
 /** Заполнение заявок по материалам при закрытии наряда (только +) - распровести нельзя
  * @param $mysqli
+ * @param $arr_docs - массив для сбора заявок по закрытию
  * @param $row_nariad
  * @param $row_n_work
  * @param $row_n_material
  * @return string - sql срипт
  */
-function material_from_doc(&$mysqli, $row_nariad, $row_n_material){
+function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){
     $sqls = ''; $COMA='';
 
     //$row_nariad[id_user]
@@ -257,6 +262,10 @@ AND S.`id_user` = ".$row_nariad[id_user];
             $count_z = $row_z[count_units]-$row_z[count_units_nariad];
             if($count_z > 0) { //Есть что списать
                 $update_count = ($count_units_m > $count_z) ? $count_z : $count_units_m; //спишем часть или ВСЕ
+                if ($update_count == $count_z) { //Списывается весь материал по заявке
+                    $arr_docs[$row_z[id_doc]] = $row_z[id_doc];   // Сохранить в массиве заявок
+                }
+
                 $sqls .=$COMA. "
 update z_doc_material 
 set count_units_nariad = count_units_nariad + $update_count 
@@ -342,27 +351,25 @@ VALUES
     return ($count_units_m>0) ? false : $sqls;
 }
 //===========================================================================
-// Расчет выполнение при подписи наряда
-// nariad_sign(&$mysqli,$id);
-
-// nariad_sign(&$mysqli,$id, 1, $id_user);
-/**
+/** Расчет выполнение при подписи наряда
  * @param $mysqli
  * @param $id_nariad
  * @param $signedd
  * @param $sign_level
- * @param int $id_user
+ * @param int $id_user = 0 от запустившего пользователя
  * @param false $show
  * @return false|mixed 0-false 1-true 2-недостаточно материалов у пользователя 3-недостаточно материалов в заявках
  */
-function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$show=false) {
-     $codecP= new codec();            
-     if($signedd==1) $plus='+'; else $plus='-';   
-     $sql='';
-     $COMA='';
-     $ret=false;
+function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$show=false, $exec=true) {
+     $codecP= new codec();
+     $plus = ($signedd==1) ? '+': '-';
+     if ($show) echo "<pre> SIGNED = $plus</pre>";
+     $sql = '';
+     $COMA = '';
+     $ret = 0;
+     $arr_docs = array();
      if ($sql_nariad = $mysqli->query("select * from n_nariad where id='$id_nariad'")) {
-      while( $row0 = $sql_nariad->fetch_assoc() ){ 
+      while( $row0 = $sql_nariad->fetch_assoc() ){   //if
          //----------------------обход по работам
          if ($sql_nwork = $mysqli->query("select * from n_work where id_nariad='$id_nariad'")) {
           while( $row1 = $sql_nwork->fetch_assoc() ){  
@@ -385,16 +392,18 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                                     . " where id=".$row2['id_material'];
                //  $summa_mat+=$row2['subtotal'];
                    $COMA=';';
-                   if (($sm = material_from_user($mysqli,$row0,$row2))===false) {  //Списать материал с пользователя
-                       /* ошибка недостаточно материалов у пользователя */
-                       $ret=2;
-                       break 3;
-                   } else $sql.=$COMA.$sm;
-                   if (($sm = material_from_doc($mysqli,$row0,$row2))===false) { //Списание материалов c заявок
-                       /* ошибка недостаточно материалов в заявках */
-                       $ret=3;
-                       break 3;
-                   } else $sql.=$COMA.$sm;
+                   if ($signedd==1) {
+                       if (($sm = material_from_user($mysqli, $row0, $row2)) === false) {  //Списать материал с пользователя
+                           /* ошибка недостаточно материалов у пользователя */
+                           $ret = 2;
+                           break 2;
+                       } else $sql .= $COMA . $sm;
+                       if (($sm = material_from_doc($mysqli,$arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
+                           /* ошибка недостаточно материалов в заявках */
+                           //$ret = 3;
+                           //break 2;
+                       } else $sql .= $COMA . $sm;
+                   }
                } //row2
                $sql_nmat->close();
              } //nmat 
@@ -446,8 +455,34 @@ WHERE id={$row1[id]}
 
 
          //============================выполнить транзакцию
-
-         $ret=Nariad_transaction($mysqli,$sql,$show);
+          if ($show) {
+              echo "<pre>" . print_r(explode(';',$sql), true) . "</pre>";
+              echo "<pre> arr_docs:" . print_r($arr_docs, true) . "</pre>";
+          }
+          if ($exec)
+            $ret=Nariad_transaction($mysqli,$sql,$show);
+            if($ret === true) {
+                // Закрытие заявок, затронутых в наряде
+                $edo = new EDO($mysqli,11,false);  // От администратора
+                foreach($arr_docs as $id_doc) {
+                    $doc_date = new Doc_Data($id_doc, $mysqli);
+                    if(!($doc_date->row_doc[status] == 10)) {  //  Если не исполнена
+                        $doc_date->Get_Data();
+                        $docz = new DocZ($doc_date->row_doc);
+                        $docz->analyze();
+                        if ($docz->status_all[0]==1) {
+                            // Закрыть задание по заявке
+                            $arr_document = $edo->my_documents(0, $id_doc );
+                            if (isset($arr_document[state]) )
+                            foreach($arr_document[state] as $task) {
+                                $edo->set_status($task[id_s],10,'Автоматическое закрытие');
+                            }
+                            $edo->next($id_doc,0);
+                            // записать статус заявке 10 - исполнено
+                        }
+                    }
+                }
+            }
      } //row0
      $sql_nariad->close();
     } //nariad
@@ -469,10 +504,7 @@ function Nariad_Stop(&$mysqli) {
 function Nariad_transactionA(&$mysqli,&$sql,$show=false) {
   $ret=false;
   $arr=explode(';',$sql);
-  if ($show) {
-      echo "<pre>" . print_r($arr, true) . "</pre>";
-      return $ret;
-  }
+
   for ($i=0; $i<count($arr); $i++) {
       if($show) echo "<p/> $i=".$arr[$i];
       if (($ret=$mysqli->query(trim($arr[$i])))!==true) {

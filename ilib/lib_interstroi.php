@@ -398,7 +398,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                            $ret = 2;
                            break 2;
                        } else $sql .= $COMA . $sm;
-                       if (($sm = material_from_doc($mysqli, $row0, $row2)) === false) { //Списание материалов c заявок
+                       if (($sm = material_from_doc($mysqli,$arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
                            /* ошибка недостаточно материалов в заявках */
                            //$ret = 3;
                            //break 2;

@@ -221,6 +221,8 @@ function AfterOptionDemo(data,update)
                 $('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
             }
         }
+        NumberBlockFile();
+
 
 
         clearInterval(timerId);

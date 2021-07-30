@@ -75,6 +75,124 @@ var validate11 = function() {
 }
 
 
+function UploadInvoice_old()
+{
+	var id_upload=$(this).attr('id_upload');
+	$('[name=myfiles'+id_upload+']').trigger('click');
+}
+
+
+function UploadReportsChange_old()
+{
+	var id=$(this).parents('form').attr('id_sc');
+	file = this.files[0];
+	if (file) {
+		uploadRR_old(file,id);
+	}
+	return false;
+}
+function uploadRR_old(file,id) {
+
+	var xhr = new XMLHttpRequest();
+
+	// обработчики можно объединить в один,
+	// если status == 200, то это успех, иначе ошибка
+	xhr.onload = xhr.onerror = function() {
+		// alert(this.status);
+		if (this.status == 200) {
+
+			$('[id_upload='+id+']').show(); //кнопка
+			$('.scap_load_'+id).find('.scap_load__').width(0);
+			$('.scap_load_'+id).hide();
+			$('.scap_load_'+id).after();
+			//UpdateImageReports(id);
+			alert_message('ok','ваш профиль обновлен');
+			autoReloadHak();
+		} else {
+
+			$('[id_upload='+id+']').show();
+			$('.scap_load_'+id).find('.scap_load__').width(0);
+			$('.scap_load_'+id).hide();
+		}
+	};
+
+	// обработчик для закачки
+	xhr.upload.onprogress = function(event) {
+		$('[id_upload='+id+']').hide();
+		$('.scap_load_'+id).show();
+		var widths=Math.round((event.loaded*100)/event.total);
+		$('.scap_load_'+id).find('.scap_load__').width(widths+'%');
+	}
+
+	xhr.open("POST", "users/upload.php", true);
+	//xhr.send(file);
+
+	var formData = new FormData();
+	formData.append("thefile", file);
+	formData.append("id",id);
+	xhr.send(formData);
+
+}
+
+
+
+//нажать на кнопку сохранить настройки
+function save_setting()
+{
+
+
+	var err = 0;
+//alert($('.js-form-register .gloab').length);
+	$('.js-form-gloab .gloab').each(function(i,elem) {
+		if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+			$(this).parents('.list_2021').addClass('required_in_2021');
+			err++;
+			//alert($(this).attr('name'));
+		} else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+	});
+
+	//alert(err);
+
+	if(err==0)
+	{
+		$('.js-form-gloab  .js-save-setting').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 7px;top: auto;right: auto;left: calc(50% - 20px);"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+		//AjaxClient('notification','even','GET',data,'AfterNofi',1,0,1);
+		//AjaxClient('tedner','add','POST',0,'AfterAddFormTender',0,'js-form-tender-new',1);
+		$('#lalala_add_form').submit();
+
+	} else
+	{
+		//найдем самый верхнюю ошибку и пролестнем к ней
+		//jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+		//ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+		alert_message('error','Не все поля заполнены');
+	}
+
+
+}
+
+
+
+
+//закрыть форму подписки крестик
+//  |
+// \/
+function Eye()
+{
+	if($(this).is('.ais-open'))
+	{
+		$(this).removeClass('ais-open');
+		$(this).parents('.input_2021').find('.input_new_2021').attr('type','password');
+	} else
+	{
+		$(this).addClass('ais-open');
+		$(this).parents('.input_2021').find('.input_new_2021').attr('type','text');
+	}
+}
+
+
+
 function count_task()
 {
 var count_dr=$('.hidden-count-task').text();
@@ -4882,8 +5000,11 @@ $('.count_mask').bind("change keyup input click", validate11);
 	$('.invoice_block').on("click",".add_akt_defect1", UploadInvoicePhoto);
 	
 	$('.invoice_block').on("change keyup input click",".count_defect_in_,.text_zayva_message_,.del_invoice_akt",function(){ $(this).parents('[invoices_messa]').find('.print_invoice_akt').hide(); });
-	
 
+//показать скрыть пароль глазик
+	$('body').on("click",'.ais',Eye);
+
+	$('body').on("change keyup input click",".js-save-setting", save_setting);
 	
 	$('.invoice_block').on("change keyup input click",".count_defect_in_,.count_in_", BrakError);
 	
@@ -4902,7 +5023,12 @@ $('.img_invoice_div').on("click",'.del_image_invoice',DellImageInvoice);
 
 $('.img_invoice_div').on("click",'.invoice_upload',UploadInvoice);
 $('.img_invoice_div').on("change",'.sc_sc_loo12',UploadInvoiceChange);
-	
+
+
+//загрузить фото в настройках
+	$('.l_photo').on("change keyup input click",'.invoice_upload',UploadInvoice_old);
+	$('.content').on("change",'.sc_sc_loos2',UploadReportsChange_old);
+
 $('body').on("click",'.soply_upload',UploadScanS);
 $('body').on("change",'.sc_sc_loo11',UploadScanSChange);
 	

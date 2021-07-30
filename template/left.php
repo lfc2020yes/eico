@@ -97,8 +97,8 @@ if($_SERVER['DOCUMENT_ROOT']!=$local)
 }
 
 
-$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Склад","Прием-Передача");
-$nav_url=array("prime","finery","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res");
+$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Склад","Прием-Передача","Настройки");
+$nav_url=array("prime","finery","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res","settings");
 $found = array_search($active_menu,$nav_url);
 
 ?>

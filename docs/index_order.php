@@ -77,7 +77,7 @@ if($num_results_custom_url==0)
 }
 //**************************************************
 
-if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=8))
+if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=4))
 {	
 	header404(7,$echo_r);
 }

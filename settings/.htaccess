@@ -1,0 +1,22 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+
+ #c http на https
+#RewriteEngine On
+#RewriteCond %{SERVER_PORT} !^443$
+#RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+
+#https
+#RewriteCond %{ENV:HTTPS} !on
+#RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+#c www �� ��� www
+#RewriteCond %{HTTP_HOST} ^www.tender.umatravel.club$ [NC]
+#RewriteRule ^(.*)$ https://tender.umatravel.club/$1 [R=301,L]
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

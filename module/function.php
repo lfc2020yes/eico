@@ -1,5 +1,22 @@
 <?
 
+
+function password_crypt_x($id_user,$pas,$email)
+{
+    $chars = $email.$email.$email.$email.$email.$email;
+    $posl_chifra_id=$id_user%10;
+    $ch=10+$posl_chifra_id;
+    $st=$email.$email;
+    $st_1 = substr($st, 0, $posl_chifra_id);
+    $st_2= substr($st, $posl_chifra_id);
+    $crypt=sha1($st_1.$id_user.$pas.$chars[$ch].$st_2);
+    return($crypt);
+}
+
+
+
+
+
 //вывод value полей при отправле форм
 
 //vars - переменная $_POST['bb'] или $_GET[]

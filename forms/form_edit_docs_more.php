@@ -87,6 +87,66 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
             echo'<!--input end	-->';
 
 
+
+
+            echo'<!--select start-->';
+            $os = array();
+            $os_id = array();
+
+            $mass_ee=array();
+            $query_ob='';
+
+            //print_r($FUSER);
+            //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';
+
+            $result_tr=mysql_time_query($link,'Select a.id,a.object_name,a.id_town from i_object as a where a.enable=1 order by a.id');
+            $num_results_tr = $result_tr->num_rows;
+            if($num_results_tr!=0) {
+                for ($i = 0; $i < $num_results_tr; $i++) {
+                    $row_tr = mysqli_fetch_assoc($result_tr);
+                    if((array_search($row_tr["id"],$hie_object) !== false)or($sign_admin==1))
+                    {
+                        array_push($os,$row_tr["object_name"]);
+                        array_push($os_id, $row_tr["id"]);
+
+                    }
+                }
+            }
+
+
+
+            rm_from_array($id_user,$os_id);
+
+            $su_1=ipost_new($_POST['forward_id'],$row_t["id_object"],'',-1);
+            $class_s='';
+            if($su_1!=-1)
+            {
+                $class_s='active_in_2018x';
+            }
+
+
+
+
+            echo'<div class="margin-input"><div class="list_2021 gray-color js-zindex '.$class_s.'"><label><i>Объект</i><span>*</span></label><div class="select eddd"><a class="slct" data_src="'.$os_id[array_search(ipost_($_POST['forward_id'],$row_t["id_object"]), $os_id)].'">'.$os[array_search(ipost_($_POST['forward_id'],$row_t["id_object"]), $os_id)].'</a><ul class="drop">';
+
+
+            for ($i=0; $i<count($os_id); $i++)
+            {
+                if(isset($os_id[$i])) {
+                    if ($su_1 == $os_id[$i]) {
+                        echo '<li class="sel_active"><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
+                    } else {
+                        echo '<li><a href="javascript:void(0);"  rel="' . $os_id[$i] . '">' . $os[$i] . '</a></li>';
+                    }
+                }
+            }
+            echo'</ul><input type="hidden" class="gloab" name="forward_id" value="'.ipost_($_POST['forward_id'],$row_t["id_object"]).'"></div></div></div>';
+            echo'<!--select end-->';
+
+
+
+
+
             echo'<div class="js-more-options-supply">';
             echo'<!--input start	-->		
 <div class="password_docs">
@@ -288,6 +348,9 @@ include_once $url_system.'template/form_js.php';
         $(".slct").bind('click.sys', slctclick);
         $(".drop").find("li").unbind('click');
         $(".drop").find("li").bind('click', dropli);
+
+
+
 
         //кнопка отмена
         $('.js-box-modal-two .js-exit-window-add-task-two').off("change keyup input click");

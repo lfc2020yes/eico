@@ -183,9 +183,9 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
    
 						   if($flag_podpis!=0)
 						   {
-							   echo("!");
+							   //echo("!");
 							   mysql_time_query($link,'update n_nariad set ready="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
-							   header("Location:".$base_usr."/finery/".htmlspecialchars(trim($_GET['id'])).'/');	
+							   header("Location:".$base_usr."/finery/".htmlspecialchars(trim($_GET['id'])).'/no/');
 			                   die();
 						   } else
 						   {
@@ -196,7 +196,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						   
 						   //записать посследнии данные по количествам которые были на момент утверждения
 						   
-						   
+
 						  $result_work=mysql_time_query($link,'Select a.* from n_work as a where a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" order by a.id');
                           $num_results_work = $result_work->num_rows;
 	                      if($num_results_work!=0)
@@ -215,21 +215,20 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 	                       {  
 							   $row1ss_ = mysqli_fetch_assoc($result_t1_); 
 							   
-							   						    //сохраняем последние данные по работе
-							mysql_time_query($link,'update n_work set 				 
+							  //сохраняем последние данные по работе
+							  mysql_time_query($link,'update n_work set 				 
 					 count_units_razdel2="'.$row1ss_["count_all"].'",					 
 					 count_units_razdel2_realiz="'.$row1ss_["count_r2_realiz"].'",
 					 price_razdel2="'.$row1ss_["price"].'"					 					 
 					 where id = "'.$row_work["id"].'"');
 							   
-		                        //такая работа есть
+							   //такая работа есть
 		                       $result_mat=mysql_time_query($link,'Select a.*,b.count_units as count_seb,b.price as price_seb,b.count_realiz from n_material as a,i_material as b where a.id_material=b.id and a.id_nwork="'.$row_work["id"].'" order by a.id');
 							   $num_results_mat = $result_mat->num_rows;
 	                           if($num_results_mat!=0)
 	                           {
-		            
 		                         for ($mat=0; $mat<$num_results_mat; $mat++)
-                                  {  
+		                         {
                                       $row_mat = mysqli_fetch_assoc($result_mat);									  
 									  //сохраняем последние данные по материалу
 									  mysql_time_query($link,'update n_material set 				 
@@ -237,15 +236,14 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 					 count_units_material_realiz="'.$row_mat["count_realiz"].'",
 					 price_material="'.$row_mat["price_seb"].'"					 					 
 					 where id = "'.$row_mat["id"].'"');
-									  
-					          	  }
+		                         }
 					           }
 					          		   
 							   
 						   }
 					      } 
 						  }
-						   
+
 						   nariad_sign($link, $_GET["id"], 1,$sign_level, $id_user);
 						   //nariad_sign(&$mysqli,$id_narid, $sinedd,$sign_level, $id_user
 						   //echo("!!");
@@ -256,7 +254,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						  //списываем у пользователя материалы которые были в этом наряде
 						  //списываем у пользователя материалы которые были в этом наряде
 						  //списываем у пользователя материалы которые были в этом наряде
-							   
+							/*
 						  $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and a.id=b.id_nwork');
                            $num_results_pro = $result_pro->num_rows;
 	                       if($num_results_pro!=0)
@@ -313,7 +311,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 							 }
 							   
 						   }
-							   
+							   */
 						  //списываем у пользователя материалы которые были в этом наряде
 						  //списываем у пользователя материалы которые были в этом наряде
 						  //списываем у пользователя материалы которые были в этом наряде					   
@@ -387,7 +385,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде						   
-						   
+                               header("Location:".$base_usr."/finery/".$_GET['id'].'/seal/');
 						   
 						   }
 					   }  
@@ -441,7 +439,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 }
 
 //echo($error);
-header("Location:".$base_usr."/finery/".$_GET['id'].'/');
+header("Location:".$base_usr."/finery/".$_GET['id'].'/no/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

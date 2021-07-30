@@ -111,19 +111,20 @@ if($num_results_uu!=0)
     $task_cloud_block.='<div class="pass_wh_trips" style="margin-top: 10px;"><label>Создатель</label><div class="obi">'.$row_uu['name_user'].'</div></div>';
 }
 
-/*
-$ddd='';
-if($value["delivery_day"] != 0)
-{
-    $ddd=$value["delivery_day"];
+
+$result_uuo = mysql_time_query($link, 'select object_name from i_object where id="' . ht($value["id_object"]) . '"');
+$num_results_uuo = $result_uuo->num_rows;
+
+if ($num_results_uuo != 0) {
+    $row_uuo = mysqli_fetch_assoc($result_uuo);
+    $task_cloud_block.='<div class="pass_wh_trips" style="margin-top: 10px;"><label>Объект</label><div class="obi">'.$row_uuo["object_name"].'</div></div>';
 }
-if($ddd!='')
-{
-    $task_cloud_block.='<div class="pass_wh_trips" style="margin-top: 10px;"><label>срок поставки</label><div class="obi">~ '.$ddd.' '.PadejNumber($ddd,'день,дня,дней').'</div></div>';
+
+
 
     //$task_cloud_block.='<div class="stock_name_mat">срок поставки ~ '.$ddd.' '.PadejNumber($ddd,'день,дня,дней').'</div>';
-}
-*/
+
+
 
 
 

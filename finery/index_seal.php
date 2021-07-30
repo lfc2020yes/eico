@@ -244,149 +244,140 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 					      } 
 						  }
 
-						   nariad_sign($link, $_GET["id"], 1,$sign_level, $id_user);
+						   $result=nariad_sign($link, $_GET["id"], 1,$sign_level, $id_user);
 						   //nariad_sign(&$mysqli,$id_narid, $sinedd,$sign_level, $id_user
 						   //echo("!!");
 							   
-							   
-							   
-							   
-						  //списываем у пользователя материалы которые были в этом наряде
-						  //списываем у пользователя материалы которые были в этом наряде
-						  //списываем у пользователя материалы которые были в этом наряде
-							/*
-						  $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and a.id=b.id_nwork');
-                           $num_results_pro = $result_pro->num_rows;
-	                       if($num_results_pro!=0)
-	                       {
-		                     for ($ip=0; $ip<$num_results_pro; $ip++)
-		                     {
-			                   $row_pro = mysqli_fetch_assoc($result_pro);
-							   //$row_pro["count_units"] 
-							   $count_sp=$row_pro["count_units"];
-							   $cost_ss=0;
-							   $total=0;
-							   //списываем к уменьшению количества записей на складе. сначала с записей которые мелкие потом большие
-							   $result_t2=mysql_time_query($link,'Select a.* from z_stock_material as a where a.id_stock="'. $row_pro["id_stock"].'" and a.id_user="'.$row_list["id_user"].'" order by a.count_units');	
-					           $num_results_t2 = $result_t2->num_rows;
-	                           if($num_results_t2!=0)
-	                           {		   
-							   	  for ($ksss=0; $ksss<$num_results_t2; $ksss++)
-                                  {
+							if($result!=true)
+                            {
+                                echo $result;
+                                die();
+                            } else {
 
-					                   $row__2= mysqli_fetch_assoc($result_t2);
-									   if($row__2["count_units"]<=$count_sp)
-										{
-											$count_sp=$count_sp-$row__2["count_units"];
-											$total=$total+($row__2["count_units"]*$row__2["price"]);
-											//удаляем запись вообще
-											mysql_time_query($link,'delete FROM z_stock_material where id="'.$row__2["id"].'"');
-										} else
-										{
-											$new_count=$row__2["count_units"]-$count_sp;
-											$total=$total+($count_sp*$row__2["price"]);
-											$count_sp=0;
-											if($new_count>0)
-											{
-											mysql_time_query($link,'update z_stock_material set count_units="'.$new_count.'" where id = "'.$row__2["id"].'"');
-											} else
-											{
-											mysql_time_query($link,'delete FROM z_stock_material where id="'.$row__2["id"].'"');	
-											}
-										}
-									    if($count_sp==0)
-										{
-											break;
-										}
-									  
-						 
-					              }
-								   $cost_ss=round($total/$row_pro["count_units"],2);
-								   
-								 mysql_time_query($link,'update n_material set 				 
-					 price="'.$cost_ss.'"					 					 
-					 where id = "'.$row_pro["id"].'"');
-				              }
-								 
-							 }
-							   
-						   }
-							   */
-						  //списываем у пользователя материалы которые были в этом наряде
-						  //списываем у пользователя материалы которые были в этом наряде
-						  //списываем у пользователя материалы которые были в этом наряде					   
-							   
-							   
 
-				  //добавляем уведомления о новом наряде
-				  //добавляем уведомления о новом наряде
-				  //добавляем уведомления о новом наряде	
-				  $user_send= array();	
-				  $user_send_new= array();		
-				
-				  
-				  
-	if($sign_level==1)
-	{	
-		$user_send_new=array_merge($hie->boss['2'],$hie->boss['4']);
-		$user_send_new=array_merge($user_send_new,$hie->boss['3']);
-	}
-	if($sign_level==2)
-	{	
-		$user_send_new=array_merge($hie->boss['3'],$hie->boss['4']);		
-	}
-	if($sign_level==3)
-	{	
-		$user_send_new=$hie->boss['4'];
-	}	
-						  
-	//cообщаем пользователям которые подписывали до этого
-    if($row_list['id_signed2']!=0)
-	{
-	  if(($row_list['id_signed1']!=0)and($id_user!=$row_list['id_signed1']))
-	  {
-		array_push($user_send_new, $row_list['id_signed1']); 
-	  }
-	  if(($row_list['id_signed0']!=0)and($id_user!=$row_list['id_signed0']))
-	  {
-		array_push($user_send_new, $row_list['id_signed0']); 
-	  }	
-	}
-    if($row_list['id_signed2']==0)
-	{
-	  if(($row_list['id_signed0']!=0)and($id_user!=$row_list['id_signed0']))
-	  {
-		array_push($user_send_new, $row_list['id_signed0']); 
-	  }	
-	}						   
-	
-	//сообщаем создателю наряда					  
-	if($id_user!=$row_list["id_user"])
-	{
-      array_push($user_send_new, $row_list["id_user"]);
-	}	
-						  
-						  
-				 $user_send_new= array_unique($user_send_new);		
-				 //print_r($user_send_new);	
-	 					  
+                                //списываем у пользователя материалы которые были в этом наряде
+                                //списываем у пользователя материалы которые были в этом наряде
+                                //списываем у пользователя материалы которые были в этом наряде
+                                /*
+                              $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and a.id=b.id_nwork');
+                               $num_results_pro = $result_pro->num_rows;
+                               if($num_results_pro!=0)
+                               {
+                                 for ($ip=0; $ip<$num_results_pro; $ip++)
+                                 {
+                                   $row_pro = mysqli_fetch_assoc($result_pro);
+                                   //$row_pro["count_units"]
+                                   $count_sp=$row_pro["count_units"];
+                                   $cost_ss=0;
+                                   $total=0;
+                                   //списываем к уменьшению количества записей на складе. сначала с записей которые мелкие потом большие
+                                   $result_t2=mysql_time_query($link,'Select a.* from z_stock_material as a where a.id_stock="'. $row_pro["id_stock"].'" and a.id_user="'.$row_list["id_user"].'" order by a.count_units');
+                                   $num_results_t2 = $result_t2->num_rows;
+                                   if($num_results_t2!=0)
+                                   {
+                                         for ($ksss=0; $ksss<$num_results_t2; $ksss++)
+                                      {
 
-				  $text_not='<strong>'.$name_user.'</strong> утвердил <a href="finery/'.htmlspecialchars(trim($_GET['id'])).'/">наряд №'.htmlspecialchars(trim($_GET['id'])).'</a>';
-				 
-				  
-				  //echo($text_not);
-				  		  
-					
-				  notification_send($text_not,$user_send_new,$id_user,$link);	
-				  
-	  
-				  		  
-						  
-				  //добавляем уведомления о новом наряде
-				  //добавляем уведомления о новом наряде
-				  //добавляем уведомления о новом наряде						   
-                               header("Location:".$base_usr."/finery/".$_GET['id'].'/seal/');
-						   
+                                           $row__2= mysqli_fetch_assoc($result_t2);
+                                           if($row__2["count_units"]<=$count_sp)
+                                            {
+                                                $count_sp=$count_sp-$row__2["count_units"];
+                                                $total=$total+($row__2["count_units"]*$row__2["price"]);
+                                                //удаляем запись вообще
+                                                mysql_time_query($link,'delete FROM z_stock_material where id="'.$row__2["id"].'"');
+                                            } else
+                                            {
+                                                $new_count=$row__2["count_units"]-$count_sp;
+                                                $total=$total+($count_sp*$row__2["price"]);
+                                                $count_sp=0;
+                                                if($new_count>0)
+                                                {
+                                                mysql_time_query($link,'update z_stock_material set count_units="'.$new_count.'" where id = "'.$row__2["id"].'"');
+                                                } else
+                                                {
+                                                mysql_time_query($link,'delete FROM z_stock_material where id="'.$row__2["id"].'"');
+                                                }
+                                            }
+                                            if($count_sp==0)
+                                            {
+                                                break;
+                                            }
+
+
+                                      }
+                                       $cost_ss=round($total/$row_pro["count_units"],2);
+
+                                     mysql_time_query($link,'update n_material set
+                         price="'.$cost_ss.'"
+                         where id = "'.$row_pro["id"].'"');
+                                  }
+
+                                 }
+
+                               }
+                                   */
+                                //списываем у пользователя материалы которые были в этом наряде
+                                //списываем у пользователя материалы которые были в этом наряде
+                                //списываем у пользователя материалы которые были в этом наряде
+
+
+                                //добавляем уведомления о новом наряде
+                                //добавляем уведомления о новом наряде
+                                //добавляем уведомления о новом наряде
+                                $user_send = array();
+                                $user_send_new = array();
+
+
+                                if ($sign_level == 1) {
+                                    $user_send_new = array_merge($hie->boss['2'], $hie->boss['4']);
+                                    $user_send_new = array_merge($user_send_new, $hie->boss['3']);
+                                }
+                                if ($sign_level == 2) {
+                                    $user_send_new = array_merge($hie->boss['3'], $hie->boss['4']);
+                                }
+                                if ($sign_level == 3) {
+                                    $user_send_new = $hie->boss['4'];
+                                }
+
+                                //cообщаем пользователям которые подписывали до этого
+                                if ($row_list['id_signed2'] != 0) {
+                                    if (($row_list['id_signed1'] != 0) and ($id_user != $row_list['id_signed1'])) {
+                                        array_push($user_send_new, $row_list['id_signed1']);
+                                    }
+                                    if (($row_list['id_signed0'] != 0) and ($id_user != $row_list['id_signed0'])) {
+                                        array_push($user_send_new, $row_list['id_signed0']);
+                                    }
+                                }
+                                if ($row_list['id_signed2'] == 0) {
+                                    if (($row_list['id_signed0'] != 0) and ($id_user != $row_list['id_signed0'])) {
+                                        array_push($user_send_new, $row_list['id_signed0']);
+                                    }
+                                }
+
+                                //сообщаем создателю наряда
+                                if ($id_user != $row_list["id_user"]) {
+                                    array_push($user_send_new, $row_list["id_user"]);
+                                }
+
+
+                                $user_send_new = array_unique($user_send_new);
+                                //print_r($user_send_new);
+
+
+                                $text_not = '<strong>' . $name_user . '</strong> утвердил <a href="finery/' . htmlspecialchars(trim($_GET['id'])) . '/">наряд №' . htmlspecialchars(trim($_GET['id'])) . '</a>';
+
+
+                                //echo($text_not);
+
+
+                                notification_send($text_not, $user_send_new, $id_user, $link);
+
+
+                                //добавляем уведомления о новом наряде
+                                //добавляем уведомления о новом наряде
+                                //добавляем уведомления о новом наряде
+                                header("Location:" . $base_usr . "/finery/" . $_GET['id'] . '/seal/');
+                            }
 						   }
 					   }  
 				       }

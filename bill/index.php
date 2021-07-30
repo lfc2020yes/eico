@@ -81,7 +81,7 @@ if($error_header!=404){ SEO('bill','','','',$link); } else { SEO('0','','','',$l
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body>
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
 <?
 include_once $url_system.'template/body_top.php';	
 ?>
@@ -89,20 +89,20 @@ include_once $url_system.'template/body_top.php';
 
 
 <div class="container">
-<?	
-		if ( isset($_COOKIE["iss"]))
-		{
-          if($_COOKIE["iss"]=='s')
-		  {
-			  echo'<div class="iss small">';
-		  } else
-		  {
-			  echo'<div class="iss big">';			  
-		  }
-		} else
-		{
-			echo'<div class="iss">';	
-		}
+<?
+if ( isset($_COOKIE["iss"]))
+{
+    if($_COOKIE["iss"]=='s')
+    {
+        echo'<div class="iss small">';
+    } else
+    {
+        echo'<div class="iss big">';
+    }
+} else
+{
+    echo'<div class="iss small">';
+}
 //echo(mktime());
 
 /*
@@ -363,6 +363,8 @@ echo'</div>';
 						 
 						 
 echo'</td>';
+
+
 /*						 
 echo'<td><span class="per1">';
 						 

@@ -160,7 +160,7 @@ if (($edo->next($id, 3))===false) {
     if(isset($edo->arr_task)) {
         foreach ($edo->arr_task as $key => $value) {
             //оправляем всем уведомления кому нужно рассмотреть этот документ далее
-
+//print_r($value);
 
             $user_send_new = array();
             //уведомление

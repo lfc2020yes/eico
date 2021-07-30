@@ -250,9 +250,27 @@ $echo.='</div></td><td class="t_7 jk5"><span class="price_supply_ summa_ii"></sp
 <input type=hidden value="'.htmlspecialchars(trim($_GET['demo'])).'" class="stock_inp" name="invoice['.$_GET["ss"].'][stock]">
 </td></tr>';
 
+$class_aa = '';
+$style_aa = '';
 
 
-$echo.='<tr invoice_group="'.$ID_D.'" invoices_messa="'.$ID_D.'" class=" jop messa_invoice" style="display: none;"><td><span class="hsi">Акт на отбраковку<div></div></span><div class="del_invoice_akt" data-tooltip="Удалить акт" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div></td><td style="padding:0px;white-space: nowrap"><div class="img_akt"><ul></ul></div><div id_upload_a="'.$ID_D.'" data-tooltip="загрузить акт на отбраковку" class="add_akt_defect"></div><div class="b_loading_small_akt"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div></td><td colspan="2" style="padding:0px;white-space: nowrap"><div class="img_akt1"><ul></ul></div><div id_upload_a1="'.$ID_D.'" data-tooltip="загрузить фото с браком" class="add_akt_defect1"></div><div class="b_loading_small_akt1"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div></td><td><div class="width-setter"><label style="display: inline;">КОЛ-ВО БРАКА</label><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][count_defect]" id="count_invoice_defect_'.$_GET["ss"].'" class="input_f_1 akt_ss input_100 white_inp label_s count_defect_in_  count_mask   " autocomplete="off" value="0" type="text"></div></td><td colspan="3"><div class="width-setter"><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][text]" placeholder="Комментарий по браку" class="akt_ss input_f_1 input_100   white_inp label_s text_zayva_message_ " autocomplete="off" value="" type="text"></div></td></tr><tr class="loader_tr" style="height:2px;"><td colspan="8"></td></tr>';
+
+$echo.='<tr invoice_group="'.$ID_D.'" invoices_messa="'.$ID_D.'" class=" jop messa_invoice" style="display: none;"><td><span class="hsi">Акт на отбраковку<div></div></span><div class="del_invoice_akt" data-tooltip="Удалить акт" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div></td><td style="padding:0px;white-space: nowrap">';
+
+
+$echo.='<div style="display: inline-block" class="photo-akt-invoice"><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '></div></div><input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="7" id_object="' . $ID_D.'" data-tooltip="загрузить акт на отбраковку" class="invoice_upload js-upload-file js-helps ' . $class_aa . ' upload-but-2022" style="background-color: #fff !important;" ></div></div></div>';
+/*
+$echo.='<div class="img_akt"><ul></ul></div><div id_upload_a="'.$ID_D.'" data-tooltip="загрузить акт на отбраковку" class="add_akt_defect"></div><div class="b_loading_small_akt"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>
+*/
+$echo.='</td><td colspan="2" style="padding:0px;white-space: nowrap">';
+
+    $echo.='<div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '></div></div><input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="6" id_object="' . $ID_D . '" data-tooltip="загрузить фото с браком" class="invoice_upload js-upload-file js-helps ' . $class_aa . ' upload-but-2021" style="background-color: #fff !important;" ></div></div></div>';
+/*
+$echo.='<div class="img_akt1"><ul></ul></div><div id_upload_a1="'.$ID_D.'" data-tooltip="загрузить фото с браком" class="add_akt_defect1"></div><div class="b_loading_small_akt1"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>';
+*/
+$echo.='</td><td>
+
+<div class="width-setter"><label style="display: inline;">КОЛ-ВО БРАКА</label><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][count_defect]" id="count_invoice_defect_'.$_GET["ss"].'" class="input_f_1 akt_ss input_100 white_inp label_s count_defect_in_  count_mask   " autocomplete="off" value="0" type="text"></div></td><td colspan="3"><div class="width-setter"><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][text]" placeholder="Комментарий по браку" class="akt_ss input_f_1 input_100   white_inp label_s text_zayva_message_ " autocomplete="off" value="" type="text"></div></td></tr><tr class="loader_tr" style="height:2px;"><td colspan="8"></td></tr>';
 /*
 $echo1='<form  class="form_up" id="upload_akt1_'.$ID_D.'" id_a="'.$ID_D.'" name="upload_akt1'.$ID_D.'"><input class="invoice_file_photo" type="file" name="myfilephoto'.$ID_D.'"></form>';	
 $echo1.='<form  class="form_up" id="upload_akt_'.$ID_D.'" id_a="'.$ID_D.'" name="upload_akt'.$ID_D.'"><input class="invoice_file_akt" type="file" name="myfileakt'.$ID_D.'"></form>';

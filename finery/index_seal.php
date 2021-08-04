@@ -247,8 +247,8 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						   $result=nariad_sign($link, $_GET["id"], 1,$sign_level, $id_user);
 						   //nariad_sign(&$mysqli,$id_narid, $sinedd,$sign_level, $id_user
 						   //echo("!!");
-							   
-							if($result!=true)
+
+							if($result!==true)
                             {
                                 echo $result;
                                 die();
@@ -376,7 +376,10 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
                                 //добавляем уведомления о новом наряде
                                 //добавляем уведомления о новом наряде
                                 //добавляем уведомления о новом наряде
+                               //echo("!");
                                 header("Location:" . $base_usr . "/finery/" . $_GET['id'] . '/seal/');
+                                die();
+                                //header("Location:".$base_usr."/finery/".$_GET['id'].'/no/');
                             }
 						   }
 					   }  

@@ -199,6 +199,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 				   }
 
                    header("Location:".$base_usr."/finery/".$_GET['id'].'/disband/');
+				   die();
 						   
 					  
 			     

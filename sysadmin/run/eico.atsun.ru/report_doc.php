@@ -1,5 +1,5 @@
 <?php
-include_once '../ilib/Isql.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/task_time.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_report.php';
 

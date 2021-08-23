@@ -1,5 +1,5 @@
 <?php
-include_once '../ilib/Isql.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_interstroi.php';
 
 function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)

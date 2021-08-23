@@ -97,16 +97,14 @@ private function SUMMA_save(&$SUMMA,$num,$data) {
 private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
     $title='';
     $znak=array('∑','×','+','≠','<');   //0,1,2,3,4
-    $summa_=number_format(0.0+$summa, 2, '.', '');
-    $data_=number_format(0.0+$data, 2, '.', '');
-    $delta=round(round($summa_,$this->round__)-$data_,$this->round__);          //$summa_ ROUND00
+    $summa_=number_format(0.0+$summa, $this->round__+1, '.', '');
+    $data_=number_format(0.0+$data, $this->round__+1, '.', '');
+    $delta=round($summa_-$data_,$this->round__);          //$summa_ ROUND00
     if ($z==4 && $delta>0) $delta=0; //Контроль на непревышение
     
     if ($delta<>0 || $str<>'') {
-        //$title= $str.' ('.$znak[$z].') ⊂='.$summa_.' ячейка='.$data_.' ∆='.$delta;
-        $delta = round($summa-$data, $this->round__+2);
-        //$delta=round(round($summa_,4)-$data_,4);
-        $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta;
+        $delta_ = round($summa-$data, $this->round__+2);
+        $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta_;
     }
     return $title;
 }
@@ -116,9 +114,9 @@ private function Vedomost($name_razdel,&$SUMMA, $show) {
        $str='<tr id="ved" class="div_ved">'
                .'<td colspan="4">'.$this->RAZDEL
                .'<td colspan="6">'.$name_razdel
-               .'<td align="right">'.number_format(0.0+$SUMMA[7], 2, '.', '')
-               .'<td align="right">'.number_format(0.0+$SUMMA[8], 2, '.', '')
-               .'<td align="right">'.number_format(0.0+$SUMMA[7]+$SUMMA[8], 2, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[7], $this->round__, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[8], $this->round__, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[7]+$SUMMA[8], $this->round__, '.', '')
                .'<td colspan="2">'
                .'</tr>';
        
@@ -180,17 +178,13 @@ private function Vedomost_ITOGO2(&$ITOGO, $show,$class="div_ved",$id="ved",$id_o
 }
 
 private function AddSumma(&$ITOGO,&$ROW_data) {
-    /*$ITOGO[0]+=round($ROW_data[7],$this->round__);
-    $ITOGO[1]+=round($ROW_data[8],$this->round__);
-    $ITOGO[2]+=(round($ROW_data[7],$this->round__)+round($ROW_data[8],$this->round__));*/
-
+    //echo "<pre>===".print_r($ROW_data,true)."</pre>";
     if ($this->is_run_show($this->RAZDEL,0) or $this->run_type==0) {
-        //echo "<pre> ---RAZDEL=$this->RAZDEL </pre>";
-
-    $ITOGO[0]+=$ROW_data[7];
-    $ITOGO[1]+=$ROW_data[8];
-    $ITOGO[2]+=$ROW_data[7]+$ROW_data[8];
+        $ITOGO[0]+=$ROW_data[7];
+        $ITOGO[1]+=$ROW_data[8];
+        $ITOGO[2]+=$ROW_data[7]+$ROW_data[8];
     }
+
 }
     private function is_run_load ($id_object,$R1,$R2) {
         if (($this->run_type==0 and $id_object>0)
@@ -313,7 +307,7 @@ $Key_Special = array (
  
 $rtype = array ('работ','материалов');
 //$okrugl=2;
-$size_array=16;  // было 12 +4 было 10 добавил реализацию
+$size_array=17;  // было 12 +4 было 10 добавил реализацию
 $ITOGO=array(0,0,0,0,0);  //ПЛАН 7-работа 8-материалы 9-всего РЕАЛИЗАЦИЯ 10-работа 11-материалы 
 $SUMMA=array();
 $ROW_data=array();
@@ -390,12 +384,9 @@ else
                                                         order by cell_programm')) {
                             while( $row1 = $result1->fetch_assoc() ){
                                 $key=$row1['cell'];
-                                //if (array_search($key,array_keys($X_prog))===false) {
-                                //    
-                                //}
-                                $X_prog[$key]=$row1['cell_programm'];
-                                //echo '<p>'.$key.'=>'.$row1['cell_programm'];
- 
+                                //$X_prog[$key]=$row1['cell_programm'];
+                                $X_prog[$key]=$row1;  // Здесь precisin
+
                             }
                             $result1->close();  
                         } else echo '<p/>'.$result1;
@@ -403,14 +394,16 @@ else
                       }
                       $result->close();  
                   } else { 
-                    echo '<p/>'.$result;
                     $X_prog=array("A"=>"A","B"=>"B","C"=>"C","D"=>"D","E"=>"E","F"=>"F","G"=>"G","H"=>"H","I"=>"I","J"=>"J"
                         ,"K"=>"K","L"=>"L"
                         ,"M"=>"M","N"=>"N"
                         ,"O"=>"O","P"=>"P");
+                    echo "<pre>".print_r( $X_prog,true)."</pre>";
+                    die('нет шаблона загрузки');
                   
                   }
                   //echo '<pre>'.print_r($X_prog,true).'</pre>';
+                  //die('stop');
             
     
         $REJIM=0;    //0-просто считывание строк, 1-раздел, 2-итоги раздела, 3-всего, 4-данные раздела
@@ -488,7 +481,7 @@ else
                     }        
                     //$NumColumn=array_search($X_prog[$cell->getColumn()],array_keys($X_prog));
                     //$ic=iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]);
-                    $ic=mb_substr(iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]), 0, 1);
+                    $ic=mb_substr(iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]['cell_programm']), 0, 1);
                     //$ic1=0+ord($ic);
                     //$ic=(integer)ord($ic);
                     //var_dump($ic,$ic1,$ic2);
@@ -506,7 +499,7 @@ else
                     } else { $align='align="left"'; }
                     $realiz_type=-1;
                     $visible_column=$worksheet->getColumnDimension($cell->getColumn())->getVisible();
-                    switch ($X_prog[$cell->getColumn()])               //-------------------Первичный разбор - Формирование таблицы HTML
+                    switch ($X_prog[$cell->getColumn()]['cell_programm'])               //-------------------Первичный разбор - Формирование таблицы HTML
                     {
                       case 'A': 
                           //поиск .
@@ -586,6 +579,7 @@ else
                       case 'G': //6 стоимость материалов    
                           $data_=$this->GetFloat($cell);
                           $this->ROW_save(&$ROW_data,$NumColumn,$data);
+                          //echo "<pre>{$X_prog[$cell->getColumn()]['cell_programm']} -> $NumColumn -> $data </pre>";
                           break;
                       /*
                       case 'F': //5 стоимость работы
@@ -632,7 +626,7 @@ else
                                   }
                                   $this->ROW_save(&$ROW_data,$NumColumn,$data);
                           }          
-                        }  
+                        }
                           break;
                       case 'J': //9 Сумма   --------------------------------------------------------------
                           
@@ -741,9 +735,16 @@ else
                              
                              }
                             break;
+                        case 'Q':  // Давальческий материал  16
+                            if(trim($data)!='') {
+                                $ROW_data[$NumColumn] = true;
+                                //echo "<pre>Давальческий  {$X_prog[$cell->getColumn()]['cell_programm']} -> $NumColumn -> {$ROW_data[$NumColumn]} </pre>";
+
+                            }
+                            break;
                     }
 
-                    $X_column =  $X_prog[$cell->getColumn()];  //Вторичный разбор для НДС по работам и материалам
+                    $X_column =  $X_prog[$cell->getColumn()]['cell_programm'];  //Вторичный разбор для НДС по работам и материалам
                     if (($X_column=='H' || $X_column=='I') && $error==0 ) { // H=7 I=8- итого работы/материалы
                         if ($load == false) {
                             $X_number = ($X_column=='H') ? 0:1;    //Номер в массиве SUMMA
@@ -767,7 +768,7 @@ else
                     }
 
 
-                    if ($X_prog[$cell->getColumn()]=='J' && $error==0 ) { //9-сумма        //Вторичный разбор по сумме
+                    if ($X_prog[$cell->getColumn()]['cell_programm']=='J' && $error==0 ) { //9-сумма        //Вторичный разбор по сумме
                       if ($load==false) {  
                         if  ( $delta==0)          //Чтобы не было вторичного наложения title
                         switch ($row_num) {       //Дополнительная проверка строк исключенных их подгрузки и формирование title
@@ -849,9 +850,10 @@ else
                         }
                        }
                     }
-                    if ($delta<>0)$error=5;    //суммы не равны
-                    
-                    
+                    if ($delta<>0) {
+                        $error = 5;    //суммы не равны
+                        //echo "<pre>delta=$delta => $REJIM</pre>";
+                    }
                     
                     $FName =$sharedStyle->getFont()->getName();
                     $FSize =$sharedStyle->getFont()->getSize();
@@ -880,7 +882,8 @@ else
                        $colorE ='green';
                     }
                     */
-                    
+                    if ($NumColumn==16 && $ROW_data[$NumColumn] == true && $REJIM==1) $colorE = 'green'; //Давальческий
+
                     if ($colorE=='000000') $bgcolor='';
                     else $bgcolor='bgcolor="'.$colorE.'"';
                     
@@ -1155,9 +1158,9 @@ function SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$
         } else $id_implementer=null;
         //----------------------------------------поиск материала на складе
         ///$id_stock= SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]);
-        
+        $alien = ($ROW_data[16]==true) ? 1 : 0;  //Давальческий
         if (!($id_implementer===false)) {
-            $sql='insert into i_material (id_razdel2,razdel1,razdel2,displayOrder,material,    id_implementer,units,count_units,price,title,summa_realiz,count_realiz,id_stock)'
+            $sql='insert into i_material (id_razdel2,razdel1,razdel2,displayOrder,material,    id_implementer,units,count_units,price,title,summa_realiz,count_realiz,id_stock,alien)'
                                         . 'values ('
                                         ."'$id_razdel2',"
                                         ."'$R1',"
@@ -1171,7 +1174,8 @@ function SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$
                                         ."'$title'," 
                                         ."'$ROW_data[11]',"
                                         ."'$ROW_data[13]',"
-                                        ."'$id_stock'"
+                                        ."'$id_stock',"
+                                        ."'$alien'"
                                         . ')';      
             
             $id=iInsert_1R($mysqli,$sql); 

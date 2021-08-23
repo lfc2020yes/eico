@@ -1,5 +1,5 @@
 <?php
-//commit
+//commit W
 $sys=$_SERVER['DOCUMENT_ROOT'];
 include_once $sys.'/Ajax/master/master_connect.php';
 

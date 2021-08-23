@@ -70,7 +70,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <input type="hidden" name="edo" value="1"/>
         <table><tr><td>
         <table <?=$styleF?> id="numer_table" cellspacing="0" align="left" class="theform">
-            <caption <?=$styleH?>><div style="padding:3px;">Отчет по материалам</div></caption>
+            <caption <?=$styleH?>><div style="padding:3px;">Отчет по работам и материалам в разделе себестоимости (сметы)</div></caption>
 
             <tr><td style="padding-right: 10px">дата начала: (YYYY-mm-dd):<td>
                     <input class="text"  name="date1" size="10" value="<?=$date1?>" />

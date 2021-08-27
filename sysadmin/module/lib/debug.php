@@ -1,7 +1,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <?php
   function echo_dd(&$row_TREE,$STR)
-  {      if ($row_TREE["DEBUG"]==1)
+  {
+      if ($row_TREE["DEBUG"]==1)
       {   echo "\n".$STR;
       }
   }
@@ -12,13 +13,13 @@
       }
   }
 
-//-------------------------Отладка вывод на экран
+//-------------------------пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
   function echo_PPP($nam,$dat)
   {  echo "<p>[".$nam.' = '.$dat."]</p>";
   }
 //
 define ('DEBUG', true, true);
-  function echoo ($str) {    //Вывод неформатированных кодов
+  function echoo ($str) {    //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
   	if (DEBUG)
     echo "<pre>$str</pre>";
   }

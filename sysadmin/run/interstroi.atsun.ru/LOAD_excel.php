@@ -1,5 +1,5 @@
 <?php
-include_once("./run/interstroi.atsun.ru/XLS_DB.php");
+include_once $_SERVER['DOCUMENT_ROOT'].'/'."sysadmin/run/interstroi.atsun.ru/XLS_DB.php";
 
 $DR='../images/tree_S/';   //giphy
 $ICON='load/';

@@ -40,7 +40,8 @@ function iAuto($mysqli) {           // Не используется
   $mysqli->autocommit(FALSE);
 }
 function iInsert_1R($mysqli,$sql,$show=true) {   // Добавление только 1й записи
-  $id=0;    
+  $id=0;
+  //echo "<pre> $sql </pre>";
   if (!$mysqli->query($sql)) {
             //$ret=$mysqli->errno;
             if($show) echo "<p/>(".$mysqli->errno.')'.$sql;

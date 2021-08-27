@@ -815,9 +815,11 @@ else
                         
                     }                   //-------------------------------------------Запись в базу
                     $id_stock=0;
+                    //echo "<pre> $R1.$R2 data_type=$data_type id_razdel1=".(isset($id_razdel1)?$id_razdel1:'FALSE')." column=".$cell->getColumn()."->".$Last_cell."</pre>";
                     if ($cell->getColumn() == $Last_cell && $error==0 && $load==true && $razdel_row_yes==false && isset($id_razdel1)) { //9-сумма  Запись в базу
-                       if ($reload && $this->is_run_load($id_object,$R1,$R2)) {
-                        //echo "<p/> $R1.$R2 data_type=$data_type id_razdel1=$id_razdel1";
+                        //echo "<pre> [I] $R1.$R2 data_type=$data_type id_razdel1=$id_razdel1 </pre>";
+                        if ($reload && $this->is_run_load($id_object,$R1,$R2)) {
+                        //echo "<pre> [II] $R1.$R2 data_type=$data_type id_razdel1=$id_razdel1 </pre>";
                         switch ($data_type) {
                            case 1:                 //И работы и материалы
                                $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
@@ -898,8 +900,10 @@ else
                          */
                     }
                     elseif (($type=='n' || $type=='f')
-                         && ($REJIM>0)) $data_show=number_format(0.0+$data, 2, '.', '');  //Форматированные числа $data_
-                    else $data_show=$data; 
+                         && ($REJIM>0)) {
+                        $decimal = ($X_prog[$cell->getColumn()]['cell_programm'] == 'E')?3:2; //Точность вывода на экран
+                        $data_show = number_format(0.0 + $data, $decimal, '.', '');  //Форматированные числа $data_
+                    } else $data_show=$data;
                     
                     if ($titleR<>'')$title=$titleR;
                     if ($title=='') $tdata=$data_show;
@@ -957,7 +961,7 @@ $mysqli->close();
 function XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show = false)
 {
     $xDB = new set_xlsx;
-    echo "<pre>id_object=$id_object, id_r1=$id_r1, id_r2=$id_r2, reload=$reload</pre>";
+    //echo "<pre>id_object=$id_object, id_r1=$id_r1, id_r2=$id_r2, reload=$reload</pre>";
     $xDB->XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show);
 }
 

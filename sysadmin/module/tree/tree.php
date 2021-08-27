@@ -392,7 +392,7 @@ function GET_mask_paragraf($PARAGRAF,&$MASK,&$MASK_FIELD,&$uPARENT,$ID_TABLE)
           }
           $sql_FND->FREE();
         }
-        echo_pp($row_TREE, "<pre>".print_r($this->ArrFIND,true)."</pre>");
+        //echo_pp($row_TREE, "<pre>".print_r($this->ArrFIND,true)."</pre>");
         unset($sql_FND);
     } 
   } // class    

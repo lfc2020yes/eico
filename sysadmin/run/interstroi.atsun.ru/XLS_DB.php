@@ -1,3 +1,11 @@
+<?php
+/*
+ * Точность для контроля загрузки в ячейках и при вычислениях
+ * кол-во - 3 знака
+ * все денежные варианты в ячейках и при расчетах - 2 знака (копейки)
+ * концепция XLSX - все данные имеют именно ту точность, с которой отформатированны - что видим, то и считаем
+ */
+?>
 <style>
     .div_err , .div_ok {
     }
@@ -66,13 +74,14 @@ class set_xlsx {
     private $run_type;
     private $RAZDEL;
 
-private function GetFloat($cell)
+private function GetFloat($cell,$decimal=2)
 {
     $type = $cell->getDataType();
     if ($type == 'n' || $type == 'f') {
         //$data_=round($data,2);
         $data = trim($cell->getCalculatedValue());
-        $data_ = number_format(0.0 + $data, $this->round__ + 2, '.', '');
+        //$data_ = number_format(0.0 + $data, $this->round__ + 2, '.', '');
+        $data_ = number_format(0.0 + $data, $decimal, '.', '');
     } else {
         $data_ = null;
     }
@@ -83,7 +92,7 @@ private function GetFloat($cell)
 private function ROW_save(&$ROW_data,$NumColumn,$data,$count=null) {
     if ($data<>null && $data<>'' && $this->RAZDEL<>'') {
         if ($count<>null) {
-            $ROW_data[$NumColumn]=$data*$count;
+            $ROW_data[$NumColumn]=round($data*$count,$this->round__);
         }
         else
         $ROW_data[$NumColumn]=$data;
@@ -91,10 +100,10 @@ private function ROW_save(&$ROW_data,$NumColumn,$data,$count=null) {
 }
 private function SUMMA_save(&$SUMMA,$num,$data) {
     if ($this->RAZDEL<>'') {
-            $SUMMA[$num] += $data;
+            $SUMMA[$num] += round($data,$this->round__);
     }
 }
-private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
+private function SUMMA_cmp_($summa,$data,&$delta,$str='',$z=0) {
     $title='';
     $znak=array('∑','×','+','≠','<');   //0,1,2,3,4
     $summa_=number_format(0.0+$summa, $this->round__+1, '.', '');
@@ -108,6 +117,17 @@ private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
     }
     return $title;
 }
+    private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
+        $title='';
+        $znak=array('∑','×','+','≠','<');   //0,1,2,3,4
+        $delta=$delta=round($summa-$data,$this->round__);
+        if ($z==4 && $delta>0) $delta=0; //Контроль на непревышение
+
+        if ($delta<>0 || $str<>'') {
+            $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta;
+        }
+        return $title;
+    }
 
 private function Vedomost($name_razdel,&$SUMMA, $show) {
     if ($show) {
@@ -575,9 +595,13 @@ else
                          if ($R2!='' && $data=='') $error=11;
                           break;
                       case 'E': //4 кол-во
+                          $data=round($data,3);
+                          $this->ROW_save($ROW_data,$NumColumn,$data);
+                          break;
                       case 'F': //5 стоимость работы   
                       case 'G': //6 стоимость материалов    
-                          $data_=$this->GetFloat($cell);
+                          //$data_=$this->GetFloat($cell);
+                          $data=round($data,2);
                           $this->ROW_save(&$ROW_data,$NumColumn,$data);
                           //echo "<pre>{$X_prog[$cell->getColumn()]['cell_programm']} -> $NumColumn -> $data </pre>";
                           break;

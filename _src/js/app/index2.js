@@ -28,6 +28,7 @@ if ( $(this).is("[for]") )
 {
 	if($.isNumeric($(this).attr("for")))
 	{
+		/*
   $.arcticmodal({
     type: 'ajax',
     url: 'forms/form_edit_grafic.php?id='+$(this).attr("for"),
@@ -42,6 +43,37 @@ if ( $(this).is("[for]") )
     }
 
   });
+*/
+
+
+		$.arcticmodal({
+			type: 'ajax',
+			url: 'forms/form_edit_grafic.php?id='+$(this).attr("for"),
+			beforeOpen: function (data, el) {
+				//во время загрузки формы с ajax загрузчик
+				$('.loader_ada_forms').show();
+				$('.loader_ada1_forms').addClass('select_ada');
+			},
+			afterLoading: function (data, el) {
+				//после загрузки формы с ajax
+				data.body.parents('.arcticmodal-container').addClass('yoi');
+				$('.loader_ada_forms').hide();
+				$('.loader_ada1_forms').removeClass('select_ada');
+			},
+			beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				if (typeof timerId !== "undefined") {
+					clearInterval(timerId);
+				}
+				BodyScrool();
+			}
+
+		});
+
+
+
+
+
+
 }
 	
 }

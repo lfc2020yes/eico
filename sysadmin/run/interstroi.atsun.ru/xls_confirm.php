@@ -1,8 +1,7 @@
 <?php
 header('Content-type: text/html; charset=utf-8');
 
-//include_once '../ilib/Isql.php';
-include_once("./XLS_DB.php");
+include_once $_SERVER['DOCUMENT_ROOT'].'/'."sysadmin/run/interstroi.atsun.ru/XLS_DB.php";
 
 //echo '<br>file='.$_POST["file"];
 //echo '<br>sheet='.$_POST["sheet"];

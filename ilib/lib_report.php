@@ -2,35 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/Isql.php';
 
 // Электронный документооборот
-class REPORT
-{
-    var $mysqli;
 
-    var $error;
-    var $error_name;
-
-    var $debug;
-    var $show;
-
-    public function EDO($mysqli, $show=false)
-    {
-        $this->mysqli = $mysqli;
-        $this->error_name = array(
-            'ок' //0
-
-        );
-        $this->debug = array();
-        $this->show = $show;
-    }
-    /** Сбор последовательности запросов
-     * @param $sql
-     * @param $name_function
-     */
-    private function Debug($sql, $name_function) {
-        $this->debug[] = $name_function;
-        $i = count($this->debug) - 1;
-        $this->debug[$i][sql] = $sql;
-    }
 // Выбор по объектам реализации
 /*SELECT
 T.`town`, K.`kvartal`,
@@ -92,7 +64,7 @@ AND R2.`id` = M.`id_razdel2`
 */
 
 
-}
+
 
 class Doc_Data {
     var $mysqli;
@@ -373,7 +345,79 @@ class SqlInfo {
      */
     public function Show() {
         echo '<pre>'.print_r($this->debug,true) .'</pre>';
-        echo '<pre>=====================================</pre>';
+        echo '<pre>==============debug============</pre>';
+    }
+}
+
+class Nariad_DATA {
+
+    var $si;
+    var $arr_data;
+    var $mysqli;
+    public function __construct(&$mysqli) {
+        $this->si = new SqlInfo();
+        $this->mysqli = $mysqli;
+
+    }
+
+    public function from_razdel2($id_razdeel2) {
+        $this->arr_data = array();
+        $ret = false;
+        $sql = "
+select w.`id_nariad`,w.`id_razdeel2`, w.`procent`, w.`price`, w.`count_units`, w.`subtotal`, w.`summa_material` as w_summa_material, 
+n.*, 
+U0.`name_user` as name0,
+U1.`name_user` as name1,
+I.`implementer`
+from 
+`n_work` w, 
+n_nariad n
+LEFT join r_status s on (n.status = s.numer_status AND s.`id_system` = 5)
+LEFT join r_user U0 ON  (n.`id_signed0` = U0.`id`)
+LEFT join r_user U1 ON  (n.`id_signed1` = U1.`id`)
+LEFT JOIN i_implementer I on (n.`id_implementer` = I.`id`)
+where 
+w.id_razdeel2=$id_razdeel2
+and w.`id_nariad` = n.id        
+        ";
+        $this->si->Save($sql,__FUNCTION__);
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $this->arr_data[] = $row;
+                $sql_m ="
+select * from `n_material` M
+WHERE
+M.`id_nwork` = $row[id_nariad]               
+                ";
+                $this->si->Save($sql_m,__FUNCTION__);
+                $i = count($this->arr_data)-1;
+                if ($result_m = $this->mysqli->query($sql_m)) {
+                    while ($row1 = $result_m->fetch_assoc()) {
+                        $this->arr_data[$i][material][] = $row1;
+                        $sql_s = "
+select 
+M.`count_units`,
+SM.`price`,
+S.`name`, S.`units`
+FROM
+`n_material_act` M, z_stock_material SM, z_stock S
+WHERE
+M.`id_n_materil`= $row1[id] 
+AND M.`id_stock_material` = SM.`id` 
+AND SM.`id_stock` = S.`id`                       
+                        ";
+                        $j = count($this->arr_data[$i][material]) - 1;
+                        if ($result_s = $this->mysqli->query($sql_s)) {
+                            while ($row2 = $result_s->fetch_assoc()) {
+                                $this->arr_data[$i][material][$j][stock][] = $row2;
+                            }
+                        }
+                    }
+                }
+                $ret = true;
+            }
+        }
+        return $ret;
     }
 }
 //Анализировать массив данных по заявке

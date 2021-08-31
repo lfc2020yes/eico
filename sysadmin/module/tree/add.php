@@ -371,9 +371,9 @@ for($i=0; $i<$num_results_FORM; $i++)
       if ($row_FORM['SOURCE_TABLE']<>"")     //Это производное поле из связанной таблицы
       {
          //$sss='select * from '.$row_FORM['SOURCE_TABLE'].' order by '.$row_FORM['SOURCE_ID'];
-        echo_dd(&$row_TREE,'$00 '.$row_FORM["TYPE_FIELD"]);  
+        echo_dd($row_TREE,'$00 '.$row_FORM["TYPE_FIELD"]);
         if($row_FORM["TYPE_FIELD"]=='Jfield') { //============================================
-           echo_dd(&$row_TREE,'$001');
+           echo_dd($row_TREE,'$001');
            if ($Jfields>0)
                $Jfields[$FLD]=$data_FLD;                 //массив selected для обеспечения фильтров последующих jfields
                $STABLE='';
@@ -438,7 +438,9 @@ for($i=0; $i<$num_results_FORM; $i++)
            if ($row_FORM['SOURCE_FILTER']=='$$')       //Дополнительно ограничить выбор маской
            {
                  $maska_select=$findM->Get_FIND_MASK();
-                 if ($maska_select<>'')          //Установлена маска на ветку
+               echo "<p> maska_select = $maska_select </p>";
+
+               if ($maska_select<>'')          //Установлена маска на ветку
 		         { $Where.=$AND.$maska_select;
                            //echo "<p/>Where=$Where";
 		         }
@@ -459,7 +461,7 @@ for($i=0; $i<$num_results_FORM; $i++)
              }      
            }
          }
-
+//echo "<p> $Where </p>";
 
 
          $sql_P = new Tsql('select * from '.$row_FORM['SOURCE_TABLE'].$Where
@@ -1074,8 +1076,8 @@ function GET_opt_fld($Fnm)
                    $('#'+cl[i]).append( $('<option value="0">нет данных</option>'));
                 }
              }
-            //var $select = $('<?=$row_FORM['SOURCE_FILTER']?>_').selectize(options); 
-            //var selectize = $select[0].selectize; 
+            ///*var $select = $('<?//=$row_FORM['SOURCE_FILTER']?>//_').selectize(options); */
+            // var selectize = $select[0].selectize;
              
          }
              jQuery.ajax({

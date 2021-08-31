@@ -1,4 +1,5 @@
 <?php
+//commit W
 $sys=$_SERVER['DOCUMENT_ROOT'];
 include_once $sys.'/Ajax/master/master_connect.php';
 
@@ -39,7 +40,8 @@ function iAuto($mysqli) {           // Не используется
   $mysqli->autocommit(FALSE);
 }
 function iInsert_1R($mysqli,$sql,$show=true) {   // Добавление только 1й записи
-  $id=0;    
+  $id=0;
+  //echo "<pre> $sql </pre>";
   if (!$mysqli->query($sql)) {
             //$ret=$mysqli->errno;
             if($show) echo "<p/>(".$mysqli->errno.')'.$sql;
@@ -53,7 +55,7 @@ function iInsert_1R($mysqli,$sql,$show=true) {   // Добавление тол�
 }
 function iDelUpd($mysqli,$sql,$show=true) {   // Добавление только 1й записи
   $arows=false;
-  
+  //echo "<pre> $sql </pre>";
   if (!$mysqli->query($sql)) {
             if($show)
                 echo "<pre>".print_r($mysqli->errno,true)."</pre>";

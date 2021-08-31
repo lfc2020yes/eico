@@ -363,7 +363,7 @@ function GET_mask_paragraf($PARAGRAF,&$MASK,&$MASK_FIELD,&$uPARENT,$ID_TABLE)
                 . ' and PARAGRAF="'.$row_TREE["PARAGRAF"].'"'
                 . ' order by LEVEL'
                 . '');
-        //echo_pp$row_TREE,'sql_FND->sql='.$sql_FND->sql);  ///
+        echo_pp($row_TREE,'sql_FND->sql='.$sql_FND->sql);  ///
         if ($sql_FND->num>0)   //Есть запись о фильтре
         { for ($i=0;$i<$sql_FND->num;$i++) {
            $sql_FND->NEXT();
@@ -392,6 +392,7 @@ function GET_mask_paragraf($PARAGRAF,&$MASK,&$MASK_FIELD,&$uPARENT,$ID_TABLE)
           }
           $sql_FND->FREE();
         }
+        //echo_pp($row_TREE, "<pre>".print_r($this->ArrFIND,true)."</pre>");
         unset($sql_FND);
     } 
   } // class    

@@ -1,3 +1,11 @@
+<?php
+/*
+ * Точность для контроля загрузки в ячейках и при вычислениях
+ * кол-во - 3 знака
+ * все денежные варианты в ячейках и при расчетах - 2 знака (копейки)
+ * концепция XLSX - все данные имеют именно ту точность, с которой отформатированны - что видим, то и считаем
+ */
+?>
 <style>
     .div_err , .div_ok {
     }
@@ -66,13 +74,14 @@ class set_xlsx {
     private $run_type;
     private $RAZDEL;
 
-private function GetFloat($cell)
+private function GetFloat($cell,$decimal=2)
 {
     $type = $cell->getDataType();
     if ($type == 'n' || $type == 'f') {
         //$data_=round($data,2);
         $data = trim($cell->getCalculatedValue());
-        $data_ = number_format(0.0 + $data, $this->round__ + 2, '.', '');
+        //$data_ = number_format(0.0 + $data, $this->round__ + 2, '.', '');
+        $data_ = number_format(0.0 + $data, $decimal, '.', '');
     } else {
         $data_ = null;
     }
@@ -83,7 +92,7 @@ private function GetFloat($cell)
 private function ROW_save(&$ROW_data,$NumColumn,$data,$count=null) {
     if ($data<>null && $data<>'' && $this->RAZDEL<>'') {
         if ($count<>null) {
-            $ROW_data[$NumColumn]=$data*$count;
+            $ROW_data[$NumColumn]=round($data*$count,$this->round__);
         }
         else
         $ROW_data[$NumColumn]=$data;
@@ -91,34 +100,43 @@ private function ROW_save(&$ROW_data,$NumColumn,$data,$count=null) {
 }
 private function SUMMA_save(&$SUMMA,$num,$data) {
     if ($this->RAZDEL<>'') {
-            $SUMMA[$num] += $data;
+            $SUMMA[$num] += round($data,$this->round__);
     }
 }
-private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
+private function SUMMA_cmp_($summa,$data,&$delta,$str='',$z=0) {
     $title='';
     $znak=array('∑','×','+','≠','<');   //0,1,2,3,4
-    $summa_=number_format(0.0+$summa, 2, '.', '');
-    $data_=number_format(0.0+$data, 2, '.', '');
-    $delta=round(round($summa_,$this->round__)-$data_,$this->round__);          //$summa_ ROUND00
+    $summa_=number_format(0.0+$summa, $this->round__+1, '.', '');
+    $data_=number_format(0.0+$data, $this->round__+1, '.', '');
+    $delta=round($summa_-$data_,$this->round__);          //$summa_ ROUND00
     if ($z==4 && $delta>0) $delta=0; //Контроль на непревышение
     
     if ($delta<>0 || $str<>'') {
-        //$title= $str.' ('.$znak[$z].') ⊂='.$summa_.' ячейка='.$data_.' ∆='.$delta;
-        $delta = round($summa-$data, $this->round__+2);
-        //$delta=round(round($summa_,4)-$data_,4);
-        $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta;
+        $delta_ = round($summa-$data, $this->round__+2);
+        $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta_;
     }
     return $title;
 }
+    private function SUMMA_cmp($summa,$data,&$delta,$str='',$z=0) {
+        $title='';
+        $znak=array('∑','×','+','≠','<');   //0,1,2,3,4
+        $delta=$delta=round($summa-$data,$this->round__);
+        if ($z==4 && $delta>0) $delta=0; //Контроль на непревышение
+
+        if ($delta<>0 || $str<>'') {
+            $title= $str.' расч.('.$znak[$z].') ⊂='.$summa.' ячейка='.$data.' ∆='.$delta;
+        }
+        return $title;
+    }
 
 private function Vedomost($name_razdel,&$SUMMA, $show) {
     if ($show) {
        $str='<tr id="ved" class="div_ved">'
                .'<td colspan="4">'.$this->RAZDEL
                .'<td colspan="6">'.$name_razdel
-               .'<td align="right">'.number_format(0.0+$SUMMA[7], 2, '.', '')
-               .'<td align="right">'.number_format(0.0+$SUMMA[8], 2, '.', '')
-               .'<td align="right">'.number_format(0.0+$SUMMA[7]+$SUMMA[8], 2, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[7], $this->round__, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[8], $this->round__, '.', '')
+               .'<td align="right">'.number_format(0.0+$SUMMA[7]+$SUMMA[8], $this->round__, '.', '')
                .'<td colspan="2">'
                .'</tr>';
        
@@ -180,22 +198,18 @@ private function Vedomost_ITOGO2(&$ITOGO, $show,$class="div_ved",$id="ved",$id_o
 }
 
 private function AddSumma(&$ITOGO,&$ROW_data) {
-    /*$ITOGO[0]+=round($ROW_data[7],$this->round__);
-    $ITOGO[1]+=round($ROW_data[8],$this->round__);
-    $ITOGO[2]+=(round($ROW_data[7],$this->round__)+round($ROW_data[8],$this->round__));*/
-
+    //echo "<pre>===".print_r($ROW_data,true)."</pre>";
     if ($this->is_run_show($this->RAZDEL,0) or $this->run_type==0) {
-        //echo "<pre> ---RAZDEL=$this->RAZDEL </pre>";
-
-    $ITOGO[0]+=$ROW_data[7];
-    $ITOGO[1]+=$ROW_data[8];
-    $ITOGO[2]+=$ROW_data[7]+$ROW_data[8];
+        $ITOGO[0]+=$ROW_data[7];
+        $ITOGO[1]+=$ROW_data[8];
+        $ITOGO[2]+=$ROW_data[7]+$ROW_data[8];
     }
+
 }
     private function is_run_load ($id_object,$R1,$R2) {
         if (($this->run_type==0 and $id_object>0)
             or ($this->run_type==1 and $this->row_razdel['razdel1']==$R1)
-            or ($this->run_type==2 and $this->row_razdel['razdel1']==$R1 and $this->row_razde['razdel2']==$R2)
+            or ($this->run_type==2 and $this->row_razdel['razdel1']==$R1 and $this->row_razdel['razdel2']==$R2)
         ) {
             return true;
         } else return false;
@@ -231,17 +245,8 @@ if (!$mysqli->connect_errno) {
     //echo $FN.'<p/>';
     //$FName=iconv("WINDOWS-1251","UTF-8",$FName);
     //echo '<p>'.$FName;
-    if ($reload) {
-        if ($id_object>0) {
-            if (Delete_Data_object($mysqli, $id_object) === false) exit(-1);
-        } elseif($id_r1>0) {
-            if (Delete_Data_razdel1($mysqli, $id_r1) === false) exit(-1);
-        } elseif($id_r2>0) {
-            if (Delete_Data_razdel2($mysqli, $id_r2) === false) exit(-1);
-        }
-        // Нужно писать лог файл
-        if (Update_File_object($mysqli,$id_object,$FName.' вкладка:'.$sheet_find)>1) exit(-2);
-    }
+
+    //echo "<pre>BEGIN</pre>";
     $url_system=$_SERVER['DOCUMENT_ROOT'].'/sysadmin/run/interstroi.atsun.ru/';
     require_once $url_system.'Classes/PHPExcel/IOFactory.php';
     
@@ -304,22 +309,39 @@ $Key_Special = array (
              $sql='SELECT * FROM i_razdel2 AS i2, i_razdel1 AS i1, i_object AS o WHERE i2.id="' . $id_r2 . '" AND i2.id_razdel1=i1.id  AND i1.id_object= o.id';
              break;
      }
+     //echo "<pre>BEGIN 1 $sql</pre>";
      $Rzd = $mysqli->query($sql);
      if ($Rzd->num_rows > 0) {
          $this->row_razdel = $Rzd->fetch_assoc();
-     } else exit(1);
-     $select_show=false;
+         //echo "<pre>BEGIN 2->{$Rzd->num_rows}</pre>";
+         $Rzd->close();
+     } else {
+         echo "<pre>нет результата $sql = {$Rzd->num_rows}</pre>";
+         exit(1);
+     }
+     //$select_show=false;
  }
+    if ($reload) {               // Удалить статью раздел объект при перезагрузке
+        if($id_r2>0) {
+            if (Delete_Data_razdel2($mysqli, $id_r2) === false) exit(-1);
+        } elseif($id_r1>0) {
+            if (Delete_Data_razdel1($mysqli, $id_r1) === false) exit(-1);
+        } elseif ($id_object>0) {
+            if (Delete_Data_object($mysqli, $id_object) === false) exit(-1);
+            if (Update_File_object($mysqli,$id_object,$FName.' вкладка:'.$sheet_find)>1) exit(-2);
+        }
+        // Нужно писать лог файл
+    }
  
 $rtype = array ('работ','материалов');
 //$okrugl=2;
-$size_array=16;  // было 12 +4 было 10 добавил реализацию
+$size_array=17;  // было 12 +4 было 10 добавил реализацию
 $ITOGO=array(0,0,0,0,0);  //ПЛАН 7-работа 8-материалы 9-всего РЕАЛИЗАЦИЯ 10-работа 11-материалы 
 $SUMMA=array();
 $ROW_data=array();
 MakeArray(&$SUMMA,$size_array);
 MakeArray(&$ROW_data,$size_array);
-
+    //echo "<pre>BEGIN 3</pre>";
 
 //echo_S ($show, '<p/>Ключевое слово поиска раздела:'.$Key_RAZDEL);
 error_reporting(E_ALL);
@@ -333,7 +355,7 @@ if (!file_exists($FName_)) {
 else
  {
 
-  //echo '<p>'.date('H:i:s') . " Load from Excel file - ".$FName.'</p>';
+  echo '<p>'.date('H:i:s') . " Load from Excel file - ".$FName.'</p>';
   $objReader = PHPExcel_IOFactory::createReader('Excel2007');     //Excel2007  //Excel5
   $objPHPExcel = $objReader->load($FName_);
   $Sheet=0;
@@ -390,12 +412,9 @@ else
                                                         order by cell_programm')) {
                             while( $row1 = $result1->fetch_assoc() ){
                                 $key=$row1['cell'];
-                                //if (array_search($key,array_keys($X_prog))===false) {
-                                //    
-                                //}
-                                $X_prog[$key]=$row1['cell_programm'];
-                                //echo '<p>'.$key.'=>'.$row1['cell_programm'];
- 
+                                //$X_prog[$key]=$row1['cell_programm'];
+                                $X_prog[$key]=$row1;  // Здесь precisin
+
                             }
                             $result1->close();  
                         } else echo '<p/>'.$result1;
@@ -403,14 +422,16 @@ else
                       }
                       $result->close();  
                   } else { 
-                    echo '<p/>'.$result;
                     $X_prog=array("A"=>"A","B"=>"B","C"=>"C","D"=>"D","E"=>"E","F"=>"F","G"=>"G","H"=>"H","I"=>"I","J"=>"J"
                         ,"K"=>"K","L"=>"L"
                         ,"M"=>"M","N"=>"N"
                         ,"O"=>"O","P"=>"P");
+                    echo "<pre>".print_r( $X_prog,true)."</pre>";
+                    die('нет шаблона загрузки');
                   
                   }
                   //echo '<pre>'.print_r($X_prog,true).'</pre>';
+                  //die('stop');
             
     
         $REJIM=0;    //0-просто считывание строк, 1-раздел, 2-итоги раздела, 3-всего, 4-данные раздела
@@ -488,7 +509,7 @@ else
                     }        
                     //$NumColumn=array_search($X_prog[$cell->getColumn()],array_keys($X_prog));
                     //$ic=iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]);
-                    $ic=mb_substr(iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]), 0, 1);
+                    $ic=mb_substr(iconv("UTF-8", "WINDOWS-1251",$X_prog[$cell->getColumn()]['cell_programm']), 0, 1);
                     //$ic1=0+ord($ic);
                     //$ic=(integer)ord($ic);
                     //var_dump($ic,$ic1,$ic2);
@@ -506,7 +527,7 @@ else
                     } else { $align='align="left"'; }
                     $realiz_type=-1;
                     $visible_column=$worksheet->getColumnDimension($cell->getColumn())->getVisible();
-                    switch ($X_prog[$cell->getColumn()])               //-------------------Первичный разбор - Формирование таблицы HTML
+                    switch ($X_prog[$cell->getColumn()]['cell_programm'])               //-------------------Первичный разбор - Формирование таблицы HTML
                     {
                       case 'A': 
                           //поиск .
@@ -553,9 +574,13 @@ else
                             $R2='';
                             InitArray(&$SUMMA,$size_array);
                             $name_razdel=Get_Name_Razdel(substr($data,$pos+strlen($Key_RAZDEL)));
+
                             if ($reload) {  // или все разделы или только выборочный раздел
-                                if ($id_object>0 or ($id_r1>0 and $this->row_razdel['razdel1']==$this->RAZDEL)) {
+                                //echo "<pre>$reload : id_r1=$id_r1 {$this->row_razdel['razdel1']} -> {$this->RAZDEL}</pre>";
+                                if (($id_object>0 and $id_r1==0 and $id_r2==0) or ($id_r1>0 and $this->row_razdel['razdel1']==$this->RAZDEL)) {
+                                    //echo "<pre>RELOAD</pre>";
                                     $id_razdel1 = SQL_insert_razdel($mysqli, $id_object, $this->RAZDEL, $name_razdel);
+                                    //echo "<pre>id_razdel1=$id_razdel1</pre>";
                                 }
                             }
                             $razdel_row_yes=true;
@@ -582,10 +607,15 @@ else
                          if ($R2!='' && $data=='') $error=11;
                           break;
                       case 'E': //4 кол-во
+                          $data=round($data,3);
+                          $this->ROW_save($ROW_data,$NumColumn,$data);
+                          break;
                       case 'F': //5 стоимость работы   
                       case 'G': //6 стоимость материалов    
-                          $data_=$this->GetFloat($cell);
+                          //$data_=$this->GetFloat($cell);
+                          $data=round($data,2);
                           $this->ROW_save(&$ROW_data,$NumColumn,$data);
+                          //echo "<pre>{$X_prog[$cell->getColumn()]['cell_programm']} -> $NumColumn -> $data </pre>";
                           break;
                       /*
                       case 'F': //5 стоимость работы
@@ -632,7 +662,7 @@ else
                                   }
                                   $this->ROW_save(&$ROW_data,$NumColumn,$data);
                           }          
-                        }  
+                        }
                           break;
                       case 'J': //9 Сумма   --------------------------------------------------------------
                           
@@ -741,9 +771,16 @@ else
                              
                              }
                             break;
+                        case 'Q':  // Давальческий материал  16
+                            if(trim($data)!='') {
+                                $ROW_data[$NumColumn] = true;
+                                //echo "<pre>Давальческий  {$X_prog[$cell->getColumn()]['cell_programm']} -> $NumColumn -> {$ROW_data[$NumColumn]} </pre>";
+
+                            }
+                            break;
                     }
 
-                    $X_column =  $X_prog[$cell->getColumn()];  //Вторичный разбор для НДС по работам и материалам
+                    $X_column =  $X_prog[$cell->getColumn()]['cell_programm'];  //Вторичный разбор для НДС по работам и материалам
                     if (($X_column=='H' || $X_column=='I') && $error==0 ) { // H=7 I=8- итого работы/материалы
                         if ($load == false) {
                             $X_number = ($X_column=='H') ? 0:1;    //Номер в массиве SUMMA
@@ -767,7 +804,7 @@ else
                     }
 
 
-                    if ($X_prog[$cell->getColumn()]=='J' && $error==0 ) { //9-сумма        //Вторичный разбор по сумме
+                    if ($X_prog[$cell->getColumn()]['cell_programm']=='J' && $error==0 ) { //9-сумма        //Вторичный разбор по сумме
                       if ($load==false) {  
                         if  ( $delta==0)          //Чтобы не было вторичного наложения title
                         switch ($row_num) {       //Дополнительная проверка строк исключенных их подгрузки и формирование title
@@ -813,45 +850,48 @@ else
                       } else $this->AddSumma(&$ITOGO,&$ROW_data); //Суммировать те, которые грузить
                         
                     }                   //-------------------------------------------Запись в базу
-                    $id_stock=0;
-                    if ($cell->getColumn() == $Last_cell && $error==0 && $load==true && $razdel_row_yes==false && isset($id_razdel1)) { //9-сумма  Запись в базу
-                       if ($reload && $this->is_run_load($id_object,$R1,$R2)) {
-                        //echo "<p/> $R1.$R2 data_type=$data_type id_razdel1=$id_razdel1";
-                        switch ($data_type) {
-                           case 1:                 //И работы и материалы
-                               $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
-                               //----------------------------------------поиск материала на складе
-                               $id_stock = SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
-                               if ($id_stock < 0) $error = 6;
-                               SQL_insert_material($mysqli, $id_razdel2, $R1, $R2, 0, &$ROW_data, $title, $id_stock);
-                               break;
-                           case 2:                 //работы
-                               $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
-                               break;
-                           case 3:                 //материалы
-                               $id_stock= SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
-                               if($id_stock<0)$error=6;
-                               SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$id_stock);
-                               break;
-                           case 4: //работы пусто
-                               $id_razdel2=SQL_insert_work($mysqli,$id_razdel1,$R1,$R2,&$ROW_data,$title);
-                               break;
-                           case 5: //материалы пусто
-                               $id_stock= SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
-                               if($id_stock<0)$error=6;
-                               SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$id_stock);
-                               break;
-                           
-                           case 6:                 //спецраздел
-                               //echo "<p/> 100: data_type=$data_type id_razdel1=$id_razdel1";
-                               $id_razdel2=SQL_insert_work($mysqli,$id_razdel1,$R1,$R2,&$ROW_data,$title);//////
-                               break;
+                $id_stock=0;
+                if ($reload) {
+                    if ($cell->getColumn() == $Last_cell && $error == 0 && $load == true && $razdel_row_yes == false && isset($id_razdel1)) { //9-сумма  Запись в базу
+                        //echo "<pre>{$this->run_type}|$id_object|$R1|$R2 is_run_load=".$this->is_run_load($id_object, $R1, $R2)."</pre>";
+                        if ($this->is_run_load($id_object, $R1, $R2)) {
+                            switch ($data_type) {
+                                case 1:                 //И работы и материалы
+                                    $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
+                                    //----------------------------------------поиск материала на складе
+                                    $id_stock = SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
+                                    if ($id_stock < 0) $error = 6;
+                                    SQL_insert_material($mysqli, $id_razdel2, $R1, $R2, 0, &$ROW_data, $title, $id_stock);
+                                    break;
+                                case 2:                 //работы
+                                    $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
+                                    break;
+                                case 3:                 //материалы
+                                    $id_stock = SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
+                                    if ($id_stock < 0) $error = 6;
+                                    SQL_insert_material($mysqli, $id_razdel2, $R1, $R2, $R3, &$ROW_data, $title, $id_stock);
+                                    break;
+                                case 4: //работы пусто
+                                    $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);
+                                    break;
+                                case 5: //материалы пусто
+                                    $id_stock = SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]); //-1 0 >0
+                                    if ($id_stock < 0) $error = 6;
+                                    SQL_insert_material($mysqli, $id_razdel2, $R1, $R2, $R3, &$ROW_data, $title, $id_stock);
+                                    break;
+
+                                case 6:                 //спецраздел
+                                    //echo "<p/> 100: data_type=$data_type id_razdel1=$id_razdel1";
+                                    $id_razdel2 = SQL_insert_work($mysqli, $id_razdel1, $R1, $R2, &$ROW_data, $title);//////
+                                    break;
+                            }
                         }
-                       }
                     }
-                    if ($delta<>0)$error=5;    //суммы не равны
-                    
-                    
+                }
+                    if ($delta<>0) {
+                        $error = 5;    //суммы не равны
+                        //echo "<pre>delta=$delta => $REJIM</pre>";
+                    }
                     
                     $FName =$sharedStyle->getFont()->getName();
                     $FSize =$sharedStyle->getFont()->getSize();
@@ -880,7 +920,8 @@ else
                        $colorE ='green';
                     }
                     */
-                    
+                    if ($NumColumn==16 && $ROW_data[$NumColumn] == true && $REJIM==1) $colorE = 'green'; //Давальческий
+
                     if ($colorE=='000000') $bgcolor='';
                     else $bgcolor='bgcolor="'.$colorE.'"';
                     
@@ -895,8 +936,10 @@ else
                          */
                     }
                     elseif (($type=='n' || $type=='f')
-                         && ($REJIM>0)) $data_show=number_format(0.0+$data, 2, '.', '');  //Форматированные числа $data_
-                    else $data_show=$data; 
+                         && ($REJIM>0)) {
+                        $decimal = ($X_prog[$cell->getColumn()]['cell_programm'] == 'E')?3:2; //Точность вывода на экран
+                        $data_show = number_format(0.0 + $data, $decimal, '.', '');  //Форматированные числа $data_
+                    } else $data_show=$data;
                     
                     if ($titleR<>'')$title=$titleR;
                     if ($title=='') $tdata=$data_show;
@@ -954,7 +997,7 @@ $mysqli->close();
 function XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show = false)
 {
     $xDB = new set_xlsx;
-    echo "<pre>id_object=$id_object, id_r1=$id_r1, id_r2=$id_r2, reload=$reload</pre>";
+    //echo "<pre>id_object=$id_object, id_r1=$id_r1, id_r2=$id_r2, reload=$reload</pre>";
     $xDB->XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show);
 }
 
@@ -1155,9 +1198,9 @@ function SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$
         } else $id_implementer=null;
         //----------------------------------------поиск материала на складе
         ///$id_stock= SQL_find_stock($mysqli, $ROW_data[1], $ROW_data[3]);
-        
+        $alien = ($ROW_data[16]==true) ? 1 : 0;  //Давальческий
         if (!($id_implementer===false)) {
-            $sql='insert into i_material (id_razdel2,razdel1,razdel2,displayOrder,material,    id_implementer,units,count_units,price,title,summa_realiz,count_realiz,id_stock)'
+            $sql='insert into i_material (id_razdel2,razdel1,razdel2,displayOrder,material,    id_implementer,units,count_units,price,title,summa_realiz,count_realiz,id_stock,alien)'
                                         . 'values ('
                                         ."'$id_razdel2',"
                                         ."'$R1',"
@@ -1171,7 +1214,8 @@ function SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$
                                         ."'$title'," 
                                         ."'$ROW_data[11]',"
                                         ."'$ROW_data[13]',"
-                                        ."'$id_stock'"
+                                        ."'$id_stock',"
+                                        ."'$alien'"
                                         . ')';      
             
             $id=iInsert_1R($mysqli,$sql); 
@@ -1213,13 +1257,15 @@ function Delete_Data_object($mysqli,$id_object){
     if ($ret===false) Sql_info($ret,$sql);
     return $ret;    //,false
 }
-function Delete_Data_r1($mysqli,$id_r1){
+
+function Delete_Data_razdel1($mysqli,$id_r1){
     $sql='delete from i_razdel1 where id="'.$id_r1.'"';
     $ret=iDelUpd($mysqli,$sql,false);
     if ($ret===false) Sql_info($ret,$sql);
     return $ret;    //,false
 }
-function Delete_Data_r2($mysqli,$id_r2){
+
+function Delete_Data_razdel2($mysqli,$id_r2){
     $sql='delete from i_razdel2 where id="'.$id_r2.'"';
     $ret=iDelUpd($mysqli,$sql,false);
     if ($ret===false) Sql_info($ret,$sql);

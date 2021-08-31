@@ -1,5 +1,5 @@
 <?php
-include_once("./run/interstroi.atsun.ru/XLS_DB.php");
+include_once $_SERVER['DOCUMENT_ROOT'].'/'."sysadmin/run/interstroi.atsun.ru/XLS_DB.php";
 
 $DR='../images/tree_S/';   //giphy
 $ICON='load/';
@@ -126,7 +126,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     } else $DBG=false;
     //echo "<p/>PARAM: $PARAM";
     $GT=array();
-    GET_PARAM(&$GT,$PARAM);
+    GET_PARAM($GT,$PARAM);
     //echo "<p/>".json_encode($GT);
     //if($DBG) echo "<pre>".print_r($GT,true).'</pre>';
 
@@ -141,7 +141,6 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     if(array_key_exists('name',$GT))           //$_GET
     { $name=htmlspecialchars(trim( $GT["name"] ));
     }
-  //echo "<p/> id_object=$id_object name=$name";
   $ret=0;
 
  if ($_SERVER['REQUEST_METHOD']=='GET')
@@ -152,13 +151,14 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <strong style="margin:8px;">Загрузка себестоимости XLS: <?=$name?></strong><br>
         
         <?php
-        if (isset($id_razdel2))
-            $return = Get_Realiz_razdel2($id_razdel2);
-        elseif (isset($id_razdel1))
-            $return = Get_Realiz_razdel1($id_razdel1);
-        elseif (isset($id_object))
-            $return = Get_Realiz_object($id_object);
-        if($return!=0) exit();
+        if (isset($id_razdel2)) {
+            $id_object = $result = Get_Realiz_razdel2($id_razdel2);
+        } elseif (isset($id_razdel1)) {
+            $id_object = $result = Get_Realiz_razdel1($id_razdel1);
+        } elseif (isset($id_object)) {
+            $result = Get_Realiz_object($id_object);
+        }
+        if($result===false) exit();
         ?>
         <br>
         <div id="read_sheet" class="abs" ><img width=400px height=400px src="../images/tree_S/load/giphy.gif"></div>   
@@ -182,9 +182,11 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         <input type="hidden" name="xlsx" value="1" />
         <? if (isset($id_object)) { ?>
             <input type="hidden" name="id_object" id="id_object" value="<?=$id_object?>" />
-        <? } if (isset($id_razdel1)) { ?>
+        <? }
+           if (isset($id_razdel1)) { ?>
             <input type="hidden" name="id_razdel1" id="id_razdel1" value="<?=$id_razdel1?>" />
-        <? } if (isset($id_razdel2)) { ?>
+        <? }
+           if (isset($id_razdel2)) { ?>
             <input type="hidden" name="id_razdel2" id="id_razdel2" value="<?=$id_razdel2?>" />
         <? } ?>
         <input type="hidden" name="debug" id="debug" value="<?=$DBG?>" />
@@ -297,7 +299,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
  * Получить информацию по подразделу с целью перегрузки
  */
 function Get_Realiz_razdel1($id_razdel1){
-    $ret=0;
+    $id_object=false;
     $Raz1=new Tsql(
         'SELECT *
 from i_razdel1 as i1, i_object as o
@@ -318,25 +320,25 @@ i1.id="'.$id_razdel1.'"  and i1.id_object= o.id');
             .'<td>'.number_format(0.0+$Raz1->row['summa_r1_realiz']+$Raz1->row['summa_m1_realiz'], 2, '.', '')
             .'</tr>'
             ."</table>";
+        $id_object = $Raz1->row['id_object'];
     } else {
         echo "<p/>Нет доступа к вызываемому подразделу: $Raz1->sql ";
-        $ret=1;
     }
     unset($Raz1);
-    return $ret;
+    return $id_object;
 }
 
 /*
  * Получить информацию по разделу с целью перегрузки
  */
 function Get_Realiz_razdel2($id_razdel2){
-    $ret=0;
+    $id_object=false;
     $Raz2=new Tsql(
 'SELECT *
 FROM i_razdel2 AS i2, i_razdel1 AS i1, i_object AS o
 WHERE
 i2.id="'.$id_razdel2.'" AND i2.id_razdel1=i1.id  AND i1.id_object= o.id');
-    echo "<p/>подраздел: $Raz2->sql "; ///
+    echo "<p/>статья: $Raz2->sql "; ///
     if($Raz2->num>0) {
         $Raz2->NEXT();
         echo  '<table class="mtable">'
@@ -351,16 +353,16 @@ i2.id="'.$id_razdel2.'" AND i2.id_razdel1=i1.id  AND i1.id_object= o.id');
             .'<td>'.number_format(0.0+$Raz2->row['summa_r2_realiz']+$Raz2->row['summa_mat_realiz'], 2, '.', '')
             .'</tr>'
             ."</table>";
+        $id_object = $Raz2->row['id_object'];
     } else {
         echo "<p/>Нет доступа к вызываемому подразделу: $Raz2->sql ";
-        $ret=1;
     }
      unset($Raz2);
-     return $ret;
+     return $id_object;
 }
 
 function Get_Realiz_object($id_object){
- $ret=0;
+ $ret=false;
  $Obj=new Tsql(
 'select * 
 from i_object o left join  
@@ -386,21 +388,21 @@ where o.id="'.$id_object.'"');
             ."<tr><td> Итого: <td>".number_format(0.0+$Obj->row['total_r0']+$Obj->row['total_m0'], 2, '.', '')
              .'<td>'.number_format(0.0+$Obj->row['total_r0_realiz']+$Obj->row['total_m0_realiz'], 2, '.', '')
              .'</tr>'
-            ."</table>";   
-    
-    if ($Obj->row['ncount']>0) {
+            ."</table>";
+     $ret=$Obj->row[id];
+
+
+     if ($Obj->row['ncount']>0) {
     //if (!(($Obj->row['total_r0_realiz']==0) and ($Obj->row['total_m0_realiz']==0))) {
        echo "<p/>Невозможно перегрузить объект: ".$Obj->row['object_name']
                ."<p/>, потому что по нему открыто выполнение по смете"
                ."<p/>, количество нарядов: ".$Obj->row['ncount']
                ."<p/> сумма выполненных работ: ".$Obj->row['wsumma']
                ."<p/> сумма затраченных материалов: ".$Obj->row['msumma'];  
-       $ret=2; 
-    } 
+    }
     $Obj->FREE();
  } else {
     echo "<p/>Нет доступа к вызываемому объекту: $Obj->sql "; 
-    $ret=1;
  }
  unset($Obj);
  return $ret;
@@ -682,7 +684,8 @@ jQuery(document).ready(function() {
         document.getElementById('read_data').style.display = 'block';
         document.getElementById('button').style.display = 'none';
 
-        var id_object=document.getElementById('id_object');
+        var id_object=document.getElementById('id_object').value;
+
         var id_razdel1=document.getElementById('id_razdel1');
         var id_r1 = (id_razdel1) ? id_razdel1.value : 0;
         var id_razdel2=document.getElementById('id_razdel2');
@@ -723,12 +726,16 @@ jQuery(document).ready(function() {
         
         //alert (sel.name+':'+sel.selectedIndex+':'+sel.options[sel.selectedIndex].text+':'+sel.value); //sheet:1:Себестоимость:Себестоимость
         document.getElementById('load_data').style.display = 'block';
-        //document.getElementById('button').style.display = 'none';
-        var id_object=document.getElementById('id_object').value;
+        document.getElementById('button').style.display = 'none';
+        var object_edit=document.getElementById('id_object');
+        var id_object = (object_edit) ? object_edit.value : 0;
+        //alert ("id_object=" +id_object );
         var id_razdel1=document.getElementById('id_razdel1');
         var id_r1 = (id_razdel1) ? id_razdel1.value : 0;
+        //alert ("id_r1=" +id_r1 );
         var id_razdel2=document.getElementById('id_razdel2');
         var id_r2 = (id_razdel2) ? id_razdel2.value : 0;
+        //alert ("id_r2=" +id_r2 );
         alert ("AjaxXLS: "+FileName+ "\n" +sel.name+"="+sel.value+"\n id_object=" +id_object + "\n id_r1=" +id_r1+ "\n id_r2=" +id_r2);
         jQuery.ajax({
                     url:     "/sysadmin/run/interstroi.atsun.ru/xls_confirm.php", //Адрес подгружаемой страницы

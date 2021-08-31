@@ -175,7 +175,8 @@ function RUN____($PARAM,&$row_TREE=0,&$ROW_role=0) {
     }
     
 function export2XLS($sheet_name,$id_object,$calc=true) {
-    include_once 'XLS_style.php';   
+    include_once 'XLS_style.php';
+    set_time_limit(0);
   //============================================================================  
   $ret=0;  
   $mysqli=new_connect(&$ret);
@@ -183,15 +184,17 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
     // Создаем объект класса PHPExcel
     $validLocale = PHPExcel_Settings::setLocale('ru');  
     $xls = new PHPExcel();
+    $xls->getDefaultStyle()->applyFromArray($styleWN);
     
     // Устанавливаем индекс активного листа
     $xls->setActiveSheetIndex(0);
     // Получаем активный лист
     $sheet = $xls->getActiveSheet();
+    $sheet->getDefaultRowDimension()->setRowHeight(-1);
     // Подписываем лист
     $sheet->setTitle($sheet_name);
     
-    $wsize=array(0,60,0,0,0,0,0,0,0,0,0,0,0,0);
+    $wsize=array(0,60,0,0,0,0,0,0,0,0,0,0,0,0,0);
     for($i=0; $i< count($wsize) ;$i++) {
         if($wsize[$i]==0)
              $sheet->getColumnDimension(CH_cell($i+1))->setAutoSize(true);
@@ -204,8 +207,8 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
     $head_row=0;
     $num_row=$begin_row;
     //echo '<p/>------------------шапка таблицы';
-    $dim=array(0,60,0,0,6,10,10,10,10,12,12,12,10,10,8,8);
-    for($i=1;$i<17;$i++) {
+    $dim=array(0,60,0,0,6,4,10,10,10,10,12,12,12,10,10,8,8);
+    for($i=1;$i<18;$i++) {
         cell_data_format(&$sheet,&$style0,$num_row,$i,$i);
     }
     
@@ -219,25 +222,27 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
     $sheet->freezePane(CH_cell(3).($num_row+2));
     merge_cellv(&$sheet,&$styleH,$num_row,4,'ед. изм.');
     merge_cellv(&$sheet,&$styleH,$num_row,5,'кол-во');
-    merge_cellh(&$sheet,&$styleH,$num_row,6,'стоимость ед. (руб.)');
-    merge_cellh(&$sheet,&$styleH,$num_row,8,'Итого (руб.)');
-    merge_cellv(&$sheet,&$styleH,$num_row,10,'Всего (руб.)');
-    merge_cellh(&$sheet,&$styleH,$num_row,11,'Выполнение (руб)');
-    merge_cellh(&$sheet,&$styleH,$num_row,13,'Выполнение (кол-во)');
-    merge_cellh(&$sheet,&$styleH,$num_row,15,'График выполнения');
+      merge_cellv(&$sheet,&$styleH,$num_row,6,'даваль.');
+
+    merge_cellh(&$sheet,&$styleH,$num_row,7,'стоимость ед. (руб.)');
+    merge_cellh(&$sheet,&$styleH,$num_row,9,'Итого (руб.)');
+    merge_cellv(&$sheet,&$styleH,$num_row,11,'Всего (руб.)');
+    merge_cellh(&$sheet,&$styleH,$num_row,12,'Выполнение (руб)');
+    merge_cellh(&$sheet,&$styleH,$num_row,14,'Выполнение (кол-во)');
+    merge_cellh(&$sheet,&$styleH,$num_row,16,'График выполнения');
     
     $num_row++;
     //echo '<p/>-------------шаг 3';
-    cell_data_format(&$sheet,&$styleH,$num_row,6,'работа');
-    cell_data_format(&$sheet,&$styleH,$num_row,7,'материалы');
-    cell_data_format(&$sheet,&$styleH,$num_row,8,'работа');
-    cell_data_format(&$sheet,&$styleH,$num_row,9,'материалы');
-    cell_data_format(&$sheet,&$styleH,$num_row,11,'работа');
-    cell_data_format(&$sheet,&$styleH,$num_row,12,'материалы');
-    cell_data_format(&$sheet,&$styleH,$num_row,13,'работа');
-    cell_data_format(&$sheet,&$styleH,$num_row,14,'материалы');
-    cell_data_format(&$sheet,&$styleH,$num_row,15,'начало');
-    cell_data_format(&$sheet,&$styleH,$num_row,16,'окончание');
+    cell_data_format(&$sheet,&$styleH,$num_row,7,'работа');
+    cell_data_format(&$sheet,&$styleH,$num_row,8,'материалы');
+    cell_data_format(&$sheet,&$styleH,$num_row,9,'работа');
+    cell_data_format(&$sheet,&$styleH,$num_row,10,'материалы');
+    cell_data_format(&$sheet,&$styleH,$num_row,12,'работа');
+    cell_data_format(&$sheet,&$styleH,$num_row,13,'материалы');
+    cell_data_format(&$sheet,&$styleH,$num_row,14,'работа');
+    cell_data_format(&$sheet,&$styleH,$num_row,15,'материалы');
+    cell_data_format(&$sheet,&$styleH,$num_row,16,'начало');
+    cell_data_format(&$sheet,&$styleH,$num_row,17,'окончание');
     ramka(&$sheet,&$style_r2,1,$begin_row,16,$num_row);
     //$sheet->setAutoFilter('A1:J1');  //Фильтр
     //
@@ -287,25 +292,30 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
             cell_data_format(&$sheet,&$styleWN,$num_row,3
                       ,Get_implementer($mysqli,$row2['id_implementer'])); //!!!!!!!!!!!!!!
             cell_data_format(&$sheet,&$styleWN,$num_row,4,$row2['units']);
-            cell_data_format(&$sheet,&$styleN,$num_row,5,$row2['count_units'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,6,$row2['price'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,7,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            //cell_data_format(&$sheet,&$styleN,$num_row,5,$row2['count_units'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,5,number_format(round($row2['count_units'],3),3,',',''));
+
+            //cell_data_format(&$sheet,&$styleWN,$num_row,6,$row2[alien]);
+
+
+            cell_data_format(&$sheet,&$styleN,$num_row,7,$row2['price'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,8,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
             if(calc) {
-            cell_data_format(&$sheet,&$styleN,$num_row,8,'='.CH_cell(5).$num_row.'*'.CH_cell(6).$num_row,'',ROUND($row2['subtotal'],2)); 
-            cell_data_format(&$sheet,&$styleN,$num_row,10,'='.CH_cell(8).$num_row.'+'.CH_cell(9).$num_row,'',ROUND($row2['subtotal'],2));
+            cell_data_format(&$sheet,&$styleN,$num_row,9,'='.CH_cell(5).$num_row.'*'.CH_cell(7).$num_row,'',ROUND($row2['subtotal'],2));
+            cell_data_format(&$sheet,&$styleN,$num_row,11,'='.CH_cell(9).$num_row.'+'.CH_cell(10).$num_row,'',ROUND($row2['subtotal'],2));
                     
             } else {
-            cell_data_format(&$sheet,&$styleN,$num_row,8,$row2['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,10,$row2['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,9,$row2['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,11,$row2['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
             }
-            cell_data_format(&$sheet,&$styleN,$num_row,9,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,11,$row2['summa_r2_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,12,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,13,$row2['count_r2_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleN,$num_row,14,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,10,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,12,$row2['summa_r2_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,13,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,14,$row2['count_r2_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleN,$num_row,15,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
             
-            cell_data_format(&$sheet,&$styleN,$num_row,15,$row2['date0']);
-            cell_data_format(&$sheet,&$styleN,$num_row,16,$row2['date1']);
+            cell_data_format(&$sheet,&$styleN,$num_row,16,$row2['date0']);
+            cell_data_format(&$sheet,&$styleN,$num_row,17,$row2['date1']);
             
             $sql3='select * from i_material where id_razdel2="'.$row2['id'].'" order by displayOrder';
             //echo '<p/>'.$sql3;
@@ -313,30 +323,35 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
             while( $row3 = $result3->fetch_assoc() ){     //Материалы
                 Next_row(&$sheet,++$num_row);
                 //--------------------писать строку материалы
-                cell_data_format(&$sheet,&$styleW,$num_row,1,'');
-                cell_data_format(&$sheet,&$styleM,$num_row,2,$row3['material']);
-                cell_data_format(&$sheet,&$styleWN,$num_row,3,Get_implementer($mysqli,$row3['id_implementer'])); //!!!!!!!!!!!!!!!!!!1
-                cell_data_format(&$sheet,&$styleWN,$num_row,4,$row3['units']);
-                cell_data_format(&$sheet,&$styleN,$num_row,5,$row3['count_units'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,6,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,7,$row3['price'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleW,$num_row,1,$row3[razdel1].'.'.$row3[razdel2].'.'.$row3[displayOrder]);
+                //cell_data_format(&$sheet,&$styleW,$num_row,1,'');
+                cell_data_format(&$sheet,$styleM,$num_row,2,$row3['material']);
+                cell_data_format(&$sheet,$styleWN,$num_row,3,Get_implementer($mysqli,$row3['id_implementer'])); //!!!!!!!!!!!!!!!!!!1
+                cell_data_format(&$sheet,$styleWN,$num_row,4,$row3['units']);
+                //cell_data_format(&$sheet,&$styleN,$num_row,5,$row3['count_units'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,5,number_format(round($row3['count_units'],3),3,',',''));
+
+                cell_data_format(&$sheet,$styleWN,$num_row,6,($row3[alien])?'ДА':'');
+
+                cell_data_format(&$sheet,$styleN,$num_row,7,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,8,$row3['price'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
                 if(calc) {
                     
-                cell_data_format(&$sheet,&$styleN,$num_row,9,'='.CH_cell(5).$num_row.'*'.CH_cell(7).$num_row,'',ROUND($row3['subtotal'],2)); 
-                cell_data_format(&$sheet,&$styleN,$num_row,10,'='.CH_cell(8).$num_row.'+'.CH_cell(9).$num_row,'',ROUND($row3['subtotal'],2));
+                cell_data_format(&$sheet,$styleN,$num_row,10,'='.CH_cell(5).$num_row.'*'.CH_cell(8).$num_row,'',ROUND($row3['subtotal'],2));
+                cell_data_format(&$sheet,$styleN,$num_row,11,'='.CH_cell(9).$num_row.'+'.CH_cell(10).$num_row,'',ROUND($row3['subtotal'],2));
                 
                 } else {
                     
-                cell_data_format(&$sheet,&$styleN,$num_row,9,$row3['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,10,$row3['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,10,$row3['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,11,$row3['subtotal'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
                 }
-                cell_data_format(&$sheet,&$styleN,$num_row,8,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,11,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,12,$row3['summa_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,13,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,14,$row3['count_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-                cell_data_format(&$sheet,&$styleN,$num_row,15,'');
-                cell_data_format(&$sheet,&$styleN,$num_row,16,'');
+                cell_data_format(&$sheet,$styleN,$num_row,9,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,12,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,13,$row3['summa_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,14,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,15,$row3['count_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+                cell_data_format(&$sheet,$styleN,$num_row,16,'');
+                cell_data_format(&$sheet,$styleN,$num_row,17,'');
 
             }  //material  
         } //work
@@ -349,33 +364,34 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
         cell_data_format(&$sheet,&$styleIText,$num_row,5,'');
         cell_data_format(&$sheet,&$styleIText,$num_row,6,'');
         cell_data_format(&$sheet,&$styleIText,$num_row,7,'');
-        $sheet->mergeCells(CH_cell(3).$num_row.':'.CH_cell(7).$num_row);
+        cell_data_format(&$sheet,&$styleIText,$num_row,8,'');
+        $sheet->mergeCells(CH_cell(3).$num_row.':'.CH_cell(8).$num_row);
         if (calc) {
             
-            cell_summ_format(&$sheet,&$styleNItogo,$num_row,8,$num_rowR,ROUND($row['summa_r1'],2));
-            cell_summ_format(&$sheet,&$styleNItogo,$num_row,9,$num_rowR,ROUND($row['summa_m1'],2));
-            cell_summ_format(&$sheet,&$styleNItogo,$num_row,10,$num_rowR,ROUND(($row['summa_r1']+$row['summa_m1']),2));
-            cell_summ_format(&$sheet,&$styleNItogo,$num_row,11,$num_rowR,ROUND($row['summa_r1_realiz'],2));
-            cell_summ_format(&$sheet,&$styleNItogo,$num_row,12,$num_rowR,ROUND($row['summa_m1_realiz'],2)); 
+            cell_summ_format(&$sheet,&$styleNItogo,$num_row,9,$num_rowR,ROUND($row['summa_r1'],2));
+            cell_summ_format(&$sheet,&$styleNItogo,$num_row,10,$num_rowR,ROUND($row['summa_m1'],2));
+            cell_summ_format(&$sheet,&$styleNItogo,$num_row,11,$num_rowR,ROUND(($row['summa_r1']+$row['summa_m1']),2));
+            cell_summ_format(&$sheet,&$styleNItogo,$num_row,12,$num_rowR,ROUND($row['summa_r1_realiz'],2));
+            cell_summ_format(&$sheet,&$styleNItogo,$num_row,13,$num_rowR,ROUND($row['summa_m1_realiz'],2));
         } else {
-            cell_data_format(&$sheet,&$styleNItogo,$num_row,8,$row['summa_r1'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleNItogo,$num_row,9,$row['summa_m1'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleNItogo,$num_row,10,($row['summa_r1']+$row['summa_m1']),PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleNItogo,$num_row,11,$row['summa_r1_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-            cell_data_format(&$sheet,&$styleNItogo,$num_row,12,$row['summa_m1_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleNItogo,$num_row,9,$row['summa_r1'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleNItogo,$num_row,10,$row['summa_m1'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleNItogo,$num_row,11,($row['summa_r1']+$row['summa_m1']),PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleNItogo,$num_row,12,$row['summa_r1_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+            cell_data_format(&$sheet,&$styleNItogo,$num_row,13,$row['summa_m1_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
             
         }
-        cell_data_format(&$sheet,&$styleNItogo,$num_row,13,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
         cell_data_format(&$sheet,&$styleNItogo,$num_row,14,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-        cell_data_format(&$sheet,&$styleNItogo,$num_row,15,'');
+        cell_data_format(&$sheet,&$styleNItogo,$num_row,15,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
         cell_data_format(&$sheet,&$styleNItogo,$num_row,16,'');
-        $num_row++;
+        cell_data_format(&$sheet,&$styleNItogo,$num_row,17,'');
+        Next_row(&$sheet,++$num_row);
         NDS(&$sheet,&$styleIText,&$styleI,&$styleNItogo,$num_row,$row['summa_r1']+$row['summa_m1']);
         
     } //razdel1  
     //--------------------------------------ВСЕГО
-    
-    $all_row=++$num_row;
+    Next_row(&$sheet,++$num_row);
+    //$all_row=++$num_row;
         cell_data_format(&$sheet,&$styleW,$num_row,1,'');
         cell_data_format(&$sheet,&$styleAS,$num_row,2,'ВСЕГО ПО СМЕТЕ');
         cell_data_format(&$sheet,&$styleAText,$num_row,3,'');
@@ -383,34 +399,35 @@ function export2XLS($sheet_name,$id_object,$calc=true) {
         cell_data_format(&$sheet,&$styleAText,$num_row,5,'');
         cell_data_format(&$sheet,&$styleAText,$num_row,6,'');
         cell_data_format(&$sheet,&$styleAText,$num_row,7,'');
-        $sheet->mergeCells(CH_cell(3).$num_row.':'.CH_cell(7).$num_row);
+        cell_data_format(&$sheet,&$styleAText,$num_row,8,'');
+        $sheet->mergeCells(CH_cell(3).$num_row.':'.CH_cell(8).$num_row);
     if (calc) {
-        cell_itog_format(&$sheet,&$styleA,$num_row,8,$num_rowA,ROUND($rowO['total_r0'],2));
-        cell_itog_format(&$sheet,&$styleA,$num_row,9,$num_rowA,ROUND($rowO['total_m0'],2));
-        cell_itog_format(&$sheet,&$styleA,$num_row,10,$num_rowA,ROUND(($rowO['total_r0']+$rowO['total_m0']),2));
-        cell_itog_format(&$sheet,&$styleA,$num_row,11,$num_rowA,ROUND($rowO['total_r0_realiz'],2));
-        cell_itog_format(&$sheet,&$styleA,$num_row,12,$num_rowA,ROUND($rowO['total_m0_realiz'],2));
+        cell_itog_format(&$sheet,&$styleA,$num_row,9,$num_rowA,ROUND($rowO['total_r0'],2));
+        cell_itog_format(&$sheet,&$styleA,$num_row,10,$num_rowA,ROUND($rowO['total_m0'],2));
+        cell_itog_format(&$sheet,&$styleA,$num_row,11,$num_rowA,ROUND(($rowO['total_r0']+$rowO['total_m0']),2));
+        cell_itog_format(&$sheet,&$styleA,$num_row,12,$num_rowA,ROUND($rowO['total_r0_realiz'],2));
+        cell_itog_format(&$sheet,&$styleA,$num_row,13,$num_rowA,ROUND($rowO['total_m0_realiz'],2));
     } else {
-        cell_data_format(&$sheet,&$styleA,$num_row,8,$rowO['total_r0'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-        cell_data_format(&$sheet,&$styleA,$num_row,9,$rowO['total_m0'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-        cell_data_format(&$sheet,&$styleA,$num_row,10,($rowO['total_r0']+$rowO['total_m0']),PHPExcel_Cell_DataType::TYPE_NUMERIC);
-        cell_data_format(&$sheet,&$styleA,$num_row,11,$rowO['total_r0_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
-        cell_data_format(&$sheet,&$styleA,$num_row,12,$rowO['total_m0_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+        cell_data_format(&$sheet,&$styleA,$num_row,9,$rowO['total_r0'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+        cell_data_format(&$sheet,&$styleA,$num_row,10,$rowO['total_m0'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+        cell_data_format(&$sheet,&$styleA,$num_row,11,($rowO['total_r0']+$rowO['total_m0']),PHPExcel_Cell_DataType::TYPE_NUMERIC);
+        cell_data_format(&$sheet,&$styleA,$num_row,12,$rowO['total_r0_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
+        cell_data_format(&$sheet,&$styleA,$num_row,13,$rowO['total_m0_realiz'],PHPExcel_Cell_DataType::TYPE_NUMERIC);
     }
-    $xls->addNamedRange(new PHPExcel_NamedRange('AllSumma', $sheet, CH_cell(10).$num_row)); 
+    $xls->addNamedRange(new PHPExcel_NamedRange('AllSumma', $sheet, CH_cell(11).$num_row));
 
-    cell_data_format(&$sheet,&$styleAText,$num_row,13,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
-    cell_data_format(&$sheet,&$styleAText,$num_row,14,'',PHPExcel_Cell_DataType::TYPE_NUMERIC); 
-    cell_data_format(&$sheet,&$styleAText,$num_row,15,'');
+    cell_data_format(&$sheet,&$styleAText,$num_row,14,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
+    cell_data_format(&$sheet,&$styleAText,$num_row,15,'',PHPExcel_Cell_DataType::TYPE_NUMERIC);
     cell_data_format(&$sheet,&$styleAText,$num_row,16,'');
-        $num_row++;
+    cell_data_format(&$sheet,&$styleAText,$num_row,17,'');
+        Next_row(&$sheet,++$num_row);
         NDS(&$sheet,&$styleIText,&$styleI,&$styleNItogo,$num_row,$rowO['total_r0']+$rowO['total_m0']);
-        $xls->addNamedRange(new PHPExcel_NamedRange('NDS', $sheet, CH_cell(10).$num_row)); 
-        ramka(&$sheet,&$style_r2,1,$begin_row,16,$num_row);
+        $xls->addNamedRange(new PHPExcel_NamedRange('NDS', $sheet, CH_cell(11).$num_row));
+        ramka(&$sheet,&$style_r2,1,$begin_row,17,$num_row);
     
-   $sheet->setAutoFilter(CH_cell(1).($num_rowA-1).':'.CH_cell(14).($num_rowA-1));
+   $sheet->setAutoFilter(CH_cell(1).($num_rowA-1).':'.CH_cell(15).($num_rowA-1));
    //---------------------------------Заголовки
-    merge_cellHi(&$sheet,&$styleHi1,$head_row+1,1,14,'СМЕТА');
+    merge_cellHi(&$sheet,&$styleHi1,$head_row+1,1,14,'СЕБЕСТОИМОСТЬ');
     merge_cellHi(&$sheet,&$styleHiR,$head_row+2,2,2,'Объект:');
     merge_cellHi(&$sheet,&$styleHiL,$head_row+2,3,14,$rowO['object_name']);
     merge_cellHi(&$sheet,&$styleHiR,$head_row+3,2,2,'Общая продаваемая площадь (м2):',false);
@@ -470,5 +487,6 @@ function Get_implementer($mysqli,$id) {
     return $imp;
 }
 function Next_row(&$sheet,$num_row) {
-  $sheet->getRowDimension($num_row)->setRowHeight(-1);
+  //$sheet->getRowDimension($num_row)->setRowHeight(-1);
+  $sheet->getRowDimension($num_row)->setRowHeight(20);
 }

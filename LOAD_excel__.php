@@ -7,7 +7,8 @@ header('Content-type: text/html; charset=utf-8');
 </head>
 <body>
 <?php
-include("./XLS_DB__.php");
+include_once $_SERVER['DOCUMENT_ROOT'].'/'."sysadmin/run/interstroi.atsun.ru/XLS_DB.php";
+//include("./XLS_DB__.php");
 
 //function RUN_($PARAM, &$row_TREE=0)
 {
@@ -61,9 +62,9 @@ include("./XLS_DB__.php");
             $name=$_FILES["FileXLS"]["name"];
             $FileName=iconv("UTF-8","WINDOWS-1251",$name);
             echo '<p>name: '.$name.'</p>'; 
-            if($_FILE["FileXLS"]["type"] == 'application/vnd.ms-excel') {
+            if($_FILES["FileXLS"]["type"] == 'application/vnd.ms-excel') {
                $ext = ".xls";
-            } elseif ($_FILE["FileXLS"]["type"] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            } elseif ($_FILES["FileXLS"]["type"] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
                $ext = ".xlsx";
                 
             }

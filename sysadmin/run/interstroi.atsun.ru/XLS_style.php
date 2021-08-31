@@ -8,7 +8,7 @@ $font0=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '808080')
         );   
  $font=array(
@@ -19,7 +19,7 @@ $font0=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000' )
         );
  $fontN=array(
@@ -30,7 +30,7 @@ $font0=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000' )
         );
  $fontNB=array(
@@ -41,7 +41,7 @@ $font0=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000' )
         );
 $fontI=array(
@@ -52,7 +52,7 @@ $fontI=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '808080' )
         );
 $fontA=array(
@@ -63,7 +63,7 @@ $fontA=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => 'FFFFFF' )
         );
 $fontHi1=array(
@@ -74,7 +74,7 @@ $fontHi1=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000')
         );  
 $fontHi2I=array(
@@ -85,7 +85,7 @@ $fontHi2I=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000')
         ); 
 $fontHi3B=array(
@@ -96,7 +96,7 @@ $fontHi3B=array(
 	'underline' 	=> PHPExcel_Style_Font::UNDERLINE_NONE,
 	'strike'    	=> false,
 	'superScript' 	=> false,
-	'subScript' 	=> false,
+	'subScript' 	=> true,
 	'color'     	=> array('rgb' => '000000')
         );  
 $border =  array(
@@ -169,18 +169,25 @@ $fillAItogo=array(
 	)
 );
 
-$align=array ('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-              'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-              'wrap'=> true
-        
+$align=array (
+    'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+    'wrap'=> true,
+    'indent'	=> 0,
+    'shrinkToFit'	=> false,
         );
-$alignWR=array ('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
-              'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
-              'wrap'=> true
+$alignWR=array (
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+    'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+    'wrap'=> true,
+    'indent'	=> 0,
+    'shrinkToFit'	=> false,
         );
-$alignR=array ('horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
-              'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER
-        
+$alignR=array (
+    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+    'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+    'indent'	=> 0,
+    'shrinkToFit'	=> false,
         );
 ?>
 <style>

@@ -55,7 +55,7 @@ function iInsert_1R($mysqli,$sql,$show=true) {   // Добавление тол�
 }
 function iDelUpd($mysqli,$sql,$show=true) {   // Добавление только 1й записи
   $arows=false;
-  
+  //echo "<pre> $sql </pre>";
   if (!$mysqli->query($sql)) {
             if($show)
                 echo "<pre>".print_r($mysqli->errno,true)."</pre>";

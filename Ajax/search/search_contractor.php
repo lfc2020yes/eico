@@ -212,7 +212,7 @@ $num_results_work_zz = $result_work_zz->num_rows;
                     curl_close($ch);
 
                     if (!isset($error_msg)) {
-                        $debug .= 'Ответ:' .$server_output;
+                       // $debug .= 'Ответ:' .$server_output;
                         $storage = json_decode($server_output, true);
                         if ($storage != null) {
                             foreach ($storage[items] as $item) {

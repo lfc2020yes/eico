@@ -54,13 +54,22 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 	$flag_podpis=0;  //0 - все заполнено можно подписывать
 
 	//print_r($stack_error);
-	//исполнитель	
-	if(($_POST['ispol_work']==0)or($_POST['ispol_work']==''))
-	{
-		array_push($stack_error, "ispol_work");
-		$error_count++;
-		$flag_podpis++;  
-	}
+
+         //исполнитель
+
+         if($_POST["new_contractor_"]==0) {
+             if (($_POST['id_kto'] == 0) or ($_POST['id_kto'] == '')) {
+                 array_push($stack_error, "id_kto");
+                 $error_count++;
+                 $flag_podpis++;
+             }
+         } else
+         {
+             //проверка что все заполнено при добавление нового поставщика!
+         }
+
+
+
 	//дата документ
 	if($_POST['datess']=='')
 	{
@@ -83,10 +92,28 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
 		   
 		   $today[0] = date("y.m.d"); //присвоено 03.12.01
            $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
-		
+
+
+
+           if($_POST["new_contractor_"]==1)
+           {
+               //добавляем нового поставщика
+
+ mysql_time_query($link,'INSERT INTO z_contractor (name,name_small,adress,inn,ogrn,status,dir) VALUES ("'.htmlspecialchars(trim($_POST['name_contractor'])).'","'.htmlspecialchars(trim($_POST['name_small_contractor'])).'","'.htmlspecialchars(trim($_POST['address_contractor'])).'","'.htmlspecialchars(trim($_POST['inn_contractor'])).'","'.htmlspecialchars(trim($_POST['ogrn_contractor'])).'","'.htmlspecialchars(trim($_POST['status_contractor'])).'","'.htmlspecialchars(trim($_POST['dir_contractor'])).'")');
+
+               $kto=mysqli_insert_id($link);
+
+           } else
+           {
+
+               $kto=$_POST["id_kto"];
+
+           }
+
+
 
 			
-		   mysql_time_query($link,'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("'.htmlspecialchars($_POST['number_invoices']).'","'.htmlspecialchars($_POST['date_invoice']).'","'.date("y-m-d").' '.date("H:i:s").'","'.date("y-m-d").' '.date("H:i:s").'","0","'.htmlspecialchars(trim($_POST["ispol_work"])).'","'.$id_user.'","1")');
+		   mysql_time_query($link,'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("'.htmlspecialchars($_POST['number_invoices']).'","'.htmlspecialchars($_POST['date_invoice']).'","'.date("y-m-d").' '.date("H:i:s").'","'.date("y-m-d").' '.date("H:i:s").'","0","'.htmlspecialchars(trim($kto)).'","'.$id_user.'","1")');
 			$ID_N=mysqli_insert_id($link); 
 			
 			//переадрессуем для дальнейшего сохранения
@@ -237,7 +264,7 @@ if ( isset($_COOKIE["iss"]))
   echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата</i><span>*</span></label><input name="datess" id="date_table" readonly="true" value="'.ipost_($_POST['datess'],"").'" class="input_new_2021 gloab required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div><input id="date_hidden_table" name="date_invoice" value="'.ipost_($_POST['date_invoice'],"").'" type="hidden"></div>';
   echo'<!--input end	-->';
 
-
+/*
   $su_5_name=ipost_($_POST['ispol_work'],"","z_contractor","name",$link);
   $su_5=ipost_($_POST['ispol_work'],"0");
 
@@ -273,6 +300,103 @@ if ( isset($_COOKIE["iss"]))
 
   echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
 
+*/
+
+
+  echo'<div class="js-more-options-supply">';
+  echo'<!--input start	-->		
+<div class="password_docs">
+<div id="0" class="input-choice-click-pass js-password-docs js-type-soft-view js-ajax-new-profi active_pass">
+<div class="choice-head">поставщик</div>
+<div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
+</div>	
+
+<div id="1" class="input-choice-click-pass js-password-docs js-type-soft-view js-ajax-new-profi">
+<div class="choice-head">Новый поставщик</div>
+<div class="choice-radio"><div class="center_vert1"><i></i></div></div>
+</div>
+<input name="new_contractor_" class="js-type-soft-view1" value="0" type="hidden">	
+</div>		
+<!--input end -->';
+
+  //существующий поставщик
+  echo'<div class="js-options-supply-0">';
+
+
+  $su_5_name=ipost_($_POST['id_kto'],"","z_contractor","name",$link);
+  $su_5=ipost_($_POST['id_kto'],"0");
+
+  echo'<!--input start	-->';
+
+  echo'<div class=" big_list">';
+  //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
+
+  echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-icon"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" fns="1" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2 js-id-kto-ajax" name="id_kto" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+
+
+  //выбирать только тех у кого есть какие то счета на этом контрагенте
+  $result_work_zz=mysql_time_query($link,"SELECT distinct A.id,A.name,A.inn,(select count(g.id) from z_acc as g where g.status IN ('3','4','20')) as kol FROM z_contractor as A,z_acc as B WHERE B.id_contractor=A.id and B.status IN ('3','4','20') ORDER BY kol limit 0,40");
+
+
+
+  $num_results_work_zz = $result_work_zz->num_rows;
+  if($num_results_work_zz!=0)
+  {
+      //echo'<li><a href="javascript:void(0);" rel="0"></a></li>';
+      for ($i=0; $i<$num_results_work_zz; $i++)
+      {
+          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+
+          $yop='';
+          if($row_work_zz["id"]==$su_5) {
+              $yop='sel_active';
+          }
+
+          echo'<li class="'.$yop.'"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].' <span class="gray-date">(ИНН-'.$row_work_zz["inn"].')</span></a></li>';
+
+      }
+  }
+
+  echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
+
+
+
+
+
+
+  echo'</div>';
+
+
+  //новый поставщик
+  echo'<div class="js-options-supply-1 option-new-contractor none">';
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Полное название поставщика</i><span>*</span></label><input name="name_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Адрес поставщика</i><span>*</span></label><input name="address_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Директор</i><span>*</span></label><input name="dir_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+
+
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>ИНН поставщика</i><span>*</span></label><input name="inn_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+  echo'<!--input start-->';
+  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>ОГРН поставщика</i><span>*</span></label><input name="ogrn_contractor" value="" class="input_new_2021 gloab1 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+  echo'<!--input end	-->';
+  echo'<input name="name_small_contractor" value=""  type="hidden">';
+  echo'<input name="status_contractor" value=""  type="hidden">';
+
+
+  echo'</div>';
+
+  echo'</div>';
 
 
 

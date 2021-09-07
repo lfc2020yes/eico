@@ -38,7 +38,7 @@ if ( count($_GET) != 4 )
 }
 */
 //**************************************************
- if ((!$role->permission('Счета','A'))and($sign_admin!=1))
+ if ((!$role->permission('Счета','A'))and($sign_admin!=1)and(!$role->permission('Накладные','A'))and(!$role->permission('Договора','A')))
 {
   $debug=h4a(2,$echo_r,$debug);
   goto end_code;

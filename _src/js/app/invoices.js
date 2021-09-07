@@ -443,6 +443,27 @@ function save_invoicess()
         } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
     });
 
+    var new_firm_fns=$('.js-save-form-invoices').find('.js-type-soft-view1').val();
+    if(new_firm_fns==0)
+    {
+        $('.js-save-form-invoices').find('.gloab2').each(function(i,elem) {
+            if(($(this).val() == '')||($(this).val() == '0')) { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    } else
+    {
+        $('.js-save-form-invoices').find('.gloab1').each(function(i,elem) {
+            if(($(this).val() == '')||($(this).val() == '0')) { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    }
+
     if(err==0) {
 
         $('.js-save-form-invoices').submit();

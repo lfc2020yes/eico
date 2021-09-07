@@ -188,8 +188,8 @@ $num_results_work_zz = $result_work_zz->num_rows;
                     $ch = curl_init();
 
                     curl_setopt($ch, CURLOPT_URL, "https://api-fns.ru/api/search?q=" . $query . "&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
-                    //$debug .= "GET:https://api-fns.ru/api/search?q=".$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4";
-
+                    //$debug .= "GET:https://api-fns.ru/api/search?q=".$query."&key=d2285e4ef8869568d71663c9b2000a17480b9eb4";
+//$debug.=$_SERVER['SERVER_ADDR'];
                     //curl_setopt($ch, CURLOPT_POST, 1);
                     //curl_setopt($ch, CURLOPT_POSTFIELDS, "q='.$query.'&key=d2285e4ef8869568d71663c9b2000a17480b9eb4");
                     //curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -212,7 +212,7 @@ $num_results_work_zz = $result_work_zz->num_rows;
                     curl_close($ch);
 
                     if (!isset($error_msg)) {
-                        //$debug .= 'Ответ:' .$server_output;
+                       // $debug .= 'Ответ:' .$server_output;
                         $storage = json_decode($server_output, true);
                         if ($storage != null) {
                             foreach ($storage[items] as $item) {

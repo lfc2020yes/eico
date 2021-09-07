@@ -199,18 +199,15 @@ AND m.id_alias_table=a.id
     return $res;  
   }
   function is_column_edit($name_table,$name_column) {
-      $res=true;
       for($i=0;$i<count($this->column);$i++) {
         if (($this->column[$i][0]==$name_table)
          && ($this->column[$i][1]==$name_column )) {
-            if ($this->column[$i][2]=='U') {    //нужно писать посимвольный разбор
-               $res=false; 
+            if ($this->column[$i][2]=='U') {    //нужно писать посимвольный разбор  РАБОТАЕТ ТОЛЬКО [U]
+              return true;
             }
-            $res=false;
-            break;
         }
       }
-      return $res;
+      return false;
   }
 } //class
 

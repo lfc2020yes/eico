@@ -185,26 +185,27 @@ AND m.id_alias_table=a.id
   }
   //-------------------------------получить разрешенное значение поля
   function is_column($name_table,$name_column,$value_column=true,$default=false) {
-    $res=$value_column;
     //echo "<p/>".json_encode($this->column);
+      // echo "<pre>$name_table -> $name_column</pre>";  //Проверка запросов
     for($i=0;$i<count($this->column);$i++) {
         if (($this->column[$i][0]==$name_table)
          && ($this->column[$i][1]==$name_column )) {
          //echo "<p/>2ok"; 
-            if ($this->column[$i][2]=='U') break;  //можно показывать, но нельзя редактировать, нужно писать посимвольный разбор
-            $res=$default; 
-            break;
+            if ($this->column[$i][2]=='U') return $value_column;  //можно показывать, но нельзя редактировать, нужно писать посимвольный разбор
+            return $default;
         }
     }
-    return $res;  
+    return $value_column;
   }
   function is_column_edit($name_table,$name_column) {
       for($i=0;$i<count($this->column);$i++) {
         if (($this->column[$i][0]==$name_table)
          && ($this->column[$i][1]==$name_column )) {
+            //if ($name_table == 'n_material' and $name_column == 'price') echo "<pre>test1</pre>";
             if ($this->column[$i][2]=='U') {    //нужно писать посимвольный разбор  РАБОТАЕТ ТОЛЬКО [U]
+                //if ($name_table == 'n_material' and $name_column == 'price') echo "<pre>test2</pre>";
               return true;
-            }
+            } else break;
         }
       }
       return false;

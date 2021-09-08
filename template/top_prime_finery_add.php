@@ -63,7 +63,7 @@ echo'<div class="error_text_add"></div>';
 
 
         if(count($D)>0) {
-            echo'<a data-tooltip="сохранить заявку" class="js-add_nar add_clients yellow-style hide-mobile">Сохранить   →</a>';
+            echo'<a data-tooltip="сохранить наряд" class="js-add_nar add_clients yellow-style hide-mobile">Сохранить   →</a>';
         }
 
 

@@ -61,16 +61,21 @@ function save_naryad()
             var price=$(this).find('.price_finery_mater_').val();
             $(this).find('.price_finery_mater_').removeClass('error_formi');
             $(this).find('.count_finery_mater_').removeClass('error_formi');
-            if((count==0)||(count=='')||(!$.isNumeric(count)))
+            //if((count==0)||(count=='')||(!$.isNumeric(count)))
+
+            if((count=='')||(!$.isNumeric(count)))
             {
                 $(this).find('.count_finery_mater_').addClass('error_formi');
                 error=1;
             }
+            /*
             if((price==0)||(price=='')||(!$.isNumeric(price)))
             {
                 $(this).find('.price_finery_mater_').addClass('error_formi');
                 error=1;
             }
+            */
+
         });
 
 

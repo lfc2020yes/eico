@@ -53,11 +53,18 @@ print_r($user_send_new);
 //обработка формы отправленной по наряду - сохранение
 //print_r($_POST['works']);
 
-//проверим можно редактировать или нет цены в наряде
+//проверим можно редактировать или нет цены по материалу в наряде
 $edit_price=0;
 if ($role->is_column_edit('n_material','price'))
 {
 	$edit_price=1;
+}
+
+//проверим можно редактировать или нет цены по работе в наряде
+$edit_price1=0;
+if ($role->is_column_edit('n_work','price'))
+{
+    $edit_price1=1;
 }
 
 
@@ -371,7 +378,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 				  } else { $status_memo=1; }
 					
 
-				  if($edit_price==1)
+				  if($edit_price1==1)
                   {				
 				  //добавляем работу к наряду	
 				  mysql_time_query($link,'INSERT INTO n_work (id,id_nariad,id_razdeel2,name_work,procent,units,count_units,count_units_razdel2,price,price_razdel2,memorandum,id_sign_mem,signedd_mem) VALUES ("","'.$ID_N.'","'.htmlspecialchars(trim($value['id'])).'","'.htmlspecialchars(trim($rowx['name_working'])).'","","'.htmlspecialchars(trim($rowx['units'])).'","'.htmlspecialchars(trim($value['count'])).'","'.htmlspecialchars(trim($rowx['count_units'])).'","'.htmlspecialchars(trim($value['price'])).'","'.htmlspecialchars(trim($rowx['price'])).'","'.$memo.'","","'.$status_memo.'")');	
@@ -1055,7 +1062,7 @@ echo'<div class="width-setter"><label>MAX('.$ostatok.')</label><input style="mar
 					 
 echo'</td>
 <td>';
-if($edit_price==1)
+if($edit_price1==1)
 {					 
 echo'<div class="width-setter"><label>MAX('.$row1ss["price"].')</label><input style="margin-top:0px;" name="works['.$i.'][price]" max="'.$row1ss["price"].'" id="price_work_'.$i.'" placeholder="MAX - '.$row1ss["price"].'" class="input_f_1 input_100 white_inp label_s price_finery_ '.iclass_($row1ss["id"].'_w_price',$stack_error,"error_formi").'" autocomplete="off" type="text" value="'.ipost_($_POST['works'][$i]["price"],"").'"></div>';		
 } else

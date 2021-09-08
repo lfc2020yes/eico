@@ -250,6 +250,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 
 							if($result!==true)
                             {
+                                //echo("!");
                                 echo $result;
                                 die();
                             } else {

@@ -220,8 +220,10 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 				       $price_sys=$rowxx['price'];
 				      
 				      //больше остаточного количества по материалу
+                       /*
 				      if($count_sys<$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count");   }  }
-
+*/
+                        if($count_sys<$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))) { array_push($error_work, $value1['id']."_m_count");   }  }
 						
 					  //больше предполагаемого количества по материалу
 					  $count_end=0;  	
@@ -236,8 +238,9 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 					  {
 						  $count_est=round($count_end,4);
 					  }
-					  
-					  if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count_est");   }  }	
+	/*
+					  if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count_est");   }  }*/
+                        if(($count_est!=$count_user)or($count_user==0)) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))) { array_push($error_work, $value1['id']."_m_count_est");   }  }
 						
 						  //если количество материала у пользователя меньше чем введенное
 	$my_material=0;							
@@ -275,11 +278,13 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 						
 					  	if($my_material<$count_user) {  $flag_podpis++; }	
 						
-					  if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }	
+					  //if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }
+
+                        if((!is_numeric($count_user))or($count_user<0)) {  $flag_podpis++; }
 						/*
 				      if($price_sys<$price_user) {  $flag_matter++;  $flag_message=1; if((!is_numeric($price_user))or($price_user==0)) { array_push($error_work, $value1['id']."_m_price");  }  }
 						*/
-					  if((!is_numeric($price_user))or($price_user<=0)) {  $flag_podpis++; }
+					  //if((!is_numeric($price_user))or($price_user<=0)) {  $flag_podpis++; }
 					  
 					  if((trim($value1['text'])=='')and($flag_matter>0)) {  $flag_podpis++; array_push($error_work, $value1['id']."_m_text"); } 
 					  

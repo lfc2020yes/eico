@@ -1418,7 +1418,7 @@ function option_mat() {
 
 function UpdateCostFinery(id)
 {
-	var count=parseFloat($('.mat[rel_mat='+id+']').find('.count_finery_mater_').val());
+	var count=parseFloat($('.mat[rel_mat='+id+']').find('.аmater_').val());
 	var count_my=parseFloat($('.mat[rel_mat='+id+']').find('.count_finery_mater_').attr('my'));
 	var id_stock=parseFloat($('.mat[rel_mat='+id+']').find('[id_stock_m]').attr('id_stock_m'));
 	
@@ -1925,9 +1925,11 @@ function serv_mess_m(thiss)
 	var count_raz=0;
 	var price_raz=0;
 	//alert(max_count);
-	if(count!='')
+	//alert(count);
+	if((count!='')||(count==0))
 		{
-	if((count!=max_count)&&(!isNaN(max_count))) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
+			//alert(count);
+	if(((count!=max_count)&&(!isNaN(max_count)))||(count==0)) {flag_show=1; count_raz=max_count; } else {  count_raz=count; }
 	//if(price>max_price) {flag_show=1;}
 		
 	if($('[name=status_naryad]').length==0)
@@ -2592,6 +2594,7 @@ function MmyHandler()
 	
 	maskk_max($(this));
 
+	//alert("!");
 	var rel_id=$(this).parents('.mat').attr('rel_w');
 	var rel_mat=$(this).parents('.mat').attr('rel_mat');
 	

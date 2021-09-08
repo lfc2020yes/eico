@@ -36,6 +36,12 @@ if ($role->is_column_edit('n_material','price'))
 	$edit_price=1;
 }
 
+$edit_price1=0;
+if ($role->is_column_edit('n_work','price'))
+{
+    $edit_price1=1;
+}
+
 $podpis=0;  //по умолчанию нельзя редактировать подписана свыше
 if((sign_naryd_level($link,$id_user,$sign_level,$_GET["id"],$sign_admin)))
 {
@@ -252,9 +258,10 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 				      
 						
 				      //больше остаточного количества по материалу
+                        /*
 				      if($count_sys<$count_user) { $flag_matter++; $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count");   }  }
-						
-						
+						*/
+                        if($count_sys<$count_user) { $flag_matter++; $flag_message=1; if((!is_numeric($count_user))) { array_push($error_work, $value1['id']."_m_count");   }  }
 
 					  //больше предполагаемого количества по материалу	
 						$count_end=0; 
@@ -272,8 +279,10 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 					  //echo($count_est.'<'.$count_user.' ');	
 						
-					  if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count_est");   }  }	
-					  //echo("!");	
+					//  if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count_est");   }  }
+
+                        if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))) { array_push($error_work, $value1['id']."_m_count_est");   }  }
+                        //echo("!");
 						
 					  //если количество материала у пользователя меньше чем введенное
 	$my_material=0;							
@@ -302,16 +311,16 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 							
 							}
 						
-						if($my_material<$count_user) {  $flag_podpis++; }
+						if($my_material<$count_user) {  $flag_podpis++;  }
 						
 						
-					  if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }	
-
-					  /*
-				      if($price_sys<$price_user) {  $flag_matter++;  $flag_message=1; if((!is_numeric($price_user))or($price_user==0)) { array_push($error_work, $value1['id']."_m_price");  }  }
-					  */
+					 // if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }
+                        if((!is_numeric($count_user))or($count_user<0)) {   $flag_podpis++; }
+                        /*
+                        if($price_sys<$price_user) {  $flag_matter++;  $flag_message=1; if((!is_numeric($price_user))or($price_user==0)) { array_push($error_work, $value1['id']."_m_price");  }  }
+                        */
 						
-					  if((!is_numeric($price_user))or($price_user<=0)) {  $flag_podpis++; }
+					  //if((!is_numeric($price_user))or($price_user<=0)) { $flag_podpis++; }
 					  
 					  if((trim($value1['text'])=='')and($flag_matter>0)) {   $flag_podpis++; array_push($error_work, $value1['id']."_m_text"); } 
 					  
@@ -459,7 +468,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 $id_sign_mem= $row_tyd['id_sign_mem'];
 					 if($row_tyd["count_units"]!=$value['count']) { $count_redac++; }
 					 if($row_tyd["memorandum"]!=$value['text']) { $count_redac++; }
-					 if($edit_price==1) { if($row_tyd["price"]!=$value['price']) { $count_redac++; } }
+					 if($edit_price1==1) { if($row_tyd["price"]!=$value['price']) { $count_redac++; } }
 				  }
 				  if($count_redac!=0)
 				  {
@@ -502,7 +511,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					  
 					 if($row_tyd["count_units"]!=$value['count']) { $count_redac++; }
 					 if($row_tyd["memorandum"]!=$value['text']) { $count_redac++; }
-					 if($edit_price==1) { if($row_tyd["price"]!=$value['price']) { $count_redac++; } }
+					 if($edit_price1==1) { if($row_tyd["price"]!=$value['price']) { $count_redac++; } }
 					 if($row_tyd['id_sign_mem']!=$user_dec_memo) { $count_redac++; }
                      if($row_tyd['signedd_mem']!=$status_memo) { $count_redac++; }
 					  
@@ -521,7 +530,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 				  //изменяет если только есть изменения	
 				  if($count_redac!=0)
 				  {
-				  if($edit_price==1)
+				  if($edit_price1==1)
                   {				
 				  //изменение работу к наряду	
 					  /*
@@ -709,7 +718,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					   //изменяем материал к работе
 						   
 					 if(($sign_level!=3)and($sign_admin!=1))
-				     {	   
+				     {
+
 					   mysql_time_query($link,'update n_material set 				 
 					 count_units="'.htmlspecialchars(trim($value1['count'])).'",
 					 count_units_material="'.$count_end.'",					 
@@ -721,6 +731,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 where id = "'.htmlspecialchars(trim($value1['id'])).'" and id_nwork="'.$ID_W.'"');
 					 } else
 					 {
+
 					   mysql_time_query($link,'update n_material set 				 
 					 count_units="'.htmlspecialchars(trim($value1['count'])).'",
 					 count_units_material="'.$count_end.'",					 
@@ -735,6 +746,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 						   
 					   } else
 					   {
+                           if(($sign_level!=3)and($sign_admin!=1))
+                           {
 					   mysql_time_query($link,'update n_material set 				 
 					 count_units="'.htmlspecialchars(trim($value1['count'])).'",		
 					 count_units_material="'.$count_end.'",			 
@@ -742,7 +755,17 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 id_sign_mem="0", 
 					 signedd_mem="'.$status_memo.'" 
 					 
-					 where id = "'.htmlspecialchars(trim($value1['id'])).'" and id_nwork="'.$ID_W.'"'); 							   
+					 where id = "'.htmlspecialchars(trim($value1['id'])).'" and id_nwork="'.$ID_W.'"'); 							   } else
+                           {
+                               mysql_time_query($link,'update n_material set 				 
+					 count_units="'.htmlspecialchars(trim($value1['count'])).'",		
+					 count_units_material="'.$count_end.'",			 
+					 memorandum="'.$memo.'",
+					 id_sign_mem="'.$user_dec_memo.'", 
+					 signedd_mem="'.$status_memo.'" 
+					 
+					 where id = "'.htmlspecialchars(trim($value1['id'])).'" and id_nwork="'.$ID_W.'"');
+                           }
 					   }
 				  }
 						
@@ -1329,7 +1352,7 @@ echo'<div class="width-setter"><label>MAX('.$ostatok.')</label><input defaultv="
 					 
 echo'</td>
 <td>';
-if($edit_price==1)
+if($edit_price1==1)
 {			   
 echo'<div class="width-setter"><label>MAX('.$row_work["price_razdel2"].')</label><input defaultv="'.ipost_($_POST['works'][$i]["price"],$row_work["price"]).'" '.$status_edit.' style="margin-top:0px;" name="works['.$i.'][price]" max="'.$row_work["price_razdel2"].'" id="price_work_'.$i.'" placeholder="MAX - '.$row_work["price_razdel2"].'" class="input_f_1 input_100 white_inp label_s price_finery_ '.iclass_($row_work["id"].'_w_price',$stack_error,"error_formi").' '.$status_class.'" autocomplete="off" type="text" value="'.ipost_($_POST['works'][$i]["price"],$row_work["price"]).'"></div>';
 } else
@@ -1338,7 +1361,7 @@ echo'<div class="width-setter"><label>MAX('.$row_work["price_razdel2"].')</label
 }
 echo'</td>
 <td><span class="summ_price s_j " id="summa_finery_'.$i.'" ></span>';
-if($edit_price==1)
+if($edit_price1==1)
 {	
 echo'<div class="exceed"></div>';
 }
@@ -1740,7 +1763,7 @@ if($row_list["id_user"]==$id_user)
 <td style="padding-left:30px;"></td>
 <td style="padding-left:20px;"></td><td style="padding-left:10px;"><span class="itogsumall"></span></td><td></td></tr>'; 
 */
-	if($edit_price==1)
+	if($edit_price1==1)
 {	
 		  		   echo'<tr style="" class="previ">
                   <td class="no_padding_left_ pre-wrap one_td previs">Превышение по наряду</td>

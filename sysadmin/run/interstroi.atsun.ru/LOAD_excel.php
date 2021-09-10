@@ -368,6 +368,19 @@ i2.id="'.$id_razdel2.'" AND i2.id_razdel1=i1.id  AND i1.id_object= o.id');
      return $id_object;
 }
 
+/*todo  выбор нарядов с номерами разделов чтобы перезагрузить если нарядов в разделах нет: s.`razdel1` not in (2,3)
+
+ SELECT
+n.id_object, s.razdel1
+,COUNT(n.id) AS ncount, SUM(n.summa_work) AS wsumma,SUM(n.summa_material) AS msumma
+FROM n_nariad n, n_work m, i_razdel2 s
+WHERE
+n.id_object="53"
+and m.`id_nariad` = n.`id`
+AND m.`id_razdeel2` = s.`id`
+and s.`razdel1` not in (2,3)
+GROUP BY n.id_object ,s.razdel1
+ */
 function Get_Realiz_object($id_object){
  $ret=false;
  $Obj=new Tsql(

@@ -53,8 +53,7 @@ function iInsert_1R($mysqli,$sql,$show=true) {   // Добавление тол�
   }
   return $id;
 }
-function iDelUpd($mysqli,$sql,$show=true) {   // Добавление только 1й записи
-  $arows=false;
+function iDelUpd($mysqli,$sql,$show=true) {
   //echo "<pre> $sql </pre>";
   if (!$mysqli->query($sql)) {
             if($show)

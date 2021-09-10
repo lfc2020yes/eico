@@ -443,14 +443,16 @@ WHERE id={$row1[id]}
                      $id_signed='id_signed2';
                      break;
              }
+             $id_signed = ", $id_signed=$id_user";
              $sign_status=2;
          } else {  //снять подпись
              $sign_status=0;
+             $id_signed = '';
          }
           $sql.= $COMA."update n_nariad set"
               . " signedd_nariad=".$signedd
               . " , status=$sign_status"                //подписан / в работе
-              . " , ".$id_signed."=".$id_user
+              .$id_signed
               //. " ,  id_signed0=null, id_signed1=null, id_signed2=null"
               . " where id=".$id_nariad;
 

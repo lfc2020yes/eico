@@ -73,6 +73,12 @@ class set_xlsx {
     private $row_razdel;
     private $run_type;
     private $RAZDEL;
+    public $FULL_RELOAD;   //Полная перезагрузка или загрузка с проверкой существования объекта и разделов с удалением только работ
+    private $razdel_array;
+
+    public function set_xlsx($full_reload = false) {
+        $this->FULL_RELOAD = $full_reload;
+    }
 
 private function GetFloat($cell,$decimal=2)
 {
@@ -223,6 +229,18 @@ private function AddSumma(&$ITOGO,&$ROW_data) {
         } else return false;
     }
 
+    /** Удалить старые разделы при мягкой перегрузке сметы
+     * @param $id_object
+     */
+    private function delete_old_razdel1($mysqli,$id_object) {
+        if (is_array($this->razdel_array) and count($this->razdel_array) >0 ) {
+            $data = implode(',', $this->razdel_array);
+            $sql = "delete from i_razdel1 where id_object = '$id_object' and razdel1 not in ($data)";
+            echo "<pre>Удаление лишних разделов $sql</pre>";
+            iDelUpd($mysqli,$sql,false);
+        }
+    }
+
 //$reload=false Предварительная загрузка
 public function XLS_DB( $id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show=false)    //Если $id_object==0 - это предварительная загрузка
 {   cons("log","XLS_DB");
@@ -321,14 +339,17 @@ $Key_Special = array (
      }
      //$select_show=false;
  }
-    if ($reload) {               // Удалить статью раздел объект при перезагрузке
+    if ($reload) {               // Удалить статью раздел объект при перезагрузке (выборочные разделы)
         if($id_r2>0) {
             if (Delete_Data_razdel2($mysqli, $id_r2) === false) exit(-1);
         } elseif($id_r1>0) {
             if (Delete_Data_razdel1($mysqli, $id_r1) === false) exit(-1);
         } elseif ($id_object>0) {
-            if (Delete_Data_object($mysqli, $id_object) === false) exit(-1);
-            if (Update_File_object($mysqli,$id_object,$FName.' вкладка:'.$sheet_find)>1) exit(-2);
+            if ($this->FULL_RELOAD) {   //Удалять все разделы объекта при полной перезагрузке
+                if (Delete_Data_object($mysqli, $id_object) === false) exit(-1);
+            }
+            $file_name = $FName.' вкладка:'.$sheet_find.' FR='.(($this->FULL_RELOAD)?'true':'false');
+            if (Update_File_object($mysqli,$id_object,$file_name, $this->FULL_RELOAD)>1) exit(-2);
         }
         // Нужно писать лог файл
     }
@@ -576,11 +597,13 @@ else
                             $name_razdel=Get_Name_Razdel(substr($data,$pos+strlen($Key_RAZDEL)));
 
                             if ($reload) {  // или все разделы или только выборочный раздел
-                                //echo "<pre>$reload : id_r1=$id_r1 {$this->row_razdel['razdel1']} -> {$this->RAZDEL}</pre>";
                                 if (($id_object>0 and $id_r1==0 and $id_r2==0) or ($id_r1>0 and $this->row_razdel['razdel1']==$this->RAZDEL)) {
-                                    //echo "<pre>RELOAD</pre>";
-                                    $id_razdel1 = SQL_insert_razdel($mysqli, $id_object, $this->RAZDEL, $name_razdel);
-                                    //echo "<pre>id_razdel1=$id_razdel1</pre>";
+                                    if($this->FULL_RELOAD) {
+                                        $id_razdel1 = SQL_insert_razdel($mysqli, $id_object, $this->RAZDEL, $name_razdel);
+                                    } else {
+                                        $id_razdel1 = SQL_update_razdel($mysqli, $id_object, $this->RAZDEL, $name_razdel);
+                                        $this->razdel_array[] = $this->RAZDEL; //Сбор информации по загружаемым разделам
+                                    }
                                 }
                             }
                             $razdel_row_yes=true;
@@ -961,7 +984,10 @@ else
                 if ($show)
                 echo $this->Vedomost_ITOGO(&$ITOGO, $show);
             }
-	    echo_S ($show,  '</table></div>');
+            echo_S ($show,  '</table></div>');
+            if ($this->FULL_RELOAD==false and ($id_object>0 and $id_r1==0 and $id_r2==0)) {
+                $this->delete_old_razdel1($mysqli, $id_object);    //Удалить лишние разделы, которые остались после мягкой перезагрузки
+            }
         } // id_object   
     }  //sheet
     $Sheet++;
@@ -996,11 +1022,13 @@ else
 } 
 $mysqli->close();
 }
+
+
 } // class
 
-function XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show = false)
+function XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show = false,$full_reload=0)
 {
-    $xDB = new set_xlsx;
+    $xDB = new set_xlsx(($full_reload==0)?false:true);
     //echo "<pre>id_object=$id_object, id_r1=$id_r1, id_r2=$id_r2, reload=$reload</pre>";
     $xDB->XLS_DB($id_object, $id_r1, $id_r2, $reload, $FName, $sheet_find, $shablon, $show);
 }
@@ -1069,14 +1097,42 @@ function SQL_save_object($str){
 }
  * 
  */
+
+/** Если раздел существует - изменить название и удалить все статьи (работы и материалы по триггерам)
+ *  Если не существует - добавить
+ * @param $mysqli
+ * @param $id_object
+ * @param $razdel1
+ * @param $name1
+ * @return int|mixed
+ */
+function SQL_update_razdel($mysqli, $id_object,$razdel1,$name1)
+{
+    $sql = "select id, name1 from i_razdel1 where id_object='$id_object' and razdel1='$razdel1' ";
+    echo "<pre>Поиск раздела: $sql</pre>";
+    if (($result = $mysqli->query($sql)) and ($row = $result->fetch_assoc())) {
+        if (strcmp($row['name1'],$name1)!=0) {
+            $sql_name = "update i_razdel1 set name1='$name1' where id_object='$id_object' and razdel1='$razdel1'";
+            echo "<pre>Изменение раздела: $sql_name</pre>";
+            iDelUpd($mysqli, $sql_name, false);
+        }
+        $sql_razdel2 = "delete from i_razdel2 where id_razdel1='{$row['id']}'";
+        echo "<pre>Удаление статей раздела: $sql_razdel2</pre>";
+        iDelUpd($mysqli,$sql_razdel2 ,false);
+        return $row['id'];
+    } else {  // раздел не найден
+        return SQL_insert_razdel($mysqli, $id_object,$razdel1,$name1);
+    }
+}
+
 function SQL_insert_razdel($mysqli, $id_object,$razdel1,$name1) {  //Возврат 0 или id
         $sql='insert into i_razdel1 (id_object,razdel1,name1)'
                                     . 'values ('
                                     ."'$id_object',"
                                     ."'$razdel1',"
                                     ."'".$mysqli->real_escape_string($name1)."'"
-                                    . ')';  
-        
+                                    . ')';
+        echo "<pre>Добавление раздела: $sql</pre>";
         return iInsert_1R($mysqli,$sql);
 }
 function Get_Name_Razdel($str) {
@@ -1255,13 +1311,24 @@ function Get_Realiz_object($mysqli,$id_object){
 }
  * 
  */
+/** Удалить все разделы объекта
+ * @param $mysqli
+ * @param $id_object
+ * @return false|mixed
+ */
 function Delete_Data_object($mysqli,$id_object){
     $sql='delete from i_razdel1 where id_object="'.$id_object.'"';
     $ret=iDelUpd($mysqli,$sql,false);
+    echo "<pre>Удаление данных при полной перегрузке: $sql</pre>";
     if ($ret===false) Sql_info($ret,$sql);
     return $ret;    //,false
 }
 
+/** Удалить конкретный раздел
+ * @param $mysqli
+ * @param $id_r1
+ * @return false|mixed
+ */
 function Delete_Data_razdel1($mysqli,$id_r1){
     $sql='delete from i_razdel1 where id="'.$id_r1.'"';
     $ret=iDelUpd($mysqli,$sql,false);
@@ -1269,17 +1336,21 @@ function Delete_Data_razdel1($mysqli,$id_r1){
     return $ret;    //,false
 }
 
+/** Удалить все статьи раздела (работы с материалами по триггерам)
+ * @param $mysqli
+ * @param $id_r2
+ * @return false|mixed
+ */
 function Delete_Data_razdel2($mysqli,$id_r2){
     $sql='delete from i_razdel2 where id="'.$id_r2.'"';
     $ret=iDelUpd($mysqli,$sql,false);
     if ($ret===false) Sql_info($ret,$sql);
     return $ret;    //,false
 }
-function Update_File_object($mysqli,$id_object,$name){
-    $sql='update i_object set file_name="'.$name
-            .'", total_r0="0", total_m0="0"'
-            .', total_r0_realiz="0", total_m0_realiz="0"'
-            .' where id="'.$id_object.'"';
+function Update_File_object($mysqli,$id_object,$name, $full_reload){
+    $total = ($full_reload) ? ", total_r0='0', total_m0='0', total_r0_realiz='0', total_m0_realiz='0'" : '';
+    $sql="update i_object set file_name='$name' $total  where id='$id_object'";
+    echo "<pre>Редактировать информацию об объекте: $sql</pre>";
     $ret=iDelUpd($mysqli,$sql,false);
     if ($ret<>1) Sql_info($ret,$sql);
     return $ret; //,false

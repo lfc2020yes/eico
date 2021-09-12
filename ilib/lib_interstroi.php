@@ -379,29 +379,32 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
              //$summa_mat=0;
              if ($sql_nmat = $mysqli->query("select * from n_material where id_nwork='".$row1['id']."'")) {
                while( $row2 = $sql_nmat->fetch_assoc() ){ 
-                 if($show)  
-                 echo "<p/><tab>id=".$row2['id_material']
-                               .' material='. $codecP->iconv($row2['material'])
-                               .' count='. $row2['count_units'] .' summa='.$row2['subtotal']; 
-                 $sql.= $COMA."update i_material set"
-                                    . " count_realiz=count_realiz".$plus.$row2['count_units']
-                                    . " , summa_realiz=summa_realiz".$plus.$row2['subtotal']  
-                                    . " , id_implementer=".$row0['id_implementer'] 
-                                    . " where id=".$row2['id_material'];
-               //  $summa_mat+=$row2['subtotal'];
-                   $COMA=';';
-                   if ($signedd==1) {
-                       if (($sm = material_from_user($mysqli, $row0, $row2)) === false) {  //Списать материал с пользователя
-                           /* ошибка недостаточно материалов у пользователя */
-                           $ret = 2;
-                           break 2;
-                       } else $sql .= $COMA . $sm;
-                       if (($sm = material_from_doc($mysqli,$arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
-                           /* ошибка недостаточно материалов в заявках */
-                           //$ret = 3;
-                           //break 2;
-                       } else $sql .= $COMA . $sm;
-                   }
+                 if($show) {
+                     echo "<p/><tab>id=" . $row2['id_material']
+                         . ' material=' . $codecP->iconv($row2['material'])
+                         . ' count=' . $row2['count_units'] . ' summa=' . $row2['subtotal'];
+                 }
+                 if ($row2['count_units']>0) {
+                     $sql .= $COMA . "update i_material set"
+                         . " count_realiz=count_realiz" . $plus . $row2['count_units']
+                         . " , summa_realiz=summa_realiz" . $plus . $row2['subtotal']
+                         . " , id_implementer=" . $row0['id_implementer']
+                         . " where id=" . $row2['id_material'];
+                     //  $summa_mat+=$row2['subtotal'];
+                     $COMA = ';';
+                     if ($signedd == 1) {
+                         if (($sm = material_from_user($mysqli, $row0, $row2)) === false) {  //Списать материал с пользователя
+                             /* ошибка недостаточно материалов у пользователя */
+                             $ret = 2;
+                             break 2;
+                         } else $sql .= $COMA . $sm;
+                         if (($sm = material_from_doc($mysqli, $arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
+                             /* ошибка недостаточно материалов в заявках */
+                             //$ret = 3;
+                             //break 2;
+                         } else $sql .= $COMA . $sm;
+                     }
+                 }
                } //row2
                $sql_nmat->close();
              } //nmat                          //Учет работы
@@ -440,14 +443,16 @@ WHERE id={$row1[id]}
                      $id_signed='id_signed2';
                      break;
              }
+             $id_signed = ", $id_signed=$id_user";
              $sign_status=2;
          } else {  //снять подпись
              $sign_status=0;
+             $id_signed = '';
          }
           $sql.= $COMA."update n_nariad set"
               . " signedd_nariad=".$signedd
               . " , status=$sign_status"                //подписан / в работе
-              . " , ".$id_signed."=".$id_user
+              .$id_signed
               //. " ,  id_signed0=null, id_signed1=null, id_signed2=null"
               . " where id=".$id_nariad;
 

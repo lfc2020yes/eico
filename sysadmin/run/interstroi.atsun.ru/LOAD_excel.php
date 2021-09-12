@@ -141,6 +141,9 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     if(array_key_exists('name',$GT))           //$_GET
     { $name=htmlspecialchars(trim( $GT["name"] ));
     }
+
+    $full_reload =  (isset($_POST["full_reload"]))?1:0;
+    $full_reload_ch = ($full_reload>0)?'checked':'';
   $ret=0;
 
  if ($_SERVER['REQUEST_METHOD']=='GET')
@@ -178,8 +181,12 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 ?>
         </select> - выбрать шаблон загрузки XLS
         </div>
-        
-        <input type="hidden" name="xlsx" value="1" />
+
+      <div class="content">
+          <label><input class="checkbox" type="checkbox" name="full_reload" id="full_reload" value="<?=$full_reload?>" <?=$full_reload_ch?> /> - полная перегрузка (удалит связи в настройках доступа к объектам и разделам)</label>
+      </div>
+
+          <input type="hidden" name="xlsx" value="1" />
         <? if (isset($id_object)) { ?>
             <input type="hidden" name="id_object" id="id_object" value="<?=$id_object?>" />
         <? }
@@ -361,6 +368,19 @@ i2.id="'.$id_razdel2.'" AND i2.id_razdel1=i1.id  AND i1.id_object= o.id');
      return $id_object;
 }
 
+/*todo  выбор нарядов с номерами разделов чтобы перезагрузить если нарядов в разделах нет: s.`razdel1` not in (2,3)
+
+ SELECT
+n.id_object, s.razdel1
+,COUNT(n.id) AS ncount, SUM(n.summa_work) AS wsumma,SUM(n.summa_material) AS msumma
+FROM n_nariad n, n_work m, i_razdel2 s
+WHERE
+n.id_object="53"
+and m.`id_nariad` = n.`id`
+AND m.`id_razdeel2` = s.`id`
+and s.`razdel1` not in (2,3)
+GROUP BY n.id_object ,s.razdel1
+ */
 function Get_Realiz_object($id_object){
  $ret=false;
  $Obj=new Tsql(
@@ -690,7 +710,14 @@ jQuery(document).ready(function() {
         var id_r1 = (id_razdel1) ? id_razdel1.value : 0;
         var id_razdel2=document.getElementById('id_razdel2');
         var id_r2 = (id_razdel2) ? id_razdel2.value : 0;
-        alert ("AjaxXLS: "+FileName+ "\n" +sel.name+"="+sel.value+"\n id_object=" +id_object + "\n id_r1=" +id_r1+ "\n id_r2=" +id_r2);
+
+        var full_reload=document.getElementById('full_reload');
+        var frel = 0;
+        if (full_reload) {
+            //alert ("full_reload="+full_reload.checked);
+            frel = (full_reload.checked)? 1 : 0;
+        }
+        alert ("AjaxXLS: "+FileName+ "\n" +sel.name+"="+sel.value+"\n id_object=" +id_object + "\n id_r1=" +id_r1+ "\n id_r2=" +id_r2 + "\n frel="+ frel);
 
 
         jQuery.ajax({
@@ -700,6 +727,7 @@ jQuery(document).ready(function() {
                     data:  {
                             id_r1: id_r1,
                             id_r2: id_r2,
+                            //full_reload: frel,
                             file: FileName,
                             sheet: sel.value, 
                             shablon: document.getElementById('shablon').value,
@@ -729,14 +757,19 @@ jQuery(document).ready(function() {
         document.getElementById('button').style.display = 'none';
         var object_edit=document.getElementById('id_object');
         var id_object = (object_edit) ? object_edit.value : 0;
-        //alert ("id_object=" +id_object );
         var id_razdel1=document.getElementById('id_razdel1');
         var id_r1 = (id_razdel1) ? id_razdel1.value : 0;
-        //alert ("id_r1=" +id_r1 );
         var id_razdel2=document.getElementById('id_razdel2');
         var id_r2 = (id_razdel2) ? id_razdel2.value : 0;
-        //alert ("id_r2=" +id_r2 );
-        alert ("AjaxXLS: "+FileName+ "\n" +sel.name+"="+sel.value+"\n id_object=" +id_object + "\n id_r1=" +id_r1+ "\n id_r2=" +id_r2);
+
+        var full_reload = document.getElementById('full_reload');
+        var frel = 0;
+        if (full_reload) {
+            alert ("full_reload="+full_reload.checked);
+            frel = (full_reload.checked)? 1 : 0;
+        }
+
+        alert ("AjaxXLS: "+FileName+ "\n" +sel.name+"="+sel.value+"\n id_object=" +id_object + "\n id_r1=" +id_r1+ "\n id_r2=" +id_r2+ "\n frel="+ frel);
         jQuery.ajax({
                     url:     "/sysadmin/run/interstroi.atsun.ru/xls_confirm.php", //Адрес подгружаемой страницы
                     type:     "POST", //Тип запроса
@@ -745,6 +778,7 @@ jQuery(document).ready(function() {
                             id_object: id_object,
                             id_r1: id_r1,
                             id_r2: id_r2,
+                            full_reload: frel,
                             file: FileName,
                             sheet: sel.value,
                             shablon: document.getElementById('shablon').value,

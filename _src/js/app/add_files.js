@@ -3,6 +3,11 @@ $(document).ready(function() {
 
 //загрузка файлов
     $('body').on("click", '.js-upload-file', UploadInvoice);
+
+    $('body').on("dragover dragleave", '.js-upload-file', FileDragHover);
+
+    $('body').on("drop", '.js-upload-file', FileSelectHandler);
+
 //после выбора файла и нажатие кнопки ок
     $('body').on("change", '.js-file-load', UploadScanSChange);
 //удалить загруженный файл
@@ -13,6 +18,83 @@ $(document).ready(function() {
 
 });
 
+
+// Файл над нужной областью
+function FileDragHover(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $(this).parents('.js-image-gl').addClass('draghover');
+}
+
+function FileSelectHandler(e)
+{
+    FileDragHover(e);
+
+
+    if (typeof(window.FileReader) == 'undefined') {
+
+        alert_message('error','Перетаскивание не поддерживается браузером');
+    }
+
+    // проходимся по объекту FileList
+    var file = e.originalEvent.dataTransfer.files;
+
+    // парсим все объекты типа File
+    for (var i = 0, f; f = file[i]; i++){
+        //ParseFile(f);
+        var id_block=$(this).attr('type_block');   //номер блока в форме
+        var id_type=$(this).attr('type_load');     //тип загрузки 1- сертификаты  2- сро и так далее
+        var id_object=$(this).attr('id_object');
+
+        var formaa=$('[name=myfile]').parents('form');
+        formaa.attr('type_load',id_type);
+        formaa.attr('type_block',id_block);
+        formaa.attr('id_object',id_object);
+
+
+        var type=id_type;
+        var number_block=id_block;
+
+        var id_object=id_object;
+
+        var gll=$('div[type_block="'+number_block+'"]').parents('.js-image-gl');
+
+        //определяем сколько их уже картинок в списке
+        var number_li = (gll.find('.li-image').length+1);
+
+        //file = this.files[0];
+        if (f) {
+            var size_blu='';
+            if(gll.find('.list-image-icons').length!=0)
+            {
+                size_blu='<span class="type-img"></span>';
+            }
+
+
+            gll.find('.list-image').append('<div number_li="'+number_li+'" class="li-image"><span class="name-img"><a>'+f.name+'</a></span>'+size_blu+'<span class="del-img js-dell-image"></span><span class="size-img">'+(f.size / 1024 / 1024).toFixed(2)+' МБ</span><div class="progress-img"><div class="p-img" style="width: 0%;"></div></div></div>');
+
+            gll.find('.list-image').show();
+
+            gll.find('.js-upload-file').hide().addClass('eshe-load-file');  //спрять кнопку выбрать файл пока грузится
+
+            //показываем загрузчик для этой картинки
+            gll.find('[number_li='+number_li+'] .p-img').show();
+
+
+            uploadS(f,type,id_object,number_li,number_block);
+        }
+        return false;
+
+    }
+}
+function ParseFile(file) {
+    alert(
+        "<p>File information: <strong>" + file.name +
+        "</strong> type: <strong>" + file.type +
+        "</strong> size: <strong>" + file.size +
+        "</strong> bytes</p>"
+    );
+}
 
 
 //загрузка файлов -	нажатие на кнопку выбрать файл
@@ -56,6 +138,8 @@ function NumberBlockFile() {
 
 
 }
+
+
 
 
 

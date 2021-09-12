@@ -19219,6 +19219,10 @@ width: calc(50% - 0px) !important;
   top: 20px;
 }
 
+.draghover {
+  border: 2px dashed #35deb8  !important;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

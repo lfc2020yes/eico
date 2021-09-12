@@ -4,9 +4,10 @@ $(document).ready(function() {
 //загрузка файлов
     $('body').on("click", '.js-upload-file', UploadInvoice);
 
-    $('body').on("dragover dragleave", '.js-upload-file', FileDragHover);
+    $('body').on("dragover", '.js-image-gl', FileDragHover);
+    $('body').on("dragleave", '.js-image-gl', FileDragHover1);
 
-    $('body').on("drop", '.js-upload-file', FileSelectHandler);
+    $('body').on("drop", '.js-image-gl', FileSelectHandler);
 
 //после выбора файла и нажатие кнопки ок
     $('body').on("change", '.js-file-load', UploadScanSChange);
@@ -23,7 +24,12 @@ $(document).ready(function() {
 function FileDragHover(e){
     e.stopPropagation();
     e.preventDefault();
-    $(this).parents('.js-image-gl').addClass('draghover');
+    $(this).addClass('draghover');
+}
+function FileDragHover1(e){
+    e.stopPropagation();
+    e.preventDefault();
+    $(this).removeClass('draghover');
 }
 
 function FileSelectHandler(e)
@@ -42,9 +48,9 @@ function FileSelectHandler(e)
     // парсим все объекты типа File
     for (var i = 0, f; f = file[i]; i++){
         //ParseFile(f);
-        var id_block=$(this).attr('type_block');   //номер блока в форме
-        var id_type=$(this).attr('type_load');     //тип загрузки 1- сертификаты  2- сро и так далее
-        var id_object=$(this).attr('id_object');
+        var id_block=$(this).find('.js-upload-file').attr('type_block');   //номер блока в форме
+        var id_type=$(this).find('.js-upload-file').attr('type_load');     //тип загрузки 1- сертификаты  2- сро и так далее
+        var id_object=$(this).find('.js-upload-file').attr('id_object');
 
         var formaa=$('[name=myfile]').parents('form');
         formaa.attr('type_load',id_type);

@@ -231,7 +231,6 @@ if ($role->permission("Себестоимость",'A')) {};
  * @param $mysqli
  * @param $arr_docs - массив для сбора заявок по закрытию
  * @param $row_nariad
- * @param $row_n_work
  * @param $row_n_material
  * @return string - sql срипт
  */
@@ -296,12 +295,12 @@ VALUES
  * @param $row_n_material
  * @return false|string
  */
-function material_from_user(&$mysqli,$row_nariad,$row_n_material){
+function material_from_user(&$mysqli, &$summa_material, $row_nariad,$row_n_material){
     $sqls = ''; $COMA='';
     $count_units_m = $row_n_material[count_units];
     $sql="
 SELECT
-S.`id` AS id_stock_materil,       
+S.`id` AS id_stock_materil,S.`count_units` AS stock_count_units, S.`price` AS stock_price,       
 I.*, S.*
 FROM
 `i_material` I,
@@ -311,8 +310,7 @@ I.`id` = {$row_n_material[id_material]}
 AND I.`id_stock` = S.`id_stock`
 AND S.`id_user` = ".$row_nariad[id_user];
 
-    //echo "<pre> row2 ".print_r($row_n_material,true)."  </pre>";
-    //echo "<pre> ОТЛАДКА {$row_n_material[count_units]} [$sql] </pre>";
+    //echo "<pre> ОТЛАДКА {$row_n_material[count_units]} $sql </pre>";
 
     if ($result_s = $mysqli->query($sql)) {
         while ($row_s = $result_s->fetch_assoc()) { //перебор полученных пользователем материалов
@@ -328,18 +326,21 @@ id = ".$row_s[id_stock_materil];
                 $COMA = ';';
                 //Аст списания материалов (по транзакциям от полученных с разными ценами)
                 $sqls .= $COMA . "
-INSERT INTO `n_material_act` (
-  `id_n_materil`,
-  `id_stock_material`,
-  `count_units`
+INSERT INTO n_material_act (
+  id_n_materil,
+  id_stock_material,
+  count_units,
+  price
 )
 VALUES
   (
     {$row_n_material[id]},
     {$row_s[id_stock_materil]},
-    {$update_count}
+    {$update_count},
+    {$row_s[stock_price]}
   )";
                 $count_units_m -= $update_count;
+                $summa_material += ($row_s[stock_price] * $update_count);
             }
 
         }
@@ -382,28 +383,34 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                  if($show) {
                      echo "<p/><tab>id=" . $row2['id_material']
                          . ' material=' . $codecP->iconv($row2['material'])
-                         . ' count=' . $row2['count_units'] . ' summa=' . $row2['subtotal'];
+                         . ' count=' . $row2['count_units'] . ' summa=' . $row2['subtotal'];   ///TODO
                  }
                  if ($row2['count_units']>0) {
-                     $sql .= $COMA . "update i_material set"
-                         . " count_realiz=count_realiz" . $plus . $row2['count_units']
-                         . " , summa_realiz=summa_realiz" . $plus . $row2['subtotal']
-                         . " , id_implementer=" . $row0['id_implementer']
-                         . " where id=" . $row2['id_material'];
-                     //  $summa_mat+=$row2['subtotal'];
-                     $COMA = ';';
+
+
                      if ($signedd == 1) {
-                         if (($sm = material_from_user($mysqli, $row0, $row2)) === false) {  //Списать материал с пользователя
+                         $summa_material = 0.00;
+                         if (($sm = material_from_user($mysqli, $summa_material, $row0, $row2)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
-                         } else $sql .= $COMA . $sm;
+                         } else { $sql .= $COMA . $sm; $COMA = ';';
+                             //Уточнение списываемой цены и суммы материала в наряде (по триггеру)
+                             $sql .= $COMA . "
+update n_material set price = ".(round($summa_material / $row2['count_units'],2))." where id = {$row2['id']}";
+                         }
                          if (($sm = material_from_doc($mysqli, $arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
                              /* ошибка недостаточно материалов в заявках */
                              //$ret = 3;
                              //break 2;
-                         } else $sql .= $COMA . $sm;
+                         } else { $sql .= $COMA . $sm; $COMA = ';'; }
                      }
+                     $sql .= $COMA . "update i_material set"
+                         . " count_realiz=count_realiz" . $plus . $row2['count_units']
+                         . " , summa_realiz=summa_realiz" . $plus . (($signedd == 1) ? $summa_material : $row2['subtotal'])
+                         . " , id_implementer=" . $row0['id_implementer']
+                         . " where id=" . $row2['id_material'];
+
                  }
                } //row2
                $sql_nmat->close();

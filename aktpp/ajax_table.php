@@ -24,7 +24,7 @@ $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
 
 
 
-$menu_b=array("Прием","Передача","Документы","Материалы","В работе");
+$menu_b=array("Прием","Передача","Документы","Материалы","Черновик");
 $menu_get=array("res","sen","akt","mat","work");
 $menu_role_sign0=array(1,1,1,1,1);
 $menu_role_sign012=array(1,1,1,1,1);

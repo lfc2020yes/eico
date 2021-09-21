@@ -19,10 +19,19 @@ if($num_results_scores!=0)
   $row_scores = mysqli_fetch_assoc($result_scores);
   $count_material=$row_scores["cc"];
 }
+if((isset($_GET["prime"]))and(( isset($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]))and($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]!=''))) {
+
+
+    $D = explode('.', $_COOKIE["basket1_" . $id_user . "_" . htmlspecialchars(trim($_GET['prime']))]);
+if(count($D )!=0)
+{
+    $count_material=$count_material+count($D );
+}
+}
 
 //есть ли материалы в кторых не заполнены обе цены
 $count_no_price=0;
-$result_scores=mysql_time_query($link,'Select count(a.id) as cc from z_invoice_material as a where a.id_invoice="'.htmlspecialchars(trim($_GET['id'])).'" and a.price=0 and a.price_nds=0');
+$result_scores=mysql_time_query($link,'Select count(a.id) as cc from z_invoice_material as a where a.id_invoice="'.htmlspecialchars(trim($_GET['id'])).'" and a.price=0 and a.price_nds=0 and a.mild=0');
 $num_results_scores = $result_scores->num_rows;
 if($num_results_scores!=0)
 {	  

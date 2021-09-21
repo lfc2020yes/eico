@@ -9,6 +9,7 @@ $(function (){
     $('body').on("change keyup input click",'.js-type-stock-view',view_stock);
 
     $('body').on("change keyup input click",'.del_invoice_material', dell_invoice_material);
+    $('body').on("change keyup input click",'.del_invoice_material_prime', dell_invoice_material_prime);
 
     $('body').on("change keyup input click",'.js-ispol_type_invoice',nds_invoice);
 
@@ -22,12 +23,43 @@ $(function (){
     $('body').on("change keyup input click",'.del_invoice_akt', material_defect_dell);
 
 
+    $('body').on("click",'.mild_mild', mild_div);
+
+
     //нажатие на кнопку сохранить накладную
     $('body').on("change keyup input click",'.add_invoicess1', save_invoicess1);
 
-    $('body').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,[name=number_invoices],[name=ispol_work],.js-ispol_type_invoice,.upload-but-2022,.upload-but-2021,.js-dell-image,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });
+    $('body').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,[name=number_invoices],[name=ispol_work],.js-ispol_type_invoice,.upload-but-2022,.upload-but-2021,.js-dell-image,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv,.mild_mild',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });
 
 });
+
+function mild_div()
+{
+    if($(this).parents('.mild').is(".chechers")) {
+        $(this).parents('.mild').removeClass("chechers");
+        var matru=$(this).parents('[invoice_material]').find('.mild_inp').val(0);
+
+        nds_invoice();
+
+
+    } else
+    {
+        $(this).parents('.mild').addClass("chechers");
+        var matru=$(this).parents('[invoice_material]').find('.mild_inp').val(1);
+
+
+       // $(this).parents('[invoice_material]').find('.price_nds_in_').removeAttr('readonly').removeClass('grey_edit');
+        $(this).parents('[invoice_material]').find('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
+        $(this).parents('[invoice_material]').find('.price_nds_in_').val(0);
+        $(this).parents('[invoice_material]').find('.price_in_').val(0);
+        $(this).parents('[invoice_material]').find('.price_in_').prop('readonly',true).addClass('grey_edit');
+        itog_invoice();
+
+    }
+
+
+
+}
 
 
 function save_invoicess1()
@@ -162,6 +194,24 @@ function change_option_invoice()
         $('.yes_nds').parents('th').addClass('active_n_ac');
     }
     nds_invoice();
+}
+
+function cost_mild()
+{
+    //пробежаться по всем материалом накладной и если она мягкая заморозить все цены
+    $('[invoice_material]').each(function(i,elem) {
+ var mild =$(this).find('.mild_inp').val();
+if(mild==1)
+{
+    $(this).find('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
+    $(this).find('.price_nds_in_').val(0);
+    $(this).find('.price_in_').val(0);
+    $(this).find('.price_in_').prop('readonly',true).addClass('grey_edit');
+}
+
+    });
+
+
 }
 
 
@@ -363,6 +413,26 @@ function itog_invoice()
 
 
 
+
+}
+
+
+function dell_invoice_material_prime()
+{
+    var attr=$(this).attr('id_rel');
+
+
+    var id_dom=$('[name=dom]').val();
+
+    CookieList(window.b_cm+"_"+id_dom,attr,'del','sort');
+alert(window.b_cm+"_"+id_dom);
+
+    $('[invoice_material='+attr+']').remove();
+    $('[invoices_messa='+attr+']').next().remove();
+    $('[invoices_messa='+attr+']').remove();
+
+
+    itog_invoice();
 
 }
 

@@ -397,6 +397,8 @@ function online_user($times,$id_user,$you_id)
 //отправка уведомлений пользователям
 function notification_send($text,$mass,$id_user,$link)
 {
+
+
 	$today[0] = date("y.m.d"); //присвоено 03.12.01
     $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
 	$date_=$today[0].' '.$today[1];
@@ -424,8 +426,9 @@ function notification_mail($text1,$komy_id,$id_user,$link)
         $today[0] = date("y.m.d"); //присвоено 03.12.01
         $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
         $date_ = $today[0] . ' ' . $today[1];
+
         $url_system = $_SERVER['DOCUMENT_ROOT'] . '/';
-        include $url_system . 'module/config_mail.php';
+        include_once $url_system . 'module/config_mail.php';
 
         // отправка письма на почту
         // отправка письма на почту

@@ -3101,7 +3101,7 @@ function BasketMaterial()
 		{
 			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d<i></i></a></div>');
 
-			$('.add_mmm').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
+			$('.add_iii').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
 
 		}
 		var cc = cookie.split('.');

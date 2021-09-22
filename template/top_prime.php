@@ -193,6 +193,10 @@
     {
     echo'<span class="add_mmm"></span>';
     }
+            if (($role->permission('Накладные','A'))or($sign_admin==1))
+            {
+                echo'<span class="add_iii"></span>';
+            }
     ?>
         </div>
         <div class="menu-09-right tours-right-block">

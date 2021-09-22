@@ -5749,3 +5749,66 @@ border-radius: 5px;
 
 
 }
+
+
+.input-choice-click-left
+{
+  margin-top: 0px;
+  background-color: #fff;
+  @include flexbox();
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+
+  .choice-head {
+
+    width: 100%;
+    text-align: left;
+    color:
+            rgba(0,0,0,0.5);
+    font-family: "GEInspiraRegular";
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 20px 10px;
+    padding-left: 50px;
+    line-height: 17px;
+    a { font-family: "GEInspiraRegular";
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: none; span {border-bottom: 1px solid rgba(0,0,0,0.1); color: #2c60a4;}
+
+      &:hover {  span {border-bottom: 0px}}
+
+    }
+  }
+  .choice-radio {
+
+    width: 24px;
+    @include flexbox();
+    @include justify-content(center);
+    position: absolute;
+    left: 0px;
+    top: calc(50% - 12px);
+    .center_vert1 {
+      @include align-self(center);
+
+      i {font-style:normal; height: 24px; width: 24px; line-height: 24px; border-radius: 4px; background-color: rgba(0, 0, 0, 0.05);  @include transition(all .4s cubic-bezier(.42,.01,.23,1)); position: relative; display: block; text-align: center; }
+
+      i::before {    position:absolute;
+        content: "\E001";
+        left:5px;
+        color:rgba(0,0,0,0.7);
+        font-family: $i;
+        font-size: 14px;
+        @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+        @include transform(scale3d(0,0,1));
+
+      }
+
+      i.active_task_cb { background-color: #ffec57; }
+
+      i.active_task_cb::before { @include transform(scale3d(1,1,1)); }
+
+    }
+  }
+}

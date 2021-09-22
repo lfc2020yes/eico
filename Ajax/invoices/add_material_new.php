@@ -154,11 +154,12 @@ $ID_D=mysqli_insert_id($link);
 
 $echo.='<tr invoice_material="'.$ID_D.'" style="background-color:#f0f4f6;" class="jop">';
 
-$echo.='<td class="no_padding_left_ pre-wrap one_td">'.$_GET['name'].' <span class="invoice_units">('.$name_ed.')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div>
+$echo.='<td class="no_padding_left_ pre-wrap one_td"><div class="mild"><div class="mild_mild" data-tooltip="мягкая накладная">
+<i class="select-mild"></i></div>'.$_GET['name'].' <span class="invoice_units">('.$name_ed.')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div>
 
 <div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div>	   
 		
-</td>';
+</div></td>';
 
 $echo.='<td class="pre-wrap center_text_td"> -</td><td class="pre-wrap center_text_td">- </td><td class="pre-wrap center_text_td">- </td>';
 
@@ -177,7 +178,9 @@ $echo.='<td class="t_7 jk5"><div class="width-setter"><label style="display: inl
 <input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price_nds]" id="price_nds_invoice_'.$_GET["ss"].'" placeholder="" class="input_f_1 input_100 white_inp label_s price_nds_in_  count_mask    " autocomplete="off" value="0" type="text">
 
 </div></td><td class="t_7 jk5"><span class="price_supply_ summa_ii"></span><input value="'.$ID_D.'" name="invoice['.$_GET["ss"].'][id]" type="hidden">
-<input type=hidden value="0" class="defect_inp" name="invoice['.$_GET["ss"].'][defect]">
+<input type=hidden value="0" class="defect_inp" name="invoice['.$_GET["ss"].'][defect]"><input type=hidden value="0" class="mild_inp" name="invoice['.$_GET["ss"].'][mild]">
+<input type=hidden value="'.$ID_P.'" class="stock_inp" name="invoice['.$_GET["ss"].'][stock]"><input type=hidden value="0" class="prime_inp" name="invoice['.$_GET["ss"].'][prime]">
+
 </td></tr>';
 
 $class_aa = '';

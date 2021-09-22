@@ -30,6 +30,12 @@ $role->GetPermission();
 //$user_send_new=array();
 
 
+if(isset($_GET["prime"]))
+{
+    $b_cm='basket1_'.$id_user;
+}
+
+
 
 if((isset($_POST['save_invoice_two_step']))and($_POST['save_invoice_two_step']==1))
 {
@@ -138,44 +144,63 @@ if((isset($_POST['save_invoice_two_step']))and($_POST['save_invoice_two_step']==
 
 				
 				$_POST['invoice'][0]["id"]
-				*/		
-				$result_tx=mysql_time_query($link,'Select a.id from z_invoice_material as a where a.id="'.htmlspecialchars(trim($value['id'])).'"');
-                $num_results_tx = $result_tx->num_rows;
-	            if($num_results_tx!=0)
-	            {  
-		           //такой материал есть
-		           $rowx = mysqli_fetch_assoc($result_tx);		
-				   $count_mat=$value['count'];
-				   $price_mat=$value['price'];
-				   $price_nds_mat=$value['price_nds'];
-				   $count_mat_akt=$value['count_defect'];
-				   $comment_mat_akt=$value['text'];	
-				   $defect=$value['defect'];
-				 
-					
-				   if($defect==1)
-				   {
-					$flag_message=1;   
-					if((!is_numeric($count_mat_akt))or($count_mat_akt<=0)or($count_mat<$count_mat_akt)) { $flag_podpis++; array_push($error_work, $value['id']."_w_count_defect");}
-					
-					//смотрим есть ли прикрепленные акты
-					//$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+				*/
+                if($value['prime']==0) {
+                    $result_tx = mysql_time_query($link, 'Select a.id from z_invoice_material as a where a.id="' . htmlspecialchars(trim($value['id'])) . '"');
+                    $num_results_tx = $result_tx->num_rows;
+                    if ($num_results_tx != 0) {
+                        //такой материал есть
+                        $rowx = mysqli_fetch_assoc($result_tx);
+                        $count_mat = $value['count'];
+                        $price_mat = $value['price'];
+                        $price_nds_mat = $value['price_nds'];
+                        $count_mat_akt = $value['count_defect'];
+                        $comment_mat_akt = $value['text'];
+                        $defect = $value['defect'];
+
+                        if ($defect == 1) {
+                            $flag_message = 1;
+                            if ((!is_numeric($count_mat_akt)) or ($count_mat_akt <= 0) or ($count_mat < $count_mat_akt)) {
+                                $flag_podpis++;
+                                array_push($error_work, $value['id'] . "_w_count_defect");
+                            }
+
+                            //смотрим есть ли прикрепленные акты
+                            //$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
 
 
-					$result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+                            $result_scorexx = mysql_time_query($link, 'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="' . htmlspecialchars(trim($value['id'])) . '"');
 
 
-	                $num_results_scorexx = $result_scorexx->num_rows;
-                    if($num_results_scorexx==0)
-                    {  
-						if($comment_mat_akt=='') { $flag_podpis++;  array_push($error_work, $value['id']."_w_text"); }
-	
+                            $num_results_scorexx = $result_scorexx->num_rows;
+                            if ($num_results_scorexx == 0) {
+                                if ($comment_mat_akt == '') {
+                                    $flag_podpis++;
+                                    array_push($error_work, $value['id'] . "_w_text");
+                                }
+
+                            }
+
+
+                        }
                     }
-					   
-					   
-					   
-				   }
-				}
+                } else
+                {
+                    //проверка для автоматически добавленного материала из себестоимости
+                    $result_tx = mysql_time_query($link, 'Select a.id from i_material as a where a.id="' . htmlspecialchars(trim($value['id'])).'"');
+                    $num_results_tx = $result_tx->num_rows;
+                    if ($num_results_tx != 0) {
+                        //такой материал есть
+                        $rowx = mysqli_fetch_assoc($result_tx);
+                        $count_mat = $value['count'];
+                        $price_mat = $value['price'];
+                        $price_nds_mat = $value['price_nds'];
+                        $count_mat_akt = $value['count_defect'];
+                        $comment_mat_akt = $value['text'];
+                        $defect = $value['defect'];
+
+                    }
+                }
 			   }
 		}
 				
@@ -223,155 +248,295 @@ $count_material=0;
 				$summ_tr=0;
                 //echo'id-'.$value['id'].'<br>';
 
-				$result_tx=mysql_time_query($link,'Select a.id from z_invoice_material as a where a.id="'.htmlspecialchars(trim($value['id'])).'"');
-                $num_results_tx = $result_tx->num_rows;
-	            if($num_results_tx!=0)
-	            {  
-		           //такой материал есть
-		           $rowx = mysqli_fetch_assoc($result_tx);		
-				   $count_material++;
-				   $count_mat=$value['count'];
-				   $price_mat=$value['price'];
-				   $price_nds_mat=$value['price_nds'];
-				   $count_mat_akt=$value['count_defect'];
-				   $comment_mat_akt=$value['text'];	
-				   $defect=$value['defect'];
-				 
-					
-				   if($defect==1)
-				   {
-					   
-					if((!is_numeric($count_mat_akt))or($count_mat_akt<=0)or($count_mat<$count_mat_akt)) { $flag_podpis++; array_push($error_work, $value['id']."_w_count_defect");}
-					
-					//смотрим есть ли прикрепленные акты
-					//$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+                   if($value['prime']==0) {
+                       $result_tx = mysql_time_query($link, 'Select a.id from z_invoice_material as a where a.id="' . htmlspecialchars(trim($value['id'])) . '"');
+                       $num_results_tx = $result_tx->num_rows;
+                       if ($num_results_tx != 0) {
+                           //такой материал есть
+                           $rowx = mysqli_fetch_assoc($result_tx);
+                           $count_material++;
+                           $count_mat = $value['count'];
+                           $price_mat = $value['price'];
+                           $price_nds_mat = $value['price_nds'];
+                           $count_mat_akt = $value['count_defect'];
+                           $comment_mat_akt = $value['text'];
+                           $defect = $value['defect'];
 
 
-                       $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+                           if ($defect == 1) {
+
+                               if ((!is_numeric($count_mat_akt)) or ($count_mat_akt <= 0) or ($count_mat < $count_mat_akt)) {
+                                   $flag_podpis++;
+                                   array_push($error_work, $value['id'] . "_w_count_defect");
+                               }
+
+                               //смотрим есть ли прикрепленные акты
+                               //$result_scorexx=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
 
 
-	                $num_results_scorexx = $result_scorexx->num_rows;
-                    if($num_results_scorexx==0)
-                    {  
-						if($comment_mat_akt=='') { $flag_podpis++;  array_push($error_work, $value['id']."_w_text"); }
-	
-                    }
-					   
-					   
-					   
-				   }
-					
-				
-					
-				   if((($price_nds_mat==0)or($price_nds_mat=='')or(!is_numeric($price_nds_mat)))and(($price_mat==0)or($price_mat=='')or(!is_numeric($price_mat)))) { $flag_podpis++; $summ_tr++; }					
-				   if((!is_numeric($count_mat))or($count_mat<=0)) { $flag_podpis++; $summ_tr++;}	
-				   $s_tr=0;
-				   $s_tr1=0;	
-				   $cost_table=0;
-				   $cost_table_nds=0;
-
-				  // echo'sum-'.$summ_tr.'<br>';
-					
-				   if($summ_tr==0)
-				   {
-					   if($_POST["ispol_type"]==0)
-					   {
-
-					       if($_POST['nds_ff']==0)
-					     {
-					       $s_tr=$price_nds_mat*$count_mat;
-						   $s_tr1=$price_nds_mat*$count_mat_akt;	 
-						   $cost_table_nds=$price_nds_mat;
-					      } else
-					     {
-						    $s_tr=$price_mat*1.18*$count_mat; 
-							$s_tr1=$price_mat*1.18*$count_mat_akt; 
-							 $cost_table=$price_mat;
-					     }
-						  /* 
-					     if((is_numeric($price_nds_mat))and($price_nds_mat!=0))
-					     {
-					       $s_tr=$price_nds_mat*$count_mat;
-						   $s_tr1=$price_nds_mat*$count_mat_akt;	 
-						   $cost_table_nds=$price_nds_mat;
-					      } else
-					     {
-						    $s_tr=$price_mat*1.18*$count_mat; 
-							$s_tr1=$price_mat*1.18*$count_mat_akt; 
-							 $cost_table=$price_mat;
-					     }
-						 */
-					   } else
-				       {
-					   $s_tr=$price_mat*$count_mat;
-					   $s_tr1=$price_mat*$count_mat_akt; 	   
-					   $cost_table=$price_mat;
-				       } 
-					   
-					   
-				   }
-					
-				   $summa_all=$summa_all+$s_tr;	
-					//echo('update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'" where id = "'.htmlspecialchars($value['id']).'"');
-				   mysql_time_query($link,'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"');
-
-				   //echo'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"';
-				   //echo'<br>';
-					
-				   if($value['defect']==0)
-				   {
-					   //удаляем всю инфу по актам по этому материалу
-					   
-					   /*
-					   $uploaddir = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_akt/';
-				       $uploaddir1 = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_material/';
-					   
-					   $result_scorex1=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+                               $result_scorexx = mysql_time_query($link, 'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="' . htmlspecialchars(trim($value['id'])) . '"');
 
 
+                               $num_results_scorexx = $result_scorexx->num_rows;
+                               if ($num_results_scorexx == 0) {
+                                   if ($comment_mat_akt == '') {
+                                       $flag_podpis++;
+                                       array_push($error_work, $value['id'] . "_w_text");
+                                   }
+
+                               }
 
 
+                           }
 
-                       $num_results_scorex1 = $result_scorex1->num_rows;
+                           if($value['mild']==0) {
+                               if ((($price_nds_mat == 0) or ($price_nds_mat == '') or (!is_numeric($price_nds_mat))) and (($price_mat == 0) or ($price_mat == '') or (!is_numeric($price_mat)))) {
+                                   $flag_podpis++;
+                                   $summ_tr++;
+                               }
+                           }
+                           if ((!is_numeric($count_mat)) or ($count_mat <= 0)) {
+                               $flag_podpis++;
+                               $summ_tr++;
+                           }
+                           $s_tr = 0;
+                           $s_tr1 = 0;
+                           $cost_table = 0;
+                           $cost_table_nds = 0;
+
+                           // echo'sum-'.$summ_tr.'<br>';
+
+                           //if ($summ_tr == 0) {
+                               if ($_POST["ispol_type"] == 0) {
+
+                                   if ($_POST['nds_ff'] == 0) {
+                                       $s_tr = $price_nds_mat * $count_mat;
+                                       $s_tr1 = $price_nds_mat * $count_mat_akt;
+                                       $cost_table_nds = $price_nds_mat;
+                                   } else {
+                                       $s_tr = $price_mat * 1.18 * $count_mat;
+                                       $s_tr1 = $price_mat * 1.18 * $count_mat_akt;
+                                       $cost_table = $price_mat;
+                                   }
+                                   /*
+                                  if((is_numeric($price_nds_mat))and($price_nds_mat!=0))
+                                  {
+                                    $s_tr=$price_nds_mat*$count_mat;
+                                    $s_tr1=$price_nds_mat*$count_mat_akt;
+                                    $cost_table_nds=$price_nds_mat;
+                                   } else
+                                  {
+                                     $s_tr=$price_mat*1.18*$count_mat;
+                                     $s_tr1=$price_mat*1.18*$count_mat_akt;
+                                      $cost_table=$price_mat;
+                                  }
+                                  */
+                               } else {
+                                   $s_tr = $price_mat * $count_mat;
+                                   $s_tr1 = $price_mat * $count_mat_akt;
+                                   $cost_table = $price_mat;
+                               }
+
+
+                           //}
+
+                           $summa_all = $summa_all + $s_tr;
+                           //echo('update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'" where id = "'.htmlspecialchars($value['id']).'"');
+                           mysql_time_query($link, 'update z_invoice_material set count_units="' . htmlspecialchars($count_mat) . '",price="' . htmlspecialchars($cost_table) . '",price_nds="' . htmlspecialchars(trim($cost_table_nds)) . '",subtotal="' . htmlspecialchars(trim($s_tr)) . '",subtotal_defect="' . htmlspecialchars(trim($s_tr1)) . '",defect="' . htmlspecialchars($value['defect']) . '",count_defect="' . htmlspecialchars($value['count_defect']) . '",defect_comment="' . htmlspecialchars($value['text']) . '",mild="' . htmlspecialchars($value['mild']) . '" where id = "' . htmlspecialchars($value['id']) . '"');
+
+                           //echo'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"';
+                           //echo'<br>';
+
+                           if ($value['defect'] == 0) {
+                               //удаляем всю инфу по актам по этому материалу
+
+                               /*
+                               $uploaddir = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_akt/';
+                               $uploaddir1 = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_material/';
+
+                               $result_scorex1=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
 
 
 
-                       if($num_results_scorex1!=0)
-					   {
-						   for ($ssx=0; $ssx<$num_results_scorex1; $ssx++)
-						   {	
-							   $row_scorex1 = mysqli_fetch_assoc($result_scorex1);
-							    $uploadfile = $uploaddir.$value['id'].'_'.$row_scorex1["name"].'.jpg';
-							    $uploadfile1 = $uploaddir1.$value['id'].'_'.$row_scorex1["name"].'.jpg';
-							   if (file_exists($uploadfile)) {unlink($uploadfile);}
-							    if (file_exists($uploadfile1)) {unlink($uploadfile1);}
-						   }
-					   
-					   
-					   }
-                      */
-					  // mysql_time_query($link,'delete FROM z_invoice_attach_defect where id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
 
-                       //mysql_time_query($link,'delete FROM image_attach as b where ((b.for_what=7)or(b.for_what=6)) AND b.visible=1 and b.id_object="'.htmlspecialchars(trim($value['id'])).'"');
 
-                       mysql_time_query($link, 'update image_attach set
+                               $num_results_scorex1 = $result_scorex1->num_rows;
+
+
+
+                               if($num_results_scorex1!=0)
+                               {
+                                   for ($ssx=0; $ssx<$num_results_scorex1; $ssx++)
+                                   {
+                                       $row_scorex1 = mysqli_fetch_assoc($result_scorex1);
+                                        $uploadfile = $uploaddir.$value['id'].'_'.$row_scorex1["name"].'.jpg';
+                                        $uploadfile1 = $uploaddir1.$value['id'].'_'.$row_scorex1["name"].'.jpg';
+                                       if (file_exists($uploadfile)) {unlink($uploadfile);}
+                                        if (file_exists($uploadfile1)) {unlink($uploadfile1);}
+                                   }
+
+
+                               }
+                              */
+                               // mysql_time_query($link,'delete FROM z_invoice_attach_defect where id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+                               //mysql_time_query($link,'delete FROM image_attach as b where ((b.for_what=7)or(b.for_what=6)) AND b.visible=1 and b.id_object="'.htmlspecialchars(trim($value['id'])).'"');
+
+                               mysql_time_query($link, 'update image_attach set
                        
                        visible="0"
                        
-                       where ((for_what=7)or(for_what=6)) AND visible=1 and id_object="'.htmlspecialchars(trim($value['id'])).'"');
+                       where ((for_what=7)or(for_what=6)) AND visible=1 and id_object="' . htmlspecialchars(trim($value['id'])) . '"');
 
-                      // $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+                               // $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+                           }
+
+
+                       }
+                   } else
+                   {
+                       //для материалов автоматически подгруженных с себестоимости
+                       $result_tx = mysql_time_query($link, 'Select a.id from i_material as a where a.id="' . htmlspecialchars(trim($value['id'])) . '"');
+                       $num_results_tx = $result_tx->num_rows;
+                       if ($num_results_tx != 0) {
+                           //такой материал есть
+                           $rowx = mysqli_fetch_assoc($result_tx);
+                           $count_material++;
+                           $count_mat = $value['count'];
+                           $price_mat = $value['price'];
+                           $price_nds_mat = $value['price_nds'];
+
+
+                           //проверка на нулевую стоимость
+                           if($value['mild']==0) {
+                               if ((($price_nds_mat == 0) or ($price_nds_mat == '') or (!is_numeric($price_nds_mat))) and (($price_mat == 0) or ($price_mat == '') or (!is_numeric($price_mat)))) {
+                                   $flag_podpis++;
+                                   $summ_tr++;
+                               }
+                           }
+                           //проверка на нулевое количество
+                           if ((!is_numeric($count_mat)) or ($count_mat <= 0)) {
+                               $flag_podpis++;
+                               $summ_tr++;
+                           }
+
+                           $s_tr = 0;
+                           $s_tr1 = 0;
+                           $cost_table = 0;
+                           $cost_table_nds = 0;
+
+                           // echo'sum-'.$summ_tr.'<br>';
+
+                          // if ($summ_tr == 0) {
+                               if ($_POST["ispol_type"] == 0) {
+                                   //c ндс
+
+                                   if ($_POST['nds_ff'] == 0) {
+                                       $s_tr = $price_nds_mat * $count_mat;
+                                       $s_tr1 = $price_nds_mat * $count_mat_akt;
+                                       $cost_table_nds = $price_nds_mat;
+                                   } else {
+                                       $s_tr = $price_mat * 1.18 * $count_mat;
+                                       $s_tr1 = $price_mat * 1.18 * $count_mat_akt;
+                                       $cost_table = $price_mat;
+                                   }
+                                   /*
+                                  if((is_numeric($price_nds_mat))and($price_nds_mat!=0))
+                                  {
+                                    $s_tr=$price_nds_mat*$count_mat;
+                                    $s_tr1=$price_nds_mat*$count_mat_akt;
+                                    $cost_table_nds=$price_nds_mat;
+                                   } else
+                                  {
+                                     $s_tr=$price_mat*1.18*$count_mat;
+                                     $s_tr1=$price_mat*1.18*$count_mat_akt;
+                                      $cost_table=$price_mat;
+                                  }
+                                  */
+                               } else {
+                                   //без ндс
+                                   //echo($price_mat);
+                                   $s_tr = $price_mat * $count_mat;
+                                   $s_tr1 = $price_mat * $count_mat_akt;
+                                   $cost_table = $price_mat;
+                               }
+
+
+                           //}
+
+                           $summa_all = $summa_all + $s_tr;
+                           //echo('update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'" where id = "'.htmlspecialchars($value['id']).'"');
+
+                           mysql_time_query($link,'INSERT INTO z_invoice_material (id_invoice,id_acc,id_doc_material_acc,id_stock,count_units,price,price_nds,subtotal,alien,mild) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","0","0","'.htmlspecialchars(trim($value['stock'])).'","' . htmlspecialchars($count_mat) . '","' . htmlspecialchars($cost_table) . '","' . htmlspecialchars(trim($cost_table_nds)) . '","' . htmlspecialchars(trim($s_tr)) . '","'.ht($value['alien']).'","'.ht($value['mild']).'")');
+
+                           //echo('INSERT INTO z_invoice_material (id_invoice,id_acc,id_doc_material_acc,id_stock,count_units,price,price_nds,subtotal,alien,mild) VALUES ("'.htmlspecialchars(trim($_GET['id'])).'","0","0","'.htmlspecialchars(trim($value['stock'])).'","' . htmlspecialchars($count_mat) . '","' . htmlspecialchars($cost_table) . '","' . htmlspecialchars(trim($cost_table_nds)) . '","' . htmlspecialchars(trim($s_tr)) . '","'.ht($value['alien']).'","'.ht($value['mild']).'")');
+
+                           $ID_INV=mysqli_insert_id($link);
+
+
+                           //echo'update z_invoice_material set count_units="'.htmlspecialchars($count_mat).'",price="'.htmlspecialchars($cost_table).'",price_nds="'.htmlspecialchars(trim($cost_table_nds)).'",subtotal="'.htmlspecialchars(trim($s_tr)).'",subtotal_defect="'.htmlspecialchars(trim($s_tr1)).'",defect="'.htmlspecialchars($value['defect']).'",count_defect="'.htmlspecialchars($value['count_defect']).'",defect_comment="'.htmlspecialchars($value['text']).'" where id = "'.htmlspecialchars($value['id']).'"';
+                           //echo'<br>';
+
+                           if ($value['defect'] == 0) {
+                               //удаляем всю инфу по актам по этому материалу
+
+                               /*
+                               $uploaddir = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_akt/';
+                               $uploaddir1 = $_SERVER["DOCUMENT_ROOT"].'/invoices/scan_material/';
+
+                               $result_scorex1=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
 
 
 
-					   
-				   }
-					
-					
-					
-				}
+
+
+                               $num_results_scorex1 = $result_scorex1->num_rows;
+
+
+
+                               if($num_results_scorex1!=0)
+                               {
+                                   for ($ssx=0; $ssx<$num_results_scorex1; $ssx++)
+                                   {
+                                       $row_scorex1 = mysqli_fetch_assoc($result_scorex1);
+                                        $uploadfile = $uploaddir.$value['id'].'_'.$row_scorex1["name"].'.jpg';
+                                        $uploadfile1 = $uploaddir1.$value['id'].'_'.$row_scorex1["name"].'.jpg';
+                                       if (file_exists($uploadfile)) {unlink($uploadfile);}
+                                        if (file_exists($uploadfile1)) {unlink($uploadfile1);}
+                                   }
+
+
+                               }
+                              */
+                               // mysql_time_query($link,'delete FROM z_invoice_attach_defect where id_invoice_material="'.htmlspecialchars(trim($value['id'])).'"');
+
+                               //mysql_time_query($link,'delete FROM image_attach as b where ((b.for_what=7)or(b.for_what=6)) AND b.visible=1 and b.id_object="'.htmlspecialchars(trim($value['id'])).'"');
+
+                               mysql_time_query($link, 'update image_attach set
+                       
+                       visible="0"
+                       
+                       where ((for_what=7)or(for_what=6)) AND visible=1 and id_object="' . htmlspecialchars(trim($ID_INV)) . '"');
+
+                               // $result_scorexx=mysql_time_query($link,'SELECT b.id FROM image_attach AS b,z_invoice_material AS c WHERE b.for_what=7 AND b.visible=1 and b.id_object=c.id AND c.id="'.htmlspecialchars(trim($value['id'])).'"');
+
+
+                           }
+
+
+                       }
+                   }
 			   }
 		}
+
+            if((isset($_GET["prime"]))and(( isset($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]))and($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]!='')))
+            {
+
+                			 setcookie("basket1_".$id_user."_".htmlspecialchars($_GET['prime']), "", time()-3600,"/", ".eico.atsun.ru", false, false);
+            }
+
 		
 		if((count($stack_error)==0)and($error_count==0))
 		{
@@ -383,7 +548,7 @@ $count_material=0;
 		   
 		}		
 	
-				
+
 		if(($flag_podpis==0)and($count_material!=0))
 		{
 			
@@ -667,6 +832,13 @@ echo'<br><span class="h3-f">Данные из накладной</span>';
 
   $su_1=ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0");
 
+  if(isset($_GET["prime"]))
+  {
+
+      $su_1=ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"1");
+  }
+
+
   $class_s='';
   if($su_1!=-1)
   {
@@ -690,7 +862,7 @@ echo'<br><span class="h3-f">Данные из накладной</span>';
       }
 
   }
-  echo'</ul><input type="hidden" '.$status_edit.' class="gloab  js-ispol_type_invoice" name="ispol_type" id="ispol_type_invoice" value="'.ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0").'"></div></div></div>';
+  echo'</ul><input type="hidden" '.$status_edit.' class="gloab  js-ispol_type_invoice" name="ispol_type" id="ispol_type_invoice" value="'.$su_1.'"></div></div></div>';
   echo'<!--select end-->';
 
 
@@ -783,22 +955,49 @@ echo'<div class="info-suit">';
 
 echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в накладной</span>';
 
-	  
-	  
-	  
-	  
+
+if(isset($_GET["prime"])) {
+    echo '<input name="dom" class="dom_xy" type="hidden" value="'.$_GET["prime"].'">';
+}
 	  //echo'</div>';
 	  
 	  
 	 // echo'<div class="comme_invoice" style="margin-top:30px;">Материалы в накладной</div>';
 		
 	$ss=0;
-	$result_score=mysql_time_query($link,'select DISTINCT a.* from z_invoice_material as a where a.id_invoice="'.htmlspecialchars(trim($_GET['id'])).'" order by a.id');
-	
+$prime=0;
+	if((isset($_GET["prime"]))and(( isset($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]))and($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]!='')))
+    {
 
-		 
+
+
+        $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]);
+        $D1=implode("\",\"", $D);
+
+    $prime=1;
+    $result_score_prime = mysql_time_query($link, 'select `id`,
+  `alien`,
+       1 as prime,
+  0 as `id_acc`,
+  0 as `id_doc_material_acc`,
+  `id_stock`,
+  0 as `count_units`,
+  `price`,
+  0 as `price_nds`,
+  0 as`subtotal`,
+  0 as`subtotal_defect`,
+  0 as`count_defect`,
+  0 as`defect`,
+  0 as`defect_comment` from i_material where id in("'.$D1.'")');
+
+    }
+
+        $result_score = mysql_time_query($link, 'select DISTINCT a.*,0 as prime from z_invoice_material as a where a.id_invoice="' . htmlspecialchars(trim($_GET['id'])) . '" order by a.id');
+
+
       $num_results_score = $result_score->num_rows;
-	  if($num_results_score==0)
+      $num_results_score_prime = $result_score_prime->num_rows;
+	  if(($num_results_score==0)and($num_results_score_prime==0))
 	  {
 	       $display_vv='display:none;';
 	  }
@@ -824,6 +1023,406 @@ echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в н
 						 echo'<tr class="loader_tr" style="height:20px;"><td colspan="8"></td></tr>';
 	
 	$nds_save=0;  //c ндс по умолчания
+
+
+      //вдруг есть то что со себестоимости выбрали тогда выводим сначала их
+      if($num_results_score_prime!=0)
+      {
+
+          $echo='';
+          for ($ss=0; $ss<$num_results_score_prime; $ss++)
+          {
+              $row_score = mysqli_fetch_assoc($result_score_prime);
+
+
+              //узнаем какой это материал
+              $result_url=mysql_time_query($link,'select A.name,A.units from z_stock as A where A.id="'.htmlspecialchars(trim($row_score['id_stock'])).'"');
+              $num_results_custom_url = $result_url->num_rows;
+              if($num_results_custom_url!=0)
+              {
+                  $row_list1 = mysqli_fetch_assoc($result_url);
+              }
+
+
+
+              //узнаем что за счет если есть
+              if(($row_score['id_acc']!='')and($row_score['id_acc']!=0))
+              {
+                  $result_url1=mysql_time_query($link,'select A.number,A.date,A.summa,A.id from z_acc as A where A.id="'.htmlspecialchars(trim($row_score['id_acc'])).'"');
+                  $num_results_custom_url1 = $result_url1->num_rows;
+                  if($num_results_custom_url1!=0)
+                  {
+                      $row_list2 = mysqli_fetch_assoc($result_url1);
+                      $date_graf2  = explode("-",$row_list2["date"]);
+                  }
+              }
+              //количество материала в этом счете
+              $summ=0;
+              $count_max='';
+              $PROC='';
+              $summ1='';
+              $summ2='';
+              if(($row_score['id_acc']!='')and($row_score['id_acc']!=0))
+              {
+                  if($row_list["status"]==1)
+                  {
+                      $count_max=0;
+                      $result_url2=mysql_time_query($link,'select sum(A.count_material) as cc,sum(A.price_material) as cc1,count(A.price_material) as cc2  from z_doc_material_acc as A,z_doc_material as B where A.id_doc_material=B.id and B.id_stock="'.$row_score['id_stock'].'" and A.id_acc="'.htmlspecialchars(trim($row_score['id_acc'])).'"');
+
+                      $num_results_custom_url2 = $result_url2->num_rows;
+                      if($num_results_custom_url2!=0)
+                      {
+                          $row_list3 = mysqli_fetch_assoc($result_url2);
+                          if($row_list3["cc"]!='')
+                          {
+                              $summ=round($row_list3["cc"],3);
+                              $summ1=round($row_list3["cc"],3);
+                          }
+                          if(($row_list3["cc1"]!='')and($row_list3["cc"]!='')and($row_list3["cc"]!=0))
+                          {
+                              $summ2=round($row_list3["cc1"]/$row_list3["cc2"],3);
+                          }
+
+
+                      }
+
+
+
+                      $result_proc=mysql_time_query($link,'select sum(a.count_units) as summ,sum(a.count_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.htmlspecialchars(trim($row_score['id_acc'])).'" and a.id_stock="'.$row_score['id_stock'].'"');
+
+                      $num_results_proc = $result_proc->num_rows;
+                      if($num_results_proc!=0)
+                      {
+                          $row_proc = mysqli_fetch_assoc($result_proc);
+
+                          $result_proc1=mysql_time_query($link,'select sum(a.count_material) as ss from z_doc_material_acc as a,z_doc_material as b where a.id_doc_material=b.id and a.id_acc="'.htmlspecialchars(trim($row_score['id_acc'])).'" and b.id_stock="'.$row_score['id_stock'].'"');
+                          $num_results_proc1 = $result_proc1->num_rows;
+
+                          if($num_results_proc1!=0)
+                          {
+                              $row_proc1 = mysqli_fetch_assoc($result_proc1);
+                          }
+
+                          if($row_proc1["ss"]!=0)
+                          {
+                              $PROC=round($row_proc1["ss"]-($row_proc["summ"]-$row_proc["summ1"]),3);
+                              $count_max=$PROC;
+                          }
+
+                      }
+
+                  }
+              }
+
+              echo'<tr invoice_group="'.$row_score['id'].'" invoice_material="'.$row_score['id'].'" style="background-color:#f0f4f6;" class="jop" >';
+              $dav1='';$dav2='';
+              if($row_score['alien'])
+              {
+                  $dav1='dava';
+                  $dav2='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+              }
+              $check='';
+              if(ipost_x($_POST['invoice'][$ss]["mild"],$row_score['mild'],"0")==1)
+              {
+                  $check='chechers';
+              }
+              $mild='mild_mild';
+              if($row_list["status"]!=1)
+              {
+                  $mild='mild_mild1';
+              }
+
+              echo'<td class="no_padding_left_ pre-wrap one_td">
+<div class="mild '.$check.'"><div class="'.$mild.'" data-tooltip="мягкая накладная">
+<i class="select-mild"></i></div>
+<i class="name_invoice_dava '.$dav1.'">'.$row_list1["name"].'</i>'.$dav2.' <span class="invoice_units">('.$row_list1["units"].')</span>';
+
+              if(($row_list["status"]==1)and(($role->permission('Накладные','A'))or($sign_admin==1)))
+              {
+                  if($prime==1) {
+                      echo '<div style="margin-right:10px;" class="font-ranks del_invoice_material_prime" data-tooltip="Удалить материал" id_rel="' . $row_score['id'] . '"><span class="font-ranks-inner">x</span><div></div></div>';
+                  } else
+                  {
+                      echo '<div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="' . $row_score['id'] . '"><span class="font-ranks-inner">x</span><div></div></div>';
+                  }
+                  //иконка акта на отбраковку
+
+                  if($prime!=1) {
+                      echo '<div id_rel="' . $row_score['id'] . '" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div>';
+                  }
+              }
+
+
+              echo'</div></td>';
+              if(($row_score['id_acc']!='')and($row_score['id_acc']!=0))
+              {
+                  echo'<td class="pre-wrap center_text_td number_st_invoice"><a class="link-acc-2021" href="acc/'.$row_list2["id"].'/">'.$row_list2["number"].'</a></td><td class="pre-wrap center_text_td invoice_units">'.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</td><td class="pre-wrap center_text_td count_st_invoice">'.$summ.'</td>';
+              } else
+              {
+                  echo'<td class="pre-wrap center_text_td"> -</td><td class="pre-wrap center_text_td">- </td><td class="pre-wrap center_text_td">- </td>';
+              }
+
+
+              echo'<td class="t_7 jk5">';
+
+
+              echo'<div class="width-setter"><label>КОЛ-ВО ВСЕГО</label><input style="margin-top:0px;" name="invoice['.$ss.'][count]"  max="'.$count_max.'" id="count_invoice_'.$ss.'"  class="input_f_1 input_100 white_inp label_s count_in_  count_mask '.$class_c.' '.$status_class.' '.iclass_($row_score['id'].'_w_count',$stack_error,"error_formi").'"  '.$status_edit.' autocomplete="off" type="text" placeholder="'.$PROC.'" value="'.ipost_x($_POST['invoice'][$ss]["count"],$row_score['count_units'],"").'"></div>';
+
+
+              echo'</td><td class="t_7 jk5">';
+
+
+
+              echo'<div class="width-setter"><label>БЕЗ НДС</label><input style="margin-top:0px;" name="invoice['.$ss.'][price]"  id="price_invoice_'.$ss.'" placeholder="" class="input_f_1 input_100 white_inp label_s price_in_  count_mask '.$class_c.' '.$status_class.'  '.iclass_($row_score['id'].'_w_price',$stack_error,"error_formi").'"  '.$status_edit.' autocomplete="off" type="text" value="'.ipost_x($_POST['invoice'][$ss]["price"],$row_score['price'],"").'"></div>';
+
+              echo'</td><td class="t_7 jk5">';
+
+              echo'<div class="width-setter"><label>С НДС</label><input style="margin-top:0px;" name="invoice['.$ss.'][price_nds]"  id="price_nds_invoice_'.$ss.'" placeholder="'.$summ2.'" class="input_f_1 input_100 white_inp label_s price_nds_in_  count_mask '.$class_c.' '.$status_class.'  '.iclass_($row_score['id'].'_w_price_nds',$stack_error,"error_formi").'"  '.$status_edit.' autocomplete="off" type="text" value="'.ipost_x($_POST['invoice'][$ss]["price_nds"],$row_score['price_nds'],"").'"></div>';
+
+
+              if(ipost_x($_POST['invoice'][$ss]["price_nds"],$row_score['price_nds'],"0")!=0)
+              {
+                  $nds_save=1; //без ндс
+              }
+
+              echo'</td><td class="t_7 jk5" ><span  class="price_supply_ summa_ii"></span><input type=hidden value="'.$row_score['id'].'" name="invoice['.$ss.'][id]"><input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["defect"],$row_score['defect'],"0").'" class="defect_inp" name="invoice['.$ss.'][defect]">
+			   <input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["stock"],$row_score['id_stock'],"0").'" class="stock_inp" name="invoice['.$ss.'][stock]">
+			   
+	<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["mild"],$row_score['mild'],"0").'" class="mild_inp" name="invoice['.$ss.'][mild]">		   
+	
+	<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["alien"],$row_score['alien'],"0").'" class="alien_inp" name="invoice['.$ss.'][alien]">	
+	
+		<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["prime"],$row_score['prime'],"0").'" class="prime_inp" name="invoice['.$ss.'][prime]">
+			   
+			   </td></tr>';
+
+
+
+              //акт на отбраковку
+              if(ipost_x($_POST['invoice'][$ss]["defect"],$row_score['defect'],"0")==0)
+              {
+                  echo'<tr invoice_group="'.$row_score['id'].'" invoices_messa="'.$row_score['id'].'" class=" jop messa_invoice" style="display:none" >';
+              } else
+              {
+                  echo'<tr invoice_group="'.$row_score['id'].'"  invoices_messa="'.$row_score['id'].'" class=" jop messa_invoice" >';
+              }
+
+              echo'<td>
+
+	 <span class="hsi">Акт на отбраковку<div></div></span>';
+              if(($row_list["status"]==1)and(($role->permission('Накладные','A'))or($sign_admin==1)))
+              {
+                  echo'<div class="del_invoice_akt" data-tooltip="Удалить акт" id_rel="'.$row_score['id'].'"><span class="font-ranks-inner">x</span><div></div></div>';
+
+                  echo'<a class="print_invoice_akt" data-tooltip="Распечатать акт" href="invoices/print/'.$row_score['id'].'/"><span class="font-ranks-inner">*</span><div></div></a>';
+              }
+              /*
+              echo'<div class="div_textarea_otziv div_text_glo '.iclass_($row_mat["id"].'_m_text',$stack_error,"error_formi").'" style="margin-top:15px;">
+                          <div class="otziv_add">
+                        <textarea placeholder="Напиши руководству причину привышения параметров по этой работе относительно запланированной себестоимости" cols="40" rows="1" id="otziv_area_'.$i.'" name="works['.$i.'][mat]['.$mat.'][text]" class="di text_area_otziv">'.ipost_($_POST['works'][$i]["mat"][$mat]["text"],"").'</textarea>
+                      </div></div>';
+              */
+
+              echo'</td><td style="padding:0px;white-space: nowrap">';
+
+              $query_string='';
+              $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="7" and A.visible=1 and A.id_object="' . ht($row_score['id']) . '"');
+
+              $num_results_uu = $result_6->num_rows;
+
+              $class_aa = '';
+              $style_aa = '';
+              if ($num_results_uu != 0) {
+                  $class_aa = 'eshe-load-file';
+                  $style_aa = 'style="display: block;"';
+              }
+
+
+              $query_string .= '<div style="display: inline-block" class="photo-akt-invoice"><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '>';
+
+              if ($num_results_uu != 0) {
+                  $i = 1;
+                  while ($row_6 = mysqli_fetch_assoc($result_6)) {
+                      $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
+
+                      $query_string .= '<span class="type-img">'.$row_6["type"].'</span>';
+
+                      $query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
+
+
+                      $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+                      $i++;
+                  }
+              }
+
+
+              $query_string .= '</div></div>';
+
+
+
+              $query_string .= '<input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="7" id_object="' . ht($row_score['id']) . '" data-tooltip="загрузить акт на отбраковку" class="invoice_upload js-upload-file js-helps ' . $class_aa . ' upload-but-2022" style="background-color: #fff !important;" ></div>';
+
+
+
+
+
+
+
+              $query_string .= '</div></div>';
+
+
+              echo $query_string;
+
+
+
+
+              /*
+   //выбираем фото актов
+   $result_scorex=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=0 and a.id_invoice_material="'.htmlspecialchars(trim($row_score['id'])).'"');
+
+
+
+$num_results_scorex = $result_scorex->num_rows;
+              echo'<div class="img_akt" ><ul>';
+if($num_results_scorex!=0)
+{
+
+   for ($sse=0; $sse<$num_results_scorex; $sse++)
+   {
+       $row_scorex = mysqli_fetch_assoc($result_scorex);
+       $allowedExts = array("pdf", "doc", "docx","jpg","jpeg");
+       if(($row_scorex["type"]=='jpg')or($row_scorex["type"]=='jpeg'))
+       {
+
+   echo'<li sops="'.$row_scorex["id"].'"><a target="_blank" href="invoices/scan_akt/'.$row_scorex["id"].'_'.$row_scorex["name"].'.'.$row_scorex["type"].'" rel="'.$row_scorex["id"].'"><div style=" background-image: url(invoices/scan_akt/'.$row_scorex["id"].'_'.$row_scorex["name"].'.jpg)"></div></a></li>';
+       } else
+       {
+       echo'<li sops="'.$row_scorex["id"].'"><a target="_blank" href="invoices/scan_akt/'.$row_scorex["id"].'_'.$row_scorex["name"].'.'.$row_scorex["type"].'" rel="'.$row_scorex["id"].'"><div class="doc_pdf1">'.$row_scorex["type"].'</div></a></li>';
+       }
+   }
+
+}
+echo'</ul></div>';
+//выводим кнопку добавить акт
+
+echo'<div id_upload_a="'.$row_score['id'].'" data-tooltip="загрузить акт на отбраковку" class="add_akt_defect"></div>';
+echo'<div class="b_loading_small_akt"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>';
+/*
+$echo.='<form  class="form_up" id="upload_akt_'.$row_score["id"].'" id_a="'.$row_score["id"].'" name="upload_akt'.$row_score["id"].'"><input class="invoice_file_akt" type="file" name="myfileakt'.$row_score["id"].'"></form>';
+   */
+              //echo'<div class="loaderr_scan scap_load_'.$row__2["id"].'"><div class="scap_load__" style="width: 0%;"></div></div>';
+
+
+
+              echo'</td><td colspan="2" style="padding:0px;white-space: nowrap">';
+
+              /*
+              //выбираем фото брака
+              $result_scorex=mysql_time_query($link,'Select a.* from z_invoice_attach_defect as a where a.type_invoice=1 and a.id_invoice_material="'.htmlspecialchars(trim($row_score['id'])).'"');
+              //echo('Select a.* from z_invoice_attach_defect as a where a.type_invoice=1 and a.id_invoice_material="'.htmlspecialchars(trim($row_score['id'])).'"');
+
+
+
+          $num_results_scorex = $result_scorex->num_rows;
+          echo'<div class="img_akt1"><ul>';
+          if($num_results_scorex!=0)
+          {
+
+              for ($sse=0; $sse<$num_results_scorex; $sse++)
+              {
+                  $row_scorex = mysqli_fetch_assoc($result_scorex);
+                  $allowedExts = array("pdf", "doc", "docx","jpg","jpeg");
+                  if(($row_scorex["type"]=='jpg')or($row_scorex["type"]=='jpeg'))
+                  {
+
+              echo'<li sops="'.$row_scorex["id"].'"><a target="_blank" href="invoices/scan_material/'.$row_scorex["id"].'_'.$row_scorex["name"].'.'.$row_scorex["type"].'" rel="'.$row_scorex["id"].'"><div style=" background-image: url(invoices/scan_material/'.$row_scorex["id"].'_'.$row_scorex["name"].'.jpg)"></div></a></li>';
+                  }
+              }
+
+          }
+          echo'</ul></div>';
+
+          //выводим кнопку добавить акт
+          echo'<div id_upload_a1="'.$row_score["id"].'" data-tooltip="загрузить фото с браком" class="add_akt_defect1"></div>';
+          echo'<div class="b_loading_small_akt1"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>';
+          /*$echo.='<form  class="form_up" id="upload_akt1_'.$row_score["id"].'" id_a="'.$row_score["id"].'" name="upload_akt1'.$row_score["id"].'"><input class="invoice_file_photo" type="file" name="myfilephoto'.$row_score["id"].'"></form>';	*/
+
+
+//фото браков
+
+
+              $query_string='';
+              $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="6" and A.visible=1 and A.id_object="' . ht($row_score['id']) . '"');
+
+              $num_results_uu = $result_6->num_rows;
+
+              $class_aa = '';
+              $style_aa = '';
+              if ($num_results_uu != 0) {
+                  $class_aa = 'eshe-load-file';
+                  $style_aa = 'style="display: block;"';
+              }
+
+
+              $query_string .= '<div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '>';
+
+              if ($num_results_uu != 0) {
+                  $i = 1;
+                  while ($row_6 = mysqli_fetch_assoc($result_6)) {
+                      $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
+
+                      $query_string .= '<span class="type-img">'.$row_6["type"].'</span>';
+
+                      $query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
+
+
+                      $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+                      $i++;
+                  }
+              }
+
+
+              $query_string .= '</div></div>';
+
+
+
+              $query_string .= '<input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="6" id_object="' . ht($row_score['id']) . '" data-tooltip="загрузить фото с браком" class="invoice_upload js-upload-file js-helps ' . $class_aa . ' upload-but-2021" style="background-color: #fff !important;" ></div>';
+
+
+
+
+
+
+
+              $query_string .= '</div></div>';
+
+
+              echo $query_string;
+
+
+              echo'</td><td>';
+
+              echo'<div class="width-setter"><label>КОЛ-ВО БРАКА</label><input style="margin-top:0px;" name="invoice['.$ss.'][count_defect]" id="count_invoice_defect_'.$ss.'"  class="input_f_1 akt_ss input_100 white_inp label_s count_defect_in_  count_mask '.$class_c.' '.$status_class.' '.iclass_($row_score['id'].'_w_count_defect',$stack_error,"error_formi").'"  '.$status_edit.' autocomplete="off" type="text" value="'.ipost_x($_POST['invoice'][$ss]["count_defect"],$row_score['count_defect'],"0").'"></div>';
+
+              echo'</td><td colspan="3">';
+
+              echo'<div class="width-setter"><input style="margin-top:0px;" name="invoice['.$ss.'][text]"  placeholder="Комментарий по браку" class="akt_ss input_f_1 input_100  '.$status_class.' white_inp label_s text_zayva_message_ '.iclass_($row_score['id'].'_w_text',$stack_error,"error_formi").'" '.$status_edit.' autocomplete="off" type="text" value="'.ipost_x($_POST['invoice'][$ss]["text"],$row_score['defect_comment'],"").'"></div>';
+
+
+              echo'
+	 </td></tr>';
+              echo'<tr class="loader_tr" style="height:2px;"><td colspan="8"></td></tr>';
+
+
+          }
+
+
+      }
+
+
+
+
+      //выводим те которые добавлены уже в накладную
 	    if($num_results_score!=0)
 	    {
 				
@@ -913,19 +1512,41 @@ echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в н
 			}
 			   
 	echo'<tr invoice_group="'.$row_score['id'].'" invoice_material="'.$row_score['id'].'" style="background-color:#f0f4f6;" class="jop" >';
-			   
-			   echo'<td class="no_padding_left_ pre-wrap one_td">'.$row_list1["name"].' <span class="invoice_units">('.$row_list1["units"].')</span>';
+               $dav1='';$dav2='';
+				if($row_score['alien'])
+                {
+                    $dav1='dava';
+                    $dav2='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                }
+$check='';
+				if(ipost_x($_POST['invoice'][$ss]["mild"],$row_score['mild'],"0")==1)
+                {
+                    $check='chechers';
+                }
+               $mild='mild_mild';
+               if($row_list["status"]!=1)
+               {
+                   $mild='mild_mild1';
+               }
+			   echo'<td class="no_padding_left_ pre-wrap one_td">
+<div class="mild '.$check.'"><div class="'.$mild.'" data-tooltip="мягкая накладная">
+<i class="select-mild"></i></div>
+<i class="name_invoice_dava '.$dav1.'">'.$row_list1["name"].'</i>'.$dav2.' <span class="invoice_units">('.$row_list1["units"].')</span>';
 
 		if(($row_list["status"]==1)and(($role->permission('Накладные','A'))or($sign_admin==1)))
-		{ 	
-			   echo'<div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$row_score['id'].'"><span class="font-ranks-inner">x</span><div></div></div>';
-		
+		{
+
+                echo '<div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="' . $row_score['id'] . '"><span class="font-ranks-inner">x</span><div></div></div>';
+
 		//иконка акта на отбраковку
-		echo'<div id_rel="'.$row_score['id'].'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div>';	   
+
+
+            echo '<div id_rel="' . $row_score['id'] . '" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div>';
+
 		}
 			  
 			   
-			   echo'</td>';
+			   echo'</div></td>';
 			   				if(($row_score['id_acc']!='')and($row_score['id_acc']!=0))
 				{
 			   echo'<td class="pre-wrap center_text_td number_st_invoice"><a class="link-acc-2021" href="acc/'.$row_list2["id"].'/">'.$row_list2["number"].'</a></td><td class="pre-wrap center_text_td invoice_units">'.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</td><td class="pre-wrap center_text_td count_st_invoice">'.$summ.'</td>';
@@ -942,7 +1563,9 @@ echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в н
 			   
 			   
 			   echo'</td><td class="t_7 jk5">';
-			   
+
+
+
 			   echo'<div class="width-setter"><label>БЕЗ НДС</label><input style="margin-top:0px;" name="invoice['.$ss.'][price]"  id="price_invoice_'.$ss.'" placeholder="" class="input_f_1 input_100 white_inp label_s price_in_  count_mask '.$class_c.' '.$status_class.'  '.iclass_($row_score['id'].'_w_price',$stack_error,"error_formi").'"  '.$status_edit.' autocomplete="off" type="text" value="'.ipost_x($_POST['invoice'][$ss]["price"],$row_score['price'],"").'"></div>';	
 			   
 			   echo'</td><td class="t_7 jk5">';
@@ -957,6 +1580,13 @@ echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в н
 			   
 			   echo'</td><td class="t_7 jk5" ><span  class="price_supply_ summa_ii"></span><input type=hidden value="'.$row_score['id'].'" name="invoice['.$ss.'][id]"><input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["defect"],$row_score['defect'],"0").'" class="defect_inp" name="invoice['.$ss.'][defect]">
 			   <input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["stock"],$row_score['id_stock'],"0").'" class="stock_inp" name="invoice['.$ss.'][stock]">
+			   
+	<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["mild"],$row_score['mild'],"0").'" class="mild_inp" name="invoice['.$ss.'][mild]">		   
+	
+	<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["alien"],$row_score['alien'],"0").'" class="alien_inp" name="invoice['.$ss.'][alien]">	
+	
+		<input type=hidden value="'.ipost_x($_POST['invoice'][$ss]["prime"],$row_score['prime'],"0").'" class="prime_inp" name="invoice['.$ss.'][prime]">
+			   
 			   </td></tr>';
 						
 	
@@ -1202,6 +1832,7 @@ itog_invoice();
 		  nds_invoice();
 		  countErrorMax();
           NumberBlockFile();
+          cost_mild();
 });
 
 	</script>
@@ -1285,6 +1916,13 @@ if (( isset($_GET["a"]))or((isset($_POST["save_invoice_two_step"]))))
     $echo_help++;
 }
 
+
+
+            if ($prime == 1) {
+                echo'<script type="text/javascript">var b_cm=\''.$b_cm.'\'</script>';
+            }
+
+
 if($echo_help!=0)
 {
     ?>
@@ -1292,6 +1930,10 @@ if($echo_help!=0)
 
         <?
         echo'var text_xx=\''.$end_step_task.'\';';
+
+
+
+
         ?>
         $(function (){
             setTimeout ( function () {
@@ -1340,5 +1982,9 @@ if($echo_help!=0)
         });
     </script>
     <?
+
+
+
+
 }
 

@@ -5626,3 +5626,126 @@ i {
   top: 20px;}
 
 .draghover { border: 2px dashed #35deb8  !important; }
+
+
+.material_inv {
+  height: 60px;
+  float: left;
+  line-height: 60px;
+  margin-left: 35px;
+  position: relative;
+  cursor: pointer;
+  top: 0;
+  vertical-align: top
+}
+
+.material_inv a {
+  font-family: "icon2";
+  font-size: 21px;
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: none
+}
+
+.material_inv i {
+  background-color: #25ae88;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  font-family: "SegoeUIBold";
+  font-size: 13px;
+  font-style: normal;
+  height: 25px;
+  line-height: 23px;
+  padding: 0;
+  position: absolute;
+  right: -20px;
+  text-align: center;
+  top: 11px;
+  vertical-align: middle;
+  width: 25px
+}
+
+.name_invoice_dava { font-style: normal;}
+
+.mild {padding-left: 50px; position: relative; }
+.select-mild {
+
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  position: relative;
+  display: block;
+  text-align: center;
+  position: absolute;
+  left: 10px;
+  top: 2px;
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: rgba(0,0,0,.7);
+    font-family: icon1;
+    font-size: 14px;
+    @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    @include transform(scale3d(0,0,1));
+  }
+}
+
+.chechers {
+  .select-mild {
+    background-color: #ffec57;
+  }
+  .select-mild::before { @include transform(scale3d(1,1,1)); }
+}
+
+.mild_mild {cursor: pointer;}
+
+
+.smeta1 .edit_panel11_mat {
+  display: inline-block;
+  position: relative;
+  height: 10px;
+  line-height: 1px;
+}
+
+
+.history_act_mat {
+position: absolute;
+  top:15px;
+  left:30px;
+  line-height: 25px;
+  display: none;
+  z-index: 10;
+  @include box-shadow(0 4px 8px rgba(17, 56, 86, 0.1));
+border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+  min-width: 200px;
+
+    .line_brock {
+      @include flexbox();
+      width: 100%;
+      text-align: left;
+      @include justify-content(space-between);
+
+      .count_brock { width: 50%; white-space:nowrap; color: #1e1f1f;
+        font-family: "GEInspiraRegular";
+        font-size: 16px;    span {font-size: 11px;
+        font-family: "GEInspiraRegular";
+        color: rgba(0, 0, 0, 0.3);}  b {color: rgba(0, 0, 0, 0.3); font-weight: normal; padding-left: 5px;}  }
+      .price_brock { width:50%; padding-left:15px; white-space:nowrap; color: #1e1f1f;
+        font-family: "GEInspiraRegular";
+        font-size: 16px;   span {font-size: 11px;
+        font-family: "GEInspiraRegular";
+        color: rgba(0, 0, 0, 0.3);} b {color: rgba(0, 0, 0, 0.3); font-weight: normal; padding-left: 5px;}}
+
+    }
+
+
+
+
+}

@@ -2472,6 +2472,19 @@ function UpdateItog()
 	$('.itogsumwork').empty().append($.number(sum_work.toFixed(2), 2, '.', ' '));
 	//$('.itogsumall').empty().append($.number((sum_work+sum_mat).toFixed(2), 2, '.', ' '));	
 }
+//показать историю списания по материалу - наряды
+function HistoryN1() {
+
+	var block_his=$(this).parents('.edit_panel11_mat').find('.history_act_mat');
+	if(block_his.is(':visible'))
+	{
+		block_his.slideUp("slow");
+	} else
+	{
+		block_his.slideDown("slow");
+	}
+
+}
 
 //история по нарядам по работе
 function HistoryN()
@@ -3081,19 +3094,26 @@ function BasketMaterial()
 	
 	//оформление наряда		
 	
-	if(cookie==null) { $('.material_end').remove(); } else
+	if(cookie==null) { $('.material_end').remove();  $('.material_inv').remove();} else
 	{
 		
 		if(!$("div").is(".material_end"))
 		{
 			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d<i></i></a></div>');
+
+			$('.add_mmm').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
+
 		}
 		var cc = cookie.split('.');
 	    var counts=cc.length;
 		$('.material_end i').empty().append(counts);
+		$('.material_inv i').empty().append(counts);
 		//$('.naryd_end i').css('transform','scale(2)');
 		//$('.naryd_end i').scale(1.5);
 		$('.material_end i').animate({scale: "1.5"}, 200, function() {  $('.material_end i').animate({scale: "1"}, 200); });
+
+		$('.material_inv i').animate({scale: "1.5"}, 200, function() {  $('.material_inv i').animate({scale: "1"}, 200); });
+
 		 $('#nprogress').show();
 		$('#nprogress .bar').animate({width: "100%"}, 200, function() {  $('#nprogress').hide(); $('#nprogress .bar').width('0'); });
 	}
@@ -4472,6 +4492,7 @@ var nm_div = function() {
 	  {
 		  //убрали выделение
 		  $(this).parent().parent().removeClass("chechers");
+
 		  CookieList(window.b_cm+"_"+id_dom,$(this).parents('[rel_ma]').attr('rel_ma'),'del','sort');	
 		 // alert($(this).parents('[rel_id]').attr('rel_id'));
 		  BasketMaterial(); 
@@ -5085,6 +5106,7 @@ $('.smeta2').on("click",'.del_zay_zay',DellZayZay);
 
 //клик по иконки показать историю нарядов по работе
 $('.work__s').on("click",'.history_icon',HistoryN);
+	$('.mattx').on("click",'.history_icon',HistoryN1);
 
 //контроль ввода количества материала при оформлении заявки на материал
 $('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);		
@@ -5302,6 +5324,15 @@ $("body").click(function(e) {
 	       $('.view__not').hide(); $('.not_li').find('i').hide();	
 		}
 		}
+
+	if(($(e.target).closest(".history_act_mat").length==0)&&($(e.target).closest(".edit_panel11_mat").length==0)  ){
+		if( $('.history_act_mat').is(':visible') ) {
+
+			$('.history_act_mat').hide();
+		}
+	}
+
+
 	
 });
 

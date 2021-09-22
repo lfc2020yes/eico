@@ -111,13 +111,30 @@ if((isset($_POST['save_invoice']))and($_POST['save_invoice']==1))
            }
 
 
+            if(isset($_GET["id"])) {
 
-			
-		   mysql_time_query($link,'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("'.htmlspecialchars($_POST['number_invoices']).'","'.htmlspecialchars($_POST['date_invoice']).'","'.date("y-m-d").' '.date("H:i:s").'","'.date("y-m-d").' '.date("H:i:s").'","0","'.htmlspecialchars(trim($kto)).'","'.$id_user.'","1")');
+                mysql_time_query($link, 'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status,type_contractor) VALUES ("' . htmlspecialchars($_POST['number_invoices']) . '","' . htmlspecialchars($_POST['date_invoice']) . '","' . date("y-m-d") . ' ' . date("H:i:s") . '","' . date("y-m-d") . ' ' . date("H:i:s") . '","0","' . htmlspecialchars(trim($kto)) . '","' . $id_user . '","1","1")');
+            } else
+            {
+                mysql_time_query($link, 'INSERT INTO z_invoice (number,date,date_last,date_create,summa,id_contractor,id_user,status) VALUES ("' . htmlspecialchars($_POST['number_invoices']) . '","' . htmlspecialchars($_POST['date_invoice']) . '","' . date("y-m-d") . ' ' . date("H:i:s") . '","' . date("y-m-d") . ' ' . date("H:i:s") . '","0","' . htmlspecialchars(trim($kto)) . '","' . $id_user . '","1")');
+            }
+
+
 			$ID_N=mysqli_insert_id($link); 
 			
 			//переадрессуем для дальнейшего сохранения
-			  header("Location:".$base_usr."/invoices/".$ID_N.'/');	
+
+
+			  if(isset($_GET["id"]))
+              {
+                  header("Location:".$base_usr."/invoices/".$ID_N.'/'.$_GET["id"].'/');
+                  die();
+              } else
+              {
+                  header("Location:".$base_usr."/invoices/".$ID_N.'/');
+                  die();
+              }
+
 		}
 
 	
@@ -162,7 +179,7 @@ if (strripos($url_404, 'index_add.php') !== false) {
 }
 
 //**************************************************
-if (( count($_GET) != 0 ) )
+if (( count($_GET) != 0 )and( count($_GET) != 1 ) )
 {
    header404(2,$echo_r);		
 }

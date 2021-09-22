@@ -227,6 +227,17 @@ if ($role->permission("Себестоимость",'R')) {};   //R A U D
 if ($role->permission("Себестоимость",'A')) {};
  
  */
+
+function material_to_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material)
+{
+    $sqls = '';
+    $COMA = '';
+    $sql="select * from z_doc_material_nariad where id_doc=
+    
+    ";
+}
+
+
 /** Заполнение заявок по материалам при закрытии наряда (только +) - распровести нельзя
  * @param $mysqli
  * @param $arr_docs - массив для сбора заявок по закрытию
@@ -241,7 +252,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){
     //row_n_work[id_razdeel2]
     $count_units_m = $row_n_material[count_units];
     $sql="
-SELECT M.id as id_doc_material,
+SELECT M.id as id_z_doc_material,
        M.*,
        S.*,N.*
 FROM `z_doc_material` M, `z_stock_material` S, z_stock N 
@@ -267,18 +278,20 @@ AND S.`id_user` = ".$row_nariad[id_user];
 update z_doc_material 
 set count_units_nariad = count_units_nariad + $update_count 
 where 
-      id = ".$row_z[id_doc_material];
+      id = ".$row_z[id_z_doc_material];
 // id_i_material = ".$row_n_material[id_material];
                 $COMA=';';
                 $sqls .=$COMA. "
 INSERT INTO `z_doc_material_nariad` (
   `id_doc_materil`,
-  `count_units`
+  `count_units`,
+  `id_doc`                                   
 )
 VALUES
   (
     {$row_z[id_doc_material]},
-    $update_count
+    $update_count,
+    {$row_z[id_doc]},
   )";
                 $count_units_m -=$update_count;
             }
@@ -289,6 +302,32 @@ VALUES
     return ($count_units_m>0) ? false : $sqls;
 }
 
+/** Возврат материалов пользователю из за расподписания наряда по n_material_act
+ * @param $mysqli
+ * @param $row_nariad
+ * @param $row_n_material
+ * @return string
+ */
+function material_to_user(&$mysqli,  $row_nariad,$row_n_material)
+{
+    $sqls = '';
+    if($row_nariad[status]==2 and $row_nariad[signedd_nariad]==1) {
+        $sql = "SELECT * FROM `n_material_act` WHERE `id_n_materil` = {$row_n_material[id]}";
+        if ($result = $mysqli->query($sql)) {
+            $COMA = '';
+            while ($row = $result->fetch_assoc()) {
+                $sqls .= $COMA . "
+UPDATE z_stock_material 
+SET count_units = count_units + {$row[count_units]} 
+WHERE id = '{$row[id_stock_material]}'";
+                $COMA = ';';
+            }
+            $sqls .= $COMA . "delete from `n_material_act` WHERE `id_n_materil` = {$row_n_material[id]}";
+            $result->close();
+        }
+    }
+    return ($sqls == '')? false : $sqls;
+}
 /** Списание с пользователя материалов
  * @param $mysqli
  * @param $row_nariad
@@ -388,7 +427,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                  if ($row2['count_units']>0) {
 
 
-                     if ($signedd == 1) {
+                     if ($signedd == 1) {   //Провести наряд
                          $summa_material = 0.00;
                          if (($sm = material_from_user($mysqli, $summa_material, $row0, $row2)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
@@ -404,6 +443,11 @@ update n_material set price = ".(round($summa_material / $row2['count_units'],2)
                              //$ret = 3;
                              //break 2;
                          } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                     } else {   //Отменить проведение наряда
+                         if (($sm = material_to_user($mysqli, $row0, $row2)) === false) {
+                         } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                        // if (($sm = material_to_doc($mysqli, $arr_docs, $row0, $row2)) === false) { // Todo возврат списанных материалов в заявки
+                        // } else { $sql .= $COMA . $sm; $COMA = ';'; }
                      }
                      $sql .= $COMA . "update i_material set"
                          . " count_realiz=count_realiz" . $plus . $row2['count_units']
@@ -610,6 +654,7 @@ class hierarchy {
  var  $num=array();
  var  $id_user=0;
  var  $boss=array(2=>array(),3=>array(),4=>array() );  //Подчинение
+ var  $email;
  
  function hierarchy(&$mysqli,$id_user,$show=0) {
    $this->mysqli=$mysqli;
@@ -619,7 +664,7 @@ class hierarchy {
    $this->arr_add(&$this->user,$id_user); 
    //$this->user[]=$id_user;
    if ($result = $this->mysqli->query('
-    SELECT u.id,u.name_user,r.name_role,r.sign_level,r.system
+    SELECT u.id,u.name_user,u.email_notifications,u.email,r.name_role,r.sign_level,r.system
     FROM r_user u, r_role r
     WHERE u.id="'.$id_user 
     .'" AND u.id_role=r.id
@@ -631,12 +676,12 @@ class hierarchy {
        while( $row = $result->fetch_assoc() ){
            $this->sign_level=$row['sign_level'];
            $this->admin=$row['system'];
-           $this->user_info(&$row,$tab);
-           $this->user_object(&$row,$tab);
+           $this->user_info($row,$tab);
+           $this->user_object($row,$tab);
            //$this->num[(count($this->num)-1)]--;
            $this->user_level(($row['sign_level'])-1,$tab+1);
-           
            $this->user_town();
+           $this->email = ($row['email_notifications']==1) ? $row['email'] : '';
            
        }
        //unset( $this->num[(count($this->num)-1)] );
@@ -644,9 +689,11 @@ class hierarchy {
        $result->close();
        $this->get_boss();
     }
- }   
+ }
 
- 
+ function is_email_notifications() {
+     return ($this->email=='') ? false : $this->email;
+ }
  
 function arr_add(&$arr,$id) {
     for ($i=0;$i<count($arr);$i++) {

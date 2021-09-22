@@ -227,6 +227,17 @@ if ($role->permission("Себестоимость",'R')) {};   //R A U D
 if ($role->permission("Себестоимость",'A')) {};
  
  */
+
+function material_to_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material)
+{
+    $sqls = '';
+    $COMA = '';
+    $sql="select * from z_doc_material_nariad where id_doc_material
+    
+    ";
+}
+
+
 /** Заполнение заявок по материалам при закрытии наряда (только +) - распровести нельзя
  * @param $mysqli
  * @param $arr_docs - массив для сбора заявок по закрытию
@@ -289,6 +300,32 @@ VALUES
     return ($count_units_m>0) ? false : $sqls;
 }
 
+/** Возврат материалов пользователю из за расподписания наряда по n_material_act
+ * @param $mysqli
+ * @param $row_nariad
+ * @param $row_n_material
+ * @return string
+ */
+function material_to_user(&$mysqli,  $row_nariad,$row_n_material)
+{
+    $sqls = '';
+    if($row_nariad[status]==2 and $row_nariad[signedd_nariad]==1) {
+        $sql = "SELECT * FROM `n_material_act` WHERE `id_n_materil` = {$row_n_material[id]}";
+        if ($result = $mysqli->query($sql)) {
+            $COMA = '';
+            while ($row = $result->fetch_assoc()) {
+                $sqls .= $COMA . "
+UPDATE z_stock_material 
+SET count_units = count_units + {$row[count_units]} 
+WHERE id = '{$row[id_stock_material]}'";
+                $COMA = ';';
+            }
+            $sqls .= $COMA . "delete from `n_material_act` WHERE `id_n_materil` = {$row_n_material[id]}";
+            $result->close();
+        }
+    }
+    return ($sqls == '')? false : $sqls;
+}
 /** Списание с пользователя материалов
  * @param $mysqli
  * @param $row_nariad
@@ -388,7 +425,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                  if ($row2['count_units']>0) {
 
 
-                     if ($signedd == 1) {
+                     if ($signedd == 1) {   //Провести наряд
                          $summa_material = 0.00;
                          if (($sm = material_from_user($mysqli, $summa_material, $row0, $row2)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
@@ -404,6 +441,11 @@ update n_material set price = ".(round($summa_material / $row2['count_units'],2)
                              //$ret = 3;
                              //break 2;
                          } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                     } else {   //Отменить проведение наряда
+                         if (($sm = material_to_user($mysqli, $row0, $row2)) === false) {
+                         } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                        // if (($sm = material_to_doc($mysqli, $arr_docs, $row0, $row2)) === false) { // Todo возврат списанных материалов в заявки
+                        // } else { $sql .= $COMA . $sm; $COMA = ';'; }
                      }
                      $sql .= $COMA . "update i_material set"
                          . " count_realiz=count_realiz" . $plus . $row2['count_units']

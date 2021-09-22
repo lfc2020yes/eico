@@ -5595,10 +5595,11 @@ i {
 
 .help-icon, .help-icon1, .help-icon-x {
 
-  font-size: 18px;
-  color:
+  //@include placeholder {color: rgba(0,0,0,0.4);}
 
-          rgba(0,0,0,0.1);
+  font-size: 18px;
+  color:rgba(0,0,0,0.1);
+
   font-family: "icon2";
   font-style: normal;
   text-transform: none;

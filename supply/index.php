@@ -420,6 +420,33 @@ AND a.id=b.id_doc
 ) AS z 				
 '.$sql_order.' '.limitPage('n_st',$count_write));
 
+echo 'SELECT * FROM 
+(
+SELECT DISTINCT 
+b.id_stock,b.id_i_material
+
+FROM 
+z_doc AS a,
+z_doc_material AS b,
+i_material AS c, 
+edo_state AS edo
+
+WHERE 
+c.`alien` = 0      
+AND c.id=b.id_i_material 
+AND a.id=b.id_doc 
+ AND a.id_edo_run = edo.id_run
+ AND edo.id_status = 0
+ AND edo.id_executor IN ('.ht($id_user).')
+
+ AND b.status NOT IN ("1","8","10","3","5","4") 
+ '.$sql_su2.' 
+  '.$sql_su3.' 
+ '.$sql_order1.' 
+) AS z 				
+'.$sql_order.' '.limitPage('n_st',$count_write);
+
+
 /*
 echo 'SELECT * FROM 
 (

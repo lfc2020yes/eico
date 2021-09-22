@@ -232,7 +232,7 @@ function material_to_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material)
 {
     $sqls = '';
     $COMA = '';
-    $sql="select * from z_doc_material_nariad where id_doc_material
+    $sql="select * from z_doc_material_nariad where id_doc=
     
     ";
 }
@@ -252,7 +252,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){
     //row_n_work[id_razdeel2]
     $count_units_m = $row_n_material[count_units];
     $sql="
-SELECT M.id as id_doc_material,
+SELECT M.id as id_z_doc_material,
        M.*,
        S.*,N.*
 FROM `z_doc_material` M, `z_stock_material` S, z_stock N 
@@ -278,18 +278,20 @@ AND S.`id_user` = ".$row_nariad[id_user];
 update z_doc_material 
 set count_units_nariad = count_units_nariad + $update_count 
 where 
-      id = ".$row_z[id_doc_material];
+      id = ".$row_z[id_z_doc_material];
 // id_i_material = ".$row_n_material[id_material];
                 $COMA=';';
                 $sqls .=$COMA. "
 INSERT INTO `z_doc_material_nariad` (
   `id_doc_materil`,
-  `count_units`
+  `count_units`,
+  `id_doc`                                   
 )
 VALUES
   (
     {$row_z[id_doc_material]},
-    $update_count
+    $update_count,
+    {$row_z[id_doc]},
   )";
                 $count_units_m -=$update_count;
             }
@@ -652,6 +654,7 @@ class hierarchy {
  var  $num=array();
  var  $id_user=0;
  var  $boss=array(2=>array(),3=>array(),4=>array() );  //Подчинение
+ var  $email;
  
  function hierarchy(&$mysqli,$id_user,$show=0) {
    $this->mysqli=$mysqli;
@@ -661,7 +664,7 @@ class hierarchy {
    $this->arr_add(&$this->user,$id_user); 
    //$this->user[]=$id_user;
    if ($result = $this->mysqli->query('
-    SELECT u.id,u.name_user,r.name_role,r.sign_level,r.system
+    SELECT u.id,u.name_user,u.email_notifications,u.email,r.name_role,r.sign_level,r.system
     FROM r_user u, r_role r
     WHERE u.id="'.$id_user 
     .'" AND u.id_role=r.id
@@ -673,12 +676,12 @@ class hierarchy {
        while( $row = $result->fetch_assoc() ){
            $this->sign_level=$row['sign_level'];
            $this->admin=$row['system'];
-           $this->user_info(&$row,$tab);
-           $this->user_object(&$row,$tab);
+           $this->user_info($row,$tab);
+           $this->user_object($row,$tab);
            //$this->num[(count($this->num)-1)]--;
            $this->user_level(($row['sign_level'])-1,$tab+1);
-           
            $this->user_town();
+           $this->email = ($row['email_notifications']==1) ? $row['email'] : '';
            
        }
        //unset( $this->num[(count($this->num)-1)] );
@@ -686,9 +689,11 @@ class hierarchy {
        $result->close();
        $this->get_boss();
     }
- }   
+ }
 
- 
+ function is_email_notifications() {
+     return ($this->email=='') ? false : $this->email;
+ }
  
 function arr_add(&$arr,$id) {
     for ($i=0;$i<count($arr);$i++) {

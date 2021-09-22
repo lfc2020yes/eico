@@ -5703,3 +5703,49 @@ i {
 }
 
 .mild_mild {cursor: pointer;}
+
+
+.smeta1 .edit_panel11_mat {
+  display: inline-block;
+  position: relative;
+  height: 10px;
+  line-height: 1px;
+}
+
+
+.history_act_mat {
+position: absolute;
+  top:15px;
+  left:30px;
+  line-height: 25px;
+  display: none;
+  z-index: 10;
+  @include box-shadow(0 4px 8px rgba(17, 56, 86, 0.1));
+border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+  min-width: 200px;
+
+    .line_brock {
+      @include flexbox();
+      width: 100%;
+      text-align: left;
+      @include justify-content(space-between);
+
+      .count_brock { width: 50%; white-space:nowrap; color: #1e1f1f;
+        font-family: "GEInspiraRegular";
+        font-size: 16px;    span {font-size: 11px;
+        font-family: "GEInspiraRegular";
+        color: rgba(0, 0, 0, 0.3);}  b {color: rgba(0, 0, 0, 0.3); font-weight: normal; padding-left: 5px;}  }
+      .price_brock { width:50%; padding-left:15px; white-space:nowrap; color: #1e1f1f;
+        font-family: "GEInspiraRegular";
+        font-size: 16px;   span {font-size: 11px;
+        font-family: "GEInspiraRegular";
+        color: rgba(0, 0, 0, 0.3);} b {color: rgba(0, 0, 0, 0.3); font-weight: normal; padding-left: 5px;}}
+
+    }
+
+
+
+
+}

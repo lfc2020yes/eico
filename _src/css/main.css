@@ -19322,6 +19322,78 @@ width: calc(50% - 0px) !important;
   cursor: pointer;
 }
 
+.smeta1 .edit_panel11_mat {
+  display: inline-block;
+  position: relative;
+  height: 10px;
+  line-height: 1px;
+}
+
+.history_act_mat {
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  line-height: 25px;
+  display: none;
+  z-index: 10;
+  -moz-box-shadow: 0 4px 8px rgba(17, 56, 86, 0.1);
+  -webkit-box-shadow: 0 4px 8px rgba(17, 56, 86, 0.1);
+  box-shadow: 0 4px 8px rgba(17, 56, 86, 0.1);
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 20px;
+  min-width: 200px;
+}
+.history_act_mat .line_brock {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  text-align: left;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: space-between;
+}
+.history_act_mat .line_brock .count_brock {
+  width: 50%;
+  white-space: nowrap;
+  color: #1e1f1f;
+  font-family: "GEInspiraRegular";
+  font-size: 16px;
+}
+.history_act_mat .line_brock .count_brock span {
+  font-size: 11px;
+  font-family: "GEInspiraRegular";
+  color: rgba(0, 0, 0, 0.3);
+}
+.history_act_mat .line_brock .count_brock b {
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: normal;
+  padding-left: 5px;
+}
+.history_act_mat .line_brock .price_brock {
+  width: 50%;
+  padding-left: 15px;
+  white-space: nowrap;
+  color: #1e1f1f;
+  font-family: "GEInspiraRegular";
+  font-size: 16px;
+}
+.history_act_mat .line_brock .price_brock span {
+  font-size: 11px;
+  font-family: "GEInspiraRegular";
+  color: rgba(0, 0, 0, 0.3);
+}
+.history_act_mat .line_brock .price_brock b {
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: normal;
+  padding-left: 5px;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

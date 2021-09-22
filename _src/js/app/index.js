@@ -2472,6 +2472,19 @@ function UpdateItog()
 	$('.itogsumwork').empty().append($.number(sum_work.toFixed(2), 2, '.', ' '));
 	//$('.itogsumall').empty().append($.number((sum_work+sum_mat).toFixed(2), 2, '.', ' '));	
 }
+//показать историю списания по материалу - наряды
+function HistoryN1() {
+
+	var block_his=$(this).parents('.edit_panel11_mat').find('.history_act_mat');
+	if(block_his.is(':visible'))
+	{
+		block_his.slideUp("slow");
+	} else
+	{
+		block_his.slideDown("slow");
+	}
+
+}
 
 //история по нарядам по работе
 function HistoryN()
@@ -5093,6 +5106,7 @@ $('.smeta2').on("click",'.del_zay_zay',DellZayZay);
 
 //клик по иконки показать историю нарядов по работе
 $('.work__s').on("click",'.history_icon',HistoryN);
+	$('.mattx').on("click",'.history_icon',HistoryN1);
 
 //контроль ввода количества материала при оформлении заявки на материал
 $('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);		
@@ -5310,6 +5324,15 @@ $("body").click(function(e) {
 	       $('.view__not').hide(); $('.not_li').find('i').hide();	
 		}
 		}
+
+	if(($(e.target).closest(".history_act_mat").length==0)&&($(e.target).closest(".edit_panel11_mat").length==0)  ){
+		if( $('.history_act_mat').is(':visible') ) {
+
+			$('.history_act_mat').hide();
+		}
+	}
+
+
 	
 });
 

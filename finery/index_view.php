@@ -1539,7 +1539,7 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 							
 							
 							echo'<tr work="'.$row_work["id"].'" style="background-color:#f0f4f6;" class="jop1 mat mattx" rel_w="'.$row_work["id"].'" rel_mat="'.$row_mat["id"].'" rel_matx="'.$row_mat["id"].'">
-                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j">'.$row_mat["material"].'</span>&nbsp;';
+                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm" style="position:relative;"><span class="s_j">'.$row_mat["material"].'</span>&nbsp;';
 								   		 if($row_list["signedd_nariad"]!=1)
 				     {
 							$tool_my="Материала на вас";
@@ -1576,7 +1576,36 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 						 
 						 
 						 
-					 }
+					 } else
+                                         {
+
+if(($row_mat["count_units"]!=0)and($row_mat["count_units"]!=0.000)) {
+    echo '<span class="edit_panel11_mat"><span data-tooltip="история списания" for="' . $row_mat["id"] . '" class="history_icon">M</span>';
+
+    echo '<div class="history_act_mat">
+                                             <div class="line_brock"><div class="count_brock"><span>Объем</span></div><div class="price_brock"><span>Цена за ед.</span></div></div>';
+
+    $result_uu_xo = mysql_time_query($link, 'select * from n_material_act where id_n_materil="' . ht($row_mat["id"]) . '"');
+
+    if ($result_uu_xo) {
+        $i = 0;
+        while ($row_uu_xo = mysqli_fetch_assoc($result_uu_xo)) {
+
+
+            echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"].'<b>'.$row_mat["units"].'</b></div><div class="price_brock">'.$row_uu_xo["price"].'<b>₽</b></div></div>';
+        }
+    }
+
+
+echo'</div>';
+    echo '</span>';
+}
+
+
+
+
+
+                                         }
 							echo'</div>
 				  <input type=hidden value="'.$row_mat["id"].'" name="works['.$i.'][mat]['.$mat.'][id]">
 				  <input type=hidden class="hidden_max_count" value="" name="works['.$i.'][mat]['.$mat.'][max_count]"></td>

@@ -289,9 +289,9 @@ INSERT INTO `z_doc_material_nariad` (
 )
 VALUES
   (
-    {$row_z[id_doc_material]},
+    {$row_z[id_z_doc_material]},
     $update_count,
-    {$row_z[id_doc]},
+    {$row_z[id_doc]}
   )";
                 $count_units_m -=$update_count;
             }

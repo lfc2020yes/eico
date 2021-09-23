@@ -58,6 +58,7 @@ mysqli_query($link,"SET @id_user='$id_user'");
 
 $region=1; //регион сайта
 $time_sql=1; //собирать статистику
+$notification_mail=1; //уведомления по email
 
 function mysql_time_query($link,$query)
 {

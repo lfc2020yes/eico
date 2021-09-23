@@ -1,12 +1,12 @@
 <?
-$mail_admin='lfc2005@mail.ru';
+$mail_admin='v.podgornyi@eico.group';
 
 $mail_ulmenu = array(
     'password' => array(
 	    'smtp' =>false,
         'host'     => 'cf34.hc.ru',
-        'login' => 'interstroi@atsun.ru',
-        'password'  => 'inter12344321',
+        'login' => 'eico@atsun.ru',
+        'password'  => 'KweBxq1TEpMludraJj9Z',
 		'port' => 465,
 		'auth' => true,
 		'secure' => ''		
@@ -44,7 +44,7 @@ $addAddress = explode("||", $komy);
 
 $mail->addAddress($addAddress[0], $addAddress[1]);     // кому
              // Name is optional
-$mail->addReplyTo('lfc2005@mail.ru', 'Команда Интер-Строй');
+$mail->addReplyTo('lfc2005@mail.ru', 'Eico Group');
 $mail->isHTML(true);                                  // Set email format to HTML
 
 $mail->Subject = $subject;  //заголовок

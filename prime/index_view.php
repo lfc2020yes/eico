@@ -794,7 +794,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
 				  $actv3='';
 					  
 					 //смотрим в корзине материал или нет 
-				  if ((($role->permission('Заявки','A'))or($sign_admin==1))and(!isset($_GET["add"])))
+				  if ((($role->permission('Заявки','A'))or($role->permission('Накладные','A'))or($sign_admin==1))and(!isset($_GET["add"])))
                   {
 					  
 					 if(!isset($_GET["add_a"]))

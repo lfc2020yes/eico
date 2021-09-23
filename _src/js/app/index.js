@@ -2076,7 +2076,8 @@ function summ_finery(id_trr)
 	    var count_all_matt = parseFloat($(this).find('.count_finery_mater_').attr('all'));
 		var count_ost_matt = parseFloat($(this).find('.count_finery_mater_').attr('ost'));
 		   
-		var count_end = ((count_all_matt*count)/count_all_work).toFixed(4);
+		//var count_end = ((count_all_matt*count)/count_all_work).toFixed(4);
+		   var count_end = ((count_all_matt*count)/count_all_work).toFixed(3);
 		var flag_soot=1;   
 		//alert(count_all_matt);
 		//alert(count);   
@@ -2086,7 +2087,8 @@ function summ_finery(id_trr)
 		if(count_end>count_ost_matt)
 		{
 		  count_est=count_end;	 //EST - предполагаемое количество
-		  count_end=count_ost_matt;
+		  //count_end=count_ost_matt;
+			count_end=count_ost_matt.toFixed(3);
 		  flag_soot=0;  
 		}
 		
@@ -3101,7 +3103,7 @@ function BasketMaterial()
 		{
 			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d<i></i></a></div>');
 
-			$('.add_mmm').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
+			$('.add_iii').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
 
 		}
 		var cc = cookie.split('.');

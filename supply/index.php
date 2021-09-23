@@ -419,6 +419,33 @@ AND a.id=b.id_doc
  '.$sql_order1.' 
 ) AS z 				
 '.$sql_order.' '.limitPage('n_st',$count_write));
+/*
+echo 'SELECT * FROM 
+(
+SELECT DISTINCT 
+b.id_stock,b.id_i_material
+
+FROM 
+z_doc AS a,
+z_doc_material AS b,
+i_material AS c, 
+edo_state AS edo
+
+WHERE 
+c.`alien` = 0      
+AND c.id=b.id_i_material 
+AND a.id=b.id_doc 
+ AND a.id_edo_run = edo.id_run
+ AND edo.id_status = 0
+ AND edo.id_executor IN ('.ht($id_user).')
+
+ AND b.status NOT IN ("1","8","10","3","5","4") 
+ '.$sql_su2.' 
+  '.$sql_su3.' 
+ '.$sql_order1.' 
+) AS z 				
+'.$sql_order.' '.limitPage('n_st',$count_write);
+*/
 
 /*
 echo 'SELECT * FROM 
@@ -578,7 +605,12 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 				 }						 
 
 //узнаем сколько материала в заявке
+    /*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+    */
+
+    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+
 					$z_zakaz=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -668,7 +700,12 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
     }
 
 //узнаем сколько материала необходимо еще
+    /*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+    */
+
+    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+
 					$z_zakaz=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -742,7 +779,7 @@ echo'<tr supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" cla
 
 if($row__2["id_stock"]==0)
 {
-	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and a.id_i_material="'.$row__2["id_i_material"].'" and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and c.alien=0 and a.id_i_material="'.$row__2["id_i_material"].'" and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 
 
 
@@ -752,7 +789,7 @@ if($row__2["id_stock"]==0)
 
 } else
 {
-	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien=0 and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 }
 						 
 					 

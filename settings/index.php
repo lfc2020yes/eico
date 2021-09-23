@@ -209,6 +209,7 @@ if((htmlspecialchars(trim($_POST['login_b']))==''))
 			
 			mysql_time_query($link,'update r_user set 
 name_user="'.htmlspecialchars($_POST['name_b']).'",
+email_notifications="'.ht($_POST["mail_notif"]).'",
 name_small="'.htmlspecialchars($_POST['name_b1x']).'",
 email="'.$phone_end.'",login="'.htmlspecialchars(trim($_POST['login_b'])).'" '.$sql_password.' where id = "'.htmlspecialchars($id_user).'"');
 			
@@ -452,7 +453,7 @@ setTimeout ( function () {
 	} else
 	{
 	
-	echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Наша цель, оценить вашу работу, проанализировать не только то, что было достигнуто вами за прошедший период, но и то, как это было сделано. Желаем удачи!</span></span></div>';
+	echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Сервис для управления cтройкой. COST CONTROL MANAGER помогает строительным компаниям вести проекты любого масштаба в едином сервисе.</span></span></div>';
 	}
 	
 }
@@ -463,7 +464,7 @@ setTimeout ( function () {
 
 
 
-    echo'<div class="margin-input"><div class="input_2021 gray-color '.iclass_("name_b",$stack_error,"required_in_2021").'"><label><i>Ваше ФИО</i><span>*</span></label><input '.$status_edit.' name="name_b" value="'.ipost_($_POST['name_b'],$row_list["name_user"]).'" id="date_124" class="input_new_2021 required no_upperr  gloab '.iclass_("name_b",$stack_error,"error_formi").'" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+    echo'<div class="margin-input"><div class="input_2021 gray-color '.iclass_("name_b",$stack_error,"required_in_2021").'"><label><i>Ваше ФИО</i><span>*</span></label><input '.$status_edit.' name="name_b" value="'.ipost_($_POST['name_b'],$row_list["name_user"]).'" id="date_124" class="input_new_2021 required no_upperr  gloab grey_edit '.iclass_("name_b",$stack_error,"error_formi").'" autocomplete="off" readonly type="text"><div class="div_new_2021"></div></div></div>';
 
 	?>
 
@@ -543,10 +544,25 @@ echo'<div class="cover--2"><img src="img/users/'.$id_user.'_100x100.jpg?a='.$row
     */
 
     ?>
-   
-   
 
-	<?
+         <div class="form-panel"><div class="input-choice-click-left js-checkbox-group" style="margin-top: 0px; background-color: transparent;">
+                     <div class="choice-head">Отправлять уведомления на email</div>
+                 <?
+                 $mail_f='';
+                 $mail_v=0;
+if($row_list["email_notifications"]!=0)
+    {
+        $mail_f='active_task_cb';
+                 $mail_v=1;
+    }
+
+
+                     echo'<div class="choice-radio"><div class="center_vert1"><i class="'.$mail_f.'"></i><input name="mail_notif" value="'.$mail_v.'" type="hidden"></div></div></div>
+
+
+         </div>';
+
+
 
                                                                                                                                                                                                                                                                                                                
 		          

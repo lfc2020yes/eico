@@ -232,11 +232,11 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 //echo($count_end.'-');
 		              if($count_end>$count_sys)
 		              {
-		                  $count_est=round($count_sys,4);
+		                  $count_est=round($count_sys,3);
 						  
 		              } else
 					  {
-						  $count_est=round($count_end,4);
+						  $count_est=round($count_end,3);
 					  }
 	/*
 					  if($count_est!=$count_user) { $flag_matter++;  $flag_message=1; if((!is_numeric($count_user))or($count_user==0)) { array_push($error_work, $value1['id']."_m_count_est");   }  }*/

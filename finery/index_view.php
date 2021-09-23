@@ -270,11 +270,11 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 		              if($count_end>$count_sys)
 		              {
-		                  $count_est=round($count_sys,4);
+		                  $count_est=round($count_sys,3);
 						  
 		              } else
 					  {
-						  $count_est=round($count_end,4);
+						  $count_est=round($count_end,3);
 					  }
 
 					  //echo($count_est.'<'.$count_user.' ');	

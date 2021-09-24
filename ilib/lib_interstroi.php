@@ -228,7 +228,7 @@ if ($role->permission("Себестоимость",'A')) {};
  
  */
 function material_nariad_jurnal_delete(&$mysqli, $row_nariad) {
-    return "delete from z_doc_material_nariad where id_nariad = {$row_nariad['id_nariad']}";
+    return "delete from z_doc_material_nariad where id_nariad = {$row_nariad['id']}";
 }
 
 function material_to_doc(&$mysqli, $row_n_material)

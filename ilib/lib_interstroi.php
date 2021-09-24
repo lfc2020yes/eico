@@ -297,7 +297,7 @@ where
                 $COMA=';';
                 $sqls .=$COMA. "
 INSERT INTO `z_doc_material_nariad` (
-  `id_doc_materil`,
+  `id_doc_material`,
   `count_units`,
   `id_doc`,
   `id_nariad`,

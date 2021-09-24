@@ -227,14 +227,28 @@ if ($role->permission("Себестоимость",'R')) {};   //R A U D
 if ($role->permission("Себестоимость",'A')) {};
  
  */
+function material_nariad_jurnal_delete(&$mysqli, $row_nariad) {
+    return "delete from z_doc_material_nariad where id_nariad = {$row_nariad['id_nariad']}";
+}
 
-function material_to_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material)
+function material_to_doc(&$mysqli, $row_n_material)
 {
     $sqls = '';
     $COMA = '';
-    $sql="select * from z_doc_material_nariad where id_doc=
-    
-    ";
+    $sql="select * from z_doc_material_nariad where id_n_material = {$row_n_material['id']}";
+    if ($result_r = $mysqli->query($sql)) {
+        while ($row_r = $result_r->fetch_assoc()) {  // могут быть разные заявки - поэтому не надо суммировать
+            $sqls .=$COMA. "
+update z_doc_material 
+set count_units_nariad = count_units_nariad - {$row_r[count_units]} 
+where 
+id = {$row_r[id_doc_material]}
+            ";
+            $COMA=';';
+        }
+        $result_r->close();
+    }
+    return $sqls;
 }
 
 
@@ -245,7 +259,7 @@ function material_to_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material)
  * @param $row_n_material
  * @return string - sql срипт
  */
-function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){
+function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){  // id_nariad id_n_material
     $sqls = ''; $COMA='';
 
     //$row_nariad[id_user]
@@ -285,13 +299,17 @@ where
 INSERT INTO `z_doc_material_nariad` (
   `id_doc_materil`,
   `count_units`,
-  `id_doc`                                   
+  `id_doc`,
+  `id_nariad`,
+  `id_n_material`
+                                     
 )
 VALUES
   (
     {$row_z[id_z_doc_material]},
     $update_count,
-    {$row_z[id_doc]}
+    {$row_nariad[id]},
+    {$row_n_material[id]},
   )";
                 $count_units_m -=$update_count;
             }
@@ -444,10 +462,11 @@ update n_material set price = ".(round($summa_material / $row2['count_units'],2)
                              //break 2;
                          } else { $sql .= $COMA . $sm; $COMA = ';'; }
                      } else {   //Отменить проведение наряда
-                         if (($sm = material_to_user($mysqli, $row0, $row2)) === false) {
+                         if (($sm = material_to_user($mysqli, $row0, $row2)) === false) {  // возврат списанных материалов пользователю
                          } else { $sql .= $COMA . $sm; $COMA = ';'; }
-                        // if (($sm = material_to_doc($mysqli, $arr_docs, $row0, $row2)) === false) { // Todo возврат списанных материалов в заявки
-                        // } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                         if (($sm = material_to_doc($mysqli, $row2)) !== '') { // возврат списанных материалов в заявки
+                             $sql .= $COMA . $sm; $COMA = ';';
+                         }
                      }
                      $sql .= $COMA . "update i_material set"
                          . " count_realiz=count_realiz" . $plus . $row2['count_units']
@@ -457,6 +476,11 @@ update n_material set price = ".(round($summa_material / $row2['count_units'],2)
 
                  }
                } //row2
+               if ($signedd == 0) {
+                   if (($sm = material_nariad_jurnal_delete($mysqli, $row0) )!== '') {
+                       $sql .= $COMA . $sm; $COMA = ';';
+                   }
+               }
                $sql_nmat->close();
              } //nmat                          //Учет работы
              $sql.= $COMA."update i_razdel2 set"

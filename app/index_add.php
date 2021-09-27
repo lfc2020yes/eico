@@ -309,9 +309,17 @@ memorandum         text              utf8_general_ci  YES             (NULL)    
 id_sign_mem        int(10) unsigned  (NULL)           YES             (NULL)                   select,insert,update,references           
 signedd_mem        tinyint(1)        (NULL)           YES             (NULL)                   select,insert,update,references           
 */
-				  			
+
+                    $commun='';
+                    if($value['commun']!=0)
+                    {
+                        $commun=trim($value['commun_text']);
+                    }
+
+
+
 				  //добавляем материал к заявке
-				  mysql_time_query($link,'INSERT INTO z_doc_material (id,id_doc,id_i_material,id_stock,id_object,count_units,date_delivery,status,memorandum,id_sign_mem,signedd_mem) VALUES ("","'.$ID_N.'","'.htmlspecialchars(trim($value['id'])).'","'.htmlspecialchars(trim($rowx['id_stock'])).'","'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($value['count'])).'","'.htmlspecialchars(trim($value['date_base'])).'","1","'.$memo.'","0","0")');	
+				  mysql_time_query($link,'INSERT INTO z_doc_material (id,id_doc,id_i_material,id_stock,id_object,count_units,date_delivery,status,memorandum,id_sign_mem,signedd_mem,commet) VALUES ("","'.$ID_N.'","'.htmlspecialchars(trim($value['id'])).'","'.htmlspecialchars(trim($rowx['id_stock'])).'","'.htmlspecialchars(trim($_GET['id'])).'","'.htmlspecialchars(trim($value['count'])).'","'.htmlspecialchars(trim($value['date_base'])).'","1","'.$memo.'","0","0","'.ht($commun).'")');
 				  
 					
 				  //$ID_W=mysqli_insert_id($link); 
@@ -696,7 +704,7 @@ echo'<div class="comme" >'.$row_list["object_name"].' ('.$row_town["town"].', '.
 
 					
 					echo'<tr work="'.$row1ss["id_razdel2"].'" style="background-color:#f0f4f6;" class="jop work__s" id_trr="'.$i.'" rel_id="'.$row1ss["id_razdel2"].'">
-                  <td colspan="6" class="no_padding_left_ pre-wrap one_td"><span class="s_j">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].' '.$row1ss__34["name_working"];
+                  <td colspan="6" class="no_padding_left_ pre-wrap one_td "><span class="s_j">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].' '.$row1ss__34["name_working"];
 					
 					//график работ выводим если заданы даты
 					if($row1ss__34["date0"]!='')
@@ -808,7 +816,61 @@ a.id_i_material="'.htmlspecialchars(trim($D[$i])).'"  AND a.status NOT IN ("1","
 
 							  //вывод материала
 							echo'<tr works="'.$row1ss["id_razdel2"].'" mat_zz="'.$row1ss["id"].'" style="background-color:#f0f4f6;" class="jop1 mat_zz" rel_w="'.$row1ss["id"].'" rel_mat_zz="'.$row1ss["id"].'">
-                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j '.$class_dava.'">'. $row1ss["material"].'</span>'. $dava.'</div><input type=hidden value="'.$row1ss["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
+                  <td colspan="1" class="no_padding_left_ pre-wrap one_td plus_comm_vot">';
+
+                     //ваш комментарий по материалу
+            //         if($podpis==0)
+                     {
+//нельзя редактировать только смотреть
+                     }
+
+//выводим последний комментарий если тур просматривает хозяин тура или хозяин этого комментария
+                     /*
+                         $result_uui = mysql_time_query($link, 'select comment from trips_status_history_new where id_trips="' . ht($row_8["id"]) . '" and action_history="15" and id_user="' . $id_user . '" order by datetimes desc limit 1');
+                         $num_results_uui = $result_uui->num_rows;
+
+                         if ($num_results_uui != 0) {
+                             $row_uui = mysqli_fetch_assoc($result_uui);
+
+
+                             $task_cloud_block .= '<div class="yes-note zame_kk js-zame-tours" data-tooltip = "' . ht($row_uui["comment"]) . '" ></div >';
+                         } else {
+                             $task_cloud_block .= '<div class="zame_kk js-zame-tours" data-tooltip = "Написать заметку о туре" ></div >';
+                         }
+*/
+                     $task_cloud_block ='<div class="zame_kk css-zame-tours js-zame-tours" data-tooltip = "Написать комментарий" ></div>';
+                     $task_cloud_block .='<div class="form-rate-ok1 form-rate-ok-chat"><div class="rate-input"><div class="rates_visible">';
+
+                         $task_cloud_block .= '<label style="text-transform: uppercase; font-size:10px;">↑ Комментарий по материалу (сколько шт, точные размеры...)</label><div class="div_textarea_otziv1 js-prs"  style="margin-top: 0px;"><div class="otziv_add">';
+
+
+                         $task_cloud_block .='<textarea cols="10" rows="1" placeholder="" id="otziv_chat1_' . $row1ss["id"] . '" name="mat_zz['.$i.'][commun_text]" class="di text_area_otziv no_comment_bill22_2 tyyo1 
+ gloab"></textarea>';
+
+                         $task_cloud_block .= '</div>      
+</div>  
+
+        <script type="text/javascript"> 
+	  $(function (){ 
+$(\'#otziv_chat1_' . $row1ss["id"] . '\').autoResize({extraSpace : 10});
+//$(\'.tyyo1' . +$row1ss["id"] . '\').trigger(\'keyup\');
+$(\'.tyyo1\').trigger(\'keyup\');
+});
+
+	</script>
+	';
+                         $task_cloud_block .= '</div></div><div class="rate-button1"><div class="js-ok-rate-chat-left">ОК</div></div></div>';
+
+
+
+echo($task_cloud_block);
+
+
+                     echo'<div class="nm"><span class="s_j '.$class_dava.'">'. $row1ss["material"].'</span>'. $dava.'</div>
+<div class="commun"></div>
+<input type=hidden class="commun_hide" value="0" name="mat_zz['.$i.'][commun]">
+
+<input type=hidden value="'.$row1ss["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
 					 
 				             //вдруг товар уже связан с каким то товаром на складе выводим его название на складе
 					 if($row1ss["id_stock"]!='')
@@ -900,7 +962,8 @@ echo'</td>
 	echo'<tr works="'.$row1ss["id_razdel2"].'" mat_zz="'.$row1ss["id"].'" class="loader_tr" style="height:0px;"><td colspan="2"></td><td colspan="3">';
 	echo'<div class="pad10" style="padding: 0;"><span id_rel="'.$row1ss["id"].'" class="bookingBox"></span></div>';				 
 	echo'</td><td colspan="1"></td></tr>';				 
-					 
+
+
 		//служебная записка по материалу			
 	 echo'<tr works="'.$row1ss["id_razdel2"].'" mat_zz="'.$row1ss["id"].'" class="loader_tr" style="height:0px;"><td colspan="6">
 	 <div class="messa" id_mes="'.$row1ss["id"].'">

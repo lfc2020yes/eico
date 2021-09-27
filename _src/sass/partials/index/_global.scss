@@ -5813,3 +5813,145 @@ border-radius: 5px;
     }
   }
 }
+
+
+
+
+.css-zame-tours { position: absolute;
+  cursor: pointer;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  margin-top: 12px;
+  top: 0px;
+  left: 10px;
+  line-height: 14px;
+
+  &:hover { background: rgba(0, 0, 0, 0.08);  }
+
+  &::before {
+    content: "R";
+    top: 4px;
+    left: 5px;
+    font-size: 12px;
+    -webkit-font-smoothing: antialiased;
+    color: #212121;
+    font-family: "icon2";
+    font-style: normal;
+    position: absolute;
+  }
+
+
+}
+
+
+.form-rate-ok-chat {
+  top: 40px !important;
+  left: 40px !important;
+  width: 450px !important;
+  z-index: 29;
+}
+
+
+
+.form-rate-ok1
+{
+  @include transform(scaleY(0));
+  border-radius: 2px;
+  position: absolute;
+  top: 5px;
+  left: 20px;
+
+  @include flexbox();
+  width: 150px;
+  padding:10px;
+
+  @include box-shadow(rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px);
+
+  background-color: #fff;
+
+  @include transition(transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms);
+
+  label {color: rgba(0,0,0,.4);
+    cursor: pointer;
+    font-family: GEInspiraRegular;
+    line-height: 14px;}
+
+  .div_textarea_otziv1 {
+    margin-top: 30px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom-color: currentcolor;
+    border-bottom-style: none;
+    border-bottom-width: medium;
+    color: rgba(0,0,0,.7);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+  }
+  .rate-input { width: calc( 100% - 50px ); padding-right: 10px; padding-top: 8px;}
+
+
+  .rate-button {border-radius: 2px;
+    width: 50px;
+    text-align: center;
+    background-color: #25ae88;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    text-transform: uppercase;}
+
+  .rates_visible {
+    text-align: left;
+  }
+
+}
+
+.show-form-rate1
+{
+  @include transform(scaleY(1));
+}
+
+.rate-button1 {
+  width: 50px;
+
+  div {background-color: #25ae88; display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    text-transform: uppercase; border-radius: 2px;
+    width: 50px;
+    text-align: center;font-size: 14px;
+    line-height: 14px;}
+}
+
+.no_comment_bill22_2
+{
+  text-transform: none;
+  font-family: "GEInspiraBold" !important;
+  font-weight: normal;
+  font-size: 14px !important;
+  height: 22px;
+  color: rgba(0, 0, 0, 0.9) !important;
+}
+
+
+.plus_comm_vot {  position: relative; padding-left: 40px !important;  }
+
+.commun {display: block; width: 100%; overflow: hidden;
+  position: relative;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: "GEInspiraRegular";
+  text-transform: none;
+  font-size: 12px;
+  line-height:normal;
+  font-style: italic;}
+
+.yes-note.css-zame-tours,.yes-note.js-zame-preorders,.yes-note.js-zame-contracts  {&::before {   color:#2196f3 !important; } }

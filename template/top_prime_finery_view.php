@@ -202,9 +202,9 @@
        // echo'</div>';
 
 
-
+/*
         echo'<a target="_blank" href="finery/print/'.$_GET["id"].'/" data-tooltip="Печатать наряд" class="user_soz naryd_print"></a>';
-
+*/
         if(($row_list["signedd_nariad"]==1)and(($role->permission('Печать наряда','R'))or($sign_admin==1)))
         {
             //утвержден проведен
@@ -514,6 +514,10 @@
             }
         }
 
+if(($row_list["signedd_nariad"]==1))
+{
+    echo'<input type="hidden" class="yes_signedd_jops" value="1">';
+}
 
 
 

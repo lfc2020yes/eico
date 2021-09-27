@@ -1418,6 +1418,7 @@ function option_mat() {
 
 function UpdateCostFinery(id)
 {
+
 	var count=parseFloat($('.mat[rel_mat='+id+']').find('.аmater_').val());
 	var count_my=parseFloat($('.mat[rel_mat='+id+']').find('.count_finery_mater_').attr('my'));
 	var id_stock=parseFloat($('.mat[rel_mat='+id+']').find('[id_stock_m]').attr('id_stock_m'));
@@ -1439,10 +1440,12 @@ function UpdateCostFinery(id)
 	$('.mat[rel_mat='+id+']').find('.price_finery_mater_').removeClass('redaas');
 	if((value!=0)&&(value!='')&&($.isNumeric(value)))
 	{
-		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+		//if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			if(((parseFloat(value)!=max)&&(!isNaN(max))))
 			{
 				//выделяем красным и открываем служебную записку
-				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');	
+				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');
+
 			} 
 				
 	} 
@@ -1479,18 +1482,23 @@ function UpdateCostFinery(id)
 	$('.mat[rel_mat='+id+']').find('.price_finery_mater_').removeClass('redaas');
 	if((value!=0)&&(value!='')&&($.isNumeric(value)))
 	{
-		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+		//if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+			if(((parseFloat(value)!=max)&&(!isNaN(max))))
 			{
 				//выделяем красным и открываем служебную записку
-				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');	
+				$('.mat[rel_mat='+id+']').find('.price_finery_mater_').addClass('redaas');
+
 			} 
 				
 	} 	
 		
-		
+
 	   serv_mess_m($('.mat[rel_mat='+id+']').find('.price_finery_mater_'));
 	   summ_finery1(id);
+
+
 	}
+
 }
 
 
@@ -2551,7 +2559,7 @@ function MmyHandlerApp()
 		if(parseFloat(value)>max)
 			{
 				//выделяем красным и открываем служебную записку
-				$(this).addClass('redaas');	
+				$(this).addClass('redaas');
 			} 
 			var pr=Math.round(parseFloat(loader.attr('rel_w'))+((value*(100-parseFloat(loader.attr('rel_w'))))/max));
 		    if(pr>100) {pr=100;}		
@@ -2615,16 +2623,33 @@ function MmyHandler()
 	
 	var max=parseFloat($(this).attr('max'));
 	var my=parseFloat($(this).attr('my'));
-	
+	var protocol_my=1; // по умолчанию надо проверять сколько у него этого материала
+	if($('.yes_signedd_jops').length)
+	{
+		protocol_my=0;
+	}
+
+
 	var value=$(this).val();	
 	$(this).removeClass('redaas');
 	if((value!=0)&&(value!='')&&($.isNumeric(value)))
 	{
-		if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+		//my не надо проверять для уже проведенных нарядов иначе хана
+		//if(((parseFloat(value)!=max)&&(!isNaN(max)))||(parseFloat(value)>my))
+		if(((parseFloat(value)!=max)&&(!isNaN(max))))
 			{
 				//выделяем красным и открываем служебную записку
-				$(this).addClass('redaas');	
-			} 
+				$(this).addClass('redaas');
+				//alert("!");
+			}
+
+		if(protocol_my==1)
+		{
+			if(parseFloat(value)>my)
+			{
+				$(this).addClass('redaas');
+			}
+		}
 				
 	} 
 	
@@ -2662,7 +2687,7 @@ function myHandler()
 	var loader=$('[id_loader='+rel_id+']');
 	var max=parseFloat($(this).attr('max'));
 	var value=parseFloat($(this).val());
-	
+
 	$(this).removeClass('redaas');
 	if((value!=0)&&(value!='')&&($.isNumeric(value)))
 	{
@@ -2672,6 +2697,7 @@ function myHandler()
 			{
 				//выделяем красным и открываем служебную записку
 				$(this).addClass('redaas');
+				//alert("!");
 			}
 		var pr=Math.round(parseFloat(loader.attr('rel_w'))+((value*(100-parseFloat(loader.attr('rel_w'))))/max));
 		if(pr>100) {pr=100;}		
@@ -5145,7 +5171,7 @@ setTimeout ( function () {
 	//если что-то меняешь в материале  то удаляем все решения по служ.записке этого материала в заявках на материал
 	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  var thiss = $(this); var work=thiss.parents('[mat_zz]').attr('mat_zz'); $('[mat_zz='+work+']').find('.edit_12').remove(); $('[mat_zz='+work+']').find('.edit_123').find('i').removeClass('active'); $('[mat_zz='+work+']').find('.decision_mes').val("-1");     }  });	
 	//если переход в любое редактируемое поле служебной записки то сбрасывать кнопку заказать на сохранить
-	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
+	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_,.js-zame-tours',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
 
 	$('.js-acc-view').on("change keyup input click",'.count_xvg_,.price_xvg_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
 
@@ -5603,7 +5629,15 @@ $(document).mouseup(function (e) {
 		}
 		
 		
-    }	
+    }
+
+
+	var to_k = $(".form-rate-ok1");
+	if (to_k.has(e.target).length === 0){
+		//клик вне блока и включающих в него элементов
+		//to_k.find(".drops").css("transform", "scaleY(0)");
+		to_k.removeClass('show-form-rate1');
+	}
 	
 	
 });
@@ -6239,7 +6273,7 @@ function AfterUpdateCostFinery(data,update)
 		if(((parseFloat(value)>max)&&(!isNaN(max)))||(parseFloat(value)>my))
 			{
 				//выделяем красным и открываем служебную записку
-				$('.mat[rel_mat='+update+']').find('.price_finery_mater_').addClass('redaas');	
+				$('.mat[rel_mat='+update+']').find('.price_finery_mater_').addClass('redaas');
 			} 				
 	} 
 		

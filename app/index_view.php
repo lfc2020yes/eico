@@ -492,6 +492,9 @@ a.id_i_material="'.htmlspecialchars(trim($rowx["id"])).'"  AND a.status NOT IN (
 					 $id_sign_mem=$row_tyd['id_sign_mem'];
 					  
 					 if($row_tyd["count_units"]!=$value['count']) { $count_redac++; }
+
+					 if($row_tyd["commet"]!=$value['commun_text']) { $count_redac++; }
+
 					 if($row_tyd["memorandum"]!=$value['text']) { $count_redac++; }
 					 if($row_tyd["date_delivery"]!=$value['date_base']) { $count_redac++; } 
 					 if($row_tyd['id_sign_mem']!=$user_dec_memo) { $count_redac++; $count_redac1++; }
@@ -520,14 +523,27 @@ a.id_i_material="'.htmlspecialchars(trim($rowx["id"])).'"  AND a.status NOT IN (
 				  }	
 					
 				  if($count_redac!=0)
-				  {			
+				  {
+
+                      $commun='';
+                      if($value['commun']!=0)
+                      {
+                          $commun=trim($value['commun_text']);
+                      }
+
+                      $j_sql='';
+                      if($row_list["id_user"]==$id_user)
+                      {
+                          $j_sql=',commet="'.ht($commun).'"';
+                      }
+
 					  //значит были изменения в материале сохраняем их и решения если и были по меморандуму обнуляем их
 mysql_time_query($link,'update z_doc_material set 				 
 					 count_units="'.htmlspecialchars(trim($value['count'])).'",					 
 					 date_delivery="'.htmlspecialchars(trim($value['date_base'])).'",
 					 memorandum="'.htmlspecialchars(trim($value["text"])).'", 
 					 id_sign_mem="'.$user_dec_memo.'", 
-					 signedd_mem="'.$status_memo.'"
+					 signedd_mem="'.$status_memo.'"'.$j_sql.'
 					 
 					 where id = "'.htmlspecialchars(trim($value['id'])).'"'); 
 	//значит у этого материала поменялся ответ по служебке		
@@ -1201,7 +1217,63 @@ a.id_i_material="'.$row_work_zz["id_i_material"].'"  AND a.status NOT IN ("1", "
                      }
 							  //вывод материала
 							echo'<tr works="'.$row1ss["id_razdel2"].'" mat_zz="'.$row1ss["id"].'" style="background-color:#f0f4f6;" class="jop1 mat_zz" rel_w="'.$row1ss["id"].'" rel_mat_zz="'.$row1ss["id"].'">
-                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j '.$class_dava.'">'. $row1ss["material"].'</span>'.$dava.'</div><input type=hidden value="'.$row_work_zz["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
+                  <td colspan="1" class="no_padding_left_ pre-wrap one_td plus_comm_vot">';
+$text_tool='есть комментарий';
+                     $val_commun=0;
+if(trim($row_work_zz["commet"])!='')
+{
+    $class_bu='yes-note';
+    $val_commun=1;
+}
+$visible_form_commet=0;
+                     if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
+                 {
+                     $text_tool='Написать/изменить комментарий';
+                     $visible_form_commet=1;
+                     $class_bu.=' js-zame-tours';
+                 }
+
+
+                     $task_cloud_block ='<div class="zame_kk css-zame-tours '.$class_bu.'" data-tooltip = "'.$text_tool.'" ></div>';
+
+if($visible_form_commet==1) {
+
+    $task_cloud_block .= '<div class="form-rate-ok1 form-rate-ok-chat"><div class="rate-input"><div class="rates_visible">';
+
+    $task_cloud_block .= '<label style="text-transform: uppercase; font-size:10px;">↑ Комментарий по материалу (сколько шт, точные размеры...)</label><div class="div_textarea_otziv1 js-prs"  style="margin-top: 0px;"><div class="otziv_add">';
+
+
+    $task_cloud_block .= '<textarea cols="10" rows="1" placeholder="" id="otziv_chat1_' . $row1ss["id"] . '" name="mat_zz[' . $i . '][commun_text]" class="di text_area_otziv no_comment_bill22_2 tyyo1 
+ gloab">'.$row_work_zz["commet"].'</textarea>';
+
+    $task_cloud_block .= '</div>      
+</div>  
+
+        <script type="text/javascript"> 
+	  $(function (){ 
+$(\'#otziv_chat1_' . $row1ss["id"] . '\').autoResize({extraSpace : 10});
+//$(\'.tyyo1' . +$row1ss["id"] . '\').trigger(\'keyup\');
+$(\'.tyyo1\').trigger(\'keyup\');
+});
+
+	</script>
+	';
+    $task_cloud_block .= '</div></div><div class="rate-button1"><div class="js-ok-rate-chat-left">ОК</div></div></div>';
+
+}
+
+                     echo($task_cloud_block);
+
+
+
+
+
+
+                  echo'<div class="nm"><span class="s_j '.$class_dava.'">'. $row1ss["material"].'</span>'.$dava.'</div>';
+
+echo'<div class="commun">'.$row_work_zz["commet"].'</div>';
+echo'<input type=hidden class="commun_hide" value="'.$val_commun.'" name="mat_zz['.$i.'][commun]">';
+echo'<input type=hidden value="'.$row_work_zz["id"].'" name="mat_zz['.$i.'][id]"><input type=hidden class="hidden_max_count" value="" name="mat_zz['.$i.'][max_count]">';
 					 
 				             //вдруг товар уже связан с каким то товаром на складе выводим его название на складе
 					 if($row1ss["id_stock"]!='')

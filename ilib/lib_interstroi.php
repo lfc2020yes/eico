@@ -334,12 +334,14 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                     }
                 }
                 $result_stock->close();
-                if ($count_units_m>0) {} // недостаточно материалов у пользователя
+                if ($count_units_m>0) {
+                    $sqls .=$COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
+                } // недостаточно материалов у пользователя
             }
         }
         $result_doc_material->close();
     }
-    return ($count_units_m>0) ? false : $sqls;
+    return $sqls;
 }
 
 /** Возврат материалов пользователю из за расподписания наряда по n_material_act
@@ -478,13 +480,11 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                              $sql .= $COMA . "
 update n_material set price = ".(round($summa_material / $row2['count_units'],2))." where id = {$row2['id']}";
                          }
-                         if (($sm = material_from_doc($mysqli, $arr_docs, $row0, $row2)) === false) { //Списание материалов c заявок
+                         $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
                              /* ошибка недостаточно материалов в заявках */
                              //$ret = 3;
                              //break 2;
-                             $sql .= $COMA . '-- ОШИБКА недостаточно материалов в заявках для списания';
-                             $COMA = ';';
-                         } else { $sql .= $COMA . $sm; $COMA = ';'; }
+                         $sql .= $COMA . $sm; $COMA = ';';
                      } else {   //Отменить проведение наряда
                          if (($sm = material_to_user($mysqli, $row0, $row2)) === false) {  // возврат списанных материалов пользователю
                          } else { $sql .= $COMA . $sm; $COMA = ';'; }

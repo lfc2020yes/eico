@@ -329,6 +329,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                           (
                             {$row_doc_material[id]},
                             $update_count,
+                            {$row_doc_material[id_doc]},
                             {$row_nariad[id]},
                             {$row_n_material[id]}
                           )";

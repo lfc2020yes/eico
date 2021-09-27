@@ -284,6 +284,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
      where M.`id_i_material` = {$row_n_material[id_material]} --30850 -- id_stock=3
      and M.`id_i_material` = I.`id` 
  ";
+    echo "<pre>SQL:$sql</pre>";
     if ($result_doc_material = $mysqli->query($sql)) {
         if ($row_doc_material = $result_doc_material->fetch_assoc()) {
             //получить материалы в зависимости от alien
@@ -297,6 +298,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
             -- AND S.price > 0
             AND S.`count_units` > 0            
             ";
+            echo "<pre>SQL:$sql_material</pre>";
             if ($result_stock = $mysqli->query($sql_material)) {
                 while ($row_stock = $result_stock->fetch_assoc()) {
                     if($count_units_m == 0) break;

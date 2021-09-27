@@ -334,9 +334,11 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                     }
                 }
                 $result_stock->close();
-                if ($count_units_m>0) {
-                    $sqls .=$COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
-                } // недостаточно материалов у пользователя
+                echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
+                if ($count_units_m > 0) {
+                    $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
+                }
+                echo "<pre>РЕЗУЛЬТАТ2[$sqls]</pre>";
             }
         }
         $result_doc_material->close();
@@ -376,7 +378,7 @@ WHERE id = '{$row[id_stock_material]}'";
  * @param $row_n_material
  * @return false|string
  */
-function material_from_user(&$mysqli, &$summa_material, $row_nariad,$row_n_material){
+function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material){
     $sqls = ''; $COMA='';
     $count_units_m = $row_n_material[count_units];
     $sql="
@@ -421,7 +423,10 @@ VALUES
     {$row_s[stock_price]}
   )";
                 $count_units_m -= $update_count;
-                $summa_material += ($row_s[stock_price] * $update_count);
+                if (round($row_s[stock_price],2)>0) {
+                    $summa_material += ($row_s[stock_price] * $update_count);
+                    $count_material += $update_count;
+                }
             }
 
         }
@@ -471,16 +476,18 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
 
                      if ($signedd == 1) {   //Провести наряд
                          $summa_material = 0.00;
-                         if (($sm = material_from_user($mysqli, $summa_material, $row0, $row2)) === false) {  //Списать материал с пользователя
+                         $count_material = 0.000;
+                         if (($sm = material_from_user($mysqli, $summa_material, $count_material, $row0, $row2)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
                          } else { $sql .= $COMA . $sm; $COMA = ';';
                              //Уточнение списываемой цены и суммы материала в наряде (по триггеру)
                              $sql .= $COMA . "
-update n_material set price = ".(round($summa_material / $row2['count_units'],2))." where id = {$row2['id']}";
+update n_material set price = ".(round($summa_material / $count_material /*$row2['count_units']*/,2))." where id = {$row2['id']}";
                          }
                          $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
+                         echo "<pre>ПОЛУЧИЛ[$sm]</pre>";
                              /* ошибка недостаточно материалов в заявках */
                              //$ret = 3;
                              //break 2;

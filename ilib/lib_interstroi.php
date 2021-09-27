@@ -281,7 +281,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
     $count_units_m = $row_n_material[count_units];
 //взять заявку по этому материалу
     $sql = "SELECT M.*, I.`alien` FROM z_doc_material M, i_material I
-     where M.`id_i_material` = {$row_n_material[id_material]} --30850 -- id_stock=3
+     where M.`id_i_material` = {$row_n_material[id_material]} -- 30850 
      and M.`id_i_material` = I.`id` 
  ";
     echo "<pre>SQL:$sql</pre>";

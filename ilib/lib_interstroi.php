@@ -300,6 +300,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
             ";
             echo "<pre>SQL:$sql_material</pre>";
             if ($result_stock = $mysqli->query($sql_material)) {
+                $update_count_sum = 0;
                 while ($row_stock = $result_stock->fetch_assoc()) {
                     if($count_units_m == 0) break;
 
@@ -310,12 +311,6 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                             $arr_docs[$row_doc_material[id_doc]] = $row_doc_material[id_doc];   // Сохранить в массиве заявок (не совпадающие)
                         }
 
-                        $sqls .=$COMA. "
-                        update z_doc_material 
-                        set count_units_nariad = count_units_nariad + $update_count 
-                        where id = ".$row_doc_material[id];
-
-                        $COMA=';';
                         $sqls .=$COMA. "
                         INSERT INTO `z_doc_material_nariad` (
                           `id_doc_material`,
@@ -329,13 +324,24 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                           (
                             {$row_doc_material[id]},
                             $update_count,
+                            {$row_doc_material[id_doc]},
                             {$row_nariad[id]},
-                            {$row_n_material[id]},
+                            {$row_n_material[id]}
                           )";
                         $count_units_m -=$update_count;
+                        $update_count_sum += $update_count;
                     }
                 }
                 $result_stock->close();
+                if ($update_count_sum>0) {
+                    $sqls .=$COMA. "
+                        update z_doc_material 
+                        set count_units_nariad = count_units_nariad + $update_count_sum 
+                        where id = ".$row_doc_material[id];
+
+                    $COMA=';';
+                }
+
                 echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
                 if ($count_units_m > 0) {
                     $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
@@ -393,9 +399,11 @@ FROM
 WHERE 
 I.`id` = {$row_n_material[id_material]}
 AND I.`id_stock` = S.`id_stock`
+AND I.`alien` = S.`alien`
+AND S.`count_units` > 0  
 AND S.`id_user` = ".$row_nariad[id_user];
 
-    //echo "<pre> ОТЛАДКА {$row_n_material[count_units]} $sql </pre>";
+    echo "<pre> ОТЛАДКА material_from_user {$row_n_material[count_units]} $sql </pre>";
 
     if ($result_s = $mysqli->query($sql)) {
         while ($row_s = $result_s->fetch_assoc()) { //перебор полученных пользователем материалов
@@ -483,10 +491,15 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
-                         } else { $sql .= $COMA . $sm; $COMA = ';';
+                         } else {
+                             $sql .= $COMA . $sm;
+                             $COMA = ';';
                              //Уточнение списываемой цены и суммы материала в наряде (по триггеру)
-                             $sql .= $COMA . "
-update n_material set price = ".(round($summa_material / $count_material /*$row2['count_units']*/,2))." where id = {$row2['id']}";
+                             if (round($count_material,3) > 0) {
+                                 $sql .= $COMA . "
+update n_material set price = " . (round($summa_material / $count_material /*$row2['count_units']*/, 2)) . " where id = {$row2['id']}";
+
+                             }
                          }
                          $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
                          echo "<pre>ПОЛУЧИЛ[$sm]</pre>";

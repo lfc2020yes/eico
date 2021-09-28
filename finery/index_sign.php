@@ -126,18 +126,19 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 		                     for ($ip=0; $ip<$num_results_pro; $ip++)
 		                     {
 			                   $row_pro = mysqli_fetch_assoc($result_pro);
-								 
-							   
-							   $my_material=0;							
+
+
+                                 $my_material=0;	//свой
+                                 $my_material1=0;	//давальческий
                                //Определяем сколько материала на пользователе который оформляет наряд
 							   if($row_pro["id_stock"]!='')
 							   {
                                   if($row_list["id_user"]==$id_user)	
                                   {								
-                                     $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                     $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
                                   } else
                                   {
-                                     $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');	
+                                     $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
                                   }
 			                      $num_results_t1_ = $result_t1_->num_rows;
 	                              if($num_results_t1_!=0)
@@ -148,11 +149,37 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 					                  {
 					                      $my_material=$row1ss_["summ"];
 					                  }               
-				                  }									
-							
-							   }
+				                  }
+
+
+
+                                   if($row_list["id_user"]==$id_user)
+                                   {
+                                       $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                   } else
+                                   {
+                                       $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                   }
+                                   $num_results_t1_ = $result_t1_->num_rows;
+                                   if($num_results_t1_!=0)
+                                   {
+
+                                       $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                                       if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
+                                       {
+                                           $my_material1=$row1ss_["summ"];
+                                       }
+                                   }
+
+                               }
+
+                                 $my_material_prior=$my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+                                 if($row_pro["alien"]==1)
+                                 {
+                                     $my_material_prior=$my_material1;
+                                 }
 						
-						if($my_material<$row_pro["count_units"]) {  $flag_podpis++; }	 
+						if($my_material_prior<$row_pro["count_units"]) {  $flag_podpis++; }
 								 
 								 
 								 

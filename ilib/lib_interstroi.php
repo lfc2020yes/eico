@@ -491,10 +491,15 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
-                         } else { $sql .= $COMA . $sm; $COMA = ';';
+                         } else {
+                             $sql .= $COMA . $sm;
+                             $COMA = ';';
                              //Уточнение списываемой цены и суммы материала в наряде (по триггеру)
-                             $sql .= $COMA . "
-update n_material set price = ".(round($summa_material / $count_material /*$row2['count_units']*/,2))." where id = {$row2['id']}";
+                             if (round($count_material,3) > 0) {
+                                 $sql .= $COMA . "
+update n_material set price = " . (round($summa_material / $count_material /*$row2['count_units']*/, 2)) . " where id = {$row2['id']}";
+
+                             }
                          }
                          $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
                          echo "<pre>ПОЛУЧИЛ[$sm]</pre>";

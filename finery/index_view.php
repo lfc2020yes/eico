@@ -1609,11 +1609,23 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 				 }									
 							
 							}
-														
-							
+
+                           $dava='';
+                           $class_dava='';
+                           if($row_mat["alien"]==1)
+                           {
+                               $class_dava='dava';
+
+                           }
+
+                           if($row_mat["alien"]==1)
+                           {
+                               $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                           }
+
 							
 							echo'<tr work="'.$row_work["id"].'" style="background-color:#f0f4f6;" class="jop1 mat mattx" rel_w="'.$row_work["id"].'" rel_mat="'.$row_mat["id"].'" rel_matx="'.$row_mat["id"].'">
-                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm" style="position:relative;"><span class="s_j">'.$row_mat["material"].'</span>&nbsp;';
+                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm" style="position:relative;"><span class="s_j '.$class_dava.'">'.$row_mat["material"].'</span>'.$dava.'&nbsp;';
 								   		 if($row_list["signedd_nariad"]!=1)
 				     {
 							$tool_my="Материала на вас";

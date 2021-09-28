@@ -463,7 +463,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					   //добавляем материал к добавленной работе
 						   
 						   
-				       mysql_time_query($link,'INSERT INTO n_material (id,id_nwork,id_material,material,units,count_units,count_units_material,count_units_material_all,price,price_material,memorandum,id_sign_mem,signedd_mem) VALUES ("","'.$ID_W.'","'.htmlspecialchars(trim($value1['id'])).'","'.htmlspecialchars(trim($rowxx['material'])).'","'.htmlspecialchars(trim($rowxx['units'])).'","'.htmlspecialchars(trim($value1['count'])).'","'.$count_end.'","'.htmlspecialchars(trim($rowxx['count_units'])).'","'.htmlspecialchars(trim($value1['price'])).'","'.htmlspecialchars(trim($rowxx['price'])).'","'.$memo.'","","'.$status_memo.'")');			
+				       mysql_time_query($link,'INSERT INTO n_material (id,id_nwork,id_material,material,units,count_units,count_units_material,count_units_material_all,price,price_material,memorandum,id_sign_mem,signedd_mem,alien) VALUES ("","'.$ID_W.'","'.htmlspecialchars(trim($value1['id'])).'","'.htmlspecialchars(trim($rowxx['material'])).'","'.htmlspecialchars(trim($rowxx['units'])).'","'.htmlspecialchars(trim($value1['count'])).'","'.$count_end.'","'.htmlspecialchars(trim($rowxx['count_units'])).'","'.htmlspecialchars(trim($value1['price'])).'","'.htmlspecialchars(trim($rowxx['price'])).'","'.$memo.'","","'.$status_memo.'","'.$rowxx["alien"].'")');
 					   /*} else
 					   {
 					       mysql_time_query($link,'INSERT INTO n_material (id,id_nwork,id_material,material,units,count_units,count_units_material,count_units_material_all,price,price_material,memorandum,id_sign_mem,signedd_mem) VALUES ("","'.$ID_W.'","'.htmlspecialchars(trim($value1['id'])).'","'.htmlspecialchars(trim($rowxx['material'])).'","'.htmlspecialchars(trim($rowxx['units'])).'","'.htmlspecialchars(trim($value1['count'])).'","'.$count_end.'","'.htmlspecialchars(trim($rowxx['count_units'])).'","'.htmlspecialchars(trim($rowxx['price'])).'","'.htmlspecialchars(trim($rowxx['price'])).'","'.$memo.'","","'.$status_memo.'")');						   
@@ -1151,10 +1151,21 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 				 }									
 							
 							}
-							
+                           $dava='';
+                           $class_dava='';
+                           if($row_mat["alien"]==1)
+                           {
+                               $class_dava='dava';
+
+                           }
+
+                           if($row_mat["alien"]==1)
+                           {
+                               $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                           }
 							
 							echo'<tr work="'.$row1ss["id"].'" style="background-color:#f0f4f6;" class="jop1 mat" rel_w="'.$row1ss["id"].'" rel_mat="'.$row_mat["id"].'">
-                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j">'.$row_mat["material"].'</span>&nbsp;';
+                  <td colspan="1" class="no_padding_left_ pre-wrap one_td"><div class="nm"><span class="s_j '.$class_dava.'">'.$row_mat["material"].'</span>'. $dava.'&nbsp;';
 					
 							if($my_material!=0)
 							{

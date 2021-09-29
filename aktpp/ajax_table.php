@@ -258,6 +258,7 @@ and z.id_doc='$id_zay'
 and m.id_stock in ($arrZ)
 and m.id_stock=s.id
 and m.id_stock=z.id_stock
+and z.count_units > 0
 order by s.name";
 
 }   else {

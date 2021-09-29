@@ -589,7 +589,7 @@ $echo='';
 if($row__2["id_stock"]!=0)
 {
 //узнаем сколько материала на складе
-$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id) as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.alien=0) as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
 					$z_stock_count_users=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)

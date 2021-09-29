@@ -203,7 +203,7 @@ $result_score=mysql_time_query($link,
                 }
 
             }
-            $echo.='</ul><input type="hidden" class="gloab2 demo-6" name="posta-posta1"  value=""></div></div></div>';
+            $echo.='</ul><input type="hidden" class="gloab4 demo-6" name="posta-posta1"  value=""></div></div></div>';
             $echo.='<!--select end-->';
 
 			//$echo.='</select>';

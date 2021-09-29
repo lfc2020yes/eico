@@ -285,17 +285,18 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
                         //echo("!");
 						
 					  //если количество материала у пользователя меньше чем введенное
-	$my_material=0;							
+                        $my_material=0;	//свой
+                        $my_material1=0;	//давальческий
 //Определяем сколько материала на пользователе который оформляет наряд
 							if($rowxx["id_stock"]!='')
 							{
 if($row_ty["id_user"]==$id_user)	
 {								
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
+$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$id_user.'" and a.alien=0 and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
 					$z_stock_count_users=0;	             	 
 } else
 {
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$row_ty["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');	
+$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$row_ty["id_user"].'" and a.alien=0 and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
 }
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -307,11 +308,41 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					    $my_material=$row1ss_["summ"];
 					  }
 					
-				 }									
-							
-							}
+				 }
+
+
+
+                                if($row_ty["id_user"]==$id_user)
+                                {
+                                    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$id_user.'" and a.alien=1 and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
+                                    $z_stock_count_users=0;
+                                } else
+                                {
+                                    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_user="'.$row_ty["id_user"].'" and a.alien=1 and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
+                                }
+                                $num_results_t1_ = $result_t1_->num_rows;
+                                if($num_results_t1_!=0)
+                                {
+                                    //такая работа есть
+                                    $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                                    if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
+                                    {
+                                        $my_material1=$row1ss_["summ"];
+                                    }
+
+                                }
+
+
+                            }
+
+
+                        $my_material_prior=$my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+                        if($rowxx["alien"]==1)
+                        {
+                            $my_material_prior=$my_material1;
+                        }
 						
-						if($my_material<$count_user) {  $flag_podpis++;  }
+						if($my_material_prior<$count_user) {  $flag_podpis++;  }
 						
 						
 					 // if((!is_numeric($count_user))or($count_user<=0)) {  $flag_podpis++; }
@@ -1580,19 +1611,21 @@ echo'<div class="width-setter mess_slu"><input defaultv="'.ipost_($_POST['works'
 		{
 		  $count_end=$count_ost_matt; 
 		}							
-		*/	
-							
-							
-$my_material=0;							
+		*/
+
+
+
+                            $my_material=0;		//нашего материала
+                            $my_material1=0;	//давальческого материала
 //Определяем сколько материала на пользователе который оформляет наряд
 							if($row_mat["id_stock"]!='')
 							{
 if($row_list["id_user"]==$id_user)	
 {
-$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.id_user="'.$id_user.'") as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
+$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ1 FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
 } else
 {
-$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.id_user="'.$row_list["id_user"].'") as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');	
+$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_stock=b.id and a.id_user="'.$row_list["id_user"].'") as summ,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_stock=b.id and a.id_user="'.$row_list["id_user"].'") as summ1 FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
 }
 					$z_stock_count_users=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
@@ -1604,19 +1637,43 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 					  {
 					    $my_material=$row1ss_["summ"];
 					  }
+                     if(($row1ss_["summ1"]!='')and($row1ss_["summ1"]!=0))
+                     {
+                         $my_material1=$row1ss_["summ1"];
+                     }
 					 $units=$row1ss_["units"];
 					
-				 }									
+				 }
+
+
 							
 							}
-														
-							
+
+                           $my_material_prior=$my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+                           if($row_mat["alien"]==1)
+                           {
+                               $my_material_prior=$my_material1;
+                           }
+
+                           $dava='';
+                           $class_dava='';
+                           if($row_mat["alien"]==1)
+                           {
+                               $class_dava='dava';
+
+                           }
+
+                           if($row_mat["alien"]==1)
+                           {
+                               $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                           }
+
 							
 							echo'<tr work="'.$row_work["id"].'" style="background-color:#f0f4f6;" class="jop1 mat mattx" rel_w="'.$row_work["id"].'" rel_mat="'.$row_mat["id"].'" rel_matx="'.$row_mat["id"].'">
-                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm" style="position:relative;"><span class="s_j">'.$row_mat["material"].'</span>&nbsp;';
+                  <td  class="no_padding_left_ pre-wrap one_td"><div class="nm" style="position:relative;"><span class="s_j '.$class_dava.'">'.$row_mat["material"].'</span>'.$dava.'&nbsp;';
 								   		 if($row_list["signedd_nariad"]!=1)
 				     {
-							$tool_my="Материала на вас";
+							$tool_my="на вас";
 							if($row_list["id_user"]!=$id_user)	
 {
 		$result_txs=mysql_time_query($link,'Select a.id,a.name_user,a.timelast from r_user as a where a.id="'.htmlspecialchars(trim($row_list["id_user"])).'"');
@@ -1625,7 +1682,7 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 	    {   
 		//такая работа есть
 		$rowxs = mysqli_fetch_assoc($result_txs);
-	    $tool_my="Количество материала у - ".$rowxs["name_user"];
+	    $tool_my=" у ".$rowxs["name_user"];
 		}
 }
 							
@@ -1638,9 +1695,9 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 								echo'<span class="my_material" data-tooltip="'.$tool_my.'">[нет материала]</span>';
 							}
 						 */
-						 if($my_material!=0)
-							{
-								echo'<span class="my_material" count="'.$my_material.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">['.$my_material.' '.$units.']</span>';
+                         if(($my_material!=0)or($my_material1!=0))
+                         {
+								echo'<span class="my_material" count="'.$my_material_prior.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">(<span style="font-style: normal;" data-tooltip="Нашего материала '.$tool_my.'">'.$my_material.'</span> / <span style="font-style: normal; color: #53b374;" data-tooltip="Давальческого материала '.$tool_my.'">'.$my_material1.'</span> '.$units.')</span>';
 							} else
 							{
 								echo'<span class="my_material" count="0" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">[нет материала]</span>';
@@ -1696,7 +1753,7 @@ if($row_mat["count_seb"]!='')
 //$maxmax=$row_mat["count_units_material"];		
 //$placeh='MAX - '.$row_mat["count_units_material"];
 }
-echo'</label><input  my="'.$my_material.'"
+echo'</label><input  my="'.$my_material_prior.'"
 defaultv="'.ipost_($_POST['works'][$i]["mat"][$mat]["count"],$row_mat["count_units"]).'" '.$status_edit.' style="margin-top:0px;" 
 ost="'.$ostatok.'"
 all="'.$row_mat["count_seb"].'" 

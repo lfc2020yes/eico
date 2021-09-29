@@ -278,17 +278,18 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
 
     //$row_nariad[id_user]
     //row_n_work[id_razdeel2]
-    $count_units_m = $row_n_material[count_units];
+    $count_units_m = $row_n_material[count_units]; // Сколько можно списывать
 //взять заявку по этому материалу
     $sql = "SELECT M.*, I.`alien` FROM z_doc_material M, i_material I
      where M.`id_i_material` = {$row_n_material[id_material]} -- 30850 
      and M.`id_i_material` = I.`id` 
  ";
     if($show) echo "<pre>SQL:$sql</pre>";
-    if ($result_doc_material = $mysqli->query($sql)) {
-        if ($row_doc_material = $result_doc_material->fetch_assoc()) {
+    if ($result_doc_material = $mysqli->query($sql)) {  //может быть несколько заявок по одному пункту работ
+        while  ($row_doc_material = $result_doc_material->fetch_assoc()) {  //$row_doc_material[count_units] - $row_doc_material[count_units_nariad]
             //получить материалы в зависимости от alien
-            $cena =  ($row_doc_material[alien]==0) ? "<>0" : "=0";
+            //$cena =  ($row_doc_material[alien]==0) ? "<>0" : "=0";
+            $count_z = $row_doc_material[count_units]-$row_doc_material[count_units_nariad]; //Сколько незакрытого материала в звявке
             $sql_material = "
             SELECT * FROM z_stock N, `z_stock_material` S
             WHERE N.id = {$row_doc_material[id_stock]}
@@ -304,7 +305,6 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
                 while ($row_stock = $result_stock->fetch_assoc()) {
                     if($count_units_m == 0) break;
 
-                    $count_z = $row_stock[count_units]-$row_stock[count_units_nariad];    //count_units_nariad - не используется
                     if($count_z > 0) { //Есть что списать
                         $update_count = ($count_units_m > $count_z) ? $count_z : $count_units_m; //спишем часть или ВСЕ
                         if ($update_count == $count_z) { //Списывается весь материал по заявке для закрытия мозиции по заявке
@@ -328,7 +328,8 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
                             {$row_nariad[id]},
                             {$row_n_material[id]}
                           )";
-                        $count_units_m -=$update_count;
+                        $count_units_m -= $update_count;
+                        $count_z -= $update_count;
                         $update_count_sum += $update_count;
                     }
                 }
@@ -338,18 +339,15 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
                         update z_doc_material 
                         set count_units_nariad = count_units_nariad + $update_count_sum 
                         where id = ".$row_doc_material[id];
-
                     $COMA=';';
                 }
-
-                //echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
-                if ($count_units_m > 0) {
-                    $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
-                }
-               //echo "<pre>РЕЗУЛЬТАТ2[$sqls]</pre>";
             }
         }
         $result_doc_material->close();
+        if ($count_units_m > 0) {
+            $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
+            if ($show) echo "<pre>ОШИБКА НЕДОСТАТОЧНО МАТЕРИАЛОВ В ЗАЯВКАХ ПОЛЬЗОВАТЕЛЯ</pre>";
+        }
     }
     return $sqls;
 }

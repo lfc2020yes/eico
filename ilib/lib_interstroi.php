@@ -273,7 +273,7 @@ SELECT M.* FROM z_doc_material M WHERE M.id_stock = 3
  */
 
 
-function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){  // id_nariad id_n_material
+function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $show = false){  // id_nariad id_n_material
     $sqls = ''; $COMA='';
 
     //$row_nariad[id_user]
@@ -284,7 +284,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
      where M.`id_i_material` = {$row_n_material[id_material]} -- 30850 
      and M.`id_i_material` = I.`id` 
  ";
-    echo "<pre>SQL:$sql</pre>";
+    if($show) echo "<pre>SQL:$sql</pre>";
     if ($result_doc_material = $mysqli->query($sql)) {
         if ($row_doc_material = $result_doc_material->fetch_assoc()) {
             //получить материалы в зависимости от alien
@@ -298,7 +298,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
             -- AND S.price > 0
             AND S.`count_units` > 0            
             ";
-            echo "<pre>SQL:$sql_material</pre>";
+            if($show) echo "<pre>SQL:$sql_material</pre>";
             if ($result_stock = $mysqli->query($sql_material)) {
                 $update_count_sum = 0;
                 while ($row_stock = $result_stock->fetch_assoc()) {
@@ -342,11 +342,11 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                     $COMA=';';
                 }
 
-                echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
+                //echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
                 if ($count_units_m > 0) {
                     $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
                 }
-                echo "<pre>РЕЗУЛЬТАТ2[$sqls]</pre>";
+               //echo "<pre>РЕЗУЛЬТАТ2[$sqls]</pre>";
             }
         }
         $result_doc_material->close();
@@ -386,7 +386,7 @@ WHERE id = '{$row[id_stock_material]}'";
  * @param $row_n_material
  * @return false|string
  */
-function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material){
+function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material, $show = false){
     $sqls = ''; $COMA='';
     $count_units_m = $row_n_material[count_units];
     $sql="
@@ -403,7 +403,7 @@ AND I.`alien` = S.`alien`
 AND S.`count_units` > 0  
 AND S.`id_user` = ".$row_nariad[id_user];
 
-    echo "<pre> ОТЛАДКА material_from_user {$row_n_material[count_units]} $sql </pre>";
+    if($show) echo "<pre> ОТЛАДКА material_from_user {$row_n_material[count_units]} $sql </pre>";
 
     if ($result_s = $mysqli->query($sql)) {
         while ($row_s = $result_s->fetch_assoc()) { //перебор полученных пользователем материалов
@@ -487,7 +487,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                      if ($signedd == 1) {   //Провести наряд
                          $summa_material = 0.00;
                          $count_material = 0.000;
-                         if (($sm = material_from_user($mysqli, $summa_material, $count_material, $row0, $row2)) === false) {  //Списать материал с пользователя
+                         if (($sm = material_from_user($mysqli, $summa_material, $count_material, $row0, $row2, $show)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
@@ -501,8 +501,8 @@ update n_material set price = " . (round($summa_material / $count_material /*$ro
 
                              }
                          }
-                         $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
-                         echo "<pre>ПОЛУЧИЛ[$sm]</pre>";
+                         $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2, $show); //Списание материалов c заявок
+                         //echo "<pre>ПОЛУЧИЛ[$sm]</pre>";
                              /* ошибка недостаточно материалов в заявках */
                              //$ret = 3;
                              //break 2;

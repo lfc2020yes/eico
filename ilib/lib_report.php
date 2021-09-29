@@ -454,7 +454,7 @@ class DocZ {
             $status = 0; $comment = '';
             if ($this->show)
                 echo "<pre>{$material[count_units_doc]} - {$material[count_units_nariad]} = ".($material[count_units_doc] - $material[count_units_nariad])." {$material[count_units]}</pre>";
-            if (round(($material[count_units] - $material[count_units_nariad]), 3) <= 0 ) {  //Закрытие по наряду
+            if (round(($material[count_units_doc] - $material[count_units_nariad]), 3) <= 0 ) {  //Закрытие по наряду
                 $status = 1; // позиция готова к закрытию заявки
                 $comment = 'закрыта по наряду - готова к закрытию заявки';
             } elseif (round(($material[count_units_doc] - $material[count_units_act]), 3) <= $count_user) { //Передача по акту приемо-передачи

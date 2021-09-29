@@ -317,8 +317,9 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
         if ($field_type[$title_key][$n]=='money') {
             echo '<td align="right">'.$field_span[$title_key][$n]; 
             echo number_format($row__2[$field_page[$title_key][$n]], 2, '-', ' ');  
-        } else {  
-            echo '<td class="no_padding_left_ pre-wrap">'.$field_span[$title_key][$n];
+        } else {
+            $alien = ($title_key==3 and $n=0 and $row__2[alien]==1) ? "name_invoice_dava dava" : '';
+            echo "<td class='no_padding_left_ pre-wrap $alien'>{$field_span[$title_key][$n]}";  //class="name_invoice_dava dava"
             echo $row__2[$field_page[$title_key][$n]];
         }
         echo $countz;

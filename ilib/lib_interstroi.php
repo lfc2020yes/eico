@@ -588,17 +588,17 @@ WHERE id={$row1[id]}
               $ret = Nariad_transaction($mysqli, $sql, $show);
           }
             if($ret === true) {
-                if($show) { echo "<p>step 10__";}
+                if($show) { echo "<pre>Закрытие заявок, затронутых в наряде</pre>";}
                 // Закрытие заявок, затронутых в наряде
                 $edo = new EDO($mysqli,11,false);  // От администратора
                 foreach($arr_docs as $id_doc) {
-                    if($show) { echo "<p>step 11__ $id_doc"; }
+                    if($show) { echo "<pre>заявка: $id_doc</pre>"; }
                     $doc_date = new Doc_Data($id_doc, $mysqli);
                     if(!($doc_date->row_doc[status] == 10)) {  //  Если не исполнена
                         $doc_date->Get_Data();
                         $docz = new DocZ($doc_date->row_doc);
                         $docz->analyze();
-                        if ($show) { echo "<pre> docz:" . print_r($docz->status_all[0], true) . "</pre>"; }
+                        if ($show) { echo "<pre> docz status_all=" . print_r($docz->status_all, true) . "</pre>"; }
 
                         if ($docz->status_all[0]==1) {
                             // Закрыть задание по заявке

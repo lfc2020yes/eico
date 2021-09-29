@@ -421,6 +421,10 @@ AND SM.`id_stock` = S.`id`
     }
 }
 //Анализировать массив данных по заявке
+
+/**
+ * Class DocZ - Анализировать массив данных по заявке
+ */
 class DocZ {
     var $status_all;
     var $status;
@@ -443,17 +447,19 @@ class DocZ {
                         $count_user += $material_user[count_units];
                     }
                 }
+            $count = round($count,3);
+            $count_user = round($count_user,3);
             $status = 0; $comment = '';
             //echo "<pre>{$material[count_units_doc]} - {$material[count_units_nariad]} = ".($material[count_units_doc] - $material[count_units_nariad])."</pre>";
-            if (($material[count_units] - $material[count_units_nariad]) <= 0 ) {  //Закрытие по наряду
+            if (round(($material[count_units] - $material[count_units_nariad]), 3) <= 0 ) {  //Закрытие по наряду
                 $status = 1; // позиция готова к закрытию заявки
                 $comment = 'закрыта по наряду - готова к закрытию заявки';
-            } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count_user) { //Передача по акту приемо-передачи
+            } elseif (round(($material[count_units_doc] - $material[count_units_act]), 3) <= $count_user) { //Передача по акту приемо-передачи
                 $status = 5; //
                 $comment = 'Материал получен';
-            } elseif (($material[count_units_doc] - $material[count_units_act]) <= $count) {
+            } elseif (round(($material[count_units_doc] - $material[count_units_act]), 3) <= $count) {
                 $status = 2; // необходимо передать материал со склада на владельца заявки
-                $comment = "Необходимо передать ".($material[count_units_doc] - $material[count_units_act] - $count_user)
+                $comment = "Необходимо передать ".round(($material[count_units_doc] - $material[count_units_act] - $count_user),3)
                     ." ".$material[units]." со склада [".$this->doc[name_user]."]";
             } elseif ($count==0) {
                 $status = 3;

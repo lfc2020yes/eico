@@ -1697,7 +1697,7 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 						 */
                          if(($my_material!=0)or($my_material1!=0))
                          {
-								echo'<span class="my_material" count="'.$my_material.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">(<span style="font-style: normal;" data-tooltip="Нашего материала '.$tool_my.'">'.$my_material.'</span> / <span style="font-style: normal; color: #53b374;" data-tooltip="Давальческого материала '.$tool_my.'">'.$my_material1.'</span> '.$units.')</span>';
+								echo'<span class="my_material" count="'.$my_material_prior.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">(<span style="font-style: normal;" data-tooltip="Нашего материала '.$tool_my.'">'.$my_material.'</span> / <span style="font-style: normal; color: #53b374;" data-tooltip="Давальческого материала '.$tool_my.'">'.$my_material1.'</span> '.$units.')</span>';
 							} else
 							{
 								echo'<span class="my_material" count="0" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">[нет материала]</span>';

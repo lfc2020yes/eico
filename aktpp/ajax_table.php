@@ -245,14 +245,7 @@ opacity: 0.4;">('.$row_z['name_user'].')</span>
 }
 //==================================Таблица
 ?>
-<class>
-.dava1 {
-    border-bottom: 2px solid #53b374 !important;
-    background-color: #53b374 !important;
-    color: #fff !important;
-}
-</class>
-<div id="table_sheet" >
+<div id="table_sheet">
 <?php
 $count_write=20;  //количество выводимых записей на одной странице
 
@@ -326,10 +319,9 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
             echo '<td align="right">'.$field_span[$title_key][$n]; 
             echo number_format($row__2[$field_page[$title_key][$n]], 2, '-', ' ');  
         } else {
-            $alien = '';
-            //$alien = ($title_key==3 and $n=0 and $row__2[alien]==1) ? "name_invoice_dava dava1" : '';
+            $alien = ($title_key==3 and $n==0 and $row__2[alien]==1) ? "class='name_invoice_dava dava'" : '';
             echo "<td class='no_padding_left_ pre-wrap'>{$field_span[$title_key][$n]}";  //class="name_invoice_dava dava"
-            echo "<i class='name_invoice_dava dava'>{$row__2[$field_page[$title_key][$n]]}</i>";
+            echo "<i $alien>{$row__2[$field_page[$title_key][$n]]}</i>";
         }
         echo $countz;
     }

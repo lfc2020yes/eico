@@ -289,7 +289,8 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
         while  ($row_doc_material = $result_doc_material->fetch_assoc()) {  //$row_doc_material[count_units] - $row_doc_material[count_units_nariad]
             //получить материалы в зависимости от alien
             //$cena =  ($row_doc_material[alien]==0) ? "<>0" : "=0";
-            $count_z = $row_doc_material[count_units]-$row_doc_material[count_units_nariad]; //Сколько незакрытого материала в звявке
+            $count_z = $row_doc_material[count_units]-$row_doc_material[count_units_nariad]; //Сколько незакрытого материала в заявке
+            if($show) echo "<pre>Материал Заявки id = {$row_doc_material[id]} количество = $count_z надо: $count_units_m</pre>";
             $sql_material = "
             SELECT * FROM z_stock N, `z_stock_material` S
             WHERE N.id = {$row_doc_material[id_stock]}

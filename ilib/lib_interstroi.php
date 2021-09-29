@@ -329,6 +329,7 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $
                             {$row_nariad[id]},
                             {$row_n_material[id]}
                           )";
+                        $COMA=';';
                         $count_units_m -= $update_count;
                         $count_z -= $update_count;
                         $update_count_sum += $update_count;

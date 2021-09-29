@@ -429,10 +429,12 @@ class DocZ {
     var $status_all;
     var $status;
     var $doc;
+    var $show;
 
-    public function DocZ(&$arr) {
+    public function DocZ(&$arr, $show = false) {
         $this->status = array();
         $this->doc = $arr;
+        $this->show = $show;
     }
 
     public function analyze() {
@@ -450,7 +452,8 @@ class DocZ {
             $count = round($count,3);
             $count_user = round($count_user,3);
             $status = 0; $comment = '';
-            //echo "<pre>{$material[count_units_doc]} - {$material[count_units_nariad]} = ".($material[count_units_doc] - $material[count_units_nariad])."</pre>";
+            if ($this->show)
+                echo "<pre>{$material[count_units_doc]} - {$material[count_units_nariad]} = ".($material[count_units_doc] - $material[count_units_nariad])." {$material[count_units]}</pre>";
             if (round(($material[count_units] - $material[count_units_nariad]), 3) <= 0 ) {  //Закрытие по наряду
                 $status = 1; // позиция готова к закрытию заявки
                 $comment = 'закрыта по наряду - готова к закрытию заявки';

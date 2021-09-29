@@ -27,7 +27,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
         $doc_date = new Doc_Data($_POST["id_doc"],$mysqli);
         //if($doc_date->row_doc[status] == 13) {
             $doc_date->Get_Data();
-            $docz = new DocZ($doc_date->row_doc);
+            $docz = new DocZ($doc_date->row_doc, true);
             $docz->analyze();
         //}
         // $doc_date->si->Show();

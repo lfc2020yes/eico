@@ -47,7 +47,7 @@ $menu_sql1=array(' where a.summa_debt>0'
       left join (select id,name_user as name0 from r_user) u0 on (a.id0_user=u0.id)
       left join (select id,name_user as name1 from r_user) u1 on (a.id1_user=u1.id)
       where (a.id0_user='$id_visor' or a.id1_user='$id_visor') and a.date1 is not null and a.date0 is not null order by a.date desc"
-    ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id order by s.name"
+    ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id and z.count_units>0 order by s.name"
     ,"select *,a.id as act from z_act a left join r_user u on (a.id1_user=u.id) where id0_user='$id_visor' and a.date0 is null order by a.date desc"
             );
 

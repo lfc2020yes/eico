@@ -273,22 +273,24 @@ SELECT M.* FROM z_doc_material M WHERE M.id_stock = 3
  */
 
 
-function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){  // id_nariad id_n_material
+function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material, $show = false){  // id_nariad id_n_material
     $sqls = ''; $COMA='';
 
     //$row_nariad[id_user]
     //row_n_work[id_razdeel2]
-    $count_units_m = $row_n_material[count_units];
+    $count_units_m = $row_n_material[count_units]; // Сколько можно списывать
 //взять заявку по этому материалу
     $sql = "SELECT M.*, I.`alien` FROM z_doc_material M, i_material I
      where M.`id_i_material` = {$row_n_material[id_material]} -- 30850 
      and M.`id_i_material` = I.`id` 
  ";
-    echo "<pre>SQL:$sql</pre>";
-    if ($result_doc_material = $mysqli->query($sql)) {
-        if ($row_doc_material = $result_doc_material->fetch_assoc()) {
+    if($show) echo "<pre>SQL:$sql</pre>";
+    if ($result_doc_material = $mysqli->query($sql)) {  //может быть несколько заявок по одному пункту работ
+        while  ($row_doc_material = $result_doc_material->fetch_assoc()) {  //$row_doc_material[count_units] - $row_doc_material[count_units_nariad]
             //получить материалы в зависимости от alien
-            $cena =  ($row_doc_material[alien]==0) ? "<>0" : "=0";
+            //$cena =  ($row_doc_material[alien]==0) ? "<>0" : "=0";
+            $count_z = $row_doc_material[count_units]-$row_doc_material[count_units_nariad]; //Сколько незакрытого материала в заявке
+            if($show) echo "<pre>Материал Заявки id = {$row_doc_material[id]} количество = $count_z надо: $count_units_m</pre>";
             $sql_material = "
             SELECT * FROM z_stock N, `z_stock_material` S
             WHERE N.id = {$row_doc_material[id_stock]}
@@ -298,13 +300,12 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
             -- AND S.price > 0
             AND S.`count_units` > 0            
             ";
-            echo "<pre>SQL:$sql_material</pre>";
+            if($show) echo "<pre>SQL:$sql_material</pre>";
             if ($result_stock = $mysqli->query($sql_material)) {
                 $update_count_sum = 0;
                 while ($row_stock = $result_stock->fetch_assoc()) {
                     if($count_units_m == 0) break;
 
-                    $count_z = $row_stock[count_units]-$row_stock[count_units_nariad];    //count_units_nariad - не используется
                     if($count_z > 0) { //Есть что списать
                         $update_count = ($count_units_m > $count_z) ? $count_z : $count_units_m; //спишем часть или ВСЕ
                         if ($update_count == $count_z) { //Списывается весь материал по заявке для закрытия мозиции по заявке
@@ -328,7 +329,9 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                             {$row_nariad[id]},
                             {$row_n_material[id]}
                           )";
-                        $count_units_m -=$update_count;
+                        $COMA=';';
+                        $count_units_m -= $update_count;
+                        $count_z -= $update_count;
                         $update_count_sum += $update_count;
                     }
                 }
@@ -338,18 +341,15 @@ function material_from_doc(&$mysqli, &$arr_docs, $row_nariad, $row_n_material){ 
                         update z_doc_material 
                         set count_units_nariad = count_units_nariad + $update_count_sum 
                         where id = ".$row_doc_material[id];
-
                     $COMA=';';
                 }
-
-                echo "<pre>РЕЗУЛЬТАТ1[$sqls]</pre>";
-                if ($count_units_m > 0) {
-                    $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
-                }
-                echo "<pre>РЕЗУЛЬТАТ2[$sqls]</pre>";
             }
         }
         $result_doc_material->close();
+        if ($count_units_m > 0) {
+            $sqls .= $COMA. "-- ОШИБКА недостаточно материалов в заявках пользователя";
+            if ($show) echo "<pre>ОШИБКА НЕДОСТАТОЧНО МАТЕРИАЛОВ В ЗАЯВКАХ ПОЛЬЗОВАТЕЛЯ</pre>";
+        }
     }
     return $sqls;
 }
@@ -386,7 +386,7 @@ WHERE id = '{$row[id_stock_material]}'";
  * @param $row_n_material
  * @return false|string
  */
-function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material){
+function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material, $show = false){
     $sqls = ''; $COMA='';
     $count_units_m = $row_n_material[count_units];
     $sql="
@@ -403,7 +403,7 @@ AND I.`alien` = S.`alien`
 AND S.`count_units` > 0  
 AND S.`id_user` = ".$row_nariad[id_user];
 
-    echo "<pre> ОТЛАДКА material_from_user {$row_n_material[count_units]} $sql </pre>";
+    if($show) echo "<pre> ОТЛАДКА material_from_user {$row_n_material[count_units]} $sql </pre>";
 
     if ($result_s = $mysqli->query($sql)) {
         while ($row_s = $result_s->fetch_assoc()) { //перебор полученных пользователем материалов
@@ -487,7 +487,7 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
                      if ($signedd == 1) {   //Провести наряд
                          $summa_material = 0.00;
                          $count_material = 0.000;
-                         if (($sm = material_from_user($mysqli, $summa_material, $count_material, $row0, $row2)) === false) {  //Списать материал с пользователя
+                         if (($sm = material_from_user($mysqli, $summa_material, $count_material, $row0, $row2, $show)) === false) {  //Списать материал с пользователя
                              /* ошибка недостаточно материалов у пользователя */
                              $ret = 2;
                              break 2;
@@ -501,8 +501,8 @@ update n_material set price = " . (round($summa_material / $count_material /*$ro
 
                              }
                          }
-                         $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2); //Списание материалов c заявок
-                         echo "<pre>ПОЛУЧИЛ[$sm]</pre>";
+                         $sm = material_from_doc($mysqli, $arr_docs, $row0, $row2, $show); //Списание материалов c заявок
+                         //echo "<pre>ПОЛУЧИЛ[$sm]</pre>";
                              /* ошибка недостаточно материалов в заявках */
                              //$ret = 3;
                              //break 2;
@@ -588,17 +588,17 @@ WHERE id={$row1[id]}
               $ret = Nariad_transaction($mysqli, $sql, $show);
           }
             if($ret === true) {
-                if($show) { echo "<p>step 10__";}
+                if($show) { echo "<pre>Закрытие заявок, затронутых в наряде</pre>";}
                 // Закрытие заявок, затронутых в наряде
                 $edo = new EDO($mysqli,11,false);  // От администратора
                 foreach($arr_docs as $id_doc) {
-                    if($show) { echo "<p>step 11__ $id_doc"; }
+                    if($show) { echo "<pre>заявка: $id_doc</pre>"; }
                     $doc_date = new Doc_Data($id_doc, $mysqli);
                     if(!($doc_date->row_doc[status] == 10)) {  //  Если не исполнена
                         $doc_date->Get_Data();
                         $docz = new DocZ($doc_date->row_doc);
                         $docz->analyze();
-                        if ($show) { echo "<pre> docz:" . print_r($docz->status_all[0], true) . "</pre>"; }
+                        if ($show) { echo "<pre> docz status_all=" . print_r($docz->status_all, true) . "</pre>"; }
 
                         if ($docz->status_all[0]==1) {
                             // Закрыть задание по заявке

@@ -47,7 +47,7 @@ $menu_sql1=array(' where a.summa_debt>0'
       left join (select id,name_user as name0 from r_user) u0 on (a.id0_user=u0.id)
       left join (select id,name_user as name1 from r_user) u1 on (a.id1_user=u1.id)
       where (a.id0_user='$id_visor' or a.id1_user='$id_visor') and a.date1 is not null and a.date0 is not null order by a.date desc"
-    ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id order by s.name"
+    ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id and m.count_units>0 order by s.name"
     ,"select *,a.id as act from z_act a left join r_user u on (a.id1_user=u.id) where id0_user='$id_visor' and a.date0 is null order by a.date desc"
             );
 
@@ -244,8 +244,9 @@ opacity: 0.4;">('.$row_z['name_user'].')</span>
   }
 }
 //==================================Таблица
-echo '<div id="table_sheet" >';
-
+?>
+<div id="table_sheet">
+<?php
 $count_write=20;  //количество выводимых записей на одной странице
 
 if ($title_key==3 && $id_zay>0) {
@@ -258,6 +259,7 @@ and z.id_doc='$id_zay'
 and m.id_stock in ($arrZ)
 and m.id_stock=s.id
 and m.id_stock=z.id_stock
+and z.count_units > 0
 order by s.name";
 
 }   else {
@@ -316,9 +318,10 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
         if ($field_type[$title_key][$n]=='money') {
             echo '<td align="right">'.$field_span[$title_key][$n]; 
             echo number_format($row__2[$field_page[$title_key][$n]], 2, '-', ' ');  
-        } else {  
-            echo '<td class="no_padding_left_ pre-wrap">'.$field_span[$title_key][$n];
-            echo $row__2[$field_page[$title_key][$n]];
+        } else {
+            $alien = ($title_key==3 and $n==0 and $row__2[alien]==1) ? "class='name_invoice_dava dava'" : '';
+            echo "<td class='no_padding_left_ pre-wrap'>{$field_span[$title_key][$n]}";  //class="name_invoice_dava dava"
+            echo "<i $alien>{$row__2[$field_page[$title_key][$n]]}</i>";
         }
         echo $countz;
     }

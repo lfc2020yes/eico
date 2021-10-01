@@ -12,7 +12,7 @@ $debug='';
 $count_all_all=0;
 $table='';
 
-$_GET["ispol_work"]=0;
+//$_GET["ispol_work"]=0;
 
 
 $id=htmlspecialchars($_GET['id']);
@@ -55,33 +55,41 @@ $token=htmlspecialchars($_GET['tk']);
 		   }
 
 
-
-
-if(token_access_new($token,'add_work_mat',$id,"s_form"))
+if(!token_access_new($token,'add_work_mat',$id,"rema",2880))
 {
+    $debug=h4a(100,$echo_r,$debug);
+    goto end_code;
+}
 
-  if(((isset($_GET['id']))and(is_numeric($_GET['id']))))
-  {
-	  if(isset($_SESSION["user_id"]))
-	  { 
-		  
-		 if (($role->permission('Себестоимость','A'))or($sign_admin==1))
-	     {  
-		  
-	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
-		$result_t1=mysql_time_query($link,'Select a.name1,a.id,a.id_object,a.razdel1 from i_razdel1 as a where a.id="'.htmlspecialchars(trim($id)).'"');
-       $num_results_t1 = $result_t1->num_rows;
-	   if($num_results_t1!=0)
-	   {  
-		  //такой раздел есть можно проверять переданные переменные
-		   $row1 = mysqli_fetch_assoc($result_t1);
-		 
-		 if((isset($_GET['count_work']))and(is_numeric($_GET['count_work']))and(isset($_GET['price_work']))and(is_numeric($_GET['price_work']))and(isset($_GET['ed_work']))and(trim($_GET["ed_work"])!='')and(isset($_GET['ispol_work']))and(is_numeric($_GET['ispol_work']))and(isset($_GET['name_work']))and(trim($_GET["name_work"])!='')) 
-		 {
+if(!isset($_SESSION["user_id"])) {
+    $status_ee='reg';
+    $debug=h4a(102,$echo_r,$debug);
+    goto end_code;
+}
+
+if ((!$role->permission('Себестоимость','A'))and($sign_admin!=1))
+{
+    $debug=h4a(103,$echo_r,$debug);
+    goto end_code;
+}
+
+
+$result_t1=mysql_time_query($link,'Select a.name1,a.id,a.id_object,a.razdel1 from i_razdel1 as a where a.id="'.htmlspecialchars(trim($id)).'"');
+$num_results_t1 = $result_t1->num_rows;
+if($num_results_t1==0)
+{
+    $debug=h4a(3103,$echo_r,$debug);
+    goto end_code;
+} else {
+    //такой раздел есть можно проверять переданные переменные
+    $row1 = mysqli_fetch_assoc($result_t1);
+}
+
+
         $status_ee='ok';
 
         $rann=1;
-	    $result_town2=mysql_time_query($link,'select max(A.razdel1) as mm from i_razdel1 as A where  A.id_object="'.htmlspecialchars(trim($_GET['id'])).'"');
+	    $result_town2=mysql_time_query($link,'select max(0+A.razdel2) as mm from i_razdel2 as A where  A.id_razdel1="'.htmlspecialchars(trim($_GET['id'])).'"');
         $num_results_custom_town2 = $result_town2->num_rows;
         if($num_results_custom_town2!=0)
         {
@@ -105,10 +113,24 @@ $table.='<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_'.ht
 				 
 				 $table.='</tr></thead><tbody>';
 				//количество выполненной работы
-$table.='<tr class="loader_tr"><td colspan="'.$count_rows.'"><div class="loaderr"><div class="teps" rel_w="0" style="width:0%"><div class="peg_div"><div><i class="peg"></i></div></div></div></div></td></tr>';			 
-			 
+$table.='<tr class="loader_tr"><td colspan="'.$count_rows.'"><div class="loaderr"><div class="teps" rel_w="0" style="width:0%"><div class="peg_div"><div><i class="peg"></i></div></div></div></div></td></tr>';
+
+
+
+$os = array('шт','м3','м2','т','пог.м','маш/час','компл');
+$os_id = array('0','1','2','3','4','5','6');
+
+$name_ed='';
+$rtyy=array_search(ht($_GET["ed_work"]), $os_id );
+if ($rtyy !== false) {
+
+    $name_ed=$os[$rtyy];
+
+}
+
+
 $ID_D=0;								 
-mysql_time_query($link,'INSERT INTO i_razdel2 (id,id_razdel1,razdel1,razdel2,name_working,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.$rann.'","'.htmlspecialchars(trim($_GET["name_work"])).'","'.htmlspecialchars(trim($_GET["ispol_work"])).'","'.htmlspecialchars(trim($_GET["ed_work"])).'","'.htmlspecialchars(trim($_GET["count_work"])).'","'.htmlspecialchars(trim($_GET["price_work"])).'")');			
+mysql_time_query($link,'INSERT INTO i_razdel2 (id,id_razdel1,razdel1,razdel2,name_working,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.$rann.'","'.htmlspecialchars(trim($_GET["name_work"])).'","'.htmlspecialchars(trim($_GET["ispol_work"])).'","'.htmlspecialchars(trim($name_ed)).'","'.htmlspecialchars(trim(trimc($_GET["count_work"]))).'","'.htmlspecialchars(trim(trimc($_GET["price_work"]))).'")');
 $ID_D=mysqli_insert_id($link);	
 
 			 
@@ -143,7 +165,7 @@ $ID_D=mysqli_insert_id($link);
 				  
                 //$FUSER=new find_user($link,$row_list['id_object'],'U','Группировка');
                 $user_send_new=array_merge($hie->boss['4']);		
-				$text_not='В себестоимость - <strong>'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</strong> в раздел - <strong>'.$row1["name1"].'</strong> добавлена новая работа - <strong>'.htmlspecialchars(trim($_GET["name_work"])).'</strong>, количество -  <strong>'.htmlspecialchars(trim($_GET["count_work"])).' '.htmlspecialchars(trim($_GET["ed_work"])).'</strong>, стоимость за единицу - <strong>'.htmlspecialchars(trim($_GET["price_work"])).' руб.</strong>';		
+				$text_not='В себестоимость - <strong>'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</strong> в раздел - <strong>'.$row1["name1"].'</strong> добавлена новая работа - <strong>'.htmlspecialchars(trim($_GET["name_work"])).'</strong>, количество -  <strong>'.htmlspecialchars(trim($_GET["count_work"])).' '.htmlspecialchars(trim($name_ed)).'</strong>, стоимость за единицу - <strong>'.htmlspecialchars(trim($_GET["price_work"])).' руб.</strong>';
 				//отправка уведомления
 			    $user_send_new= array_unique($user_send_new);	
 			    notification_send($text_not,$user_send_new,$id_user,$link);		   
@@ -157,7 +179,7 @@ $ID_D=mysqli_insert_id($link);
 			 
 
 $echo.='<tr class="jop n1n" rel_id="'.$ID_D.'"><td class="middle_"><div class="st_div"><i></i></div></td>
-                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.htmlspecialchars(trim($_GET["name_work"])).'</span><br>';
+                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.$row1["razdel1"].'.'.$rann.' '.htmlspecialchars(trim($_GET["name_work"])).'</span><br>';
 				  
 					  
 					  
@@ -210,136 +232,20 @@ $echo.='<tr class="jop n1n" rel_id="'.$ID_D.'"><td class="middle_"><div class="s
 //<div class="musa_plus">3</div>
 //$echo.='<div class="musa_plus mpp">+</div>';
 $echo.='</td>
-<td><span class="s_j">'.htmlspecialchars(trim($_GET["ed_work"])).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($_GET["count_work"])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(($_GET["count_work"]*$_GET["price_work"]), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.htmlspecialchars(trim($name_ed)).'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["count_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["price_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format((trimc($_GET["count_work"])*trimc($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
 <td>0</td>';
 if(array_search('summa_r2_realiz',$stack_td) === false) 
 {
 $echo.='<td>0</td>
-<td><strong>'.rtrim(rtrim(number_format(($_GET["count_work"]*$_GET["price_work"]), 2, '.', ' '),'0'),'.').'</strong></td>';
+<td><strong>'.rtrim(rtrim(number_format((trimc($_GET["count_work"])*trimc($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</strong></td>';
 }
-$echo.='</tr>';			 
-			 
-			 
-			 if(($ID_D!=0)and($ID_D!=''))
-			 {
-			 //добавление материалов к работе если такие есть
-			 if($_GET["count_material"]>0)
-			 {
-			 $material=$_GET['material'];
-             foreach ($material as $value) 
-			 {
-              //echo("4");
-				 if((isset($value['count']))and(is_numeric($value['count']))and(isset($value['price']))and(is_numeric($value['price']))and(isset($value['ed']))and(trim($value["ed"])!='')and(isset($value['name']))and(trim($value["name"])!='')) 
-		         {
-					 //echo("!");
-					 //добавляем материал к добавленной работе
-					 mysql_time_query($link,'INSERT INTO i_material (id,id_razdel2,razdel1,razdel2,material,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($ID_D)).'","'.$row1["razdel1"].'","'.$rann.'","'.htmlspecialchars(trim($value['name'])).'","'.htmlspecialchars(trim($_GET["ispol_work"])).'","'.htmlspecialchars(trim($value['ed'])).'","'.htmlspecialchars(trim($value['count'])).'","'.htmlspecialchars(trim($value['price'])).'")');	 
-					 $ID_D1=mysqli_insert_id($link);	
-					 
-					 
-					 
-		  
-	 //уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
-		   
-		if($sign_admin!=1)
-		{   
-		 
-		
-		       $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row1['id_object'])).'"');
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url!=0)
-        {
-     
-			 $row_list= mysqli_fetch_assoc($result_url);	   
-		}
-			   
-		$result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list["id_kvartal"].'"');
-        $num_results_custom_town = $result_town->num_rows;
-        if($num_results_custom_town!=0)
-        {
-			$row_town = mysqli_fetch_assoc($result_town);	
-		}
-			   
-			   
-			   
-				$user_send= array();	
-				$user_send_new= array();		
+$echo.='</tr>';
 
-				  
-                //$FUSER=new find_user($link,$row_list['id_object'],'U','Группировка');
-                $user_send_new=array_merge($hie->boss['4']);		
-				$text_not='В себестоимость - <strong>'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</strong> в раздел - <strong>'.$row1["name1"].'</strong>, в работу - <strong>'.htmlspecialchars(trim($_GET["name_work"])).'</strong>, добавлен новый материал - <strong>'.htmlspecialchars(trim($value['name'])).'</strong>, количество -  <strong>'.htmlspecialchars(trim($value['count'])).' '.htmlspecialchars(trim($value['ed'])).'</strong>, стоимость за единицу - <strong>'.htmlspecialchars(trim($value['price'])).' руб.</strong>';		
-				//отправка уведомления
-			    $user_send_new= array_unique($user_send_new);	
-			    notification_send($text_not,$user_send_new,$id_user,$link);		   
-		} 
-		   
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления					 
-					 
-					 
-					 
-					 
-					 
-					 $echo.='<tr class="material" rel_ma="'.$ID_D1.'">
-           
-           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm"><i></i><span class="s_j">'.htmlspecialchars(trim($value['name'])).'</span><span class="edit_panel_">';
-					 if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	                  {
-					 $echo.='<span data-tooltip="редактировать материал" for="'.$ID_D1.'" class="edit_icon_m">3</span>';
-					  }
-					  if (($role->permission('Себестоимость','D'))or($sign_admin==1))
-	                  {
-					 $echo.='<span data-tooltip="удалить материал" for="'.$ID_D1.'" class="del_icon_m">5</span>';
-					  }
-						 
-						 $echo.='</span></div></td>
-<td class="pre-wrap"></td>
-<td><span class="s_j">'.htmlspecialchars(trim($value['ed'])).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($value['count'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($value['price'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(($value['count']*$value['price']), 2, '.', ' '),'0'),'.').'</span></td>
-<td></td>';
-	if(array_search('summa_r2_realiz',$stack_td) === false) 
-	{						 
-$echo.='<td></td>
-<td></td>';
-	}
-           $echo.='</tr>';  
-					 
-					 
-					 
-				 }
 
-             
-			 
-		 }
-	   }
-	
-} else
-{
-
-$status_ee='number';
-
-}
-		 }
-		 	  
-	  } else
-	  {
-		  $status_ee='reg';
-	  }
-	  
-  }
-
- }
-}
-}
+end_code:
 
 
 $aRes = array("debug"=>$debug,"status"   => $status_ee,"table" =>  $table,"echo" =>  $echo,"id"=>$ID_D);

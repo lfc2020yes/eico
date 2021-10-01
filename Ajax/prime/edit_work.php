@@ -1,6 +1,5 @@
 <?php
 //редактирование работы в себестоимости
-
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/ajax_access.php';
 header("Content-type: application/json");
@@ -50,35 +49,47 @@ $token=htmlspecialchars($_GET['tk']);
 		     } 		
 		   }
 
-if(token_access_new($token,'edit_work',$id,"s_form"))
+
+
+if(!token_access_new($token,'edit_work',$id,"rema",2880))
 {
-	
+    $debug=h4a(100,$echo_r,$debug);
+    goto end_code;
+}
+
+if(!isset($_SESSION["user_id"])) {
+    $status_ee='reg';
+    $debug=h4a(102,$echo_r,$debug);
+    goto end_code;
+}
+
+if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
+{
+    $debug=h4a(103,$echo_r,$debug);
+    goto end_code;
+}
 
 
-  if(((isset($_GET['id']))and(is_numeric($_GET['id']))))
-  {
-	  if(isset($_SESSION["user_id"]))
-	  { 
-		 if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	     {  
-		  
 	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
 		$result_t1=mysql_time_query($link,'Select a.name1,a.id,a.id_object,a.razdel1,b.name_working,b.subtotal,b.count_units,b.units,b.price from i_razdel1 as a,i_razdel2 as b where b.id_razdel1=a.id and b.id="'.htmlspecialchars(trim($id)).'"');
        $num_results_t1 = $result_t1->num_rows;
-	   if($num_results_t1!=0)
-	   {  
-		  //такой раздел есть можно проверять переданные переменные
-		   $row1 = mysqli_fetch_assoc($result_t1);
+	   if($num_results_t1!=0) {
+           //такой раздел есть можно проверять переданные переменные
+           $row1 = mysqli_fetch_assoc($result_t1);
+
+       } else {
+           $debug=h4a(3103,$echo_r,$debug);
+           goto end_code;
+       }
 		 
-		 if((isset($_GET['count_work']))and(is_numeric($_GET['count_work']))and(isset($_GET['price_work']))and(is_numeric($_GET['price_work']))and(isset($_GET['ed_work']))and(trim($_GET["ed_work"])!='')and(isset($_GET['name_work']))and(trim($_GET["name_work"])!='')) 
-		 {
+
         $status_ee='ok';
 
         $rann=1;
 		 
 			 
 			 
-mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",count_units="'.htmlspecialchars(trim($_GET['count_work'])).'",price="'.htmlspecialchars(trim($_GET['price_work'])).'" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",id_implementer="'.$_GET['ispol_work'].'",count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 			 
 			 
 			 
@@ -214,193 +225,18 @@ $echo.='<td class="middle_"><div class="st_div"><i class="'.$actv12.'"></i></div
 $echo.='';
 $echo.='</td>
 <td><span class="s_j">'.htmlspecialchars(trim($_GET["ed_work"])).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($_GET["count_work"])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(($_GET["count_work"]*$_GET["price_work"]), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["count_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["price_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format((trimc($_GET["count_work"])*trimc($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
 <td><span class="s_j" data-tooltip="'.$proc_realiz.'%">'.mor_class(($row_town__["count_units"]-$row_town__["count_r2_realiz"]),rtrim(rtrim(number_format($row_town__["count_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td>';
 if(array_search('summa_r2_realiz',$stack_td) === false) 
 {			 
 $echo.='<td><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format($row_town__["summa_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td><td><strong><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>';			 
 }
 
-			 //добавление материалов к работе если такие есть
-			 if($_GET["count_material"]>0)
-			 {
-			 $material=$_GET['material'];
-             foreach ($material as $value) 
-			 {		     if((isset($value['count']))and(is_numeric($value['count']))and(isset($value['price']))and(is_numeric($value['price']))and(isset($value['ed']))and(trim($value["ed"])!='')and(isset($value['name']))and(trim($value["name"])!='')) 
-		         {
-					 if((isset($value['idd']))and($value['idd']!=0)and($value['name']!=''))
-					 {
-	
-			$result_url1=mysql_time_query($link,'select A.* from i_material as A where A.id="'.htmlspecialchars(trim($value['idd'])).'"');
-           $num_results_custom_url1 = $result_url1->num_rows;
-           if($num_results_custom_url1!=0)
-           {
-     
-			 $row_list1= mysqli_fetch_assoc($result_url1);	   
-		   }	
-						 
-						 
-						 //обновление
-						 mysql_time_query($link,'update i_material set material="'.htmlspecialchars(trim($value['name'])).'",units="'.htmlspecialchars(trim($value['ed'])).'",count_units="'.htmlspecialchars(trim($value['count'])).'",price="'.htmlspecialchars(trim($value['price'])).'" where id = "'.htmlspecialchars(trim($value['idd'])).'"');
-						 $ID_D1=$value['idd'];
-						 
-						 
-						 
-//уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
-		   
-		if($sign_admin!=1)
-		{  
-			
-	
-		 
-		
-		       $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row1['id_object'])).'"');
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url!=0)
-        {
-     
-			 $row_list= mysqli_fetch_assoc($result_url);	   
-		}
-			   
-		$result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list["id_kvartal"].'"');
-        $num_results_custom_town = $result_town->num_rows;
-        if($num_results_custom_town!=0)
-        {
-			$row_town = mysqli_fetch_assoc($result_town);	
-		}
-			   
-			   
-			   
-				$user_send= array();	
-				$user_send_new= array();		
 
-				  
-                //$FUSER=new find_user($link,$row_list['id_object'],'U','Группировка');
-                $user_send_new=array_merge($hie->boss['4']);		
-				$text_not='В себестоимости - <strong>'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</strong> в разделе - <strong>'.$row1["name1"].'</strong> в работе - <strong>'.htmlspecialchars(trim($_GET["name_work"])).'</strong>, был изменен материал - <strong>'.$row_list1["material"].'</strong>, c количеством - <strong>'.htmlspecialchars(trim($row_list1["count_units"])).' '.htmlspecialchars(trim($row_list1["units"])).'</strong>, стоимостью за единицу - <strong>'.htmlspecialchars(trim($row_list1["price"])).' руб.</strong> на материал - <strong>'.htmlspecialchars(trim($value['name'])).'</strong>, количество -  <strong>'.htmlspecialchars(trim($value['count'])).' '.htmlspecialchars(trim($value['ed'])).'</strong>, стоимость за единицу - <strong>'.htmlspecialchars(trim($value['price'])).' руб.</strong>';		
-				//отправка уведомления
-			    $user_send_new= array_unique($user_send_new);	
-			    notification_send($text_not,$user_send_new,$id_user,$link);		   
-		} 
-		   
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления						 
-					 		 
-						 
-						 
-						 
-						 
-					 } else
-					 {
-						//добавление
-						mysql_time_query($link,'INSERT INTO i_material (id,id_razdel2,razdel1,razdel2,material,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($_GET['id'])).'","'.$row_town__["razdel1"].'","'.$row_town__["razdel2"].'","'.htmlspecialchars(trim($value['name'])).'","","'.htmlspecialchars(trim($value['ed'])).'","'.htmlspecialchars(trim($value['count'])).'","'.htmlspecialchars(trim($value['price'])).'")');	
-						$ID_D1=mysqli_insert_id($link);
-				
-						 
-				//уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
- //уведомления уведомления уведомления уведомления уведомления уведомления
-		   
-		if($sign_admin!=1)
-		{   
-		 
-		
-		       $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row1['id_object'])).'"');
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url!=0)
-        {
-     
-			 $row_list= mysqli_fetch_assoc($result_url);	   
-		}
-			   
-		$result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list["id_kvartal"].'"');
-        $num_results_custom_town = $result_town->num_rows;
-        if($num_results_custom_town!=0)
-        {
-			$row_town = mysqli_fetch_assoc($result_town);	
-		}
-			   
-			   
-			   
-				$user_send= array();	
-				$user_send_new= array();		
-		 
-						 
-						 
-				$user_send_new=array_merge($hie->boss['4']);		
-				$text_not='В себестоимость - <strong>'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</strong> в раздел - <strong>'.$row1["name1"].'</strong>, в работу - <strong>'.htmlspecialchars(trim($_GET["name_work"])).'</strong>, добавлен новый материал - <strong>'.htmlspecialchars(trim($value['name'])).'</strong>, количество -  <strong>'.htmlspecialchars(trim($value['count'])).' '.htmlspecialchars(trim($value['ed'])).'</strong>, стоимость за единицу - <strong>'.htmlspecialchars(trim($value['price'])).' руб.</strong>';		
-				//отправка уведомления
-			    $user_send_new= array_unique($user_send_new);	
-			    notification_send($text_not,$user_send_new,$id_user,$link);		
-						 
-			} 
-		   
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления
-	//уведомления уведомления уведомления уведомления уведомления уведомления										 
-						 
-					 }
-					 //echo("!");
-					 //добавляем материал к добавленной работе
-					 
-					 $table.='<tr class="material" rel_ma="'.$ID_D1.'">
-           
-           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm"><i></i><span class="s_j">'.htmlspecialchars(trim($value['name'])).'</span><span class="edit_panel_">';
-		   if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	       {
-					 $table.='<span data-tooltip="редактировать материал" for="'.$ID_D1.'" class="edit_icon_m">3</span>';
-		   }
-					 
-		   if (($role->permission('Себестоимость','D'))or($sign_admin==1))
-	       {		 
-				     $table.='<span data-tooltip="удалить материал" for="'.$ID_D1.'" class="del_icon_m">5</span>';
-		   }
-						 
-				   $table.='</span></div></td>
-<td class="pre-wrap"></td>
-<td><span class="s_j">'.htmlspecialchars(trim($value['ed'])).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($value['count'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim($value['price'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(($value['count']*$value['price']), 2, '.', ' '),'0'),'.').'</span></td>
-<td></td>';
-if(array_search('summa_r2_realiz',$stack_td) === false) 
-{					 
-$table.='<td></td>
-<td></td>';
-}
-           $table.='</tr>';  
-					 
-					 
-					 
-				 }
 
-             }
-			 }
-			 
-		 
-	   }
-	
-} else
-{
-
-$status_ee='number';
-
-}
-		 }
-		 	  
-	  } else
-	  {
-		  $status_ee='reg';
-	  }
-	  
-  }
-
-}
+end_code:
 
 
 $aRes = array("debug"=>$debug,"status"   => $status_ee,"table" =>  $table,"echo" =>  $echo,"id"=>$ID_D);

@@ -6,6 +6,97 @@ $('body').on("change keyup",'.js-click-inpute-stock',view_itog_stock_new);
 
 });
 
+
+//изменение материала в себестоимости клик по кнопке в форме добавить
+//  |
+// \/
+function js_edit_prime_mat_stock()
+{
+    var box_active = $(this).closest('.box-modal');
+    var err = 0;
+//alert($('.js-form-register .gloab').length);
+// alert("!!");
+    box_active.find('.js-form-price-mats .gloab').each(function(i,elem) {
+        if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+            $(this).parents('.list_2021').addClass('required_in_2021');
+            err++;
+            //alert($(this).attr('name'));
+        } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+    });
+
+
+    var contractor_new=box_active.find('.js-type-stock-prime1').val();
+
+
+    if(contractor_new==0)
+    {
+        box_active.find('.js-form-price-mats .gloab2').each(function(i,elem) {
+            if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    } else
+    {
+        box_active.find('.js-form-price-mats .gloab1').each(function(i,elem) {
+            if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    }
+
+
+    // js-type-soft-view1 0 1
+    /*
+    var iu=$('.content_block').attr('iu');
+    var cookie_flag_current = $.cookie('current_supply_'+iu);
+    //alert(cookie_new);
+    if(cookie_flag_current==null)
+    {
+        var ssup='basket_supply_';
+    } else
+    {
+        var ssup='basket_score_';
+    }
+
+    var basket_score_ = $.cookie(ssup+iu);
+    var cc = basket_score_.split('.');
+    var xvg='';
+
+
+
+    if(cc.length==0)
+    {
+        err++;
+    }
+
+*/
+
+
+
+
+
+    if(err==0)
+    {
+        var for_id=box_active.find('.gloab-cc').attr('for');
+
+
+        AjaxClient('prime','edit_material_2021','POST',0,'AfterEditMaTS',for_id,'form_prime_edit_mat_stock');
+
+        box_active.find('.js-edit-prime-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+    } else
+    {
+        //найдем самый верхнюю ошибку и пролестнем к ней
+        //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+        //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+        alert_message('error','Не все поля заполнены');
+    }
+}
+
 //добавление нового материала в себестоимости клик по кнопке в форме добавить
 //  |
 // \/
@@ -94,6 +185,41 @@ function js_add_prime_mat_stock()
         //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
         alert_message('error','Не все поля заполнены');
     }
+}
+
+
+function AfterEditMaTS(data,update)
+{
+    var box = $('.box-modal:last');
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' )
+    {
+        //запускаем обновление раздела итоговых сумм
+        update_itog_razdel($('.material[rel_ma="'+update+'"]').parents('.block_i').attr('rel'));
+
+        $('.material[rel_ma="'+update+'"]').empty().append(data.echo);
+
+        //обновить события связанные с работой с блоком
+        update_block();
+
+
+        clearInterval(timerId);
+        $.arcticmodal('close');
+        //обновить события связанные с работой с блоком
+        alert_message('ok','Материал изменен');
+        ToolTip();
+
+        return;
+    }
+
+    //в случае если что-то пошло не так чтобы не висло
+    box.find('.js-edit-prime-block-x').show();
+    box.find('.b_loading_small').remove();
 }
 
 
@@ -191,7 +317,7 @@ function option_demo20(event)
     {
         $('.search_bill_ed').empty().hide();
 
-        box_active.find('.js-add-prime-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+        box_active.find('.js-add-prime-block-x,.js-edit-prime-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
 
 
         var data ='url='+window.location.href+'&id='+val;
@@ -214,6 +340,7 @@ function AfterOptionDemo_Ed(data,update)
     {
 
         box.find('.js-add-prime-block-x').show();
+        box.find('.js-edit-prime-block-x').show();
         box.find('.b_loading_small').remove();
 
 
@@ -229,6 +356,7 @@ function AfterOptionDemo_Ed(data,update)
         return;
     }
     box.find('.js-add-prime-block-x').show();
+    box.find('.js-edit-prime-block-x').show();
     box.find('.b_loading_small').remove();
     alert_message('error','Ошибка выбора материала');
 }

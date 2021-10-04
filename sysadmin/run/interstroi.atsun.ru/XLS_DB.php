@@ -1206,13 +1206,14 @@ function DataNull($data,$d2='') {
 function SQL_find_stock($mysqli,$name,$units){
     $id=0;
     //----------------------------------поиск 
-    $sql='select id,units from z_stock where name="'.$mysqli->real_escape_string($name).'"';
+    $sql='select id,name,units from z_stock where name="'.$mysqli->real_escape_string($name).'"';
     $res=$mysqli->query($sql);
     if ($res->num_rows>0) {        //-----Уже есть на складе
         $row = $res->fetch_assoc();
         $id=$row['id'];
         if ($row['units']<>$units) {
             $id=-1;     //Не сходятся единицы исчисления
+            echo "<pre>$name : $units -> ".print_r($row,true)."</pre>";
             //окно подтверждения - изменить в смете, изменить на складе, добавить новую позицию
         }
     } else {                       //-----Добавить материал на склад

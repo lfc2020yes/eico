@@ -19655,6 +19655,21 @@ width: calc(50% - 0px) !important;
   color: #2196f3 !important;
 }
 
+.search_units_stock {
+  font-family: "GEInspiraRegular";
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+
+.li_search_stock {
+  padding-right: 40px !important;
+  position: relative;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

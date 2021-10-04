@@ -5955,3 +5955,13 @@ border-radius: 5px;
   font-style: italic;}
 
 .yes-note.css-zame-tours,.yes-note.js-zame-preorders,.yes-note.js-zame-contracts  {&::before {   color:#2196f3 !important; } }
+
+.search_units_stock {font-family: "GEInspiraRegular";
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 10px;
+  top: 7px;}
+
+.li_search_stock {padding-right: 40px !important; position: relative; }

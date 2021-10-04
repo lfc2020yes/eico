@@ -2596,6 +2596,14 @@ function AfterWA(data,update)
 			//обновить события связанные с работой с блоком
 			update_block();
 
+
+			clearInterval(timerId);
+			$.arcticmodal('close');
+			//обновить события связанные с работой с блоком
+			alert_message('ok','Работа добавлена');
+			ToolTip();
+
+
 		} else
 		{
 			//добавить таблицу полностью в блог
@@ -2615,6 +2623,12 @@ function AfterWA(data,update)
 
 			//обновить события связанные с работой с блоком
 			update_block();
+
+			clearInterval(timerId);
+			$.arcticmodal('close');
+			//обновить события связанные с работой с блоком
+			alert_message('ok','Работа добавлена');
+			ToolTip();
 
 		}
 		//обновление итоговых сумм
@@ -2918,6 +2932,13 @@ function AfterE_A(data,update)
 		$('.n1n[rel_id="'+update+'"]').after(data.table);
 		//обновить события связанные с работой с блоком
 		update_block();
+
+		clearInterval(timerId);
+		$.arcticmodal('close');
+		//обновить события связанные с работой с блоком
+		alert_message('ok','Работа изменена');
+		ToolTip();
+
 
 	}
 

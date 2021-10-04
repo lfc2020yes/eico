@@ -40,7 +40,7 @@ if ( count($_GET) != 4 )
 }
 */
 //**************************************************
- if ((!$role->permission('Накладные','A'))and($sign_admin!=1))
+ if (((!$role->permission('Накладные','A'))and(!$role->permission('Себестоимость','A')))and($sign_admin!=1))
 {
   $debug=h4a(2,$echo_r,$debug);
   goto end_code;	
@@ -137,7 +137,7 @@ select * from(
 
 (
 
-SELECT A.id,A.name FROM z_stock AS A where LOWER(A.name) LIKE "%'.$query.'%"
+SELECT A.id,A.name,A.units FROM z_stock AS A where LOWER(A.name) LIKE "%'.$query.'%"
 ) 
 
 
@@ -145,7 +145,7 @@ SELECT A.id,A.name FROM z_stock AS A where LOWER(A.name) LIKE "%'.$query.'%"
 ) Z order by Z.name limit 0,20';
 } else
 {
-	$sql='SELECT A.name,A.id FROM z_stock as A ORDER BY A.name limit 0,40';
+	$sql='SELECT A.name,A.id,A.units FROM z_stock as A ORDER BY A.name limit 0,40';
 }
 
 //echo($sql);
@@ -164,10 +164,10 @@ $num_results_work_zz = $result_work_zz->num_rows;
 			   $row_work_zz = mysqli_fetch_assoc($result_work_zz);	
 			   if($query!='')
 			   {
-			   $query_string.='<li><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.search_text_strong(0,$query,$row_work_zz["name"]).'</a></li>';
+			   $query_string.='<li class="li_search_stock"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.search_text_strong(0,$query,$row_work_zz["name"]).'</a><span class="search_units_stock">'.$row_work_zz["units"].'</span></li>';
 			   } else
 			   {
-			   $query_string.='<li><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].'</a></li>';
+			   $query_string.='<li class="li_search_stock"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].'</a><span class="search_units_stock">'.$row_work_zz["units"].'</span></li>';
 			   }
 			   
 			   

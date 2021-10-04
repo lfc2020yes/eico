@@ -4148,7 +4148,7 @@ if ( $(this).is("[for]") )
 	{
   $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_edit_material.php?id='+$(this).attr("for"),
+    url: 'forms/form_edit_material_2021.php?id='+$(this).attr("for"),
     beforeOpen: function (data, el) {
 		//во время загрузки формы с ajax загрузчик
 		$('.loader_ada_forms').show();
@@ -4222,7 +4222,7 @@ if ( $(this).is("[for]") )
 	{
   $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_add_material.php?id='+$(this).attr("for"),
+    url: 'forms/form_add_material_2021.php?id='+$(this).attr("for"),
 	  beforeOpen: function (data, el) {
 		  //во время загрузки формы с ajax загрузчик
 		  $('.loader_ada_forms').show();
@@ -4381,7 +4381,7 @@ if ( $(this).is("[for]") )
 	{
   $.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_edit_work.php?id='+$(this).attr("for"),
+    url: 'forms/form_edit_work_2021.php?id='+$(this).attr("for"),
 	  beforeOpen: function (data, el) {
 		  //во время загрузки формы с ajax загрузчик
 		  $('.loader_ada_forms').show();

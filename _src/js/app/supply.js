@@ -10,7 +10,60 @@ $(function (){
     //инициализация корзины компонентов сверху
     basket_supply();
 
+    $('.js-call-no-v').find('.drop').on("change keyup input click","li",list_number);
+
+    $('body').on("change keyup input click",'.js-dava-click',dava_supply);
+
 });
+
+function list_number() {
+    //alert("!");
+//.next().find('li')
+    var active_new=$(this).find('a').attr("rel");
+    //alert(active_new);
+    if(active_new==2)
+    {
+        $("#date_table").show();
+        //$("#date_table").focus();
+        $('.bookingBox_range').css({
+            display:'block'
+        });
+    }
+}
+
+
+
+function dava_supply()
+{
+    var active_new=$(this).find('.choice-radio i');
+    var iu=$('.content_block').attr('iu');
+
+    var fpx=1;
+    if(!active_new.is('.active_task_cb')) {
+        var fpx = 0;
+    }
+
+
+    $.cookie("dava_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+    CookieList("dava_"+iu,fpx,'add');
+    $('.js-reload-top').removeClass('active-r');
+    $('.js-reload-top').addClass('active-r');
+
+    /*
+    if(fpx==1)
+    {
+$('.js-dava-hide').hide();
+    } else
+    {
+        $('.js-dava-hide').show();
+    }
+    */
+
+    //скрыть неиспользуемые поиски при это режиме
+
+
+}
+
 
 //очистить корзину счетов
 function erase_basket()

@@ -19670,6 +19670,27 @@ width: calc(50% - 0px) !important;
   position: relative;
 }
 
+.search-count-csv {
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  font-family: "GEInspiraBold";
+  margin-left: 5px;
+  background-color: #ffec57;
+  height: 24px;
+  line-height: 24px;
+  min-width: 24px;
+  padding: 0 12px;
+  font-size: 11px;
+  border-radius: 4px;
+  text-align: right;
+  margin-right: 20px;
+  float: right;
+}
+
+._hop_ds_2021 {
+  height: auto !important;
+}
+
 .input-block-2020 .list-image {
   padding: 20px;
   display: none;

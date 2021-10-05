@@ -1201,10 +1201,32 @@ function DataNull($data,$d2='') {
                 if ($ret!='null') $ret="'".$ret."'";
                 return $ret;
 }
+
+/** Нормализация известных сокращений. Точки в начале и конце убираем
+ * @param $units
+ * @return string
+ */
+function units_norm($units) {
+    $units = trim($units," \n\r\t\v\0.");
+    $nu = array(
+    'п.м'=>'пм','м.п'=>'пм','пог.м'=>'пм','м/п'=>'пм','м\п'=>'пм',
+    'балон'=>'баллон','бал'=>'баллон','балл'=>'баллон',
+    '50 кв.м'=>'50 м2',
+    'тн'=>'т',
+    'комп'=>'компл','комплект'=>'компл',
+    'м 2'=>'м2','кв.м'=>'м2','кв м'=>'м2',
+    'упак'=>'уп',
+    'пары'=>'компл','пара'=>'компл','пар'=>'компл'
+    );
+    if (isset($nu[ $units])) $units = $nu[ $units];
+    return $units;
+}
+
 // 0 - нет 
 // -1 - Не сходятся единицы исчисления
 function SQL_find_stock($mysqli,$name,$units){
     $id=0;
+    $units = units_norm($units);
     //----------------------------------поиск 
     $sql='select id,name,units from z_stock where name="'.$mysqli->real_escape_string($name).'"';
     $res=$mysqli->query($sql);
@@ -1213,7 +1235,7 @@ function SQL_find_stock($mysqli,$name,$units){
         $id=$row['id'];
         if ($row['units']<>$units) {
             $id=-1;     //Не сходятся единицы исчисления
-            echo "<pre>$name : $units -> ".print_r($row,true)."</pre>";
+            echo "<pre>Несоответствие единиц измерения: $name : $units -> ".print_r($row,true)."</pre>";
             //окно подтверждения - изменить в смете, изменить на складе, добавить новую позицию
         }
     } else {                       //-----Добавить материал на склад

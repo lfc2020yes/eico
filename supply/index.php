@@ -1122,7 +1122,7 @@ if($result_status->num_rows!=0)
    $row_status = mysqli_fetch_assoc($result_status);
 	
 	$live='';
-	$menu_id = array("20", "11","9");
+	$menu_id = array("9","20", "11");
 	if(array_search($row_work_zz["status"],$menu_id)!==false)
 	{
 		$live='live_menu';
@@ -1136,7 +1136,7 @@ if($result_status->num_rows!=0)
 	}
 	
 	
-	$menu = array( "Заказано", "В работе");
+	$menu = array("Не обработана", "Заказано", "В работе");
 		
 	if(array_search($row_work_zz["status"],$menu_id)!==false)
 	{

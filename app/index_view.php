@@ -1278,7 +1278,9 @@ echo'<input type=hidden value="'.$row_work_zz["id"].'" name="mat_zz['.$i.'][id]"
 				             //вдруг товар уже связан с каким то товаром на складе выводим его название на складе
 					 if($row1ss["id_stock"]!='')
 					 {
-					 $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row1ss["id_stock"].'"'); 
+					 //$result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row1ss["id_stock"].'"');
+
+                     $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row_work_zz["id_stock"].'"');
 			        $num_results_t1__341 = $result_t1__341->num_rows;
 	                if($num_results_t1__341!=0)
 	                {  

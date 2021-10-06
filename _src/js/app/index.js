@@ -1387,7 +1387,7 @@ function option_mat() {
 		
 	$.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_soply_sklad.php?id='+id_soply,
+    url: 'forms/form_soply_sklad_2021.php?id='+id_soply,
 		beforeOpen: function (data, el) {
 			//во время загрузки формы с ajax загрузчик
 			$('.loader_ada_forms').show();

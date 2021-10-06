@@ -19711,7 +19711,7 @@ width: calc(50% - 0px) !important;
 }
 
 .commun1, .object-acc-xx2 {
-  display: inline-block;
+  display: block;
   font-style: normal;
   color: rgba(0, 0, 0, 0.3);
   font-family: "GEInspiraRegular";
@@ -19719,7 +19719,6 @@ width: calc(50% - 0px) !important;
   font-size: 12px;
   line-height: normal;
   font-style: italic;
-  padding-left: 10px;
 }
 
 .sroki-2020-xto {

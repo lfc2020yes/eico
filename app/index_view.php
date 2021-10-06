@@ -1244,7 +1244,7 @@ if($visible_form_commet==1) {
 
 
     $task_cloud_block .= '<textarea cols="10" rows="1" placeholder="" id="otziv_chat1_' . $row1ss["id"] . '" name="mat_zz[' . $i . '][commun_text]" class="di text_area_otziv no_comment_bill22_2 tyyo1 
- gloab">'.$row_work_zz["commet"].'</textarea>';
+ ">'.$row_work_zz["commet"].'</textarea>';
 
     $task_cloud_block .= '</div>      
 </div>  

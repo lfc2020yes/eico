@@ -251,7 +251,7 @@ $title_news='';
 if((isset($_GET["id"])))
 {
 
-$result_news=mysql_time_query($link,'select number from z_doc where id="'.htmlspecialchars(trim($_GET["id"])).'"');	 
+$result_news=mysql_time_query($link,'select id from z_doc where id="'.htmlspecialchars(trim($_GET["id"])).'"');
 			  
 
 
@@ -259,7 +259,7 @@ $num_results_news = $result_news->num_rows;
 if($num_results_news!=0)
 {             
   $row_news = mysqli_fetch_assoc($result_news);
-  $title_news='Заявка на материал №'.$row_news["number"];
+  $title_news='Заявка на материал №'.$row_news["id"];
 }
 
 }

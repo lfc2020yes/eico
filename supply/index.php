@@ -169,7 +169,7 @@ if ( isset($_COOKIE["iss"]))
                       $val_su2=$os2[$su_2];
 
 
-                      if ( isset($_COOKIE["sudd"]))
+                      if ( isset($_COOKIE["suddbc".$id_user]))
                       {
                           $date_base__=explode(".",$_COOKIE["sudd"]);
                           if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2))
@@ -266,7 +266,7 @@ echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io " style="ma
 </div>';
 
 
-echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><a style="float:left;" href="accounting/csv/csv.php" class="search-count-csv">excel</a></div>';
+echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><a style="float:left;" href="supply/csv/csv.php" class="search-count-csv">excel</a></div>';
 
 
 echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_reload">Поиск</a></div>';
@@ -616,9 +616,17 @@ if($row_t22["status"]==10)
 	if($ksss!=0)
 	{		
 	//echo'<tr><td colspan="8" height="20px"></td></tr>';	
-	}			
+	}
+                         $dava='';
+                         $class_dava='';
+                         $style_dava='';
+	if($dava_var==1) {
+        $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+        $class_dava='dava';
+        $style_dava='style="font-size:14px;"';
+    }
 	
-echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j">'. $row_material["material"].'</span></div>';
+echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j '.$class_dava.'" '.$style_dava.'>'. $row_material["material"].'</span>'.$dava.'</div>';
 if($row__2["id_stock"]!='')
 					 {
 					 $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row__2["id_stock"].'"'); 
@@ -861,191 +869,168 @@ if($row__2["id_stock"]==0)
 			   
 			   //score_pay score_app
 			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td><td class=" menu_jjs scope_scope">';
-			   
-			   
-			   //проверяем есть ли счета с этим материалом и их статусы
-			   $result_score=mysql_time_query($link,'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss,(select r.name_status from r_status as r where r.numer_status=a.status and r.id_system="16" ) as status_name from z_acc as a,z_doc_material_acc as b where b.id_acc=a.id and b.id_doc_material="'.$row_work_zz["id"].'"');
 
-						 
-        $num_results_score = $result_score->num_rows;
-	    if($num_results_score!=0)
-	    {
-           $status_score = array("1","2","3","5","4");
-		   //$status_score_class = array("", "score_app","score_pay","score_no","score_paid");
-            $status_score_class = array("", "","","","");
-            for ($ss=0; $ss<$num_results_score; $ss++)
-		   {			   			  			   
-			   $row_score = mysqli_fetch_assoc($result_score);
-			   $tec='';
-			   /*
-			   if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user]))and($_COOKIE["current_supply_".$id_user]==$row_score["id"]))
-		       {
-				   //если выбран этот счет текущим
-				   $tec='score_active'; 
-			   }
-			   */
-			   $too='';
-			   if($row_score["status"]==2)
-			   {
-				   $nhh=1;
-			   }
-			   
-			   
-			   if($row_score["status"]!=1)
-			   {
-				  $too="data-tooltip=\"счет №".$row_score["number"]."- ".$row_score["status_name"]."\"";
-			   } else
-			   {
-				  $too="data-tooltip=\"счет №".$row_score["number"]."\"";  
-			   }
-			   /*
-			   echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><i>'.$row_score["countss"].'</i><span>№'.$row_score["number"].'</span></div>';
-			   */
-			   //$PROC=round($row_gog3["koll"]/$row_gog2["co"]);	
-			   
-			   //#4bcaff
-			   if(($row_score["status"]==4)or($row_score["status"]==20))
-			   {
-				   
-				//узнаем сколько по этому договору уже привезли товара
-				$PROC=0;
-				   
-				$result_proc=mysql_time_query($link,'select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
-                //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
-				$num_results_proc = $result_proc->num_rows;
-                if($num_results_proc!=0)
-                {
-			         $row_proc = mysqli_fetch_assoc($result_proc);
-					 $PROC=round((($row_proc["summ"]-$row_proc["summ1"])*100)/$row_score["summa"]); 
-		        } 
-				   
-				   
-				   
-				   
-				   
-				//подсвечиваем красным если конечная дата доставки завтра а товар привезли не весь или вообще не привезли
-				if(($row_score["status"]==4))
-				{
-			   //подсвечиваем красным за 1 день до доставки
-			   $date_delivery1=date_step($row_score["date_paid"],($row_score["delivery_day"]-1));	
-			   //echo($date_delivery1);
-			   
-			   $style_book='';
-			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
-			   {
-				   $style_book='reddecision1';
-			   }   
-				   
-			   $date_delivery=date_step($row_score["date_paid"],$row_score["delivery_day"]);				   
-		       $date_graf2  = explode("-",$date_delivery);	
-				} else
-				{
-			   //подсвечиваем красным за 1 день до доставки
-			   $date_delivery1=date_step($row_score["date"],($row_score["delivery_day"]-1));	
-			   //echo($date_delivery1);
-			   
-			   $style_book='';
-			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
-			   {
-				   $style_book='reddecision1';
-			   }   
-				   
-			   $date_delivery=date_step($row_score["date"],$row_score["delivery_day"]);				   
-		       $date_graf2  = explode("-",$date_delivery);						
-				}
-				   
-				   /*
-			   echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 '.$tec.'">
-    <div class="circle-container" data-tooltip="Получено '.$PROC.'%">
-        <div class="circlestat" data-dimension="80" data-text="~'.$PROC.'%" data-width="1" data-fontsize="38" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"><span class="spann">№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</span></div>
-    </div>
-</div>';
-*/
-                   echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 score_a score_a_2021 '.$tec.'"><span>№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">(до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].')</span><div data-tooltip="Получено '.$PROC.'%" class="circlestat" data-dimension="20" data-text="~'.$PROC.'%" data-width="1" data-fontsize="12" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/'.$row_score["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+			   if($dava_var==0) {
+                   //проверяем есть ли счета с этим материалом и их статусы
+                   $result_score = mysql_time_query($link, 'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss,(select r.name_status from r_status as r where r.numer_status=a.status and r.id_system="16" ) as status_name from z_acc as a,z_doc_material_acc as b where b.id_acc=a.id and b.id_doc_material="' . $row_work_zz["id"] . '"');
+
+
+                   $num_results_score = $result_score->num_rows;
+                   if ($num_results_score != 0) {
+                       $status_score = array("1", "2", "3", "5", "4");
+                       //$status_score_class = array("", "score_app","score_pay","score_no","score_paid");
+                       $status_score_class = array("", "", "", "", "");
+                       for ($ss = 0; $ss < $num_results_score; $ss++) {
+                           $row_score = mysqli_fetch_assoc($result_score);
+                           $tec = '';
+                           /*
+                           if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user]))and($_COOKIE["current_supply_".$id_user]==$row_score["id"]))
+                           {
+                               //если выбран этот счет текущим
+                               $tec='score_active';
+                           }
+                           */
+                           $too = '';
+                           if ($row_score["status"] == 2) {
+                               $nhh = 1;
+                           }
+
+
+                           if ($row_score["status"] != 1) {
+                               $too = "data-tooltip=\"счет №" . $row_score["number"] . "- " . $row_score["status_name"] . "\"";
+                           } else {
+                               $too = "data-tooltip=\"счет №" . $row_score["number"] . "\"";
+                           }
+                           /*
+                           echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><i>'.$row_score["countss"].'</i><span>№'.$row_score["number"].'</span></div>';
+                           */
+                           //$PROC=round($row_gog3["koll"]/$row_gog2["co"]);
+
+                           //#4bcaff
+                           if (($row_score["status"] == 4) or ($row_score["status"] == 20)) {
+
+                               //узнаем сколько по этому договору уже привезли товара
+                               $PROC = 0;
+
+                               $result_proc = mysql_time_query($link, 'select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="' . $row_score["id"] . '"');
+                               //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
+                               $num_results_proc = $result_proc->num_rows;
+                               if ($num_results_proc != 0) {
+                                   $row_proc = mysqli_fetch_assoc($result_proc);
+                                   $PROC = round((($row_proc["summ"] - $row_proc["summ1"]) * 100) / $row_score["summa"]);
+                               }
+
+
+                               //подсвечиваем красным если конечная дата доставки завтра а товар привезли не весь или вообще не привезли
+                               if (($row_score["status"] == 4)) {
+                                   //подсвечиваем красным за 1 день до доставки
+                                   $date_delivery1 = date_step($row_score["date_paid"], ($row_score["delivery_day"] - 1));
+                                   //echo($date_delivery1);
+
+                                   $style_book = '';
+                                   if ((dateDiff_1(date("y-m-d") . ' ' . date("H:i:s"), $date_delivery1 . ' 00:00:00') >= 0) and ($PROC < 100)) {
+                                       $style_book = 'reddecision1';
+                                   }
+
+                                   $date_delivery = date_step($row_score["date_paid"], $row_score["delivery_day"]);
+                                   $date_graf2 = explode("-", $date_delivery);
+                               } else {
+                                   //подсвечиваем красным за 1 день до доставки
+                                   $date_delivery1 = date_step($row_score["date"], ($row_score["delivery_day"] - 1));
+                                   //echo($date_delivery1);
+
+                                   $style_book = '';
+                                   if ((dateDiff_1(date("y-m-d") . ' ' . date("H:i:s"), $date_delivery1 . ' 00:00:00') >= 0) and ($PROC < 100)) {
+                                       $style_book = 'reddecision1';
+                                   }
+
+                                   $date_delivery = date_step($row_score["date"], $row_score["delivery_day"]);
+                                   $date_graf2 = explode("-", $date_delivery);
+                               }
+
+                               /*
+                           echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 '.$tec.'">
+                <div class="circle-container" data-tooltip="Получено '.$PROC.'%">
+                    <div class="circlestat" data-dimension="80" data-text="~'.$PROC.'%" data-width="1" data-fontsize="38" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"><span class="spann">№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</span></div>
+                </div>
+            </div>';
+            */
+                               echo '<div rel_score="' . $row_score["id"] . '" class="menu_click score_a1 score_a score_a_2021 ' . $tec . '"><span>№' . $row_score["number"] . '</span><span class="date_proc ' . $style_book . '">(до ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . ')</span><div data-tooltip="Получено ' . $PROC . '%" class="circlestat" data-dimension="20" data-text="~' . $PROC . '%" data-width="1" data-fontsize="12" data-percent="' . $PROC . '" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="a" value="open" type="hidden">
 </form></div>';
 
 
-				
-			   } else
-			   {
-				   echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><span>№'.$row_score["number"].' ('.date_ex(0,$row_score["date"]).')</span><strong><label>'.rtrim(rtrim(number_format($row_score["summa"], 2, '.', ' '),'0'),'.').'</label></strong><i>'.$row_score["countss"].'</i>';
+                           } else {
+                               echo '<div rel_score="' . $row_score["id"] . '" ' . $too . ' class="menu_click score_a ' . $status_score_class[array_search($row_score["status"], $status_score)] . ' ' . $tec . '"><span>№' . $row_score["number"] . ' (' . date_ex(0, $row_score["date"]) . ')</span><strong><label>' . rtrim(rtrim(number_format($row_score["summa"], 2, '.', ' '), '0'), '.') . '</label></strong><i>' . $row_score["countss"] . '</i>';
 
-				   if(($row_score["status"]!=1)) {
-                       $js_mod = '';
+                               if (($row_score["status"] != 1)) {
+                                   $js_mod = '';
 //статус обращения
 
-                       $color_status = 1;
-                       //на согласовании
-                       if ($row_score["status"] == 2) {
-                           $color_status = 2;
-                       }
-                       //к оплате
-                       if ($row_score["status"] == 3) {
-                           $color_status = 3;
-                       }
-                       //оплачено
-                       if ($row_score["status"] == 4) {
-                           $color_status = 5;
-                       }
-                       //отказано
-                       if (($row_score["status"] == 8)or($row_score["status"] == 5)) {
-                           $color_status = 4;
-                       }
+                                   $color_status = 1;
+                                   //на согласовании
+                                   if ($row_score["status"] == 2) {
+                                       $color_status = 2;
+                                   }
+                                   //к оплате
+                                   if ($row_score["status"] == 3) {
+                                       $color_status = 3;
+                                   }
+                                   //оплачено
+                                   if ($row_score["status"] == 4) {
+                                       $color_status = 5;
+                                   }
+                                   //отказано
+                                   if (($row_score["status"] == 8) or ($row_score["status"] == 5)) {
+                                       $color_status = 4;
+                                   }
 
 //выводим статус заявки
-                       $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=16');
+                                   $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=16');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
-                       if ($result_status->num_rows != 0) {
-                           $row_status = mysqli_fetch_assoc($result_status);
+                                   if ($result_status->num_rows != 0) {
+                                       $row_status = mysqli_fetch_assoc($result_status);
 
 
-                           echo '<div class="js-state-acc-link"><div id_status="' . $row_score["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
+                                       echo '<div class="js-state-acc-link"><div id_status="' . $row_score["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
+                                   }
+                               }
+
+                               echo '<form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
+
+
+                           }
+
+
+                           $menu = array("Открыть", "Сделать текущим", "Согласовать", "Удалить");
+                           $menu_id = array("1", "2", "3", "4");
+                           $menu_id_visible = array("1", "1", "1", "1");
+                           if (($row_score["status"] != 1) and ($row_score["status"] != 8)) {
+                               $menu_id_visible = array("1", "0", "0", "0");
+                           }
+
+
+                           echo '<div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left:-50px; top:5px;">';
+                           for ($it = 0; $it < count($menu); $it++) {
+                               if ($menu_id_visible[$it] == 1) {
+                                   echo '<li><a href="javascript:void(0);"  rel="' . $menu_id[$it] . '">' . $menu[$it] . '</a></li>';
+                               }
+
+
+                           }
+                           echo '</ul><input rel="x" type="hidden" name="vall" class="option_score1" value="0"></div>';
                        }
                    }
-
-				   echo'<form class="none"  action="acc/'.$row_score["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
-
-
-
-
-
-			   }
-			   
-			   
-			   $menu = array( "Открыть","Сделать текущим","Согласовать","Удалить");
-	           $menu_id = array("1","2","3","4");
-			   $menu_id_visible= array("1","1","1","1");
-			   if(($row_score["status"]!=1)and($row_score["status"]!=8))
-			   {
-				   $menu_id_visible= array("1","0","0","0");
-			   }
-			   
-	
-	echo'<div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left:-50px; top:5px;">';
-		   for ($it=0; $it<count($menu); $it++)
-             {   
-				 if($menu_id_visible[$it]==1)
-				 {
-				  echo'<li><a href="javascript:void(0);"  rel="'.$menu_id[$it].'">'.$menu[$it].'</a></li>'; 
-				 }
-			   
-			 
-			 }
-	echo'</ul><input rel="x" type="hidden" name="vall" class="option_score1" value="0"></div>';	
-		   }
-		}
-
+               }
 				   
 			  echo'</td><td>';
-			   if($row__2["id_stock"]!=0)
-			   {
-				  echo'<div class="st_div_supply"><i class=""></i></div>'; 
-			   } else
-			   {
-				  echo'<div class="st_div_supply" style="display:none;"><i class=""></i></div>';   
-			   }
-			
+			   if($dava_var==0) {
+                   if ($row__2["id_stock"] != 0) {
+                       echo '<div class="st_div_supply"><i class=""></i></div>';
+                   } else {
+                       echo '<div class="st_div_supply" style="display:none;"><i class=""></i></div>';
+                   }
+               }
 			   
 			   
 			  echo'</td><td>';

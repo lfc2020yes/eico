@@ -845,7 +845,7 @@ a.id_i_material="'.htmlspecialchars(trim($D[$i])).'"  AND a.status NOT IN ("1","
 
 
                          $task_cloud_block .='<textarea cols="10" rows="1" placeholder="" id="otziv_chat1_' . $row1ss["id"] . '" name="mat_zz['.$i.'][commun_text]" class="di text_area_otziv no_comment_bill22_2 tyyo1 
- gloab"></textarea>';
+ "></textarea>';
 
                          $task_cloud_block .= '</div>      
 </div>  

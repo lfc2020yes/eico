@@ -868,9 +868,96 @@ if($row__2["id_stock"]==0)
 				}
 			   
 			   //score_pay score_app
-			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td><td class=" menu_jjs scope_scope">';
+			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td>';
 
-			   if($dava_var==0) {
+               echo'<td>';
+
+               echo'<div class="supply-flex-21">
+           <div class="st-flex-21">';
+               if($dava_var==0) {
+                   if ($row__2["id_stock"] != 0) {
+                       echo '<div class="st_div_supply"><i class=""></i></div>';
+                   } else {
+                       echo '<div class="st_div_supply" style="display:none;"><i class=""></i></div>';
+                   }
+               }
+
+echo'</div><div class="st-flex">';
+
+               echo($row_work_zz['count_units'].' '.$row_material['units']);
+
+               if($row_work_zz['commet']!='')
+               {
+                   echo'<div data-tooltip="Комментарий к заказу" class="commun1">('.$row_work_zz['commet'].')</div>';
+               }
+
+
+				   echo'</div></div>';
+			  echo'</td>';
+
+
+               $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
+               //echo('select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
+               $num_results_custom_url = $result_url->num_rows;
+               if($num_results_custom_url!=0)
+               {
+                   $row_list1 = mysqli_fetch_assoc($result_url);
+
+                   $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
+                   $num_results_custom_town = $result_town->num_rows;
+                   if($num_results_custom_town!=0)
+                   {
+                       $row_town = mysqli_fetch_assoc($result_town);
+                   }
+               }
+
+              // echo'<td colspan="2"><label>Заявка/Объект</label>';
+               echo'<td colspan="2">';
+
+               echo'<a data-tooltip="Заявка" href="app/'.$row_work_zz['app_id'].'/" class="app-soply">'.$row_work_zz['app_name'].'</a><span class="object-acc-xx2 " style="line-height: 16px !important;">';
+
+
+               if($num_results_custom_url!=0)
+               {
+                   echo '('.$row_list1["object_name"].', '.$row_town["town"].', '.$row_town["kvartal"].')';
+               } else
+               {
+                   echo 'Объект неизвестен';
+               }
+               echo'</span></td>';
+
+
+
+
+
+
+               $style_red='';
+               $d_day=dateDiff_1(date("Y-m-d").' '.date("H:i:s"),$row_work_zz['date_delivery'].' 00:00:00');
+
+               if(($d_day>0))
+               {
+                   $style_red='red_proc_sroki';
+               } else
+               {
+                   if((abs($d_day)==0)or(abs($d_day)==1)or(abs($d_day)==2))
+                   {
+
+                       $style_red='yellow_proc_sroki';
+
+                   }
+               }
+
+			   
+			   
+			  echo'<td>
+<div class="sroki-2020-xto">→ <span data-tooltip="дата поставки" class="'.$style_red.'">'.MaskDate_D_M_Y_ss($row_work_zz['date_delivery']).', '.day_nedeli_x_small($row_work_zz['date_delivery']).'</span></div>
+
+
+</td>';
+
+               echo'<td class=" menu_jjs scope_scope">';
+
+               if($dava_var==0) {
                    //проверяем есть ли счета с этим материалом и их статусы
                    $result_score = mysql_time_query($link, 'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss,(select r.name_status from r_status as r where r.numer_status=a.status and r.id_system="16" ) as status_name from z_acc as a,z_doc_material_acc as b where b.id_acc=a.id and b.id_doc_material="' . $row_work_zz["id"] . '"');
 
@@ -883,13 +970,7 @@ if($row__2["id_stock"]==0)
                        for ($ss = 0; $ss < $num_results_score; $ss++) {
                            $row_score = mysqli_fetch_assoc($result_score);
                            $tec = '';
-                           /*
-                           if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user]))and($_COOKIE["current_supply_".$id_user]==$row_score["id"]))
-                           {
-                               //если выбран этот счет текущим
-                               $tec='score_active';
-                           }
-                           */
+
                            $too = '';
                            if ($row_score["status"] == 2) {
                                $nhh = 1;
@@ -901,9 +982,7 @@ if($row__2["id_stock"]==0)
                            } else {
                                $too = "data-tooltip=\"счет №" . $row_score["number"] . "\"";
                            }
-                           /*
-                           echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><i>'.$row_score["countss"].'</i><span>№'.$row_score["number"].'</span></div>';
-                           */
+
                            //$PROC=round($row_gog3["koll"]/$row_gog2["co"]);
 
                            //#4bcaff
@@ -913,7 +992,7 @@ if($row__2["id_stock"]==0)
                                $PROC = 0;
 
                                $result_proc = mysql_time_query($link, 'select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="' . $row_score["id"] . '"');
-                               //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
+
                                $num_results_proc = $result_proc->num_rows;
                                if ($num_results_proc != 0) {
                                    $row_proc = mysqli_fetch_assoc($result_proc);
@@ -948,13 +1027,7 @@ if($row__2["id_stock"]==0)
                                    $date_graf2 = explode("-", $date_delivery);
                                }
 
-                               /*
-                           echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 '.$tec.'">
-                <div class="circle-container" data-tooltip="Получено '.$PROC.'%">
-                    <div class="circlestat" data-dimension="80" data-text="~'.$PROC.'%" data-width="1" data-fontsize="38" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"><span class="spann">№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</span></div>
-                </div>
-            </div>';
-            */
+
                                echo '<div rel_score="' . $row_score["id"] . '" class="menu_click score_a1 score_a score_a_2021 ' . $tec . '"><span>№' . $row_score["number"] . '</span><span class="date_proc ' . $style_book . '">(до ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . ')</span><div data-tooltip="Получено ' . $PROC . '%" class="circlestat" data-dimension="20" data-text="~' . $PROC . '%" data-width="1" data-fontsize="12" data-percent="' . $PROC . '" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="a" value="open" type="hidden">
 </form></div>';
@@ -1022,64 +1095,10 @@ if($row__2["id_stock"]==0)
                        }
                    }
                }
-				   
-			  echo'</td><td>';
-			   if($dava_var==0) {
-                   if ($row__2["id_stock"] != 0) {
-                       echo '<div class="st_div_supply"><i class=""></i></div>';
-                   } else {
-                       echo '<div class="st_div_supply" style="display:none;"><i class=""></i></div>';
-                   }
-               }
-			   
-			   
-			  echo'</td><td>';
-			   
-				
-			   
-			   		$result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
-			   //echo('select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url!=0)
-        {
-			$row_list1 = mysqli_fetch_assoc($result_url);
 
-			        $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
-        $num_results_custom_town = $result_town->num_rows;
-        if($num_results_custom_town!=0)
-        {
-			$row_town = mysqli_fetch_assoc($result_town);	
-		}
-		}
-	
-	
-			   
-			   
-			   
-	             echo($row_work_zz['count_units'].' '.$row_material['units']);
-
-			   
-			   $actv12='';
-			 						 if((time_compare($row_work_zz['date_delivery'].' 00:00:00',0)==0))
-						 {
-						   $actv12.=' redsupply ';
-						 }  
-			   
-			   
-			  echo'</td><td><label>Дата поставки</label><span class="'.$actv12.'">'.MaskDate_D_M_Y_ss($row_work_zz['date_delivery']).'</span></td><td><label>Заявка/Объект</label>';
+               echo'</td>';
 
 
-			 echo'<a href="app/'.$row_work_zz['app_id'].'/" class="app-soply">'.$row_work_zz['app_name'].'</a><span class="object-acc-xx">';
-
-
-			  if($num_results_custom_url!=0)
-              {
-			      echo $row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')';
-			  } else
-			  {
-				  echo 'Объект неизвестен';
-			  }
-				   echo'</span></td>';
 			  /*
 	echo'<td>';
 		$result_txs=mysql_time_query($link,'Select a.id,a.name_user,a.timelast from r_user as a where a.id="'.htmlspecialchars(trim($row_work_zz["id_user"])).'"');
@@ -1113,7 +1132,7 @@ if($result_status->num_rows!=0)
        echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z0 '.$live.'">не обработана</div>';
 	} else
 	{
-		echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z'.$row_work_zz["status"].' '.$live.'">'.$row_status["name_status"].'</div>';	
+		echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z'.$row_work_zz["status"].' '.$live.'">'.$row_status["name_status"].'</div>';
 	}
 	
 	

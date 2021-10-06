@@ -4594,6 +4594,7 @@ span {  border-bottom: 1px solid #fd8080;}
     margin-top: -22px;
     /*margin-top: 1px;*/
     max-height:300px;
+    min-width:130px;
     overflow:hidden;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -5985,3 +5986,34 @@ border-radius: 5px;
 }
 
 ._hop_ds_2021 {height: auto !important;}
+
+
+.supply-flex-21 {
+  @include flexbox();
+  @include align-items(center);
+  width: 100%;
+  .st-flex-21 { width: 70px;}
+  .st-flex { width: calc(100% - 50px);}
+
+}
+
+.commun1,.object-acc-xx2 {display: inline-block;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: "GEInspiraRegular";
+  text-transform: none;
+  font-size: 12px;
+  line-height:normal;
+  font-style: italic;
+  padding-left: 10px;
+
+}
+
+
+.sroki-2020-xto {font-family: GEInspiraBold;  font-size: 12px; white-space: nowrap;}
+.red_proc_sroki {background-color: #fd8080;
+  color: #fff;
+  padding: 2px;}
+
+.yellow_proc_sroki {padding: 2px; background-color: #ffec57; color: rgba(0, 0, 0, 0.7);}
+

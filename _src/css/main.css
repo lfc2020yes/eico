@@ -6520,7 +6520,6 @@ tr.active_supplyx .supply_tr_o::before {
   display: inline-block;
   vertical-align: top;
   margin-left: 5px;
-  margin-bottom: 20px;
   width: 65px;
   height: 65px;
   position: relative;
@@ -17956,6 +17955,7 @@ width: calc(50% - 0px) !important;
   margin-top: -22px;
   /*margin-top: 1px;*/
   max-height: 300px;
+  min-width: 130px;
   overflow: hidden;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -19689,6 +19689,55 @@ width: calc(50% - 0px) !important;
 
 ._hop_ds_2021 {
   height: auto !important;
+}
+
+.supply-flex-21 {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+}
+.supply-flex-21 .st-flex-21 {
+  width: 70px;
+}
+.supply-flex-21 .st-flex {
+  width: calc(100% - 50px);
+}
+
+.commun1, .object-acc-xx2 {
+  display: inline-block;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: "GEInspiraRegular";
+  text-transform: none;
+  font-size: 12px;
+  line-height: normal;
+  font-style: italic;
+  padding-left: 10px;
+}
+
+.sroki-2020-xto {
+  font-family: GEInspiraBold;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.red_proc_sroki {
+  background-color: #fd8080;
+  color: #fff;
+  padding: 2px;
+}
+
+.yellow_proc_sroki {
+  padding: 2px;
+  background-color: #ffec57;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .input-block-2020 .list-image {

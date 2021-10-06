@@ -1,4 +1,23 @@
 <?
+function day_nedeli_x_small($dat2)
+{
+    $date=explode("-", $dat2);
+    $dow = date("w", mktime(0, 0, 0, $date[1], $date[2], $date[0]));
+
+    switch($dow)
+    {
+        case "0": {  $wr="Вс";  break; }
+        case "1": {  $wr="Пн"; break; }
+        case "2": {  $wr="Вт"; break; }
+        case "3": {  $wr="Ср"; break; }
+        case "4": {  $wr="Чт"; break; }
+        case "5": {  $wr="Пт"; break; }
+        case "6": {  $wr="Сб";  break; }
+    }
+
+    return $wr;
+
+}
 
 
 function password_crypt_x($id_user,$pas,$email)

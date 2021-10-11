@@ -4,6 +4,8 @@ $(function () {
    // $(".add_nar").bind('click', save_naryad);
 });
 
+
+
 //сохранить наряд
 function save_naryad()
 {

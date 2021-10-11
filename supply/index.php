@@ -312,6 +312,7 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
                               $("#date_table").datepicker({
                                   range: 'period', // режим - выбор периода
                                   numberOfMonths: 2,
+                                  firstDay: 1,
                                   autoclose: true,
                                   minDate: "-1Y", maxDate: "+1Y",
                                   onSelect: function(dateText, inst, extensionRange) {
@@ -334,13 +335,16 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
                                       $('.js-reload-top').removeClass('active-r');
                                       $('.js-reload-top').addClass('active-r');
                                       window.date_picker_step++;
+
+
+
                                       if(window.date_picker_step==2)
                                       {
                                           //$('#date_table').сlose();
                                           //$('.datepicker').hide();
                                           window.date_picker_step=0;
                                           setTimeout ( function () { $('.bookingBox_range').hide(); }, 1000 );
-
+                                          alert_message('ok','для обновления вывода нажмите кнопку поиск');
                                       }
                                   },
 

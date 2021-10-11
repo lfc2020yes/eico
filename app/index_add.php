@@ -591,9 +591,24 @@ echo'</div>';
  <input name="save_naryad" value="1" type="hidden">
     <?
 
+    //по умолчанию название работы по первому материалу
+    $DSD = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
+$name_t='';
+$class_t='';
+//echo($DSD[0]);
+    $result_uuo = mysql_time_query($link, 'select a.razdel1,a.razdel2,a.name_working from i_razdel2 as a,i_material as b where b.id_razdel2=a.id and b.id="' . ht($DSD[0]) . '"');
+    $num_results_uuo = $result_uuo->num_rows;
+
+    if ($num_results_uuo != 0) {
+        $row_uuo = mysqli_fetch_assoc($result_uuo);
+        $name_t=$row_uuo["razdel1"].'.'.$row_uuo["razdel2"].' '.$row_uuo["name_working"];
+        $class_t='active_in_2018';
+    }
+
+
 
     echo'<!--input start-->
-<div class="margin-input"><div class="input_2018 input_2018_resize  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").'"><label><i>Название заявки</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di gloab input_new_2018  text_area_otziv js-autoResize ">'.ipost_($_POST['name_b'],"").'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<div class="margin-input"><div class="input_2018 input_2018_resize '.$class_t.'  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").'"><label><i>Название заявки</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di gloab input_new_2018  text_area_otziv js-autoResize ">'.ipost_($_POST['name_b'],$name_t).'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
 <!--input end	-->';
 
 

@@ -870,7 +870,8 @@ beforeShow:function(textbox, instance){
 	 
 $("#date_table1").datepicker({ 
 range: 'period', // режим - выбор периода
-numberOfMonths: 2,	
+numberOfMonths: 2,
+    firstDay: 1,
 //altField:'#date_hidden_period',
 /*
 	onClose : function(dateText, inst){

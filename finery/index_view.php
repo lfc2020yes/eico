@@ -1194,7 +1194,7 @@ echo'<div class="comme" >'.$row_town["object_name"].' ('.$row_town["town"].', '.
 	<script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
 	<script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
 <script type="text/javascript">var disabledDays = [];
- $(document).ready(function(){           
+ $(document).ready(function(){
             $("#date_table").datepicker({ 
 altField:'#date_hidden_table',
 onClose : function(dateText, inst){
@@ -1202,7 +1202,7 @@ onClose : function(dateText, inst){
 		
     },
 onSelect: function(dateText, inst) {				
-	savedefault($("#date_table"));			
+	savedefault($("#date_table"));
 },
 altFormat:'yy-mm-dd',
 defaultDate:null,
@@ -1228,7 +1228,8 @@ beforeShow:function(textbox, instance){
 	 
 $("#date_table1").datepicker({ 
 range: 'period', // режим - выбор периода
-numberOfMonths: 2,	
+numberOfMonths: 2,
+    firstDay: 1,
 //altField:'#date_hidden_period',
 /*
 	onClose : function(dateText, inst){
@@ -1250,7 +1251,7 @@ onSelect: function(dateText, inst, extensionRange) {
 	$('#date_table1').prev('label').show();
 	
 	savedefault($("#date_table1"));
-	
+
     },	
 	
 //beforeShowDay: disableAllTheseDays,

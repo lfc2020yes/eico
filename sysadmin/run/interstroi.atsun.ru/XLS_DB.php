@@ -1162,7 +1162,7 @@ function SQL_insert_work($mysqli,$id_razdel1,$R1,$R2,&$ROW_data,$title){   //not
                                         ."'$R2',"
                                         ."'".$mysqli->real_escape_string($ROW_data[1])."',"
                                         ."'$id_implementer',"
-                                        ."'$ROW_data[3]',"
+                                        ."'".units_norm($ROW_data[3])."',"
                                         ."'$ROW_data[4]',"
                                         ."'$ROW_data[5]',"
                                         ."'$title',"
@@ -1179,7 +1179,7 @@ function SQL_insert_work($mysqli,$id_razdel1,$R1,$R2,&$ROW_data,$title){   //not
                                         ."'$R2',"
                                         ."'".$mysqli->real_escape_string($ROW_data[1])."',"
                                         ."'$id_implementer',"
-                                        .DataNull($ROW_data[3]).","
+                                        .DataNull(units_norm($ROW_data[3])).","
                                         .DataNull($ROW_data[4],'1').","
                                         ."'$ROW_data[7]',"
                                         ."'$title',"
@@ -1207,17 +1207,18 @@ function DataNull($data,$d2='') {
  * @return string
  */
 function units_norm($units) {
-    $units = trim($units," \n\r\t\v\0.");
+    $units = strtolower(trim($units," \n\r\t\v\0."));
     $nu = array(
     'п.м'=>'пм','м.п'=>'пм','пог.м'=>'пм','м/п'=>'пм','м\п'=>'пм','мп'=>'пм','п/м'=>'пм','п\м'=>'пм',
-    'балон'=>'баллон','бал'=>'баллон','балл'=>'баллон',
+    'балон'=>'шт','бал'=>'шт','балл'=>'шт','баллон'=>'шт',
     '50 кв.м'=>'50 м2',
     'тн'=>'т',
     'комп'=>'компл','комплект'=>'компл',
     'м 2'=>'м2','кв.м'=>'м2','кв м'=>'м2',
     'куб.м'=>'м3','куб м'=>'м3',
     'упак'=>'уп',
-    'пары'=>'компл','пара'=>'компл','пар'=>'компл'
+    'пары'=>'компл','пара'=>'компл','пар'=>'компл',
+    'копмл'=>'компл','копм'=>'компл','копмлекс работ'=>'компл','комплекс работ'=>'компл'
     );
     if (isset($nu[ $units])) $units = $nu[ $units];
     return $units;
@@ -1292,7 +1293,7 @@ function SQL_insert_material($mysqli,$id_razdel2,$R1,$R2,$R3,&$ROW_data,$title,$
                                         ."'$R3',"
                                         ."'".$mysqli->real_escape_string($ROW_data[1])."',"
                                         ."'$id_implementer',"
-                                        ."'$ROW_data[3]',"
+                                        ."'".units_norm($ROW_data[3])."',"
                                         ."'$ROW_data[4]',"
                                         ."'$ROW_data[6]',"
                                         ."'$title'," 

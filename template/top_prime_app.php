@@ -12,6 +12,8 @@
 
                     //невыполненные
                     $arr_tasks = $edo->my_tasks(0, '=0' );
+
+                    //echo(count($arr_tasks));
                     array_push($subor_cc,count($arr_tasks));
 
                     $mym=0;
@@ -24,6 +26,8 @@
 //выполненные все
                     $arr_tasks1 = $edo->my_tasks(0, '<>0' );
                     // echo count($arr_document) ;
+                    //echo(count($arr_tasks1));
+
                     array_push($subor_cc,count($arr_tasks1));
                     //если у него нет своих заявок то выводить только задания и выполненные
 

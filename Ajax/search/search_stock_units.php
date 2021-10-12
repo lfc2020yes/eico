@@ -39,7 +39,7 @@ if ( count($_GET) != 4 )
 }
 */
 //**************************************************
-if (((!$role->permission('Накладные','A'))and(!$role->permission('Себестоимость','A')))and($sign_admin!=1))
+if (((!$role->permission('Накладные','A'))and(!$role->permission('Себестоимость','A'))and(!$role->permission('Счета','A')))and($sign_admin!=1))
 {
   $debug=h4a(2,$echo_r,$debug);
   goto end_code;	

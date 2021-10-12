@@ -1387,7 +1387,7 @@ function option_mat() {
 		
 	$.arcticmodal({
     type: 'ajax',
-    url: 'forms/form_soply_sklad.php?id='+id_soply,
+    url: 'forms/form_soply_sklad_2021.php?id='+id_soply,
 		beforeOpen: function (data, el) {
 			//во время загрузки формы с ajax загрузчик
 			$('.loader_ada_forms').show();
@@ -3125,9 +3125,10 @@ function BasketMaterial()
 	if(cookie==null) { $('.material_end').remove();  $('.material_inv').remove();} else
 	{
 		
-		if(!$("div").is(".material_end"))
-		{
-			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/'+id_dom+'/">d<i></i></a></div>');
+		if(!$("div").is(".material_end")) {
+			$('.add_mmm').after('<div class="material_end" data-tooltip="Оформить заявку на материалы"><a href="app/add/' + id_dom + '/">d<i></i></a></div>');
+		}
+		if(!$("div").is(".material_inv")) {
 
 			$('.add_iii').after('<div class="material_inv" data-tooltip="Оформить накладную"><a href="invoices/add/'+id_dom+'/">H<i></i></a></div>');
 

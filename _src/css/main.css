@@ -6520,7 +6520,6 @@ tr.active_supplyx .supply_tr_o::before {
   display: inline-block;
   vertical-align: top;
   margin-left: 5px;
-  margin-bottom: 20px;
   width: 65px;
   height: 65px;
   position: relative;
@@ -10714,12 +10713,12 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-  background-color: rgba(0, 0, 0, 0.1) !important;
+  background-color: #ffec57;
   border: 0 solid #c5c5c5 !important;
   border-radius: 2px !important;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) !important;
   font-family: Arial, Helvetica, sans-serif !important;
-  color: #454545 !important;
+  color: #454545;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
@@ -17956,6 +17955,7 @@ width: calc(50% - 0px) !important;
   margin-top: -22px;
   /*margin-top: 1px;*/
   max-height: 300px;
+  min-width: 130px;
   overflow: hidden;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -19668,6 +19668,75 @@ width: calc(50% - 0px) !important;
 .li_search_stock {
   padding-right: 40px !important;
   position: relative;
+}
+
+.search-count-csv {
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  font-family: "GEInspiraBold";
+  margin-left: 5px;
+  background-color: #ffec57;
+  height: 24px;
+  line-height: 24px;
+  min-width: 24px;
+  padding: 0 12px;
+  font-size: 11px;
+  border-radius: 4px;
+  text-align: right;
+  margin-right: 20px;
+  float: right;
+}
+
+._hop_ds_2021 {
+  height: auto !important;
+}
+
+.supply-flex-21 {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+}
+.supply-flex-21 .st-flex-21 {
+  width: 70px;
+}
+.supply-flex-21 .st-flex {
+  width: calc(100% - 50px);
+}
+
+.commun1, .object-acc-xx2 {
+  display: block;
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: "GEInspiraRegular";
+  text-transform: none;
+  font-size: 12px;
+  line-height: normal;
+  font-style: italic;
+}
+
+.sroki-2020-xto {
+  font-family: GEInspiraBold;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.red_proc_sroki {
+  background-color: #fd8080;
+  color: #fff;
+  padding: 2px;
+}
+
+.yellow_proc_sroki {
+  padding: 2px;
+  background-color: #ffec57;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .input-block-2020 .list-image {

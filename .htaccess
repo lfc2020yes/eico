@@ -50,12 +50,12 @@ ExpiresByType video/webm                "access plus 2 week"
 ExpiresByType image/x-icon              "access plus 2 week"
 
 # גוב-רנטפעû
-ExpiresByType font/truetype             "access plus 1 month"
-ExpiresByType font/opentype             "access plus 1 month"
-ExpiresByType font/woff                 "access plus 1 month"
-ExpiresByType image/svg+xml             "access plus 1 month"
-ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
-ExpiresByType application/font-woff     "access plus 1 month"
+#ExpiresByType font/truetype             "access plus 1 month"
+#ExpiresByType font/opentype             "access plus 1 month"
+#ExpiresByType font/woff                 "access plus 1 month"
+#ExpiresByType image/svg+xml             "access plus 1 month"
+#ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+#ExpiresByType application/font-woff     "access plus 1 month"
 # css ט javascript
 #ExpiresByType text/css                  "access plus 1 month"
 #ExpiresByType application/javascript    "access plus 1 month"

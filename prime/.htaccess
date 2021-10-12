@@ -4,8 +4,10 @@ RewriteBase /
 RewriteRule ^.htaccess$ - [F]
 DirectoryIndex index.php
 
+RewriteRule ^([0-9]*)/gant/$      prime/index_gant.php?id=$1 [L]
 RewriteRule ^([0-9]*)/$      prime/index_view.php?id=$1 [L]
 RewriteRule ^([0-9]*)/add/([0-9]*)/$      prime/index_view.php?id=$1&add=$2 [L]
+
 RewriteRule ^([0-9]*)/add_a/([0-9]*)/$      prime/index_view.php?id=$1&add_a=$2 [L]
 
 

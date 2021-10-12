@@ -1176,8 +1176,8 @@ a.id_i_material="'.$row_work_zz["id_i_material"].'"  AND a.status NOT IN ("1", "
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
 	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
+	                 //такая работа есть
+                     $row1ss_ = mysqli_fetch_assoc($result_t1_);
 					 if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
 					 {
 					     $z_stock_count_doc=$row1ss_["summ"];
@@ -1224,9 +1224,18 @@ if(trim($row_work_zz["commet"])!='')
 {
     $class_bu='yes-note';
     $val_commun=1;
+} else
+{
+    $text_tool='нет комментария';
+    $class_bu='';
 }
+
+
+
 $visible_form_commet=0;
-                     if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
+
+
+                 if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
                  {
                      $text_tool='Написать/изменить комментарий';
                      $visible_form_commet=1;
@@ -1244,7 +1253,7 @@ if($visible_form_commet==1) {
 
 
     $task_cloud_block .= '<textarea cols="10" rows="1" placeholder="" id="otziv_chat1_' . $row1ss["id"] . '" name="mat_zz[' . $i . '][commun_text]" class="di text_area_otziv no_comment_bill22_2 tyyo1 
- gloab">'.$row_work_zz["commet"].'</textarea>';
+ ">'.$row_work_zz["commet"].'</textarea>';
 
     $task_cloud_block .= '</div>      
 </div>  
@@ -1278,7 +1287,9 @@ echo'<input type=hidden value="'.$row_work_zz["id"].'" name="mat_zz['.$i.'][id]"
 				             //вдруг товар уже связан с каким то товаром на складе выводим его название на складе
 					 if($row1ss["id_stock"]!='')
 					 {
-					 $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row1ss["id_stock"].'"'); 
+					 //$result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row1ss["id_stock"].'"');
+
+                     $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row_work_zz["id_stock"].'"');
 			        $num_results_t1__341 = $result_t1__341->num_rows;
 	                if($num_results_t1__341!=0)
 	                {  

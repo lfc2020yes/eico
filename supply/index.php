@@ -127,9 +127,9 @@ if ( isset($_COOKIE["iss"]))
 	            ?>
       <div id="fullpage" class="margin_60  input-block-2020 ">
           <div class="oka_block_2019" style="min-height:auto;">
-              <div class="div_ook hop_ds"><div class="search_task">
+              <div class="div_ook hop_ds _hop_ds_2021"><div class="search_task">
                       <?
-                      $os = array( "дата поставки", "по алфавиту","новые");
+                      $os = array( "дата поставки","дата поступления заявки");
                       $os_id = array("0", "1", "2");
 
                       $su_1=0;
@@ -157,8 +157,8 @@ if ( isset($_COOKIE["iss"]))
 
 
 
-                      $os2 = array( "любая", "неделя","выбрать");
-                      $os_id2 = array("0", "1", "2");
+                      $os2 = array( "любой","выбрать");
+                      $os_id2 = array("0", "2");
 
                       $su_2=0;
                       $date_su='';
@@ -169,19 +169,19 @@ if ( isset($_COOKIE["iss"]))
                       $val_su2=$os2[$su_2];
 
 
-                      if ( isset($_COOKIE["sudd"]))
+                      if ( isset($_COOKIE["suddbc".$id_user]))
                       {
                           $date_base__=explode(".",$_COOKIE["sudd"]);
-                          if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2)and(checkdate(date_minus_null($date_base__[1]), date_minus_null($date_base__[0]),$date_base__[2])))
+                          if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2))
                           {
-                              $date_su=$_COOKIE["sudd"];
-                              $val_su2=$_COOKIE["sudd"];
+                              $date_su=$_COOKIE["suddbc_mor".$id_user];
+                              $val_su2=$_COOKIE["suddbc_mor".$id_user];
                           }
                       }
 
 
-                      echo'<input id="date_hidden_table" name="date" value="'.$date_su.'" type="hidden">';
-                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Дата</label><div class="select eddd"><a class="slct" list_number="t2" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
+                      echo'<input id="date_hidden_table" name="date" value="'.$date_su.'" type="hidden"><input id="date_hidden_start" name="start_date" type="hidden"><input id="date_hidden_end" name="end_date" type="hidden">';
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort js-call-no-v gop_io"><label>Период</label><div class="select eddd"><a class="slct" list_number="t2" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
                       for ($i=0; $i<count($os2); $i++)
                       {
                           if($su_2==$os_id2[$i])
@@ -206,7 +206,7 @@ if ( isset($_COOKIE["iss"]))
                       }
 
 
-                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><label>Статус</label><div class="select eddd"><a class="slct" list_number="t3" data_src="'.$os_id3[$su_3].'">'.$os3[array_search($_COOKIE["su_3"], $os_id3)].'</a><ul class="drop">';
+                      echo'<div class="left_drop menu1_prime book_menu_sel js--sort js-dava-hide gop_io"><label>Статус</label><div class="select eddd"><a class="slct" list_number="t3" data_src="'.$os_id3[$su_3].'">'.$os3[array_search($_COOKIE["su_3"], $os_id3)].'</a><ul class="drop">';
                       for ($i=0; $i<count($os3); $i++)
                       {
                           if($su_3==$os_id3[$i])
@@ -246,59 +246,143 @@ if ( isset($_COOKIE["iss"]))
                       }
                       echo'</ul><input type="hidden" name="sort4" id="sort4" value="'.$os4[$su_4].'"></div></div>';
 
+$dava_var=0;
+$dava_class='';
+
+                      if (( isset($_COOKIE["dava_".$id_user]))and($_COOKIE["dava_".$id_user]==1))
+                      {
+
+
+                          $dava_var=1;
+                          $dava_class='active_task_cb';
+                      }
+
+
+echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io " style="margin-top: 0px !important;">
+<div class="input-choice-click-left js-checkbox-group js-dava-click" style="margin-top: 0px; border-radius: 5px; background: transparent;
+">
+                     <div class="choice-head">Давальческий</div>
+                 <div class="choice-radio" style="left: 15px;"><div class="center_vert1"><i class="'.$dava_class.'"></i><input name="dava_supply" value="'.$dava_var.'" class="js-dava-supply" type="hidden"></div></div></div>
+</div>';
+
+
+echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io"><a style="float:left;" href="supply/csv/csv.php" class="search-count-csv">excel</a></div>';
+
 
 echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_reload">Поиск</a></div>';
 
                       //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
                       ?>
+                      <!--
                       <div id="date_table" class="table_suply_x"></div>
 
-                      <div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div>
-                      <script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
-                      <script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
+                      <div class="pad10" style="padding: 0;"><span class="bookingBox_range" style="display: none;"></span></div>
+-->
+                      <div class="pad10" style="padding: 0;"><span class="bookingBox_range"><div id="date_table" class="table_suply_x_st"></div></span></div>
+
+
                       <script type="text/javascript">
+                          (function ($) {
+                              $.extend($.datepicker, {
+
+                                  // Reference the orignal function so we can override it and call it later
+                                  _inlineDatepicker2: $.datepicker._inlineDatepicker,
+
+                                  // Override the _inlineDatepicker method
+                                  _inlineDatepicker: function (target, inst) {
+
+                                      // Call the original
+                                      this._inlineDatepicker2(target, inst);
+
+                                      var beforeShow = $.datepicker._get(inst, 'beforeShow');
+
+                                      if (beforeShow) {
+                                          beforeShow.apply(target, [target, inst]);
+                                      }
+                                  }
+                              });
+                          }(jQuery));
+
                           var disabledDays = [];
                           $(document).ready(function(){
 
-                              $("#date_table").datepicker({
-                                  altField:'#date_hidden_table',
-                                  onClose : function(dateText, inst){
-                                      //alert(dateText); // Âûáðàííàÿ äàòà
+                              window.date_picker_step=0;
 
-                                  },
-                                  altFormat:'dd.mm.yy',
-                                  defaultDate:null,
-                                  beforeShowDay: disableAllTheseDays,
-                                  dateFormat: "d MM yy"+' г.',
+
+                              $("#date_table").datepicker({
+                                  range: 'period', // режим - выбор периода
+                                  numberOfMonths: 2,
                                   firstDay: 1,
                                   autoclose: true,
                                   minDate: "-1Y", maxDate: "+1Y",
-                                  beforeShow:function(textbox, instance){
-                                      //alert('before');
-                                      setTimeout(function () {
+                                  onSelect: function(dateText, inst, extensionRange) {
+
+                                      $('#date_table').val(jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate));
+
+                                      var iu=$('.content_block').attr('iu');
+
+                                      $.cookie("suddbc_mor"+iu, null, {path:'/',domain: window.is_session,secure: false});
+                                      CookieList("suddbc_mor"+iu,jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate),'add');
+
+
+                                      $('#date_hidden_start').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.startDate));
+                                      $('#date_hidden_end').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.endDate));
+
+                                      $('[list_number=t2]').empty().append(jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate));
+                                      $.cookie("suddbc"+iu, null, {path:'/',domain: window.is_session,secure: false});
+                                      CookieList("suddbc"+iu,$('#date_hidden_start').val()+'/'+$('#date_hidden_end').val(),'add');
+
+                                      $('.js-reload-top').removeClass('active-r');
+                                      $('.js-reload-top').addClass('active-r');
+                                      window.date_picker_step++;
+
+
+
+                                      if(window.date_picker_step==2)
+                                      {
+                                          //$('#date_table').сlose();
+                                          //$('.datepicker').hide();
+                                          window.date_picker_step=0;
+                                          setTimeout ( function () { $('.bookingBox_range').hide(); }, 1000 );
+                                          alert_message('ok','для обновления вывода нажмите кнопку поиск');
+                                      }
+                                  },
+
+
+                                  beforeShow: function(textbox, instance){
+                                      setTimeout(function() {
                                           instance.dpDiv.css({
-                                              position: 'absolute',
-                                              top: 65,
-                                              left: 0
+                                              width:'100%'
                                           });
+                                          $('.bookingBox_range').css({
+                                              display:'none'
+                                          });
+
                                       }, 10);
 
-                                      $('.bookingBox').append($('#ui-datepicker-div'));
-                                      $('#ui-datepicker-div').hide();
-                                  } }).hide().on('change', function(){
-                                  $('#date_table').hide();
-                                  $('[list_number=t2]').empty().append($('#date_hidden_table').val());
-                                  $.cookie("sudd", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
-                                  CookieList("sudd",$('#date_hidden_table').val(),'add');
-                                  $('.show_sort_supply').removeClass('active_supply');
-                                  $('.show_sort_supply').addClass('active_supply');
+
+                                      <?
+                                      if((isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2))
+                                      {
+                                          $date_range=explode("/",$_COOKIE["suddbc".$id_user]);
+                                          echo'var st=\''.ipost_($date_range[0],'').'\';
+var st1=\''.ipost_($date_range[1],'').'\';
+var st2=\''.ipost_($_COOKIE["suddbc_mor".$id_user],'').'\';';
+                                          echo'jopacalendar(st,st1,st2);';
+                                      }
+                                      ?>
+
+
+                                  }
+
                               });
 
+
+
+
                           });
-
-
                           function resizeDatepicker() {
-                              setTimeout(function() { $('.bookingBox > .ui-datepicker').width('100%'); }, 10);
+                              //$('.ui-datepicker').width('100%');
                           }
 
                           function jopacalendar(queryDate,queryDate1,date_all)
@@ -308,8 +392,13 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
                               {
                                   var dateParts = queryDate.match(/(\d+)/g), realDate = new Date(dateParts[0], dateParts[1] -1, dateParts[2]);
                                   var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0], dateParts1[1] -1, dateParts1[2]);
+                                  //alert(realDate);
+                                  $('#date_table').datepicker('setDate', [realDate,realDate1]);
+                                  $('#date_table').val(date_all);
+                                  //alert($('#date_table').val());
                               }
                           }
+
 
 
 
@@ -328,21 +417,23 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
 //дата поставки
 	  $sql_order1=' order by b.date_delivery';
       $sql_order=' ';
+$sql_last='';
 
  		if (( isset($_COOKIE["su_1"]))and(is_numeric($_COOKIE["su_1"]))and(array_search($_COOKIE["su_1"],$os_id)!==false))
 		{
 
-			if($_COOKIE["su_1"]==1)
+			if($_COOKIE["su_1"]==2)
 			{
 			    //по алфавиту
                 $sql_order1=' order by c.material';
                 $sql_order=' ';
 			}
-			if($_COOKIE["su_1"]==2)
+			if($_COOKIE["su_1"]==1)
 			{
 			    //новые
                 $sql_order=' order by z.date_last desc';
                 $sql_order1='';
+                $sql_last=',a.date_last';
 			}
 		}
 
@@ -351,24 +442,28 @@ echo'<div class="inline_reload js-reload-top"><a href="supply/" class="show_relo
 	  $sql_su2_='';
  		if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and(array_search($_COOKIE["su_2"],$os_id2)!==false)and($_COOKIE["su_2"]!=0))
 		{
-			$date_base__=explode(".",$_COOKIE["sudd"]);
-			if( isset($_COOKIE["sudd"]))
-			{
-				if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2)and(checkdate(date_minus_null($date_base__[1]), date_minus_null($date_base__[0]),$date_base__[2])))
+
+				if (( isset($_COOKIE["su_2"]))and(is_numeric($_COOKIE["su_2"]))and($_COOKIE["su_2"]==2))
 				{
-				    //выбранный день
-				$sql_su2=' and b.date_delivery="'.$date_base__[2].'-'.$date_base__[1].'-'.$date_base__[0].'"';
-				$sql_su2_=' and a.date_delivery="'.$date_base__[2].'-'.$date_base__[1].'-'.$date_base__[0].'"';
+				    //выбранный период
+
+                    $date_range = explode("/", $_COOKIE["suddbc" . $id_user]);
+                        //Выбранные период пользователем
+                    if((!isset($_COOKIE["su_1"]))or((isset($_COOKIE["su_1"]))and($_COOKIE["su_1"]==0))) {
+
+                        $sql_su2 = ' and b.date_delivery>="' . ht($date_range[0]) . '" and b.date_delivery<="' . ht($date_range[1]) . '"';
+                        $sql_su2_ = ' and a.date_delivery>="' . ht($date_range[0]) . '" and a.date_delivery<="' . ht($date_range[1]) . '"';
+
+                    } else
+                    {
+                        $sql_su2 = ' and a.date_last>="' . ht($date_range[0]) . '" and a.date_last<="' . ht($date_range[1]) . '"';
+                        $sql_su2_ = ' and b.date_last>="' . ht($date_range[0]) . '" and b.date_last<="' . ht($date_range[1]) . '"';
+                    }
+
+
 				}
-			}
-			if($_COOKIE["su_2"]==1)
-			{
-				//неделя
-				
-				$sql_su2=' and b.date_delivery between "0000-00-00" and "'.date("Y", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'-'.date("m", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'-'.date("d", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'"';
-				$sql_su2_=' and a.date_delivery between "0000-00-00" and "'.date("Y", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'-'.date("m", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'-'.date("d", mktime(date("G"), date("i"), date("s"), date("n"),(date("j")+7), date("Y"))).'"';
-			//WHERE ("'.date("Y").'-'.date("m").'-'.date("d").'" between sk.start_date and sk.end_date)
-			}
+
+
 		}		  
 	  //echo("!".$sql_su2);
 	  
@@ -397,7 +492,7 @@ AND a.id_user in('.implode(',',$hie->user).') AND b.status NOT IN ("1","8","10",
 $result_t2=mysql_time_query($link,'SELECT * FROM 
 (
 SELECT DISTINCT 
-b.id_stock,b.id_i_material
+b.id_stock,b.id_i_material'.$sql_last.'
 
 FROM 
 z_doc AS a,
@@ -406,7 +501,7 @@ i_material AS c,
 edo_state AS edo
 
 WHERE 
-c.`alien` = 0      
+c.`alien` = '.$dava_var.'      
 AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
@@ -423,7 +518,7 @@ AND a.id=b.id_doc
 echo 'SELECT * FROM 
 (
 SELECT DISTINCT 
-b.id_stock,b.id_i_material
+b.id_stock,b.id_i_material'.$sql_last.'
 
 FROM 
 z_doc AS a,
@@ -432,7 +527,7 @@ i_material AS c,
 edo_state AS edo
 
 WHERE 
-c.`alien` = 0      
+c.`alien` = '.$dava_var.'      
 AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
@@ -445,41 +540,8 @@ AND a.id=b.id_doc
  '.$sql_order1.' 
 ) AS z 				
 '.$sql_order.' '.limitPage('n_st',$count_write);
-*/
 
-/*
-echo 'SELECT * FROM 
-(
-SELECT DISTINCT 
-b.id_stock,b.id_i_material,b.status
-,a.date_last, 
-
-a.`id_edo_run`, 
-a.id AS id_doc,
-c.material
-
-FROM 
-z_doc AS a,
-z_doc_material AS b,
-i_material AS c, 
-edo_state AS edo
-
-WHERE 
-c.id=b.id_i_material 
-AND a.id=b.id_doc 
-AND a.id_object IN('.implode(',', $hie->obj ).')
- AND a.id_edo_run = edo.id_run
- AND edo.id_status = 0
- AND edo.id_executor IN ('.ht($id_user).')
-
- AND b.status NOT IN ("1","8","10","3","5","4")
- '.$sql_order1.'
-
-
-) AS z  LEFT JOIN `r_status` AS S ON (z.status = S.numer_status AND S.`id_system` = 13 )				
-'.$sql_order.' '.limitPage('n_st',$count_write);
-*/
-	  
+	*/
   $sql_count='SELECT count(id_stock) as kol FROM 
 (
 SELECT DISTINCT 
@@ -492,7 +554,7 @@ i_material AS c,
 edo_state AS edo
 
 WHERE 
-c.`alien` = 0      
+c.`alien` = '.$dava_var.'      
 AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
@@ -558,9 +620,17 @@ if($row_t22["status"]==10)
 	if($ksss!=0)
 	{		
 	//echo'<tr><td colspan="8" height="20px"></td></tr>';	
-	}			
+	}
+                         $dava='';
+                         $class_dava='';
+                         $style_dava='';
+	if($dava_var==1) {
+        $dava='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+        $class_dava='dava';
+        $style_dava='style="font-size:14px;"';
+    }
 	
-echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j">'. $row_material["material"].'</span></div>';
+echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j '.$class_dava.'" '.$style_dava.'>'. $row_material["material"].'</span>'.$dava.'</div>';
 if($row__2["id_stock"]!='')
 					 {
 					 $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row__2["id_stock"].'"'); 
@@ -581,158 +651,139 @@ if($row__2["id_stock"]!='')
 echo'</td>';
 echo'<td colspan="2">';
 						 
-						 
-						 
-echo'<div class="supply_bb1 yoop_ hide_yoop" id_ada="'.$row__2["id_stock"].'">';
-$echo='';
+if($dava_var==0) {
+
+    echo '<div class="supply_bb1 yoop_ hide_yoop" id_ada="' . $row__2["id_stock"] . '">';
+    $echo = '';
 //$row__2["id_stock"]
-if($row__2["id_stock"]!=0)
-{
+    if ($row__2["id_stock"] != 0) {
 //узнаем сколько материала на складе
-$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.alien=0) as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-					$z_stock_count_users=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_stock_count_users=$row1ss_["summ"];
-					  }
-					 $units=$row1ss_["units"];
-					  $echo.='<div class="yoop_rt"><span>на складе</span><i>'.$z_stock_count_users.'</i> <strong>'.$row1ss_["units"].'</strong></div>';
-				 }						 
+        $result_t1_ = mysql_time_query($link, 'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.alien=0) as summ FROM z_stock as b WHERE b.id="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
+        $z_stock_count_users = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_stock_count_users = $row1ss_["summ"];
+            }
+            $units = $row1ss_["units"];
+            $echo .= '<div class="yoop_rt"><span>на складе</span><i>' . $z_stock_count_users . '</i> <strong>' . $row1ss_["units"] . '</strong></div>';
+        }
 
 //узнаем сколько материала в заявке
-    /*
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-    */
+        /*
+    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+        */
 
-    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
 
-					$z_zakaz=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_zakaz=$row1ss_["summ"];
-					  }
-					  $echo.='<div class="yoop_rt "><span>в заявках</span><i>'.$z_zakaz.'</i> <strong>'.$units.'</strong></div>';
-				 }						 
+        $z_zakaz = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_zakaz = $row1ss_["summ"];
+            }
+            $echo .= '<div class="yoop_rt "><span>в заявках</span><i>' . $z_zakaz . '</i> <strong>' . $units . '</strong></div>';
+        }
 //узнаем сколько материала в работе
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=11 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-					$z_rabota=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_rabota=$row1ss_["summ"];
-					  }
-					  $echo.='<div class="yoop_rt "><span>в работе</span><i>'.$z_rabota.'</i> <strong>'.$units.'</strong></div>';
-				 }		
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=11 and  a.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
+        $z_rabota = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_rabota = $row1ss_["summ"];
+            }
+            $echo .= '<div class="yoop_rt "><span>в работе</span><i>' . $z_rabota . '</i> <strong>' . $units . '</strong></div>';
+        }
 
 //узнаем сколько материала на согласовании со счетом	
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'" AND a.id_acc=b.id AND b.status=2');
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '" AND a.id_acc=b.id AND b.status=2');
 
-					$z_rabota1=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_rabota1=$row1ss_["summ"];
-					  }
-					  $echo.='<div class="yoop_rt "><span>на согласовании со счетом</span><i>'.round($z_rabota1,2).'</i> <strong>'.$units.'</strong></div>';
-				 }		
+        $z_rabota1 = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_rabota1 = $row1ss_["summ"];
+            }
+            $echo .= '<div class="yoop_rt "><span>на согласовании со счетом</span><i>' . round($z_rabota1, 2) . '</i> <strong>' . $units . '</strong></div>';
+        }
 
 //узнаем сколько материала согласовано со счетом		
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'" AND a.id_acc=b.id AND b.status=3');
-	
-					$z_rabota2=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_rabota2=$row1ss_["summ"];
-					  }
-					  $echo.='<div class="yoop_rt"><span>согласовано со счетом</span><i>'.round($z_rabota2,2).'</i> <strong>'.$units.'</strong></div>';
-				 }	
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '" AND a.id_acc=b.id AND b.status=3');
+
+        $z_rabota2 = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_rabota2 = $row1ss_["summ"];
+            }
+            $echo .= '<div class="yoop_rt"><span>согласовано со счетом</span><i>' . round($z_rabota2, 2) . '</i> <strong>' . $units . '</strong></div>';
+        }
 //узнаем сколько материала оплачено	
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'" AND a.id_acc=b.id AND b.status=4');
-					$z_rabota3=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_rabota3=$row1ss_["summ"];
-					  }
-					  $echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
-				 }
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '" AND a.id_acc=b.id AND b.status=4');
+        $z_rabota3 = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_rabota3 = $row1ss_["summ"];
+            }
+            $echo .= '<div class="yoop_rt "><span>оплачено</span><i>' . round($z_rabota3, 2) . '</i> <strong>' . $units . '</strong></div>';
+        }
 
 //узнаем сколько материала получено по счету
-    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'" AND a.id_acc=b.id AND b.status=7');
-    $z_take=0;
-    $num_results_t1_ = $result_t1_->num_rows;
-    if($num_results_t1_!=0)
-    {
-        //такая работа есть
-        $row1ss_ = mysqli_fetch_assoc($result_t1_);
-        if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-        {
-            $z_take=$row1ss_["summ"];
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '" AND a.id_acc=b.id AND b.status=7');
+        $z_take = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_take = $row1ss_["summ"];
+            }
+            //$echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
         }
-        //$echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
-    }
 
 //узнаем сколько материала необходимо еще
-    /*
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-    */
+        /*
+    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+        */
 
-    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+        $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
 
-					$z_zakaz=0;	             	 
-			     $num_results_t1_ = $result_t1_->num_rows;
-	             if($num_results_t1_!=0)
-	             {  
-		              //такая работа есть
-		              $row1ss_ = mysqli_fetch_assoc($result_t1_);
-					  if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-					  {
-					    $z_zakaz=$row1ss_["summ"];
-					  }
-					 
-					  $neo=round(($z_zakaz-$z_rabota1-$z_rabota2-$z_rabota3-$z_take),2);
-					 $class_ada="red_ada";
-					  if($neo<=0)
-					  {
-						  $neo=0;
-						  $class_ada="green_ada";
-					  }
-					  $echo.='<div class="yoop_rt yoop_click '.$class_ada.'"><span>еще необходимо</span><i>'.$neo.'</i> <strong>'.$units.'</strong></div>';
-				 }	
-	
-	
-		
-echo($echo);
+        $z_zakaz = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                $z_zakaz = $row1ss_["summ"];
+            }
+
+            $neo = round(($z_zakaz - $z_rabota1 - $z_rabota2 - $z_rabota3 - $z_take), 2);
+            $class_ada = "red_ada";
+            if ($neo <= 0) {
+                $neo = 0;
+                $class_ada = "green_ada";
+            }
+            $echo .= '<div class="yoop_rt yoop_click ' . $class_ada . '"><span>еще необходимо</span><i>' . $neo . '</i> <strong>' . $units . '</strong></div>';
+        }
+
+
+        echo($echo);
+    }
+    echo '</div>';
 }
-echo'</div>';	
-						 
 					 
 echo'</td>';
 						 
@@ -779,17 +830,15 @@ echo'<tr supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" cla
 
 if($row__2["id_stock"]==0)
 {
-	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and c.alien=0 and a.id_i_material="'.$row__2["id_i_material"].'" and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
-
-
-
-
-
-
+	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and c.alien='.$dava_var.' and a.id_i_material="'.$row__2["id_i_material"].'" and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 
 } else
 {
-	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien=0 and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien='.$dava_var.' and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+
+
+	//echo 'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien=0 and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_;
+
 }
 						 
 					 
@@ -823,241 +872,237 @@ if($row__2["id_stock"]==0)
 				}
 			   
 			   //score_pay score_app
-			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td><td class=" menu_jjs scope_scope">';
-			   
-			   
-			   //проверяем есть ли счета с этим материалом и их статусы
-			   $result_score=mysql_time_query($link,'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss,(select r.name_status from r_status as r where r.numer_status=a.status and r.id_system="16" ) as status_name from z_acc as a,z_doc_material_acc as b where b.id_acc=a.id and b.id_doc_material="'.$row_work_zz["id"].'"');
+			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td>';
 
-						 
-        $num_results_score = $result_score->num_rows;
-	    if($num_results_score!=0)
-	    {
-           $status_score = array("1","2","3","5","4");
-		   //$status_score_class = array("", "score_app","score_pay","score_no","score_paid");
-            $status_score_class = array("", "","","","");
-            for ($ss=0; $ss<$num_results_score; $ss++)
-		   {			   			  			   
-			   $row_score = mysqli_fetch_assoc($result_score);
-			   $tec='';
-			   /*
-			   if (( isset($_COOKIE["current_supply_".$id_user]))and(is_numeric($_COOKIE["current_supply_".$id_user]))and($_COOKIE["current_supply_".$id_user]==$row_score["id"]))
-		       {
-				   //если выбран этот счет текущим
-				   $tec='score_active'; 
-			   }
-			   */
-			   $too='';
-			   if($row_score["status"]==2)
-			   {
-				   $nhh=1;
-			   }
+               echo'<td>';
+
+               echo'<div class="supply-flex-21">
+           <div class="st-flex-21">';
+               if($dava_var==0) {
+                   if ($row__2["id_stock"] != 0) {
+                       echo '<div class="st_div_supply"><i class=""></i></div>';
+                   } else {
+                       echo '<div class="st_div_supply" style="display:none;"><i class=""></i></div>';
+                   }
+               }
+
+echo'</div><div class="st-flex">';
+
+               echo($row_work_zz['count_units'].' '.$row_material['units']);
+
+               if($row_work_zz['commet']!='')
+               {
+                   echo'<div data-tooltip="Комментарий к заказу" class="commun1">('.$row_work_zz['commet'].')</div>';
+               }
+
+
+				   echo'</div></div>';
+			  echo'</td>';
+
+
+               $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
+               //echo('select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
+               $num_results_custom_url = $result_url->num_rows;
+               if($num_results_custom_url!=0)
+               {
+                   $row_list1 = mysqli_fetch_assoc($result_url);
+
+                   $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
+                   $num_results_custom_town = $result_town->num_rows;
+                   if($num_results_custom_town!=0)
+                   {
+                       $row_town = mysqli_fetch_assoc($result_town);
+                   }
+               }
+
+              // echo'<td colspan="2"><label>Заявка/Объект</label>';
+               echo'<td colspan="2">';
+
+               echo'<a data-tooltip="Заявка" href="app/'.$row_work_zz['app_id'].'/" class="app-soply">'.$row_work_zz['app_name'].'</a><span class="object-acc-xx2 " style="line-height: 16px !important;">';
+
+
+               if($num_results_custom_url!=0)
+               {
+                   echo '('.$row_list1["object_name"].', '.$row_town["town"].', '.$row_town["kvartal"].')';
+               } else
+               {
+                   echo 'Объект неизвестен';
+               }
+               echo'</span></td>';
+
+
+
+
+
+
+               $style_red='';
+               $d_day=dateDiff_1(date("Y-m-d").' '.date("H:i:s"),$row_work_zz['date_delivery'].' 00:00:00');
+
+               if(($d_day>0))
+               {
+                   $style_red='red_proc_sroki';
+               } else
+               {
+                   if((abs($d_day)==0)or(abs($d_day)==1)or(abs($d_day)==2))
+                   {
+
+                       $style_red='yellow_proc_sroki';
+
+                   }
+               }
+
 			   
 			   
-			   if($row_score["status"]!=1)
-			   {
-				  $too="data-tooltip=\"счет №".$row_score["number"]."- ".$row_score["status_name"]."\"";
-			   } else
-			   {
-				  $too="data-tooltip=\"счет №".$row_score["number"]."\"";  
-			   }
-			   /*
-			   echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><i>'.$row_score["countss"].'</i><span>№'.$row_score["number"].'</span></div>';
-			   */
-			   //$PROC=round($row_gog3["koll"]/$row_gog2["co"]);	
-			   
-			   //#4bcaff
-			   if(($row_score["status"]==4)or($row_score["status"]==20))
-			   {
-				   
-				//узнаем сколько по этому договору уже привезли товара
-				$PROC=0;
-				   
-				$result_proc=mysql_time_query($link,'select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
-                //echo('select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="'.$row_score["id"].'"');
-				$num_results_proc = $result_proc->num_rows;
-                if($num_results_proc!=0)
-                {
-			         $row_proc = mysqli_fetch_assoc($result_proc);
-					 $PROC=round((($row_proc["summ"]-$row_proc["summ1"])*100)/$row_score["summa"]); 
-		        } 
-				   
-				   
-				   
-				   
-				   
-				//подсвечиваем красным если конечная дата доставки завтра а товар привезли не весь или вообще не привезли
-				if(($row_score["status"]==4))
-				{
-			   //подсвечиваем красным за 1 день до доставки
-			   $date_delivery1=date_step($row_score["date_paid"],($row_score["delivery_day"]-1));	
-			   //echo($date_delivery1);
-			   
-			   $style_book='';
-			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
-			   {
-				   $style_book='reddecision1';
-			   }   
-				   
-			   $date_delivery=date_step($row_score["date_paid"],$row_score["delivery_day"]);				   
-		       $date_graf2  = explode("-",$date_delivery);	
-				} else
-				{
-			   //подсвечиваем красным за 1 день до доставки
-			   $date_delivery1=date_step($row_score["date"],($row_score["delivery_day"]-1));	
-			   //echo($date_delivery1);
-			   
-			   $style_book='';
-			   if((dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)and($PROC<100))
-			   {
-				   $style_book='reddecision1';
-			   }   
-				   
-			   $date_delivery=date_step($row_score["date"],$row_score["delivery_day"]);				   
-		       $date_graf2  = explode("-",$date_delivery);						
-				}
-				   
-				   /*
-			   echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 '.$tec.'">
-    <div class="circle-container" data-tooltip="Получено '.$PROC.'%">
-        <div class="circlestat" data-dimension="80" data-text="~'.$PROC.'%" data-width="1" data-fontsize="38" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"><span class="spann">№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</span></div>
-    </div>
-</div>';
-*/
-                   echo'<div rel_score="'.$row_score["id"].'" class="menu_click score_a1 score_a score_a_2021 '.$tec.'"><span>№'.$row_score["number"].'</span><span class="date_proc '.$style_book.'">(до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].')</span><div data-tooltip="Получено '.$PROC.'%" class="circlestat" data-dimension="20" data-text="~'.$PROC.'%" data-width="1" data-fontsize="12" data-percent="'.$PROC.'" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/'.$row_score["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+			  echo'<td>
+<div class="sroki-2020-xto">→ <span data-tooltip="дата поставки" class="'.$style_red.'">'.MaskDate_D_M_Y_ss($row_work_zz['date_delivery']).', '.day_nedeli_x_small($row_work_zz['date_delivery']).'</span></div>
+
+
+</td>';
+
+               echo'<td class=" menu_jjs scope_scope">';
+
+               if($dava_var==0) {
+                   //проверяем есть ли счета с этим материалом и их статусы
+                   $result_score = mysql_time_query($link, 'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id,(select count(g.id) from z_doc_material_acc as g where g.id_acc=a.id ) as countss,(select r.name_status from r_status as r where r.numer_status=a.status and r.id_system="16" ) as status_name from z_acc as a,z_doc_material_acc as b where b.id_acc=a.id and b.id_doc_material="' . $row_work_zz["id"] . '"');
+
+
+                   $num_results_score = $result_score->num_rows;
+                   if ($num_results_score != 0) {
+                       $status_score = array("1", "2", "3", "5", "4");
+                       //$status_score_class = array("", "score_app","score_pay","score_no","score_paid");
+                       $status_score_class = array("", "", "", "", "");
+                       for ($ss = 0; $ss < $num_results_score; $ss++) {
+                           $row_score = mysqli_fetch_assoc($result_score);
+                           $tec = '';
+
+                           $too = '';
+                           if ($row_score["status"] == 2) {
+                               $nhh = 1;
+                           }
+
+
+                           if ($row_score["status"] != 1) {
+                               $too = "data-tooltip=\"счет №" . $row_score["number"] . "- " . $row_score["status_name"] . "\"";
+                           } else {
+                               $too = "data-tooltip=\"счет №" . $row_score["number"] . "\"";
+                           }
+
+                           //$PROC=round($row_gog3["koll"]/$row_gog2["co"]);
+
+                           //#4bcaff
+                           if (($row_score["status"] == 4) or ($row_score["status"] == 20)) {
+
+                               //узнаем сколько по этому договору уже привезли товара
+                               $PROC = 0;
+
+                               $result_proc = mysql_time_query($link, 'select sum(a.subtotal) as summ,sum(a.subtotal_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="' . $row_score["id"] . '"');
+
+                               $num_results_proc = $result_proc->num_rows;
+                               if ($num_results_proc != 0) {
+                                   $row_proc = mysqli_fetch_assoc($result_proc);
+                                   $PROC = round((($row_proc["summ"] - $row_proc["summ1"]) * 100) / $row_score["summa"]);
+                               }
+
+
+                               //подсвечиваем красным если конечная дата доставки завтра а товар привезли не весь или вообще не привезли
+                               if (($row_score["status"] == 4)) {
+                                   //подсвечиваем красным за 1 день до доставки
+                                   $date_delivery1 = date_step($row_score["date_paid"], ($row_score["delivery_day"] - 1));
+                                   //echo($date_delivery1);
+
+                                   $style_book = '';
+                                   if ((dateDiff_1(date("y-m-d") . ' ' . date("H:i:s"), $date_delivery1 . ' 00:00:00') >= 0) and ($PROC < 100)) {
+                                       $style_book = 'reddecision1';
+                                   }
+
+                                   $date_delivery = date_step($row_score["date_paid"], $row_score["delivery_day"]);
+                                   $date_graf2 = explode("-", $date_delivery);
+                               } else {
+                                   //подсвечиваем красным за 1 день до доставки
+                                   $date_delivery1 = date_step($row_score["date"], ($row_score["delivery_day"] - 1));
+                                   //echo($date_delivery1);
+
+                                   $style_book = '';
+                                   if ((dateDiff_1(date("y-m-d") . ' ' . date("H:i:s"), $date_delivery1 . ' 00:00:00') >= 0) and ($PROC < 100)) {
+                                       $style_book = 'reddecision1';
+                                   }
+
+                                   $date_delivery = date_step($row_score["date"], $row_score["delivery_day"]);
+                                   $date_graf2 = explode("-", $date_delivery);
+                               }
+
+
+                               echo '<div rel_score="' . $row_score["id"] . '" class="menu_click score_a1 score_a score_a_2021 ' . $tec . '"><span>№' . $row_score["number"] . '</span><span class="date_proc ' . $style_book . '">(до ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . ')</span><div data-tooltip="Получено ' . $PROC . '%" class="circlestat" data-dimension="20" data-text="~' . $PROC . '%" data-width="1" data-fontsize="12" data-percent="' . $PROC . '" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="a" value="open" type="hidden">
 </form></div>';
 
 
-				
-			   } else
-			   {
-				   echo'<div rel_score="'.$row_score["id"].'" '.$too.' class="menu_click score_a '.$status_score_class[array_search($row_score["status"],$status_score)].' '.$tec.'"><span>№'.$row_score["number"].' ('.date_ex(0,$row_score["date"]).')</span><strong><label>'.rtrim(rtrim(number_format($row_score["summa"], 2, '.', ' '),'0'),'.').'</label></strong><i>'.$row_score["countss"].'</i>';
+                           } else {
+                               echo '<div rel_score="' . $row_score["id"] . '" ' . $too . ' class="menu_click score_a ' . $status_score_class[array_search($row_score["status"], $status_score)] . ' ' . $tec . '"><span>№' . $row_score["number"] . ' (' . date_ex(0, $row_score["date"]) . ')</span><strong><label>' . rtrim(rtrim(number_format($row_score["summa"], 2, '.', ' '), '0'), '.') . '</label></strong><i>' . $row_score["countss"] . '</i>';
 
-				   if(($row_score["status"]!=1)) {
-                       $js_mod = '';
+                               if (($row_score["status"] != 1)) {
+                                   $js_mod = '';
 //статус обращения
 
-                       $color_status = 1;
-                       //на согласовании
-                       if ($row_score["status"] == 2) {
-                           $color_status = 2;
-                       }
-                       //к оплате
-                       if ($row_score["status"] == 3) {
-                           $color_status = 3;
-                       }
-                       //оплачено
-                       if ($row_score["status"] == 4) {
-                           $color_status = 5;
-                       }
-                       //отказано
-                       if (($row_score["status"] == 8)or($row_score["status"] == 5)) {
-                           $color_status = 4;
-                       }
+                                   $color_status = 1;
+                                   //на согласовании
+                                   if ($row_score["status"] == 2) {
+                                       $color_status = 2;
+                                   }
+                                   //к оплате
+                                   if ($row_score["status"] == 3) {
+                                       $color_status = 3;
+                                   }
+                                   //оплачено
+                                   if ($row_score["status"] == 4) {
+                                       $color_status = 5;
+                                   }
+                                   //отказано
+                                   if (($row_score["status"] == 8) or ($row_score["status"] == 5)) {
+                                       $color_status = 4;
+                                   }
 
 //выводим статус заявки
-                       $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=16');
+                                   $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_score["status"] . '" and a.id_system=16');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
-                       if ($result_status->num_rows != 0) {
-                           $row_status = mysqli_fetch_assoc($result_status);
+                                   if ($result_status->num_rows != 0) {
+                                       $row_status = mysqli_fetch_assoc($result_status);
 
 
-                           echo '<div class="js-state-acc-link"><div id_status="' . $row_score["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
+                                       echo '<div class="js-state-acc-link"><div id_status="' . $row_score["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '">' . $row_status["name_status"] . '</div></div>';
+                                   }
+                               }
+
+                               echo '<form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
+
+
+                           }
+
+
+                           $menu = array("Открыть", "Сделать текущим", "Согласовать", "Удалить");
+                           $menu_id = array("1", "2", "3", "4");
+                           $menu_id_visible = array("1", "1", "1", "1");
+                           if (($row_score["status"] != 1) and ($row_score["status"] != 8)) {
+                               $menu_id_visible = array("1", "0", "0", "0");
+                           }
+
+
+                           echo '<div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left:-50px; top:5px;">';
+                           for ($it = 0; $it < count($menu); $it++) {
+                               if ($menu_id_visible[$it] == 1) {
+                                   echo '<li><a href="javascript:void(0);"  rel="' . $menu_id[$it] . '">' . $menu[$it] . '</a></li>';
+                               }
+
+
+                           }
+                           echo '</ul><input rel="x" type="hidden" name="vall" class="option_score1" value="0"></div>';
                        }
                    }
+               }
 
-				   echo'<form class="none"  action="acc/'.$row_score["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
-
-
-
+               echo'</td>';
 
 
-			   }
-			   
-			   
-			   $menu = array( "Открыть","Сделать текущим","Согласовать","Удалить");
-	           $menu_id = array("1","2","3","4");
-			   $menu_id_visible= array("1","1","1","1");
-			   if(($row_score["status"]!=1)and($row_score["status"]!=8))
-			   {
-				   $menu_id_visible= array("1","0","0","0");
-			   }
-			   
-	
-	echo'<div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left:-50px; top:5px;">';
-		   for ($it=0; $it<count($menu); $it++)
-             {   
-				 if($menu_id_visible[$it]==1)
-				 {
-				  echo'<li><a href="javascript:void(0);"  rel="'.$menu_id[$it].'">'.$menu[$it].'</a></li>'; 
-				 }
-			   
-			 
-			 }
-	echo'</ul><input rel="x" type="hidden" name="vall" class="option_score1" value="0"></div>';	
-		   }
-		}
-
-				   
-			  echo'</td><td>';
-			   if($row__2["id_stock"]!=0)
-			   {
-				  echo'<div class="st_div_supply"><i class=""></i></div>'; 
-			   } else
-			   {
-				  echo'<div class="st_div_supply" style="display:none;"><i class=""></i></div>';   
-			   }
-			
-			   
-			   
-			  echo'</td><td>';
-			   
-				
-			   
-			   		$result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
-			   //echo('select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url!=0)
-        {
-			$row_list1 = mysqli_fetch_assoc($result_url);
-
-			        $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list1["id_kvartal"].'"');
-        $num_results_custom_town = $result_town->num_rows;
-        if($num_results_custom_town!=0)
-        {
-			$row_town = mysqli_fetch_assoc($result_town);	
-		}
-		}
-	
-	
-			   
-			   
-			   
-	             echo($row_work_zz['count_units'].' '.$row_material['units']);
-
-			   
-			   $actv12='';
-			 						 if((time_compare($row_work_zz['date_delivery'].' 00:00:00',0)==0))
-						 {
-						   $actv12.=' redsupply ';
-						 }  
-			   
-			   
-			  echo'</td><td><label>Дата поставки</label><span class="'.$actv12.'">'.MaskDate_D_M_Y_ss($row_work_zz['date_delivery']).'</span></td><td><label>Заявка/Объект</label>';
-
-
-			 echo'<a href="app/'.$row_work_zz['app_id'].'/" class="app-soply">'.$row_work_zz['app_name'].'</a><span class="object-acc-xx">';
-
-
-			  if($num_results_custom_url!=0)
-              {
-			      echo $row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')';
-			  } else
-			  {
-				  echo 'Объект неизвестен';
-			  }
-				   echo'</span></td>';
 			  /*
 	echo'<td>';
 		$result_txs=mysql_time_query($link,'Select a.id,a.name_user,a.timelast from r_user as a where a.id="'.htmlspecialchars(trim($row_work_zz["id_user"])).'"');
@@ -1081,7 +1126,7 @@ if($result_status->num_rows!=0)
    $row_status = mysqli_fetch_assoc($result_status);
 	
 	$live='';
-	$menu_id = array("20", "11","9");
+	$menu_id = array("9","20", "11");
 	if(array_search($row_work_zz["status"],$menu_id)!==false)
 	{
 		$live='live_menu';
@@ -1091,11 +1136,11 @@ if($result_status->num_rows!=0)
        echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z0 '.$live.'">не обработана</div>';
 	} else
 	{
-		echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z'.$row_work_zz["status"].' '.$live.'">'.$row_status["name_status"].'</div>';	
+		echo'<div rel_status="'.$row_work_zz["id"].'" class="st_bb menu_click status_materialz status_z'.$row_work_zz["status"].' '.$live.'">'.$row_status["name_status"].'</div>';
 	}
 	
 	
-	$menu = array( "Заказано", "В работе");
+	$menu = array("Не обработана", "Заказано", "В работе");
 		
 	if(array_search($row_work_zz["status"],$menu_id)!==false)
 	{

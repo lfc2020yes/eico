@@ -10,7 +10,152 @@ $(function (){
     //инициализация корзины компонентов сверху
     basket_supply();
 
+    $('.js-call-no-v').find('.drop').on("change keyup input click","li",list_number);
+
+    $('body').on("change keyup input click",'.js-dava-click',dava_supply);
+
 });
+
+
+//изменение материала в себестоимости клик по кнопке в форме добавить
+//  |
+// \/
+function js_edit_supply_mat_stock()
+{
+    var box_active = $(this).closest('.box-modal');
+    var err = 0;
+//alert($('.js-form-register .gloab').length);
+// alert("!!");
+    box_active.find('.js-form-supply-mats .gloab').each(function(i,elem) {
+        if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+            $(this).parents('.list_2021').addClass('required_in_2021');
+            err++;
+            //alert($(this).attr('name'));
+        } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+    });
+
+
+    var contractor_new=box_active.find('.js-type-stock-prime1').val();
+
+
+    if(contractor_new==0)
+    {
+        box_active.find('.js-form-supply-mats .gloab2').each(function(i,elem) {
+            if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    } else
+    {
+        box_active.find('.js-form-supply-mats .gloab1').each(function(i,elem) {
+            if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+                $(this).parents('.list_2021').addClass('required_in_2021');
+                err++;
+                //alert($(this).attr('name'));
+            } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+        });
+    }
+
+
+    // js-type-soft-view1 0 1
+    /*
+    var iu=$('.content_block').attr('iu');
+    var cookie_flag_current = $.cookie('current_supply_'+iu);
+    //alert(cookie_new);
+    if(cookie_flag_current==null)
+    {
+        var ssup='basket_supply_';
+    } else
+    {
+        var ssup='basket_score_';
+    }
+
+    var basket_score_ = $.cookie(ssup+iu);
+    var cc = basket_score_.split('.');
+    var xvg='';
+
+
+
+    if(cc.length==0)
+    {
+        err++;
+    }
+
+*/
+
+
+
+
+
+    if(err==0)
+    {
+        var for_id=box_active.find('.gloab-cc').attr('for');
+
+
+        AjaxClient('supply','svyz_sklad','POST',0,'AfterSVS',for_id,'form_supply_edit_mat_stock');
+
+        box_active.find('.js-edit-supply-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+    } else
+    {
+        //найдем самый верхнюю ошибку и пролестнем к ней
+        //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+        //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+        alert_message('error','Не все поля заполнены');
+    }
+}
+
+
+function list_number() {
+    //alert("!");
+//.next().find('li')
+    var active_new=$(this).find('a').attr("rel");
+    //alert(active_new);
+    if(active_new==2)
+    {
+        $("#date_table").show();
+        //$("#date_table").focus();
+        $('.bookingBox_range').css({
+            display:'block'
+        });
+    }
+}
+
+
+
+function dava_supply()
+{
+    var active_new=$(this).find('.choice-radio i');
+    var iu=$('.content_block').attr('iu');
+
+    var fpx=1;
+    if(!active_new.is('.active_task_cb')) {
+        var fpx = 0;
+    }
+
+
+    $.cookie("dava_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+    CookieList("dava_"+iu,fpx,'add');
+    $('.js-reload-top').removeClass('active-r');
+    $('.js-reload-top').addClass('active-r');
+
+    /*
+    if(fpx==1)
+    {
+$('.js-dava-hide').hide();
+    } else
+    {
+        $('.js-dava-hide').show();
+    }
+    */
+
+    //скрыть неиспользуемые поиски при это режиме
+
+
+}
+
 
 //очистить корзину счетов
 function erase_basket()

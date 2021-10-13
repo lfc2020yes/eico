@@ -3,18 +3,18 @@ $local='C:/OpenServer/domains/'.$local_host.'';
 
 if(!isset($no_script)) {
 if ($_SERVER['DOCUMENT_ROOT'] != $local) {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1633954170910"></script>';
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1634119317436"></script>';
 } else {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1633954170910"></script>';
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1634119317436"></script>';
 }
 } else
 {
 echo'<script type="text/javascript">';
 
     if ($_SERVER['DOCUMENT_ROOT'] != $local) {
-        echo 'window.src_forms="/public/forms.map.min.js?cb=1633954170910";';
+        echo 'window.src_forms="/public/forms.map.min.js?cb=1634119317436";';
     } else {
-        echo 'window.src_forms="/public/forms.map.js?cb=1633954170910";';
+        echo 'window.src_forms="/public/forms.map.js?cb=1634119317436";';
     }
 
     echo'</script>';

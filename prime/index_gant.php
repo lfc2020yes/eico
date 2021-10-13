@@ -179,8 +179,6 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 
 <script src="prime/gant/dhtmlxgantt.js?v=7.1.6"></script>
 
-<!--<link rel="stylesheet" href="prime/gant/dhtmlxgantt_material.css?v=7.1.6">-->
-<link rel="stylesheet" href="prime/gant/dhtmlxgantt_terrace.css?v=7.1.6">
 <link rel="stylesheet" href="prime/gant/controls_styles.css?v=7.1.6">
 
 
@@ -188,8 +186,8 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 <style>
 
     .main-content {
-        height: 600px;
-        height: calc(100vh - 50px);
+        /*height: auto;*/
+        height: calc(100vh - 60px - 80px);
     }
 
     .status_line {
@@ -390,6 +388,9 @@ if ( isset($_COOKIE["iss"]))
 $data["end_date"]='';
 $data["progress"]='';
 $data["open"]="true";
+$data["editable"]="false";
+                    $data["bar_height"]=10;
+
 
                     array_push($data_global, $data);
 
@@ -428,13 +429,25 @@ $data["open"]="true";
 
                       $data["duration"]='';
 
+if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
+{
+    $data["start_date"] = date('d.m.Y');
+} else {
+    $data["start_date"] = date_ex(0, $row_t1["date0"]);
+}
 
+                      if(($row_t1["date1"]=='')or($row_t1["date1"]==null))
+                      {
+                          $data["end_date"] = date_ex(0,date_step(date('Y-m-d'),1));
+                      } else {
+                          $data["end_date"] = date_ex(0, $row_t1["date1"]);
+                      }
 
-                      $data["start_date"]=date_ex(0,$row_t1["date0"]);
-                      $data["end_date"]=date_ex(0,$row_t1["date1"]);
+                      //$data["end_date"]=date_ex(0,$row_t1["date1"]);
                       $data["progress"]=$proc_realiz;
                       $data["parent"]=$row_t["id"];
-
+                      $data["editable"]="true";
+                      $data["bar_height"]=25;
                       array_push($data_global, $data);
 
 					  //вывод дат начала и конца работы
@@ -460,7 +473,10 @@ $data["open"]="true";
   $oJson = new Services_JSON();
   //функция работает только с кодировкой UTF-8
   //echo $oJson->encode($data_global);
-
+  /*echo '<pre>';
+  echo $oJson->encode($data_global);
+  echo '</pre>';*/
+  //print_r($oJson->encode($data_global));
 
   ?>
                 <div class="main-content">
@@ -495,20 +511,21 @@ $data["open"]="true";
 
                     gantt.config.columns = [
 
-                        {name: "text", label: "Работы", tree: true, width: 200, resize: true, min_width: 10, template:function(obj){
+                        {name: "text", label: "Работы", tree: true, width: 350, resize: true, min_width: 10, template:function(obj){
                         return ""+obj.text+"!";
                     }},
                         {name: "duration", label: "Дни", align: "center", width: 80, resize: true,editor: durationEditor},
-                        {name: "start_date", label: "Начало", align: "center", width: 90, resize: true,editor: dateEditor},
-                        {name: "end_date", label: "Конец", align: "center", width: 90, resize: true,editor: dateEditor1},
+                        {name: "start_date", label: "Начало", align: "center", width: 110, resize: true,editor: dateEditor},
+                        {name: "end_date", label: "Конец", align: "center", width:110, resize: true,editor: dateEditor1},
 
 
                     ];
                     gantt.config.date_format = "%d.%m.%Y";
-
-
+                    gantt.config.date_grid = "%d.%m.%Y";
+                    gantt.config.row_height = 45;
+                    gantt.config.drag_progress = false;
                     //gantt.config.show_progress = false;
-
+                    gantt.config.details_on_dblclick = false;
 
 
 
@@ -583,7 +600,19 @@ $data["open"]="true";
                     };
 
                     gantt.parse(data);
-
+                    $(function () {
+                        var todayMarker = gantt.addMarker({
+                            start_date: new Date(),
+                            css: "today",
+                            title: "12"
+                        });
+                        setInterval(function () {
+                            var today = gantt.getMarker(todayMarker);
+                            today.start_date = new Date();
+                            today.title = date_to_str(today.start_date);
+                            gantt.updateMarker(todayMarker);
+                        }, 1000 * 60);
+                    });
                 </script>
 
 

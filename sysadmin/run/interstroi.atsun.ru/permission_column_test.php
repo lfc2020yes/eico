@@ -42,60 +42,64 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
   <caption  <?=$styleH?>><div style="padding:3px;">тест прав доступа к колонкам данных: <?=$name?></div></caption>
 
   <tr><td style="padding-right: 10px">запрос
-      <td style="padding-right: 10px">модуль/таблица
-      <td style="padding-right: 10px" align="right">действие/объект    
+      <td style="padding-right: 10px">таблица
+      <td style="padding-right: 10px" align="right">столбец
       <td>права
 
     <tr><td>$role->is_column('i_object','total_r0','разрешен','запрещен')
-        <td style="padding-right: 10px">таблица: i_object
-        <td style="padding-right: 10px" align="right">столбец: total_r0:<td>
+        <td style="padding-right: 10px">i_object
+        <td style="padding-right: 10px" align="right">total_r0:<td>
     <?=$role->is_column('i_object','total_r0','разрешен','запрещен')?>
 
     <tr><td>$role->is_column('i_object','total_m0','разрешен','запрещен')
-        <td style="padding-right: 10px">таблица: i_object
-        <td style="padding-right: 10px" align="right">столбец: total_m0:<td>
+        <td style="padding-right: 10px">i_object
+        <td style="padding-right: 10px" align="right">total_m0:<td>
     <?=$role->is_column('i_object','total_m0','разрешен','запрещен')?>
 
-    <tr><td>$role->is_column('n_work','price','разрешен','запрещен')
-        <td style="padding-right: 10px">таблица: n_work
-        <td style="padding-right: 10px" align="right">столбец: price:<td>
-    <?=$role->is_column('n_work','price','разрешен','запрещен')?>
-    
-      <tr><td>$role->is_column('n_material','price','разрешен','запрещен')
-        <td style="padding-right: 10px">таблица: n_material
-        <td style="padding-right: 10px" align="right">столбец: price:<td>
-<?php
-    echo $role->is_column('n_material','price','разрешен','запрещен');      
+      <tr><td>$role->is_column('i_razdel1','summa_r1','разрешен','запрещен')
+          <td style="padding-right: 10px">i_razdel1
+          <td style="padding-right: 10px" align="right">summa_r1:<td>
+              <?=$role->is_column('i_razdel1','summa_r1','разрешен','запрещен')?>
+      <tr><td>$role->is_column('i_razdel1','summa_m1','разрешен','запрещен')
+          <td style="padding-right: 10px">i_razdel1
+          <td style="padding-right: 10px" align="right">summa_m1:<td>
+              <?=$role->is_column('i_razdel1','summa_m1','разрешен','запрещен')?>
 
-?>        
+      <tr><td>$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')
+          <td style="padding-right: 10px">i_razdel2
+          <td style="padding-right: 10px" align="right">summa_r2_realiz:<td>
+              <?=$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')?>
+      <tr><td>$role->is_column('i_razdel2','summa_material','разрешен','запрещен')
+          <td style="padding-right: 10px">i_razdel2
+          <td style="padding-right: 10px" align="right">summa_material:<td>
+              <?=$role->is_column('i_razdel2','summa_material','разрешен','запрещен')?>
+
+      <tr><td>$role->is_column('i_material','price','разрешен','запрещен')
+          <td style="padding-right: 10px">i_material
+          <td style="padding-right: 10px" align="right">price<td>
+              <?=$role->is_column('i_material','price','разрешен','запрещен')?>
+      <tr><td>$role->is_column('i_material','subtotal','разрешен','запрещен')
+          <td style="padding-right: 10px">i_material
+          <td style="padding-right: 10px" align="right">subtotal<td>
+              <?=$role->is_column('i_material','subtotal','разрешен','запрещен')?>
+
     <tr><td>$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')
-        <td style="padding-right: 10px">таблица: i_razdel2
-        <td style="padding-right: 10px" align="right">столбец: summa_r2_realiz:<td>
-<?php
-    echo $role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен');      
-    
-    
-    
-?>        
-    <tr><td>if ($role->is_column_edit('n_work','price'))
-        <td style="padding-right: 10px">таблица: n_work
-        <td style="padding-right: 10px" align="right">столбец: price:<td>
-<?php
-    if ($role->is_column_edit('n_work','price')) echo "edit";
-    else echo "not edit";
-?>        
-    <tr><td>if ($role->is_column_edit('n_material','price'))
-        <td style="padding-right: 10px">таблица: n_material
-        <td style="padding-right: 10px" align="right">столбец: price:<td>
-<?php
-    if ($role->is_column_edit('n_material','price')) echo "edit";
-    else echo "not edit";
+        <td style="padding-right: 10px">i_razdel2
+        <td style="padding-right: 10px" align="right">summa_r2_realiz:<td>
+    <?=$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')?>
 
-//==============================================================================
-  //if ($_POST["permission"]>0) {                
-  //   $numer = get_numer_doc('"'.$_POST["date"].'"',$_POST["type"]);
 
-?>
+
+      <tr><td>$role->is_column('n_work','price','разрешен','запрещен')
+          <td style="padding-right: 10px">n_work
+          <td style="padding-right: 10px" align="right">price:<td>
+              <?=$role->is_column('n_work','price','разрешен','запрещен')?>
+
+      <tr><td>$role->is_column('n_material','price','разрешен','запрещен')
+          <td style="padding-right: 10px">n_material
+          <td style="padding-right: 10px" align="right">price:<td>
+              <?=$role->is_column('n_material','price','разрешен','запрещен')?>
+
   </table>
   </form>
 <?php

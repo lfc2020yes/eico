@@ -509,8 +509,7 @@
                 //echo '<div class="save_button pod_del shoot"><i>Снять подпись</i></div>';
 
                 echo'<a  class="shoot add_clients red-style hide-mobile">Снять подпись   →</a>';
-                
-                
+
             }
         }
 

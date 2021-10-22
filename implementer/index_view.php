@@ -224,7 +224,11 @@ if($row__2["sign_rco"]!=0)
 }
 					
 echo'<tr class="nary n1n '.$cll.'" rel_cash="'.$row__2["id"].'"><td></td>';
- echo'<td class="no_padding_left_ pre-wrap"><a target="_black" href="cashbox/print/'.$row__2["id"].'/">'.$row__2["numer"].'</a>';
+ echo'<td class="no_padding_left_ pre-wrap">
+
+<a target="_black" href="cashbox/print/'.$row__2["id"].'/">'.$row__2["numer"].'</a>';
+
+
  if($row__2["prepayment"]==1)
  {
  echo'<span style="border-bottom: 1px solid #ff540e; float:none;" class="status_nana">аванс</span>';						 
@@ -247,8 +251,14 @@ if((($row__2["sign_rco"]!=0)and($row__2["id_cash"]!=$row__2["sign_rco"]))or($row
 {
 								   $online='';	
 				  if(online_user($row__2["timelast"],$row__2["id_s"],$id_user)) { $online='<div class="online"></div>';}	
-	
+
+/*
 echo'<div m="'.$row__2["id_cash"].'" style="margin-left: 0px;" data-tooltip="Выписал - '.$row__2["name_user"].'" class="user_soz send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["id_cash"],'_100x100.jpg"></div>');
+*/
+
+echo'<div m="'.$row__2["id_cash"].'" class="pass_wh_trips_2021" style="margin-top: 10px;"><label>Выписал</label><div class="obi">'.$row__2["name_user"].'</div></div>';
+
+
 }
 if($row__2["sign_rco"]!=0)
 {
@@ -262,37 +272,169 @@ if($row__2["sign_rco"]!=0)
 					
 if(($row__2["id_cash"]==$row__2["sign_rco"]))
 {
-					
+
+    /*
 echo'<div sm="'.$row__2["sign_rco"].'" style="margin-left: 0px;" data-tooltip="Провел - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["sign_rco"],'_100x100.jpg"></div>');
+    */
+
+echo'<div sm="'.$row__2["sign_rco"].'" class="pass_wh_trips_2021" style="margin-top: 10px;"><label>Провел</label><div class="obi">'.$rowxs["name_user"].'</div></div>';
+
+
 
 } else {
 	
-	echo'<div sm="'.$row__2["sign_rco"].'"  data-tooltip="Провел - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["sign_rco"],'_100x100.jpg"></div>');
+	/*echo'<div sm="'.$row__2["sign_rco"].'"  data-tooltip="Провел - '.$rowxs["name_user"].'" class="user_soz n_yes send_mess">'.$online.avatar_img('<img src="img/users/',$row__2["sign_rco"],'_100x100.jpg"></div>');
+*/
+    echo'<div sm="'.$row__2["sign_rco"].'" class="pass_wh_trips_2021" style="margin-top: 10px;"><label>Провел</label><div class="obi">'.$rowxs["name_user"].'</div></div>';
+
 }				
 
 }
 
 if($row__2["cashless"]==0)
 {
+    echo'<div class="status-imp-2021">проведен</div><div></div>';
+
+/*
+
 echo'<div data-tooltip="проведен" class="user_soz naryd_yes"></div>
 <div class="status_nana">проведен - <a target="_blank" class="scan_pay" href="implementer/scan/'.$row__2["file_name"].'">скан</a></div>';
+
+*/
+
+    $query_string='';
+    $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="14" and A.visible=1 and A.id_object="' . ht($row__2["id"]) . '"');
+
+    $num_results_uu = $result_6->num_rows;
+
+    $class_aa = '';
+    $style_aa = '';
+    if ($num_results_uu != 0) {
+        $class_aa = 'eshe-load-file';
+        $style_aa = 'style="display: block;"';
+    }
+
+
+    $query_string .= '<div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '>';
+
+    if ($num_results_uu != 0) {
+        $i = 1;
+        while ($row_6 = mysqli_fetch_assoc($result_6)) {
+            $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
+
+            $query_string .= '<span class="type-img">'.$row_6["type"].'</span>';
+
+            //$query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
+
+
+            $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+            $i++;
+        }
+    }
+
+
+    $query_string .= '</div></div>';
+
+
+
+
+
+
+
+    $query_string .= '</div></div>';
+echo $query_string;
+
+
+
+
 } else
 {
+    /*
 $echo.='<div data-tooltip="проведен по безналичному расчету" class="user_soz naryd_yes"></div>
 <div class="status_nana">проведен по безналу</div>';
 echo'<div data-tooltip="проведен по безналичному расчету" class="user_soz naryd_yes"></div>
-<div class="status_nana">проведен по безналу</div>';	
+<div class="status_nana">проведен по безналу</div>';
+*/
+    echo'<div class="status-imp-2021 status-imp-2022">проведен по безналу</div><div></div>';
+
+
+
 }	
 	
 
 } else
 {
-	
+	/*
 echo'<div id_upload="'.$row__2["id"].'" data-tooltip="загрузить кассовый ордер" class="user_soz naryd_upload"></div>';	
-echo'<form  class="form_up" id="upload_sc_'.$row__2["id"].'" id_sc="'.$row__2["id"].'" name="upload'.$row__2["id"].'"><input class="sc_sc_loo" type="file" name="myfile'.$row__2["id"].'"></form><div class="loaderr_scan scap_load_'.$row__2["id"].'"><div class="scap_load__" style="width: 0%;"></div></div>';	
-	
-echo'<div id_bez="'.$row__2["id"].'" data-tooltip="безналичный расчет" class="user_soz beznal_upload"></div>';		
-	
+echo'<form  class="form_up" id="upload_sc_'.$row__2["id"].'" id_sc="'.$row__2["id"].'" name="upload'.$row__2["id"].'"><input class="sc_sc_loo" type="file" name="myfile'.$row__2["id"].'"></form><div class="loaderr_scan scap_load_'.$row__2["id"].'"><div class="scap_load__" style="width: 0%;"></div></div>';
+*/
+
+
+
+
+
+
+    $query_string='';
+    $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="14" and A.visible=1 and A.id_object="' . ht($row__2["id"]) . '"');
+
+    $num_results_uu = $result_6->num_rows;
+
+    $class_aa = '';
+    $style_aa = '';
+    if ($num_results_uu != 0) {
+        $class_aa = 'eshe-load-file';
+        $style_aa = 'style="display: block;"';
+    }
+
+
+    $query_string .= '<div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" ' . $style_aa . '>';
+/*
+    if ($num_results_uu != 0) {
+        $i = 1;
+        while ($row_6 = mysqli_fetch_assoc($result_6)) {
+            $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
+
+            $query_string .= '<span class="type-img">'.$row_6["type"].'</span>';
+
+            $query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
+
+
+            $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+            $i++;
+        }
+    }
+*/
+
+    $query_string .= '</div></div>';
+
+
+
+    $query_string .= '<input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="14" id_object="' . ht($row__2["id"]) . '" data-tooltip="загрузить кассовый ордер" class="invoice_upload js-upload-file js-helps ' . $class_aa . ' upload-but-2021 upload-but-2023" style="background-color: #fff !important;" ></div>';
+
+
+
+
+
+
+
+    $query_string .= '</div></div>';
+
+
+    echo $query_string;
+
+
+
+
+
+
+
+
+	/*
+echo'<div id_bez="'.$row__2["id"].'" data-tooltip="безналичный расчет" class="user_soz beznal_upload beznal_upload_2021"></div>';*/
+
+    echo'<div id_bez="'.$row__2["id"].'" data-tooltip="безналичный расчет" class="user_soz beznal_upload beznal_upload_2021"></div>';
+
+
 }
 					  
 
@@ -350,16 +492,49 @@ echo'</tbody></table>';
 //Вывод его нарядов
 
 
-			   	   $result_t2=mysql_time_query($link,'Select a.* from n_nariad as a where a.id_implementer="'.htmlspecialchars(trim($_GET['id'])).'" order by a.date_make desc');
+			   	   $result_t2=mysql_time_query($link,'Select a.* from n_nariad as a where a.id_implementer="'.htmlspecialchars(trim($_GET['id'])).'" order by a.date_create desc');
 	  
   
 	  
                    $num_results_t2 = $result_t2->num_rows;
 	              if($num_results_t2!=0)
 	              {
-	
+
+
+
+                      include_once '../ilib/lib_interstroi.php';
+                      include_once '../ilib/lib_edo.php';
+
+                      $edo = new EDO($link,$id_user,false);
+
+
 					  
-			echo'<br><br><h3 class="head_h j_n_cash" style=" margin-bottom:0px;">Наряды исполнителя<div></div></h3>';				  
+			echo'<br><br><h3 class="head_h j_n_cash" style=" margin-bottom:0px;">Наряды исполнителя<div></div></h3>';
+
+
+
+
+                      echo '<div class="ring_block ring-block-line js-global-preorders-link">';
+                      $small_block=1;
+                      for ($ksss=0; $ksss<$num_results_t2; $ksss++)
+                      {
+                          $value= mysqli_fetch_assoc($result_t2);
+                          $new_pre = 1;
+                          $task_cloud_block='';
+
+
+
+                          include $url_system . 'worder/code/block_worder.php';
+                          echo($task_cloud_block);
+
+                      }
+
+                      echo'</div>';
+
+
+
+			/*
+
 					  
 echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class="smeta2"><thead>
 		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер</th><th class="t_1">Статус</th><th class="t_2 no_padding_left_">Объект/Период Наряда</th><th class="t_8">Итого работа/материал</th><th class="t_10"></th><th class="t_1"></th></tr></thead><tbody>';
@@ -381,16 +556,7 @@ if($row__2["signedd_nariad"]==1)
 }
 					
 echo'<tr class="nary n1n '.$cll.'" rel_id="'.$row__2["id"].'"><td></td><td class="middle_"><a href="finery/'.$row__2["id"].'/">№'.$row__2["id"].'</a></td><td>';
-	/*					 
-$status_title=array("подписан","не заполнен","не согласован","не подписан");
-$status_class=array("sgreen","syelow","sred","sblue");						 
-$status_value=array("2","0","-1","1");						 
-$found = array_search($row__2["status"],$status_value);   
-if($found !== false)
-{	
-echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class[$found].'"></div>';
-}	
-*/
+
 
 	   //смотрим подписан ли он создателем
 	   $hie1 = new hierarchy($link,$row__2["id_user"]);
@@ -403,13 +569,7 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 				{
 					  array_push($stack_users, $row__2["id_signed".$is]); 
 				}
-				/*	
-					echo'<div  data-tooltip="Создан/Подписан - " class="user_soz"><img src="img/users/'.$rowx["id_signed".$i].'_100x100.jpg"></div>';
-				} else
-				{
-				    echo'<div  data-tooltip="Создан - " class="user_soz n_yes"><img src="img/users/4_100x100.jpg"></div>';	
-				}
-				*/
+
 	   }
 	  // print_r($stack_users);
 	   for ($is=0; $is<count($stack_users); $is++)
@@ -570,13 +730,7 @@ echo'<div data-tooltip="'.$status_title[$found].'" class="status '.$status_class
 						 
 						 echo'</td>';
                   //echo'<td class="no_padding_left_ pre-wrap"><a href="implementer/'.$row__2["id_implementer"].'/"><span class="s_j">'.$row_t22["implementer"].'</span></a></td>';
-/*
-echo'<td class="pre-wrap"><span class="per">';
 
-echo MaskDate($row__2["date_begin"]).' - '.MaskDate($row__2["date_end"]);						 
-
-echo'</span></td>';
-*/
 echo'<td><span class="per1">';
 						 
         $result_town=mysql_time_query($link,'select C.object_name,B.town,A.kvartal from i_kvartal as A,i_town as B,i_object as C where C.id_kvartal=A.id and A.id_town=B.id and C.id="'.$row__2["id_object"].'"');
@@ -594,16 +748,7 @@ echo'<td><span class="per1">';
 					
  echo'</span></td>
 <td><span class="s_j"><strong>'.rtrim(rtrim(number_format($row__2["summa_work"], 2, '.', ' '),'0'),'.').'</strong> / <span class="s_j">'.rtrim(rtrim(number_format($row__2["summa_material"], 2, '.', ' '),'0'),'.').'</span></td>';
-/*						 
-echo'<td><span class="s_j"><strong>'.rtrim(rtrim(number_format(($row__2["summa_work"]+$row__2["summa_material"]), 2, '.', ' '),'0'),'.').'</strong>';
-if($edit_price==1)
-{
-  //выводим на сколько привышение если есть
-	
-}
-						 
-echo'</span></td>';
-*/
+
 
  echo'<td>';
 $podpis=0;  //по умолчанию нельзя редактировать подписана свыше
@@ -629,7 +774,7 @@ echo'</tbody></table>';
 					  
 					  
 
-					  
+		*/
 					  
  }	  
 	  
@@ -654,6 +799,12 @@ include_once $url_system.'template/left.php';
                       </div></div></div>
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function (){
+        NumberBlockFile();
+    });
+
 
 <div id="nprogress">
 <div class="bar" role="bar" >

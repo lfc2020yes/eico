@@ -180,7 +180,7 @@
 
             <?
 
-            echo'<span class="menu-09-pc-h" ><span > '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].') </span >';
+            echo'<span class="menu-09-pc-h" ><span > График работ </span >';
 
 
             echo'</span >';
@@ -201,9 +201,6 @@
 
             ?>
 
-           <div data-tooltip="поиск по себестоимости" class="icon1 icon1-xxx icon3"><i></i></div>
-
-      <div class="search_seb"><i>n</i><input name="search_text" id="search_text" class="input_f_s input_100 white_inp" autocomplete="off" value="" type="text"><div class="result_s"><span  class="se_next">C</span><span class="se_prev">D</span><div>найдено: <span class="s_ss">45</span></div></div></div>
       <?
 
 

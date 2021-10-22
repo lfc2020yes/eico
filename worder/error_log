@@ -1,0 +1,19 @@
+[17-Mar-2018 09:05:09 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[17-Mar-2018 09:05:09 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[17-Mar-2018 09:05:09 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[17-Mar-2018 09:05:09 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 286
+[17-Mar-2018 09:37:18 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 7
+[22-Apr-2018 12:26:39 Europe/Moscow] PHP Fatal error:  Call to a member function permission() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 75
+[03-Jun-2018 13:04:51 Europe/Moscow] PHP Fatal error:  Call to a member function permission() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 75
+[03-Jun-2018 13:04:51 Europe/Moscow] PHP Fatal error:  Call to a member function permission() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 75
+[03-Jun-2018 14:15:43 Europe/Moscow] PHP Fatal error:  Call to a member function permission() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 75
+[03-Jun-2018 14:21:20 Europe/Moscow] PHP Fatal error:  Call to a member function permission() on a non-object in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 75
+[03-Jun-2018 15:31:01 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/app/index_view.php on line 10
+[27-Jun-2019 11:05:55 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 7
+[28-Jun-2019 08:16:51 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[28-Jun-2019 08:16:51 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[28-Jun-2019 08:16:51 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/top_prime_app.php on line 13
+[28-Jun-2019 08:16:51 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 298
+[28-Jun-2019 08:16:51 Europe/Moscow] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/atsunru/interstroi.atsun.ru/docs/template/left.php on line 127
+[28-Jun-2019 10:19:28 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 7
+[28-Jun-2019 12:26:22 Europe/Moscow] PHP Fatal error:  Class 'hierarchy' not found in /home/atsunru/interstroi.atsun.ru/docs/app/index.php on line 7

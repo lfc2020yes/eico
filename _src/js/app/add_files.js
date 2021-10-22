@@ -248,6 +248,13 @@ function uploadS(file,type,id_object,number_li,number_block) {
             alert_message('ok','Файл загружен');
             //осталось добавить в input загруженный id файла
 
+            if(type==14)
+            {
+                //загрузка ордеров в исполнителях
+                //alert_message('ok','касса');
+                updatecash(id_object);
+
+            }
 
             var r=JSON.parse(this.responseText);
             //alert_message('ok',r.type);

@@ -292,13 +292,13 @@ function nariad_sign(&$mysqli, $id_nariad, $signedd, $sign_level, $id_user=0,$sh
              }
          $sql.= $COMA."update n_nariad set"
                                     . " signedd_nariad=".$signedd
-                                    . " , status=2"                //подписан
+                                    . " , status=20"                //подписан
                                     . " , ".$id_signed."=".$id_user
                                     . " where id=".$id_nariad;
          } else {  //снять подпись
              $sql.= $COMA."update n_nariad set"
                                     . " signedd_nariad=".$signedd
-                                    . " , status=0"               //в работе
+                                    . " , status=9"               //в работе
                                     //. " ,  id_signed0=null, id_signed1=null, id_signed2=null"
                                     . " where id=".$id_nariad;
          }

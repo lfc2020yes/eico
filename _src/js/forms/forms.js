@@ -2740,20 +2740,33 @@ function AfterCAD(data,update)
 	if ( data.status=='ok' )
 	{
 		var id= data.id;
+
+
+
 		$.arcticmodal({
 			type: 'ajax',
 			url: 'forms/form_print_pay.php?id='+id,
-			afterLoading: function(data, el) {
-				//alert('afterLoading');
+			beforeOpen: function (data, el) {
+				//во время загрузки формы с ajax загрузчик
+				$('.loader_ada_forms').show();
+				$('.loader_ada1_forms').addClass('select_ada');
 			},
-			afterLoadingOnShow: function(data, el) {
-				//alert('afterLoadingOnShow');
+			afterLoading: function (data, el) {
+				//после загрузки формы с ajax
+				data.body.parents('.arcticmodal-container').addClass('yoi');
+				$('.loader_ada_forms').hide();
+				$('.loader_ada1_forms').removeClass('select_ada');
 			},
-			afterClose: function(data, el) { // после закрытия окна ArcticModal
-				clearInterval(timerId);
+			beforeClose: function (data, el) { // после закрытия окна ArcticModal
+				if (typeof timerId !== "undefined") {
+					clearInterval(timerId);
+				}
+				BodyScrool();
 			}
 
 		});
+
+
 
 
 		//значит мы просматриваем какого то исполнителя
@@ -2868,6 +2881,9 @@ function AfterDIS_C(data,update)
 		$('.j_cash').after(data.echo2);
 
 		ToolTip();
+
+
+		NumberBlockFile();
 	}
 }
 

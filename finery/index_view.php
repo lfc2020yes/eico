@@ -1947,8 +1947,8 @@ if($row_list["id_user"]==$id_user)
           {
 	*/
 		     echo'<script>
-				  $(function (){  $(\'.count_finery_,.price_finery_,.count_finery_mater_,.price_finery_mater_\').change();  });
-				  </script>';
+				  $(function (){  $(\'.count_finery_,.price_finery_,.count_finery_mater_,.price_finery_mater_\').change();  });				   
+			 </script>';
 		  
 		 // }
 	  }

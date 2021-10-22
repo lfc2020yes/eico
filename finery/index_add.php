@@ -379,7 +379,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
                      $id_user=id_key_crypt_encrypt(htmlspecialchars(trim($_SESSION['user_id'])));
 					 
 					 //include_once $url_system.'ilib/lib_interstroi.php'; 
-					 $numer=get_numer_doc(&$link,htmlspecialchars(trim($_POST["date_naryad"])),1);
+					 $numer=get_numer_doc($link,htmlspecialchars(trim($_POST["date_naryad"])),1);
 					   
 					 //echo('INSERT INTO n_nariad (id,numer_doc,id_user,id_object,id_implementer,date_make,date_doc,date_begin,date_end,status,id_sign_nariad,signedd_nariad) VALUES ("","'.$numer.'","'.$id_user.'","'.htmlspecialchars($_GET['id']).'","'.htmlspecialchars(trim($_POST['ispol_work'])).'","'.$date_.'","'.htmlspecialchars(trim($_POST["date_naryad"])).'","'.htmlspecialchars($_POST['date_start']).'","'.htmlspecialchars($_POST['date_end']).'","'.$id_user.'","0")') ; 
 					   

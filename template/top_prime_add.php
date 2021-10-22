@@ -96,6 +96,6 @@
 
             <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->
             <?
-            echo'<a href="finery/plus/'.$_GET['add'].'/" data-tooltip="сохранить изменения"  class="js-add_nar add_clients yellow-style hide-mobile">Сохранить   →</a>';
+            echo'<a href="worder/plus/'.$_GET['add'].'/" data-tooltip="сохранить изменения"  class="js-add_nar add_clients yellow-style hide-mobile">Сохранить   →</a>';
             ?>
         </div>

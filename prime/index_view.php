@@ -404,11 +404,30 @@ if ( isset($_COOKIE["iss"]))
 
 	 	   //эти столбцы видят только особые пользователи	
 		   $count_rows=10;	
-		   $stack_td = array();			
-		   
-	       
-	       if($sign_admin!=1)
-		   {   
+		   $stack_td = array();
+
+
+/*
+
+по доступу к колонкам данных в Себестоимости:
+По Трубочникову: (прораб)
+тест прав доступа к колонкам данных: { [Трубочников Александр Николаевич (a.trubochnikov)]}
+запрос	таблица	столбец	права
+$role->is_column('i_object','total_r0','разрешен','запрещен')	i_object	total_r0:	запрещен
+$role->is_column('i_object','total_m0','разрешен','запрещен')	i_object	total_m0:	запрещен
+$role->is_column('i_razdel1','summa_r1','разрешен','запрещен')	i_razdel1	summa_r1:	запрещен
+$role->is_column('i_razdel1','summa_m1','разрешен','запрещен')	i_razdel1	summa_m1:	запрещен
+$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')	i_razdel2	summa_r2_realiz:	запрещен
+$role->is_column('i_razdel2','summa_material','разрешен','запрещен')	i_razdel2	summa_material:	запрещен
+$role->is_column('i_material','price','разрешен','запрещен')	i_material	price	запрещен
+$role->is_column('i_material','subtotal','разрешен','запрещен')	i_material	subtotal	запрещен
+$role->is_column('i_razdel2','summa_r2_realiz','разрешен','запрещен')	i_razdel2	summa_r2_realiz:	запрещен
+$role->is_column('n_work','price','разрешен','запрещен')	n_work	price:	разрешен
+$role->is_column('n_material','price','разрешен','запрещен')	n_material	price:	разрешен
+*/
+
+if($sign_admin!=1)
+{
 			 //столбцы  выполнено на сумму - остаток по смете  
 	         if ($role->is_column('i_razdel2','summa_r2_realiz',true,false)==false) 
 		     { 
@@ -430,7 +449,7 @@ if ( isset($_COOKIE["iss"]))
 		     { 
 			    array_push($stack_td, "object_area"); 
 		     } 		
-		   }
+}
 ?>
 
 	

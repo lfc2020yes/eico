@@ -2547,6 +2547,11 @@ div.dhx_modal_cover {
   text-decoration: none !important;
   text-transform: none; color:#000;  }
 
+
+[aria-expanded="true"] [data-column-index="1"] .gantt_tree_content{ color:rgba(0,0,0,0.3);  }
+[aria-expanded="true"] [data-column-index="2"] .gantt_tree_content{ color:rgba(0,0,0,0.3);  }
+[aria-expanded="true"] [data-column-index="3"] .gantt_tree_content{ color:rgba(0,0,0,0.3);  }
+
 [aria-expanded="true"] {line-height: 45px; height: 45px;}
 
 .gantt_dependent_task {
@@ -2558,4 +2563,9 @@ background:transparent;
   border-bottom: 0px;
   border-radius: 15px 15px 0px 0px;
 
+}
+
+
+.custom_task .gantt_link_point{
+  display:none !important;
 }

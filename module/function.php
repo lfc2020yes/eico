@@ -1,4 +1,11 @@
 <?
+//проверка ввода валидности даты
+function validateDate($date, $format = 'd.m.Y H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
+
 function day_nedeli_x_small($dat2)
 {
     $date=explode("-", $dat2);

@@ -196,6 +196,13 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
     .weekend {
         background: #f4f7f4 !important;
     }
+    html, body {
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+        overflow: hidden;
+        display: block;
+    }
 
 
 
@@ -206,11 +213,11 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
 </head><body>
 <div class="alert_wrapper"><div class="div-box"></div></div>
 <?
-include_once $url_system.'template/body_top.php';	
+include_once $url_system.'template/body_top.php';
 ?>
 
 <div class="container">
-<?
+    <?
 
 
 if ( isset($_COOKIE["iss"]))
@@ -226,7 +233,7 @@ if ( isset($_COOKIE["iss"]))
 {
     echo'<div class="iss small">';
 }
-//echo(mktime());
+
 
 //echo($row_list["id_kvartal"]);
         $result_town=mysql_time_query($link,'select A.id_town,B.town,A.kvartal from i_kvartal as A,i_town as B where A.id_town=B.id and A.id="'.$row_list["id_kvartal"].'"');
@@ -243,11 +250,10 @@ if ( isset($_COOKIE["iss"]))
 
 ?>
 
-	
-	
-	
-<div class="left_block">
-  <div class="content">
+
+    <div class="left_block">
+        <div class="content">
+
 
 <?
                 $act_='display:none;';
@@ -261,9 +267,9 @@ if ( isset($_COOKIE["iss"]))
   include_once $url_system.'template/top_prime_gant.php';
 
 ?>
-<div id="fullpage" class="margin_60  input-block-2020 ">
-    <div class="oka_block_2019" style="min-height:auto;">
-        <div class="div_ook hop_ds"><div class="search_task">
+            <div id="fullpage" class="margin_60  input-block-2020 ">
+                <div class="oka_block_2019" style="min-height:auto;">
+                    <div class="div_ook hop_ds"><div class="search_task">
                 <?
                 $result_t=mysql_time_query($link,'Select a.id,a.town from i_town as a order by a.id');
                 $num_results_t = $result_t->num_rows;
@@ -388,8 +394,10 @@ if ( isset($_COOKIE["iss"]))
 $data["end_date"]='';
 $data["progress"]='';
 $data["open"]="true";
-$data["editable"]="false";
+$data["editable"]=false;
                     $data["bar_height"]=10;
+                    $data["linkable"]=false;
+                    $data["dataEditable"]=false;
 
 
                     array_push($data_global, $data);
@@ -446,8 +454,10 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
                       //$data["end_date"]=date_ex(0,$row_t1["date1"]);
                       $data["progress"]=$proc_realiz;
                       $data["parent"]=$row_t["id"];
-                      $data["editable"]="true";
+                      $data["editable"]=true;
                       $data["bar_height"]=25;
+                      $data["linkable"]=true;
+                      $data["dataEditable"]=true;
                       array_push($data_global, $data);
 
 					  //вывод дат начала и конца работы
@@ -480,7 +490,7 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
 
   ?>
                 <div class="main-content">
-                    <div id="gantt_here" style='width:100%; height:100%;padding: 0px;'></div>
+                    <div id="gantt_here" style='width:100%; height: 100% !important;'></div>
                 </div>
 
                 <script>/*
@@ -500,7 +510,8 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
 
 */
                     gantt.plugins({
-                        marker: true
+                        marker: true,
+                        auto_scheduling: true
                     });
 
                     var textEditor = {type: "text"};
@@ -522,19 +533,29 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
                     ];
                     gantt.config.date_format = "%d.%m.%Y";
                     gantt.config.date_grid = "%d.%m.%Y";
-                    gantt.config.row_height = 45;
+                    gantt.config.row_height = 50;
                     gantt.config.drag_progress = false;
                     //gantt.config.show_progress = false;
                     gantt.config.details_on_dblclick = false;
 
+//для связей когда заканчивается одна начитается другая если связаны
+                    gantt.config.auto_scheduling = true;
+
+                    //автоматически расширяться чтобы показывать все работы
+                    gantt.config.fit_tasks = true;
+
+                    //запретить все связи
+                   // gantt.config.drag_links = false;
 
 
-/*
-                    gantt.templates.rightside_text = function (start, end, task) {
-                        if (task.type == gantt.config.types.milestone)
-                            return task.text + " / ID: #" + task.id;
-                        return "";
-                    };*/
+
+
+                    /*
+                                        gantt.templates.rightside_text = function (start, end, task) {
+                                            if (task.type == gantt.config.types.milestone)
+                                                return task.text + " / ID: #" + task.id;
+                                            return "";
+                                        };*/
 /*
                     gantt.config.start_on_monday = false;
 
@@ -551,14 +572,15 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
 */
 
                     //var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-                    var today = new Date(2021, 10, 7);
+
+                   /* var today = new Date(2021, 10, 7);
                     gantt.addMarker({
                         start_date: today,
                         css: "today",
                         text: "Today",
                         title: "Today: "
-                    });
-
+                    });*/
+/*
                     var start = new Date(2018, 2, 28);
                     gantt.addMarker({
                         start_date: start,
@@ -566,12 +588,13 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
                         text: "Start project",
                         title: "Start project: "
                     });
-
+*/                  gantt.config.duration_unit = "day";
                     gantt.config.scale_height = 50;
                     gantt.config.scales = [
                         {unit: "day", step: 1, format: "%j"},
                         {unit: "month", step: 1, format: "%F, %Y"},
                     ];
+
 
 
 
@@ -583,11 +606,28 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
                         if (!gantt.isWorkTime(date))
                             return "weekend";
                     };
+
+
+
+
+
+
+                    //есть ли выходные или нет
                     gantt.config.work_time = true;
+
+                    //определить когда нерабочие дни
+                    //месяц почему то -1 от текущего. здесь нерабочий день 2021-10-19
+                    gantt.setWorkTime({date:new Date(2021,9,21), hours:false});
+
+                    //задать работаем ли мы по субботам и воскресеньям
+                    gantt.setWorkTime({day : 6}); //cуббота рабочая
+
+                    //gantt.setWorkTime({hours : ["8:30-12:00", "13:00-17:00"]})
+
                     //gantt.config.auto_scheduling = true;
                     //Wgantt.config.auto_scheduling_strict = true;
 
-                   // gantt.config.date_format = "%d-%m-%Y";
+                    gantt.config.end_date = new Date(2022, 1, 20);
 
                    // gantt.config.start_date = new Date(2021, 10, 1);
                    // gantt.config.end_date = new Date(2022, 1, 1);
@@ -601,6 +641,9 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
 
                     gantt.parse(data);
                     $(function () {
+
+
+
                         var todayMarker = gantt.addMarker({
                             start_date: new Date(),
                             css: "today",
@@ -612,7 +655,125 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
                             today.title = date_to_str(today.start_date);
                             gantt.updateMarker(todayMarker);
                         }, 1000 * 60);
+
+
+                        var inlineEditors = gantt.ext.inlineEditors;
+                        inlineEditors.attachEvent("onBeforeEditStart", function(state){
+                            var task = gantt.getTask(state.id);
+                            if(task.dataEditable === false){
+                                return false;
+                            }
+                            return true;
+                        });
+
+                        inlineEditors.attachEvent("onSave", function(state){
+                           // console.log(state);
+                            // -> { id: itemId,
+                            //      columnName: columnName,
+                            //      oldValue: value,
+                            //      newValue: value
+                            //    };
+                            /*
+                            var convert = gantt.date.date_to_str("%Y-%m-%d");
+                            var s = convert(state.oldValue);
+                            var e = convert(state.newValue);
+*/
+                            if(state.oldValue!=state.newValue) {
+                                var taskObj = gantt.getTask(state.id);
+                                var convert = gantt.date.date_to_str("%Y-%m-%d");
+                                var s = convert(taskObj.start_date);
+                                var e = convert(taskObj.end_date);
+                               // alert(s+'/'+e);
+                                var data ='url='+window.location.href+'&id='+state.id+'&start='+s+'&end='+e;
+                                AjaxClient('prime','update_gant','GET',data,'AfterUpdateGant',state.id,0);
+                            }
+
+
+                        });
+
+
+                        //запрещать связываться с работами у которых linkable == false (для названий общих разделов)
+                        gantt.attachEvent("onBeforeLinkAdd", function(id,link){
+                            var target_task = gantt.getTask(link.target);
+                           // alert(target_task.linkable);
+                            if (target_task.linkable == false) {
+                                //gantt.message({type:"warning", text:"This task cannot be linked"});
+                                return false;
+                            }
+
+                            var sourceTask = gantt.getTask(link.source);
+                            var targetTask = gantt.getTask(link.target);
+
+
+
+                            return true;
+                        });
+
+                        //пометить классом работы у которых не должно быть связей (общий раздел к примеру)
+                        gantt.templates.task_class = function(start, end, task){
+                            if(task.linkable == false) return "custom_task";
+                            return "";
+                        };
+
+                        //событие по перетаскиваю или изменения размера работы
+                        gantt.attachEvent("onAfterTaskDrag", function (id, mode) {
+                            var task = gantt.getTask(id);
+                            if (mode != gantt.config.drag_mode.progress) {
+
+                                var convert = gantt.date.date_to_str("%Y-%m-%d");
+                                var s = convert(task.start_date);
+                                var e = convert(task.end_date);
+                                //gantt.message(task.id + " " + s + "-" + e);
+
+                                var data ='url='+window.location.href+'&id='+task.id+'&start='+s+'&end='+e;
+                                AjaxClient('prime','update_gant','GET',data,'AfterUpdateGant',task.id,0);
+
+
+                            }
+                        });
+/*
+                        gantt.attachEvent("onBeforeGanttRender", function(){
+                            var range = gantt.getSubtaskDates();
+                            var scaleUnit = gantt.getState().scale_unit;
+
+                            if(range.start_date && range.end_date){
+                                gantt.config.start_date = gantt.calculateEndDate(range.start_date, -4, scaleUnit);
+                                gantt.config.end_date = gantt.calculateEndDate(range.end_date, 5, scaleUnit);
+                            }
+                        });
+*/
+
+
+                        function showScaleDesc() {
+                            var min = gantt.getState().min_date,
+                                max = gantt.getState().max_date,
+                                to_str = gantt.templates.task_date;
+
+                           // return gantt.message("Scale shows days from " + to_str(min) + " to " + to_str(max));
+                        }
+                        setTimeout(showScaleDesc, 500);
+
+                        gantt.attachEvent("onScaleAdjusted", showScaleDesc);
+
+
                     });
+
+
+
+                    function AfterUpdateGant(data,update) {
+
+                        if (data.status == 'reg') {
+                            WindowLogin();
+                        }
+
+                        if (data.status == 'ok') {
+
+                        }
+                    }
+
+
+
+
                 </script>
 
 

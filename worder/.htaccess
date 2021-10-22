@@ -1,0 +1,45 @@
+RewriteEngine On
+Options +FollowSymLinks
+RewriteBase /
+RewriteRule ^.htaccess$ - [F]
+DirectoryIndex index.php
+RewriteRule ^([0-9]*)/$      worder/index_view.php?id=$1 [L]
+RewriteRule ^([0-9]*)/yes/$      worder/index_view.php?id=$1&a=yes [L]
+RewriteRule ^([0-9]*)/no/$      worder/index_view.php?id=$1&a=no [L]
+RewriteRule ^([0-9]*)/no/([0-9]*)/$      worder/index_view.php?id=$1&a=no&error=$2 [L]
+
+RewriteRule ^([0-9]*)/forward/$      worder/index_view.php?id=$1&a=forward [L]
+RewriteRule ^([0-9]*)/order_yes/$      worder/index_view.php?id=$1&a=order_yes [L]
+
+RewriteRule ^add/([0-9]*)/$ worder/index_add.php?id=$1 [L]
+RewriteRule ^plus/([0-9]*)/$ worder/index_plus.php?id=$1 [L]
+
+RewriteRule ^forward/([0-9]*)/$ worder/index_forward.php?id=$1 [L]
+RewriteRule ^reject/([0-9]*)/$ worder/index_reject.php?id=$1 [L]
+RewriteRule ^sign/([0-9]*)/$ worder/index_sign.php?id=$1 [L]
+RewriteRule ^sign_yes/([0-9]*)/$ worder/index_sign_yes.php?id=$1 [L]
+RewriteRule ^order/([0-9]*)/$ worder/index_order.php?id=$1 [L]
+
+RewriteRule ^seal/([0-9]*)/$ worder/index_seal.php?id=$1 [L]
+
+
+RewriteRule ^cancel/([0-9]*)/$ worder/index_cancel.php?id=$1 [L]
+
+
+RewriteRule ^\.page\-([0-9]*)$ worder/index.php?n_st=$1 [L]
+
+RewriteRule ^.tabs-([0-9]*)$ worder/index.php?tabs=$1 [L]
+RewriteRule ^.tabs-([0-9]*).page-([0-9]*)$ worder/index.php?tabs=$1&n_st=$2 [L]
+
+
+
+RewriteRule ^okay/$ worder/index.php?by=okay [L]
+RewriteRule ^okay/.page-([0-9]*)$ worder/index.php?by=okay&n_st=$1 [L]
+
+RewriteRule ^orders/$ finery/index.php?by=orders [L]
+RewriteRule ^orders/.page-([0-9]*)$ finery/index.php?by=orders&n_st=$1 [L]
+
+
+
+php_flag session.use_trans_sid off
+php_flag session.use_only_cookies on

@@ -18860,6 +18860,16 @@ width: calc(50% - 0px) !important;
   left: 14px;
 }
 
+.upload-but-2023::before {
+  color: rgba(0, 0, 0, 0.3);
+  content: "ОРДЕР";
+  left: 11px;
+  font-family: "GEInspiraRegular";
+  position: absolute;
+  font-size: 9px;
+  top: 22px;
+}
+
 .upload-but-2022::before {
   content: "АКТ";
   left: 14px;
@@ -19737,6 +19747,118 @@ width: calc(50% - 0px) !important;
   padding: 2px;
   background-color: #ffec57;
   color: rgba(0, 0, 0, 0.7);
+}
+
+.new-worder-block-2021 .trips-b-info {
+  width: 250px !important;
+}
+.new-worder-block-2021 .trips-b-user {
+  width: 150px !important;
+}
+.new-worder-block-2021 .trips-b-comment {
+  width: calc( 100% - 70px - 250px - 150px - 150px ) !important;
+}
+.new-worder-block-2021 .small_ruboi {
+  font-family: GEInspiraRegular;
+  font-size: 15px;
+  font-style: normal;
+  display: block;
+  margin-top: 5px;
+}
+
+.new-small-text-worder {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 14px;
+  padding-top: 15px;
+}
+
+.new-small-text-worder-link {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 15px;
+}
+
+.my-print-new-2021 {
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  line-height: 0px;
+  display: inline-block;
+  font-size: 0px;
+  overflow: hidden;
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  background-color: #fff;
+  margin-top: 10px;
+  position: relative;
+}
+.my-print-new-2021::after {
+  color: #25ae88;
+  content: "*";
+  font-family: "icon1";
+  font-size: 14px;
+  left: 7px;
+  position: absolute;
+  top: 14px;
+}
+
+.pass_wh_trips_2021 {
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 0.2);
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 10px;
+  position: relative;
+  font-weight: 400;
+}
+.pass_wh_trips_2021 label {
+  font-family: GEInspiraRegular;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+}
+.pass_wh_trips_2021 div.obi {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 14px;
+  padding-top: 17px;
+}
+
+.status-imp-2021 {
+  background-color: #25ae88 !important;
+  color: #fff;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+}
+
+.status-imp-2022 {
+  background-color: #f59e00 !important;
+}
+
+.beznal_upload_2021 {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .buttonBg {
@@ -22285,6 +22407,18 @@ div.dhx_modal_cover {
   color: #000;
 }
 
+[aria-expanded="true"] [data-column-index="1"] .gantt_tree_content {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+[aria-expanded="true"] [data-column-index="2"] .gantt_tree_content {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+[aria-expanded="true"] [data-column-index="3"] .gantt_tree_content {
+  color: rgba(0, 0, 0, 0.3);
+}
+
 [aria-expanded="true"] {
   line-height: 45px;
   height: 45px;
@@ -22296,6 +22430,10 @@ div.dhx_modal_cover {
   border: 2px solid #448aff;
   border-bottom: 0px;
   border-radius: 15px 15px 0px 0px;
+}
+
+.custom_task .gantt_link_point {
+  display: none !important;
 }
 
 .input-block-2020 .list-image {

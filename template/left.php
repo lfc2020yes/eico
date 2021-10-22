@@ -98,7 +98,7 @@ if($_SERVER['DOCUMENT_ROOT']!=$local)
 
 
 $nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Склад","Прием-Передача","Настройки");
-$nav_url=array("prime","finery","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res","settings");
+$nav_url=array("prime","worder","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res","settings");
 $found = array_search($active_menu,$nav_url);
 
 ?>
@@ -161,7 +161,7 @@ if($active_menu=='bill')
 	
 	
 //служебные записки	
-	
+	/*
 	$rt=0;
 	  $new_zay=0;
 	if (($role->permission('Служебные записки','R'))or($role->permission('Заявки','S'))or($sign_admin==1))
@@ -230,7 +230,7 @@ AND a.id_user in('.implode(',',$hie->user).')  and ((not(b.memorandum="") and b.
 				 echo'<li class=" '.$actt1.'" style="display:none;"><a class="a11" href="decision/'.$rt_url.'/">Служебные записки<i></i></a></li>';
 			 }
 	}
-	
+	*/
 //снабжение	
 	if((($role->permission('Снабжение','R')))or($sign_admin==1))
 	{
@@ -355,10 +355,41 @@ if(count($arr_tasks)==0)
 
 
                  } else {
-                     if ($found === $key_nav) {
-                         echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+
+                     if($value_nav == 'worder') {
+
+
+                         //по заявкам смотрим и выводим если есть сколько надо выполнить задач
+                         if (!is_object($edo)) {
+
+                             include_once $url_system.'ilib/lib_interstroi.php';
+                             include_once $url_system.'ilib/lib_edo.php';
+                             $edo = new EDO($link, $id_user, false);
+
+                         }
+                         $arr_tasks = $edo->my_tasks(2, '=0' );
+                         $class_left_l='';
+                         $count_l=count($arr_tasks);
+                         if(count($arr_tasks)==0)
+                         {
+                             $class_left_l='nonex';
+                             $count_l='';
+                         }
+
+                         if ($found === $key_nav) {
+                             echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                         } else {
+                             echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                         }
+
+
+
                      } else {
-                         echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+                         if ($found === $key_nav) {
+                             echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+                         } else {
+                             echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
+                         }
                      }
                  }
              }

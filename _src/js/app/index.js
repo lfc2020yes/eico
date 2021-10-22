@@ -2356,10 +2356,10 @@ return false;
 //удалить работу из наряда
 function DellNarydWork1()
 {
-	if ( $(this).is("[id_rel]") )
-{
-	if($.isNumeric($(this).attr("id_rel")))
-	{
+ if($(this).is("[id_rel]"))
+ {
+  if($.isNumeric($(this).attr("id_rel")))
+  {
   $.arcticmodal({
     type: 'ajax',
     url: 'forms/form_dell_work_is_nariad.php?id='+$(this).attr("id_rel")+'&n='+$(this).attr("naryd"),
@@ -2382,8 +2382,14 @@ function DellNarydWork1()
 	  }
 
   });
+ }
 }
-}
+
+ if($(this).parents('.my_no').length!=0)
+ {
+	 $('.pod_zay').hide(); $('.add_zay').show();
+ }
+
   
 return false;
 }
@@ -3223,7 +3229,7 @@ function BasketFinery()
 		
 		if(!$("div").is(".naryd_end"))
 		{
-			$('.add_nnn').after('<div class="naryd_end" data-tooltip="Оформить наряд"><a href="finery/add/'+id_dom+'/">4<i></i></a></div>');
+			$('.add_nnn').after('<div class="naryd_end" data-tooltip="Оформить наряд"><a href="worder/add/'+id_dom+'/">4<i></i></a></div>');
 		}
 		var cc = cookie.split('.');
 	    var counts=cc.length;
@@ -5165,7 +5171,7 @@ setTimeout ( function () {
 
 	
 		//если переход в любое редактируемое поле наряда то сбрасывать кнопку подписать и показывать кнопку сохранить
-	$('.my_n').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1',function(){  $('.js-pod_nar').hide(); $('.js-add_nar').show();   });
+	$('.my_n').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1',function(){ $('.js-pod_nar').hide(); $('.js-add_nar').show();  });
 	
 	
 	
@@ -6774,6 +6780,11 @@ function AfterUCASH(data,update)
 		$('.pay_summ4').remove();
 		$('.j_cash').after(data.echo2);
 	ToolTip();
+
+
+	NumberBlockFile();
+
+
 }
 
 

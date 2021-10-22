@@ -35,7 +35,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
   <table <?=$styleF?> id="numer_table" cellspacing="0" align="left" class="theform">            
   <caption <?=$styleH?>><div style="padding:3px;">МОИ ДОКУМЕНТЫ</div></caption>
 
-      <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad):<td>
+      <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad 3-договор):<td>
       <input class="text"  name="type" size="2" value="<?=$type?>" />
 
       <tr><td style="padding-right: 10px">id_doc:<td>

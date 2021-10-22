@@ -565,9 +565,9 @@ WHERE id={$row1[id]}
                      break;
              }
              $id_signed = ", $id_signed=$id_user";
-             $sign_status=2;
+             $sign_status=20;
          } else {  //снять подпись
-             $sign_status=0;
+             $sign_status=9;
              $id_signed = '';
          }
           $sql.= $COMA."update n_nariad set"

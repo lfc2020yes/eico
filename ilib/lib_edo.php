@@ -24,6 +24,7 @@ class EDO
     var $mysqli;
     var $id_user;
     var $arr_table; // название таблиц
+    var $type;      // тип таблицы (0-3)
     var $arr_run;    //Массив шаблона
     var $arr_rule;   //Короткий массив правил
     var $arr_state;  //Массив выполнения
@@ -79,13 +80,14 @@ class EDO
 
     /**
      * @param $id - id документа из таблицы z_doc, z_acc, n_nariad
-     * @param $type 0 1 2 соответственно таблицам
+     * @param $type 0 1 2 3  соответственно таблицам
      * @param 0 $id_edo_run  Если не указан, береться из документа
      * @param false $restart Перезапуск процесса
      * @return bool
      */
     public function next ( $id, $type, $id_edo_run=0, $restart=false ) {
         $ret = false;
+        $this->type = $type;
         do {
             if ($id_edo_run == 0) {
                 if(($id_edo_run = $this->get_id_run($id, $type))===false) break; // получить id_edo_run из документа
@@ -963,8 +965,11 @@ INSERT INTO edo_state (
      * @return bool
      */
     public function is_excess($id_doc)
-    {                    //".$this->arr_table[$type]." AS d
-        $sql = "
+    {                    //".$this->arr_table[$this->type]." AS d
+        if ($this->type==0 or $this->type==2) {
+        switch ($this->type) {
+            case 0:
+                $sql = "
 SELECT a.id 
 FROM z_doc_material AS a 
 WHERE 
@@ -974,10 +979,26 @@ AND
 OR
 (NOT(a.memorandum = '') AND NOT(a.id_sign_mem = 0) AND a.signedd_mem = 0))
 ";
-        $this->Debug($sql,__FUNCTION__);
-        if ($result = $this->mysqli->query($sql)) {
-            if ($result->num_rows > 0) {
-                return true;
+                break;
+            case 2:
+                $sql = "
+select w.id, w.`id_nariad`, w.`memorandum`,
+m.`id` as id_material, m.`memorandum` as mem_materil
+from `n_work` as w
+left join `n_material` as m on w.id = m.`id_nwork`
+where
+w.`id_nariad` = $id_doc
+AND
+( w.`memorandum` <> '' or m.`memorandum` <> '')
+";
+                break;
+        }
+             $this->Debug($sql, __FUNCTION__);
+            // echo "<pre> TEST:".print_r($this->arr_sql,true)."</pre>";
+            if ($result = $this->mysqli->query($sql)) {
+                if ($result->num_rows > 0) {
+                    return true;
+                }
             }
         }
         return false;

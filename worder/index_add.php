@@ -504,7 +504,8 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде
-				  //добавляем уведомления о новом наряде	
+				  //добавляем уведомления о новом наряде
+                    /*
 				  $user_send= array();	
 				  $user_send_new= array();		
 				
@@ -543,7 +544,9 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 				  
 				  //echo($text_not);	
 					
-				  notification_send($text_not,$user_send_new,$id_user,$link);	
+				  notification_send($text_not,$user_send_new,$id_user,$link);
+
+				  */
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде	

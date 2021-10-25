@@ -2954,6 +2954,8 @@ function AfterE_A(data,update)
 		//обновить события связанные с работой с блоком
 		alert_message('ok','Работа изменена');
 		ToolTip();
+		$('.n1n[rel_id="'+update+'"]').prev().find('.teps').attr('rel_w',data.proc);
+		animation_teps();
 
 
 	}

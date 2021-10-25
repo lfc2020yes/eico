@@ -20,11 +20,17 @@ if(!isset($_SESSION["user_id"])) {
     $debug=h4a(102,$echo_r,$debug);
     goto end_code;
 }
-
+/*
 if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
 {
     $debug=h4a(103,$echo_r,$debug);
     goto end_code;
+}
+*/
+if(($role->permission('График','A'))or($sign_admin==1))
+{
+$debug=h4a(103,$echo_r,$debug);
+goto end_code;
 }
 
 

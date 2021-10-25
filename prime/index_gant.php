@@ -369,6 +369,8 @@ if ( isset($_COOKIE["iss"]))
        $id_object = htmlspecialchars(trim($_GET['id']));
 
        $result_t=mysql_time_query($link,"select a.* from i_razdel1 as a where a.id_object='$id_object'". $uor->select($id_object) .' order by a.razdel1');
+
+       //echo("select a.* from i_razdel1 as a where a.id_object='$id_object'". $uor->select($id_object) .' order by a.razdel1');
        $num_results_t = $result_t->num_rows;
 	   if($num_results_t!=0)
 	   {
@@ -386,9 +388,13 @@ if ( isset($_COOKIE["iss"]))
 
                     //$row_t["id"]
                 //echo ($row_t["razdel1"].'. '.$row_t["name1"]);
-             $data["id"]=$row_t["id"];
-             $data["text"]=$row_t["razdel1"].'. '.$row_t["name1"];
+                    $id_parents=$row_t["id"].'.0';
+                    $data["id"]=$id_parents;
 
+             //$data["id"]=$row_t["id"];
+             $data["text"]=ht($row_t["razdel1"].'. '.$row_t["name1"]);
+
+                   // $data["text"]='22';
              $data["duration"]='';
              $data["start_date"]='';
 $data["end_date"]='';
@@ -402,79 +408,79 @@ $data["editable"]=false;
 
                     array_push($data_global, $data);
 
-	            $result_t1=mysql_time_query($link,'Select a.* from i_razdel2 as a where a.id_razdel1="'.$row_t["id"].'" order by a.id');
-                $num_results_t1 = $result_t1->num_rows;
-	            if($num_results_t1!=0)
-	            {
+    $result_t1 = mysql_time_query($link, 'Select a.* from i_razdel2 as a where a.id_razdel1="' . $row_t["id"] . '" order by a.id');
+    $num_results_t1 = $result_t1->num_rows;
+    if ($num_results_t1 != 0) {
 
-		          for ($iu=0; $iu<$num_results_t1; $iu++)
-                  {  
-			         $row_t1 = mysqli_fetch_assoc($result_t1);
-                      $data = array();
-					 //процент выполненных работ
-					 if($row_t1["count_units"]!=0)
-					 {	 
-					   $proc_realiz=round(($row_t1["count_r2_realiz"]*100)/$row_t1["count_units"]); 
-					 } else
-					 {
-						$proc_realiz=0; 
-					 }
+        for ($iu = 0; $iu < $num_results_t1; $iu++) {
+            $row_t1 = mysqli_fetch_assoc($result_t1);
+            $data = array();
+            //процент выполненных работ
+            if ($row_t1["count_units"] != 0) {
+                $proc_realiz = round(($row_t1["count_r2_realiz"] * 100) / $row_t1["count_units"]);
+            } else {
+                $proc_realiz = 0;
+            }
 
-                      $proc_realiz=50;
-					 //echo($proc_realiz);
+            //$proc_realiz = 50;
+            //echo($proc_realiz);
 
-              //   echo ($row_t1["id"]);
-  //echo($row_t["razdel1"].'.'.$row_t1["razdel2"].' '.$row_t1["name_working"]);
-
-				  
-					// echo ($row_t1["date0"]);
-					// echo ($row_t1["date1"]);
+            //   echo ($row_t1["id"]);
+            //echo($row_t["razdel1"].'.'.$row_t1["razdel2"].' '.$row_t1["name_working"]);
 
 
-                      $data["id"]=$row_t1["id"];
-                      $data["text"]=$row_t["razdel1"].'.'.$row_t1["razdel2"].' '.$row_t1["name_working"];
+            // echo ($row_t1["date0"]);
+            // echo ($row_t1["date1"]);
 
 
-                      $data["duration"]='';
+            $data["id"] = $row_t1["id"];
+            $data["text"] = ht($row_t["razdel1"] . '.' . $row_t1["razdel2"] . ' ' . $row_t1["name_working"]);
+            //$data["text"]='22';
 
-if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
-{
-    $data["start_date"] = date('d.m.Y');
-} else {
-    $data["start_date"] = date_ex(0, $row_t1["date0"]);
-}
-
-                      if(($row_t1["date1"]=='')or($row_t1["date1"]==null))
-                      {
-                          $data["end_date"] = date_ex(0,date_step(date('Y-m-d'),1));
-                      } else {
-                          $data["end_date"] = date_ex(0, $row_t1["date1"]);
-                      }
-
-                      //$data["end_date"]=date_ex(0,$row_t1["date1"]);
-                      $data["progress"]=$proc_realiz;
-                      $data["parent"]=$row_t["id"];
-                      $data["editable"]=true;
-                      $data["bar_height"]=25;
-                      $data["linkable"]=true;
-                      $data["dataEditable"]=true;
-                      array_push($data_global, $data);
-
-					  //вывод дат начала и конца работы
-
-					  if (($role->permission('График','R'))or($sign_admin==1))
-					  {
-					  }
-                      if (($role->permission('График','U'))or($sign_admin==1))
-                      {
-                      }
+            $data["duration"] = '';
 
 
-					  }
+            if (($row_t1["date0"] == '') or ($row_t1["date0"] == null)) {
+                $data["start_date"] = date('d.m.Y');
+            } else {
+                $data["start_date"] = date_ex(0, $row_t1["date0"]);
+            }
+
+            if (($row_t1["date1"] == '') or ($row_t1["date1"] == null)) {
+                $data["end_date"] = date_ex(0, date_step(date('Y-m-d'), 1));
+            } else {
+                $data["end_date"] = date_ex(0, $row_t1["date1"]);
+            }
+
+            //$data["end_date"]=date_ex(0,$row_t1["date1"]);
+            $data["progress"] = $proc_realiz;
+            //$data["parent"] = $row_t["id"];
+
+            $data["parent"] =$id_parents;
+            $data["editable"] = true;
+            $data["bar_height"] = 25;
+            $data["linkable"] = true;
+            $data["dataEditable"] = true;
+            array_push($data_global, $data);
+
+            //вывод дат начала и конца работы
+
+            if (($role->permission('График', 'R')) or ($sign_admin == 1)) {
+
+            }
+            if (($role->permission('График', 'U')) or ($sign_admin == 1)) {
+
+            }
+
+
+        }
 
 //echo (rtrim(rtrim(number_format($row_t1["count_units"], 2, '.', ' '),'0'),'.'));
 
-			      }
+    }
+
+
+
 	            }
 			 }
 			 }
@@ -483,9 +489,7 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
   $oJson = new Services_JSON();
   //функция работает только с кодировкой UTF-8
   //echo $oJson->encode($data_global);
-  /*echo '<pre>';
-  echo $oJson->encode($data_global);
-  echo '</pre>';*/
+
   //print_r($oJson->encode($data_global));
 
   ?>
@@ -768,6 +772,9 @@ if(($row_t1["date0"]=='')or($row_t1["date0"]==null))
 
                         if (data.status == 'ok') {
 
+                        }
+                        if (data.status == 'error') {
+                            alert_message('error','Ошибка сохранения!');
                         }
                     }
 

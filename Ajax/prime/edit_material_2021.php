@@ -127,7 +127,9 @@ mysql_time_query($link,'update i_material set
                       count_units="'.htmlspecialchars(trim(trimc($_POST['count_work']))).'",
                       price="'.htmlspecialchars(trim(trimc($_POST['price_work']))).'",
                       id_stock="'.ht($ID_P).'",
-                      alien="'.ht($_POST["dava_stock"]).'" 
+                      alien="'.ht($_POST["dava_stock"]).'",
+                      count_realiz ="'.htmlspecialchars(trim(trimc($_POST['count_realiz']))).'", 
+                      summa_realiz="'.htmlspecialchars(trim(trimc($_POST['summ_realiz']))).'" 
                       
                       where id = "'.htmlspecialchars(trim($id)).'"');
 
@@ -196,11 +198,12 @@ if($num_results_t!=0)
 <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["count_units"], 2, '.', ' '),'0'),'.').'</span></td>
 <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["price"], 2, '.', ' '),'0'),'.').'</span></td>
 <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["subtotal"], 2, '.', ' '),'0'),'.').'</span></td>
-<td></td>';
+<td>'.rtrim(rtrim(number_format($row_t["count_realiz"], 2, '.', ' '),'0'),'.').'</td>';
     if(array_search('summa_r2_realiz',$stack_td) === false)
     {
-        $echo.='<td></td>
-<td></td>';
+        $echo.='<td>'.rtrim(rtrim(number_format($row_t["summa_realiz"], 2, '.', ' '),'0'),'.').'</td>
+<td><strong><span class="s_j">'.mor_class(($row_t["subtotal"]-$row_t["summa_realiz"]),rtrim(rtrim(number_format(($row_t["subtotal"]-$row_t["summa_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>
+';
     }
 }
 

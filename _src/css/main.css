@@ -19861,6 +19861,13 @@ width: calc(50% - 0px) !important;
   display: inline-block;
 }
 
+.search-count-csv-new {
+  float: right;
+  float: right;
+  margin-top: 18px;
+  margin-right: 0px;
+}
+
 .buttonBg {
   background: #fff;
 }

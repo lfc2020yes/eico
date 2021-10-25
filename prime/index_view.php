@@ -561,8 +561,13 @@ if(isset($_GET["add"]))
                     echo'</ul><input type="hidden"  name="dom" id="dom" value="'.$row_list["id"].'"></div></div>';
                 }
 
+if(($role->permission('График','R'))or($sign_admin==1)) {
+    echo '<a href="/prime/' . $_GET["id"] . '/gant/" class="search-count-csv search-count-csv-new">график работ</a>';
+}
 
                 ?>
+
+
             </div>
     </div>
         <div class="oka_block">

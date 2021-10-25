@@ -122,11 +122,11 @@ ToolTip();
 		    echo'<div class="imp_p"><span>Итого задолженность:</span> <span class="debts">'.mor_class(($row_t1["summa_paid"]-$row_t1["summa_made"]),rtrim(rtrim(number_format($row_t1["summa_debt"], 2, '.', ' '),'0'),'.'),0).'</span>';
 			
 			 
-		     $result_t2=mysql_time_query($link,'Select sum(a.summa_rco) as sums  from c_cash as a where a.id_implementer="'.$row_t1["id"].'" and status=0');
+		     $result_t2=mysql_time_query($link,'Select a.id  from c_cash as a where a.id_implementer="'.$row_t1["id"].'" and status=0');
 			
 		//echo('Select a.*,b.date_doc,b.numer_doc,b.id as idd  from n_work as a,n_nariad as b where b.signedd_nariad=1 and a.id_nariad=b.id and a.id_razdeel2="'.htmlspecialchars(trim($id)).'" order by b.date_doc');
 			
-       $num_results_t2 = $result_t1->num_rows;
+       $num_results_t2 = $result_t2->num_rows;
 	   if($num_results_t2!=0)
 	   {  	
 			

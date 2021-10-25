@@ -1,5 +1,4 @@
 <?
-
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 
 include_once $url_system.'module/config_time.php';
@@ -7,6 +6,25 @@ include_once $url_system.'module/version.php';
 
 $base_usr="https://eico.atsun.ru";
 $local_host="eico.atsun.ru"; //как называет домен в локалке
+$base_cookie = 'eico.atsun.ru';
+
+//для работы на локальных адресах
+$local_server_x=0;
+//как называет домен в локалке
+$local_host = array('eico.atsun.local','eico.atsun.ru');
+//адреса где могут лежать эти сайты на локалке
+$local = array('D:/DOMAIN/'.$local_host[0],'C:/OpenServer/domains/'.$local_host[1]);
+
+
+$number_local=array_search($_SERVER['DOCUMENT_ROOT'], $local);
+if ($number_local !== false) {
+    //локалка
+	$local_server_x=1;
+	//это какая то локальная загрузка
+	$base_usr="https://".$local_host[$number_local];
+	$local_host=$local_host[$number_local];
+	$base_cookie = $local_host[$number_local];
+}
 
 
 define('ENCRYPTION_KEY', 'qeda38s23kldfgd0');
@@ -29,7 +47,7 @@ $dbname = "atsunru_interstroi";
 $dbuser = "atsunru_inter";
 $dbpasswd = "inter2017";*/
 
-$base_cookie='eico.atsun.ru';
+//$base_cookie='eico.atsun.ru';
 
 
 //$dblocation = "mysql.hosting.nic.ru";

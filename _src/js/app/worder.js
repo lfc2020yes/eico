@@ -5,6 +5,7 @@ $(function () {
     //открыть календарь период
     $('body').on("click",'.cal_rang_2021',calc_open_2021_rang);
 
+    $('body').on("change keyup input click",'.menu_jjs .js-menu-jjs-print',menu_print);
 
     $('body').on("change keyup input click",'.js-reject-worder',RejectWo);
 
@@ -33,6 +34,15 @@ $(function () {
 }, 2000 );
 
 });
+
+
+function menu_print(event)
+{
+        event.stopPropagation();
+
+        var rel=$(this).find('a').attr('rel');
+
+    }
 
 
 

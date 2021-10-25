@@ -50,12 +50,35 @@ $task_cloud_block.='<div class="preorders_block_global new-worder-block-2021 '.$
 $task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"];
 
 //выводим кнопку печать наряд если он проведен
-
+/*
 if((($value["status"]==20)or($value["status"]==21))and(($role->permission('Печать наряда','R'))or($sign_admin==1)))
 {
-
+*/
+/*
 $task_cloud_block.='<a target="_blank" href="worder/print/'.$value["id"].'/" data-tooltip="Печатать наряд" class="my-print-new-2021"></a>';
-}
+*/
+//}
+
+//if((($value["status"]==20)or($value["status"]==21))and(($role->permission('Печать наряда','R'))or($sign_admin==1))) {
+    $task_cloud_block .= '<div class="menu_jjs basket-items more-active-s" style=""><div class="more_print menu_click"></div><div class="menu_supply menu_su1"><ul class="drops no_active active_menu_s drops_print" data_src="0">
+
+<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/">Форма наряда</a></li>
+<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/list/" >Лист согласования</a></li>
+<li class="no-more-number js-menu-jjs-print"><a href="">Форма м29</a></li>
+
+</ul></div></div>';
+//}
+
+
+
+
+
+
+
+
+
+
+
 
 
 $task_cloud_block.='</div>';

@@ -19868,6 +19868,37 @@ width: calc(50% - 0px) !important;
   margin-right: 0px;
 }
 
+.more_print {
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  line-height: 0px;
+  display: inline-block;
+  font-size: 0px;
+  overflow: hidden;
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  background-color: #fff;
+  margin-top: 10px;
+  position: relative;
+}
+.more_print::after {
+  color: #25ae88;
+  content: "*";
+  font-family: "icon1";
+  font-size: 14px;
+  left: 7px;
+  position: absolute;
+  top: 14px;
+}
+
+.drops_print {
+  text-align: left;
+  top: 12px;
+  left: 10px;
+}
+
 .buttonBg {
   background: #fff;
 }

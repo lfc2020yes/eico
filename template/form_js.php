@@ -1,20 +1,30 @@
 <?php
-$local='C:/OpenServer/domains/'.$local_host.'';
+$local_server_x = 0;
+$local_host = array('eico.atsun.local','eico.atsun.ru');
+//адреса где могут лежать эти сайты на локалке
+$local = array('D:/DOMAIN/'.$local_host[0],'C:/OpenServer/domains/'.$local_host[1]);
+
+
+$number_local=array_search($_SERVER['DOCUMENT_ROOT'], $local);
+if ($number_local !== false) {
+//локалка
+    $local_server_x = 1;
+}
 
 if(!isset($no_script)) {
-if ($_SERVER['DOCUMENT_ROOT'] != $local) {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1635145808771"></script>';
+if ($local_server_x==0) {
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1635156638253"></script>';
 } else {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1635145808771"></script>';
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1635156638253"></script>';
 }
 } else
 {
 echo'<script type="text/javascript">';
 
-    if ($_SERVER['DOCUMENT_ROOT'] != $local) {
-        echo 'window.src_forms="/public/forms.map.min.js?cb=1635145808771";';
+    if ($local_server_x==0) {
+        echo 'window.src_forms="/public/forms.map.min.js?cb=1635156638253";';
     } else {
-        echo 'window.src_forms="/public/forms.map.js?cb=1635145808771";';
+        echo 'window.src_forms="/public/forms.map.js?cb=1635156638253";';
     }
 
     echo'</script>';

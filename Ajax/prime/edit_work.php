@@ -89,7 +89,12 @@ if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
 		 
 			 
 			 
-mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",id_implementer="'.$_GET['ispol_work'].'",count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",id_implementer="'.$_GET['ispol_work'].'",count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
+count_r2_realiz ="'.htmlspecialchars(trim(trimc($_GET['count_realiz']))).'", 
+summa_r2_realiz="'.htmlspecialchars(trim(trimc($_GET['summ_realiz']))).'",
+price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'" 
+
+where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 			 
 			 
 			 
@@ -239,7 +244,7 @@ $echo.='<td><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["
 end_code:
 
 
-$aRes = array("debug"=>$debug,"status"   => $status_ee,"table" =>  $table,"echo" =>  $echo,"id"=>$ID_D);
+$aRes = array("debug"=>$debug,"status"   => $status_ee,"table" =>  $table,"echo" =>  $echo,"id"=>$ID_D,"proc"=>$proc_realiz);
 require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

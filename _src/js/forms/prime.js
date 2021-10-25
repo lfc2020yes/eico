@@ -298,6 +298,8 @@ function AfterEditMaTS(data,update)
         alert_message('ok','Материал изменен');
         ToolTip();
 
+
+
         return;
     }
 

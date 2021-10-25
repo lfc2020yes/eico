@@ -15,6 +15,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     $action =  (isset($_POST["action"]))?$_POST["action"] : null;
     $type =  (isset($_POST["type"]))?$_POST["type"]:0;
     $id_user =  (isset($_POST["id_user"]))?$_POST["id_user"]:0;
+    $id_doc =  (isset($_POST["id_doc"]))?$_POST["id_doc"] : null;
   
           if ($ROW_role!=0) {
               $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
@@ -45,6 +46,8 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       <tr><td style="padding-right: 10px">id_user:<td>
       <input class="text"  name="id_user" size="2" value="<?=$id_user?>" />
 
+      <tr><td style="padding-right: 10px">id_doc:<td>
+              <input class="text"  name="id_doc" size="2" value="<?=$id_doc?>" />
 
 <?php
    SHOW_tfoot(4,1,1,1);
@@ -62,7 +65,8 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       $arr_tasks = $edo->my_tasks($_POST["type"], $_POST["status"]
       ,'ORDER BY d.date_create DESC'
       ,'LIMIT 0,100'
-      , $action);
+      , $action
+      , $id_doc );
           echo '<pre>'.print_r($edo->arr_sql,true) .'</pre>';
           echo '<pre>'.print_r($edo->func,true) .'</pre>';
       echo '<pre>arr_document:'.print_r($arr_tasks,true) .'</pre>';

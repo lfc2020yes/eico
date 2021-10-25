@@ -91,7 +91,7 @@ if (( count($_GET) == 1 ))
 	        { 
 		      //может ли читать наряды 
 		 
-		     /*  if (($role->permission('Печать наряда','R'))or($sign_admin==1))
+		      if (($role->permission('Печать наряда','R'))or($sign_admin==1))
 	           { 
 			   } else
 			   {
@@ -99,7 +99,7 @@ if (( count($_GET) == 1 ))
    header("Status: 404 Not Found");
    $error_header=404;   
 			   }
-				*/
+
 			} else
 			{
 		   header("HTTP/1.1 404 Not Found");
@@ -133,7 +133,7 @@ $edo = new EDO($link, $id_user, false);
 
 
 $arr_document = $edo->my_documents(2, ht($_GET["id"]), '>=-10', true);
-$arr_tasks = $edo->my_tasks(2, '>=-10' );
+$arr_tasks = $edo->my_tasks(2, '>=-10' ,'','LIMIT 0,1',null,ht($_GET["id"]));
 
 //echo(count($arr_tasks));
 

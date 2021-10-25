@@ -125,6 +125,25 @@ if (( count($_GET) == 1 ))
    $error_header=404;
 }
 
+
+include_once $url_system.'/ilib/lib_interstroi.php';
+include_once $url_system.'/ilib/lib_edo.php';
+$edo = new EDO($link, $id_user, false);
+
+
+
+$arr_document = $edo->my_documents(2, ht($_GET["id"]), '>=-10', true);
+$arr_tasks = $edo->my_tasks(2, '>=-10' ,'','LIMIT 0,1',null,ht($_GET["id"]));
+
+//echo(count($arr_tasks));
+
+if((count($arr_tasks)==0)and(count($arr_document)==0))
+{
+    header("HTTP/1.1 404 Not Found");
+    header("Status: 404 Not Found");
+    $error_header=404;
+}
+
 if($error_header==404)
 {
 	include $url_system.'module/error404.php';

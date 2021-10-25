@@ -963,7 +963,7 @@ INSERT INTO edo_state (
      * @return bool
      */
     public function is_excess($id_doc)
-    {
+    {                    //".$this->arr_table[$type]." AS d
         $sql = "
 SELECT a.id 
 FROM z_doc_material AS a 

@@ -773,9 +773,10 @@ $data["editable"]=false;
                         if (data.status == 'ok') {
 
                         }
+                        /*
                         if (data.status == 'error') {
                             alert_message('error','Ошибка сохранения!');
-                        }
+                        }*/
                     }
 
 

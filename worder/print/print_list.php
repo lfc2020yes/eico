@@ -354,7 +354,7 @@ echo'<table width="80%" align="center" style="margin: auto;"  class="orl" border
          
 <tr>
 
-<td class="h1 pb10 center" colspan="6"><br><br><strong>ЛИСТ СОГЛАСОВАНИЯ</strong><br> <div style="padding-top:10px; font-size:14px;">НАРЯД №'.$row_list["numer_doc"].' '.$row_uu["name_user"].' от '.$date_rcc.'</div><br></td>
+<td class="h1 pb10 center" colspan="6"><br><br><strong>ЛИСТ СОГЛАСОВАНИЯ</strong><br> <div style="padding-top:10px; font-size:14px;">НАРЯД №'.$row_list["numer_doc"].' '.$row_uu["name_user"].' от '.$date_rcc.' ['.$row_list["id"].']</div><br></td>
 </tr>
 
 
@@ -465,7 +465,7 @@ foreach ($arr_document as $key => $value) {
 
 
             echo'<tr>
-<td class=" bl  ll  left">—</td>
+<td class=" bl  ll  left"></td>
 <td class="   ll  left">'.$name_kto.'</td>
 <td class="   ll  left">'.$val["name_task"].'</td>
 <td class="   ll  center">'.$val["name_status"].'</td>

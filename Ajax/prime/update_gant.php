@@ -30,7 +30,7 @@ if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
 }
 */
 
-if(($role->permission('График','U'))or($sign_admin==1))
+if((!$role->permission('График','U'))or($sign_admin==1))
 {
 $debug=h4a(103,$echo_r,$debug);
 goto end_code;

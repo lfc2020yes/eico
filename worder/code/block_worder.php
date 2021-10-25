@@ -64,7 +64,7 @@ $task_cloud_block.='<a target="_blank" href="worder/print/'.$value["id"].'/" dat
 
 <li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/">Форма наряда</a></li>
 <li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/list/" >Лист согласования</a></li>
-<li class="no-more-number js-menu-jjs-print"><a href="">Форма м29</a></li>
+<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/m29/">Форма м29</a></li>
 
 </ul></div></div>';
 //}

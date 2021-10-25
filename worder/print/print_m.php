@@ -125,27 +125,6 @@ if (( count($_GET) == 1 ))
    $error_header=404;
 }
 
-
-include_once $url_system.'/ilib/lib_interstroi.php';
-include_once $url_system.'/ilib/lib_edo.php';
-$edo = new EDO($link, $id_user, false);
-
-
-
-$arr_document = $edo->my_documents(2, ht($_GET["id"]), '>=-10', true);
-$arr_tasks = $edo->my_tasks(2, '>=-10' );
-
-//echo(count($arr_tasks));
-
-if((count($arr_tasks)==0)and(count($arr_document)==0))
-{
-    header("HTTP/1.1 404 Not Found");
-    header("Status: 404 Not Found");
-    $error_header=404;
-}
-
-
-
 if($error_header==404)
 {
 	include $url_system.'module/error404.php';
@@ -344,6 +323,15 @@ echo'<title>Печать - Лист согласования наряд №'.$ro
 	.pb10 {padding-bottom: 20px!important;}
 	.it {font-style: italic;}
 	.upp {text-transform: lowercase;}
+
+    .flex {display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex; width: 100%; height: 20px;}
+    .m-333 { white-space: nowrap}
+    .line-b { width: 100%; border-bottom: 1px solid #000;}
+
 </style>	
 
 </head>
@@ -367,138 +355,127 @@ if ($num_results_uu != 0) {
     $row_uu = mysqli_fetch_assoc($result_uu);
 }
 
+echo'
 
 
+<table align="center" style="margin: auto;" class="orl" width="80%" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+           <tr>
+      <td width="70%">&nbsp;</td>
+      <td width="7%">&nbsp;</td>
+      <td width="7%">&nbsp;</td>
+      <td width=""></td>
+    </tr>
 
+        <tr>
+      <td class="ver_8 center nobottom nowrap"><strong class="shar">ООО "Эврика"</strong></td>
+     
+      <td colspan="2" ></td>
+      <td class="center lus_9 ll bl bt br nowrap bb"> Форма М 29</td>
+      </tr>
+        <tr>
+      <td class="he" valign="top"><div class="line">(Заказчик)</div></td>
+      
+      <td colspan="2" ></td>
+      <td ></td>
+      </tr>
+        <tr>
+      <td class="ver_8 nowrap center nobottom"><strong class="shar">ИП Рахимов</strong></td>
+      <td  colspan="2"></td>
+      <td></td>
+    </tr>
+     <tr>
+      <td class="he"  valign="top"><div class="line">(Подрядчик)</div></td>
+      
+      <td colspan="2" ></td>
+      <td >&nbsp;</td>
+    </tr>   
+
+        
+        
+  </tbody>
+</table>
+
+
+';
 echo'<table width="80%" align="center" style="margin: auto;"  class="orl" border="0" cellspacing="0" cellpadding="0" >
   <tbody>
          
 <tr>
 
-<td class="h1 pb10 center" colspan="6"><br><br><strong>ЛИСТ СОГЛАСОВАНИЯ</strong><br> <div style="padding-top:10px; font-size:14px;">НАРЯД №'.$row_list["numer_doc"].' '.$row_uu["name_user"].' от '.$date_rcc.' ['.$row_list["id"].']</div><br></td>
+<td class="h1 pb10 center" colspan="9"><br><br><strong>ОТЧЕТ</strong><br> <div style="padding-top:10px; font-size:14px;">о расходе основных материалов<br>по Акту № за г.</div><br></td>
 </tr>
 
 
 
 <tr>
-<td class="bl bb bt ll ver_7 center"><strong>Должность</strong></td>
-<td class="bl bb bt ll ver_7 center"><strong>ФИО</strong></td>
-<td class=" bb bt ll ver_7 center"><strong>Задача</strong></td>
-<td class="bb bt ll ver_7 center"><strong>Результат</strong></td>
-<td class="bb bt ll ver_7 center"><strong>Дата</strong></td>
-<td class="bb bt br ll ver_7 center"><strong>Замечания</strong></td>
-</tr>';
-
-$arr_document = $edo->my_documents(2, ht($_GET["id"]), '>=-10', false);
-//$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
-
-foreach ($arr_document as $key => $value) {
-    if ((is_array($value["state"])) and (!empty($value["state"]))) {
-
-        foreach ($value["state"] as $keys => $val) {
-
-            $name_kto='';
-            $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($val["id_executor"]) . '"');
-            $num_results_uu = $result_uu->num_rows;
-
-            if ($num_results_uu != 0) {
-                $row_uu = mysqli_fetch_assoc($result_uu);
-                $name_kto=$row_uu["name_user"];
-            }
-
-
-
-            $query_string.='<div class="state-history gray-yy-'.$val["id_status"].'">
-               <div class="st-state"><span data-tooltip="'.$val["name_status"].'" class="state-class more-icon-'.$val["id_status"].'"></span></div>
-               <div class="st-task"><span class="label-task-gg ">Задача
-</span>'.$val["name_task"];
-
-            //если есть какое то решение отказ замечание передача на кого то
-            //→
-
-            if($val["comment_executor"]!='') {
-                $query_string .= '<div class="remark-state"><span>'.$val["comment_executor"].'</span></div>';
-            }
-
-            $query_string.='</div>
-               <div class="st-kto"><span class="label-task-gg ">Исполнитель
-</span><span class="send_mess" sm="'.$val["id_executor"].'">'.$name_kto.'</span></div>
-               <div class="st-srok"><span class="label-task-gg ">Срок исполнения
-</span>';
-
-            $class_ddf1='';
-            if($val["id_status"]==0)
-            {
-
-                if(dateDiff_2021($val["date_ready"],date('Y-m-d H:i:s'))<0)
-                {
-                    $class_ddf1='reddecision1';
-                }
-
-            }
-
-
-            if(date_ex_time(0,$val["date_ready"])!='')
-            {
-                $query_string.='<span class="'.$class_ddf1.'">'.date_ex_time(0,$val["date_ready"]).'</span>';
-            } else
-            {
-                $query_string.='—';
-            }
-
-
-
-            $query_string.='</div>
-               <div class="st-date"><span class="label-task-gg ">Дата исполнения
-</span>';
-
-            $date_ex=date_ex_time(0,$val["date_execute"]);
-
-            $class_ddf='';
-            if((dateDiff_2021($val["date_ready"],$val["date_execute"])<0)and($val["id_status"]!=0))
-            {
-                $class_ddf='reddecision2';
-            }
-
-            $query_string2='';
-
-            if($date_ex!='')
-            {
-                $query_string2='<span class="'.$class_ddf.'">'.$date_ex.'</span>';
-            }else
-            {
-                $query_string2='<span class="'.$class_ddf.'">—</span>';
-            }
-
-
-
-            $query_string.='</div>
-            </div>';
+<td rowspan="2" class="bl bb bt ll ver_7 center"><strong>№ п/п</strong></td>
+<td rowspan="2" class="bl bb bt ll ver_7 center"><strong>Наименование работ и материалов в соответствии с себестоимостью</strong></td>
+<td rowspan="2" class=" bb bt ll ver_7 center"><strong> Ед.изм.</strong></td>
+<td rowspan="2" class="bb bt ll ver_7 center"><strong>Объем работ по себестоимости</strong></td>
+<td rowspan="2" class="bb bt ll ver_7 center"><strong>Норма расхода на единицу измерения</strong></td>
+<td rowspan="2" class="bb bt ll ver_7 center"><strong>Кол-во по себестоимости</strong></td>
+<td class=" bt ll ver_7 center" colspan="2"><strong>Кол-во по актам факт/норма</strong></td>
+<td rowspan="2" class="bb bt br ll ver_7 center"><strong>Остаток по себестоимости/ экон(+) перерасх(-)</strong></td>
+</tr>
+<tr >
+<td  class="bb  ll ver_7 center"><strong>Всего</strong></td>
+<td  class="bb  ll ver_7 center"><strong>текущий</strong></td>
+</tr>
+<tr>
+<td class=" bl  ll  center">1</td>
+<td class="   ll  center">2</td>
+<td class="   ll  center">3</td>
+<td class="   ll  center">4</td>
+<td class=" center   ll  ">5</td>
+<td class="   ll  center">6</td>
+<td class="   ll  center">7</td>
+<td class="   ll  center">8</td>
+<td class="   ll  center">9</td>
+</tr>
+';
 
 
 
 
+echo'<tr><td colspan="9" style="">&nbsp;</td></tr>';
+echo'<tr><td colspan="9" style="">&nbsp;</td></tr>';
+echo'
 
-            echo'<tr>
-<td class=" bl  ll  left"></td>
-<td class="   ll  left">'.$name_kto.'</td>
-<td class="   ll  left">'.$val["name_task"].'</td>
-<td class="   ll  center">'.$val["name_status"].'</td>
-<td class=" center   ll  ">'.$query_string2.'</td>
-<td class="   ll  left">'.$val["comment_executor"].'</td>';
-
-            echo'</tr>';
-
-
-        }
-    }
-}
+<tr>
+<td ></td>
+<td ><strong>Составил:</strong></td>
+<td colspan="7" class="he" valign="top"><div class="flex"><div class="m-333">Производитель работ</div><div class="line-b"></div></div></td>
+</tr>
 
 
+<tr>
+<td ></td>
+<td ><strong>Проверил:</strong></td>
+<td colspan="7" class="he" valign="top"><div class="flex"><div class="m-333">Начальник строительного участка</div><div class="line-b"></div></div></td>
+</tr>
+
+<tr>
+<td ></td>
+<td ><strong>Нормы материалов проверил:</strong></td>
+<td colspan="7" class="he" valign="top"><div class="flex"><div class="m-333">Начальник ПТО</div><div class="line-b"></div></div></td>
+</tr>
+
+<tr>
+<td ></td>
+<td ><strong>Соответствие перечня материалов себестоимости проверил:</strong></td>
+<td colspan="7" class="he" valign="top"><div class="flex"><div class="m-333">Инженер-экономист</div><div class="line-b"></div></div></td>
+</tr>
+<tr>
+
+<td ></td>
+<td ><strong>Принял:</strong></td>
+<td colspan="7" class="he" valign="top"><div class="flex"><div class="m-333">Бухгалтер</div><div class="line-b"></div></div></td>
+</tr>
 
 
 
-	
+';
 echo'</tbody>
 </table>';	
 	

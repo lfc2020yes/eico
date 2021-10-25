@@ -577,7 +577,7 @@ if(($role->permission('График','U'))or($sign_admin==1)) {
 //echo'<span class="h3-f">Себестоимость <span class="pol-card"> '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</span></span>';
 
 
-    echo'<div class="content_block" dom="'.$row_list["id"].'" id_content="'.$id_user.'">';
+    echo'<div class="content_block" style="overflow: hidden;" dom="'.$row_list["id"].'" id_content="'.$id_user.'">';
 	?>
 
   <?

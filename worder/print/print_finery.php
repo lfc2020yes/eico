@@ -90,7 +90,7 @@ if (( count($_GET) == 1 ))
 			if(isset($_SESSION["user_id"]))
 	        { 
 		      //может ли читать наряды 
-		 
+		 /*
 		       if (($role->permission('Печать наряда','R'))or($sign_admin==1))
 	           { 
 			   } else
@@ -99,7 +99,7 @@ if (( count($_GET) == 1 ))
    header("Status: 404 Not Found");
    $error_header=404;   
 			   }
-				
+	*/
 			} else
 			{
 		   header("HTTP/1.1 404 Not Found");

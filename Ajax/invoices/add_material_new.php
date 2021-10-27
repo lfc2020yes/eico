@@ -22,7 +22,7 @@ $status_echo='';
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
-$echo_r=0; //выводить или нет ошибку 0 -нет
+$echo_r=1; //выводить или нет ошибку 0 -нет
 $debug='';
 
 //**************************************************
@@ -53,26 +53,27 @@ if ((!isset($_GET["id"]))or((!is_numeric($_GET["id"]))))
 
 if ((!isset($_GET["name"]))or($_GET["name"]=='')) 
 {
-   $debug=h4a(4,$echo_r,$debug);
+   $debug=h4a(5,$echo_r,$debug);
    goto end_code;	
 }
 
 if ((!isset($_GET["ed"]))or($_GET["ed"]=='')) 
 {
-   $debug=h4a(4,$echo_r,$debug);
+   $debug=h4a(6,$echo_r,$debug);
    goto end_code;	
 }
 if ((!isset($_GET["ss"]))or((!is_numeric($_GET["ss"])))) 
 {
-   $debug=h4a(4,$echo_r,$debug);
+   $debug=h4a(7,$echo_r,$debug);
    goto end_code;	
 }
+/*
 if ((!isset($_GET["group"]))or((!is_numeric($_GET["group"])))) 
 {
-   $debug=h4a(4,$echo_r,$debug);
+   $debug=h4a(8,$echo_r,$debug);
    goto end_code;	
 }
-
+*/
 
 if(!token_access_new($token,'add_material_invoice',$id,"rema",2880))
 {
@@ -85,7 +86,7 @@ $result_t=mysql_time_query($link,'Select a.status from z_invoice as a where a.id
 $num_results_t = $result_t->num_rows;
 if($num_results_t==0)
 {	
-		$debug=h4a(7,$echo_r,$debug);
+		$debug=h4a(9,$echo_r,$debug);
 		goto end_code;
 	
 } else
@@ -96,7 +97,7 @@ if($num_results_t==0)
 		     //проверяем может ли видеть этот наряд
 		     if((($row_t["status"]!=1)))
 		     { 
-				    $debug=h4a(5,$echo_r,$debug);
+				    $debug=h4a(15,$echo_r,$debug);
                     goto end_code;	
 			 }
 }
@@ -106,7 +107,7 @@ $result_t2=mysql_time_query($link,'Select a.* from z_stock as a where a.name="'.
 $num_results_t2 = $result_t2->num_rows;
 if($num_results_t2!=0)
 {	
-		$debug=h4a(5,$echo_r,$debug);
+		$debug=h4a(25,$echo_r,$debug);
 		goto end_code;
 	
 } 

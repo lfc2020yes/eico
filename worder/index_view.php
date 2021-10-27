@@ -903,46 +903,25 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )or( count($_GET) == 3 )) //--Е�
 	              $error_header=404;
 				} else
 				{
-				
-				
-			
-				
-				//если статус равен заказано или исполнено
-				//и это не его заявка
-				//объект по заявки должен быть в его подчинении
-				//и он должен обладать правами видеть все заявки пользователей R not A
-				if(($sign_admin!=1)and($row_list["id_user"]!=$id_user)and(($row_list["status"]==9)or($row_list["status"]==20))and($role->permission('Наряды','R'))and(!$role->permission('Наряды','S')))
-				{
-				   
-				 if((array_search($row_list["id_object"],$hie_object)===false))
-			    {
 
-			      header("HTTP/1.1 404 Not Found");
-	              header("Status: 404 Not Found");
-	              $error_header=404;
-			    } 
-				} else
-					
-					
-				{
-					//echo("1");
-					//Если статус заявки со служебной запиской
-					//и это не его заявка
-					//он должен обладать правами видеть все служебные записки по заявкам S
-					//и создатель заявки должен быть в его подчинении
-				 if(($sign_admin!=1)and($row_list["id_user"]!=$id_user)and($row_list["status"]!=1)and($row_list["status"]!=8))
-				{	
-					/*
-					if((array_search($row_list["id_user"],$hie_user)===false)or(!$role->permission('Заявки','S')))
-			        {
-						header("HTTP/1.1 404 Not Found");
-	                    header("Status: 404 Not Found");
-	                    $error_header=404;	
-					}
-				*/
-				}
-					
-				}
+
+                    if (!is_object($edo)) {
+                        include_once $url_system.'ilib/lib_interstroi.php';
+                        include_once $url_system.'ilib/lib_edo.php';
+                        $edo = new EDO($link, $id_user, false);
+                    }
+
+                    $arr_document = $edo->my_documents(2, ht($_GET["id"]), '>=-10', true);
+                    $arr_tasks = $edo->my_tasks(2, '>=-10' ,'','LIMIT 0,1',null,ht($_GET["id"]));
+
+//echo(count($arr_tasks));
+
+                    if((count($arr_tasks)==0)and(count($arr_document)==0))
+                    {
+                        header("HTTP/1.1 404 Not Found");
+                        header("Status: 404 Not Found");
+                        $error_header=404;
+                    }
 				}
 				
 			} else
@@ -1102,7 +1081,7 @@ if ( isset($_COOKIE["iss"]))
               <div class="oka_block_2019">
 
                   <?
-                  echo'<div class="line_mobile_blue">Наряд №'.$row_list["number"];
+                  echo'<div class="line_mobile_blue">Наряд №'.$row_list["numer_doc"];
                  /*
                   $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
 

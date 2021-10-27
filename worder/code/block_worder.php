@@ -59,15 +59,18 @@ $task_cloud_block.='<a target="_blank" href="worder/print/'.$value["id"].'/" dat
 */
 //}
 
-//if((($value["status"]==20)or($value["status"]==21))and(($role->permission('Печать наряда','R'))or($sign_admin==1))) {
+if((($value["status"]==20)or($value["status"]==21))and(($role->permission('Печать наряда','R'))or($sign_admin==1))) {
     $task_cloud_block .= '<div class="menu_jjs basket-items more-active-s" style=""><div class="more_print menu_click"></div><div class="menu_supply menu_su1"><ul class="drops no_active active_menu_s drops_print" data_src="0">
 
 <li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/">Форма наряда</a></li>
-<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/list/" >Лист согласования</a></li>
-<li class="no-more-number js-menu-jjs-print"><a href="">Форма м29</a></li>
+<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/list/" >Лист согласования</a></li>';
 
-</ul></div></div>';
-//}
+/*
+$task_cloud_block .= '<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/m29/">Форма м29</a></li>';
+*/
+
+$task_cloud_block .= '</ul></div></div>';
+}
 
 
 

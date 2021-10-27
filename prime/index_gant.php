@@ -108,6 +108,13 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
    $error_header=404;
 }
 //echo($error_header);
+if((!$role->permission('График','R'))and(!$role->permission('График','U'))and($sign_admin!=1)) {
+    header("HTTP/1.1 404 Not Found");
+    header("Status: 404 Not Found");
+    $error_header=404;
+}
+
+
 
 //если такой страницы нет или не может быть выведена с такими параметрами
 if($error_header==404)
@@ -204,6 +211,24 @@ include_once $url_system.'module/config_url.php'; include $url_system.'template/
         display: block;
     }
 
+    .owner-label {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        display: inline-block;
+        border: 1px solid #cccccc;
+        border-radius: 25px;
+        background: #e6e6e6;
+        color: #6f6f6f;
+        margin: 0 3px;
+        font-weight: bold;
+    }
+
+    .gantt_tooltip {
+        font-size: 13px;
+        line-height: 16px;
+    }
 
 
 </style>
@@ -417,10 +442,11 @@ $data["editable"]=false;
             $data = array();
             //процент выполненных работ
             if ($row_t1["count_units"] != 0) {
-                $proc_realiz = round(($row_t1["count_r2_realiz"] * 100) / $row_t1["count_units"]);
+                $proc_realiz = round(($row_t1["count_r2_realiz"]*100) / $row_t1["count_units"]);
             } else {
                 $proc_realiz = 0;
             }
+            $proc_realiz=$proc_realiz/100;
 
             //$proc_realiz = 50;
             //echo($proc_realiz);
@@ -497,7 +523,24 @@ $data["editable"]=false;
                     <div id="gantt_here" style='width:100%; height: 100% !important;'></div>
                 </div>
 
-                <script>/*
+                <script>
+
+                    function linkTypeToString(linkType) {
+                        switch (linkType) {
+                            case gantt.config.links.start_to_start:
+                                return "Start to start";
+                            case gantt.config.links.start_to_finish:
+                                return "Start to finish";
+                            case gantt.config.links.finish_to_start:
+                                return "Finish to start";
+                            case gantt.config.links.finish_to_finish:
+                                return "Finish to finish";
+                            default:
+                                return ""
+                        }
+                    }
+
+                    /*
                     gantt.plugins({
                         quick_info: true,
                         tooltip: true,
@@ -515,10 +558,16 @@ $data["editable"]=false;
 */
                     gantt.plugins({
                         marker: true,
-                        auto_scheduling: true
+                        auto_scheduling: true,
+                        tooltip: true
                     });
 
                     var textEditor = {type: "text"};
+
+                    <?
+                    if(($role->permission('График','U'))or($sign_admin==1))
+                    {
+                    ?>
                     var dateEditor = {type: "date", map_to: "start_date", min: new Date(2018, 0, 1), max: new Date(2022, 0, 1)};
                     var dateEditor1 = {type: "date", map_to: "end_date", min: new Date(2018, 0, 1), max: new Date(2022, 0, 1)};
                     var durationEditor = {type: "number", map_to: "duration", min:0, max: 100};
@@ -527,19 +576,53 @@ $data["editable"]=false;
                     gantt.config.columns = [
 
                         {name: "text", label: "Работы", tree: true, width: 350, resize: true, min_width: 10, template:function(obj){
-                        return ""+obj.text+"!";
-                    }},
+                                return ""+obj.text+"!";
+                            }},
                         {name: "duration", label: "Дни", align: "center", width: 80, resize: true,editor: durationEditor},
                         {name: "start_date", label: "Начало", align: "center", width: 110, resize: true,editor: dateEditor},
                         {name: "end_date", label: "Конец", align: "center", width:110, resize: true,editor: dateEditor1},
 
 
                     ];
+                    <?
+                    } else
+                        {
+                    ?>
+
+
+                    var dateEditor = {type: "date", map_to: "start_date", min: new Date(2018, 0, 1), max: new Date(2022, 0, 1)};
+                    var dateEditor1 = {type: "date", map_to: "end_date", min: new Date(2018, 0, 1), max: new Date(2022, 0, 1)};
+                    var durationEditor = {type: "number", map_to: "duration", min:0, max: 100};
+
+
+                    gantt.config.columns = [
+
+                        {name: "text", label: "Работы", tree: true, width: 350, resize: true, min_width: 10, template:function(obj){
+                                return ""+obj.text+"!";
+                            }},
+                        {name:"progress",   label:"Прогресс",   align:"center", width: 80, resize: true,template:function(obj){
+                                return ""+(obj.progress*100)+"%";
+                            }}
+
+                    ];
+
+                    //запретить ссылки
+                    gantt.config.drag_links = false;
+                    //запретить передвижение задач
+                    gantt.config.drag_move = false;
+                    //запретить растягивание ширины задачи
+                    gantt.config.drag_resize = false;
+                    <?
+                            //только чтение
+
+
+                        }
+                    ?>
                     gantt.config.date_format = "%d.%m.%Y";
                     gantt.config.date_grid = "%d.%m.%Y";
                     gantt.config.row_height = 50;
                     gantt.config.drag_progress = false;
-                    //gantt.config.show_progress = false;
+                    gantt.config.show_progress = true;
                     gantt.config.details_on_dblclick = false;
 
 //для связей когда заканчивается одна начитается другая если связаны
@@ -598,7 +681,115 @@ $data["editable"]=false;
                         {unit: "day", step: 1, format: "%j"},
                         {unit: "month", step: 1, format: "%F, %Y"},
                     ];
+                    gantt.templates.tooltip_date_format = gantt.date.date_to_str("%d.%m.%Y");
+                    //gantt.templates.tooltip_date_format = gantt.date.date_to_str("%F %j, %Y");
+                    gantt.attachEvent("onGanttReady", function () {
+                        var tooltips = gantt.ext.tooltips;
 
+                        gantt.templates.tooltip_text = function (start, end, task) {
+                            var store = gantt.getDatastore("resource");
+                            var assignments = task[gantt.config.resource_property] || [];
+
+                            var owners = [];
+                            assignments.forEach(function (assignment) {
+                                var owner = store.getItem(assignment.resource_id)
+                                owners.push(owner.text);
+                            });
+                            return "<b>Работа:</b> " + task.text + "<br/>" +
+                                "<b>Начало работ:</b> " +
+                                gantt.templates.tooltip_date_format(start) +
+                                "<br/><b>Конец работ:</b> " + gantt.templates.tooltip_date_format(end) +
+                                "<br><b>Прогресс:</b> " +
+                                (task.progress*100) +"%"
+
+
+                                ;
+                        };
+
+                        tooltips.tooltipFor({
+                            selector: ".gantt_task_link",
+                            html: function (event, node) {
+
+                                var linkId = node.getAttribute(gantt.config.link_attribute);
+                                if (linkId) {
+                                    var link = gantt.getLink(linkId);
+                                    var from = gantt.getTask(link.source);
+                                    var to = gantt.getTask(link.target);
+
+                                    return [
+                                        "<b>Тип:</b> " + linkTypeToString(link.type),
+                                        "<b>Из: </b> " + from.text,
+                                        "<b>В: </b> " + to.text
+                                    ].join("<br>");
+                                }
+                            }
+                        });
+
+                        tooltips.tooltipFor({
+                            selector: ".gantt_row[resource_id]",
+                            html: function (event, node) {
+
+                                var resourceId = node.getAttribute("resource_id");
+                                var store = gantt.getDatastore(gantt.config.resource_store);
+                                var resource = store.getItem(resourceId);
+                                var assignments = getResourceAssignments(resource, store)
+
+                                var totalDuration = 0;
+                                for (var i = 0; i < assignments.length; i++) {
+                                    var task = gantt.getTask(assignments[i].task_id);
+                                    totalDuration += task.duration * assignments[i].value;
+                                }
+
+                                return [
+                                    "<b>Resource:</b> " + resource.text,
+                                    "<b>Tasks assigned:</b> " + assignments.length,
+                                    "<b>Total load: </b>" + (totalDuration || 0) + "h"
+                                ].join("<br>");
+
+                            }
+                        });
+
+
+                        tooltips.tooltipFor({
+                            selector: ".gantt_scale_cell",
+                            html: function (event, node) {
+                                var relativePosition = gantt.utils.dom.getRelativeEventPosition(event, gantt.$task_scale);
+                                return gantt.templates.tooltip_date_format(gantt.dateFromPos(relativePosition.x));
+                            }
+                        });
+
+                        tooltips.tooltipFor({
+                            selector: ".gantt_resource_marker",
+                            html: function (event, node) {
+                                var dataElement = node.querySelector("[data-recource-tasks]");
+                                var ids = JSON.parse(dataElement.getAttribute("data-recource-tasks"));
+
+                                var date = gantt.templates.parse_date(dataElement.getAttribute("data-cell-date"));
+                                var resourceId = dataElement.getAttribute("data-resource-id");
+
+                                var relativePosition = gantt.utils.dom.getRelativeEventPosition(event, gantt.$task_scale);
+
+                                var store = gantt.getDatastore("resource");
+
+                                var html = [
+                                    "<b>" + store.getItem(resourceId).text + "</b>" + ", " + gantt.templates.tooltip_date_format(date),
+                                    "",
+                                    ids.map(function (id, index) {
+                                        var task = gantt.getTask(id);
+                                        var assignenment = gantt.getResourceAssignments(resourceId, task.id);
+                                        var amount = "";
+                                        var taskIndex = (index + 1);
+                                        if (assignenment[0]) {
+                                            amount = " (" + assignenment[0].value + "h) ";
+                                        }
+                                        return "Task #" + taskIndex + ": " + amount + task.text;
+                                    }).join("<br>")
+                                ].join("<br>");
+
+                                return html;
+                            }
+                        });
+                    });
 
 
 

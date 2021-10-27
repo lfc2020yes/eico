@@ -495,7 +495,7 @@ if($num_results_work_zz!=0) {
             echo '<tr>
 <td class=" bl  ll  center">'.$number.'</td>
 <td class="   ll  left">'.$row1ss["material"].'</td>
-<td class="   ll  left">'.$row1ss__34["name_working"].'</td>
+<td class="   ll  left">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].' '.$row1ss__34["name_working"].'</td>
 <td class="   ll  center va">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].'.'.$row1ss["displayOrder"].'</td>
 <td class=" center   ll  va">'. $row1ss["units"].'</td>
 <td class="   ll  center va">'.$row_work_zz["count_units"].'</td>

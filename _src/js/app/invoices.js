@@ -25,11 +25,12 @@ $(function (){
 
     $('body').on("click",'.mild_mild', mild_div);
 
+    $('body').on("click",'.mild_mild_dav', mild_div_dav);
 
     //нажатие на кнопку сохранить накладную
     $('body').on("change keyup input click",'.add_invoicess1', save_invoicess1);
 
-    $('body').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,[name=number_invoices],[name=ispol_work],.js-ispol_type_invoice,.upload-but-2022,.upload-but-2021,.js-dell-image,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv,.mild_mild',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });
+    $('body').on("change keyup input click",'.price_nds_in_,.price_in_,.count_in_,.slct_box,#date_table,[name=number_invoices],[name=ispol_work],.js-ispol_type_invoice,.upload-but-2022,.upload-but-2021,.js-dell-image,.del_image_invoice,.del_invoice_material,.add_material_invoice,.count_defect_in_,.text_zayva_message_,.material_defect,.del_invoice_akt,.checkbox_cost_inv,.mild_mild,.mild_mild_dav',function(){  $('.transfer_invoicess').hide(); $('.add_invoicess1').show();   });
 
 });
 
@@ -55,6 +56,27 @@ function mild_div()
         $(this).parents('[invoice_material]').find('.price_in_').prop('readonly',true).addClass('grey_edit');
         itog_invoice();
 
+    }
+
+
+
+}
+
+
+function mild_div_dav()
+{
+    if($(this).parents('.mild_dav').is(".chechers")) {
+        $(this).parents('.mild_dav').removeClass("chechers");
+        $(this).parents('[invoice_material]').find('.alien_inp').val(0);
+        $(this).parents('[invoice_material]').find('.name_invoice_dava').removeClass("dava");
+        $(this).parents('[invoice_material]').find('.chat_kk').remove();
+
+    } else
+    {
+        $(this).parents('.mild_dav').addClass("chechers");
+        $(this).parents('[invoice_material]').find('.alien_inp').val(1);
+        $(this).parents('[invoice_material]').find('.name_invoice_dava').addClass("dava");
+        $(this).parents('[invoice_material]').find('.name_invoice_dava').after('<div class="chat_kk" data-tooltip="давальческий материал"></div>');
     }
 
 

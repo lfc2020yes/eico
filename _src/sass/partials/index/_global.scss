@@ -5684,7 +5684,64 @@ i {
 
 .name_invoice_dava { font-style: normal;}
 
-.mild {padding-left: 50px; position: relative; }
+
+
+
+
+
+.mild_dav {position: absolute;
+  left: 35px;
+  top: 2px; }
+.select-mild_dav {
+
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  position: relative;
+  display: block;
+  text-align: center;
+
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: rgba(0,0,0,.7);
+    font-family: icon1;
+    font-size: 14px;
+    @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    @include transform(scale3d(0,0,1));
+  }
+}
+
+.chechers {
+  .select-mild_dav {
+    background-color: #53b374;
+    &::before {
+    color:#fff;
+    }
+  }
+  .select-mild_dav::before { @include transform(scale3d(1,1,1)); }
+}
+
+.mild_mild_dav {cursor: pointer;}
+
+
+
+
+
+
+
+
+
+
+.mild {position: absolute;
+  left: 0px;
+  top: 2px;
+  z-index: 10; }
 .select-mild {
 
   font-style: normal;
@@ -5697,9 +5754,7 @@ i {
   position: relative;
   display: block;
   text-align: center;
-  position: absolute;
-  left: 10px;
-  top: 2px;
+
   &::before {
     position: absolute;
     content: "\E001";
@@ -6177,3 +6232,5 @@ border-radius: 5px;
 .drops_print {  text-align: left;
   top: 12px;
   left: 10px;  }
+
+.mild_dava_xx {  position:relative; padding-left: 70px;  }

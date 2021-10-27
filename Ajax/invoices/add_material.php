@@ -209,9 +209,13 @@ $ID_D=mysqli_insert_id($link);
 
 $echo.='<tr invoice_material="'.$ID_D.'" style="background-color:#f0f4f6;" class="jop">';
 
-$echo.='<td class="no_padding_left_ pre-wrap one_td">
+$echo.='<td class="no_padding_left_ pre-wrap one_td"><div class="mild_dava_xx">
 <div class="mild"><div class="mild_mild" data-tooltip="мягкая накладная">
-<i class="select-mild"></i></div>
+<i class="select-mild"></i></div></div>
+<div class="mild_dav"><div class="mild_mild_dav" data-tooltip="давальческий материал">
+<i class="select-mild_dav"></i></div></div>
+
+
 '.$row_t2["name"].' <span class="invoice_units">('.$row_t2["units"].')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div><div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div></div></td>';
 if($number_acc!='')
 {

@@ -47,7 +47,21 @@ if(isset($new_pre))
 $task_cloud_block.='<div class="preorders_block_global '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
 }
 
-$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'</div>';
+$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"];
+if((($value["status"]!=1)and($value["status"]!=8))) {
+    $task_cloud_block .= '<div class="menu_jjs basket-items more-active-s" style=""><div class="more_print menu_click"></div><div class="menu_supply menu_su1"><ul class="drops no_active active_menu_s drops_print" data_src="0">
+
+<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="app/print/' . $value["id"] . '/">Форма заявки</a></li>';
+
+    /*
+    $task_cloud_block .= '<li class="no-more-number js-menu-jjs-print"><a target="_blank" href="worder/print/' . $value["id"] . '/m29/">Форма м29</a></li>';
+    */
+
+    $task_cloud_block .= '</ul></div></div>';
+}
+
+
+$task_cloud_block.='</div>';
 
 
 

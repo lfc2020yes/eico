@@ -142,7 +142,7 @@ if ((isset($_GET["number"]))and((is_numeric($_GET["number"]))))
     if($num_results_t1!=0)
     {
 		$row_t1 = mysqli_fetch_assoc($result_t1);
-		if(($row_t1["status"]==3)or($row_t1["status"]==4))
+		if(($row_t1["status"]==3)or($row_t1["status"]==4)or($row_t1["status"]==2)or($row_t1["status"]==20))
 		{
 			$number_acc=$_GET["number"];
 			$date_graf2  = explode("-",$row_t1["date"]);

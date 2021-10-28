@@ -1523,10 +1523,12 @@ $echo.='<form  class="form_up" id="upload_akt_'.$row_score["id"].'" id_a="'.$row
 			   
 	echo'<tr invoice_group="'.$row_score['id'].'" invoice_material="'.$row_score['id'].'" style="background-color:#f0f4f6;" class="jop" >';
                $dav1='';$dav2='';
+               $check_dav='';
 				if($row_score['alien'])
                 {
                     $dav1='dava';
                     $dav2='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+                    $check_dav='chechers';
                 }
 $check='';
 				if(ipost_x($_POST['invoice'][$ss]["mild"],$row_score['mild'],"0")==1)
@@ -1534,14 +1536,20 @@ $check='';
                     $check='chechers';
                 }
                $mild='mild_mild';
+               $mild_dav='mild_mild_dav';
                if($row_list["status"]!=1)
                {
                    $mild='mild_mild1';
+                   $mild_dav='mild_mild1_dav';
                }
-			   echo'<td class="no_padding_left_ pre-wrap one_td">
+			   echo'<td class="no_padding_left_ pre-wrap one_td"><div class="mild_dava_xx">
 <div class="mild '.$check.'"><div class="'.$mild.'" data-tooltip="мягкая накладная">
-<i class="select-mild"></i></div>
-<i class="name_invoice_dava '.$dav1.'">'.$row_list1["name"].'</i>'.$dav2.' <span class="invoice_units">('.$row_list1["units"].')</span>';
+<i class="select-mild"></i></div></div>';
+
+              echo'<div class="mild_dav '.$check_dav.'"><div class="'.$mild_dav.'" data-tooltip="Давальческий материал">
+<i class="select-mild_dav"></i></div></div>';
+
+echo'<i class="name_invoice_dava '.$dav1.'">'.$row_list1["name"].'</i>'.$dav2.' <span class="invoice_units">('.$row_list1["units"].')</span>';
 
 		if(($row_list["status"]==1)and(($role->permission('Накладные','A'))or($sign_admin==1)))
 		{

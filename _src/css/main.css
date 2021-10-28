@@ -19974,6 +19974,16 @@ width: calc(50% - 0px) !important;
   color: red;
 }
 
+.hello {
+  font-family: GEInspiraRegular !important;
+  font-weight: 400 !important;
+  font-size: 34px !important;
+  margin-top: 15px !important;
+  line-height: 45px !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+  text-align: left;
+}
+
 .buttonBg {
   background: #fff;
 }

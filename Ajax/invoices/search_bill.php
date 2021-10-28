@@ -95,7 +95,7 @@ $status_ee='ok';
 
 $result_score=mysql_time_query($link,
 							  
-'select DISTINCT a.id,a.number,a.date,a.summa,a.id_contractor from z_acc as a,z_doc_material_acc as b,z_doc_material as c where a.id=b.id_acc and b.id_doc_material=c.id and c.id_stock="'.htmlspecialchars(trim($_GET['id'])).'" and a.status IN ("3", "4","20") and a.id_contractor="'.htmlspecialchars(trim($_GET['col'])).'"');
+'select DISTINCT a.id,a.number,a.date,a.summa,a.id_contractor from z_acc as a,z_doc_material_acc as b,z_doc_material as c where a.id=b.id_acc and b.id_doc_material=c.id and c.id_stock="'.htmlspecialchars(trim($_GET['id'])).'" and a.status IN ("2","3", "4","20") and a.id_contractor="'.htmlspecialchars(trim($_GET['col'])).'"');
 	
 //если по счету все приняли не видеть этого счета
 

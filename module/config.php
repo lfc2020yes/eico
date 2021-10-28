@@ -8,6 +8,8 @@ $base_usr="https://eico.atsun.ru";
 $local_host="eico.atsun.ru"; //как называет домен в локалке
 $base_cookie = 'eico.atsun.ru';
 
+$base_usr_start="https://eico.atsun.ru?a=yes";
+
 //для работы на локальных адресах
 $local_server_x=0;
 //как называет домен в локалке
@@ -24,7 +26,7 @@ if ($number_local !== false) {
 	$base_usr="https://".$local_host_s[$number_local];
 	$local_host=$local_host_s[$number_local];
 	$base_cookie = $local_host_s[$number_local];
-
+	$base_usr_start='https://'.$local_host_s[$number_local].'?a=yes';
 }
 
 

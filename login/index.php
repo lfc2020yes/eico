@@ -29,7 +29,7 @@ if (isset($_SESSION['user_id']))
 	          header("Location: ".base64_decode($_GET['next']));		  			  	  	  	       		   
      } else
      {
-        header("Location:".$base_usr);	
+        header("Location:".$base_usr_start);
      }
 }  
 
@@ -305,10 +305,17 @@ if(($error=="0")&&(isset($_SESSION['user_id'])))
   //логин-пароль подошел вход в систему произведен переходим откуда перешел пользователь
      if(isset($_GET['next'])&&$_GET['next']!='')
      {
-		header("Location: ".base64_decode($_GET['next']));
+         if(base64_decode($_GET['next'])==$base_usr.'/')
+         {
+             header("Location: ".$base_usr_start);
+         } else
+         {
+
+             header("Location: ".base64_decode($_GET['next']));
+         }
   } else
   {
-	 header("Location: ".$base_usr);	
+	 header("Location: ".$base_usr_start);
   }
 } else
 {

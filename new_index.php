@@ -52,13 +52,13 @@ if (strripos($url_404, 'new_index.php') !== false) {
 	       $error_header=404;
 }
 
-if(( count($_GET)!= 0 ))
+if(( count($_GET)!= 0 )and( count($_GET)!= 1 ))
 {	 
            header("HTTP/1.1 404 Not Found");
 	       header("Status: 404 Not Found");
 	       $error_header=404;	   
 }
-   
+
 if($error_header==404)
 {
 	include $url_system.'module/error404.php';
@@ -78,7 +78,12 @@ if($error_header!=404){ SEO('finery','','','',$link); } else { SEO('0','','','',
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
-</head><body><div class="alert_wrapper"><div class="div-box"></div></div><div class="container">
+</head><body><div class="alert_wrapper"><div class="div-box"></div></div>
+
+<?
+include_once $url_system.'template/body_top.php';
+?>
+<div class="container">
 <?
 
 
@@ -119,17 +124,61 @@ if ( isset($_COOKIE["iss"]))
 					$act_1='on="show"';
 	            }
 
-	  //include_once $url_system.'template/top_index.php';
+	  include_once $url_system.'template/top_index.php';
 
 
-    echo'<div class="content_block" id_content="'.$id_user.'">';
-	?>
-
-  <?
-
-
-
+echo'<div id="fullpage" class="margin_60" id_content="'.$id_user.'">';
 ?>
+      <div class="section" id="section0">
+          <div class="oka_block">
+
+
+<?
+              echo'<div class="oka1 task-left js-task-left" style="width:100%; padding-top: 30px;">	';
+
+$count_task=0;
+
+
+
+
+
+
+                  //echo'<h2>Добро пожаловать в систему заявок, '.$rowxs["name_user"].'!</h2>';
+
+                  if((isset($_GET["a"]))and($_GET["a"]=='yes'))
+                  {
+
+                  $result_txs=mysql_time_query($link,'Select a.name_user,a.timelast,a.id from r_user as a where a.id="'.$id_user.'"');
+                  if($result_txs->num_rows!=0)
+                  {
+                  $rowxs = mysqli_fetch_assoc($result_txs);
+
+                  }
+                  echo'<h2 class="hello">Добро пожаловать в систему CCM, '.$rowxs["name_user"].'!</h2>';
+
+                  echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Не забудьте посмотреть все созданные для вас задачи. Все самое важное всегда в ваших уведомлениях.</span></span></div>';
+                  } else
+                  {
+
+                  if($count_task!=0)
+                  {
+                  //echo'<p>У вас есть нерешенные задачи. Не забудьте посмотреть и исполнить их. Следите за уведомлениями системы, вашей комиссией и бонусами.</p>';
+
+                  echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>У вас есть нерешенные задачи. Не забудьте посмотреть и исполнить их. Следите за уведомлениями системы.</span></span></div>';
+
+                  } else
+                  {
+                  echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Один сервис
+для всей нашей строительной команды</span></span></div>';
+                  }
+                  }
+
+
+
+
+
+
+?></div> </div> </div>
     </div>
   </div>
 

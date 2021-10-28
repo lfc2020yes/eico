@@ -612,6 +612,26 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
         return false;
     }
 
+    public function user_replace($id_user) {
+        $id_user_replace = $id_user;
+$sql = "
+select * from `r_user_replace` as r 
+where 
+r.`id_user` = $id_user
+AND r.`date_from` <= date(now())
+AND ( r.`date_to`='000-00-00' or r.`date_to` is null or r.`date_to`> date(now()) )
+";
+
+        $this->Debug($sql,__FUNCTION__);
+
+        if ($result = $this->mysqli->query($sql)) {
+            if ($row = $result->fetch_assoc()) {
+                $id_user_replace = $row[id_user_replace];
+            }
+        }
+        return $id_user_replace;
+    }
+
     /** Записать задание на согласование
      * @param $id_run_item
      * @return bool
@@ -622,7 +642,7 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
         $day_now = date('d.m.Y H:i:s', time());
         $timeReady = \CCM\TimeReady\srok_vip($day_now,$row[timing]*60,$this->mysqli);
         if ($timeReady===false) $timeReady = null;
-
+        $id_executor = $this->user_replace($row[id_executor]);
         $sql ="
 INSERT INTO `edo_state` (
   `id_run`,
@@ -647,7 +667,7 @@ VALUES
     '$row[id_run_item]',
     '$row[name_items]',
     '$row[description]',
-    '$row[id_executor]',
+    '$id_executor',
     -- '$row[sign_executor]',
     '$row[id_checking]',
     -- '$row[sign_checking]',
@@ -890,7 +910,7 @@ AND R.`id_action` = A.id
         //echo "<br>--timing=$timing";
         $timeReady = \CCM\TimeReady\srok_vip($day_now,$timing*60,$this->mysqli);
         if ($timeReady===false) $timeReady = null;
-
+        $id_executor = $this->user_replace($id_executor);
         $sql ="
 INSERT INTO edo_state (
   `id_run`,

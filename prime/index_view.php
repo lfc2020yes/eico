@@ -318,7 +318,7 @@ if(($error_header!=404)and(isset($_GET['add']))){
 			 }
 		//echo($basket_cookie);
         $b_co='edit_basket_'.$id_user;
-		setcookie($b_co."_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", "eico.atsun.ru", false, false); //на год
+		setcookie($b_co."_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", $base_cookie, false, false); //на год
 		$_COOKIE[$b_co."_".htmlspecialchars(trim($_GET['id']))]=$basket_cookie;
 		//setcookie("basket_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", "is.ru", false, false); //на год
 		//echo($basket_cookie);
@@ -348,7 +348,7 @@ if(($error_header!=404)and(isset($_GET['add_a']))){
 				 }
 			 }
         $b_co='edit_basket1_'.$id_user;
-		setcookie($b_co."_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", "eico.atsun.ru", false, false); //на год
+		setcookie($b_co."_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", $base_cookie, false, false); //на год
 		$_COOKIE[$b_co."_".htmlspecialchars(trim($_GET['id']))]=$basket_cookie;
 		//setcookie("basket_".htmlspecialchars(trim($_GET['id'])), $basket_cookie, 0, "/", "is.ru", false, false); //на год
 		//echo($basket_cookie);
@@ -360,7 +360,7 @@ if(($error_header!=404)and(isset($_GET['add_a']))){
 
 
 
-setcookie("pr_", $_GET["id"], time() + 60 * 60 * 24 * 365, "/", "eico.atsun.ru", false, false); //на год
+setcookie("pr_", $_GET["id"], time() + 60 * 60 * 24 * 365, "/", $base_cookie, false, false); //на год
 
 include_once $url_system.'template/html.php'; include $url_system.'module/seo.php';
 

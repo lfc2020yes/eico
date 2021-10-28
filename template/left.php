@@ -85,15 +85,13 @@ echo'<i>'.$row_uu["name_role"].'</i>
 <?
 */
 
-$local='C:/OpenServer/domains/'.$local_host.'';
 
-
-if($_SERVER['DOCUMENT_ROOT']!=$local)
+if($local_server_x==0)
 {
     echo'<a class="link_suitt" href="">COST CONTROL MANAGER</a>';
 } else
 {
-    echo'<a class="link_suitt" href="">ccm local hay</a>';
+    echo'<a class="link_suitt local-server" href="">CCM LOCAL SERVER</a>';
 }
 
 

@@ -31,7 +31,7 @@ if (( isset($_COOKIE["pr_"]))and(is_numeric($_COOKIE["pr_"])))
 			if(($sign_admin!=1)and(array_search($_COOKIE["pr_"],$hie_object)===false))
 			{
 			   //удалить этот кукки и перезагузить страницу
-			   setcookie("pr_", "", time()-3600,"/", "eico.atsun.ru");
+			   setcookie("pr_", "", time()-3600,"/", $base_cookie);
 			   header("Location:".$base_usr."/prime/");	
 			   die();	
 				
@@ -43,7 +43,7 @@ if (( isset($_COOKIE["pr_"]))and(is_numeric($_COOKIE["pr_"])))
 			} else
 			{
 			   //удалить этот кукки и перезагузить страницу
-			   setcookie("pr_", "", time()-3600,"/", "eico.atsun.ru");
+			   setcookie("pr_", "", time()-3600,"/", $base_cookie);
 			   header("Location:".$base_usr."/prime/");	
 			   die();					
 			}

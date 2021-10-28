@@ -213,10 +213,10 @@ $echo.='<td class="no_padding_left_ pre-wrap one_td"><div class="mild_dava_xx">
 <div class="mild"><div class="mild_mild" data-tooltip="мягкая накладная">
 <i class="select-mild"></i></div></div>
 <div class="mild_dav"><div class="mild_mild_dav" data-tooltip="давальческий материал">
-<i class="select-mild_dav"></i></div></div>
+<i class="select-mild_dav"></i></div></div><i class="name_invoice_dava">
 
 
-'.$row_t2["name"].' <span class="invoice_units">('.$row_t2["units"].')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div><div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div></div></td>';
+'.$row_t2["name"]. ' </i><span class="invoice_units">('.$row_t2["units"].')</span><div style="margin-right:10px;" class="font-ranks del_invoice_material" data-tooltip="Удалить материал" id_rel="'.$ID_D.'"><span class="font-ranks-inner">x</span><div></div></div><div id_rel="'.$ID_D.'" class="material_defect" data-tooltip="Добавить акт на отбраковку"><span>></span></div></div></td>';
 if($number_acc!='')
 {
 	$echo.='<td class="pre-wrap center_text_td number_st_invoice"><a class="link-acc-2021" href="acc/'.$row_t1["id"].'/">'.$row_t1["number"].'</a></td><td class="pre-wrap center_text_td invoice_units">'.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</td><td class="pre-wrap center_text_td count_st_invoice">'.$summ.'</td>';
@@ -255,6 +255,7 @@ $echo.='<input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price_nds]
 $echo.='</div></td><td class="t_7 jk5"><span class="price_supply_ summa_ii"></span><input value="'.$ID_D.'" name="invoice['.$_GET["ss"].'][id]" type="hidden">
 <input type=hidden value="0" class="defect_inp" name="invoice['.$_GET["ss"].'][defect]">
 <input type=hidden value="'.htmlspecialchars(trim($_GET['demo'])).'" class="stock_inp" name="invoice['.$_GET["ss"].'][stock]"><input type=hidden value="0" class="mild_inp" name="invoice['.$_GET["ss"].'][mild]"><input type=hidden value="0" class="prime_inp" name="invoice['.$_GET["ss"].'][prime]">
+<input type=hidden value="0" class="alien_inp" name="invoice['.$_GET["ss"].'][alien]">
 </td></tr>';
 
 $class_aa = '';

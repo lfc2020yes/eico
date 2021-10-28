@@ -141,7 +141,7 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 						  }
 					   }
 					   //удаляем кукки по добавлению
-			 setcookie("edit_basket1_".$id_user."_".$row_list["id_object"], "", time()-3600,"/", "eico.atsun.ru");
+			 setcookie("edit_basket1_".$id_user."_".$row_list["id_object"], "", time()-3600,"/", $base_cookie);
 					  if($count_add_dell!=0)
 					  {
 						   mysql_time_query($link,'update z_doc set ready="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');

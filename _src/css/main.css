@@ -19962,6 +19962,18 @@ width: calc(50% - 0px) !important;
   padding-left: 70px;
 }
 
+.local-server {
+  position: relative;
+}
+.local-server::before {
+  content: "%";
+  font-family: "icon1";
+  font-size: 16px;
+  right: -20px;
+  position: absolute;
+  color: red;
+}
+
 .buttonBg {
   background: #fff;
 }

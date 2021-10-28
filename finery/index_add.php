@@ -552,7 +552,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 			 }
 			
 			 //удаляем из корзины нарядов по этому дому
-			 setcookie("basket_".$id_user."_".htmlspecialchars($_GET['id']), "", time()-3600,"/", ".atsun.ru", false, false);
+			 setcookie("basket_".$id_user."_".htmlspecialchars($_GET['id']), "", time()-3600,"/", $base_cookie, false, false);
 			
 			//echo($flag_podpis);
 			

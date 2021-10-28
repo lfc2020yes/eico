@@ -11,9 +11,9 @@ $base_cookie = 'eico.atsun.ru';
 //для работы на локальных адресах
 $local_server_x=0;
 //как называет домен в локалке
-$local_host = array('eico.atsun.local','eico.atsun.ru');
+$local_host_s = array("eico.atsun.local","eico.atsun.ru","eico.atsun.local");
 //адреса где могут лежать эти сайты на локалке
-$local = array('D:/DOMAIN/'.$local_host[0],'C:/OpenServer/domains/'.$local_host[1]);
+$local = array('D:/DOMAIN/'.$local_host_s[0],'C:/OpenServer/domains/'.$local_host_s[1],'C:/OpenServer/domains/'.$local_host_s[2]);
 
 
 $number_local=array_search($_SERVER['DOCUMENT_ROOT'], $local);
@@ -21,9 +21,10 @@ if ($number_local !== false) {
     //локалка
 	$local_server_x=1;
 	//это какая то локальная загрузка
-	$base_usr="https://".$local_host[$number_local];
-	$local_host=$local_host[$number_local];
-	$base_cookie = $local_host[$number_local];
+	$base_usr="https://".$local_host_s[$number_local];
+	$local_host=$local_host_s[$number_local];
+	$base_cookie = $local_host_s[$number_local];
+
 }
 
 

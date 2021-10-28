@@ -6234,3 +6234,15 @@ border-radius: 5px;
   left: 10px;  }
 
 .mild_dava_xx {  position:relative; padding-left: 70px;  }
+
+.local-server {position: relative;
+  &::before {
+    content: "%";
+    font-family: "icon1";
+    font-size: 16px;
+    right: -20px;
+    position: absolute;
+    color: red;
+  }
+
+}

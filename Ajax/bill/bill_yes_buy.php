@@ -73,11 +73,13 @@ if($num_results_t!=0)
 {	
 	$row_t = mysqli_fetch_assoc($result_t);
 	//проверяем может ли видеть этот наряд
+    /*
 	if($row_t["status"]!=2)
 	{ 
 		$debug=h4a(5,$echo_r,$debug);
 		goto end_code;
 	}
+    */
 } else
 {
 	    $debug=h4a(6,$echo_r,$debug);

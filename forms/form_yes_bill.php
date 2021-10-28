@@ -42,11 +42,12 @@ if ((!$role->permission('Счета','U'))and($sign_admin!=1))
 		   $row_t = mysqli_fetch_assoc($result_t);
 
 	   }
-
+/*
 if($row_t['status']!=2)
 {
 	goto end_code;
 }
+*/
 //составление секретного ключа формы
 //составление секретного ключа формы
 //соль для данного действия

@@ -759,9 +759,6 @@ VALUES
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
 
-        $id_user_duty = $this->user_duty($this->id_user);
-        $id_executor ="`id_executor` in (".implode(',',$this->user_duty($this->id_user)).")";
-
         $task_user = ($only_user)?"AND s.`id_executor` IN (".
             implode(',', $this->user_duty($this->id_user))
             .")" : '';

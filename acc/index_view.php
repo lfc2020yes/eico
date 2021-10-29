@@ -114,26 +114,21 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
 if($row_list["id_user"]!=$id_user) {
 
     if (!is_object($edo)) {
-        include_once $url_system . 'ilib/lib_interstroi.php';
-        include_once $url_system . 'ilib/lib_edo.php';
+        include_once $url_system.'ilib/lib_interstroi.php';
+        include_once $url_system.'ilib/lib_edo.php';
         $edo = new EDO($link, $id_user, false);
     }
 
     $arr_document = $edo->my_documents(1, ht($_GET["id"]), '>=-10', true);
-    //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
+    $arr_tasks = $edo->my_tasks(1, '>=-10' ,'','LIMIT 0,1',null,ht($_GET["id"]));
 
+//echo(count($arr_tasks));
 
-    foreach ($arr_document as $key => $value) {
-
-
-        if ((is_array($value["state"])) and (!empty($value["state"]))) {
-
-
-        } else {
-            header("HTTP/1.1 404 Not Found");
-            header("Status: 404 Not Found");
-            $error_header = 404;
-        }
+    if((count($arr_tasks)==0)and(count($arr_document)==0))
+    {
+        header("HTTP/1.1 404 Not Found");
+        header("Status: 404 Not Found");
+        $error_header=404;
     }
 }
 

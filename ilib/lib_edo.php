@@ -612,6 +612,35 @@ ORDER BY r.`displayOrder`,i.`displayOrder`
         return false;
     }
 
+    /** получить массив пользователей, которых в настоящий момент заменяем
+     * @param $id_user
+     * @return array
+     */
+    public function user_duty($id_user) {
+        $id_users_duty = array();
+        $id_users_duty[] = $id_user;
+        $sql = "
+select * from `r_user_replace` as r 
+where 
+r.`id_user_replace` = $id_user
+AND r.`date_from` <= date(now())
+AND ( r.`date_to`='000-00-00' or r.`date_to` is null or r.`date_to`> date(now()) )
+";
+
+        $this->Debug($sql,__FUNCTION__);
+
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $id_users_duty[] = $row[id_user];
+            }
+        }
+        return $id_users_duty;
+    }
+
+    /**  Найти первого, кто может заменять этого пользователя
+     * @param $id_user
+     * @return mixed
+     */
     public function user_replace($id_user) {
         $id_user_replace = $id_user;
 $sql = "
@@ -729,7 +758,13 @@ VALUES
                                  )
     {
         $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
-        $task_user = ($only_user)?"AND s.`id_executor`=".$this->id_user : '';
+
+        $id_user_duty = $this->user_duty($this->id_user);
+        $id_executor ="`id_executor` in (".implode(',',$this->user_duty($this->id_user)).")";
+
+        $task_user = ($only_user)?"AND s.`id_executor` IN (".
+            implode(',', $this->user_duty($this->id_user))
+            .")" : '';
         $sql =
 "
 SELECT * FROM ".$this->arr_table[$type]."
@@ -811,6 +846,9 @@ $limit
                              $limit='LIMIT 0,100',
                              $id_action = null,
                              $id_doc = null)  {
+        $id_user_duty = $this->user_duty($this->id_user);
+        $id_executor ="`id_executor` in (".implode(',',$id_user_duty).")";
+
         $action = ($id_action == null)? '' : "AND R.`id_action` = $id_action";
         $iddoc = is_null($id_doc) ? '' : "AND d.id = $id_doc";
         $sql=
@@ -828,7 +866,7 @@ LEFT JOIN
         ,A.`name_action`
         FROM edo_state s, edo_run_items R, edo_action A 
         WHERE 
-        s.`id_executor`=".$this->id_user." 
+        s.$id_executor 
         AND s.id_status $status 
         $action
         AND s.id_run_item = R.`id`
@@ -837,9 +875,9 @@ LEFT JOIN
         AS T ON d.`id_edo_run` = T.`id_run`
 , r_user AS u
 WHERE
-T.id_status $status AND
-T.`id_executor`=".$this->id_user." AND 
-d.`id_user` = u.`id`
+T.id_status $status
+AND T.$id_executor  
+AND d.`id_user` = u.`id`
 $iddoc
 $order_by
 $limit 
@@ -869,7 +907,7 @@ $limit
         $next_data = ( $next==null ) ? '' : ", next = '$next'";
         $date_now = date('Y-m-d H:i:s', time());
         $sql = "
-UPDATE `edo_state` SET id_status = $status , date_execute='$date_now' $comment_executor $next_data WHERE id = $id_task
+UPDATE `edo_state` SET id_status = $status , id_controller=id_executor, id_executor={$this->id_user}, date_execute='$date_now' $comment_executor $next_data WHERE id = $id_task
         ";
         $this->Debug($sql,__FUNCTION__);
         if (iDelUpd($this->mysqli,$sql,false)===false) {

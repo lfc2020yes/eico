@@ -5689,6 +5689,51 @@ i {
 
 
 
+.mild-nds {position: absolute;
+  right: 15px;
+  top: 2px; }
+.select-mild-nds {
+
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  position: relative;
+  display: block;
+  text-align: center;
+
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: rgba(0,0,0,.7);
+    font-family: icon1;
+    font-size: 14px;
+    @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    @include transform(scale3d(0,0,1));
+  }
+}
+
+.chechers {
+  .select-mild-nds {
+    background-color: #ffec57;
+    &::before {
+
+    }
+  }
+  .select-mild-nds::before { @include transform(scale3d(1,1,1)); }
+}
+
+.mild_mild_nds {cursor: pointer;}
+
+
+
+
+
+
 .mild_dav {position: absolute;
   left: 35px;
   top: 2px; }
@@ -6256,3 +6301,10 @@ border-radius: 5px;
   color: rgba(0,0,0,.7) !important;
   text-align:left;
 }
+
+.cost-bottom-js-x {  i {font-style: normal;}  }
+.cost-bottom-js-x { .cost-js-yes-nds,.cost-js-nono-nds {display: none;} }
+.yes-nds { .cost-js-no-nds {display: none;} .cost-js-yes-nds {display: block;}}
+.div-cost-global {position: relative; padding-right: 50px;}
+
+.nono-checker { .cost-js-no-nds,.cost-js-yes-nds {display: none !important;} .cost-js-nono-nds {display: block !important;}  }

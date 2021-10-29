@@ -138,7 +138,10 @@ echo'<div id="fullpage" class="margin_60" id_content="'.$id_user.'">';
 
 $count_task=0;
 
-
+if((count($arr_index_1)!=0)or(count($arr_index_2)!=0)or(count($arr_index_3)!=0)or(count($arr_index_4)!=0))
+{
+    $count_task=1;
+}
 
 
 

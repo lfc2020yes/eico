@@ -239,7 +239,21 @@ $echo.='<input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][count]" ma
 	
 }
 
-$echo.='</div></td><td class="t_7 jk5"><div class="width-setter"><label style="display: inline;">БЕЗ НДС</label>
+$echo.='</div></td>';
+
+$echo.='<td class="t_7 jk5">';
+
+$tool_sum='';
+if($number_acc!='')
+{
+    $tool_sum=$summ1;
+}
+
+$echo.='<div class="width-setter"><label>ЦЕНА</label><input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price]"  id="price_invoice_'.$_GET["ss"].'" placeholder="'.$tool_sum.'" class="input_f_1 input_100 white_inp label_s price_in_  count_mask  "   autocomplete="off" type="text" value="0"></div>';
+
+$echo.='</td>';
+/*
+<td class="t_7 jk5"><div class="width-setter"><label style="display: inline;">БЕЗ НДС</label>
 
 <input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price]" id="price_invoice_'.$_GET["ss"].'" placeholder="" class="input_f_1 input_100 white_inp label_s price_in_  count_mask    " autocomplete="off" value="0" type="text">
 
@@ -252,7 +266,10 @@ $echo.='<input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price_nds]
 $echo.='<input style="margin-top:0px;" name="invoice['.$_GET["ss"].'][price_nds]" id="price_nds_invoice_'.$_GET["ss"].'" placeholder="" class="input_f_1 input_100 white_inp label_s price_nds_in_  count_mask    " autocomplete="off" value="0" type="text">';	
 }
 
-$echo.='</div></td><td class="t_7 jk5"><span class="price_supply_ summa_ii"></span><input value="'.$ID_D.'" name="invoice['.$_GET["ss"].'][id]" type="hidden">
+$echo.='</div></td>
+*/
+
+$echo.='<td class="t_7 jk5"><span class="price_supply_ summa_ii"></span><input value="'.$ID_D.'" name="invoice['.$_GET["ss"].'][id]" type="hidden">
 <input type=hidden value="0" class="defect_inp" name="invoice['.$_GET["ss"].'][defect]">
 <input type=hidden value="'.htmlspecialchars(trim($_GET['demo'])).'" class="stock_inp" name="invoice['.$_GET["ss"].'][stock]"><input type=hidden value="0" class="mild_inp" name="invoice['.$_GET["ss"].'][mild]"><input type=hidden value="0" class="prime_inp" name="invoice['.$_GET["ss"].'][prime]">
 <input type=hidden value="0" class="alien_inp" name="invoice['.$_GET["ss"].'][alien]">

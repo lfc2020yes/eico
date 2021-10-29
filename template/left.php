@@ -268,7 +268,14 @@ if($active_menu=='booker')
 	}	
 	
 ?>
-<?	
+<?
+
+$arr_index_1 = array(); //наряды
+$arr_index_2 = array(); //заявки
+$arr_index_3 = array(); //счета
+$arr_index_4 = array(); //договора
+
+
     foreach ($nav_url as $key_nav => $value_nav) 
 	{
 	  if (($role->permission($nav_text[$key_nav],'R'))or($sign_admin==1))
@@ -285,6 +292,9 @@ if($active_menu=='booker')
 
              }
              $arr_tasks = $edo->my_tasks(0, '=0' );
+
+             $arr_index_2=$arr_tasks;
+
              $class_left_l='';
              $count_l=count($arr_tasks);
 if(count($arr_tasks)==0)
@@ -312,6 +322,7 @@ if(count($arr_tasks)==0)
 
                  }
                  $arr_tasks = $edo->my_tasks(1, '=0' );
+                 $arr_index_3=$arr_tasks;
                  $class_left_l='';
                  $count_l=count($arr_tasks);
                  if(count($arr_tasks)==0)
@@ -338,6 +349,7 @@ if(count($arr_tasks)==0)
 
                      }
                      $arr_tasks = $edo->my_tasks(3, '=0');
+                     $arr_index_4=$arr_tasks;
                      $class_left_l = '';
                      $count_l = count($arr_tasks);
                      if (count($arr_tasks) == 0) {
@@ -366,6 +378,7 @@ if(count($arr_tasks)==0)
 
                          }
                          $arr_tasks = $edo->my_tasks(2, '=0' );
+                         $arr_index_1=$arr_tasks;
                          $class_left_l='';
                          $count_l=count($arr_tasks);
                          if(count($arr_tasks)==0)

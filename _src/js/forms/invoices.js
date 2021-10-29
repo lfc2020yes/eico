@@ -207,7 +207,7 @@ function AfterOptionDemo(data,update)
 
         if(!$('#number_invoice').is('.grey_edit'))
         {
-
+/*
             if((nds_x==0))
             {
 
@@ -220,6 +220,8 @@ function AfterOptionDemo(data,update)
                 $('.price_nds_in_').val(0);
                 $('.price_nds_in_').prop('readonly',true).addClass('grey_edit');
             }
+            */
+
         }
         NumberBlockFile();
 

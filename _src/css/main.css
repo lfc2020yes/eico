@@ -2734,18 +2734,18 @@ textarea, input {
 }
 
 .smeta1 .itogss td {
-  background-color: #ffec57 !important;
+  background-color: #6DCAF3 !important;
   padding: 10px !important;
   padding-top: 15px !important;
   padding-bottom: 15px !important;
   text-transform: uppercase !important;
   font-family: "GEInspiraBold" !important;
-  color: rgba(0, 0, 0, 0.9) !important;
-  font-size: 16px;
+  color: #fff !important;
+  font-size: 13px;
 }
 
 .smeta1 .itogss:nth-child(2n) td {
-  background-color: rgba(255, 236, 87, 0.7) !important;
+  background-color: #6DCAF3 !important;
 }
 
 .smeta1 .nariad_link {
@@ -9839,7 +9839,7 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .itogss_nds td, .itogss_defect td {
-  background-color: #ffec57 !important;
+  background-color: #ebf2ff !important;
   padding: 10px !important;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -9848,7 +9848,7 @@ tr.active_supplyx .supply_tr_o::before {
   text-transform: uppercase !important;
   font-family: "GEInspiraBold" !important;
   color: rgba(0, 0, 0, 0.9) !important;
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .itogss_defect td {
@@ -19274,6 +19274,62 @@ width: calc(50% - 0px) !important;
   font-style: normal;
 }
 
+.mild-nds {
+  position: absolute;
+  right: 15px;
+  top: 2px;
+}
+
+.select-mild-nds {
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: #e8eaed;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  position: relative;
+  display: block;
+  text-align: center;
+}
+.select-mild-nds::before {
+  position: absolute;
+  content: "\E001";
+  left: 5px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: icon1;
+  font-size: 14px;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transform: scale3d(0, 0, 1);
+  -o-transform: scale3d(0, 0, 1);
+  -ms-transform: scale3d(0, 0, 1);
+  -webkit-transform: scale3d(0, 0, 1);
+  transform: scale3d(0, 0, 1);
+}
+
+.chechers .select-mild-nds {
+  background-color: #ffec57;
+}
+.chechers .select-mild-nds::before {
+  -moz-transform: scale3d(1, 1, 1);
+  -o-transform: scale3d(1, 1, 1);
+  -ms-transform: scale3d(1, 1, 1);
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+
+.mild_mild_nds {
+  cursor: pointer;
+}
+
 .mild_dav {
   position: absolute;
   left: 35px;
@@ -19982,6 +20038,33 @@ width: calc(50% - 0px) !important;
   line-height: 45px !important;
   color: rgba(0, 0, 0, 0.7) !important;
   text-align: left;
+}
+
+.cost-bottom-js-x i {
+  font-style: normal;
+}
+
+.cost-bottom-js-x .cost-js-yes-nds, .cost-bottom-js-x .cost-js-nono-nds {
+  display: none;
+}
+
+.yes-nds .cost-js-no-nds {
+  display: none;
+}
+.yes-nds .cost-js-yes-nds {
+  display: block;
+}
+
+.div-cost-global {
+  position: relative;
+  padding-right: 50px;
+}
+
+.nono-checker .cost-js-no-nds, .nono-checker .cost-js-yes-nds {
+  display: none !important;
+}
+.nono-checker .cost-js-nono-nds {
+  display: block !important;
 }
 
 .buttonBg {

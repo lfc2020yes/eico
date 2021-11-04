@@ -228,12 +228,13 @@
             <div data-tooltip="закрыть все разделы" class="icon1 icon1-xxx close_all_r"><i></i></div>
 
             <?
-            if (($role->permission('Себестоимость','A'))or($sign_admin==1))
-            {
-                echo'<div data-tooltip="добавить раздел" class="icon1 icon1-xxx icon4 add__razdel" style="margin-right: 40px;"><i></i></div>';
-                //echo'<div class="icon1 iconl"><i></i></div>';
-            }
 
+            if($uor->select($id_object)=='') {
+                if (($role->permission('Себестоимость', 'A')) or ($sign_admin == 1)) {
+                    echo '<div data-tooltip="добавить раздел" class="icon1 icon1-xxx icon4 add__razdel" style="margin-right: 40px;"><i></i></div>';
+                    //echo'<div class="icon1 iconl"><i></i></div>';
+                }
+            }
             echo'</div>';
 
 

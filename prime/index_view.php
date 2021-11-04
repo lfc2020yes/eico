@@ -466,6 +466,10 @@ if($sign_admin!=1)
 		            $act_='';
 					$act_1='on="show"';
 	            }
+
+$uor = new User_Object_Razdel($link, $id_user);
+$id_object = htmlspecialchars(trim($_GET['id']));
+
 if(isset($_GET["add"]))
 {
   include_once $url_system.'template/top_prime_add.php';
@@ -592,8 +596,7 @@ if(($role->permission('График','U'))or($role->permission('График','R
 */
 
 
-       $uor = new User_Object_Razdel($link, $id_user);
-       $id_object = htmlspecialchars(trim($_GET['id']));
+
 
        $result_t=mysql_time_query($link,"select a.* from i_razdel1 as a where a.id_object='$id_object'". $uor->select($id_object) .' order by a.razdel1');
        $num_results_t = $result_t->num_rows;
@@ -615,14 +618,19 @@ if(($role->permission('График','U'))or($role->permission('График','R
 		            $pl='-';
 	            }								
                 echo'<div rel="'.$row_t["id"].'" class="block_i '.$actv.'"><div class="top_bl"><i  class="i__">'.$pl.'</i><h2><span class="s_j">'.$row_t["razdel1"].'. '.$row_t["name1"].'</span><span class="edit_12">';
-				if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	            {
-				  echo'<span for="'.$row_t["id"].'" data-tooltip="редактировать раздел" class="edit_icon_block">3</span>';
-			    }
-				if (($role->permission('Себестоимость','D'))or($sign_admin==1))
-	            {	
-				echo'<span for="'.$row_t["id"].'" data-tooltip="Удалить раздел" class="del_icon_block">5</span>';
-				}
+
+
+                if($uor->select($id_object)=='') {
+                    if (($role->permission('Себестоимость', 'U')) or ($sign_admin == 1)) {
+                        echo '<span for="' . $row_t["id"] . '" data-tooltip="редактировать раздел" class="edit_icon_block">3</span>';
+                    }
+                    if (($role->permission('Себестоимость', 'D')) or ($sign_admin == 1)) {
+                        echo '<span for="' . $row_t["id"] . '" data-tooltip="Удалить раздел" class="del_icon_block">5</span>';
+                    }
+                }
+
+
+
 				if (($role->permission('Себестоимость','A'))or($sign_admin==1))
 	            {		
 				echo'<span for="'.$row_t["id"].'" data-tooltip="Добавить работу" class="add_icon_block">J</span>';

@@ -189,7 +189,7 @@
   @include sw('tablet-small') { /*display: inline-block;*/ position: fixed; bottom: 20px; /*width: 185px;
 left: calc(50% - 92.5px);*/ display: inline-block; left: 50%;
     @include transform(translate(-50%,0));  overflow: hidden; }  }
-.left_menu { position:fixed; border-top: 60px solid #6DCAF3; left:-250px; width:250px; /*background-color:#fff;*//*@include box-shadow(0 0 40px rgba(0, 0, 0, .1) inset);*/   transition: all 1s ease 0s; z-index:0; background-color: #f3f3f3;
+.left_menu { position:fixed; border-top: 60px solid #6DCAF3; left:-250px; width:250px; /*background-color:#fff;*//*@include box-shadow(0 0 40px rgba(0, 0, 0, .1) inset);*/   transition: all 1s ease 0s; z-index:1; background-color: #f3f3f3;
 }
 
 .small

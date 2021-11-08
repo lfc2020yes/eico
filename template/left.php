@@ -22,7 +22,7 @@
     <a class="logo" href=""></a>
 </div>
 
-<div class="left_menu menu_flex scrollbar-inner">
+<div class="left_menu menu_flex scrollbar-inner" style="z-index: 10">
 
     <!--<div class="logo_block"><a class="logo" href="">-->
 <?php
@@ -304,9 +304,9 @@ if(count($arr_tasks)==0)
 }
 
              if ($found === $key_nav) {
-                 echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                 echo'<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
              } else {
-                 echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                 echo'<li><a class="a11" href="'.$value_nav.'/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
              }
 
 

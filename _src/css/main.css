@@ -20067,6 +20067,19 @@ width: calc(50% - 0px) !important;
   display: block !important;
 }
 
+.hello-h {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-top: 30px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  text-align: left;
+  display: block;
+  width: 100%;
+}
+
 .buttonBg {
   background: #fff;
 }
@@ -23456,7 +23469,7 @@ left: calc(50% - 92.5px);*/
   /*background-color:#fff;*/
   /*@include box-shadow(0 0 40px rgba(0, 0, 0, .1) inset);*/
   transition: all 1s ease 0s;
-  z-index: 0;
+  z-index: 1;
   background-color: #f3f3f3;
 }
 

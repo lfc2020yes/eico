@@ -148,43 +148,14 @@
 
 */
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="menu-09  input-line" style="z-index:150;">
         <!--<div class="menu-09 no-fixed-mobile input-line" style="z-index:150;">-->
         <div class="menu-09-left">
             <a href="/" class="menu-09-global"></a><a href="prime/" class="js-close_prime_dom js-close_prime_dom_a menu-09-prev"><i></i></a>
 
             <?
-
-            echo'<span class="menu-09-pc-h" ><span > '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].') </span >';
-
-
+            echo'<span class="menu-09-pc-h" ><span> '.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].') </span>';
             echo'</span >';
-
             ?>
             <span class="add_nnn"></span>
 

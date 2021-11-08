@@ -111,8 +111,14 @@ if ( isset($_COOKIE["iss"]))
 		}
 */
 ?>
-
+    <?
+    include_once $url_system.'template/left.php';
+    ?>
 <div class="left_block">
+
+
+
+
   <div class="content">
 
 <?
@@ -127,14 +133,14 @@ if ( isset($_COOKIE["iss"]))
 	  include_once $url_system.'template/top_index.php';
 
 
-echo'<div id="fullpage" class="margin_60" id_content="'.$id_user.'">';
+echo'<div id="fullpage" class="" id_content="'.$id_user.'">';
 ?>
       <div class="section" id="section0">
           <div class="oka_block">
 
 
 <?
-              echo'<div class="oka1 task-left js-task-left" style="width:100%; padding-top: 30px;">	';
+              echo'<div class="oka1 task-left js-task-left" style="width:100%; padding-top: 60px;">	';
 
 $count_task=0;
 
@@ -152,11 +158,10 @@ if((count($arr_index_1)!=0)or(count($arr_index_2)!=0)or(count($arr_index_3)!=0)o
                   {
 
                   $result_txs=mysql_time_query($link,'Select a.name_user,a.timelast,a.id from r_user as a where a.id="'.$id_user.'"');
-                  if($result_txs->num_rows!=0)
-                  {
-                  $rowxs = mysqli_fetch_assoc($result_txs);
-
-                  }
+                    if($result_txs->num_rows!=0)
+                    {
+                      $rowxs = mysqli_fetch_assoc($result_txs);
+                    }
                   echo'<h2 class="hello">Добро пожаловать в систему CCM, '.$rowxs["name_user"].'!</h2>';
 
                   echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Не забудьте посмотреть все созданные для вас задачи. Все самое важное всегда в ваших уведомлениях.</span></span></div>';
@@ -176,10 +181,84 @@ if((count($arr_index_1)!=0)or(count($arr_index_2)!=0)or(count($arr_index_3)!=0)o
                   }
                   }
 
+//наряды
+if(((count($arr_index_1)!=0))and(($role->permission('Наряды','R'))or($sign_admin==1)or($role->permission('Наряды','S'))))
+{
+    $small_block=1;
+    $_GET["tabs"]=0;
+    
+    
+    echo '<div class="hello-h">Ваши Задачи по нарядам →</div>';
+    
+    foreach ($arr_index_1 as $key => $value)
+    {
+        $new_pre = 1;
+        $task_cloud_block='';
+
+        include $url_system . 'worder/code/block_worder.php';
+        echo($task_cloud_block);
+
+    }
+}
+//заявки
+if(((count($arr_index_2)!=0))and(($role->permission('Заявки','R'))or($sign_admin==1)or($role->permission('Заявки','S'))))
+{
+    $small_block=1;
+    $_GET["tabs"]=0;
 
 
+    echo '<div class="hello-h">Ваши Задачи по заявкам →</div>';
+
+    foreach ($arr_index_2 as $key => $value)
+    {
+        $new_pre = 1;
+        $task_cloud_block='';
+
+        include $url_system . 'app/code/block_app.php';
+        echo($task_cloud_block);
+
+    }
+}
+
+//счета
+if(((count($arr_index_3)!=0))and(($role->permission('Счета','R'))or($sign_admin==1)or($role->permission('Счета','S'))))
+{
+    $small_block=1;
+    $_GET["tabs"]=0;
 
 
+    echo '<div class="hello-h">Ваши Задачи по счетам →</div>';
+
+    foreach ($arr_index_3 as $key => $value)
+    {
+        $new_pre = 1;
+        $task_cloud_block='';
+
+        include $url_system . 'acc/code/block_app.php';
+        echo($task_cloud_block);
+
+    }
+}
+
+//договора
+if(((count($arr_index_4)!=0))and(($role->permission('Договора','R'))or($sign_admin==1)or($role->permission('Договора','S'))))
+{
+    $small_block=1;
+    $_GET["tabs"]=0;
+
+
+    echo '<div class="hello-h">Ваши Задачи по счетам →</div>';
+
+    foreach ($arr_index_4 as $key => $value)
+    {
+        $new_pre = 1;
+        $task_cloud_block='';
+
+        include $url_system . 'docs/code/block_app.php';
+        echo($task_cloud_block);
+
+    }
+}
 
 ?></div> </div> </div>
     </div>
@@ -187,9 +266,7 @@ if((count($arr_index_1)!=0)or(count($arr_index_2)!=0)or(count($arr_index_3)!=0)o
 
 </div>
 
-<?
-include_once $url_system.'template/left.php';
-?>
+
 
 </div>
 </div><script src="Js/rem.js" type="text/javascript"></script>

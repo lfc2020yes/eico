@@ -323,6 +323,13 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 			 }
 
 
+            mysql_time_query($link,'update z_acc set 				 
+					 summa_delivery="'.htmlspecialchars(trim(trimc($_POST['summa_delivery']))).'"
+		
+					 
+					 where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+
+
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде
 				  //добавляем уведомления о новом наряде	
@@ -798,6 +805,42 @@ $POL=0;
 
 
           }
+
+      //вывод доставки
+if($row_list["summa_delivery"]!=0)
+{
+
+    echo'<div style="background-color: #f0f4f6;" class=" items_acc_basket   " >
+					 
+                <div class="name-user-57"><span class="label-task-gg ">Название
+</span><div class="h57-2020"><span class="name-items">Доставка</span>
+                </div>
+            
+</div>
+<div class="tender-date"><span class="label-task-gg ">Единица измерения
+</span>
+                <span class="item-ed"></span>
+</div>
+
+<div class="tender-col"></div>               
+  
+ <div class="tender-col"><!--input start--><div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color  active_in_2021"><label><i>Цена</i></label><input name="summa_delivery" value="'.$row_list["summa_delivery"].'" price="" data-tooltip="Цена в счете" max="" class="input_new_2021  required  no_upperr money_mask1 delivery_xvg_" style="padding-right: 20px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div><!--input end-->';
+    echo'</div>  
+    <div class="tender-summ all_price_count_xvg"><span class="pay_summ_bill1">0</span>
+ </div>               
+                <div class="tender-but" style="padding-left: 10px;">';
+
+    echo'</div>
+                
+                
+                
+                </div>';
+
+}
+
+
+
+
 
       echo'<div class="all_xvg none"><div class="all-xvg-2021">
 			      <div class=" wall--1">Итого по счету</div>

@@ -86,8 +86,14 @@ if($_POST["new_contractor_"]==1)
     $ID_P=htmlspecialchars(trim($_POST['id_kto']));
 }
 
+$delivery=0;
+if((trimc($_POST["summa_delivery"])!='')and(trimc($_POST["summa_delivery"])!=0)and(is_numeric(trimc($_POST["summa_delivery"]))))
+{
+    $delivery=trimc($_POST["summa_delivery"]);
+}
 
-mysql_time_query($link,'update z_acc set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",delivery_day="'.ht($_POST["date_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
+
+mysql_time_query($link,'update z_acc set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",delivery_day="'.ht($_POST["date_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'",summa_delivery="'.$delivery.'" where id = "'.htmlspecialchars(trim($id)).'"');
 
 $names='Счет №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
 
@@ -119,7 +125,7 @@ foreach ($arr_document as $key => $value) {
 end_code:
 
 
-$aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo,"block"=>$task_cloud_block,"name"=>$names);
+$aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo,"block"=>$task_cloud_block,"name"=>$names,"delivery"=>$delivery);
 require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

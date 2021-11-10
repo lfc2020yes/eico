@@ -4,10 +4,7 @@
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/ajax_access.php';
 
-
-
 $status=0;
-
 
 if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["user_id"]))))
 {	
@@ -71,6 +68,10 @@ $status=1;
 
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Срок поставки в днях</i><span>*</span></label><input name="date_soply1" value="" class="input_new_2021 gloab required  no_upperr mask-count" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма доставки</i></label><input name="summa_delivery" value="" class="input_new_2021 required  no_upperr money_mask1 delivery_xvg_" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
 
@@ -422,7 +423,7 @@ a.id="'.$row__2["id"].'"');
         <div class="na-50">
             <div id="no_rd223" class="no_button js-exit-window-add-task-two"><i>Отменить</i></div>
         </div>
-        <div class="na-50"><div id="yes_ra" class="save_button js-add-acc-block-x"><i>Добавить</i></div></div>
+        <div class="na-50"><div id="yes_ra" class="save_button js-add-acc-block-x"><i>Сохранить</i></div></div>
     </div>
 
     <!--

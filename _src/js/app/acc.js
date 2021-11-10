@@ -7,7 +7,7 @@ $(function (){
 
     //набор текста в поиске
 
-    $('body').on("change keyup input click",'.price_xvg_,.count_xvg_',itogprice_xvg);
+    $('body').on("change keyup input click",'.price_xvg_,.count_xvg_,.delivery_xvg_',itogprice_xvg);
 
 
     $('body').on("change keyup input click",'.js-del-items-basket-view',del_acc_material);
@@ -757,6 +757,33 @@ var itogprice_xvg = function() {
 
 
     });
+
+//доставка
+    if($('.delivery_xvg_').length!=0) {
+        var delivery = parseFloat(ctrim($('.delivery_xvg_').val()));
+
+        if ((delivery != 0) && (delivery != '') && ($.isNumeric(delivery))) {
+
+            summ_xvg = (parseFloat(summ_xvg) + parseFloat(delivery)).toFixed(2);
+        }
+
+
+        if($('.delivery_xvg_').parents('.items_acc_basket').find('.pay_summ_bill1').length!=0) {
+
+            if ((delivery != 0) && (delivery != '') && ($.isNumeric(delivery))) {
+
+                $('.delivery_xvg_').parents('.items_acc_basket').find('.pay_summ_bill1').empty().append($.number(delivery, 2, '.', ' '));
+
+            } else
+            {
+                $('.delivery_xvg_').parents('.items_acc_basket').find('.pay_summ_bill1').empty().append(0);
+            }
+
+        }
+
+
+    }
+
 
 
     $('.all_summa_xvg').find('span').empty().append($.number(summ_xvg, 2, '.', ' '));

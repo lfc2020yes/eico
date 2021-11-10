@@ -5180,7 +5180,7 @@ setTimeout ( function () {
 	//если переход в любое редактируемое поле служебной записки то сбрасывать кнопку заказать на сохранить
 	$('.my_nn').on("change keyup input click",'.count_app_mater_,.calendar_zay,.text_zayva_message_,.js-zame-tours',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
 
-	$('.js-acc-view').on("change keyup input click",'.count_xvg_,.price_xvg_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
+	$('.js-acc-view').on("change keyup input click",'.count_xvg_,.price_xvg_,.delivery_xvg_',function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   });
 
 	
 	$('.zay_2020').on("change keyup input click",'.del_material_zayva1,.zayva_del_naf',function(){ if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&($(this).is('.calendar_zay')))) {  $('.pod_zay').hide(); $('.add_zay').show(); } });

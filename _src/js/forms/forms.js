@@ -3357,6 +3357,7 @@ function Afterdell_soply(data,update)
 
 		$('.preorders_block_global[id_pre='+update+']').hide();
 
+		alert_message('ok','Счет удален');
 	}
 	if ( data.status=='error' )
 	{

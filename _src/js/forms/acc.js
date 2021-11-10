@@ -94,6 +94,13 @@ function AfterEditAcc(data,update)
         clearInterval(timerId);
         box.find('.arcticmodal-close').click();
 
+
+        if($('.delivery_xvg_').length!=0)
+        {
+            $('.delivery_xvg_').val(data.delivery).change();
+        }
+
+
         return;
     }
 
@@ -222,10 +229,10 @@ if(err==0)
     if((contractor_new==0))
     {
 
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&post_p='+box_active.find("[name=id_kto]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&summa_delivery='+box_active.find("[name=summa_delivery]").val()+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&post_p='+box_active.find("[name=id_kto]").val()+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     } else
     {
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&name_c='+encodeURIComponent(box_active.find("[name=name_contractor]").val())+'&address_c='+encodeURIComponent(box_active.find("[name=address_contractor]").val()) +'&inn_c='+box_active.find("[name=inn_contractor]").val() +'&ogrn_c='+box_active.find("[name=ogrn_contractor]").val() +'&name_small_c='+encodeURIComponent(box_active.find("[name=name_small_contractor]").val()) +'&status_c='+encodeURIComponent(box_active.find("[name=status_contractor]").val()) +'&dir_c='+encodeURIComponent(box_active.find("[name=dir_contractor]").val())+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&summa_delivery='+box_active.find("[name=summa_delivery]").val()+'&number='+box_active.find("[name=number_soply1]").val()+'&date1='+box_active.find("[name=date_soply]").val()+'&date2='+box_active.find("[name=date_soply1]").val()+'&new_c='+contractor_new+'&name_c='+encodeURIComponent(box_active.find("[name=name_contractor]").val())+'&address_c='+encodeURIComponent(box_active.find("[name=address_contractor]").val()) +'&inn_c='+box_active.find("[name=inn_contractor]").val() +'&ogrn_c='+box_active.find("[name=ogrn_contractor]").val() +'&name_small_c='+encodeURIComponent(box_active.find("[name=name_small_contractor]").val()) +'&status_c='+encodeURIComponent(box_active.find("[name=status_contractor]").val()) +'&dir_c='+encodeURIComponent(box_active.find("[name=dir_contractor]").val())+'&xvg='+xvg+'&com='+box_active.find("[name=text_comment]").val()+'&files='+files;
     }
 
     AjaxClient('supply','add_soply','GET',data,'AfterAACC',$(".js-number-acc-new").val(),0);
@@ -270,7 +277,7 @@ function AfterAACC(data,update)
             $('[supply_id='+cc[t]+']').find('.scope_scope').append('<div rel_score="'+data.ty+'" data-tooltip="счет №'+update+' ('+data.dates+')" class="menu_click score_a"><span>№'+update+' ('+data.dates+')</span><strong><label>'+$.number(data.summa.toFixed(2), 2, '.', ' ')+'</label></strong><i>'+cc.length+'</i><form class="none"  action="acc/'+data.ty+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
 
 
-            alert_message('ok','Новый счет добавлен');
+
 
 
             var hf=$('[supply_id='+cc[t]+']').attr('supply_stock');
@@ -284,6 +291,13 @@ function AfterAACC(data,update)
 
 
         }
+
+
+        if(cc.length!=0)
+        {
+            alert_message('ok','Новый счет добавлен');
+        }
+
 
         $.cookie("basket_supply_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
         $('.checher_supply').removeClass('checher_supply');

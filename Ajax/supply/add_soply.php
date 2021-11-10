@@ -178,6 +178,7 @@ $delivery=0;
 if((trimc($_GET["summa_delivery"])!='')and(trimc($_GET["summa_delivery"])!=0)and(is_numeric(trimc($_GET["summa_delivery"]))))
 {
     $delivery=trimc($_GET["summa_delivery"]);
+    $summaa=$summaa+$delivery;
 }
 
 mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor,summa,date_delivery,delivery_day,id_user,status,comment,summa_delivery) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","0","","'.htmlspecialchars(trim($_GET['date2'])).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.$delivery.'")');

@@ -29,18 +29,18 @@
 
                     if($menu_no_my!=0)
                     {
-                        $tabs_menu_x = array("Ваши счета", "Выполнить", "Исполнено");
-                        $tabs_menu_x_id = array("0", "1", "2");
-                        $tabs_menu_x_link = array("", ".tabs-1",".tabs-2");
-                        $tabs_menu_x_class = array("", "", "");
-                        $tabs_menu_x_count = array($subor_cc[0], $subor_cc[1],$subor_cc[2]);
+                        $tabs_menu_x = array("Ваши счета", "Выполнить", "Исполнено","Поиск");
+                        $tabs_menu_x_id = array("0", "1", "2","4");
+                        $tabs_menu_x_link = array("", ".tabs-1",".tabs-2",".tabs-4");
+                        $tabs_menu_x_class = array("", "", "", "");
+                        $tabs_menu_x_count = array($subor_cc[0], $subor_cc[1],$subor_cc[2], "");
                     } else
                     {
-                        $tabs_menu_x = array("Выполнить", "Исполнено");
-                        $tabs_menu_x_id = array("1", "2");
-                        $tabs_menu_x_link = array(".tabs-1", ".tabs-2");
-                        $tabs_menu_x_class = array("", "");
-                        $tabs_menu_x_count = array($subor_cc[1],$subor_cc[2]);
+                        $tabs_menu_x = array("Выполнить", "Исполнено","Поиск");
+                        $tabs_menu_x_id = array("1", "2","4");
+                        $tabs_menu_x_link = array(".tabs-1", ".tabs-2", ".tabs-4");
+                        $tabs_menu_x_class = array("", "", "");
+                        $tabs_menu_x_count = array($subor_cc[1],$subor_cc[2], "");
                     }
 
 
@@ -53,10 +53,20 @@
 
                             if((isset($_GET['tabs']))and($_GET['tabs']==$tabs_menu_x_id[$i]))
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i];
+
+                                if($tabs_menu_x_id[$i]!=4) {
+                                    echo '<i class="ystal">('.$tabs_menu_x_count[$i].')</i>';
+                                }
+                                echo'</a>';
                             } else
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i];
+                                if($tabs_menu_x_id[$i]!=4) {
+                                    echo '<i class="ystal">(' . $tabs_menu_x_count[$i] . ')</i>';
+                                }
+
+                                echo'</a>';
                             }
 
                         } else
@@ -64,10 +74,18 @@
 
                             if((!isset($_GET['tabs']))or($_GET['tabs']==$tabs_menu_x_id[$i]))
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i];
+                                if($tabs_menu_x_id[$i]!=4) {
+                                    echo '<i class="ystal">(' . $tabs_menu_x_count[$i] . ')</i>';
+                                }
+                                echo'</a>';
                             } else
                             {
-                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="acc/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i];
+                                if($tabs_menu_x_id[$i]!=4) {
+                                    echo '<i class="ystal">(' . $tabs_menu_x_count[$i] . ')</i>';
+                                }
+                                echo'</a>';
                             }
 
 

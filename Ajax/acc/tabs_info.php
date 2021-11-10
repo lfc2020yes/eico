@@ -118,6 +118,11 @@ if($id_tabs==4)
     include $url_system.'acc/code/tabs_invoice.php';
 }
 
+if($id_tabs==5)
+{
+    include $url_system.'acc/code/tabs_app.php';
+}
+
 
 end_code:
 

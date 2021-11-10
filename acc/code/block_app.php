@@ -242,6 +242,9 @@ if($small_block==1) {
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==0))) {
         $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
     }
+    if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==4))) {
+        $task_cloud_block .= '<div><a href="acc/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+    }
 }
 
 //определим последнее действие по обращению
@@ -308,7 +311,16 @@ if($num_85>0) {
 
 $task_cloud_block.='</div>';
 if(($value["status"]==1)or($value["status"]==8)) {
-    $task_cloud_block .= '<div class="trips-b-bb"><div id_rel="22" class="del-item js-edit-acc-more del_basket_jooss" data-tooltip="Изменить данные по счету"></div></div>';
+    $task_cloud_block .= '<div class="trips-b-bb">';
+
+    $task_cloud_block .= '<div id_rel="22" class="del-item js-edit-acc-more del_basket_jooss" data-tooltip="Изменить данные по счету"></div>';
+
+    $task_cloud_block .= '<div id_rel="22" class="edit-item js-dell-acc-more" data-tooltip="Удалить счет"></div>';
+
+
+    $task_cloud_block .= '</div>';
+
+
 }
 /*
 	$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">Комментарий/последнее событие
@@ -333,14 +345,14 @@ if($value["status"]!=1)
 
 
 if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
-    $tabs_menu_x = array("Процесс/Задача","История","Накладные");
+    $tabs_menu_x = array("Процесс/Задача","История","Накладные","Заявки");
     $tabs_menu_x_js = array("");
-    $tabs_menu_x_id = array("2","3","4");
+    $tabs_menu_x_id = array("2","3","4","5");
 } else {
 
-    $tabs_menu_x = array("Задание", "Процесс/Задача","История","Накладные");
+    $tabs_menu_x = array("Задание", "Процесс/Задача","История","Накладные","Заявки");
     $tabs_menu_x_js = array("", "");
-    $tabs_menu_x_id = array("1", "2","3","4");
+    $tabs_menu_x_id = array("1", "2","3","4","5");
 }
 
 $class_menu_pr='';

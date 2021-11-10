@@ -3355,6 +3355,8 @@ function Afterdell_soply(data,update)
 			$('.score_active').removeClass('score_active');
 		}
 
+		$('.preorders_block_global[id_pre='+update+']').hide();
+
 	}
 	if ( data.status=='error' )
 	{

@@ -18638,6 +18638,34 @@ width: calc(50% - 0px) !important;
   background-color: #fff;
   display: inline-block;
 }
+.new-acc-block-2021 .edit-item, .new-docs-block-2021 .edit-item {
+  display: none;
+  width: 32px;
+  height: 32px;
+  background-color: #eeefee;
+  border-radius: 4px;
+  position: absolute;
+  top: 10px;
+  cursor: pointer;
+  z-index: 10;
+  right: 60px;
+}
+.new-acc-block-2021 .edit-item::before, .new-docs-block-2021 .edit-item::before {
+  position: absolute;
+  top: 5px;
+  text-transform: none;
+  left: 11px;
+  content: "_";
+  display: inline-block;
+  font-family: icon1;
+  font-size: 10px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+}
+.new-acc-block-2021:hover .edit-item, .new-docs-block-2021:hover .edit-item {
+  background-color: #fff;
+  display: inline-block;
+}
 
 .score_a .status_admin {
   padding: 10px;
@@ -20038,6 +20066,8 @@ width: calc(50% - 0px) !important;
   line-height: 45px !important;
   color: rgba(0, 0, 0, 0.7) !important;
   text-align: left;
+  display: block;
+  width: 100%;
 }
 
 .cost-bottom-js-x i {
@@ -20078,6 +20108,204 @@ width: calc(50% - 0px) !important;
   text-align: left;
   display: block;
   width: 100%;
+}
+
+.input_2020 {
+  font-size: 16px;
+  line-height: 24px;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  font-family: inherit;
+  transition: height 200ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  cursor: auto;
+}
+
+.input_new_2020, .input-buffer {
+  width: 100%;
+  border: 0px;
+  padding: 0px;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: normal;
+  z-index: 10;
+  background: transparent;
+  text-transform: uppercase;
+  font-family: "GEInspiraBold";
+  font-weight: normal;
+  font-size: 18px;
+  height: 22px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.input-search-list .b_loading_small {
+  top: -15px !important;
+  right: 0px !important;
+}
+
+.input-buffer {
+  position: absolute !important;
+  top: -1000px;
+  left: -1000px;
+  visibility: hidden;
+  white-space: nowrap;
+  width: auto !important;
+}
+
+.input-search-list i {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  cursor: pointer;
+  z-index: 40;
+}
+.input-search-list i::before {
+  font-size: 17px;
+  right: 0px;
+  top: 0px;
+  font-style: normal;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  text-transform: lowercase;
+  -webkit-transition: all 0.3s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.3s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.3s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.3s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.3s cubic-bezier(0.42, 0.01, 0.23, 1);
+  content: "e";
+  font-family: "icon1";
+  color: #72b7f8;
+}
+
+.input-search-list i.open-search-active::before {
+  -moz-transform: rotate(-180deg);
+  -o-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+
+.input_2018 .input_new_2018 {
+  width: 100%;
+  border: 0px;
+  padding: 0px;
+  padding-right: 0px;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: normal;
+  z-index: 10;
+  background: transparent;
+  text-transform: uppercase;
+  font-family: "GEInspiraBold";
+  font-weight: normal;
+  font-size: 18px;
+  height: 22px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.input-search-2021 .input_2020 {
+  font-size: 16px;
+  line-height: 24px;
+  width: 100% !important;
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  font-family: inherit !important;
+  transition: height 200ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  cursor: auto !important;
+  height: auto !important;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.input-block-2022 .drop-radio .choice-radio {
+  width: 25px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  position: absolute;
+  right: 15px;
+  top: calc(50% - 12px);
+}
+.input-block-2022 .drop-radio .choice-radio .center_vert1 {
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+}
+.input-block-2022 .drop-radio .choice-radio .center_vert1 i {
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.05);
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  position: relative;
+  display: block;
+  text-align: center;
+}
+.input-block-2022 .drop-radio .choice-radio .center_vert1 i::before {
+  position: absolute;
+  content: "\E001";
+  left: 5px;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "icon1";
+  font-size: 14px;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transform: scale3d(0, 0, 1);
+  -o-transform: scale3d(0, 0, 1);
+  -ms-transform: scale3d(0, 0, 1);
+  -webkit-transform: scale3d(0, 0, 1);
+  transform: scale3d(0, 0, 1);
+}
+.input-block-2022 .drop-radio .choice-radio .center_vert1 i.active_task_cb {
+  background-color: #ffec57;
+}
+.input-block-2022 .drop-radio .choice-radio .center_vert1 i.active_task_cb::before {
+  -moz-transform: scale3d(1, 1, 1);
+  -o-transform: scale3d(1, 1, 1);
+  -ms-transform: scale3d(1, 1, 1);
+  -webkit-transform: scale3d(1, 1, 1);
+  transform: scale3d(1, 1, 1);
+}
+.input-block-2022 .drop-radio li:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.input-block-2022 .b_loading_small {
+  position: absolute !important;
+  width: 30px !important;
+  top: -3px !important;
+}
+.input-block-2022 .b_loading_small .b_loading_circle_one_small {
+  width: 20px !important;
+  height: 20px !important;
+  background-color: #35deb8 !important;
 }
 
 .buttonBg {

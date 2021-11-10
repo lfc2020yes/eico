@@ -193,7 +193,7 @@ if ( isset($_COOKIE["iss"]))
                           }
 
                       }
-                      echo'</ul><input type="hidden" name="sort2" id="sort2" value="'.$os2[$su_1].'"></div></div>';
+                      echo'</ul><input type="hidden" name="sort2" id="sort2" value="'.$os2[$su_2].'"></div></div>';
 
 
                       $os3 = array( "любой", "не обработанные","в работе","на согласовании","заказано");

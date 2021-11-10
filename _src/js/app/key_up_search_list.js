@@ -107,7 +107,6 @@ function AfterSearchTuroper(d,c){
 //открытия подбора поиска в input
 function open_search()
 {
-
     var i_open = $(this).parents('.input-search-list').find('i');
     //alert("11");
     if(i_open.is(".open-search-active"))
@@ -116,6 +115,7 @@ function open_search()
         $(this).parents('.input-search-list').find('.js-drop-search').css("transform", "scaleY(0)");
     } else
     {
+
         i_open.addClass('open-search-active');
         $(this).parents('.input-search-list').find('.js-drop-search').css("transform", "scaleY(1)");
     }

@@ -17,6 +17,7 @@ $(function (){
 
 
     $('body').on("change keyup input click",'.js-edit-acc-more',edit_more_acc);
+    $('body').on("change keyup input click",'.js-dell-acc-more',dell_more_acc);
 
     $('body').on("change keyup input click",'.tabs_006U',{key: "006U"},tabs_acc);
 
@@ -32,8 +33,179 @@ $(function (){
 
     $('body').on("change",'.js-id-kto-ajax',kto_fns);
 
+    $(".drop-radio").find("li").bind('click', dropliradio);
 
+    //$('#acc_3').bind('change', changeacc_3);
+    //$('#acc_2').bind('change', changeacc_2(2));
+    //$('#acc_4').bind('change', changeacc_2(4));
+    $('body').on("change",'#acc_3',{key: "3"},changeacc);
+    $('body').on("change",'#acc_2',{key: "2"},changeacc);
+    $('body').on("change",'#acc_7',{key: "7"},changeacc);
+    $('body').on("change",'#acc_8',{key: "8"},changeacc);
+    $('body').on("change",'#acc_9',{key: "9"},changeacc);
+    $('body').on("change",'#acc_4',{key: "4"},changeacc);
 });
+
+
+
+function changeacc(event) {
+    var iu=$('.content_block').attr('iu');
+
+    $.cookie("acc_"+event.data.key+iu, null, {path:'/',domain: window.is_session,secure: false});
+    CookieList("acc_"+event.data.key+iu,$(this).val(),'add');
+
+    $('.js-reload-top').removeClass('active-r');
+    $('.js-reload-top').addClass('active-r');
+
+
+    if(event.data.key==7)
+    {
+        //выбрал город другой
+        //обнавляем списки квартал,объект
+        var data = 'url='+window.location.href+'&id='+$(this).val();
+        //alert(data);
+        AjaxClient('acc','select_town','GET',data,'AfterSelectTown',0,0);
+        $('.js-kvartal').remove();
+        $('.js-object-c').remove();
+
+    }
+    if(event.data.key==8)
+    {
+        //выбрал квартал другой
+        //обнавляем списки объект
+        var data = 'url='+window.location.href+'&id='+$(this).val();
+        //alert(data);
+        AjaxClient('acc','select_kvartal','GET',data,'AfterSelectKvartal',0,0);
+        $('.js-object-c').remove();
+
+
+    }
+
+};
+
+
+
+function AfterSelectTown(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        $('.js-city').after(data.echo);
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+        Zindex();
+        $(".drop-radio").find("li").unbind('click');
+        $(".drop-radio").find("li").bind('click', dropliradio);
+    }
+
+}
+
+function AfterSelectKvartal(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        $('.js-kvartal').after(data.echo);
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+        Zindex();
+        $(".drop-radio").find("li").unbind('click');
+        $(".drop-radio").find("li").bind('click', dropliradio);
+    }
+
+}
+
+function dropliradio() {
+
+    var active_old=$(this).parent().parent().find(".slct").attr("data_src");
+    var active_new=$(this).find("a").attr("rel");
+
+    var f=$(this).find("a").text();
+    var e=$(this).find("a").attr("rel");
+    var drop_object=$(this).parents('.drop-radio');
+
+    if ($(this).find('i').is(".active_task_cb"))
+    {
+        $(this).find('i').removeClass("active_task_cb");
+    } else
+    {
+        $(this).find('i').addClass("active_task_cb");
+    }
+
+
+    //пробежаться по всей выбранному селекту
+    var select_li='';
+    var select_li_text='';
+    drop_object.find('li').each(function(i,elem) {
+        if ($(this).find('i').is(".active_task_cb")) {  if(select_li==''){select_li=$(this).find("a").attr("rel");
+            select_li_text=$(this).find("a").text();
+        } else {select_li=select_li+','+$(this).find("a").attr("rel");
+            select_li_text=select_li_text+', '+$(this).find("a").text();
+        }}
+    });
+
+
+    if(drop_object.is('.js-no-nul-select'))
+    {
+        //есть класс который говорит что если убрать галки со всех то загарятся все сразу
+        if(select_li=='')
+        {
+            drop_object.find('li').each(function(i,elem) {
+                if(select_li==''){select_li=$(this).find("a").attr("rel");
+                    select_li_text=$(this).find("a").text();
+                } else {select_li=select_li+','+$(this).find("a").attr("rel");
+                    select_li_text=select_li_text+', '+$(this).find("a").text();
+                }
+            });
+            drop_object.find('i').addClass("active_task_cb");
+        }
+
+
+    }
+
+    /*
+                if(e!=0)
+                {
+                    $(this).parents('.left_drop').find('label').addClass('active_label');
+                } else
+                    {
+$(this).parents('.left_drop').find('label').removeClass('active_label');
+                    }
+    */
+    /*
+  $(this).parent().find("li").removeClass("sel_active");
+  $(this).addClass("sel_active");
+*/
+
+
+    // $(this).parent().parent().find(".slct").removeClass("active").html(f);
+    $(this).parent().parent().find(".slct").empty().append(select_li_text);
+    $(this).parent().parent().find(".slct").attr("data_src",select_li);
+
+    //$(this).parent().parent().find(".drop").hide();
+    // $(this).parent().parent().find(".drop").css("transform", "scaleY(0)");
+
+    $(this).parent().parent().find("input").val(select_li).change();
+
+
+
+}
+
+
 
 function kto_fns()
 {
@@ -430,6 +602,36 @@ function edit_more_acc()
     $.arcticmodal({
         type: 'ajax',
         url: 'forms/form_edit_acc_more.php?id=' + oppf,
+        beforeOpen: function (data, el) {
+            //во время загрузки формы с ajax загрузчик
+            $('.loader_ada_forms').show();
+            $('.loader_ada1_forms').addClass('select_ada');
+        },
+        afterLoading: function (data, el) {
+            //после загрузки формы с ajax
+            data.body.parents('.arcticmodal-container').addClass('yoi');
+            $('.loader_ada_forms').hide();
+            $('.loader_ada1_forms').removeClass('select_ada');
+        },
+        beforeClose: function (data, el) { // после закрытия окна ArcticModal
+            if (typeof timerId !== "undefined") {
+                clearInterval(timerId);
+            }
+            BodyScrool();
+        }
+
+    });
+}
+
+
+
+function dell_more_acc()
+{
+    var oppf=$(this).parents('[id_pre]').attr("id_pre");
+
+    $.arcticmodal({
+        type: 'ajax',
+        url: 'forms/form_dell_soply.php?id=' + oppf,
         beforeOpen: function (data, el) {
             //во время загрузки формы с ajax загрузчик
             $('.loader_ada_forms').show();

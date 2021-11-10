@@ -62,7 +62,7 @@ if($num_results_t!=0)
 {	
 	$row_t = mysqli_fetch_assoc($result_t);
 	//проверяем может ли видеть этот наряд
-	if($row_t["status"]!=1)
+	if(($row_t["status"]!=1)and($row_t["status"]!=8))
 	{ 
 		$debug=h4a(5,$echo_r,$debug);
 		goto end_code;

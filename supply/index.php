@@ -488,8 +488,35 @@ $sql_last='';
 AND a.id_user in('.implode(',',$hie->user).') AND b.status NOT IN ("1","8","10","3","5","4") '.$sql_su2.' '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write));
 */
 
-
+//,b.id_i_material
 $result_t2=mysql_time_query($link,'SELECT * FROM 
+(
+SELECT DISTINCT 
+b.id_stock'.$sql_last.'
+
+FROM 
+z_doc AS a,
+z_doc_material AS b,
+i_material AS c, 
+edo_state AS edo
+
+WHERE 
+c.`alien` = '.$dava_var.'      
+AND c.id=b.id_i_material 
+AND a.id=b.id_doc 
+ AND a.id_edo_run = edo.id_run
+ AND edo.id_status = 0
+ AND edo.id_executor IN ('.ht($id_user).')
+
+ AND b.status NOT IN ("1","8","10","3","5","4") 
+ '.$sql_su2.' 
+  '.$sql_su3.' 
+ '.$sql_order1.' 
+) AS z 				
+'.$sql_order.' '.limitPage('n_st',$count_write));
+
+/*
+echo'SELECT * FROM
 (
 SELECT DISTINCT 
 b.id_stock,b.id_i_material'.$sql_last.'
@@ -513,7 +540,8 @@ AND a.id=b.id_doc
   '.$sql_su3.' 
  '.$sql_order1.' 
 ) AS z 				
-'.$sql_order.' '.limitPage('n_st',$count_write));
+'.$sql_order.' '.limitPage('n_st',$count_write);
+*/
 /*
 echo 'SELECT * FROM 
 (
@@ -545,7 +573,7 @@ AND a.id=b.id_doc
   $sql_count='SELECT count(id_stock) as kol FROM 
 (
 SELECT DISTINCT 
-b.id_stock,b.id_i_material
+b.id_stock
 
 FROM 
 z_doc AS a,
@@ -592,7 +620,7 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class
 
 					$row__2= mysqli_fetch_assoc($result_t2);
 	
-		$result_url_m=mysql_time_query($link,'select A.material,A.units from i_material as A where A.id="'.htmlspecialchars(trim($row__2["id_i_material"])).'"');
+		$result_url_m=mysql_time_query($link,'select A.name as material,A.units from z_stock as A where A.id="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
         $num_results_custom_url_m = $result_url_m->num_rows;
         if($num_results_custom_url_m!=0)
         {
@@ -604,15 +632,17 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class
 
 	
 	
-                       //узнаем название 						 
+                       //узнаем название
+                      /*
 				$result_t22=mysql_time_query($link,'Select a.implementer from i_implementer as a where a.id="'.$row__2["id_implementer"].'"');
                 $num_results_t22 = $result_t22->num_rows;
 	            if($num_results_t22!=0)
 	            {
 					$row_t22 = mysqli_fetch_assoc($result_t22);
                    // echo'<a class="musa" href="implementer/'.$row_t2["id"].'/"><span class="s_j">'.$row_t2["implementer"].'</span></a>';
-				}
+				}*/
 $cll='';
+/*
 if($row_t22["status"]==10)
 {
   $cll='whites';
@@ -621,6 +651,7 @@ if($row_t22["status"]==10)
 	{		
 	//echo'<tr><td colspan="8" height="20px"></td></tr>';	
 	}
+*/
                          $dava='';
                          $class_dava='';
                          $style_dava='';
@@ -630,7 +661,7 @@ if($row_t22["status"]==10)
         $style_dava='style="font-size:14px;"';
     }
 	
-echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j '.$class_dava.'" '.$style_dava.'>'. $row_material["material"].'</span>'.$dava.'</div>';
+echo'<tr class="nary n1n '.$cll.' suppp_tr '.$sql_su4_.'" rel_id="'.$row__2["id_stock"].'"><td class="middle_"><div class="supply_tr_o"></div></td><td colspan="2" class="middle_"><div class="nm supl"><span class="s_j '.$class_dava.'" '.$style_dava.'>'. $row_material["material"].'</span>'.$dava.'</div>';
 if($row__2["id_stock"]!='')
 					 {
 					 $result_t1__341=mysql_time_query($link,'Select a.*  from z_stock as a where a.id="'.$row__2["id_stock"].'"'); 
@@ -826,20 +857,22 @@ echo'<td>';
 		   </tr>';		
 
 	
-echo'<tr supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply_line '.$sql_su4.'"><td colspan="8"></td></tr>';
+echo'<tr supply_stock="'.$row__2["id_stock"].'" class="tr_dop_supply_line '.$sql_su4.'"><td colspan="8"></td></tr>';
 
+/*
 if($row__2["id_stock"]==0)
 {
 	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object from z_doc_material as a,z_doc as b,i_material as c where a.id_i_material=c.id and c.alien='.$dava_var.' and a.id_i_material="'.$row__2["id_i_material"].'" and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 
 } else
 {
+*/
 	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien='.$dava_var.' and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 
 
 	//echo 'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien=0 and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_;
 
-}
+//}
 						 
 					 
         $num_results_work_zz = $result_work_zz->num_rows;
@@ -872,7 +905,7 @@ if($row__2["id_stock"]==0)
 				}
 			   
 			   //score_pay score_app
-			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'_'.$row__2["id_i_material"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td>';
+			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td>';
 
                echo'<td>';
 

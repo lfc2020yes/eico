@@ -129,6 +129,7 @@ if ( isset($_COOKIE["iss"]))
           <div class="oka_block_2019" style="min-height:auto;">
               <div class="div_ook hop_ds _hop_ds_2021"><div class="search_task">
                       <?
+                      /*
                       $os = array( "дата поставки","дата поступления заявки");
                       $os_id = array("0", "1", "2");
 
@@ -152,7 +153,7 @@ if ( isset($_COOKIE["iss"]))
 
                       }
                       echo'</ul><input type="hidden" name="sort1" id="sort1" value="'.$os[$su_1].'"></div></div>';
-
+*/
 
 
 
@@ -222,8 +223,8 @@ if ( isset($_COOKIE["iss"]))
 
 
 
-                      $os4 = array( "краткий", "подробный");
-                      $os_id4 = array("0", "1");
+                      $os4 = array( "краткий", "подробный","еще необходимо");
+                      $os_id4 = array("0", "1","2");
 
                       $su_4=0;
                       if (( isset($_COOKIE["su_4"]))and(is_numeric($_COOKIE["su_4"]))and(array_search($_COOKIE["su_4"],$os_id4)!==false))
@@ -418,7 +419,7 @@ var st2=\''.ipost_($_COOKIE["suddbc_mor".$id_user],'').'\';';
 	  $sql_order1=' order by b.date_delivery';
       $sql_order=' ';
 $sql_last='';
-
+/*
  		if (( isset($_COOKIE["su_1"]))and(is_numeric($_COOKIE["su_1"]))and(array_search($_COOKIE["su_1"],$os_id)!==false))
 		{
 
@@ -436,7 +437,7 @@ $sql_last='';
                 $sql_last=',a.date_last';
 			}
 		}
-
+*/
 	  
 	  $sql_su2='';
 	  $sql_su2_='';
@@ -478,21 +479,40 @@ $sql_last='';
 	  
 	  $sql_su4='none';
 	  $sql_su4_='';
+
+$sql_su4_x='';
  		if (( isset($_COOKIE["su_4"]))and(is_numeric($_COOKIE["su_4"]))and(array_search($_COOKIE["su_4"],$os_id4)!==false)and($_COOKIE["su_4"]==1))
 		{
 	  $sql_su4='';
 	  $sql_su4_='active_supplyx';
-		}	  
+		}
+
+if (( isset($_COOKIE["su_4"]))and(is_numeric($_COOKIE["su_4"]))and(array_search($_COOKIE["su_4"],$os_id4)!==false)and($_COOKIE["su_4"]==2))
+{
+    //подробный+еще необходимо не равно 0
+   /* $sql_su4='';
+    $sql_su4_='active_supplyx';*/
+
+    $sql_su4_x=' AND tem.nado>0 ';
+}
 	  /*
   $result_t2=mysql_time_query($link,'Select DISTINCT b.id_stock,b.id_i_material from z_doc as a,z_doc_material as b,i_material as c where c.id=b.id_i_material and a.id=b.id_doc and a.id_object in('.implode(',', $hie->obj ).')
 AND a.id_user in('.implode(',',$hie->user).') AND b.status NOT IN ("1","8","10","3","5","4") '.$sql_su2.' '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write));
 */
 
 //,b.id_i_material
-$result_t2=mysql_time_query($link,'SELECT * FROM 
-(
+
+
+
+//создаем временную таблицу
+//создаем временную таблицу
+//создаем временную таблицу
+
+$result_8 = mysql_time_query($link, 'CREATE TEMPORARY TABLE supply_temp  as (
+
+
 SELECT DISTINCT 
-b.id_stock'.$sql_last.'
+b.id_stock
 
 FROM 
 z_doc AS a,
@@ -512,23 +532,221 @@ AND a.id=b.id_doc
  '.$sql_su2.' 
   '.$sql_su3.' 
  '.$sql_order1.' 
-) AS z 				
-'.$sql_order.' '.limitPage('n_st',$count_write));
 
-/*
-echo'SELECT * FROM
+  
+ )');
+
+
+//создаем столбцы нужного типа во временной таблице
+$result_temp = mysql_time_query($link, '
+ALTER TABLE supply_temp
+ADD COLUMN stock decimal(11,3) NOT NULL,
+ADD COLUMN app decimal(11,3) NOT NULL,
+ADD COLUMN works decimal(11,3) NOT NULL,
+ADD COLUMN acc_sign decimal(11,3) NOT NULL,
+ADD COLUMN acc_sign_yes decimal(11,3) NOT NULL,
+ADD COLUMN pay decimal(11,3) NOT NULL,
+ADD COLUMN nado decimal(11,3) NOT NULL;
+');
+
+//идем по временной таблице и узнаем сколько надо а сколько нет
+$result_temp = mysql_time_query($link, 'select * from supply_temp');
+
+if ($result_temp) {
+    $i = 0;
+    while ($row_temp = mysqli_fetch_assoc($result_temp)) {
+
+
+        if ($row_temp["id_stock"] != 0) {
+//узнаем сколько материала на складе
+            $result_t1_ = mysql_time_query($link, 'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.alien=0) as summ FROM z_stock as b WHERE b.id="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+            $z_stock_count_users = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_stock_count_users = $row1ss_["summ"];
+                }
+
+               // $echo .= '<div class="yoop_rt"><span>на складе</span><i>' . $z_stock_count_users . '</i> <strong>' . $row1ss_["units"] . '</strong></div>';
+
+
+            }
+
+//узнаем сколько материала в заявке
+            /*
+        $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+            */
+
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+
+            $z_zakaz = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_zakaz = $row1ss_["summ"];
+                }
+                //$echo .= '<div class="yoop_rt "><span>в заявках</span><i>' . $z_zakaz . '</i> <strong>' . $units . '</strong></div>';
+
+
+
+            }
+//узнаем сколько материала в работе
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=11 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+            $z_rabota = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_rabota = $row1ss_["summ"];
+                }
+                //$echo .= '<div class="yoop_rt "><span>в работе</span><i>' . $z_rabota . '</i> <strong>' . $units . '</strong></div>';
+
+
+
+            }
+
+//узнаем сколько материала на согласовании со счетом
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=2');
+
+            $z_rabota1 = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_rabota1 = $row1ss_["summ"];
+                }
+               // $echo .= '<div class="yoop_rt "><span>на согласовании со счетом</span><i>' . round($z_rabota1, 2) . '</i> <strong>' . $units . '</strong></div>';
+
+
+
+            }
+
+//узнаем сколько материала согласовано со счетом
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=3');
+
+            $z_rabota2 = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_rabota2 = $row1ss_["summ"];
+                }
+                //$echo .= '<div class="yoop_rt"><span>согласовано со счетом</span><i>' . round($z_rabota2, 2) . '</i> <strong>' . $units . '</strong></div>';
+
+
+            }
+//узнаем сколько материала оплачено
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=4');
+            $z_rabota3 = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_rabota3 = $row1ss_["summ"];
+                }
+               // $echo .= '<div class="yoop_rt "><span>оплачено</span><i>' . round($z_rabota3, 2) . '</i> <strong>' . $units . '</strong></div>';
+
+
+
+
+            }
+
+//узнаем сколько материала получено по счету
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=7');
+            $z_take = 0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_take = $row1ss_["summ"];
+                }
+                //$echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
+            }
+
+//узнаем сколько материала необходимо еще
+            /*
+        $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+            */
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+
+            $z_zakaz = 0;
+            $neo=0;
+            $num_results_t1_ = $result_t1_->num_rows;
+            if ($num_results_t1_ != 0) {
+                //такая работа есть
+                $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                    $z_zakaz = $row1ss_["summ"];
+                }
+
+                $neo = round(($z_zakaz - $z_rabota1 - $z_rabota2 - $z_rabota3 - $z_take), 3);
+
+                //echo($row_temp["id_stock"].' - '.$neo.'<br>');
+
+            }
+
+
+
+            mysql_time_query($link, 'update supply_temp set
+        
+        stock="' . $z_stock_count_users . '",nado="' . $neo . '",pay="' . round($z_rabota3, 3) . '",acc_sign_yes="' . round($z_rabota2, 3) . '",acc_sign="' . round($z_rabota1, 3) . '",works="' . $z_rabota . '",app="' . $z_zakaz . '"
+        
+        where id_stock = "' . $row_temp["id_stock"] . '"');
+
+
+        }
+    }
+}
+//конец формирования временной таблицы
+//конец формирования временной таблицы
+//конец формирования временной таблицы
+
+
+
+
+
+
+$result_t2=mysql_time_query($link,'SELECT * FROM 
 (
 SELECT DISTINCT 
-b.id_stock,b.id_i_material'.$sql_last.'
+tem.id_stock
+
+FROM 
+supply_temp as tem
+
+WHERE 
+not(tem.id_stock=0)
+  '.$sql_su4_x.' 
+) AS z 				
+ '.limitPage('n_st',$count_write));
+
+/*
+echo'SELECT * FROM 
+(
+SELECT DISTINCT 
+b.id_stock'.$sql_last.'
 
 FROM 
 z_doc AS a,
 z_doc_material AS b,
 i_material AS c, 
-edo_state AS edo
+edo_state AS edo,
+supply_temp as tem
 
 WHERE 
-c.`alien` = '.$dava_var.'      
+tem.id_stock=b.id_stock 
+AND c.`alien` = '.$dava_var.'      
 AND c.id=b.id_i_material 
 AND a.id=b.id_doc 
  AND a.id_edo_run = edo.id_run
@@ -537,7 +755,8 @@ AND a.id=b.id_doc
 
  AND b.status NOT IN ("1","8","10","3","5","4") 
  '.$sql_su2.' 
-  '.$sql_su3.' 
+  '.$sql_su3.'
+  '.$sql_su4_x.' 
  '.$sql_order1.' 
 ) AS z 				
 '.$sql_order.' '.limitPage('n_st',$count_write);
@@ -573,26 +792,14 @@ AND a.id=b.id_doc
   $sql_count='SELECT count(id_stock) as kol FROM 
 (
 SELECT DISTINCT 
-b.id_stock
+tem.id_stock
 
 FROM 
-z_doc AS a,
-z_doc_material AS b,
-i_material AS c, 
-edo_state AS edo
+  supply_temp as tem
 
 WHERE 
-c.`alien` = '.$dava_var.'      
-AND c.id=b.id_i_material 
-AND a.id=b.id_doc 
- AND a.id_edo_run = edo.id_run
- AND edo.id_status = 0
- AND edo.id_executor IN ('.ht($id_user).')
-
- AND b.status NOT IN ("1","8","10","3","5","4") 
- '.$sql_su2.' 
-  '.$sql_su3.' 
- '.$sql_order1.' 
+     not(tem.id_stock=0)
+  '.$sql_su4_x.' 
 ) AS z ';
 	 
 	
@@ -688,6 +895,52 @@ if($dava_var==0) {
     $echo = '';
 //$row__2["id_stock"]
     if ($row__2["id_stock"] != 0) {
+
+
+        $result_uu_temp = mysql_time_query($link, 'select * from supply_temp where id_stock="' . ht($row__2["id_stock"]) . '"');
+        $num_results_uu_temp = $result_uu_temp->num_rows;
+
+        if ($num_results_uu_temp != 0) {
+            $row_uu_temp = mysqli_fetch_assoc($result_uu_temp);
+        }
+
+        $result_t1_ = mysql_time_query($link, 'SELECT b.units FROM z_stock as b WHERE b.id="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
+        $z_stock_count_users = 0;
+        $num_results_t1_ = $result_t1_->num_rows;
+        if ($num_results_t1_ != 0) {
+            //такая работа есть
+            $row1ss_ = mysqli_fetch_assoc($result_t1_);
+            $units = $row1ss_["units"];
+
+        }
+
+
+
+        //узнаем сколько материала на складе
+        $echo .= '<div class="yoop_rt"><span>на складе</span><i>' . $row_uu_temp["stock"] . '</i> <strong>' . $units . '</strong></div>';
+        //узнаем сколько материала в заявке
+        $echo .= '<div class="yoop_rt "><span>в заявках</span><i>' . $row_uu_temp["app"] . '</i> <strong>' . $units . '</strong></div>';
+        //узнаем сколько материала в работе
+        $echo .= '<div class="yoop_rt "><span>в работе</span><i>' . $row_uu_temp["works"] . '</i> <strong>' . $units . '</strong></div>';
+        //узнаем сколько материала на согласовании со счетом
+        $echo .= '<div class="yoop_rt "><span>на согласовании со счетом</span><i>' . $row_uu_temp["acc_sign"] . '</i> <strong>' . $units . '</strong></div>';
+        //узнаем сколько материала согласовано со счетом
+        $echo .= '<div class="yoop_rt"><span>согласовано со счетом</span><i>' . $row_uu_temp["acc_sign_yes"] . '</i> <strong>' . $units . '</strong></div>';
+        //узнаем сколько материала оплачено
+        $echo .= '<div class="yoop_rt "><span>оплачено</span><i>' . $row_uu_temp["pay"] . '</i> <strong>' . $units . '</strong></div>';
+
+        //узнаем сколько материала необходимо еще
+        $class_ada = "red_ada";
+        if ($row_uu_temp["nado"] <= 0) {
+            $neo = 0;
+            $class_ada = "green_ada";
+        } else
+        {
+            $neo = $row_uu_temp["nado"];
+        }
+        $echo .= '<div class="yoop_rt yoop_click ' . $class_ada . '"><span>еще необходимо</span><i>' . $neo . '</i> <strong>' . $units . '</strong></div>';
+
+        /*
 //узнаем сколько материала на складе
         $result_t1_ = mysql_time_query($link, 'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id and a.alien=0) as summ FROM z_stock as b WHERE b.id="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
         $z_stock_count_users = 0;
@@ -703,9 +956,9 @@ if($dava_var==0) {
         }
 
 //узнаем сколько материала в заявке
-        /*
-    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-        */
+
+
+
 
         $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
 
@@ -786,9 +1039,7 @@ if($dava_var==0) {
         }
 
 //узнаем сколько материала необходимо еще
-        /*
-    $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
-        */
+
 
         $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($row__2["id_stock"])) . '"');
 
@@ -809,7 +1060,7 @@ if($dava_var==0) {
             }
             $echo .= '<div class="yoop_rt yoop_click ' . $class_ada . '"><span>еще необходимо</span><i>' . $neo . '</i> <strong>' . $units . '</strong></div>';
         }
-
+*/
 
         echo($echo);
     }
@@ -1065,7 +1316,7 @@ echo'</div><div class="st-flex">';
                                }
 
 
-                               echo '<div rel_score="' . $row_score["id"] . '" class="menu_click score_a1 score_a score_a_2021 ' . $tec . '"><span>№' . $row_score["number"] . '</span><span class="date_proc ' . $style_book . '">(до ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . ')</span><div data-tooltip="Получено ' . $PROC . '%" class="circlestat" data-dimension="20" data-text="~' . $PROC . '%" data-width="1" data-fontsize="12" data-percent="' . $PROC . '" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+                               echo '<div rel_score="' . $row_score["id"] . '" class="menu_click score_a1 score_a score_a_2021 ' . $tec . '"><span>№' . $row_score["number"] . '</span><span class="date_proc ' . $style_book . '">(до ' . $date_graf2[2] . '.' . $date_graf2[1] . '.' . $date_graf2[0] . ')</span><div data-tooltip="Получено ' . $PROC . '%" class="circlestat" data-dimension="20" data-text="~' . $PROC . '%" data-width="1" data-fontsize="12" data-percent="' . $PROC . '" data-fgcolor="#24c32d" data-bgcolor="rgba(0,0,0,0.1)" data-fill="rgba(0,0,0,0)"></div><form class="none" target = "_blank"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
   <input name="a" value="open" type="hidden">
 </form></div>';
 
@@ -1106,7 +1357,7 @@ echo'</div><div class="st-flex">';
                                    }
                                }
 
-                               echo '<form class="none"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
+                               echo '<form class="none" target = "_blank"  action="acc/' . $row_score["id"] . '/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div>';
 
 
                            }
@@ -1361,3 +1612,6 @@ if($echo_help!=0)
 
 
 </body></html>
+<?php
+ $result_url=mysql_time_query($link,'DROP TEMPORARY TABLE supply_temp');
+?>

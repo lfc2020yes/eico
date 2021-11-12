@@ -1158,7 +1158,7 @@ if($row__2["id_stock"]==0)
 			   //score_pay score_app
 			   echo'<tr supply_id="'.$row_work_zz["id"].'" supply_stock="'.$row__2["id_stock"].'" class="tr_dop_supply '.$sql_su4.' '.$actvss.'"><td class="middle_ no_border_supply"></td>';
 
-               echo'<td>';
+               echo'<td class="div-waves">';
 
                echo'<div class="supply-flex-21">
            <div class="st-flex-21">';
@@ -1172,7 +1172,14 @@ if($row__2["id_stock"]==0)
 
 echo'</div><div class="st-flex">';
 
-               echo($row_work_zz['count_units'].' '.$row_material['units']);
+               echo('<span class="js-normaliz-count">'.$row_work_zz['count_units'].'</span> '.$row_material['units']);
+
+               if($dava_var==0) {
+
+                   echo '<div class="waves_app js-waves-app" data-tooltip="нормализовать количество"></div>';
+
+               }
+
 
                if($row_work_zz['commet']!='')
                {

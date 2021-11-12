@@ -1,5 +1,58 @@
 
 
+function js_waves_x() {
+    var box_active = $(this).closest('.box-modal');
+    var err = 0;
+    var err1=0;
+//alert($('.js-form-register .gloab').length);
+// alert("!!");
+    box_active.find('.gloab').each(function (i, elem) {
+        if ($(this).val() == '') {
+            $(this).parents('.input_2021').addClass('required_in_2021');
+            $(this).parents('.list_2021').addClass('required_in_2021');
+            err++;
+            //alert($(this).attr('name'));
+        } else {
+            $(this).parents('.input_2021').removeClass('required_in_2021');
+            $(this).parents('.list_2021').removeClass('required_in_2021');
+        }
+    });
+
+    var pole=box_active.find('.js-waves-count');
+    if(parseFloat(pole.val())>parseFloat(pole.attr('max')))
+    {
+        pole.parents('.input_2021').addClass('required_in_2021');
+        pole.parents('.list_2021').addClass('required_in_2021');
+        alert_message('error','количество больше чем в заявке');
+        err++;
+        err1=1;
+    } else {
+        pole.parents('.input_2021').removeClass('required_in_2021');
+        pole.parents('.list_2021').removeClass('required_in_2021');
+    }
+
+
+    if (err == 0) {
+        var for_id = box_active.find('.gloab-cc').attr('for');
+
+
+        AjaxClient('supply', 'waves_supply', 'POST', 0, 'AfterEditWaves', for_id, 'form_waves');
+
+
+        box_active.find('.js-waves-acc-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+
+    } else {
+        //найдем самый верхнюю ошибку и пролестнем к ней
+        //jQuery.scrollTo('.required_in_2018:first', 1000, {offset:-70});
+        //ErrorBut('.js-form-tender-new .js-add-tender-form','Ошибка заполнения!');
+        if(err1!=1) {
+            alert_message('error', 'Не все поля заполнены');
+        }
+
+    }
+}
+
 
 //сохранить изменения в форме редактирование счета
 function js_edit_save_acc_x() {
@@ -69,6 +122,46 @@ function js_edit_save_acc_x() {
     }
 }
 
+
+
+function AfterEditWaves(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        //обновляем вывод
+        alert_message('ok','Количество нормализовано');
+        $('.tr_dop_supply[supply_id='+data.id+']').find('.js-normaliz-count').empty().append(data.summa);
+
+
+
+        var box = $('.box-modal:last');
+        clearInterval(timerId);
+        box.find('.arcticmodal-close').click();
+
+        //пустить обновление сколько еще необходимо
+
+
+        var ho=$('.tr_dop_supply[supply_id='+data.id+']').attr('supply_stock');
+
+        UpdateStatusADA(ho);
+
+
+        return;
+    }
+
+    var box = $('.box-modal:last');
+    //в случае если что-то пошло не так чтобы не висло
+    box.find('.js-waves-acc-x').show();
+    box.find('.b_loading_small').remove();
+
+
+}
 
 function AfterEditAcc(data,update)
 {

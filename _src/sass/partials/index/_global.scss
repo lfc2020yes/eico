@@ -6509,3 +6509,37 @@ border-radius: 5px;
 
 }
 
+.waves_app {  display: none;
+
+  cursor: pointer;
+position: relative;
+  margin-left:10px;
+
+
+
+
+  &::before{
+
+
+    font-style: normal;
+    cursor: pointer;
+    display:block;
+    //position: absolute;
+    text-transform: lowercase;
+    //transition: all 0s ease 0s, all 0.3s ease 0s;
+    @include transition(all .3s cubic-bezier(.42,.01,.23,1));
+    content: "V";
+    font-family: "icon2";
+    text-transform: uppercase;
+    color: #fd8080;
+    background-color: #fff;
+    padding: 2px;
+    border-radius: 4px;
+    width: 20px;
+    text-align: center; }
+
+
+}
+
+
+.div-waves:hover .waves_app {display: inline-block;}

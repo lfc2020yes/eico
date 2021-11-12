@@ -14,7 +14,41 @@ $(function (){
 
     $('body').on("change keyup input click",'.js-dava-click',dava_supply);
 
+
+    $('body').on("change keyup input click",'.js-waves-app',waves);
+
 });
+
+
+function waves()
+{
+    var id_pole=$(this).parents('.tr_dop_supply').attr('supply_id');
+    //alert(cookie_new);
+
+        $.arcticmodal({
+            type: 'ajax',
+            url: 'forms/form_waves_app.php?id=' + id_pole,
+            beforeOpen: function (data, el) {
+                //во время загрузки формы с ajax загрузчик
+                $('.loader_ada_forms').show();
+                $('.loader_ada1_forms').addClass('select_ada');
+            },
+            afterLoading: function (data, el) {
+                //после загрузки формы с ajax
+                data.body.parents('.arcticmodal-container').addClass('yoi');
+                $('.loader_ada_forms').hide();
+                $('.loader_ada1_forms').removeClass('select_ada');
+            },
+            beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                if (typeof timerId !== "undefined") {
+                    clearInterval(timerId);
+                }
+                BodyScrool();
+            }
+
+        });
+
+}
 
 
 //изменение материала в себестоимости клик по кнопке в форме добавить
@@ -579,7 +613,7 @@ function Afterupdate_soply(data,update)
 
 
 
-            tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" data-tooltip="счет №'+data.number+' ('+data.dates+')" class="menu_click score_a"><span>№'+data.number+' ('+data.date+')</span><strong><label>'+$.number(parseFloat(data.sum).toFixed(2), 2, '.', ' ')+'</label></strong><i>'+cc.length+'</i><form class="none"  action="acc/'+cookie_flag_current+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
+            tr.find('.scope_scope').append('<div rel_score="'+cookie_flag_current+'" data-tooltip="счет №'+data.number+' ('+data.dates+')" class="menu_click score_a"><span>№'+data.number+' ('+data.date+')</span><strong><label>'+$.number(parseFloat(data.sum).toFixed(2), 2, '.', ' ')+'</label></strong><i>'+cc.length+'</i><form class="none" target = "_blank"  action="acc/'+cookie_flag_current+'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data"><input name="a" value="open" type="hidden"></form></div><div class="menu_supply menu_su122"><ul class="drops no_active" data_src="0" style="left: -50px; top: 5px; transform: scaleY(0);"><li><a href="javascript:void(0);" rel="1">Открыть</a></li><li><a href="javascript:void(0);" rel="2">Сделать текущим</a></li><li><a href="javascript:void(0);" rel="3">Согласовать</a></li><li><a href="javascript:void(0);" rel="4">Удалить</a></li></ul><input rel="x" name="vall" class="option_score1" value="0" type="hidden"></div>');
 
 
 /*

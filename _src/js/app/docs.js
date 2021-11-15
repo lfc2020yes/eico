@@ -21,7 +21,7 @@ $(function (){
     $('body').on("change keyup input click",'.js-reject-docs',RejectFoD);
     $('body').on("change keyup input click",'.js-forward-docs',ForwardFoD);
 
-    $('body').on("change keyup input click",'.js-sign-a1',SingFoD);
+    $('body').on("change keyup input click",'.js-sign-a2',SingFoD);
 
 
 

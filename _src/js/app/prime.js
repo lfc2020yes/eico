@@ -4,7 +4,7 @@ $(function () {
 //добавить раздел
     $(".add__razdel").bind('change keyup input click', add_button_block);
 
-
+    $('.material-prime-v2').on("click",'.history_icon',HistoryN1);
 
 
 

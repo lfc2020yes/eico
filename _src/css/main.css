@@ -19474,7 +19474,7 @@ width: calc(50% - 0px) !important;
   cursor: pointer;
 }
 
-.smeta1 .edit_panel11_mat {
+.smeta1 .edit_panel11_mat, .smeta .edit_panel11_mat {
   display: inline-block;
   position: relative;
   height: 10px;
@@ -20337,6 +20337,46 @@ width: calc(50% - 0px) !important;
 
 .div-waves:hover .waves_app {
   display: inline-block;
+}
+
+.smeta .history_icon {
+  color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  float: left;
+  font-family: "icon1";
+  font-size: 28px;
+  line-height: 10px;
+  transition: all 0.5s ease 0s;
+}
+
+.smeta .history_icon:hover {
+  color: #01a5fe;
+}
+
+.history-prime-mat {
+  min-width: 350px !important;
+  top: 18px !important;
+  left: -32px !important;
+  -moz-box-shadow: 0 4px 8px rgba(17, 56, 86, 0.2);
+  -webkit-box-shadow: 0 4px 8px rgba(17, 56, 86, 0.2);
+  box-shadow: 0 4px 8px rgba(17, 56, 86, 0.2);
+}
+.history-prime-mat .count_brock {
+  width: calc(100% / 3) !important;
+}
+.history-prime-mat a {
+  font-size: 14px;
+  font-family: "GEInspiraBold" !important;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.7);
+}
+.history-prime-mat .line_brock .count_brock {
+  font-size: 14px !important;
+}
+.history-prime-mat .line_brock .count_brock span {
+  color: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
 }
 
 .buttonBg {

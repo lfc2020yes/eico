@@ -849,7 +849,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
 				  }
 					  
 					  
-				  echo'<tr class="material '.$actv2.'" rel_ma="'.$row_t3["id"].'">
+				  echo'<tr class="material material-prime-v2 '.$actv2.'" rel_ma="'.$row_t3["id"].'">
            
            <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm '.$actv3.'">';
 
@@ -880,7 +880,118 @@ if($row_t3["alien"]==1)
 					  
 echo'<td class="pre-wrap"></td>
 <td><span class="s_j">'.$row_t3["units"].'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format($row_t3["count_units"], 2, '.', ' '),'0'),'.').'</span></td>
+<td><span class="s_j">'.rtrim(rtrim(number_format($row_t3["count_units"], 2, '.', ' '),'0'),'.').'</span>';
+
+
+                      if(($role->permission('Заявки','R'))or($sign_admin==1)) {
+
+
+                          $result_uu_xo = mysql_time_query($link, 'select a.id,a.status,b.count_units,b.id as id_doc_material from z_doc as a,z_doc_material as b where a.id=b.id_doc and a.status NOT IN ("1","8") and b.id_i_material="' . ht($row_t3["id"]) . '"');
+
+                          $num_results_histo = $result_uu_xo->num_rows;
+                          if($num_results_histo!=0) {
+
+                              echo '<span class="edit_panel11_mat"><span data-tooltip="история заявок по позиции" for="' . $row_t3["id"] . '" class="history_icon">M</span>';
+
+                              echo '<div class="history_act_mat history-prime-mat">
+                                             <div class="line_brock"><div class="count_brock"><span>↑ Заявка</span></div><div class="count_brock"><span>Кол-во</span></div><div class="count_brock"><span>Статус</span></div></div>';
+
+                              if ($result_uu_xo) {
+                                  $i = 0;
+                                  $count_m=0;
+                                  while ($row_uu_xo = mysqli_fetch_assoc($result_uu_xo)) {
+
+
+                                      echo '<div class="line_brock"><div class="count_brock"><a target="_blank" href="app/'.$row_uu_xo["id"].'/">№' . $row_uu_xo["id"] . '</a></div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_xo["count_units"], 2, '.', ' '),'0'),'.') . '<b>' . $row_t3["units"] . '</b></div>
+<div class="count_brock">';
+                                      $count_m=$count_m+$row_uu_xo["count_units"];
+                                      //вывод статуса по материалу
+                                      $result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row_uu_xo["status"].'" and a.id_system=13');
+                                      //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
+                                      if($result_status->num_rows!=0)
+                                      {
+                                          $row_status = mysqli_fetch_assoc($result_status);
+                                          if($row_work_zz["status"]==10)
+                                          {
+                                              echo'<div class="status_material1">'.$row_status["name_status"].'</div><div class="user_mat naryd_yes"></div>';
+                                          } else
+                                          {
+                                              echo'<div style="margin-right: 20px;" class="status_materialz status_z'.$row_work_zz["status"].'">'.$row_status["name_status"].'</div>';
+                                              if($row_work_zz["status"]==14)
+                                              {
+                                                  //если статус оплачено
+                                                  //выводим доп информацию какое количество и когда примерно ждать
+                                                  $result_book=mysql_time_query($link,'SELECT b.*,a.delivery_day,a.date_paid,c.id_stock FROM z_acc as a,z_doc_material_acc as b,z_doc_material as c WHERE b.id_acc=a.id and a.status=4 and b.id_doc_material=c.id and b.id_doc_material="'.$row_uu_xo["id_doc_material"].'"');
+                                                  $num_results_book = $result_book->num_rows;
+                                                  if($num_results_book!=0)
+                                                  {
+
+                                                      for ($srs=0; $srs<$num_results_book; $srs++)
+                                                      {
+                                                          $row_book = mysqli_fetch_assoc($result_book);
+
+                                                          $date_delivery=date_step($row_book["date_paid"],$row_book["delivery_day"]);
+
+                                                          $date_graf2  = explode("-",$date_delivery);
+
+
+                                                          //узнаем единицу измерения на складе
+                                                          $result_t1_1=mysql_time_query($link,'SELECT b.units FROM z_stock as b WHERE b.id="'.$row_book["id_stock"].'"');
+
+                                                          $num_results_t1_1 = $result_t1_1->num_rows;
+                                                          if($num_results_t1_1!=0)
+                                                          {
+                                                              //такая работа есть
+                                                              $row1ss_1 = mysqli_fetch_assoc($result_t1_1);
+                                                          }
+
+
+                                                          //подсвечиваем красным за 2 дня до доставки
+                                                          $date_delivery1=date_step($row_book["date_paid"],($row_book["delivery_day"]-2));
+
+
+                                                          $style_book='';
+                                                          if(dateDiff_1(date("y-m-d").' '.date("H:i:s"),$date_delivery1.' 00:00:00')>=0)
+                                                          {
+                                                              $style_book='reddecision1';
+                                                          }
+
+
+                                                          echo'<span class="dop_status_app '.$style_book.'">'.$row_book["count_material"].' '.$row1ss_1["units"].' ~ до '.$date_graf2[2].'.'.$date_graf2[1].'.'.$date_graf2[0].'</span><br>';
+                                                      }
+                                                  }
+
+
+
+                                              }
+                                          }
+                                      }
+
+
+                                      echo'</div>
+
+</div>';
+                                      $i++;
+                                  }
+
+                                  if($i>1)
+                                  {
+                                      //вывод итога
+                                      echo'<div class="line_brock"><div class="count_brock" style="color: #01a5fe;">Всего</div><div class="count_brock" style="color:#01a5fe">' . rtrim(rtrim(number_format($count_m, 2, '.', ' '),'0'),'.') . '<b>' . $row_t3["units"] . '</b></div>
+<div class="count_brock"></div>
+
+</div>';
+                                  }
+                              }
+                              echo'</div>';
+                              echo '</span>';
+                          }
+
+
+                      }
+
+
+echo'</td>
 <td><span class="s_j">'.rtrim(rtrim(number_format($row_t3["price"], 2, '.', ' '),'0'),'.').'</span></td>
 <td><span class="s_j">'.rtrim(rtrim(number_format($row_t3["subtotal"], 2, '.', ' '),'0'),'.').'</span></td>';
 if($row_t3["count_units"]!=0)

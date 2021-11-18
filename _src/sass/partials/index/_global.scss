@@ -5852,7 +5852,7 @@ i {
 .mild_mild {cursor: pointer;}
 
 
-.smeta1 .edit_panel11_mat {
+.smeta1 .edit_panel11_mat,.smeta .edit_panel11_mat {
   display: inline-block;
   position: relative;
   height: 10px;
@@ -6543,3 +6543,31 @@ position: relative;
 
 
 .div-waves:hover .waves_app {display: inline-block;}
+.smeta .history_icon {
+  color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  float: left;
+  font-family: "icon1";
+  font-size: 28px;
+  line-height: 10px;
+  transition: all 0.5s ease 0s
+}
+
+.smeta .history_icon:hover {
+  color: #01a5fe
+}
+
+.history-prime-mat { .count_brock {width: calc(100% / 3) !important;} min-width: 350px !important; top: 18px !important;
+  left: -32px !important; @include box-shadow(0 4px 8px rgba(17, 56, 86, 0.2));  a {font-size: 14px;
+
+                                                                                   font-family: "GEInspiraBold" !important; text-decoration: none; border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                                                                                   color: rgba(0, 0, 0, 0.7);}
+
+  .line_brock .count_brock {font-size:14px !important;}
+
+  .line_brock .count_brock span {
+    color: rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+  }
+
+}

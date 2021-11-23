@@ -535,7 +535,35 @@ AND a.id=b.id_doc
 
   
  )');
+/*
+echo 'CREATE TEMPORARY TABLE supply_temp  as (
 
+
+SELECT DISTINCT 
+b.id_stock
+
+FROM 
+z_doc AS a,
+z_doc_material AS b,
+i_material AS c, 
+edo_state AS edo
+
+WHERE 
+c.`alien` = '.$dava_var.'      
+AND c.id=b.id_i_material 
+AND a.id=b.id_doc 
+ AND a.id_edo_run = edo.id_run
+ AND edo.id_status = 0
+ AND edo.id_executor IN ('.ht($id_user).')
+
+ AND b.status NOT IN ("1","8","10","3","5","4") 
+ '.$sql_su2.' 
+  '.$sql_su3.' 
+ '.$sql_order1.' 
+
+  
+ )';
+*/
 
 //создаем столбцы нужного типа во временной таблице
 $result_temp = mysql_time_query($link, '
@@ -578,9 +606,13 @@ if ($result_temp) {
             /*
         $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
             */
+            /*
+z_doc as doc    doc.id=a.id_doc
 
+            , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
 
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b,z_doc as doc, edo_state AS edo WHERE doc.id=a.id_doc and doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
 
             $z_zakaz = 0;
             $num_results_t1_ = $result_t1_->num_rows;
@@ -596,7 +628,15 @@ if ($result_temp) {
 
             }
 //узнаем сколько материала в работе
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=11 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+            , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,z_doc as doc, edo_state AS edo WHERE doc.id=a.id_doc and doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and  a.status=11 and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
             $z_rabota = 0;
             $num_results_t1_ = $result_t1_->num_rows;
             if ($num_results_t1_ != 0) {
@@ -606,13 +646,20 @@ if ($result_temp) {
                     $z_rabota = $row1ss_["summ"];
                 }
                 //$echo .= '<div class="yoop_rt "><span>в работе</span><i>' . $z_rabota . '</i> <strong>' . $units . '</strong></div>';
-
-
-
             }
 
 //узнаем сколько материала на согласовании со счетом
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=2');
+
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+            , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                                     doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=2');
 
             $z_rabota1 = 0;
             $num_results_t1_ = $result_t1_->num_rows;
@@ -629,7 +676,16 @@ if ($result_temp) {
             }
 
 //узнаем сколько материала согласовано со счетом
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=3');
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+            , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                          doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and          
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=3');
 
             $z_rabota2 = 0;
             $num_results_t1_ = $result_t1_->num_rows;
@@ -644,7 +700,17 @@ if ($result_temp) {
 
             }
 //узнаем сколько материала оплачено
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=4');
+
+
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+   , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                         doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and            
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=4');
             $z_rabota3 = 0;
             $num_results_t1_ = $result_t1_->num_rows;
             if ($num_results_t1_ != 0) {
@@ -661,7 +727,16 @@ if ($result_temp) {
             }
 
 //узнаем сколько материала получено по счету
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=7');
+
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+   , edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                             doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and        
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '" AND a.id_acc=b.id AND b.status=7');
             $z_take = 0;
             $num_results_t1_ = $result_t1_->num_rows;
             if ($num_results_t1_ != 0) {
@@ -678,7 +753,17 @@ if ($result_temp) {
         $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
             */
 
-            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b WHERE a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
+            /*
+z_doc as doc    doc.id=a.id_doc
+
+, edo_state AS edo WHERE doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.')
+*/
+
+
+            $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b,z_doc as doc,edo_state AS edo WHERE doc.id=a.id_doc and 
+  
+                                                                                                               doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and
+                                                                                                               a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($row_temp["id_stock"])) . '"');
 
             $z_zakaz = 0;
             $neo=0;
@@ -1118,8 +1203,14 @@ if($row__2["id_stock"]==0)
 } else
 {
 */
+/*
 	$result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien='.$dava_var.' and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+*/
 
+    $result_work_zz=mysql_time_query($link,'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c, edo_state AS edo where b.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and c.alien='.$dava_var.' and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
+
+
+//echo('<br>Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien='.$dava_var.' and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_);
 
 	//echo 'Select a.*,b.id as idd,b.id_user,b.id_object,b.name as app_name,b.id as app_id from z_doc_material as a,z_doc as b,i_material as c where c.alien=0 and a.id_i_material=c.id and a.id_doc=b.id and a.id_stock="'.$row__2["id_stock"].'"  and b.id_object in('.implode(',', $hie->obj ).') AND a.status NOT IN ("1","8","10","3","5","4") '.$sql_su2_.' '.$sql_su3_.' '.$sql_su1_;
 

@@ -74,8 +74,13 @@ $status_ee='ok';
 
 		
 //узнаем сколько материала на складе
+
+
+
 $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_stock=b.id) as summ FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($id)).'"');
-					$z_stock_count_users=0;	             	 
+
+
+					$z_stock_count_users=0;
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
 	             {  
@@ -90,7 +95,13 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 				 }						 
 
 //узнаем сколько материала в заявке
+
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b,z_doc as doc, edo_state AS edo WHERE doc.id=a.id_doc and doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and a.id_i_material=b.id and b.alien=0 and a.status=9 and  a.id_stock="' . htmlspecialchars(trim($id)) . '"');
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=9 and  a.id_stock="'.htmlspecialchars(trim($id)).'"');
+*/
+
 					$z_zakaz=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -104,7 +115,11 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					  $echo.='<div class="yoop_rt "><span>в заявках</span><i>'.$z_zakaz.'</i> <strong>'.$units.'</strong></div>';
 				 }						 
 //узнаем сколько материала в работе
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,z_doc as doc, edo_state AS edo WHERE doc.id=a.id_doc and doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and  a.status=11 and  a.id_stock="' . htmlspecialchars(trim($id)) . '"');
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status=11 and  a.id_stock="'.htmlspecialchars(trim($id)).'"');
+*/
 					$z_rabota=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -118,9 +133,14 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					  $echo.='<div class="yoop_rt "><span>в работе</span><i>'.$z_rabota.'</i> <strong>'.$units.'</strong></div>';
 				 }		
 
-//узнаем сколько материала на согласовании со счетом	
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($id)).'" AND a.id_acc=b.id AND b.status=2');
+//узнаем сколько материала на согласовании со счетом
 
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                                     doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($id)) . '" AND a.id_acc=b.id AND b.status=2');
+/*
+$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($id)).'" AND a.id_acc=b.id AND b.status=2');
+*/
 					$z_rabota1=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -134,9 +154,15 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  $echo.='<div class="yoop_rt "><span>на согласовании со счетом</span><i>'.round($z_rabota1,2).'</i> <strong>'.$units.'</strong></div>';
 				 }		
 
-//узнаем сколько материала согласовано со счетом		
+//узнаем сколько материала согласовано со счетом
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                          doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and          
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($id)) . '" AND a.id_acc=b.id AND b.status=3');
+
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($id)).'" AND a.id_acc=b.id AND b.status=3');
-	
+*/
 					$z_rabota2=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -149,8 +175,16 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  }
 					  $echo.='<div class="yoop_rt"><span>согласовано со счетом</span><i>'.round($z_rabota2,2).'</i> <strong>'.$units.'</strong></div>';
 				 }	
-//узнаем сколько материала оплачено	
+//узнаем сколько материала оплачено
+
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                         doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and            
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($id)) . '" AND a.id_acc=b.id AND b.status=4');
+
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($id)).'" AND a.id_acc=b.id AND b.status=4');
+*/
 					$z_rabota3=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -164,7 +198,13 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  $echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
 				 }
 //узнаем сколько материала получено
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c,z_doc as doc,edo_state AS edo WHERE doc.id=c.id_doc and 
+                                                                                                                             doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and        
+                                                                                                                                     a.id_doc_material=c.id AND c.id_stock="' . htmlspecialchars(trim($id)) . '" AND a.id_acc=b.id AND b.status=7');
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_doc_material_acc AS a,z_acc AS b,z_doc_material AS c WHERE a.id_doc_material=c.id AND c.id_stock="'.htmlspecialchars(trim($id)).'" AND a.id_acc=b.id AND b.status=7');
+*/
 $z_take=0;
 $num_results_t1_ = $result_t1_->num_rows;
 if($num_results_t1_!=0)
@@ -180,7 +220,14 @@ if($num_results_t1_!=0)
 
 
 //узнаем сколько материала необходимо еще
+
+$result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a,i_material as b,z_doc as doc,edo_state AS edo WHERE doc.id=a.id_doc and 
+  
+                                                                                                               doc.id_edo_run = edo.id_run AND edo.id_status = 0 AND edo.id_executor IN ('.$id_user.') and
+                                                                                                               a.id_i_material=b.id and b.alien=0 and a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="' . htmlspecialchars(trim($id)) . '"');
+/*
 $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc_material AS a WHERE a.status NOT IN ("1","8","10","3","5","4") and  a.id_stock="'.htmlspecialchars(trim($id)).'"');
+*/
 					$z_zakaz=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)

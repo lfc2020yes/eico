@@ -1,5 +1,8 @@
 $(function (){
 
+    $('.material-prime-v22').on("click",'.history_icon',HistoryN1);
+
+
     //кликнуть на что то в раскрывающем меню корзины
     $('body').on("change keyup input click",'.menu_jjs .js-menu-jjs-basket',menu_supply_basket_21);
     $('body').on("change keyup input click",'.menu_jjs .js-menu-jjs-basket-acc',menu_supply_basket_acc_21);

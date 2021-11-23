@@ -91,7 +91,7 @@ $result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS
 					    $z_stock_count_users=$row1ss_["summ"];
 					  }
 					 $units=$row1ss_["units"];
-					  $echo.='<div class="yoop_rt"><span>на складе</span><i>'.$z_stock_count_users.'</i> <strong>'.$row1ss_["units"].'</strong></div>';
+					 // $echo.='<div class="yoop_rt"><span>на складе</span><i>'.$z_stock_count_users.'</i> <strong>'.$row1ss_["units"].'</strong></div>';
 				 }						 
 
 //узнаем сколько материала в заявке
@@ -112,7 +112,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					  {
 					    $z_zakaz=$row1ss_["summ"];
 					  }
-					  $echo.='<div class="yoop_rt "><span>в заявках</span><i>'.$z_zakaz.'</i> <strong>'.$units.'</strong></div>';
+					 // $echo.='<div class="yoop_rt "><span>в заявках</span><i>'.$z_zakaz.'</i> <strong>'.$units.'</strong></div>';
 				 }						 
 //узнаем сколько материала в работе
 
@@ -130,7 +130,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					  {
 					    $z_rabota=$row1ss_["summ"];
 					  }
-					  $echo.='<div class="yoop_rt "><span>в работе</span><i>'.$z_rabota.'</i> <strong>'.$units.'</strong></div>';
+					//  $echo.='<div class="yoop_rt "><span>в работе</span><i>'.$z_rabota.'</i> <strong>'.$units.'</strong></div>';
 				 }		
 
 //узнаем сколько материала на согласовании со счетом
@@ -151,7 +151,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  {
 					    $z_rabota1=$row1ss_["summ"];
 					  }
-					  $echo.='<div class="yoop_rt "><span>на согласовании со счетом</span><i>'.round($z_rabota1,2).'</i> <strong>'.$units.'</strong></div>';
+					 // $echo.='<div class="yoop_rt "><span>на согласовании со счетом</span><i>'.round($z_rabota1,3).'</i> <strong>'.$units.'</strong></div>';
 				 }		
 
 //узнаем сколько материала согласовано со счетом
@@ -173,7 +173,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  {
 					    $z_rabota2=$row1ss_["summ"];
 					  }
-					  $echo.='<div class="yoop_rt"><span>согласовано со счетом</span><i>'.round($z_rabota2,2).'</i> <strong>'.$units.'</strong></div>';
+					 // $echo.='<div class="yoop_rt"><span>согласовано со счетом</span><i>'.round($z_rabota2,3).'</i> <strong>'.$units.'</strong></div>';
 				 }	
 //узнаем сколько материала оплачено
 
@@ -195,7 +195,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_material) AS summ FROM z_
 					  {
 					    $z_rabota3=$row1ss_["summ"];
 					  }
-					  $echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,2).'</i> <strong>'.$units.'</strong></div>';
+					 // $echo.='<div class="yoop_rt "><span>оплачено</span><i>'.round($z_rabota3,3).'</i> <strong>'.$units.'</strong></div>';
 				 }
 //узнаем сколько материала получено
 
@@ -239,17 +239,30 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_doc
 					    $z_zakaz=$row1ss_["summ"];
 					  }
 					 
-					  $neo=round(($z_zakaz-$z_rabota1-$z_rabota2-$z_rabota3-$z_take),2);
+					  $neo=round(($z_zakaz-$z_rabota1-$z_rabota2-$z_rabota3-$z_take),3);
 					 $class_ada="red_ada";
 					  if($neo<=0)
 					  {
 						  $neo=0;
 						  $class_ada="green_ada";
 					  }
-					  $echo.='<div class="yoop_rt yoop_click '.$class_ada.'"><span>еще необходимо</span><i>'.$neo.'</i> <strong>'.$units.'</strong></div>';
-				 }	
-	
-	
+					 // $echo.='<div class="yoop_rt yoop_click '.$class_ada.'"><span>еще необходимо</span><i>'.$neo.'</i> <strong>'.$units.'</strong></div>';
+				 }
+
+
+
+
+$echo.='<div class="neo-supply-yes '.$class_ada.'"><span class="eshe-span-boo">еще необходимо</span><span class="edit_panel11_mat more-panel-supply"><span data-tooltip="Подробнее" for="'.$id.'" class="history_icon">M</span><div class="history_act_mat history-prime-mat">
+                                             <div class="line_brock"><div class="count_brock"><span>Состояние</span></div><div class="count_brock"><span>Кол-во</span></div></div>
+                                             
+<div class="line_brock"><div class="count_brock">На складе</div><div class="count_brock">'.rtrim(rtrim(number_format($z_stock_count_users, 3, '.', ' '),'0'),'.')
+.'<b>'.$units.'</b></div></div>
+<div class="line_brock"><div class="count_brock">в заявках</div><div class="count_brock">'.rtrim(rtrim(number_format($z_zakaz, 3, '.', ' '),'0'),'.').'<b>'.$units.'</b></div></div>
+<div class="line_brock"><div class="count_brock">в работе</div><div class="count_brock">'.rtrim(rtrim(number_format($z_rabota, 3, '.', ' '),'0'),'.').'<b>'.$units.'</b></div></div>
+<div class="line_brock"><div class="count_brock">на согласовании со счетом</div><div class="count_brock">'.rtrim(rtrim(number_format($z_rabota1, 3, '.', ' '),'0'),'.').'<b>'.$units.'</b></div></div>
+<div class="line_brock"><div class="count_brock">согласовано со счетом</div><div class="count_brock">'.rtrim(rtrim(number_format($z_rabota2, 3, '.', ' '),'0'),'.').'<b>'.$units.'</b></div></div>
+<div class="line_brock"><div class="count_brock">оплачено</div><div class="count_brock">'.rtrim(rtrim(number_format($z_rabota3, 3, '.', ' '),'0'),'.').'<b>'.$units.'</b></div></div></div></span><strong class="eshe-unit-boo">'.$units.'</strong><i class="eshe-count-boo">'.rtrim(rtrim(number_format($neo, 3, '.', ' '),'0'),'.').'</i> </div>';
+
 		
 //echo($echo);
 	

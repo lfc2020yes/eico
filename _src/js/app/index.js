@@ -2489,17 +2489,29 @@ function UpdateItog()
 	//$('.itogsumall').empty().append($.number((sum_work+sum_mat).toFixed(2), 2, '.', ' '));	
 }
 //показать историю списания по материалу - наряды
-function HistoryN1() {
+function HistoryN1(event) {
 
-	$('.history_act_mat').hide();
 
 	var block_his=$(this).parents('.edit_panel11_mat').find('.history_act_mat');
+	$('.history_act_mat').not(block_his).hide();
+
+
+
+
+	var block_his=$(this).parents('.edit_panel11_mat').find('.history_act_mat');
+	//alert($('#yourID:visible').length);
 	if(block_his.is(':visible'))
 	{
+
+		//alert("2");
+		//скрыть
 		block_his.slideUp("slow");
+		//event.stopPropagation();
+
 	} else
 	{
 		block_his.slideDown("slow");
+		//alert("3");
 	}
 
 }
@@ -5366,6 +5378,8 @@ $("body").click(function(e) {
 		if( $('.history_act_mat').is(':visible') ) {
 
 			$('.history_act_mat').hide();
+			e.stopPropagation();
+			//alert("1");
 		}
 	}
 

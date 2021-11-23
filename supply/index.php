@@ -976,7 +976,11 @@ echo'<td colspan="2">';
 						 
 if($dava_var==0) {
 
-    echo '<div class="supply_bb1 yoop_ hide_yoop" id_ada="' . $row__2["id_stock"] . '">';
+    //echo '<div class="supply_bb1 yoop_ hide_yoop" id_ada="' . $row__2["id_stock"] . '">';
+
+
+    echo '<div class="eshe-supply-boo material-prime-v22" id_ada="' . $row__2["id_stock"] . '">';
+
     $echo = '';
 //$row__2["id_stock"]
     if ($row__2["id_stock"] != 0) {
@@ -1002,6 +1006,7 @@ if($dava_var==0) {
 
 
         //узнаем сколько материала на складе
+        /*
         $echo .= '<div class="yoop_rt"><span>на складе</span><i>' . $row_uu_temp["stock"] . '</i> <strong>' . $units . '</strong></div>';
         //узнаем сколько материала в заявке
         $echo .= '<div class="yoop_rt "><span>в заявках</span><i>' . $row_uu_temp["app"] . '</i> <strong>' . $units . '</strong></div>';
@@ -1013,7 +1018,7 @@ if($dava_var==0) {
         $echo .= '<div class="yoop_rt"><span>согласовано со счетом</span><i>' . $row_uu_temp["acc_sign_yes"] . '</i> <strong>' . $units . '</strong></div>';
         //узнаем сколько материала оплачено
         $echo .= '<div class="yoop_rt "><span>оплачено</span><i>' . $row_uu_temp["pay"] . '</i> <strong>' . $units . '</strong></div>';
-
+*/
         //узнаем сколько материала необходимо еще
         $class_ada = "red_ada";
         if ($row_uu_temp["nado"] <= 0) {
@@ -1023,7 +1028,36 @@ if($dava_var==0) {
         {
             $neo = $row_uu_temp["nado"];
         }
-        $echo .= '<div class="yoop_rt yoop_click ' . $class_ada . '"><span>еще необходимо</span><i>' . $neo . '</i> <strong>' . $units . '</strong></div>';
+        $echo .= '<div class="neo-supply-yes ' . $class_ada . '"><span class="eshe-span-boo">еще необходимо</span>';
+
+
+        $echo .= '<span class="edit_panel11_mat more-panel-supply"><span data-tooltip="Подробнее" for="' . $row__2["id_stock"] . '" class="history_icon">M</span>';
+
+        $echo .= '<div class="history_act_mat history-prime-mat">
+                                             <div class="line_brock"><div class="count_brock"><span>Состояние</span></div><div class="count_brock"><span>Кол-во</span></div></div>';
+
+
+
+                 $echo .= '<div class="line_brock"><div class="count_brock">На складе</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["stock"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+        $echo .= '<div class="line_brock"><div class="count_brock">в заявках</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["app"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+        $echo .= '<div class="line_brock"><div class="count_brock">в работе</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["works"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+        $echo .= '<div class="line_brock"><div class="count_brock">на согласовании со счетом</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["acc_sign"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+        $echo .= '<div class="line_brock"><div class="count_brock">согласовано со счетом</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["acc_sign_yes"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+        $echo .= '<div class="line_brock"><div class="count_brock">оплачено</div><div class="count_brock">' . rtrim(rtrim(number_format($row_uu_temp["pay"], 3, '.', ' '),'0'),'.') . '<b>' . $units . '</b></div></div>';
+
+
+
+        $echo .= '</div>';
+        $echo .= '</span>';
+
+
+
+        $echo .= '<strong class="eshe-unit-boo">' . $units . '</strong><i class="eshe-count-boo">' . $neo . '</i> </div>';
 
         /*
 //узнаем сколько материала на складе

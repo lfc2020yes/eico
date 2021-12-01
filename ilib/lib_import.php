@@ -2,7 +2,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_interstroi.php';
 /*
   $csv = new CSV(null, 43);
-  $mask = 'D:\EiCO\CCM\CSV\*.csv';
+  $mask = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/*.csv';
   $arFiles = $csv->read_dir ($mask);
   echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
 */

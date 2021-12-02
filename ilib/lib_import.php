@@ -73,10 +73,17 @@ class CSV
     }
 }
 
-class INN {
+
+/*$contractor = new CONTRACTOR(mysqli, $id_user);
+if (($id=$contractor->get( ИНН )) !== false) {}
+else
+$contractor->put($arData[0][data][0]);*/
+class CONTRACTOR {
     var $mysqli;
-   public function INN ($mysqli)
-   { $this->mysqli = $mysqli;
+    var $id_user;
+   public function CONTRACTOR ($mysqli, $id_user)
+   {    $this->mysqli = $mysqli;
+        $this->id_user = $id_user;
    }
    public function get ($inn_contractor) {
        $ret = false;
@@ -88,4 +95,33 @@ class INN {
        }
        return $ret;
    }
+    public function put ($arData)
+    {   $sql = "
+INSERT INTO `atsunru_interstroi`.`z_contractor` (
+  `name`,
+  `name_small`,
+  `adress`,
+  `inn`,
+  `ogrn`,
+  `status`,
+  `dir`,
+  `date_create`,
+  `id_user`
+)
+VALUES
+  (
+    '{$arData[НаименованиеПолноеКонтрагента]}',
+    '{$arData[НаименованиеКонтрагента]}',
+    '{$arData[Адрес]}',
+    '{$arData[ИНН]}',
+    '{$arData[ОГРН]}',
+    'действующий',
+    '{$arData[Директор]}',
+    'date_create',
+    '{$this->id_user}'
+  );
+    ";
+        $id_run = iInsert_1R($this->mysqli,$sql,false);
+        return ($id_run>0) ? $id_run : false;
+    }
 }

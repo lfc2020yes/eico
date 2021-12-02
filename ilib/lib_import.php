@@ -74,5 +74,18 @@ class CSV
 }
 
 class INN {
-
+    var $mysqli;
+   public function INN ($mysqli)
+   { $this->mysqli = $mysqli;
+   }
+   public function get ($inn_contractor) {
+       $ret = false;
+       if ($result = $this->mysqli->query("SELECT id FROM `z_contractor` WHERE inn = '$inn_contractor'")) {
+           if ($row = $result->fetch_assoc()) {
+               $ret = $row[id];
+           }
+           $result->close();
+       }
+       return $ret;
+   }
 }

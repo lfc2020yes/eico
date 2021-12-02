@@ -95,8 +95,8 @@ if($local_server_x==0)
 }
 
 
-$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Склад","Прием-Передача","Настройки");
-$nav_url=array("prime","worder","app","acc","docs","cashbox","implementer","invoices","stock","aktpp/res","settings");
+$nav_text=array("Себестоимость","Наряды","Заявки","Счета","Договора","Касса","Исполнители","Накладные","Накладные 1с","Склад","Прием-Передача","Настройки");
+$nav_url=array("prime","worder","app","acc","docs","cashbox","implementer","invoices","invoices_1c","stock","aktpp/res","settings");
 $found = array_search($active_menu,$nav_url);
 
 ?>

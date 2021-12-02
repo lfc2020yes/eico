@@ -1443,7 +1443,7 @@ font-style: normal;}*/
 
 .preorders_block_global .js-update-block-preorders:hover .status_admin {background-color: #fff;}
 
-.preorders_block_global,.preorders_block_history,.doc_block_contracts,.doc_block_contracts1
+.preorders_block_global,.preorders_block_history,.doc_block_contracts,.doc_block_contracts1,.c_block_global
 {
 
   .ggh-e {margin-bottom: 10px; display: inline-block; font-size: 16px; line-height: 20px;}
@@ -1892,7 +1892,7 @@ font-style: normal;}*/
   background-color:#f6f7f8 !important;
   &:hover {background-color:#f6f7f8 !important;}
 
-  .js-update-block-trips,.js-update-block-preorders,.js-update-block-preorders-h,.js-update-block-doc-h{@include flex-wrap(wrap);@include flexbox();@include justify-content(space-between);background-color:
+  .js-update-block-trips,.js-update-block-preorders,.js-update-block-preorders-h,.js-update-block-1c,.js-update-block-doc-h{@include flex-wrap(wrap);@include flexbox();@include justify-content(space-between);background-color:
           #fff;
     text-align: left;
     position: relative;margin-bottom: 1px !important; width: 100%;
@@ -2131,7 +2131,7 @@ font-style: normal;}*/
 }
 
 
-.preorders_block_global,.preorders_block_history,.doc_block_contracts,.doc_block_contracts1 {
+.preorders_block_global,.preorders_block_history,.doc_block_contracts,.doc_block_contracts1,.c_block_global {
 
 
   .form-rate-ok-chat
@@ -6605,3 +6605,104 @@ position: relative;
 }
 
 .more-panel-supply {display: inline-block; position: relative;}
+
+
+.one_s_flex {
+  @include flexbox();
+  width: 100%;
+
+
+  .pass_wh_trips {
+
+    color: rgba(0,0,0,.2);
+    font-family: GEInspiraBold;
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-bottom: 10px;
+    position: relative;
+    padding-top: 13px;
+    font-weight: 400;
+
+    label {
+
+      font-family: GEInspiraRegular;
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: rgba(0,0,0,.3);
+
+
+
+    }
+
+
+    .kuda-trips,.date-trips {
+
+      font-family: "GEInspiraRegular";
+      color: rgba(0, 0, 0, 0.7);
+      font-size: 11px;
+      line-height: 14px;
+      position: relative;
+      text-transform: uppercase;
+      display: block;
+
+    }
+    .date-trips {
+
+      font-family: "GEInspiraBold";
+      color: rgba(0, 0, 0, 0.7);
+      font-size: 14px;
+
+    }
+
+    span.obi {font-family: "GEInspiraBold";
+      color: rgba(0, 0, 0, 0.7);
+      font-size: 14px;
+      line-height: 14px;}
+
+
+    a {color: rgba(0, 0, 0, 0.7); text-decoration: none; cursor: pointer;
+      text-transform: uppercase; font-weight: normal;
+      font-size: 16px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.7);
+      //display: inline-block;
+      &:hover {border-bottom:1px solid #ccc}
+    }
+
+
+  }
+  .obi {
+    font-family: "GEInspiraBold";
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 12px;
+    line-height: 14px;
+    padding-top: 7px;
+  }
+  .one_s_global {
+
+    @include flexbox();
+    //@include align-items(flex-start);
+    width: 60%;
+    background-color: #fff;
+    padding: 30px;
+    .name_one {width: calc(100% / 3);  }
+    .name_two {width: calc(100% / 3);   }
+    .name_free {width: calc(100% / 3);   }
+
+
+  }
+
+  .one_s_acc{
+margin-left: 30px;
+    width: calc(40% - 30px);
+
+
+    background-color: #fff;
+    padding: 30px;
+  }
+
+}

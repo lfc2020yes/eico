@@ -1,11 +1,12 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_interstroi.php';
-/*
-  $csv = new CSV(null, 43);
+
+  /*$csv = new CSV(null, 43);
   $mask = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/*.csv';
-  $arFiles = $csv->read_dir ($mask);
-  echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
-*/
+  $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
+  $arFiles = $csv->read_dir ($mask, $mask_attach);
+  echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";*/
+
 class CSV
 {
     var $mysqli;
@@ -18,7 +19,8 @@ class CSV
         $this->id_user = $id_user;
         $this->Codec = new codec("windows-1251","UTF-8");
     }
-    public function read_dir ($mask) {
+
+    public function read_dir ($mask,$mask_attach) {
         $files = array();
         foreach (glob($mask) as $filename) {
             $fn = $this->Codec->iconv($filename);
@@ -26,35 +28,51 @@ class CSV
             $num = count($files)-1;
             $files[$num][organization] = $this->get_organization($fn);
             $files[$num][data] = $this->read_data($filename);
+            $files[$num][attach] = $this->list_attach( $files[$num][data][0][УИДДокумента],$mask_attach);
         }
         return($files);
     }
+
+    public function list_attach ($uid, $mask) {
+        $files = array();
+        foreach (glob($mask.$uid."*.*") as $filename) {
+            $files[] = $this->Codec->iconv($filename);
+        }
+        return($files);
+    }
+
     public function get_organization ($filename) {
-        $arFN = explode('.',$filename);
-        $arName = explode(' ',$arFN[0]);
-        return (count($arName)>1) ? $arName[1] : false;
+        $arFN = explode(' ',$filename);
+        $arName = explode('.',$arFN[1]);
+        return (count($arName)>0) ? $arName[0] : false;
     }
 
     public function read_data($filename) {
         $list = $names = array(); $i = 0;
         if (($fp = fopen($filename, "r")) !== FALSE) {
             while (($fields = fgetcsv($fp, 0, ";")) !== FALSE) {
-                if ($i == 0) {
-                    foreach ($fields as $field) {
-                        $names[] = $this->Codec->iconv($field);
+                if (count($fields)>1) {
+                    if ($i == 0) {
+                        foreach ($fields as $field) {
+                            $names[] = $this->Codec->iconv($field);
+                        }
+                    } else {
+                        $j = 0;
+                        foreach ($fields as $field) {
+                            $list[$i - 1][$names[$j]] = $this->Codec->iconv($field);
+                            $j++;
+                        }
                     }
-                } else {
-                    $j=0;
-                    foreach ($fields as $field) {
-                        $list[$i-1][ $names[$j] ] = $this->Codec->iconv($field);
-                        $j++;
-                    }
+                    $i++;
                 }
-                $i++;
             }
             fclose($fp);
 
         }
         return $list;
     }
+}
+
+class INN {
+
 }

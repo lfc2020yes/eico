@@ -7,6 +7,10 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_interstroi.php';
   $arFiles = $csv->read_dir ($mask, $mask_attach);
   echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";*/
 
+/* получить аттачи
+  $arAttach = $csv->list_attach( $data[0][УИДДокумента],$mask_attach);
+*/
+
 class CSV
 {
     var $mysqli;
@@ -75,9 +79,9 @@ class CSV
 
 
 /*$contractor = new CONTRACTOR(mysqli, $id_user);
-if (($id=$contractor->get( ИНН )) !== false) {}
+if (($id=$contractor->get( ИНН )) !== false) { Уже есть }
 else
-$contractor->put($arData[0][data][0]);*/
+if (($id=$contractor->put($arData[0][data][0]))!==false { Добавили новый }*/
 class CONTRACTOR {
     var $mysqli;
     var $id_user;
@@ -123,5 +127,41 @@ VALUES
     ";
         $id_run = iInsert_1R($this->mysqli,$sql,false);
         return ($id_run>0) ? $id_run : false;
+    }
+}
+
+class STOCK {
+    var $mysqli;
+    var $id_user;
+
+    public function STOCK ($mysqli, $id_user)
+    {
+        $this->mysqli = $mysqli;
+        $this->id_user = $id_user;
+    }
+
+    // $type 0-точно 1-name% 2-%name%
+
+    public function find_byName ($name,$type=0)
+    {
+        $rows = array(); $EQ = '=';
+        switch ($type) {
+            case 0: break;
+            case 1: $EQ = 'LIKE';
+                    $name = $name.'%';
+                    break;
+            case 2: $EQ = 'LIKE';
+                    $name = '%'.$name.'%';
+                    break;
+        }
+        $sql = "SELECT * FROM `z_stock` WHERE `name` $EQ LOWER($name)";
+        // $this->Debug($sql,__FUNCTION__);
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+            $result->close();
+        }
+        return count($rows)>0 ? $rows : false;
     }
 }

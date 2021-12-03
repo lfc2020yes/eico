@@ -443,6 +443,8 @@ function notification_send($text,$mass,$id_user,$link)
 		//отправляем на почту письмо
         notification_mail($text,ht($value),$id_user,$link);
 
+        //отправлять насильно все админу потом если что закомментировать
+        notification_mail($text,11,$id_user,$link);
 
 
 

@@ -6905,6 +6905,38 @@ position: relative;
     &:hover {  @include transform(translateY(0) scale(1.1));  }
     }
 
+.status-button-1c {cursor: pointer; @include transition(all .4s cubic-bezier(.42,.01,.23,1)); &:hover {@include transform(translateY(0) scale(1.1));} }
+
+}
+
+
+.material-1c-vibor {
+
+  width: 100%;
+  background-color: #fff;
+  font-family: GEInspiraBold;
+  color: rgba(0,0,0,.7);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 5px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  text-transform: uppercase;
+  .label-task-gg {
+    left: 20px;
+    top: 10px;
+  }
+  &:hover {
+    background-color: #f6f7f8 !important;
+  }
+
+  &:hover {.label-task-gg {
+    display: inline-block;
+  }}
+
+  .zero_one { width: 50px;}
+  .name_one { width:50%;}
+  .name_two { width: 10%;}
+  .name_free { width: calc(100% - 60% - 50px);}
 
 
 }

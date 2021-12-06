@@ -20753,6 +20753,49 @@ width: calc(50% - 0px) !important;
   -webkit-transform: translateY(0) scale(1.1);
   transform: translateY(0) scale(1.1);
 }
+.material-1c .status-button-1c {
+  cursor: pointer;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+}
+.material-1c .status-button-1c:hover {
+  -moz-transform: translateY(0) scale(1.1);
+  -o-transform: translateY(0) scale(1.1);
+  -ms-transform: translateY(0) scale(1.1);
+  -webkit-transform: translateY(0) scale(1.1);
+  transform: translateY(0) scale(1.1);
+}
+
+.material-1c-vibor {
+  width: 100%;
+  background-color: #fff;
+  font-family: GEInspiraBold;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+}
+.material-1c-vibor .label-task-gg {
+  left: 20px;
+  top: 10px;
+}
+.material-1c-vibor .zero_one {
+  width: 50px;
+}
+.material-1c-vibor .name_one {
+  width: 50%;
+}
+.material-1c-vibor .name_two {
+  width: 10%;
+}
+.material-1c-vibor .name_free {
+  width: calc(100% - 60% - 50px);
+}
 
 .buttonBg {
   background: #fff;

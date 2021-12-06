@@ -693,6 +693,9 @@ if(isset($_GET["id"])) {
     header404(4,$echo_r);
 }
 
+
+
+
 if($error_header==404)
 {
 	include $url_system.'module/error404.php';
@@ -773,7 +776,12 @@ if ( isset($_COOKIE["iss"]))
 
                           <form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
 
+
+
 <?
+
+echo'<input class="id-file" type="hidden" value="'.$_GET['id'].'" name="id">';
+
 $date_mass = explode(" ", ht($data[0]["Дата"]));
 $date_mass1 = explode(":", $date_mass[1]);
 
@@ -905,11 +913,24 @@ $prime=0;
 
         <span class="label-task-gg ">Наименование/Связь со складом 
 </span>    
-<span class="nm">'.$value["Номенклатура"].'</span>
-<!--<div id_status="9" class="status_admin js-status-preorders s_pr_4 ">нет связи со складом</div>-->
-<span data-tooltip="название товара на складе" class="stock_name_mat">'.$value["Номенклатура"].'</span>
-            
-        </div>
+<span class="nm">'.$value["Номенклатура"].'</span>';
+        $stock = new STOCK($link, $id_user);
+        $arFiles = $stock->find_byName($value["Номенклатура"],2);
+        //echo(count($arFiles));
+        if((count($arFiles)==0))
+        {
+            echo'<div id_status="'.$key.'" class="status_admin status-button-1c js-status-1c-mat s_pr_4 ">нет связи со складом</div>';
+        }
+        if(count($arFiles)>0)
+        {
+            echo'<div id_status="'.$key.'" class="status_admin status-button-1c js-status-1c-mat s_pr_2 ">есть варианты соответсвия</div>';
+        }
+
+/*
+echo'<span data-tooltip="название товара на складе" class="stock_name_mat">'.$value["Номенклатура"].'</span>';
+*/
+
+echo'</div>
 
         <div class="name_two">
              <span class="label-task-gg ">ед. изм.

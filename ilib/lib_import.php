@@ -11,6 +11,10 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/'.'ilib/lib_interstroi.php';
   $arAttach = $csv->list_attach( $data[0][УИДДокумента],$mask_attach);
 */
 
+// Поиск по имени
+/*$find = new STOCK($mysqli, 43);
+$find->find_byName('бетон','т',2);*/
+
 class CSV
 {
     var $mysqli;
@@ -133,16 +137,18 @@ VALUES
 class STOCK {
     var $mysqli;
     var $id_user;
+    var $deb;
 
     public function STOCK ($mysqli, $id_user)
     {
         $this->mysqli = $mysqli;
         $this->id_user = $id_user;
+        $this->deb = array();
     }
 
     // $type 0-точно 1-name% 2-%name%
 
-    public function find_byName ($name,$type=0)
+    public function find_byName ($name,$units,$type=0)
     {
         $rows = array(); $EQ = '=';
         switch ($type) {
@@ -154,8 +160,9 @@ class STOCK {
                     $name = '%'.$name.'%';
                     break;
         }
-        $sql = "SELECT * FROM `z_stock` WHERE `name` $EQ LOWER($name)";
-        // $this->Debug($sql,__FUNCTION__);
+
+        $sql = "SELECT * FROM `z_stock` WHERE `name` $EQ LOWER('$name')";
+        $this->Debug($sql,__FUNCTION__);
         if ($result = $this->mysqli->query($sql)) {
             while ($row = $result->fetch_assoc()) {
                 $rows[] = $row;
@@ -163,5 +170,15 @@ class STOCK {
             $result->close();
         }
         return count($rows)>0 ? $rows : false;
+    }
+
+    public function find_byNameUnits ($name, $units, $type=0)
+    {
+
+    }
+    private function Debug($sql, $name_function) {
+        $ar[sql] = $sql;
+        $ar[func] = $name_function;
+        $this->deb[] = $ar;
     }
 }

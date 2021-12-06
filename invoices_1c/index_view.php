@@ -678,9 +678,11 @@ include_once '../ilib/lib_import.php';
 
 $csv = new CSV($link, $id_user);
 $mask = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/*.csv';
-$arFiles = $csv->read_dir ($mask);
+$mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
+$arFiles = $csv->read_dir ($mask,$mask_attach);
 if(isset($_GET["id"])) {
-    //iconv( 'windows-1251','UTF-8',$debug)
+    //iconv( 'windows-1251','UTF-8',$debug)\
+    //echo(base64_decode($_GET['id']));
     $data = $csv->read_data(iconv( 'UTF-8','windows-1251',base64_decode($_GET['id'])));
     if(count($data)==0)
     {
@@ -700,7 +702,7 @@ if($error_header==404)
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
-
+//echo "<pre> ФАЙЛЫ [$mask]: ".print_r($data,true)."</pre>";
 
 $status_edit='';
 $status_class='';
@@ -795,16 +797,30 @@ echo'<div class="one_s_flex">
         </div>
         <div class="name_free">
         <div class="pass_wh_trips" ><label>Ответственный</label><div class="obi">'.$data[0]["Ответственный"].'</div></div>
-            <div class="pass_wh_trips" ><label>Файлы 1с</label></div>
-        <div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" style="display: block;">
+            <div class="pass_wh_trips" ><label>Файлы 1с</label></div>';
 
-                        <div class="li-image yes-load"><span style="z-index: 1" class="name-img"><a href="/upload/file/16_exiyZbH73d5sGu3szmgB.png" target="_blank">instagram.png</a></span><span style="z-index: 0" class="type-img">png</span></div>
+$arAttach = $csv->list_attach( $data[0][УИДДокумента],$mask_attach);
+//echo "<pre> ФАЙЛЫ: ".print_r($arAttach,true)."</pre>";
 
-                        <div class="li-image yes-load"><span style="z-index: 1" class="name-img"><a href="/upload/file/16_exiyZbH73d5sGu3szmgB.png" target="_blank">instagram.png</a></span><span style="z-index: 0" class="type-img">png</span></div>
+if(count($arAttach)!=0)
+{
+        echo'<div style="display: inline-block" class=""><div class="img_invoice_div1 js-image-gl"><div style="display: inline-block"><div class="list-image list-image-icons" style="display: block;">';
 
-                    </div></div></div></div>
+    foreach ($arAttach as $key => $value)
+    {
+        $type_file=explode(".",$value);
+$type_s=end($type_file);
+echo'<div class="li-image yes-load"><span style="z-index: 1" class="name-img"><a href="'.$value.'" target="_blank">&nbsp;</a></span><span style="z-index: 0; text-transform: uppercase;" class="type-img">'.$type_s.'</span></div>';
 
-        </div>
+
+    }
+
+
+
+                    echo'</div></div></div></div>';
+}
+
+        echo'</div>
     </div>
     <div class="one_s_acc">
 
@@ -813,7 +829,10 @@ echo'<div class="one_s_flex">
 
 $CA=0;
 //определяем какой по id у нас это контрагент
-
+$contractor = new CONTRACTOR($link, $id_user);
+if (($id=$contractor->get($data[0]["ИНН"])) !== false) { $CA=$id; }
+else
+    if (($id=$contractor->put($data[0]))!==false) { $CA=$id; }
 
 
 
@@ -842,9 +861,13 @@ $result_score=mysql_time_query($link,
             for ($ss = 0; $ss < $num_results_score; $ss++) {
                 $row_score = mysqli_fetch_assoc($result_score);
 
-                echo'Cчет №'.$row_score["number"].'<br>';
+                echo'<a target="_blank" class="acc_1c" href="acc/'.$row_score["id"].'/"><span class="spans ggh-e name-blue-b"><span>Cчет №'.$row_score["number"].' ('.date_ex(0,$row_score["date"]).')</span></span></a>';
+
 
             }
+        } else
+        {
+            echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Связанных счетов не найдено!</span></span></div>';
         }
 
 
@@ -857,261 +880,12 @@ $result_score=mysql_time_query($link,
 
 
 
-
-
-
-
-if(($row_list["id_user"]==$id_user)) {
-    $query_string .= '<div class="info-suit"> <span class="h3-f">Документы</span><div class="input-block-2020">';
-
-
-    $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="9" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
-
-    $num_results_uu = $result_6->num_rows;
-
-    $class_aa = '';
-    $style_aa = '';
-    if ($num_results_uu != 0) {
-        $class_aa = 'eshe-load-file';
-        $style_aa = 'style="display: block;"';
-    }
-
-
-    $query_string .= '<div class=""><div class="img_invoice_div js-image-gl"><div class="list-image" ' . $style_aa . '>';
-
-    if ($num_results_uu != 0) {
-        $i = 1;
-        while ($row_6 = mysqli_fetch_assoc($result_6)) {
-            $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
-            if($row_list["status"]==1) {
-                $query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
-            }
-
-            $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
-            $i++;
-        }
-    }
-
-
-    $query_string .= '</div>';
-
-    if($row_list["status"]==1) {
-
-        $query_string .= '<input type="hidden" class="js-files-acc-new" name="files_9" value=""><div type_load="9" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div>';
-
-
-
-
-
-
-    }
-    $query_string .= '</div></div></div></div>';
-
-
-    echo $query_string;
-}
-
-
-    //echo'<div class="content_block1 invoice_block" id_content="'.$id_user.'">';
-?>
-                          <div class="info-suit">
-
- <input name="save_invoice_two_step" value="1" type="hidden">
-  <?
-		
-echo'<br><span class="h3-f">Данные из накладной</span>';
-
 	  
-	  
-	  $rrtt=0;
+echo'<div class="info-suit" style="background-color: transparent;
+padding: 0px;">';
 
-  echo'<!--input start-->';
-  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Номер накладной</i><span>*</span></label><input name="number_invoices" value="'.ipost_($_POST['number_invoices'],$row_list["number"]).'" class="input_new_2021 gloab required  no_upperr  '.$status_class.' js-number-invoice-x" style="padding-right: 100px;" autocomplete="off" '.$status_edit.' type="text"><div class="div_new_2021"></div></div></div>';
-  echo'<!--input end	-->';
+echo'<span class="h3-f" style="margin-bottom: 0px;">Материалы в накладной</span>';
 
-
-  echo'<!--input start-->';
-  echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата</i><span>*</span></label><input name="datess" '.$status_edit1.' id="date_table" readonly="true" value="'.ipost_($_POST['datess'],date_fik($row_list["date"])).'" class="input_new_2021 gloab required  no_upperr '.$status_class.'" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div><input id="date_hidden_table" name="date_invoice" value="'.ipost_($_POST['date_invoice'],$row_list["date"]).'" type="hidden"></div>';
-  echo'<!--input end	-->';
-
-
-  $su_5_name=ipost_x($_POST['ispol_work'],$row_list["id_contractor"],"Исполнитель","z_contractor","name",$link);
-  $su_5=ipost_x($_POST['ispol_work'],$row_list["id_contractor"],"0");
-
-  echo'<!--input start	-->';
-
-  echo'<div class=" big_list" style="margin-bottom: 10px;">';
-  //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
-
-  echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><span class="click-search-icon"></span><div class="b_loading_small loader-list-2021"></div><label>Поиск поставщика (название/инн)</label><input name="ispol_work1" value="'.$su_5_name.'" id="date_124" sopen="search_contractor" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab" name="ispol_work" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
-
-  //выбирать только тех у кого есть какие то счета на этом контрагенте
-  $result_work_zz=mysql_time_query($link,"SELECT A.name,A.id,A.inn,(select count(g.id) from z_acc as g where g.status IN ('3','4','20')) as kol FROM z_contractor as A,z_acc as B WHERE B.id_contractor=A.id and B.status IN ('3','4','20') ORDER BY kol limit 0,40");
-
-
-
-  $num_results_work_zz = $result_work_zz->num_rows;
-  if($num_results_work_zz!=0)
-  {
-      //echo'<li><a href="javascript:void(0);" rel="0"></a></li>';
-      for ($i=0; $i<$num_results_work_zz; $i++)
-      {
-          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
-
-          $yop='';
-          if($row_work_zz["id"]==$su_5) {
-              $yop='sel_active';
-          }
-
-          echo'<li class="'.$yop.'"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name"].' <span class="gray-date">(ИНН-'.$row_work_zz["inn"].')</span></a></li>';
-
-      }
-  }
-
-  echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
-
-
-
-
-  echo'<!--select start-->';
-
-  $os = array();
-  $os_id = array();
-
-  $os = array('С НДС','БЕЗ НДС');
-  $os_id = array('0','1');
-
-
-
-  $su_1=ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0");
-
-  if(isset($_GET["prime"]))
-  {
-
-      $su_1=ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"1");
-  }
-
-
-  $class_s='';
-  if($su_1!=-1)
-  {
-      $class_s='active_in_2018x';
-  }
-
-
-
-
-  echo'<div class="margin-input"><div class="list_2018 gray-color js-zindex '.$class_s.' '.$status_class.'"><label><i>НДС</i><span>*</span></label><div class="select eddd"><a class="slct" data_src="'.$os_id[array_search(ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0"), $os_id)].'">'.$os[array_search(ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0"), $os_id)].'</a><ul class="drop">';
-
-
-  for ($i=0; $i<count($os); $i++)
-  {
-      if($su_1==$os_id[$i])
-      {
-          echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
-      } else
-      {
-          echo'<li><a href="javascript:void(0);"  rel="'.$os_id[$i].'">'.$os[$i].'</a></li>';
-      }
-
-  }
-  echo'</ul><input type="hidden" '.$status_edit.' class="gloab  js-ispol_type_invoice" name="ispol_type" id="ispol_type_invoice" value="'.$su_1.'"></div></div></div>';
-  echo'<!--select end-->';
-
-
-
-
-
-	
-	  echo'</div>';
-	
-	?>  
-	<script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
-<script type="text/javascript">var disabledDays = [];
- $(document).ready(function(){
-     input_2021();
-
-            $("#date_table").datepicker({ 
-altField:'#date_hidden_table',
-onClose : function(dateText, inst){
-        //alert(dateText); // Âûáðàííàÿ äàòà
-   // input_2021();
-		
-    },
-altFormat:'yy-mm-dd',
-defaultDate:null,
-beforeShowDay: disableAllTheseDays,
-dateFormat: "d MM yy"+' г.', 
-firstDay: 1,
-minDate: "-60D", maxDate: "+60D",
-beforeShow:function(textbox, instance){
-	//alert('before');
-	setTimeout(function () {
-            instance.dpDiv.css({
-                position: 'absolute',
-				top: 0,
-                left: 0
-            });
-        }, 10);
-	
-    $('.bookingBox').append($('#ui-datepicker-div'));
-    $('#ui-datepicker-div').hide();
-} });
-	 
-
-
-<?
-if($_POST['datess1']!='')
-{
-echo'var st=\''.ipost_($_POST['date_start'],"").'\';
-var st1=\''.ipost_($_POST['date_end'],"").'\';
-var st2=\''.ipost_($_POST['datess1'],"").'\';';
-echo'jopacalendar(st,st1,st2);';		  
-}
-?>		 
-//$('#date_table1').datepicker('setDate', ['+1d', '+30d']);
-});
-	 
-
-
-	 
-function resizeDatepicker() {
-    setTimeout(function() { $('.bookingBox1 > .ui-datepicker').width('100%'); }, 10);
-}	 
-
-function jopacalendar(queryDate,queryDate1,date_all) 
-	{
-	
-if(date_all!='')
-	{
-var dateParts = queryDate.match(/(\d+)/g), realDate = new Date(dateParts[0], dateParts[1] -1, dateParts[2]); 
-var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0], dateParts1[1] -1, dateParts1[2]); 	 	 
-$('#date_table1').datepicker('setDate', [realDate,realDate1]);	 	 
-$('#date_table1').val(date_all);
-	}
-	}
-$(document).ready(function(){           	 
-label_show_load();
-});
-            </script>	  
-	  
-	  
-	  <?
-	  
-	  
-	  
-	  
-	  
-	  
-echo'<div class="info-suit">';
-
-echo'<br><span class="h3-f" style="margin-bottom: 0px;">Материалы в накладной</span>';
-
-
-if(isset($_GET["prime"])) {
-    echo '<input name="dom" class="dom_xy" type="hidden" value="'.$_GET["prime"].'">';
-}
 	  //echo'</div>';
 	  
 	  
@@ -1119,6 +893,62 @@ if(isset($_GET["prime"])) {
 		
 	$ss=0;
 $prime=0;
+
+
+
+   foreach ($data as $key => $value)
+    {
+
+        echo'<div class="material-1c" id_key="'.$key.'">
+
+        <div class="name_one">
+
+        <span class="label-task-gg ">Наименование/Связь со складом 
+</span>    
+<span class="nm">'.$value["Номенклатура"].'</span>
+<!--<div id_status="9" class="status_admin js-status-preorders s_pr_4 ">нет связи со складом</div>-->
+<span data-tooltip="название товара на складе" class="stock_name_mat">'.$value["Номенклатура"].'</span>
+            
+        </div>
+
+        <div class="name_two">
+             <span class="label-task-gg ">ед. изм.
+</span>  
+
+            '.$value["ЕдиницаИзмерения"].'
+
+        </div>
+        <div class="name_free">
+                  <span class="label-task-gg ">Количество
+</span>    
+'.$value["Количество"].'
+
+            </div>
+            
+            <div class="name_four">
+            <span class="label-task-gg ">Цена за единицу
+</span><span class="price_supply_1c summa_ii">&nbsp;</span>'.$value["Цена"].' 
+            </div>
+                        <div class="name_five">
+            <span class="label-task-gg ">Сумма
+</span>   <span class="price_supply_1c summa_ii">&nbsp;</span>'.$value["Сумма"].' 
+            </div>
+            
+             <div class="name_six">
+             
+             <div class="load-1c-i">Обработать</div>
+             
+            </div>
+    </div>';
+
+      //  echo($value["Номенклатура"].' '.$value["ЕдиницаИзмерения"].' '.$value["Количество"].' '.$value["Цена"].'<br>');
+
+
+
+    }
+
+
+
 	if((isset($_GET["prime"]))and(( isset($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]))and($_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['prime']))]!='')))
     {
 

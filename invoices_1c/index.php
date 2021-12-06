@@ -311,9 +311,14 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
 
     $csv = new CSV($link, $id_user);
     $mask = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/*.csv';
-    $arFiles = $csv->read_dir ($mask);
+    $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
+    $arFiles = $csv->read_dir ($mask,$mask_attach);
     //echo(count($arFiles));
+
     echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
+    /*echo'<br>';
+    echo base64_encode($arFiles[0]['file']);
+    */
 /*
   $result_t2=mysql_time_query($link,'Select DISTINCT b.* from z_invoice as b where b.id_user="'.$id_user.'" and b.status=1 order by b.date_create desc  '.limitPage('n_st',$count_write));
 */

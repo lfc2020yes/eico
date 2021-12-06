@@ -20499,18 +20499,259 @@ width: calc(50% - 0px) !important;
 }
 .one_s_flex .one_s_global .name_one {
   width: calc(100% / 3);
+  padding: 10px;
 }
 .one_s_flex .one_s_global .name_two {
   width: calc(100% / 3);
+  padding: 10px;
 }
 .one_s_flex .one_s_global .name_free {
   width: calc(100% / 3);
+  padding: 10px;
 }
 .one_s_flex .one_s_acc {
   margin-left: 30px;
   width: calc(40% - 30px);
   background-color: #fff;
   padding: 30px;
+}
+
+.acc_1c {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.name-blue-b {
+  font-size: 14px !important;
+  font-family: GeinspiraBold;
+  position: relative;
+  line-height: 25px !important;
+  color: #2c60a4;
+  display: block;
+  text-decoration: none !important;
+  text-transform: none;
+  margin-top: -6px;
+  text-transform: uppercase;
+}
+.name-blue-b span {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.material-1c {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  font-family: GEInspiraBold;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+}
+.material-1c .label-task-gg {
+  left: 20px;
+  top: 10px;
+}
+.material-1c .name_one {
+  width: 40%;
+  padding: 20px;
+  padding-top: 25px;
+  position: relative;
+}
+.material-1c .name_one .nm {
+  position: relative;
+  padding-left: 0px;
+  font-size: 14px;
+  font-family: "GEInspiraRegular";
+  color: #00aeef;
+  display: block;
+  padding-bottom: 5px;
+  font-family: "GEInspiraBold";
+}
+.material-1c .name_one .stock_name_mat {
+  text-transform: none;
+  display: block;
+  font-size: 12px;
+  font-family: "GEInspiraRegular";
+}
+.material-1c .name_one:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .name_one .status_admin {
+  display: inline-block;
+  padding: 2px 0px;
+  line-height: 14px;
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+}
+.material-1c .name_two {
+  width: 110px;
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 25px;
+}
+.material-1c .name_two:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .name_free {
+  width: 110px;
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 25px;
+}
+.material-1c .name_free:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .name_four {
+  width: 110px;
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 25px;
+}
+.material-1c .name_four:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .name_five {
+  width: 110px;
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 25px;
+}
+.material-1c .name_five:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .name_six {
+  width: calc(100% - 40% - 440px);
+  position: relative;
+  padding: 20px;
+  padding-bottom: 0px;
+  padding-top: 25px;
+}
+.material-1c .pass_wh_trips {
+  color: rgba(0, 0, 0, 0.2);
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 10px;
+  position: relative;
+  padding-top: 13px;
+  font-weight: 400;
+}
+.material-1c .pass_wh_trips label {
+  font-family: GEInspiraRegular;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.3);
+}
+.material-1c .pass_wh_trips .kuda-trips, .material-1c .pass_wh_trips .date-trips {
+  font-family: "GEInspiraRegular";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 11px;
+  line-height: 14px;
+  position: relative;
+  text-transform: uppercase;
+  display: block;
+}
+.material-1c .pass_wh_trips .date-trips {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+}
+.material-1c .pass_wh_trips span.obi {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  line-height: 14px;
+}
+.material-1c .pass_wh_trips a {
+  color: rgba(0, 0, 0, 0.7);
+  text-decoration: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.material-1c .pass_wh_trips a:hover {
+  border-bottom: 1px solid #ccc;
+}
+.material-1c .obi {
+  font-family: "GEInspiraBold";
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 12px;
+  line-height: 14px;
+  padding-top: 7px;
+}
+.material-1c:hover {
+  background-color: #f6f7f8 !important;
+}
+.material-1c:hover .label-task-gg {
+  display: inline-block;
+}
+.material-1c .price_supply_1c {
+  font-family: "GEInspiraRegular";
+  white-space: nowrap;
+  position: relative;
+}
+.material-1c .price_supply_1c::after {
+  position: absolute;
+  top: -1px;
+  left: -10px;
+  content: "₽";
+  color: rgba(0, 0, 0, 0.3);
+  font-family: arial;
+  font-size: 12px;
+  font-style: normal;
+}
+.material-1c .load-1c-i {
+  font-family: GEInspiraBold;
+  font-size: 12px;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  /* background-image: -o-linear-gradient(#ffe251, #edc423); */
+  /* background-image: -moz-linear-gradient(#ffe251, #edc423); */
+  /* background-image: -webkit-linear-gradient(#ffe251, #edc423); */
+  /* background-image: linear-gradient(#ffe251, #edc423); */
+  border-radius: 4px;
+  /* color: #fff; */
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 10px;
+  background-color: #72b7f8;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+}
+.material-1c .load-1c-i:hover {
+  -moz-transform: translateY(0) scale(1.1);
+  -o-transform: translateY(0) scale(1.1);
+  -ms-transform: translateY(0) scale(1.1);
+  -webkit-transform: translateY(0) scale(1.1);
+  transform: translateY(0) scale(1.1);
 }
 
 .buttonBg {

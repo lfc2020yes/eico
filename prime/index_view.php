@@ -599,11 +599,16 @@ if(($role->permission('График','U'))or($role->permission('График','R
 
 
        $result_t=mysql_time_query($link,"select a.* from i_razdel1 as a where a.id_object='$id_object'". $uor->select($id_object) .' order by a.razdel1');
+
+       //echo("select a.* from i_razdel1 as a where a.id_object='$id_object'". $uor->select($id_object) .' order by a.razdel1');
+
        $num_results_t = $result_t->num_rows;
 	   if($num_results_t!=0)
 	   {
 		   for ($i=0; $i<$num_results_t; $i++)
-             {  
+             {
+                // echo($i);
+
 			    $row_t = mysqli_fetch_assoc($result_t);
 				 
 				if($role->is_row('i_razdel1','razdel1',$row_t["razdel1"]))
@@ -897,7 +902,7 @@ echo'<td class="pre-wrap"></td>
                                              <div class="line_brock"><div class="count_brock"><span>↑ Заявка</span></div><div class="count_brock"><span>Кол-во</span></div><div class="count_brock"><span>Статус</span></div></div>';
 
                               if ($result_uu_xo) {
-                                  $i = 0;
+                                  $idy = 0;
                                   $count_m=0;
                                   while ($row_uu_xo = mysqli_fetch_assoc($result_uu_xo)) {
 
@@ -971,10 +976,10 @@ echo'<td class="pre-wrap"></td>
                                       echo'</div>
 
 </div>';
-                                      $i++;
+                                      $idy++;
                                   }
 
-                                  if($i>1)
+                                  if($idy>1)
                                   {
                                       //вывод итога
                                       echo'<div class="line_brock"><div class="count_brock" style="color: #01a5fe;">Всего</div><div class="count_brock" style="color:#01a5fe">' . rtrim(rtrim(number_format($count_m, 2, '.', ' '),'0'),'.') . '<b>' . $row_t3["units"] . '</b></div>

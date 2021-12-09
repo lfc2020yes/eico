@@ -214,9 +214,12 @@ echo'<input name="tk1" value="weER23Dvmrw3E" type="hidden">';
 
             $os = array();
             $os_id = array();
-
+/*
             $os = array('шт','м3','м2','т','пог.м','маш/час','компл');
             $os_id = array('0','1','2','3','4','5','6');
+*/
+            $os = array('шт','тыс. шт','м3','м2','т','пог.м','маш/час','компл','кг');
+            $os_id = array('0','7','1','2','3','4','5','6','8');
 
 
             $su_1=ipost_x($_POST['ispol_type'],$row_list["type_contractor"],"0");

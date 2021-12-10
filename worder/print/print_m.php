@@ -45,7 +45,11 @@ if (( count($_GET) == 1 ))
  if(( count($_GET) == 1 )and(isset($_GET["id"])))
  {
        //на главной по страничкам
-         $result_url=mysql_time_query($link,'select a.* from n_nariad a where a.id="'.htmlspecialchars(trim($_GET["id"])).'" and a.signedd_nariad=1 ');
+         $result_url=mysql_time_query($link,'select a.* from n_nariad a where a.id="'.htmlspecialchars(trim($_GET["id"])).'"');
+
+
+    // $result_url=mysql_time_query($link,'select a.* from n_nariad a where a.id="'.htmlspecialchars(trim($_GET["id"])).'" and a.signedd_nariad=1 ');
+
         $num_results_custom_url = $result_url->num_rows;
         if($num_results_custom_url==0)
         {

@@ -247,7 +247,7 @@ opacity: 0.4;">('.$row_z['name_user'].')</span>
 ?>
 <div id="table_sheet">
 <?php
-$count_write=20;  //количество выводимых записей на одной странице
+$count_write=100;  //количество выводимых записей на одной странице
 
 if ($title_key==3 && $id_zay>0) {
     $sqlP="

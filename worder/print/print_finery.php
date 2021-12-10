@@ -394,7 +394,9 @@ echo'<table width="100%"  class="orl" border="0" cellspacing="0" cellpadding="0"
 			$row_town = mysqli_fetch_assoc($result_town);
 		}
 		
-	
+
+		$name_team = (isset($row_list1[name_team]))? $name_team = ', '.htmlspecialchars_decode($row_list1["name_team"]) : '';
+
 echo'<tr>
 <td class="right" colspan="3">Объект:</td>
 <td class="bl  br ll" colspan="7">'.$row_town["object_name"].', '.$row_town["kvartal"].', '.$row_town["town"].'</td>
@@ -405,7 +407,7 @@ echo'<tr>
 </tr>
 <tr>
 <td class="right" colspan="3">Исполнитель:</td>
-<td class="bl bb br ll" colspan="7">'.pad($row_list1["fio"],0).', '.htmlspecialchars_decode($row_list1["name_team"]).'</td>
+<td class="bl bb br ll" colspan="7">'.pad($row_list1["fio"],0).$name_team.'</td>
 </tr>
 <tr>
 <td colspan="10">&nbsp;</td>
@@ -489,24 +491,25 @@ if((($row_work['id_sign_mem']==0)and($row_work['signedd_mem']==0))or($row_work['
 {
 
 
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_work['id_sign_mem'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position, b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_work['id_sign_mem'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                          $soglas =  $row_userss["name_user"].', '.$row_userss["position"];
 						   
-					   }
+					   } else $soglas = '';
 //узнаем кто такой кто согласовал служебную записку	
 	
 echo'<tr>
 <td class=" bl  ll  right" ></td>
 <td class="   ll  center" >*</td>
 <td class="   ll br it ver_7 " colspan="5" >'.$row_work["memorandum"].'</td>
-<td colspan="3" class=" br   ll it ver_7 " >Согласовано: '.$row_userss["name_user"].', '.$row_userss["name_role"].'</td>
+<td colspan="3" class=" br   ll it ver_7 " >Согласовано: '.$soglas.'</td>
 </tr>';			   			   
 }
 
-//материалы вывовим
+//материалы выводим
 					   $result_mat=mysql_time_query($link,'Select a.*,a.count_units_material as count_seb,a.price_material as price_seb,a.count_units_material_realiz as count_realiz from n_material as a where a.id_nwork="'.$row_work["id"].'" order by a.id');				   
 $num_results_mat = $result_mat->num_rows;
 	                 if($num_results_mat!=0)
@@ -540,20 +543,19 @@ echo'</td>
 							//смотрим вдруг служебная записка
 		if((($row_mat['id_sign_mem']==0)and($row_mat['signedd_mem']==0))or($row_mat['id_sign_mem']!=0))
 {
-	
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_mat['id_sign_mem'])).'"');	 
+  $result_userss=mysql_time_query($link,'Select a.name_user, a.position, b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_mat['id_sign_mem'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas =  $row_userss["name_user"].', '.$row_userss["position"];
+                       } else $soglas = '';
 	
 echo'<tr>
 <td class=" bl  ll  right" ></td>
 <td class="   ll  center" >*</td>
 <td class="   ll br it ver_7 " colspan="5" >'.$row_mat["memorandum"].'</td>
-<td colspan="3" class=" br   ll it ver_7 " >Согласовано: '.$row_userss["name_user"].', '.$row_userss["name_role"].'</td>
+<td colspan="3" class=" br   ll it ver_7 " >Согласовано: '.$soglas.'</td>
 </tr>';			   			   
 }					
 							
@@ -648,53 +650,60 @@ echo'<tr>
 if(($row_list['id_signed0']!=0)and($row_list['id_signed1']!=0)and($row_list['id_signed2']!=0))	
 {
 	//подписан - согласован - утвержден
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position, b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas = '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
+
+
+                       } else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Подписан</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
 <td ></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
-</tr>';	
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed1'])).'"');	 
+</tr>';
+
+
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position ,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed1'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas = '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
+
+
+                       } else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Согласован</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
 <td ></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
-</tr>';	
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed2'])).'"');	 
+</tr>';
+
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position ,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed2'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas = '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
+                       }  else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Утвержден</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
@@ -708,17 +717,19 @@ echo'<tr>
 if(($row_list['id_signed2']==0))	
 {
 	//подписан - согласован - утвержден
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user , a.position ,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas = '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
+
+
+                       } else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Подписан</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
@@ -727,17 +738,19 @@ echo'<tr>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
 </tr>';	
 
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed1'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user , a.position ,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed1'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
-						   
-					   }	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas = '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
+
+
+                       } else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Утвержден</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
@@ -750,17 +763,18 @@ echo'<tr>
 if(($row_list['id_signed1']==0))	
 {
 	//подписан - согласован - утвержден
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position ,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed0'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas =  '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
 						   
-					   }
-echo'<tr>
+					   } else $soglas = '';
+/*echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Подписан</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
@@ -769,24 +783,25 @@ echo'<tr>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
 </tr>';	
 
-$result_userss=mysql_time_query($link,'Select a.name_user,b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed2'])).'"');	 
+$result_userss=mysql_time_query($link,'Select a.name_user, a.position, b.name_role from r_user as a,r_role as b where a.id_role=b.id and a.id="'.htmlspecialchars(trim($row_list['id_signed2'])).'"');
 					   $num_results_userss = $result_userss->num_rows;
 	                   if($num_results_userss!=0)
 	                   {
-                         $row_userss= mysqli_fetch_assoc($result_userss);	
+                         $row_userss= mysqli_fetch_assoc($result_userss);
+                         $soglas =  '<strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["position"].'</span>';
 						   
-					   }	
+					   } else $soglas = '';
 echo'<tr>
 <td colspan="2">&nbsp;</td>
 <td >Утвержден</td>
-<td class="nobottom" colspan="3"><strong>'.$row_userss["name_user"].'</strong>, <span class="upp">'.$row_userss["name_role"].'</span></td>
+<td class="nobottom" colspan="3">'.$soglas.'</td>
 </tr>
 <tr>
 <td colspan="3"></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
 <td ></td>
 <td colspan="3" valign="top" class="he"><div class="line"></div></td>
-</tr>';		
+</tr>';		*/
 	
 }		
 

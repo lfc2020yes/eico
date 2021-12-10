@@ -55,14 +55,14 @@ if (( count($_GET) == 1 ))
  if(( count($_GET) == 1 )and(isset($_GET["id"])))
  {
        //на главной по страничкам
-            $sqlA="select * from z_act a  
-                left join (select id,name_user as name0,id_role as id_role0 from r_user) u0 on (a.id0_user=u0.id)
-                left join (select id,name_user as name1,id_role as id_role1 from r_user) u1 on (a.id1_user=u1.id)
-                where a.id='".htmlspecialchars(trim($_GET["id"]))."'";
-        $result_url=mysql_time_query($link,$sqlA);
-        $num_results_custom_url = $result_url->num_rows;
-        if($num_results_custom_url==0){
-               header("HTTP/1.1 404 Not Found");
+        $sqlA="select * from z_act a  
+            left join (select id,name_user as name0,id_role as id_role0, position as position0 from r_user) u0 on (a.id0_user=u0.id)
+            left join (select id,name_user as name1,id_role as id_role1, position as position1 from r_user) u1 on (a.id1_user=u1.id)
+            where a.id='".htmlspecialchars(trim($_GET["id"]))."'";
+    $result_url=mysql_time_query($link,$sqlA);
+    $num_results_custom_url = $result_url->num_rows;
+    if($num_results_custom_url==0){
+           header("HTTP/1.1 404 Not Found");
 	       header("Status: 404 Not Found");
 	       $error_header=404;
 	} else {			
@@ -70,18 +70,19 @@ if (( count($_GET) == 1 ))
 			
 			//узнаем организацию
 	    $result_url1=mysql_time_query($link,'select a.* from i_company as a where a.id=1');
-            $num_results_custom_url1 = $result_url1->num_rows;
-            if($num_results_custom_url1!=0) {
-                $row_list1= mysqli_fetch_assoc($result_url1);
-                $result_url2=mysql_time_query($link,'select a.name_role from r_user as b,r_role as a where a.id=b.id_role and b.id="'.$row_list1["id_boss"].'"');
-                $num_results_custom_url2 = $result_url2->num_rows;
-                if($num_results_custom_url2!=0){
-                    $row_list2= mysqli_fetch_assoc($result_url2);
-		}
+        $num_results_custom_url1 = $result_url1->num_rows;
+        if($num_results_custom_url1!=0) {
+            $row_list1= mysqli_fetch_assoc($result_url1);
+
+            $result_url2=mysql_time_query($link,'select a.name_role from r_user as b,r_role as a where a.id=b.id_role and b.id="'.$row_list1["id_boss"].'"');
+            $num_results_custom_url2 = $result_url2->num_rows;
+            if($num_results_custom_url2!=0){
+                $row_list2= mysqli_fetch_assoc($result_url2);
+		    }
 			
 			
-            }
-            if(isset($_SESSION["user_id"])) { 
+        }
+        if(isset($_SESSION["user_id"])) {
                 //может ли читать Прием-Передача 
                 if(($role->permission('Прием-Передача','R'))or($sign_admin==1)){ 
 		} else {
@@ -123,10 +124,9 @@ function name_role($link,$id_role) {
      $name=$row['name_role'];
    }
    return $name;
-} 
+}
 
-
-  function minut_stamp($date_time) 
+function minut_stamp($date_time)
 { 
 
 //2017-10-27 15:07:31

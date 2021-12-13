@@ -81,7 +81,9 @@ if (isset($_GET['zay']))
         $id_doc=htmlspecialchars(trim($_GET['zay']));
 else    $id_doc=0;
 $number=get_numer_doc(&$link,$adate,4);  // получить номер акта №
-////echo '<p/>'.$number.':'.$adate;
+
+// echo "<pre> номер докумета тип 4: [$number] от [$adate] </pre>";
+
 //Создать акт
 $sqlA= 'insert into z_act 
         (number,date,date_create,

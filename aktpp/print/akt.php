@@ -132,6 +132,7 @@ function MAKE_TABLE() {
  }
  
  MAKE_TABLE();
+/* echo "<pre>".print_r($row_list,true)."</pre>";*/
  ?>
  
  <tr height=14 style='mso-height-source:userset;height:10.5pt'>
@@ -273,7 +274,7 @@ function MAKE_TABLE() {
   <td colspan=13 class=xl1491011></td>
  </tr>
  <tr height=19 style='height:14.4pt'>
-  <td colspan=8 height=19 class=xl1101011 style='height:14.4pt'>объкт №7</td>
+  <td colspan=8 height=19 class=xl1101011 style='height:14.4pt'><!--объкт №7--></td>
   <td class=xl921011></td>
   <td colspan=9 class=xl1281011>&nbsp;</td>
   <td class=xl1271011>дней</td>
@@ -420,7 +421,8 @@ function MAKE_TABLE() {
   <td class=xl921011></td>
   <td class=xl1461011><span style='mso-spacerun:yes'> </span>Сдал</td>
   <td colspan=4 class=xl1451011>
-  <?=name_role($link,$row_list['id_role0']);?>
+      <?=$row_list[position0];?>
+  <?/*=name_role($link,$row_list['id_role0']);*/?>
   </td>
   <td class=xl921011></td>
   <td colspan=5 class=xl1281011>&nbsp;</td>
@@ -447,7 +449,8 @@ function MAKE_TABLE() {
   <td class=xl921011></td>
   <td class=xl1461011><span style='mso-spacerun:yes'> </span>Принял</td>
   <td colspan=4 class=xl1451011>
-  <?=name_role($link,$row_list['id_role1']);?>
+      <?=$row_list[position1];?>
+  <?/*=name_role($link,$row_list['id_role1']);*/?>
   </td>
   <td class=xl921011></td>
   <td colspan=5 class=xl1281011>&nbsp;</td>

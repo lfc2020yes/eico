@@ -150,9 +150,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
 print_r($_POST["works"]);
 	echo '</pre>';
 	*/
-echo '<pre>';
+/*echo '<pre>';
 print_r($row_list);
-echo '</pre>';
+echo '</pre>';*/
 
 echo '<h3 style="margin-bottom:0px;">Подготовка документа </h3>';
 if ($rowE['id_doc']>0) {

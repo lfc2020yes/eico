@@ -315,7 +315,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
     $arFiles = $csv->read_dir ($mask,$mask_attach);
     //echo(count($arFiles));
 
-    echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
+    //echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
     /*echo'<br>';
     echo base64_encode($arFiles[0]['file']);
     */

@@ -170,4 +170,15 @@ function drop_search()
 
     input_2021();
 
+    //если нужно еще тип куда то вытаскивать
+    if($(this).parents('.js-stock-1c').length!=0)
+    {
+        input_pr.find('.js-hidden-unit').val($(this).find(".search_units_stock").text());
+
+        input_pr.find('.js-hidden-name-m').val($(this).find('a').text());
+
+
+    }
+
+
 }

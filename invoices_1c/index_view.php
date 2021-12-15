@@ -662,7 +662,7 @@ $url_404=$_SERVER['REQUEST_URI'];
 $D_404 = explode('/', $url_404);
 
 if (strripos($url_404, 'index_view.php') !== false) {
-   header404(1,$echo_r);	
+   //header404(1,$echo_r);
 }
 
 //**************************************************
@@ -687,12 +687,12 @@ $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
 $arFiles = $csv->read_dir($mask,$mask_attach);
 if(isset($_GET["id"])) {
     //iconv( 'windows-1251','UTF-8',$debug)\
-echo(my_url_decode(base64_decode($_GET['id'])).'<br>');
+echo(rawurldecode($_GET['id']).'<br>');
 
 
    // echo(iconv( 'utf-8','windows-1251',urldecode($_GET['id'])));
-  //  $data = $csv->read_data(iconv( 'UTF-8','windows-1251',urldecode($_GET['id'])));
-    $data = $csv->read_data(my_url_decode(base64_decode($_GET['id'])));
+    $data = $csv->read_data(iconv( 'UTF-8','windows-1251',rawurldecode($_GET['id'])));
+   // $data = $csv->read_data(my_url_decode(base64_decode($_GET['id'])));
     if(count($data)==0)
     {
         header404(5,$echo_r);

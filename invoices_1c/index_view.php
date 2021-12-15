@@ -690,7 +690,7 @@ if(isset($_GET["id"])) {
 echo(rawurldecode($_GET['id']).'<br>');
 
 
-   // echo(iconv( 'utf-8','windows-1251',urldecode($_GET['id'])));
+    echo(iconv( 'utf-8','windows-1251',rawurldecode($_GET['id'])));
     $data = $csv->read_data(iconv( 'windows-1251','UTF-8',rawurldecode($_GET['id'])));
    // $data = $csv->read_data(my_url_decode(base64_decode($_GET['id'])));
     if(count($data)==0)

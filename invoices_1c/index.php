@@ -357,11 +357,12 @@ if(($title_key==0)and($count!=0))
         $date_start = $date_mass[0] . ' ' . $date_mass1[0] . ':' . $date_mass1[1];
 
         $str =$value["file"];
-        $str = iconv("utf-8", "windows-1251", $value["file"]); /* Преобразование кодировки */
+       // $str = iconv("utf-8", "windows-1251", $value["file"]); /* Преобразование кодировки */
 
         // Возвращает строку, в которой все не алфавитно-числовые символы (кроме -_.) заменены на знак процентов (%) с последующими двумя 16-ричными цифрами и пробелами, кодированными как знаки плюс (+)
 
         //$str= urlencode(htmlspecialchars($str));
+        echo($value["file"].'<br>');
 $str=rawurlencode($str);
 echo($value["file"]);
         //$str1 = iconv("utf-8", "windows-1251", $str1); /* Преобразование кодировки */

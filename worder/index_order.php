@@ -221,6 +221,9 @@ if($flag_podpis!=0)
             $row_town = mysqli_fetch_assoc($result_town);
         }
 //echo(gettype($edo->arr_task));
+        $admin_note=0;
+        $admin_users='';
+
         foreach ($edo->arr_task as $key => $value) {
             //оправляем всем уведомления кому нужно рассмотреть этот документ далее
 
@@ -237,6 +240,38 @@ if($flag_podpis!=0)
             $user_send_new = array_unique($user_send_new);
             notification_send($text_not, $user_send_new, $id_user, $link);
 
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $admin_note=1;
+            $kto1=name_sql_x($value["id_executor"]);
+            if($admin_users=='')
+            {
+                $admin_users=$kto1;
+            } else
+            {
+                $admin_users.=', '.$kto1;
+            }
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
+        }
+
+        if($admin_note!=0)
+        {
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
+
+            $kto=name_sql_x($id_user);
+            $title=$kto.' Создан новый наряд и отправлен на согласование';
+
+            $message=$kto.' создал(а) и отправил(а) на  согласовалие - <a class="link-history" href="worder/' . $row_list['id'] . '/"> Наряд №' . $row_list['numer_doc'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . '). Наряд поступил к - '.$admin_users;
+            notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
 
         }
 

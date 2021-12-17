@@ -43,7 +43,7 @@ if ((!$role->permission('Счета','U'))and($sign_admin!=1))
 
 	   }
 
-if($row_t['status']!=3)
+if(($row_t['status']!=3)and($row_t['status']!=20))
 {
 	goto end_code;
 }

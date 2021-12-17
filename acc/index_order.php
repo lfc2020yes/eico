@@ -127,6 +127,10 @@ if ($edo->next($id, 1,0,$restart)===false) {
 
 
 //echo(gettype($edo->arr_task));
+    $admin_note=0;
+    $admin_users='';
+
+
     foreach ($edo->arr_task as $key => $value)
     {
         //оправляем всем уведомления кому нужно рассмотреть этот документ далее
@@ -153,7 +157,40 @@ if ($edo->next($id, 1,0,$restart)===false) {
 			    notification_send($text_not,$user_send_new,$id_user,$link);
 
 
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        $admin_note=1;
+        $kto1=name_sql_x($value["id_executor"]);
+        if($admin_users=='')
+        {
+            $admin_users=$kto1;
+        } else
+        {
+            $admin_users.=', '.$kto1;
+        }
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
 
+
+    }
+
+
+    if($admin_note!=0)
+    {
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        $user_admin= array();
+        array_push($user_admin, 11);
+
+        $kto=name_sql_x($id_user);
+        $title='Cчет №'.$row_list['number'].' отправлен на согласование';
+
+
+        $message=$kto.' отправил - <a class="link-history" href="acc/' . $row_list['id'] . '/">Счет №'.$row_list['number'].' от '.date_ex(0,$row_list['date']).'</a> на согласование. Счет поступил к - '.$admin_users;
+        notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
     }
 
 

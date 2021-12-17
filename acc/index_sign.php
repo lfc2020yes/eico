@@ -158,6 +158,8 @@ if (($edo->next($id, 1))===false) {
 
 //echo(gettype($edo->arr_task));
     if(isset($edo->arr_task)) {
+        $admin_note=0;
+        $admin_users='';
         foreach ($edo->arr_task as $key => $value) {
             //оправляем всем уведомления кому нужно рассмотреть этот документ далее
 
@@ -196,7 +198,41 @@ if (($edo->next($id, 1))===false) {
             notification_send($text_not, $user_send_new, $id_user, $link);
 
 
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $admin_note=1;
+            $kto1=name_sql_x($value["id_executor"]);
+            if($admin_users=='')
+            {
+                $admin_users=$kto1;
+            } else
+            {
+                $admin_users.=', '.$kto1;
+            }
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
         }
+
+        if($admin_note!=0)
+        {
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
+
+            $kto=name_sql_x($id_user);
+            $title=$kto.' согласовал счет №'.$value['number'].' с замечанием';
+
+            $message=$kto.' согласовал - <a class="link-history" href="acc/' . $_GET['id'] . '/"Счет №'.$value['number'].' от '.date_ex(0,$value['date']).'</a>. Замечание - '.$_POST["remark"].'. Счет поступил к - '.$admin_users;
+            notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+        }
+
     }
 
 

@@ -135,25 +135,29 @@ if(($but_mass["id_action"]==3)) {
 
     mysql_time_query($link,'update n_nariad set status="21" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
+
+
+        $admin_note=1;
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        $user_admin= array();
+        array_push($user_admin, 11);
+
+        $kto=name_sql_x($id_user);
+        $title=$kto.' оплатил(а) наряд №'.$row_list['numer_doc'];
+
+
+        $message=$kto.' оплатил(а) <a class="link-history" href="worder/' . $_GET['id'] . '/">Наряд №' . $row_list['numer_doc'] . '</a>.';
+        notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
 }
 
 
 //отправляем следующим уведомления
 if (($edo->next($id, 2))===false) {
-
-    //id_executor
-    //mysql_time_query($link,'update z_doc set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
-//меняем статусы у материалов на заказано
-    /*
-    $result_tyd1=mysql_time_query($link,'Select a.id from z_doc_material as a where a.id_doc="'.htmlspecialchars(trim($_GET['id'])).'"');
-    $num_results_tyd1 = $result_tyd1->num_rows;
-
-    for ($ids=0; $ids<$num_results_tyd1; $ids++)
-    {
-        $row_tyd1 = mysqli_fetch_assoc($result_tyd1);
-        mysql_time_query($link,'update z_doc_material set status="9" where id = "'.htmlspecialchars(trim($row_tyd1['id'])).'"');
-    }
-*/
 
     $result_url=mysql_time_query($link,'select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_list['id_object'])).'"');
     $num_results_custom_url = $result_url->num_rows;
@@ -171,6 +175,8 @@ if (($edo->next($id, 2))===false) {
 
 //echo(gettype($edo->arr_task));
     if(isset($edo->arr_task)) {
+        $admin_note=0;
+        $admin_users='';
         foreach ($edo->arr_task as $key => $value) {
             //оправляем всем уведомления кому нужно рассмотреть этот документ далее
 
@@ -199,7 +205,37 @@ if (($edo->next($id, 2))===false) {
             $user_send_new = array_unique($user_send_new);
             notification_send($text_not, $user_send_new, $id_user, $link);
 
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $admin_note=1;
+            $kto1=name_sql_x($value["id_executor"]);
+            if($admin_users=='')
+            {
+                $admin_users=$kto1;
+            } else
+            {
+                $admin_users.=', '.$kto1;
+            }
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        }
+        if($admin_note!=0)
+        {
+            $admin_note=1;
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
 
+            $kto=name_sql_x($id_user);
+            $title=$kto.' согласовал(а) наряд №'.$row_list['numer_doc'];
+
+
+            $message=$kto.' согласовал(а) <a class="link-history" href="worder/' . $_GET['id'] . '/">Наряд №' . $row_list['numer_doc'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . '). Наряд поступил к - '.$admin_users;
+            notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
         }
     }
 

@@ -434,6 +434,51 @@ function online_user($times,$id_user,$you_id)
   }
 
 }
+
+function name_sql_x($id)
+{
+    global $link;
+    $result_txs=mysql_time_query($link,'Select a.name_user from r_user as a where a.id="'.$id.'"');
+    if($result_txs->num_rows!=0)
+    {
+        $rowxs = mysqli_fetch_assoc($result_txs);
+        return $rowxs["name_user"];
+
+    } else
+    {
+        return 'Пользователь';
+    }
+}
+
+
+//отправка уведомления админу на почту и на сайте
+function notification_send_admin($title,$text,$mass,$id_user,$link)
+{
+
+
+    $today[0] = date("y.m.d"); //присвоено 03.12.01
+    $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
+    $date_=$today[0].' '.$today[1];
+
+    foreach ($mass as $keys => $value)
+    {
+        mysql_time_query($link,'INSERT INTO r_notification (id_user,notification,sign_user,datetime ) VALUES ("'.$value.'","'.htmlspecialchars(trim($text)).'","'.$id_user.'","'.$date_.'")');
+        $noti_key=new_key($link,10);
+        mysql_time_query($link,'update r_user set noti_key="'.$noti_key.'" where id = "'.htmlspecialchars(trim($value)).'"');
+
+
+        //отправляем на почту письмо
+        //notification_mail($text,ht($value),$id_user,$link);
+
+        //отправлять насильно все админу потом если что закомментировать
+        notification_mail_admin($title,$text,11,$id_user,$link);
+
+
+
+    }
+}
+
+
 //отправка уведомлений пользователям
 function notification_send($text,$mass,$id_user,$link)
 {
@@ -454,7 +499,7 @@ function notification_send($text,$mass,$id_user,$link)
         notification_mail($text,ht($value),$id_user,$link);
 
         //отправлять насильно все админу потом если что закомментировать
-        notification_mail($text,11,$id_user,$link);
+      //  notification_mail($text,11,$id_user,$link);
 
 
 
@@ -569,6 +614,113 @@ COST CONTROL MANAGER
 
 }
 
+function notification_mail_admin($title,$text1,$komy_id,$id_user,$link)
+{
+    global $notification_mail;
+    if($notification_mail==1) {
+        $today[0] = date("y.m.d"); //присвоено 03.12.01
+        $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
+        $date_ = $today[0] . ' ' . $today[1];
+
+        $url_system = $_SERVER['DOCUMENT_ROOT'] . '/';
+        include_once $url_system . 'module/config_mail.php';
+
+        // отправка письма на почту
+        // отправка письма на почту
+        // отправка письма на почту
+        $text = "<HTML>\r\n";
+        $text .= "<HEAD>\r\n";
+        $text .= "<META http-equiv=Content-Type content='html; charset=windows-1251'>\r\n";
+
+        $text .= "<style type=\"text/css\">
+.mail-st a {  color: #292f33; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 24px; font-weight: 300; line-height: 30px; border-bottom: 1px solid rgba(0,0,0,0.1);text-decoration: none;  }.time_notifi {color: rgba(0,0,0,0.4);
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;}
+
+</style>";
+        $text .= "<base href=\"https://eico.atsun.ru/\">";
+
+        $text .= "</HEAD>\r\n";
+        $text .= "<BODY>\r\n";
+
+
+        $text .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;min-width:100%;" bgcolor="#E7E7EF"><tbody><tr><td align="center" style="padding: 0 5px;vertical-align:top;" bgcolor="#E7E7EF">';
+
+        $text .= '<table align="center" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;direction:ltr; margin-top:40px;  margin-bottom:10px; ">
+      <tbody><tr><td style="vertical-align:top; padding:30px;" bgcolor="#FFF">';
+
+
+        $text .= "<br><span style=\"color: #66757f; font-family: 'Helvetica Neue Light',Helvetica,Arial,sans-serif; font-size: 16px; font-weight: 300;\">Приветствуем вас!</span><br><br>";
+
+
+        $text .= '<div style=" width:100%; height:1px; border-top:1px solid #e1e8ed;"></div>';
+
+        $text .= "<br><span class=\"mail-st\" style=\" color: #292f33; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 24px; font-weight: 300; line-height: 30px; margin: 0; padding: 0; text-align: left;\">" . $text1 . "</span><br><br>
+
+
+<span style=\"color: #292f33;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0;
+    padding: 0;
+    text-align: left;\">Ссылка на ваш личный кабинет: </span>
+
+<br>
+<a style=\"color:
+#2c60a4;
+
+border-bottom: 1px solid
+rgba(0,0,0,0.1);
+
+text-decoration: none;
+
+font-size: 20px;\" href=\"https://eico.atsun.ru/notification/\">
+COST CONTROL MANAGER
+</a>
+
+<br><br><br><span style=\"color: rgba(0,0,0,0.4);
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+    margin: 0;
+    
+    text-align: left;\"> Это письмо создано автоматически системой  COST CONTROL MANAGER. C уважением, Администрация <a style=\"color: rgba(0,0,0,0.4);
+    
+    text-decoration: none;\" href=\"https://eico.group/\">eico group</a></span>\r\n";
+
+        $text .= "</td></tr></tbody></table>";
+
+
+        $text .= "</td></tr></tbody></table>";
+
+
+        $text .= "</BODY>\r\n";
+        $text .= "</HTML>";
+
+
+        //mail($_POST["login"],"www.ulmenu.ru: Подтверждение регистрации",$text,$header);
+        // /отправка письма на почту
+
+        $result_uu = mysql_time_query($link, 'select email,email_notifications from r_user where id="' . ht($komy_id) . '"');
+        $num_results_uu = $result_uu->num_rows;
+
+        if ($num_results_uu != 0) {
+            $row_uu = mysqli_fetch_assoc($result_uu);
+            $mail_admin = trim($row_uu["email"]);
+
+            if (((filter_var(trim($mail_admin), FILTER_VALIDATE_EMAIL)))and($row_uu["email_notifications"]==1)) {
+                SMTP_MAIL($mail_ulmenu, 'password', $title, $text, $mail_admin);
+
+            }
+        }
+
+
+    }
+
+}
 
 
 //получение нового ключа для уведомлений пользователю

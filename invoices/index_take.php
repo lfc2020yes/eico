@@ -140,6 +140,10 @@ if($nak!=$row_score["id_acc"]) {
         $text_not = 'По счету <a class="link-history" href="acc/' . $row_score["id_acc"] . '/">№' . $row_uu8['number'] . ' от ' . date_ex(0, $row_uu8["date"]) . '</a> поступил материал. Подробности в накладной <a class="link-history" href="/invoices/' . $_GET['id'] . '/">№' . $row_t["number"] . '</a>.';
         $user_send_new = array_unique($user_send_new);
         notification_send($text_not, $user_send_new, $id_user, $link);
+
+
+
+
     }
 }
             $nak=$row_score["id_acc"];
@@ -257,6 +261,18 @@ if($num_results_score1!=0)
 
 			   
 	}
+
+
+    $user_admin= array();
+    array_push($user_admin, 11);
+
+    $kto=name_sql_x($id_user);
+    $title=$kto.' принял материал по накладной '.$row_t["number"];
+
+    $message=$kto.' принял материал по накладной - <a class="link-history" href="/invoices/' . $_GET['id'] . '/">№' . $row_t["number"] . '</a>.';
+    notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+
 }
 
 

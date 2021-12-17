@@ -140,6 +140,23 @@ if(($but_mass["id_action"]==3)) {
 
     mysql_time_query($link,'update n_nariad set status="21" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        $user_admin= array();
+        array_push($user_admin, 11);
+
+        $kto=name_sql_x($id_user);
+        $title=$kto.' оплатил(а) наряд №'.$row_list['numer_doc'] . ' с замечанием';
+
+        $message=$kto.' оплатил(а) - <a class="link-history" href="worder/' . $_GET['id'] . '/">Наряд №' . $row_list['numer_doc'] . '</a>. Замечание - '.$_POST["remark"].'.';
+        notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
+
 }
 
 
@@ -176,6 +193,9 @@ if (($edo->next($id, 2))===false) {
 
 //echo(gettype($edo->arr_task));
     if(isset($edo->arr_task)) {
+
+        $admin_note=0;
+        $admin_users='';
         foreach ($edo->arr_task as $key => $value) {
             //оправляем всем уведомления кому нужно рассмотреть этот документ далее
 
@@ -202,9 +222,41 @@ if (($edo->next($id, 2))===false) {
             //отправка уведомления
             $user_send_new = array_unique($user_send_new);
             notification_send($text_not, $user_send_new, $id_user, $link);
-
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $admin_note=1;
+            $kto1=name_sql_x($value["id_executor"]);
+            if($admin_users=='')
+            {
+                $admin_users=$kto1;
+            } else
+            {
+                $admin_users.=', '.$kto1;
+            }
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
 
         }
+
+        if($admin_note!=0)
+        {
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
+
+            $kto=name_sql_x($id_user);
+            $title=$kto.' согласовал(а) наряд №'.$row_list['numer_doc'] . ' с замечанием';
+
+            $message=$kto.' согласовал(а) - <a class="link-history" href="worder/' . $_GET['id'] . '/">Наряд №' . $row_list['numer_doc'] . '</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . '). Замечание - '.$_POST["remark"].'. Наряд поступил к - '.$admin_users;
+            notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+        }
+
+
     }
 
 

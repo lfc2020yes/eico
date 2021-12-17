@@ -281,7 +281,7 @@ function nds_invoice()
 
     if($('.js-number-invoice-x').is('[readonly]'))
     {
-        $('.price_in_,.price_nds_in_').addAttr('readonly').addClass('grey_edit');
+        $('.price_in_,.price_nds_in_').attr('readonly','true').addClass('grey_edit');
     }
     $('[name=nds_ff]').val(nds);
 

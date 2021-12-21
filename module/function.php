@@ -712,8 +712,10 @@ COST CONTROL MANAGER
             $mail_admin = trim($row_uu["email"]);
 
             if (((filter_var(trim($mail_admin), FILTER_VALIDATE_EMAIL)))and($row_uu["email_notifications"]==1)) {
-                SMTP_MAIL($mail_ulmenu, 'password', $title, $text, $mail_admin);
-
+                if(SMTP_MAIL($mail_ulmenu, 'password', $title, $text, $mail_admin)==false)
+                {
+                    mysqli_query($link,'insert into v_error (module,error,date_error)  values ("'.htmlspecialchars($_SERVER['REQUEST_URI']).'","'.$title.'","'.date("y.m.d").' '.date("H:i:s").'")');
+                }
             }
         }
 

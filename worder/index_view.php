@@ -451,7 +451,8 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 					 date_doc="' . htmlspecialchars(trim($_POST["date_naryad"])) . '",
 					 date_begin="' . htmlspecialchars($_POST['date_start']) . '", 
 					 date_end="' . htmlspecialchars($_POST['date_end']) . '", 
-					 ready="0"
+					 ready="0",
+					 comment="'.ht($_POST['name_b']).'"
 					 
 					 where id = "' . htmlspecialchars(trim($_GET['id'])) . '"');
 
@@ -1349,10 +1350,10 @@ beforeShow:function(textbox, instance){
 <?
 if($_POST['datess1']!='')
 {
-    $query_string .= 'var st=\''.ipost_($_POST['date_start'],"").'\';
-var st1=\''.ipost_($_POST['date_end'],"").'\';
-var st2=\''.ipost_($_POST['datess1'],"").'\';';
-    $query_string .= 'jopacalendar(st,st1,st2);';
+    echo 'var st=\''.ipost_($_POST['date_start'],"").'\'';
+echo 'var st1=\''.ipost_($_POST['date_end'],"").'\'';
+echo 'var st2=\''.ipost_($_POST['datess1'],"").'\';';
+    echo 'jopacalendar(st,st1,st2);';
 }
 ?>
                       //$('#date_table1').datepicker('setDate', ['+1d', '+30d']);
@@ -1401,11 +1402,20 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
                           $query_string .= '<!--input start-->';
                           $query_string .= '<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color '.$class_cal1.'"><label><i>Период работ</i><span>*</span></label><input name="datess1" id="date_table1" readonly="true" value="'.ipost_($_POST['datess1'],date_fik($row_list["date_begin"],$row_list["date_end"])).'" class="input_new_2021 gloab required  no_upperr cal_rang_2021" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox1"></span></div><input id="date_hidden_start" class="gloab" name="date_start" value="'.ipost_($_POST['date_start'],$row_list["date_begin"]).'" type="hidden"><input id="date_hidden_end" class="gloab" name="date_end" value="'.ipost_($_POST['date_end'],$row_list["date_end"]).'" type="hidden"></div>';
                           echo'<!--input end	-->';
+                          $class_ddf='';
+if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
+    $class_ddf = 'active_in_2018';
+}
+
+                          $query_string .= '<!--input start-->
+<div class="margin-input"><div class="input_2018 input_2018_resize '.$class_t.'  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").' '.$class_ddf.'"><label><i>Комментарий</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di input_new_2018  text_area_otziv js-autoResize js-worder-20-2">'.ipost_($_POST['name_b'],$row_list["comment"]).'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
 
 
 
 
-                      $query_string .= '</div></div>';
+
+                          $query_string .= '</div></div>';
 
 
 
@@ -2260,3 +2270,9 @@ echo'<script type="text/javascript">var b_cm=\''.$b_cm.'\'</script>';
 </div>
 
 </body></html>
+<script type="text/javascript">
+    $(function() {
+        Zindex();
+        AutoResizeT();
+    });
+</script>

@@ -384,7 +384,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 					 //echo('INSERT INTO n_nariad (id,numer_doc,id_user,id_object,id_implementer,date_make,date_doc,date_begin,date_end,status,id_sign_nariad,signedd_nariad) VALUES ("","'.$numer.'","'.$id_user.'","'.htmlspecialchars($_GET['id']).'","'.htmlspecialchars(trim($_POST['ispol_work'])).'","'.$date_.'","'.htmlspecialchars(trim($_POST["date_naryad"])).'","'.htmlspecialchars($_POST['date_start']).'","'.htmlspecialchars($_POST['date_end']).'","'.$id_user.'","0")') ; 
 					   
 					 //добавляем неподписанный наряд  
-				     mysql_time_query($link,'INSERT INTO n_nariad (id,numer_doc,id_user,id_object,id_implementer,date_make,date_create,date_doc,date_begin,date_end,ready,id_signed0,id_signed1,id_signed2,signedd_nariad,status) VALUES ("","'.$numer.'","'.$id_user.'","'.htmlspecialchars($_GET['id']).'","'.htmlspecialchars(trim($_POST['ispol_work'])).'","'.$date_.'","'.$date_.'","'.htmlspecialchars(trim($_POST["date_naryad"])).'","'.htmlspecialchars($_POST['date_start']).'","'.htmlspecialchars($_POST['date_end']).'","0","0","0","0","0","1")');
+				     mysql_time_query($link,'INSERT INTO n_nariad (id,numer_doc,id_user,id_object,id_implementer,date_make,date_create,date_doc,date_begin,date_end,ready,id_signed0,id_signed1,id_signed2,signedd_nariad,status,comment) VALUES ("","'.$numer.'","'.$id_user.'","'.htmlspecialchars($_GET['id']).'","'.htmlspecialchars(trim($_POST['ispol_work'])).'","'.$date_.'","'.$date_.'","'.htmlspecialchars(trim($_POST["date_naryad"])).'","'.htmlspecialchars($_POST['date_start']).'","'.htmlspecialchars($_POST['date_end']).'","0","0","0","0","0","1","'.ht($_POST['name_b']).'")');
 					   
 					 $ID_N=mysqli_insert_id($link);  
 				   }	
@@ -759,220 +759,261 @@ if(count($D)>0)
 echo'</div>';
 
                       ?>
-      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
-          <div class="info-suit">
 
-<form id="lalala_add_form" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
+                      <div class="div_ook" style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+<form id="lalala_add_form" style=" padding:0; margin:0;" method="post" class="js-add-worder-material" enctype="multipart/form-data">
  <input name="save_naryad" value="1" type="hidden">
-  <?
-	
-    echo'<div class="content_block1" style="padding-top:20px;" id_content="'.$id_user.'">';
-
-//print_r($stack_error);
-	/*echo '<pre>';
-print_r($_POST["works"]);	
-	echo '</pre>';
-	*/
-//echo'<h3 style=" margin-bottom:0px;">Добавление наряда<div></div></h3>';
-echo'<div class="comme" >'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</div>';	  
-	
-	  
-	  
-	  $rrtt=0;
-	  
-	  if (( isset($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]))and($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]!=''))
-	  {
-	       
-					
-	echo'<div style="height:70px;"><div class="_50_na_50_1" style="width:50%; float:left;"><div class="_50_x">';
-		   echo'<div class="input-width m10_right">';
-		
-		
-	$result_t=mysql_time_query($link,'Select a.id,a.implementer from i_implementer as a order by a.id');
-       $num_results_t = $result_t->num_rows;
-	   if($num_results_t!=0)
-	   {
-		   echo'<div class="select_box eddd_box"><a class="slct_box '.iclass_('ispol_work',$stack_error,"error_formi").'" data_src="0"><span class="ccol">'.ipost_($_POST['ispol_work'],"Исполнитель","i_implementer","implementer",$link).'</span></a><ul class="drop_box">';
-		  // echo'<li><a href="javascript:void(0);"  rel="0">--</a></li>';
-		   for ($i=0; $i<$num_results_t; $i++)
-             {  
-               $row_t = mysqli_fetch_assoc($result_t);
-
-				  echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["implementer"].'</a></li>'; 
-			  
-			 }
-		   echo'</ul><input name="ispol_work" id="ispol" value="'.ipost_($_POST['ispol_work'],"0").'" type="hidden"></div>'; 
-	   }
-		
-		
-		
-		
-		echo'</div>';
-		echo'</div>';
-		
-		echo'<div class="_50_x">';
-		   echo'<div class="input-width m10_right" style="position:relative; margin-right: 0px;">';
-		    
-		    echo'<input id="date_hidden_table" name="date_naryad" value="'.ipost_($_POST['date_naryad'],"").'" type="hidden">';
-			
-			echo'<input readonly="true" name="datess" value="'.ipost_($_POST['datess'],"").'" id="date_table" class="input_f_1 input_100 calendar_t white_inp '.iclass_("date_naryad",$stack_error,"error_formi").'" placeholder="Дата документа"  autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
-		
-		echo'<div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div>';
-		
-		echo'</div>';
-	  
-		  
-		  
-		  
-			echo'<div class="_50_na_50_1" style="width:50%; float:left;"><div class="_50_x" style="width:100%; padding-left:10px;">';
-		   echo'<div class=" input-width m10_right" style="position:relative; margin-right: 0px;">';
-		    
-		    echo'<input id="date_hidden_start" name="date_start" value="'.ipost_($_POST['date_start'],"").'" type="hidden">';
-			echo'<input id="date_hidden_end" name="date_end" value="'.ipost_($_POST['date_end'],"").'" type="hidden">';
-		  
-			echo'<label>Период работ</label><input readonly="true" name="datess1" value="'.ipost_($_POST['datess1'],"").'" id="date_table1" class="input_f_1 input_100 calendar_t white_inp label_s '.iclass_("date_period",$stack_error,"error_formi").'" placeholder="Период работ"  autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
-		
-		
-		
-		echo'</div>';  
-	 echo'<div class="pad10" style="padding: 0; width:100%;"><span class="bookingBox1"></span></div>';
-	  echo'</div>';
-	  
-	?>  
-	<script type="text/javascript" src="Js/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript" src="Js/jquery.datepicker.extension.range.min.js"></script>
-<script type="text/javascript">var disabledDays = [];
- $(document).ready(function(){           
-            $("#date_table").datepicker({ 
-altField:'#date_hidden_table',
-onClose : function(dateText, inst){
-        //alert(dateText); // Âûáðàííàÿ äàòà 
-		
-    },
-altFormat:'yy-mm-dd',
-defaultDate:null,
-beforeShowDay: disableAllTheseDays,
-dateFormat: "d MM yy"+' г.', 
-firstDay: 1,
-minDate: "-60D", maxDate: "+60D",
-beforeShow:function(textbox, instance){
-	//alert('before');
-	setTimeout(function () {
-            instance.dpDiv.css({
-                position: 'absolute',
-				top: 65,
-                left: 0
-            });
-        }, 10);
-	
-    $('.bookingBox').append($('#ui-datepicker-div'));
-    $('#ui-datepicker-div').hide();
-} });
-	 
-	 
-	 
-$("#date_table1").datepicker({ 
-range: 'period', // режим - выбор периода
-numberOfMonths: 2,
-    firstDay: 1,
-//altField:'#date_hidden_period',
-/*
-	onClose : function(dateText, inst){
-        //alert(dateText); // Âûáðàííàÿ äàòà 
-		
-    },
-altFormat:'yy-mm-dd',
-defaultDate:null,
-*/
-onSelect: function(dateText, inst, extensionRange) {
-    	// extensionRange - объект расширения
-	resizeDatepicker();
-	$('#date_table1').val(jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate));
-	  
-
-	$('#date_hidden_start').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.startDate));
-	$('#date_hidden_end').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.endDate));
-	
-	$('#date_table1').prev('label').show();
-	
-    },	
-	
-//beforeShowDay: disableAllTheseDays,
-//dateFormat: "d MM yy"+' г.', 
-//firstDay: 1,
-//minDate: "-60D", maxDate: "+60D",
-onChangeMonthYear: resizeDatepicker,	
-beforeShow:function(textbox, instance, extensionRange){
-	//alert('before');
-	setTimeout(function () {
-            instance.dpDiv.css({
-                position: 'absolute',
-				top: 65,
-                left: 0,
-				width:'100%'
-            });
-        }, 10);
-	
-    $('.bookingBox1').append($('#ui-datepicker-div'));
-    $('#ui-datepicker-div').hide();
-} 
-
-});	
 
 <?
-if($_POST['datess1']!='')
-{
-echo'var st=\''.ipost_($_POST['date_start'],"").'\';
+
+    if (( isset($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]))and($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]!=''))
+    {
+
+    $query_string .= '<div class="info-suit"><div class="input-block-2020">';
+
+
+            $query_string .= '<span class="h3-f">Данные по наряду</span>';
+
+
+
+            $su_5_name='';
+            $su_5='';
+            $su_5_class='';
+            $su5_st='';
+
+
+            if($_POST['ispol_work']!=0)
+            {
+
+
+            $result_uui = mysql_time_query($link, 'select implementer from i_implementer where id="' . ht($_POST['ispol_work']) . '"');
+            $num_results_uui = $result_uui->num_rows;
+
+            if ($num_results_uui != 0) {
+            $row_uui = mysqli_fetch_assoc($result_uui);
+            $su_5_name=$row_uui["implementer"];
+            }
+
+
+            $su_5=$_POST['ispol_work'];
+            $su_5_class='active_in_2018x active_in_2021';
+            $su5_st='style="display: inline-block;"';
+            }
+
+
+
+            $query_string .= '<!--input start	-->';
+
+            $query_string .= '<div class=" big_list" style="margin-bottom: 10px;">';
+                //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
+
+                    $query_string .= '<div class="list_2021 input_2021 input-search-list gray-color js-zindex  '.$su_5_class.'" list_number="box2"><i class="js-open-search"></i><span class="click-search-icon" '.$su5_st.'></span><div class="b_loading_small loader-list-2021"></div><label>Поиск исполнителя (название)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_implementer" fns="0" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2 js-id-kto-ajax" name="ispol_work" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+
+
+                            //выбирать только тех у кого есть какие то счета на этом контрагенте
+                            $result_work_zz=mysql_time_query($link,"SELECT distinct A.id,A.implementer from i_implementer as A where A.id_user='".$id_user."' ORDER BY A.implementer limit 0,40");
+
+
+
+                            $num_results_work_zz = $result_work_zz->num_rows;
+                            if($num_results_work_zz!=0)
+                            {
+                            //echo'<li><a href="javascript:void(0);" rel="0"></a></li>';
+                            for ($i=0; $i<$num_results_work_zz; $i++)
+                            {
+                            $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+
+                            $yop='';
+                            if($row_work_zz["id"]==$su_5) {
+                            $yop='sel_active';
+                            }
+
+                            $query_string .= '<li class="'.$yop.'"><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["implementer"].' </a></li>';
+
+                            }
+                            }
+
+                            $query_string .= '</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
+
+
+
+
+                /*
+                echo'<input id="date_hidden_table" name="date_naryad" value="'.ipost_($_POST['date_naryad'],$row_list["date_doc"]).'" type="hidden">';
+
+                echo'<input '.$status_edit1.' defaultv="'.ipost_($_POST['datess'],date_fik($row_list["date_doc"])).'" readonly="true" name="datess" defuat="" value="'.ipost_($_POST['datess'],date_fik($row_list["date_doc"])).'" id="date_table" class="input_f_1 input_100 calendar_t white_inp '.$status_class.' '.iclass_("date_naryad",$stack_error,"error_formi").'" placeholder="Дата документа"  autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
+        */
+        $class_cal1='';
+        if((ipost_($_POST['date_naryad'],'')!='')and(validateDate(ipost_($_POST['date_naryad'],''),'Y-m-d')))
+        {
+        $class_cal1='active_in_2021';
+        }
+
+        $query_string .= '<!--input start-->';
+        $query_string .= '<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color '.$class_cal1.'"><label><i>Дата документа</i><span>*</span></label><input name="datess" id="date_table" readonly="true" value="'.ipost_($_POST['datess'],'').'" class="input_new_2021 gloab2 required cal_2021  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox"></span></div><input id="date_hidden_table" class="gloab2" name="date_naryad" value="'.ipost_($_POST['date_naryad'],'').'" type="hidden"></div>';
+        $query_string .= '<!--input end	-->';
+
+        ?>
+
+        <script type="text/javascript">var disabledDays = [];
+            $(document).ready(function(){
+                window.date_picker_step=0;
+                input_2021();
+                $("#date_table").datepicker({
+                    altField:'#date_hidden_table',
+                    onClose : function(dateText, inst){
+                        //alert(dateText); // Âûáðàííàÿ äàòà
+                        input_2021();
+                    },
+                    altFormat:'yy-mm-dd',
+                    defaultDate:null,
+                    beforeShowDay: disableAllTheseDays,
+                    dateFormat: "d MM yy"+' г.',
+                    firstDay: 1,
+                    minDate: "-120D", maxDate: "+120D",
+                    beforeShow:function(textbox, instance){
+                        //alert('before');
+                        setTimeout(function () {
+                            instance.dpDiv.css({
+                                position: 'absolute',
+                                top: 0,
+                                left: 0
+                            });
+                        }, 10);
+
+                        $('.bookingBox').append($('#ui-datepicker-div'));
+                        $('#ui-datepicker-div').hide();
+                    } });
+
+                $("#date_table1").datepicker({
+                    range:'period',
+                    numberOfMonths: 2,
+                    firstDay: 1,
+                    minDate: "-1Y", maxDate: "+1Y",
+                    onClose : function(dateText, inst){
+                        //alert(dateText); // Âûáðàííàÿ äàòà
+                        input_2021();
+                    },
+                    onSelect: function(dateText, inst, extensionRange) {
+
+
+                        $('#date_hidden_start').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.startDate));
+                        $('#date_hidden_end').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.endDate));
+
+                        $('#date_table1').val(jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate));
+                        window.date_picker_step++;
+
+
+
+                        if(window.date_picker_step==2)
+                        {
+                            //$('#date_table').сlose();
+                            //$('.datepicker').hide();
+                            window.date_picker_step=0;
+                            setTimeout ( function () { $('.bookingBox1').hide(); }, 1000 );
+
+                        }
+                    },
+                    beforeShow:function(textbox, instance){
+                        //alert('before');
+                        setTimeout(function () {
+                            instance.dpDiv.css({
+                                position: 'absolute',
+                                top: 0,
+                                left: 0
+                            });
+
+                            $('.bookingBox1').css({
+                                display:'none'
+                            });
+                        }, 10);
+
+                        $('.bookingBox1').append($('#ui-datepicker-div'));
+                        $('#ui-datepicker-div').hide();
+                    } });
+
+                <?
+                if($_POST['datess1']!='')
+                {
+                    $query_string .= 'var st=\''.ipost_($_POST['date_start'],"").'\';
 var st1=\''.ipost_($_POST['date_end'],"").'\';
 var st2=\''.ipost_($_POST['datess1'],"").'\';';
-echo'jopacalendar(st,st1,st2);';		  
-}
-?>		 
-//$('#date_table1').datepicker('setDate', ['+1d', '+30d']);
-});
-	 
+                    $query_string .= 'jopacalendar(st,st1,st2);';
+                }
+                ?>
+                //$('#date_table1').datepicker('setDate', ['+1d', '+30d']);
+            });
 
 
-	 
-function resizeDatepicker() {
-    setTimeout(function() { $('.bookingBox1 > .ui-datepicker').width('100%'); }, 10);
-}	 
 
-function jopacalendar(queryDate,queryDate1,date_all) 
-	{
+
+            function resizeDatepicker() {
+                setTimeout(function() { $('.bookingBox1 > .ui-datepicker').width('100%'); }, 10);
+            }
+
+            function jopacalendar(queryDate,queryDate1,date_all)
+            {
+
+                if(date_all!='')
+                {
+                    var dateParts = queryDate.match(/(\d+)/g), realDate = new Date(dateParts[0], dateParts[1] -1, dateParts[2]);
+                    var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0], dateParts1[1] -1, dateParts1[2]);
+                    $('#date_table1').datepicker('setDate', [realDate,realDate1]);
+                    $('#date_table1').val(date_all);
+                }
+            }
+
+
+        </script>
+
+
+
+
+        <?
+
+
+                          $class_cal1='';
+                          if((ipost_($_POST['datess1'],'')!='')and(validateDate(ipost_($_POST['datess1'],''),'Y-m-d')))
+                          {
+                              $class_cal1='active_in_2021';
+                          }
+/*
+                          echo'<input id="date_hidden_start" name="date_start" value="'.ipost_($_POST['date_start'],$row_list["date_begin"]).'" type="hidden">';
+                          echo'<input id="date_hidden_end" name="date_end" value="'.ipost_($_POST['date_end'],$row_list["date_end"]).'" type="hidden">';
+
+                          echo'<label>Период работ</label><input defaultv="'.ipost_($_POST['datess1'],date_fik($row_list["date_begin"],$row_list["date_end"])).'" '.$status_edit1.' readonly="true" name="datess1" value="'.ipost_($_POST['datess1'],date_fik($row_list["date_begin"],$row_list["date_end"])).'" id="date_table1" class="input_f_1 input_100 calendar_t white_inp label_s '.iclass_("date_period",$stack_error,"error_formi").' '.$status_class.'" placeholder="Период работ"  autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
+*/
+
+                          $query_string .= '<!--input start-->';
+                          $query_string .= '<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color '.$class_cal1.'"><label><i>Период работ</i><span>*</span></label><input name="datess1" id="date_table1" readonly="true" value="'.ipost_($_POST['datess1'],'').'" class="input_new_2021 gloab2 required  no_upperr cal_rang_2021" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox1"></span></div><input id="date_hidden_start" class="gloab2" name="date_start" value="'.ipost_($_POST['date_start'],'').'" type="hidden"><input id="date_hidden_end" class="gloab2" name="date_end" value="'.ipost_($_POST['date_end'],'').'" type="hidden"></div>';
+                          echo'<!--input end	-->';
+
+        $query_string .= '<!--input start-->
+<div class="margin-input"><div class="input_2018 input_2018_resize '.$class_t.'  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").'"><label><i>Комментарий</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di input_new_2018  text_area_otziv js-autoResize ">'.ipost_($_POST['name_b'],'').'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
+
+
+                      $query_string .= '</div></div>';
+
+
+
+
+         }
+
+echo($query_string);
+
+
 	
-if(date_all!='')
-	{
-var dateParts = queryDate.match(/(\d+)/g), realDate = new Date(dateParts[0], dateParts[1] -1, dateParts[2]); 
-var dateParts1 = queryDate1.match(/(\d+)/g), realDate1 = new Date(dateParts1[0], dateParts1[1] -1, dateParts1[2]); 	 	 
-$('#date_table1').datepicker('setDate', [realDate,realDate1]);	 	 
-$('#date_table1').val(date_all);
-	}
-	}
-	 
+    //echo'<div class="content_block1" style="padding-top:20px;" id_content="'.$id_user.'">';
 
-            </script>	  
-	  
-	  
-	  <?
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  echo'</div><div class="content_block block_primes1">';			
-					
-	  }
+
 					 
 	//echo($_COOKIE["basket_".htmlspecialchars(trim($_GET['id']))]);				 
 	  if (( isset($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]))and($_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]!=''))
 	  {
+          echo' <div class="info-suit">
+                          <span class="h3-f">Список работ <span class="pol-card" >'.$row_list["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].')</span></span>';
 	       $D = explode('.', $_COOKIE["basket_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
            for ($i=0; $i<count($D); $i++)
 		   {
@@ -1330,6 +1371,9 @@ echo'<td class="pre-wrap center_text_td"></td>
 				  </script>';
 		  
 		  }
+
+		  echo'</div>';
+
 	  }
 					 
 					 /*
@@ -1451,12 +1495,12 @@ echo'</td>
 
 	
     ?>
-    </div>
+
   </div>
 
 
 </form>
-                  </div></div></div></div></div></div></div>
+              </div> </div></div></div></div></div>
 <?
 include_once $url_system.'template/left.php';
 ?>
@@ -1474,3 +1518,9 @@ echo'<script type="text/javascript">var b_co=\''.$b_co.'\'</script>';
 </div>
 
 </body></html>
+<script type="text/javascript">
+    $(function() {
+        Zindex();
+        AutoResizeT();
+    });
+</script>

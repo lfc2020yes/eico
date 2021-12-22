@@ -82,7 +82,15 @@ function save_naryad()
 
 
     });
-    if(error==1)
+
+    $('.js-add-worder-material .gloab2').each(function(i,elem) {
+        if($(this).val() == '')  { $(this).parents('.input_2021').addClass('required_in_2021');
+            $(this).parents('.list_2021').addClass('required_in_2021');
+            error++;
+            //alert($(this).attr('name'));
+        } else {$(this).parents('.input_2021').removeClass('required_in_2021');$(this).parents('.list_2021').removeClass('required_in_2021');}
+    });
+    if(error!=0)
     {
 
         alert_message('error','Не все поля заполнены');

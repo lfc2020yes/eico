@@ -922,47 +922,41 @@ function InputFocusNew2021()
 //потеря фокуса для новых инпутов
 function InputBlurNew2021()
 {
-	//alert($(this).val());
-	var val_input=$(this).val();
-	var label=$(this).prev('label');
-	var input_div=$(this).parents('.input_2021');
+	if($(this).is('.gloab')) {
+		//alert($(this).val());
+		var val_input = $(this).val();
+		var label = $(this).prev('label');
+		var input_div = $(this).parents('.input_2021');
 
-	input_div.removeClass('active1_in_2021');
+		input_div.removeClass('active1_in_2021');
 
-	if(val_input=='')
-	{
-		input_div.removeClass('active_in_2021');
-	}
-	if(!$(this).is('.date2021_mask'))
-	{
-		//для всего остального кроме дат с маской
-		if(($(this).is('.required'))&&(val_input=='')&&(!input_div.is('.required_in_2021')))
-		{
-			input_div.addClass('required_in_2021');
-		} else
-		{
-			if(($(this).is('.required'))&&(val_input!=''))
-			{
-				input_div.removeClass('required_in_2021');
-			}
-		}
-	} else
-	{
-		if(($(this).is('.required'))&&((val_input=='')||(val_input=='дд.мм.гггг'))&&(!input_div.is('.required_in_2021')))
-		{
-			input_div.addClass('required_in_2021');
-		} else
-		{
-			if(($(this).is('.required'))&&(val_input!='')&&(val_input!='дд.мм.гггг'))
-			{
-				input_div.removeClass('required_in_2021');
-			}
+		if (val_input == '') {
+			input_div.removeClass('active_in_2021');
 		}
 
 
+		if (!$(this).is('.date2021_mask')) {
+			//для всего остального кроме дат с маской
+			if (($(this).is('.required')) && (val_input == '') && (!input_div.is('.required_in_2021'))) {
+				input_div.addClass('required_in_2021');
+			} else {
+				if (($(this).is('.required')) && (val_input != '')) {
+					input_div.removeClass('required_in_2021');
+				}
+			}
+		} else {
+			if (($(this).is('.required')) && ((val_input == '') || (val_input == 'дд.мм.гггг')) && (!input_div.is('.required_in_2021'))) {
+				input_div.addClass('required_in_2021');
+			} else {
+				if (($(this).is('.required')) && (val_input != '') && (val_input != 'дд.мм.гггг')) {
+					input_div.removeClass('required_in_2021');
+				}
+			}
+
+
+		}
+
 	}
-
-
 }
 
 
@@ -5131,8 +5125,8 @@ jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 
 
 
-	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
-	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
+	//jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	//jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
 	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
 
 

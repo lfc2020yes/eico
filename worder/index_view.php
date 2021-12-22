@@ -974,7 +974,6 @@ if ($role->is_column_edit('n_work','price'))
 }
 
 $podpis=0;  //по умолчанию нельзя редактировать подписана свыше
-
 $result_url=mysql_time_query($link,'select A.id from n_nariad as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=8))');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url!=0)

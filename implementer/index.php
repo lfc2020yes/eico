@@ -40,7 +40,13 @@ $menu_sql=array();
 $menu_sql1=array();	
 
 //все
- array_push($menu_sql, 'select count(a.id) as kol from i_implementer as a');
+if (($role->permission('Исполнители','B'))or($sign_admin==1)) {
+    array_push($menu_sql, 'select count(a.id) as kol from i_implementer as a');
+} else
+{
+    array_push($menu_sql, 'select count(a.id) as kol from i_implementer as a where a.id_user="'.$id_user.'"');
+}
+
  array_push($menu_sql1, '');
 
 

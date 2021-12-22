@@ -1088,10 +1088,20 @@ if($flag_history==1)
 {	
 		 echo'<tr work="'.$row1ss["id"].'" class="loader_tr loader_history" fo="'.$row1ss["id"].'" style="height:0px;"><td colspan="6"><div class="loader_inter"><div></div><div></div><div></div><div></div></div></td></tr>';
 }
-					 
+
+                     $result_t1__34=mysql_time_query($link,'Select b.razdel1,a.name_working,a.razdel2,a.date0,a.date1  from i_razdel2 as a,i_razdel1 as b where a.id="'.$row1ss["id"].'" and a.id_razdel1=b.id');
+                     $num_results_t1__34 = $result_t1__34->num_rows;
+                     if($num_results_t1__34!=0)
+                     {
+                         $row1ss__34 = mysqli_fetch_assoc($result_t1__34);
+
+                     }
+
+
+
                      //работа сама
 					 echo'<tr work="'.$row1ss["id"].'" style="background-color:#f0f4f6;" class="jop work__s" id_trr="'.$i.'" rel_id="'.$row1ss["id"].'">
-                  <td class="no_padding_left_ pre-wrap one_td"><span class="s_j">'.$row1ss["name_working"].'</span><input type=hidden value="'.$row1ss["id"].'" name="works['.$i.'][id]">';
+                  <td class="no_padding_left_ pre-wrap one_td"><span class="s_j">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].' '.$row1ss["name_working"].'</span><input type=hidden value="'.$row1ss["id"].'" name="works['.$i.'][id]">';
 					 if($flag_history==1)
 					 {
 					   echo'<span class="edit_panel11"><span data-tooltip="история нарядов" for="'.$row1ss["id"].'" class="history_icon">M</span></span>';

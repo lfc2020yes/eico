@@ -192,10 +192,10 @@ echo'<div class="content_block" id_content="'.$id_user.'">';
 	  	//echo'</div>';  
   if (($role->permission('Исполнители','B'))or($sign_admin==1))
   {
-      $result_t2 = mysql_time_query($link, 'select a.* from i_implementer as a order by a.id desc ' . limitPage('n_st', $count_write));
+      $result_t2 = mysql_time_query($link, 'select a.* from i_implementer as a order by a.implementer ' . limitPage('n_st', $count_write));
   } else
   {
-      $result_t2 = mysql_time_query($link, 'select a.* from i_implementer as a where a.id_user="'.$id_user.'" order by a.id desc ' . limitPage('n_st', $count_write));
+      $result_t2 = mysql_time_query($link, 'select a.* from i_implementer as a where a.id_user="'.$id_user.'" order by a.implementer ' . limitPage('n_st', $count_write));
   }
 	  
    //запрос для определения общего количества = 

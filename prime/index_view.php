@@ -1101,13 +1101,14 @@ font-family: GEInspiraRegular;">/</span> '.rtrim(rtrim(number_format(($row_t["su
 	if(array_search('total_r0',$stack_td) === false) 
 	{
 	
-    echo'<div class="block_is"><div class="top_bl"><h2>всего по смете</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0"]+$row_list["total_m0"]), 2, '.', ' '),'0'),'.').'</span></div></div>
+    echo'<div class="block_is"><div class="top_bl"><h2>всего по смете <span style="color: rgba(0, 0, 0, 0.4);
+font-family: GEInspiraRegular;">(в т. ч. НДС 20% - '.rtrim(rtrim(number_format((($row_list["total_r0"]+$row_list["total_m0"])/1.20*0.20), 2, '.', ' '),'0'),'.').')</span></h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0"]+$row_list["total_m0"]), 2, '.', ' '),'0'),'.').' </span></div></div>
     <div>
     
     </div>
     </div>';
 
-    echo'<div class="block_is"><div class="top_bl"><h2>в т. ч. НДС 20%</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format((($row_list["total_r0"]+$row_list["total_m0"])/1.20*0.20), 2, '.', ' '),'0'),'.').'</span></div></div>
+    echo'<div class="block_is"><div class="top_bl"><h2>всего выполнено по смете</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0_realiz"]+$row_list["total_m0_realiz"]), 2, '.', ' '),'0'),'.').'</span></div></div>
     <div>
     
     </div>

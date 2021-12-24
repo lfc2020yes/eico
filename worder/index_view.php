@@ -1495,6 +1495,9 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
 
                               $result_work=mysql_time_query($link,'Select a.* from n_work as a where a.id_nariad="'.$row_list["id"].'" order by a.id');
                               $num_results_work = $result_work->num_rows;
+
+
+
                               if($num_results_work!=0)
                               {
 
@@ -1502,7 +1505,7 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
                                   for ($i=0; $i<$num_results_work; $i++)
                                   {
                                       $row_work = mysqli_fetch_assoc($result_work);
-
+//echo($i);
                                       $rrtt++;
                                       if($rrtt==1)
                                       {
@@ -1895,11 +1898,10 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
                                                       $result_uu_xo = mysql_time_query($link, 'select * from n_material_act where id_n_materil="' . ht($row_mat["id"]) . '"');
 
                                                       if ($result_uu_xo) {
-                                                          $i = 0;
+                                                       //   $i = 0;
                                                           while ($row_uu_xo = mysqli_fetch_assoc($result_uu_xo)) {
 
-
-                                                              echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"].'<b>'.$row_mat["units"].'</b></div><div class="price_brock">'.$row_uu_xo["price"].'<b>₽</b></div></div>';
+echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"].'<b>'.$row_mat["units"].'</b></div><div class="price_brock">'.$row_uu_xo["price"].'<b>₽</b></div></div>';
                                                           }
                                                       }
 

@@ -49,6 +49,7 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
                         id_visor: id_visor,
                         sheet:  '<?=$_GET['by']?>',
                         id_akt: '<?=$_GET['id']?>',
+                        n_st:'<?=$_GET['n_st']?>',
                         id_doc: id_doc
                         },
                     success: function(response) { //Если все нормально

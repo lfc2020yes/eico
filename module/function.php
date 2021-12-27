@@ -1737,6 +1737,42 @@ function limitPage($varpage,$countwrite)
 }
 
 
+function limitPage1($varpage,$countwrite)
+{
+    //$varpage - название GET переменной которая передает номер страницы
+    //$countwrite - количество выводимого на одной странице
+    $count_otziv=0;
+    $kol_st_n=0;
+    if(isset($varpage))
+    {
+        if (is_numeric($varpage)) {
+            $number_st=$varpage;
+            $flag_ot=$varpage;
+        } else
+        {
+            $number_st=1;
+            $flag_ot=1;
+        }
+
+    } else
+    {
+        $number_st=1;
+        $flag_ot=1;
+    }
+
+    if($number_st==1)
+    {
+        $number_st=0;
+    } else
+    {
+        $number_st=($number_st*$countwrite)-$countwrite;
+    }
+
+    $limit=' limit '.$number_st.','.$countwrite;
+
+    return $limit;
+}
+
 //определение номера активной страницы для постраничного вывода
 function NumberPageActive($varpage)
 {

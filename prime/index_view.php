@@ -650,8 +650,16 @@ if(($role->permission('График','U'))or($role->permission('График','R
 				</div>';
 				}
 				echo'<div class="count_basket_razdel"></div></div><div class="rls">';
-    
+    /*
 	            $result_t1=mysql_time_query($link,'Select a.* from i_razdel2 as a where a.id_razdel1="'.$row_t["id"].'" order by a.id');
+*/
+                 $result_t1=mysql_time_query($link,'Select a.* from i_razdel2 as a where a.id_razdel1="'.$row_t["id"].'" 
+                 order by
+                 IF( a.razdel2 REGEXP \'^-?[0-9]+$\' = 0, 
+    9999999999 ,  
+    CAST(a.razdel2 AS DECIMAL) 
+    ), a.razdel2');
+
                 $num_results_t1 = $result_t1->num_rows;
 	            if($num_results_t1!=0)
 	            {

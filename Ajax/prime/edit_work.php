@@ -89,7 +89,9 @@ if ((!$role->permission('Себестоимость','U'))and($sign_admin!=1))
 		 
 			 
 			 
-mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",id_implementer="'.$_GET['ispol_work'].'",count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
+mysql_time_query($link,'update i_razdel2 set name_working="'.htmlspecialchars(trim($_GET['name_work'])).'",units="'.htmlspecialchars(trim($_GET['ed_work'])).'",id_implementer="'.$_GET['ispol_work'].'",
+razdel2="'.htmlspecialchars(trim(trimc($_GET['number_razdel2']))).'",
+count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
 count_r2_realiz ="'.htmlspecialchars(trim(trimc($_GET['count_realiz']))).'", 
 summa_r2_realiz="'.htmlspecialchars(trim(trimc($_GET['summ_realiz']))).'",
 price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'" 

@@ -271,12 +271,7 @@ order by s.name";
 
 }   else {
     $sqlP=$page_sql[$title_key].limitPage1($n_st,$count_write);
-
-
-    //echo($sqlP);
-
     $sqlPCC=$page_sql[$title_key];
-
 }   //echo('!'.$title_key. " ".$sqlP);
 
 $result_t2_CC=mysql_time_query($link,$sqlPCC);

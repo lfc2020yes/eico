@@ -5423,8 +5423,10 @@ a {    display: block;
     left: 0px;
     height: 2px;
     background-color: rgba(133, 185, 64, 0.8);
+    @include transition(all 2s cubic-bezier(.42,.01,.23,1));
     .teps {
       overflow: visible !important;
+
     }
 
      div {
@@ -7222,3 +7224,13 @@ div { position: relative;
   }
 
 }
+
+.rot-kol-rr {position: absolute;
+  top: 18px;
+  right: 10px;
+  z-index: 20;}
+
+.teps-comment-x {padding: 10px 0px;
+  display: block;
+  font-size: 14px;
+  font-family: "GEInspiraBold" !important;}

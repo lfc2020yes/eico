@@ -1557,10 +1557,11 @@ function Dialog(e)
 function animation_teps()
 {
 	$('.teps').each(function(i,elem) {
-	$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
-});
+		$(this).css('width', $(this).attr('rel_w')+"%");
+		//$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
+	});
 
-	
+
 }
 
 //приведение служебых записок к нужному виду
@@ -4758,6 +4759,7 @@ var savedefault_zay = function (thiss)
 
 
 $(function (){
+	animation_teps();
 $(window).on('resize',windowSize);	
 
 $('.loader_ada').remove();
@@ -5150,7 +5152,7 @@ $('.smeta2').on("click",'.del_zay_zay',DellZayZay);
 
 //клик по иконки показать историю нарядов по работе
 $('.work__s').on("click",'.history_icon',HistoryN);
-	$('.mattx').on("click",'.history_icon',HistoryN1);
+	$('.mattx,.js-more-acc-view').on("click",'.history_icon',HistoryN1);
 
 //контроль ввода количества материала при оформлении заявки на материал
 $('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);		
@@ -5255,7 +5257,7 @@ $('.statusis').on("change",'.vall_supply', vall_supply);
 	
 $('.menu_top,.smeta2').on("click",'.drops li',droplis);	
 //анимация линеек
-animation_teps();
+
 
 
 $('.skladd_nei').bind('click', slide_skkk);		
@@ -6185,7 +6187,7 @@ var vall_basket = function() {
 */
 //$('.vall_basket').bind('change', vall_basket);
 //$('.vall_basket2').bind('change', vall_basket2);
-	
+
 //$('.option_score1').bind('change', option_score1);		
 
 var changesortbill4 = function() {  

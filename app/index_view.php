@@ -1324,7 +1324,136 @@ echo'<div class="width-setter"><label>MAX('.$ostatok.')</label><input style="mar
 					 
 } else
 {
-echo'<div class="width-setter"><input style="margin-top:0px;" '.$status_edit.' name="mat_zz['.$i.'][count]"  class="input_f_1 input_100 white_inp label_s count_app_mater_ '.iclass_($row1ss["id"].'_w_count',$stack_error,"error_formi").' '.$status_class.'" autocomplete="off" type="text" value="'.ipost_($_POST['mat_zz'][$i]["count"],$row_work_zz["count_units"]).'"></div>';	
+
+    $PROCS=0;
+
+    if($row1ss["alien"]!=1) {
+        $result_proc = mysql_time_query($link, 'select sum(a.count_material) as summ  from 
+             
+             z_doc_material_acc as a,
+             z_acc as b
+                                                                     
+             
+
+where
+b.id=a.id_acc and 
+      a.id_doc_material="' . $row_work_zz["id"] . '" and b.status IN ("2","3","4","20","7")
+      ');
+
+        $POLS = 0;
+        $num_results_proc = $result_proc->num_rows;
+        if ($num_results_proc != 0) {
+            $row_proc = mysqli_fetch_assoc($result_proc);
+            if ($row_proc["summ"] != '') {
+                $POLS = $row_proc["summ"];
+            }
+
+            $PROCS = round((($row_proc["summ"]) * 100) / $row_work_zz["count_units"]);
+
+            if ($PROCS > 100) {
+                $PROCS = 100;
+            }
+        }
+    }
+
+echo'<div class="width-setter">';
+
+    if($PROCS!=0) {
+        echo '<div style="z-index: 4;" data-tooltip="Заказано ' . $POLS . ' ' . $row1ss["units"] . ' из ' . $row_work_zz["count_units"] . ' ' . $row1ss["units"] . '"  class="loaderr-acc"><div id_loader="' . $row1ss["id"] . '" class="teps" rel_w="' . $PROCS . '" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>';
+    }
+
+echo'<input style="margin-top:0px;" '.$status_edit.' name="mat_zz['.$i.'][count]"  class="input_f_1 input_100 white_inp label_s count_app_mater_ '.iclass_($row1ss["id"].'_w_count',$stack_error,"error_formi").' '.$status_class.'" autocomplete="off" type="text" value="'.ipost_($_POST['mat_zz'][$i]["count"],$row_work_zz["count_units"]).'">';
+    if($PROCS!=0) {
+        $echo = '';
+        $echo .= '<div class="rot-kol-rr js-more-acc-view"><span class="edit_panel11_mat more-panel-supply"><span data-tooltip="Связанные счета" for="' . $row__2["id_stock"] . '" class="history_icon">M</span>';
+
+        $echo .= '<div style="top: -10px !important;
+left: 30px !important;" class="history_act_mat history-prime-mat">
+
+<div style="z-index: 4;"  class="loaderr-acc"><div id_loader="' . $row1ss["id"] . '" class="teps" rel_w="' . $PROCS . '" style="width: 0%;"><div class="peg_div"><div><i class="peg"></i></div></div></div></div>
+
+<span class="teps-comment-x">Заказано ' . $POLS . ' ' . $row1ss["units"] . ' из ' . $row_work_zz["count_units"] . ' ' . $row1ss["units"] . '</span>';
+
+
+        //проверяем есть ли счета с этим материалом и их статусы
+        $result_score  = mysql_time_query($link, 'select a.id,a.status from z_acc as a,z_doc_material_acc as b where a.id=b.id_acc and a.status NOT IN ("1","8") and b.id_doc_material="' . ht($row_work_zz["id"]) . '"');
+
+
+        $num_results_score = $result_score->num_rows;
+        if ($num_results_score != 0) {
+
+
+            $echo .= '<div class="line_brock"><div class="count_brock"><span>↑ Счет</span></div><div class="count_brock"><span>Кол-во</span></div><div class="count_brock"><span>Статус</span></div></div>';
+
+                              if ($result_score) {
+                                  $idy = 0;
+                                  $count_m=0;
+                                  while ($row_uu_xo = mysqli_fetch_assoc($result_score)) {
+
+
+                                      $result_uu_pl = mysql_time_query($link, 'select sum(a.count_material) as coll from z_doc_material_acc as a where a.id_acc="' . ht($row_uu_xo['id']) . '" and a.id_doc_material="'.$row_work_zz["id"].'"');
+                                      $num_results_uu_pl = $result_uu_pl->num_rows;
+
+                                      if ($num_results_uu_pl != 0) {
+                                          $row_uu_pl = mysqli_fetch_assoc($result_uu_pl);
+                                      }
+
+
+                                      $echo .= '<div class="line_brock"><div class="count_brock"><a target="_blank" href="aсс/'.$row_uu_xo["id"].'/">№' . $row_uu_xo["id"] . '</a></div><div class="count_brock" style="font-size: 14px !important; font-family: GEInspiraBold !important;">' . rtrim(rtrim(number_format($row_uu_pl["coll"], 2, '.', ' '),'0'),'.') . '<b>' . $row1ss["units"] . '</b></div>
+<div class="count_brock">';
+                                      $count_m=$count_m+$row_uu_pl["coll"];
+                                      //вывод статуса по материалу
+                                      $js_mod = '';
+//статус обращения
+
+                                      $color_status = 1;
+                                      //на согласовании
+                                      if ($row_uu_xo["status"] == 2) {
+                                          $color_status = 2;
+                                      }
+                                      //к оплате
+                                      if ($row_uu_xo["status"] == 3) {
+                                          $color_status = 3;
+                                      }
+                                      //оплачено
+                                      if ($row_uu_xo["status"] == 4) {
+                                          $color_status = 5;
+                                      }
+                                      //отказано
+                                      if (($row_uu_xo["status"] == 8) or ($row_uu_xo["status"] == 5)) {
+                                          $color_status = 4;
+                                      }
+
+//выводим статус заявки
+                                      $result_status = mysql_time_query($link, 'SELECT a.* FROM r_status AS a WHERE a.numer_status="' . $row_uu_xo["status"] . '" and a.id_system=16');
+//echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
+                                      if ($result_status->num_rows != 0) {
+                                          $row_status = mysqli_fetch_assoc($result_status);
+
+
+                                          $echo .= '<div class="js-state-acc-link"><div id_status="' . $row_uu_xo["status"] . '" class="status_admin js-status-preorders s_pr_' . $color_status . ' ' . $js_mod . '" style="padding: 0 5px; display:inline-block;">' . $row_status["name_status"] . '</div></div>';
+                                      }
+
+
+                                      $echo .= '</div>
+
+</div>';
+                                      $idy++;
+                                  }
+
+
+                              }
+
+
+        }
+
+
+        $echo .= '</div>';
+        $echo .= '</span></div>';
+
+        echo $echo;
+    }
+    echo'</div>';
 }
 
 $z_stock_dd='';
@@ -1645,7 +1774,7 @@ function resizeDatepicker() {
 		  
 
 		     echo'<script>
-				  $(function (){  $(\'.count_app_mater_\').change();  
+				  $(function (){ $(\'.count_app_mater_\').change();  
 				  
 				  ';
 		   if($visible_gray==0)

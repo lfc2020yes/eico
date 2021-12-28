@@ -1399,7 +1399,7 @@ left: 30px !important;" class="history_act_mat history-prime-mat">
                                       }
 
 
-                                      $echo .= '<div class="line_brock"><div class="count_brock"><a target="_blank" href="aсс/'.$row_uu_xo["id"].'/">№' . $row_uu_xo["id"] . '</a></div><div class="count_brock" style="font-size: 14px !important; font-family: GEInspiraBold !important;">' . rtrim(rtrim(number_format($row_uu_pl["coll"], 2, '.', ' '),'0'),'.') . '<b>' . $row1ss["units"] . '</b></div>
+                                      $echo .= '<div class="line_brock"><div class="count_brock"><a target="_blank" href="acc/'.$row_uu_xo["id"].'/">№' . $row_uu_xo["id"] . '</a></div><div class="count_brock" style="font-size: 14px !important; font-family: GEInspiraBold !important;">' . rtrim(rtrim(number_format($row_uu_pl["coll"], 2, '.', ' '),'0'),'.') . '<b>' . $row1ss["units"] . '</b></div>
 <div class="count_brock">';
                                       $count_m=$count_m+$row_uu_pl["coll"];
                                       //вывод статуса по материалу

@@ -364,7 +364,7 @@ if(($title_key==0)and($count!=0))
         //$str= urlencode(htmlspecialchars($str));
         echo($value["file"].'<br>');
 $str=rawurlencode($str);
-echo($value["file"]);
+echo($str);
         //$str1 = iconv("utf-8", "windows-1251", $str1); /* Преобразование кодировки */
 //echo($str1);
 

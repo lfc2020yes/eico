@@ -361,9 +361,9 @@ if(($title_key==0)and($count!=0))
 
         // Возвращает строку, в которой все не алфавитно-числовые символы (кроме -_.) заменены на знак процентов (%) с последующими двумя 16-ричными цифрами и пробелами, кодированными как знаки плюс (+)
 
-        //$str= urlencode(htmlspecialchars($str));
+        $str= urlencode(htmlspecialchars($str));
         //echo($value["file"].'<br>');
-$str=rawurlencode($str);
+//$str=rawurlencode($str);
 //echo($str);
         //$str1 = iconv("utf-8", "windows-1251", $str1); /* Преобразование кодировки */
 //echo($str1);

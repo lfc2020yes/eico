@@ -135,14 +135,14 @@ if($query!='')
 
 select * from(     
    (   
-SELECT A.id,A.implementer FROM i_implementer AS A where LOWER(A.implementer) LIKE "%'.$query.'%"   
+SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="'.$id_user.'" and LOWER(A.implementer) LIKE "%'.$query.'%"   
 )
 UNION
 (
 
-SELECT A.id,A.implementer FROM i_implementer AS A where LOWER(A.id) LIKE "%'.$query.'%"
+SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="'.$id_user.'" and LOWER(A.id) LIKE "%'.$query.'%"
 AND A.id NOT IN 
-(SELECT A.id FROM i_implementer A WHERE LOWER(A.implementer) LIKE "%'.$query.'%")
+(SELECT A.id FROM i_implementer A WHERE A.id_user="'.$id_user.'" and LOWER(A.implementer) LIKE "%'.$query.'%")
 ) 
 
 
@@ -150,7 +150,7 @@ AND A.id NOT IN
 ) Z order by Z.implementer limit 0,20';
 } else
 {
-	$sql='SELECT A.implementer,A.id FROM i_implementer as A ORDER BY A.implementer limit 0,40';
+	$sql='SELECT A.implementer,A.id FROM i_implementer as A where A.id_user="'.$id_user.'" ORDER BY A.implementer limit 0,40';
 }
 
 //echo($sql);

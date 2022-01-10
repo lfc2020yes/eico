@@ -5,7 +5,7 @@ RewriteRule ^.htaccess$ - [F]
 DirectoryIndex index.php
 
 RewriteRule ^([0-9]*)/$      implementer/index_view.php?id=$1 [L]
-
+RewriteRule ^.page-([0-9]*)$ implementer/index.php?n_st=$1 [L]
 
 #RewriteRule ^all/$ cashbox/index.php?by=all [L]
 #RewriteRule ^all/.page-([0-9]*)$ cashbox/index.php?by=all&n_st=$1 [L]

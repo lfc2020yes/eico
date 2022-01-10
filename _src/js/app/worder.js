@@ -22,7 +22,7 @@ $(function () {
 
     setTimeout ( function () {
         //если переход в любое редактируемое поле наряда то сбрасывать кнопку подписать и показывать кнопку сохранить
-    $('.my_no').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1,[name=ispol_work]',
+    $('.my_no').on("change keyup input click.naryd",'.count_finery_mater_,.price_finery_mater_,.text_finery_message_,.count_finery_,.price_finery_,.slct_box,#date_table,#date_table1,[name=ispol_work],.js-worder-20-2',
 
     function(){  if(($(this).attr('readonly')==undefined)||(($(this).attr('disabled')==undefined)&&(($(this).is('.cal_rang_2021'))||($(this).is('.cal_2021'))))) {  $('.pod_zay').hide(); $('.add_zay').show(); }   }
 

@@ -451,7 +451,8 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 					 date_doc="' . htmlspecialchars(trim($_POST["date_naryad"])) . '",
 					 date_begin="' . htmlspecialchars($_POST['date_start']) . '", 
 					 date_end="' . htmlspecialchars($_POST['date_end']) . '", 
-					 ready="0"
+					 ready="0",
+					 comment="'.ht($_POST['name_b']).'"
 					 
 					 where id = "' . htmlspecialchars(trim($_GET['id'])) . '"');
 
@@ -973,7 +974,6 @@ if ($role->is_column_edit('n_work','price'))
 }
 
 $podpis=0;  //по умолчанию нельзя редактировать подписана свыше
-
 $result_url=mysql_time_query($link,'select A.id from n_nariad as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=8))');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url!=0)
@@ -1349,10 +1349,10 @@ beforeShow:function(textbox, instance){
 <?
 if($_POST['datess1']!='')
 {
-    $query_string .= 'var st=\''.ipost_($_POST['date_start'],"").'\';
-var st1=\''.ipost_($_POST['date_end'],"").'\';
-var st2=\''.ipost_($_POST['datess1'],"").'\';';
-    $query_string .= 'jopacalendar(st,st1,st2);';
+    echo 'var st=\''.ipost_($_POST['date_start'],"").'\'';
+echo 'var st1=\''.ipost_($_POST['date_end'],"").'\'';
+echo 'var st2=\''.ipost_($_POST['datess1'],"").'\';';
+    echo 'jopacalendar(st,st1,st2);';
 }
 ?>
                       //$('#date_table1').datepicker('setDate', ['+1d', '+30d']);
@@ -1401,11 +1401,20 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
                           $query_string .= '<!--input start-->';
                           $query_string .= '<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color '.$class_cal1.'"><label><i>Период работ</i><span>*</span></label><input name="datess1" id="date_table1" readonly="true" value="'.ipost_($_POST['datess1'],date_fik($row_list["date_begin"],$row_list["date_end"])).'" class="input_new_2021 gloab required  no_upperr cal_rang_2021" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div><div class="pad10" style="padding: 0;"><span class="bookingBox1"></span></div><input id="date_hidden_start" class="gloab" name="date_start" value="'.ipost_($_POST['date_start'],$row_list["date_begin"]).'" type="hidden"><input id="date_hidden_end" class="gloab" name="date_end" value="'.ipost_($_POST['date_end'],$row_list["date_end"]).'" type="hidden"></div>';
                           echo'<!--input end	-->';
+                          $class_ddf='';
+if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
+    $class_ddf = 'active_in_2018';
+}
+
+                          $query_string .= '<!--input start-->
+<div class="margin-input"><div class="input_2018 input_2018_resize '.$class_t.'  gray-color '.iclass_("name_b",$stack_error,"required_in_2018").' '.$class_ddf.'"><label><i>Комментарий</i></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_b" class="di input_new_2018  text_area_otziv js-autoResize js-worder-20-2">'.ipost_($_POST['name_b'],$row_list["comment"]).'</textarea></div><div class="div_new_2018"><div class="error-message"></div></div></div></div>
+<!--input end	-->';
 
 
 
 
-                      $query_string .= '</div></div>';
+
+                          $query_string .= '</div></div>';
 
 
 
@@ -1486,6 +1495,9 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
 
                               $result_work=mysql_time_query($link,'Select a.* from n_work as a where a.id_nariad="'.$row_list["id"].'" order by a.id');
                               $num_results_work = $result_work->num_rows;
+
+
+
                               if($num_results_work!=0)
                               {
 
@@ -1493,7 +1505,7 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
                                   for ($i=0; $i<$num_results_work; $i++)
                                   {
                                       $row_work = mysqli_fetch_assoc($result_work);
-
+//echo($i);
                                       $rrtt++;
                                       if($rrtt==1)
                                       {
@@ -1568,9 +1580,20 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
                                           echo'<tr work="'.$row_work["id"].'" class="loader_tr loader_history" fo="'.$row_work["id_razdeel2"].'" style="height:0px;"><td colspan="6"><div class="loader_inter"><div></div><div></div><div></div><div></div></div></td></tr>';
                                       }
 
+
+                                      $result_t1__34=mysql_time_query($link,'Select b.razdel1,a.name_working,a.razdel2,a.date0,a.date1  from i_razdel2 as a,i_razdel1 as b where a.id="'.$row_work["id_razdeel2"].'" and a.id_razdel1=b.id');
+                                      $num_results_t1__34 = $result_t1__34->num_rows;
+                                      if($num_results_t1__34!=0)
+                                      {
+                                          $row1ss__34 = mysqli_fetch_assoc($result_t1__34);
+
+                                      }
+
+
+
                                       //работа сама
                                       echo'<tr work="'.$row_work["id"].'" style="background-color:#f0f4f6;" class="jop work__s workx" id_trr="'.$i.'" rel_id="'.$row_work["id"].'">
-                  <td class="no_padding_left_ pre-wrap one_td"><span class="s_j">'.$row_work["name_work"].'</span><input type=hidden value="'.$row_work["id"].'" name="works['.$i.'][id]">';
+                  <td class="no_padding_left_ pre-wrap one_td"><span class="s_j">'.$row1ss__34["razdel1"].'.'.$row1ss__34["razdel2"].' '.$row_work["name_work"].'</span><input type=hidden value="'.$row_work["id"].'" name="works['.$i.'][id]">';
                                       if(($flag_history==1)or($row_list["signedd_nariad"]==1))
                                       {
                                           echo'<span class="edit_panel11"><span data-tooltip="история нарядов" for="'.$row_work["id_razdeel2"].'" class="history_icon">M</span></span>';
@@ -1875,11 +1898,10 @@ var st2=\''.ipost_($_POST['datess1'],"").'\';';
                                                       $result_uu_xo = mysql_time_query($link, 'select * from n_material_act where id_n_materil="' . ht($row_mat["id"]) . '"');
 
                                                       if ($result_uu_xo) {
-                                                          $i = 0;
+                                                       //   $i = 0;
                                                           while ($row_uu_xo = mysqli_fetch_assoc($result_uu_xo)) {
 
-
-                                                              echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"].'<b>'.$row_mat["units"].'</b></div><div class="price_brock">'.$row_uu_xo["price"].'<b>₽</b></div></div>';
+echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"].'<b>'.$row_mat["units"].'</b></div><div class="price_brock">'.$row_uu_xo["price"].'<b>₽</b></div></div>';
                                                           }
                                                       }
 
@@ -2260,3 +2282,9 @@ echo'<script type="text/javascript">var b_cm=\''.$b_cm.'\'</script>';
 </div>
 
 </body></html>
+<script type="text/javascript">
+    $(function() {
+        Zindex();
+        AutoResizeT();
+    });
+</script>

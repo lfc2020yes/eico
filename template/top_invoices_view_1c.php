@@ -154,7 +154,7 @@ include_once $url_system.'module/notification.php';
             }
         }
 
-
+        echo '<a data-tooltip="обработать накладную" class="js-add_invoicess112 add_clients yellow-style hide-mobile">Обработать   →</a>';
         ?>
 
         <!--<div class="inline_reload js-reload-top"><a href="task/" class="show_reload ">Применить</a></div> -->

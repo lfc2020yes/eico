@@ -164,10 +164,28 @@ if($num_results_custom_town!=0)
 //отправляем создателю заявки что его служебные приняты и заявка изменила статус
 $user_send_new= array();
 array_push($user_send_new,$value['id_user']);
-$text_not='Ваша <a class="link-history" href="worder/'.$value['id'].'/">Наряд №'.$value['numer_doc'].'</a> отклонен.';
+$text_not='Ваш <a class="link-history" href="worder/'.$value['id'].'/">Наряд №'.$value['numer_doc'].'</a> отклонен.';
 //отправка уведомления
 $user_send_new= array_unique($user_send_new);
 notification_send($text_not,$user_send_new,$id_user,$link);
+
+
+
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+$user_admin= array();
+array_push($user_admin, 11);
+
+$kto=name_sql_x($id_user);
+$title=$kto.' отклонил(а) наряд №'.$value['numer_doc'];
+
+
+$message=$kto.' отклонил(а) <a class="link-history" href="worder/'.$value['id'].'/">Наряд №'.$value['numer_doc'].'</a>. Причина - '.$_POST["remark"].'.';
+notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
 
 
 

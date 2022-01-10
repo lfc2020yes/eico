@@ -65,6 +65,17 @@ if ( count($_GET) == 1 ) //--Если были приняты данные из 
 			if (($role->permission('Исполнители','R'))or($sign_admin==1))
 	        {
 				//имеет ли он доступ в этот наряд
+                if ((!$role->permission('Исполнители','B'))and($sign_admin!=1))
+                {
+                    if($row_list["id_user"]!=$id_user)
+                    {
+                        header("HTTP/1.1 404 Not Found");
+                        header("Status: 404 Not Found");
+                        $error_header=404;
+                    }
+                }
+
+
 				
 			
 			} else

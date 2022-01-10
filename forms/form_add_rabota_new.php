@@ -92,6 +92,11 @@ $status=1;
 
 
 
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Номер статьи</i><span>*</span></label><input name="number_razdel2" value="'.$rann.'" class="input_new_2021  required  no_upperr gloab" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
+
             echo'<!--input start-->
 <div class="margin-input"><div class="input_2021 input_2021_resize  gray-color '.iclass_("text",$stack_error,"required_in_2021").'"><label><i>Название работы</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="name_work" class="di gloab input_new_2021  text_area_otziv js-autoResize "></textarea></div><div class="div_new_2021"><div class="error-message"></div></div></div></div>
 <!--input end	-->';

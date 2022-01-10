@@ -186,9 +186,23 @@ notification_send($text_not,$user_send_new,$id_user,$link);
 
 
 
-//добавляем уведомления о новом наряде
-//добавляем уведомления о новом наряде
-//добавляем уведомления о новом наряде
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+$user_admin= array();
+array_push($user_admin, 11);
+
+$kto=name_sql_x($id_user);
+$title=$kto.' переслал заявку №'.$value['id'];
+
+
+$kto1=name_sql_x($_POST["forward_id"]);
+
+
+$message=$kto.' переслал заявку <a class="link-history" href="app/'.$value['id'].'/">'.$value['name'].'</a> - '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Заявка поступила к - '.$kto1;
+notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
 
 
 //изменение статуса заявки

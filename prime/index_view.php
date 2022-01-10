@@ -650,8 +650,16 @@ if(($role->permission('График','U'))or($role->permission('График','R
 				</div>';
 				}
 				echo'<div class="count_basket_razdel"></div></div><div class="rls">';
-    
+    /*
 	            $result_t1=mysql_time_query($link,'Select a.* from i_razdel2 as a where a.id_razdel1="'.$row_t["id"].'" order by a.id');
+*/
+                 $result_t1=mysql_time_query($link,'Select a.* from i_razdel2 as a where a.id_razdel1="'.$row_t["id"].'" 
+                 order by
+                 IF( a.razdel2 REGEXP \'^-?[0-9]+$\' = 0, 
+    9999999999 ,  
+    CAST(a.razdel2 AS DECIMAL) 
+    ), a.razdel2');
+
                 $num_results_t1 = $result_t1->num_rows;
 	            if($num_results_t1!=0)
 	            {
@@ -1040,10 +1048,40 @@ echo'<td><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_reali
 				  
 				  echo'</tbody></table>';
 	if(array_search('summa_r1',$stack_td) === false) 
-	{	
-				  echo'<div class="itog">Итого работа<i><span class="s_j">'.rtrim(rtrim(number_format($row_t["summa_r1"], 2, '.', ' '),'0'),'.').'</span></i></div>';
-				  echo'<div class="itog">Итого материал<i><span class="s_j">'.rtrim(rtrim(number_format($row_t["summa_m1"], 2, '.', ' '),'0'),'.').'</span></i></div>';
-				  echo'<div class="itog">Итого по разделу: "'.$row_t["name1"].'"<i><span class="s_j">в т.ч. НДС 20% - '.rtrim(rtrim(number_format((($row_t["summa_m1"]+$row_t["summa_r1"])/1.20*0.20), 2, '.', ' '),'0'),'.').' / '.rtrim(rtrim(number_format(($row_t["summa_m1"]+$row_t["summa_r1"]), 2, '.', ' '),'0'),'.').'</span></i></div>';
+	{
+	    /*
+				  echo'<div class="itog">Итого работа<i class="flex_fop"><span class="s_j">'.rtrim(rtrim(number_format($row_t["summa_r1"], 2, '.', ' '),'0'),'.').'</span>
+
+<span class="s_j" data-tooltip="Выполнено работ на сумму">'.rtrim(rtrim(number_format($row_t["summa_r1_realiz"], 2, '.', ' '),'0'),'.').'</span>
+
+</i></div>';
+*/
+        echo'<div class="itog-2021"><div class="i-1">Итого работа</div><div class="i-2">
+        <div class="i-vsego"><label>Всего</label><div class="i-obi">'.rtrim(rtrim(number_format($row_t["summa_r1"], 2, '.', ' '),'0'),'.').'</div></div>
+        <div class="i-vipolneno"><label>Выполнено</label><div class="i-obi">'.rtrim(rtrim(number_format($row_t["summa_r1_realiz"], 2, '.', ' '),'0'),'.').'</div></div>
+</div></div>';
+
+
+        echo'<div class="itog-2021"><div class="i-1">Итого материал</div><div class="i-2">
+        <div class="i-vsego">'.rtrim(rtrim(number_format($row_t["summa_m1"], 2, '.', ' '),'0'),'.').'</div>
+        <div class="i-vipolneno">'.rtrim(rtrim(number_format($row_t["summa_m1_realiz"], 2, '.', ' '),'0'),'.').'</div>
+</div></div>';
+
+
+
+
+
+        echo'<div class="itog-2021"><div class="i-1">Итого по разделу: "'.$row_t["name1"].' <span style="color: rgba(0, 0, 0, 0.4);
+font-family: GEInspiraRegular;">(в т.ч. НДС 20% - '.rtrim(rtrim(number_format((($row_t["summa_m1"]+$row_t["summa_r1"])/1.20*0.20), 2, '.', ' '),'0'),'.').')</span></div><div class="i-2">
+        <div class="i-vsego">'.rtrim(rtrim(number_format(($row_t["summa_m1"]+$row_t["summa_r1"]), 2, '.', ' '),'0'),'.').'</div>
+        <div class="i-vipolneno">'.rtrim(rtrim(number_format(($row_t["summa_r1_realiz"]+$row_t["summa_m1_realiz"]), 2, '.', ' '),'0'),'.').'</div>
+</div></div>';
+/*
+
+        echo'<div class="itog">Итого материал<i><span class="s_j">'.rtrim(rtrim(number_format($row_t["summa_m1"], 2, '.', ' '),'0'),'.').'</span></i></div>';
+				  echo'<div class="itog">Итого по разделу: "'.$row_t["name1"].'"<i><span class="s_j"><span style="color: rgba(0, 0, 0, 0.4);
+font-family: GEInspiraRegular;">в т.ч. НДС 20% -</span> '.rtrim(rtrim(number_format((($row_t["summa_m1"]+$row_t["summa_r1"])/1.20*0.20), 2, '.', ' '),'0'),'.').' <span style="color: rgba(0, 0, 0, 0.4);
+font-family: GEInspiraRegular;">/</span> '.rtrim(rtrim(number_format(($row_t["summa_m1"]+$row_t["summa_r1"]), 2, '.', ' '),'0'),'.').'</span></i></div>';*/
 	}
 				  
 				  echo'<script>
@@ -1071,13 +1109,14 @@ echo'<td><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_reali
 	if(array_search('total_r0',$stack_td) === false) 
 	{
 	
-    echo'<div class="block_is"><div class="top_bl"><h2>всего по смете</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0"]+$row_list["total_m0"]), 2, '.', ' '),'0'),'.').'</span></div></div>
+    echo'<div class="block_is"><div class="top_bl"><h2>всего по смете <span style="color: rgba(0, 0, 0, 0.4);
+font-family: GEInspiraRegular;">(в т. ч. НДС 20% - '.rtrim(rtrim(number_format((($row_list["total_r0"]+$row_list["total_m0"])/1.20*0.20), 2, '.', ' '),'0'),'.').')</span></h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0"]+$row_list["total_m0"]), 2, '.', ' '),'0'),'.').' </span></div></div>
     <div>
     
     </div>
     </div>';
 
-    echo'<div class="block_is"><div class="top_bl"><h2>в т. ч. НДС 20%</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format((($row_list["total_r0"]+$row_list["total_m0"])/1.20*0.20), 2, '.', ' '),'0'),'.').'</span></div></div>
+    echo'<div class="block_is"><div class="top_bl"><h2>всего выполнено по смете</h2><div class="summs"><span class="s_j">'.rtrim(rtrim(number_format(($row_list["total_r0_realiz"]+$row_list["total_m0_realiz"]), 2, '.', ' '),'0'),'.').'</span></div></div>
     <div>
     
     </div>

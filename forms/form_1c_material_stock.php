@@ -18,7 +18,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 $id_user=id_key_crypt_encrypt($_SESSION["user_id"]);
 
 //проверить есть ли переменная id и можно ли этому пользователю это делать
-if ((count($_GET) != 2)or(!isset($_GET["number"]))or((!is_numeric($_GET["number"]))))
+if ((count($_GET) != 3)or(!isset($_GET["number"]))or((!is_numeric($_GET["number"]))))
 {
     goto end_code;
 }
@@ -74,54 +74,127 @@ $status=1;
             <?
 
 
-            echo'<h1 style="margin-bottom:0px;" class="h111 gloab-cc js-form2" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'" ><span>Назначить соответствие на складе</span><span class="clock_table"></span></h1><span class="tii">'.$data[$nn]["Номенклатура"].' → '.$data[$nn]["ЕдиницаИзмерения"].'</span></div><div class="center_modal">';
+            echo'<h1 style="margin-bottom:0px;" cor="" keyss="'.htmlspecialchars(trim($_GET['key'])).'" class="h111 gloab-cc js-form2 js-form-save-1c" mor="'.$token.'" for="'.htmlspecialchars(trim($_GET['id'])).'" ><span>Назначить соответствие на складе</span><span class="clock_table"></span></h1><span class="tii">'.$data[$nn]["Номенклатура"].' → <span class="unit-opa">'.$data[$nn]["ЕдиницаИзмерения"].'</span></span></div><div class="center_modal">';
 
             $stock = new STOCK($link, $id_user);
             $arFiles = $stock->find_byName($data[$nn]["Номенклатура"],2);
 
+            //echo "<pre> $arFiles: ".print_r($arFiles,true)."</pre>";
+
             if((count($arFiles)>0)and($arFiles!=false)) {
 
-                echo '<span class="h-25" style="margin-bottom: 0px;">Предложенные варианты</span>';
+                echo '<span class="h-25" style="margin-bottom: 5px !important;">Предложенные варианты</span><div class="js-group-c js-tolko-one">';
                 foreach ($arFiles as $key => $value) {
-                    echo($value);
+                    //echo($value);
 
-
-                    $result_uu = mysql_time_query($link, 'select * from z_stock where id="' . ht($value) . '"');
-                    $num_results_uu = $result_uu->num_rows;
-
-                    if ($num_results_uu != 0) {
-                        $row_uu = mysqli_fetch_assoc($result_uu);
 
 
                         echo '<div class="material-1c-vibor" id_key="0">
-<div class="zero_one"><div class="mild  chechers"><div class="mild_mild" data-tooltip="Выбрать соответствие">
-<i class="select-mild"></i></div></div></div>
+<div class="zero_one js-checkbox-group js-tolko-one js-matic-ko">';
+/*
+<div class="mild mild-1c js-checkbox-group"><div class="mild_mild" data-tooltip="Выбрать соответствие">
+<i class="select-mild"></i></div></div>
+*/
+	echo'<div class="choice-radiox"><i></i><input name="pro[type][]" value="'.$value["id"].'" type="hidden"><input name="pro[unitss][]" value="'.$value["units"].'" type="hidden"><input name="pro[val][]" value="1" type="hidden"></div>';
+
+echo'</div>
         <div class="name_one">
           <span class="label-task-gg ">Наименование на складе</span>    
-          <span class="nm">'.$row_uu["name"].'</span>
+          <span class="nm">'.$value["name"].'</span>
         </div>
         <div class="name_two">
-             <span class="label-task-gg ">ед. изм.</span>'.$row_uu["units"].'</div>
+             <span class="label-task-gg ">ед. изм.</span>'.$value["units"].'</div>
         <div class="name_free">
                   <span class="label-task-gg ">Связанные счета</span>';
 
+                  /*  $result_score = mysql_time_query($link, 'Select a.date,a.date_paid,a.delivery_day,a.number,a.status,a.summa,a.id as id from z_acc as a,z_doc_material_acc as b,z_doc_material as c where c.id=b.id_doc_material and a.status IN ("2","3", "4","20") and b.id_acc=a.id and c.id_stock="' . ht($value["id"]) . '"');
+*/
+
+                    $CA=0;
+//определяем какой по id у нас это контрагент
+                    $contractor = new CONTRACTOR($link, $id_user);
+                    if (($id=$contractor->get($data[0]["ИНН"])) !== false) { $CA=$id; }
+                    else
+                        if (($id=$contractor->put($data[0]))!==false) { $CA=$id; }
+
+                    $result_score=mysql_time_query($link,
+
+                        'select DISTINCT a.id,a.number,a.date,a.summa,a.id_contractor from z_acc as a,z_doc_material_acc as b,z_doc_material as c where a.id=b.id_acc and b.id_doc_material=c.id and c.id_stock="'.htmlspecialchars(trim($value["id"])).'" and a.status IN ("2","3", "4","20") and a.id_contractor="'.htmlspecialchars(trim($CA)).'"');
 
 
+                    $num_results_score = $result_score->num_rows;
+                    if ($num_results_score != 0) {
+                        for ($ss = 0; $ss < $num_results_score; $ss++) {
+                            $row_score = mysqli_fetch_assoc($result_score);
+
+
+                            //определим количество материала в этом счете
+                            $count_vse=0;
+
+                            /*
+                            $result_uu = mysql_time_query($link, 'select sum(A.count_material) as count_material  from z_doc_material_acc as A,z_doc_material as B where A.id_doc_material=B.id and A.id_acc="'.$row_score["id"].'" and B.id_stock="' . ht($value["id"]) . '"');
+                            $num_results_uu = $result_uu->num_rows;
+
+                            if ($num_results_uu != 0) {
+                                $row_uu = mysqli_fetch_assoc($result_uu);
+                                $count_vse=$row_uu["count_material"];
+                            }
+*/
+                            $result_uu = mysql_time_query($link, 'select b.id,b.count_material from z_doc_material as a,z_doc_material_acc as b where a.id_stock="'.ht($value["id"]).'" and a.id=b.id_doc_material and b.id_acc="' . ht($row_score['id']) . '"');
+
+                            if ($result_uu) {
+                                $i = 0;
+                                $nado=0;
+                                $maric='';
+
+                                while ($row_uu = mysqli_fetch_assoc($result_uu)) {
+
+                                    //проверить в этом счете необходимо ли еще материал или уже весь приняли
+                                    $PROC = 0;
+                                    $PROC_ALL = 0;
+
+                                    $result_proc = mysql_time_query($link, 'select sum(a.count_units) as summ,sum(a.count_defect) as summ1 from z_invoice_material as a,z_invoice as b where b.id=a.id_invoice and b.status NOT IN ("1") and a.id_acc="' . $row_score['id'] . '" and a.id_stock="'.ht($value["id"]).'" and a.id_doc_material_acc="'.ht($row_uu["id"]).'"');
+
+                                    $num_results_proc = $result_proc->num_rows;
+                                    if ($num_results_proc != 0) {
+                                        $row_proc = mysqli_fetch_assoc($result_proc);
+                                        $count_vse = $count_vse+($row_uu["count_material"] - $row_proc["summ"] - $row_proc["summ1"]);
+
+                                    }
+
+
+
+                                }
+
+
+                            }
+
+
+
+
+if($count_vse>0) {
+
+    echo '<a target="_blank" class="acc_1c_form" href="acc/' . $row_score["id"] . '/"><span class="spans ggh-e name-blue-b1"><span>Cчет №' . $row_score["number"] . ' (' . date_ex(0, $row_score["date"]) . ')</span><span class="count-c1-m">→ ' . rtrim(rtrim(number_format($count_vse, 3, '.', ' '), '0'), '.') . ' ' . $value["units"] . '</span></span></a>';
+}
+
+                        }
+
+                    } else
+                    {
+                        echo'—';
+                    }
 
 
                   echo'</div>           
             
-             <div class="name_six">
-             
-             <div class="load-1c-i">Обработать</div>
-</div></div>';
-                    }
+           </div>';
 
                 }
+                echo'</div>';
             }
 
 
-
+            echo '<span class="h-25" style="margin-bottom: 5px !important; margin-top: 10px;">Поиск на складе</span>';
 
 
 
@@ -182,17 +255,17 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
 
 
             echo'<!--input start	-->		
-<div class="password_acc">
-<div id="0" class="input-choice-click-pass js-password-acc js-type-stock-prime '.$stock_class1.'">
+<div class="password_acc js-matic-cc">
+<div id="0" class="input-choice-click-pass js-password-acc js-type-stock-prime js-1c-matic  '.$stock_class1.'">
 <div class="choice-head">Позиция на складе</div>
 <div class="choice-radio"><div class="center_vert1"><i class="'.$stock_class1_1.'"></i></div></div>
 </div>	
 
-<div id="1" class="input-choice-click-pass js-password-acc js-type-stock-prime '.$stock_class2.'">
+<div id="1" class="input-choice-click-pass js-password-acc js-type-stock-prime js-1c-matic '.$stock_class2.'">
 <div class="choice-head">Новая позиция на складе</div>
 <div class="choice-radio"><div class="center_vert1"><i class="'.$stock_class2_2.'"></i></div></div>
 </div>
-<input name="new_sklad_i" class="js-type-stock-prime1 gloab" value="'.$stock.'" type="hidden">	
+<input name="new_sklad_i" class="js-type-stock-prime1 matic-op gloab" value="'.$stock.'" type="hidden">	
 </div>		
 <!--input end -->';
 
@@ -215,7 +288,7 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
             echo'<div class=" big_list" style="margin-bottom: 10px;">';
             //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
 
-            echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex '.$su_5_class.'" list_number="box2"><i class="js-open-search"></i><div class="b_loading_small loader-list-2021"></div><label>Поиск позиции (название)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_stock" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab2 js-posta js-mat-inv-posta10" name="posta_posta" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+            echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex '.$su_5_class.'" list_number="box2"><i class="js-open-search"></i><div class="b_loading_small loader-list-2021"></div><label>Поиск позиции (название)</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_stock" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="" class="js-hidden-search gloab2 js-posta js-mat-inv-posta10" name="posta_posta" id="search_items_5"><input type="hidden" value="" class="js-hidden-unit" ><input type="hidden" value="" class="js-hidden-name-m" ><ul class="drop drop-search js-drop-search js-stock-1c" style="transform: scaleY(0);">';
 
 
 
@@ -255,7 +328,7 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
 
 
             echo'</div>';
-
+/*
             if($stock==0)
             {
                 echo '<div class="search_bill_ed">';
@@ -266,8 +339,8 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
             } else {
                 echo '<div class="search_bill_ed none"></div>';
             }
-
-
+*/
+/*
             //новый поставщик
             echo'<div class="js-options-invoice-1 option-new-material none">';
 
@@ -354,7 +427,7 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
 
             echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
 
-
+*/
 
             echo'</div>';
 
@@ -378,7 +451,7 @@ echo'<div class="form-panel white-panel form-panel-form" style="padding-bottom: 
     <div class="na-50">
         <div id="no_rd223" class="no_button js-exit-window-add-task-two"><i>Отменить</i></div>
     </div>
-    <div class="na-50"><div id="yes_ra" class="save_button js-edit-supply-block-x"><i>Сохранить</i></div></div>
+    <div class="na-50"><div id="yes_ra" class="save_button js-edit-matic-block-x"><i>Сохранить</i></div></div>
 </div>
 
 <!--
@@ -440,6 +513,10 @@ include_once $url_system.'template/form_js.php';
         ToolTip();
         //input_2021();
 
+
+       LoadSave1c('<? echo($_GET["key"]); ?>');
+
+
         $('.date_picker_x').inputmask("datetime",{
             mask: "1.2.y",
             placeholder: "dd.mm.yyyy",
@@ -457,7 +534,7 @@ include_once $url_system.'template/form_js.php';
         $('.js-box-modal-two').on("change keyup input click",'.js-exit-window-add-task-two',js_exit_form_sel1);
 
         //кнопка принять решение
-        $('.js-box-modal-two').on("change keyup input click",'.js-edit-supply-block-x',js_edit_supply_mat_stock);
+        $('.js-box-modal-two').on("change keyup input click",'.js-edit-matic-block-x',js_edit_matic_mat_stock);
 
         $('.mask-count').mask('99999');
         $('.js-box-modal-two').on("change",'.js-mat-inv-posta10',option_demo20);

@@ -167,10 +167,20 @@ $user_send_new= array_unique($user_send_new);
 notification_send($text_not,$user_send_new,$id_user,$link);
 
 
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+$user_admin= array();
+array_push($user_admin, 11);
 
-//добавляем уведомления о новом наряде
-//добавляем уведомления о новом наряде
-//добавляем уведомления о новом наряде
+$kto=name_sql_x($id_user);
+$title=$kto.' отклонил заявку №'.$value['id'];
+
+
+$message=$kto.' отклонил <a class="link-history" href="app/'.$value['id'].'/">Заявку №'.$value['id'].'</a> - ' . $row_list1["object_name"] . ' (' . $row_town["town"] . ', ' . $row_town["kvartal"] . '). Причина - '.$_POST["remark"].'.';
+notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
 
 
 //изменение статуса заявки

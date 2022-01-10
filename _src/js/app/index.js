@@ -378,98 +378,82 @@ function CheckboxGroup(event)
     var active_new = $(this).find("a").attr("rel");
     */
 //var f = $(this).find("a").text();
-	var e = $(this).find("input").first().val();
-	var drop_object = $(this).parents('.js-group-c');
 
-	var active_jj=0;
-
-	if ($(this).find('i').is(".active_task_cb")) {
-
-		$(this).find('i').removeClass("active_task_cb");
-		$(this).find('input').last().val(0);
-		active_jj=1;
-	} else {
-
-		$(this).find('i').addClass("active_task_cb");
-		$(this).find('input').last().val(1);
-
-	}
+	//если стоит класс no_active_check то ничего не делаем
+	if(!$(this).is('.no_active_check')) {
 
 
-	//пробежаться по всей выбранному селекту
-	var select_li = '';
-	drop_object.find('.js-checkbox-group').each(function (i, elem) {
+		var e = $(this).find("input").first().val();
+		var drop_object = $(this).parents('.js-group-c');
+
+		var active_jj = 0;
+
 		if ($(this).find('i').is(".active_task_cb")) {
-			if (select_li == '') {
-				select_li = $(this).find("input").first().val();
-			} else {
-				select_li = select_li + ',' + $(this).find("input").first().val();
-			}
-		}
-	});
 
-
-	//есть тип который позволяет выбрать только один пункт
-	if (drop_object.is('.js-tolko-one')) {
-
-
-		//select_li = one_li.find("a").attr("rel");
-		drop_object.find('i').removeClass("active_task_cb");
-
-		drop_object.find('.js-checkbox-group').each(function (i, elem) {
+			$(this).find('i').removeClass("active_task_cb");
 			$(this).find('input').last().val(0);
-		});
-		//alert(active_jj);
-		if(active_jj==0)
-		{
+			active_jj = 1;
+		} else {
+
 			$(this).find('i').addClass("active_task_cb");
 			$(this).find('input').last().val(1);
-		}
-
-	}
-
-
-	//есть класс который говорит что если выбрано первое в списке то убираем галки со всех остальных
-	//если есть что-то выбранное то первое в списке не горит
-	//если ничего не выбрано первое в списке зажечь
-
-	if (drop_object.is('.js-one-all-select')) {
-
-		var one_li=drop_object.find('.js-checkbox-group').first();
-
-
-		//если не одна галка не выделена то зажигаем первое
-		if (select_li == '') {
-
-			one_li.trigger('click');
-			return;
 
 		}
 
-		//нажимаем на первое в списке когда он не горел тогда тушим все остальные
-		if (($(this).find('i').is(".active_task_cb")) && (e == 0) && ((select_li != '') && (select_li != '0'))) {
 
-			select_li = one_li.find("a").attr("rel");
+		//пробежаться по всей выбранному селекту
+		var select_li = '';
+		drop_object.find('.js-checkbox-group').each(function (i, elem) {
+			if ($(this).find('i').is(".active_task_cb")) {
+				if (select_li == '') {
+					select_li = $(this).find("input").first().val();
+				} else {
+					select_li = select_li + ',' + $(this).find("input").first().val();
+				}
+			}
+		});
+
+
+		//есть тип который позволяет выбрать только один пункт
+		if (drop_object.is('.js-tolko-one')) {
+
+
+			//select_li = one_li.find("a").attr("rel");
 			drop_object.find('i').removeClass("active_task_cb");
 
 			drop_object.find('.js-checkbox-group').each(function (i, elem) {
 				$(this).find('input').last().val(0);
 			});
-
-
-			one_li.find('i').addClass("active_task_cb");
-			one_li.find('input').last().val(1);
+			//alert(active_jj);
+			if (active_jj == 0) {
+				$(this).find('i').addClass("active_task_cb");
+				$(this).find('input').last().val(1);
+			}
 
 		}
 
 
-		//если выбрали все кроме первого то потушить все а первый в списке зажечь
-		if(e != 0)
-		{
-			var count_all_li=drop_object.find('.js-checkbox-group').length;
-			var count_active_li=drop_object.find('.active_task_cb').length;
-			//alert(count_all_li);
-			if (parseInt(count_active_li + 1) == count_all_li) {
+		//есть класс который говорит что если выбрано первое в списке то убираем галки со всех остальных
+		//если есть что-то выбранное то первое в списке не горит
+		//если ничего не выбрано первое в списке зажечь
+
+		if (drop_object.is('.js-one-all-select')) {
+
+			var one_li = drop_object.find('.js-checkbox-group').first();
+
+
+			//если не одна галка не выделена то зажигаем первое
+			if (select_li == '') {
+
+				one_li.trigger('click');
+				return;
+
+			}
+
+			//нажимаем на первое в списке когда он не горел тогда тушим все остальные
+			if (($(this).find('i').is(".active_task_cb")) && (e == 0) && ((select_li != '') && (select_li != '0'))) {
+
+				select_li = one_li.find("a").attr("rel");
 				drop_object.find('i').removeClass("active_task_cb");
 
 				drop_object.find('.js-checkbox-group').each(function (i, elem) {
@@ -479,25 +463,42 @@ function CheckboxGroup(event)
 
 				one_li.find('i').addClass("active_task_cb");
 				one_li.find('input').last().val(1);
+
 			}
-		}
 
 
-		//alert(select_li_text);
-		//если что-то выбрано кроме первого то и первый гарид то потушить его
-		if ((select_li != '')&&(select_li != '0'))
-		{
-			if(one_li.find('i').is('.active_task_cb'))
-			{
-				one_li.trigger('click');
-				return;
+			//если выбрали все кроме первого то потушить все а первый в списке зажечь
+			if (e != 0) {
+				var count_all_li = drop_object.find('.js-checkbox-group').length;
+				var count_active_li = drop_object.find('.active_task_cb').length;
+				//alert(count_all_li);
+				if (parseInt(count_active_li + 1) == count_all_li) {
+					drop_object.find('i').removeClass("active_task_cb");
+
+					drop_object.find('.js-checkbox-group').each(function (i, elem) {
+						$(this).find('input').last().val(0);
+					});
+
+
+					one_li.find('i').addClass("active_task_cb");
+					one_li.find('input').last().val(1);
+				}
 			}
-		}
 
+
+			//alert(select_li_text);
+			//если что-то выбрано кроме первого то и первый гарид то потушить его
+			if ((select_li != '') && (select_li != '0')) {
+				if (one_li.find('i').is('.active_task_cb')) {
+					one_li.trigger('click');
+					return;
+				}
+			}
+
+		}
+		MemoButType($(this).find("input"));
+		event.stopPropagation();
 	}
-	MemoButType($(this).find("input"));
-    event.stopPropagation();
-
 }
 
 function animation_teps_supply()
@@ -921,47 +922,41 @@ function InputFocusNew2021()
 //потеря фокуса для новых инпутов
 function InputBlurNew2021()
 {
-	//alert($(this).val());
-	var val_input=$(this).val();
-	var label=$(this).prev('label');
-	var input_div=$(this).parents('.input_2021');
+	if($(this).is('.gloab')) {
+		//alert($(this).val());
+		var val_input = $(this).val();
+		var label = $(this).prev('label');
+		var input_div = $(this).parents('.input_2021');
 
-	input_div.removeClass('active1_in_2021');
+		input_div.removeClass('active1_in_2021');
 
-	if(val_input=='')
-	{
-		input_div.removeClass('active_in_2021');
-	}
-	if(!$(this).is('.date2021_mask'))
-	{
-		//для всего остального кроме дат с маской
-		if(($(this).is('.required'))&&(val_input=='')&&(!input_div.is('.required_in_2021')))
-		{
-			input_div.addClass('required_in_2021');
-		} else
-		{
-			if(($(this).is('.required'))&&(val_input!=''))
-			{
-				input_div.removeClass('required_in_2021');
-			}
-		}
-	} else
-	{
-		if(($(this).is('.required'))&&((val_input=='')||(val_input=='дд.мм.гггг'))&&(!input_div.is('.required_in_2021')))
-		{
-			input_div.addClass('required_in_2021');
-		} else
-		{
-			if(($(this).is('.required'))&&(val_input!='')&&(val_input!='дд.мм.гггг'))
-			{
-				input_div.removeClass('required_in_2021');
-			}
+		if (val_input == '') {
+			input_div.removeClass('active_in_2021');
 		}
 
 
+		if (!$(this).is('.date2021_mask')) {
+			//для всего остального кроме дат с маской
+			if (($(this).is('.required')) && (val_input == '') && (!input_div.is('.required_in_2021'))) {
+				input_div.addClass('required_in_2021');
+			} else {
+				if (($(this).is('.required')) && (val_input != '')) {
+					input_div.removeClass('required_in_2021');
+				}
+			}
+		} else {
+			if (($(this).is('.required')) && ((val_input == '') || (val_input == 'дд.мм.гггг')) && (!input_div.is('.required_in_2021'))) {
+				input_div.addClass('required_in_2021');
+			} else {
+				if (($(this).is('.required')) && (val_input != '') && (val_input != 'дд.мм.гггг')) {
+					input_div.removeClass('required_in_2021');
+				}
+			}
+
+
+		}
+
 	}
-
-
 }
 
 
@@ -1562,10 +1557,11 @@ function Dialog(e)
 function animation_teps()
 {
 	$('.teps').each(function(i,elem) {
-	$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
-});
+		$(this).css('width', $(this).attr('rel_w')+"%");
+		//$(this).animate({width: $(this).attr('rel_w')+"%"}, 2000, function() {  });
+	});
 
-	
+
 }
 
 //приведение служебых записок к нужному виду
@@ -4763,6 +4759,7 @@ var savedefault_zay = function (thiss)
 
 
 $(function (){
+	animation_teps();
 $(window).on('resize',windowSize);	
 
 $('.loader_ada').remove();
@@ -5130,8 +5127,8 @@ jQuery(document).on("blur",'.input_new_2018',InputBlurNew);
 
 
 
-	jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
-	jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
+	//jQuery(document).on("focus click",'.input_new_2021',InputFocusNew2021);
+	//jQuery(document).on("blur",'.input_new_2021',InputBlurNew2021);
 	jQuery(document).on("keyup",'.input_new_2021',KeyUpInput2021);
 
 
@@ -5155,7 +5152,7 @@ $('.smeta2').on("click",'.del_zay_zay',DellZayZay);
 
 //клик по иконки показать историю нарядов по работе
 $('.work__s').on("click",'.history_icon',HistoryN);
-	$('.mattx').on("click",'.history_icon',HistoryN1);
+	$('.mattx,.js-more-acc-view').on("click",'.history_icon',HistoryN1);
 
 //контроль ввода количества материала при оформлении заявки на материал
 $('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);		
@@ -5260,7 +5257,7 @@ $('.statusis').on("change",'.vall_supply', vall_supply);
 	
 $('.menu_top,.smeta2').on("click",'.drops li',droplis);	
 //анимация линеек
-animation_teps();
+
 
 
 $('.skladd_nei').bind('click', slide_skkk);		
@@ -6190,7 +6187,7 @@ var vall_basket = function() {
 */
 //$('.vall_basket').bind('change', vall_basket);
 //$('.vall_basket2').bind('change', vall_basket2);
-	
+
 //$('.option_score1').bind('change', option_score1);		
 
 var changesortbill4 = function() {  

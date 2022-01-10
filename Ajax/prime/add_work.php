@@ -130,7 +130,7 @@ if ($rtyy !== false) {
 
 
 $ID_D=0;								 
-mysql_time_query($link,'INSERT INTO i_razdel2 (id,id_razdel1,razdel1,razdel2,name_working,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.$rann.'","'.htmlspecialchars(trim($_GET["name_work"])).'","'.htmlspecialchars(trim($_GET["ispol_work"])).'","'.htmlspecialchars(trim($name_ed)).'","'.htmlspecialchars(trim(trimc($_GET["count_work"]))).'","'.htmlspecialchars(trim(trimc($_GET["price_work"]))).'")');
+mysql_time_query($link,'INSERT INTO i_razdel2 (id,id_razdel1,razdel1,razdel2,name_working,id_implementer,units,count_units,price) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.htmlspecialchars(trim($_GET["number_razdel2"])).'","'.htmlspecialchars(trim($_GET["name_work"])).'","'.htmlspecialchars(trim($_GET["ispol_work"])).'","'.htmlspecialchars(trim($name_ed)).'","'.htmlspecialchars(trim(trimc($_GET["count_work"]))).'","'.htmlspecialchars(trim(trimc($_GET["price_work"]))).'")');
 $ID_D=mysqli_insert_id($link);	
 
 			 
@@ -179,7 +179,7 @@ $ID_D=mysqli_insert_id($link);
 			 
 
 $echo.='<tr class="jop n1n" rel_id="'.$ID_D.'"><td class="middle_"><div class="st_div"><i></i></div></td>
-                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.$row1["razdel1"].'.'.$rann.' '.htmlspecialchars(trim($_GET["name_work"])).'</span><br>';
+                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.$row1["razdel1"].'.'.$_GET["number_razdel2"].' '.htmlspecialchars(trim($_GET["name_work"])).'</span><br>';
 				  
 					  
 					  

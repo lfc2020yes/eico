@@ -76,6 +76,10 @@ $status=1;
             echo'';
 
 
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Номер статьи</i><span>*</span></label><input name="number_razdel2" value="'.$row_town["razdel2"].'" class="input_new_2021  required  no_upperr gloab" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
 
 
             echo'<!--input start-->

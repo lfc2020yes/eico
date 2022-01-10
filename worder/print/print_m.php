@@ -57,8 +57,8 @@ if (( count($_GET) == 1 ))
 	       header("Status: 404 Not Found");
 	       $error_header=404;
 		} else
-		{			
-			$row_list= mysqli_fetch_assoc($result_url);
+		{
+		    $row_list= mysqli_fetch_assoc($result_url);
 			
 			//узнаем организацию
 		$result_url1=mysql_time_query($link,'select a.* from i_implementer as a where a.id="'.$row_list["id_implementer"].'"');

@@ -226,6 +226,12 @@ $task_cloud_block.='<span class="s_j pay_summ" style="margin-left: -3px;">'.rtri
 
 $task_cloud_block.='</div><div class="trips-b-comment">';
 
+if(trim($value["comment"])!='')
+{
+    $task_cloud_block.='<div class="pass_wh_trips" style="margin-top: 10px;"><label>Комментарий</label><div class="obi">'.$value["comment"].'</div></div>';
+}
+
+
 if($small_block!=1) {
 
     $task_cloud_block.='<span class="label-task-gg ">Последнее событие/Сканы с подписью технадзора

@@ -9,6 +9,7 @@ $id_visor=htmlspecialchars(trim($_POST['id_visor']));
 $by=htmlspecialchars(trim($_POST['sheet']));
 $id_akt=htmlspecialchars(trim($_POST['id_akt']));
 $id_zay=htmlspecialchars(trim($_POST['id_doc']));
+$n_st=htmlspecialchars(trim($_POST['n_st']));
 
 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
 //$id_zay=GetCookie('doc'.$id_user);
@@ -40,14 +41,20 @@ $menu_sql1=array(' where a.summa_debt>0'
                 ,''
                 );
 
+//$count_write=20;  //количество выводимых записей на одной странице
+
     $page_sql=array(
      "select *,a.id as act from z_act a left join r_user u on (a.id0_user=u.id) where a.id1_user='$id_visor' and a.date1 is null and a.date0 is not null order by a.date desc"
+
     ,"select *,a.id as act from z_act a left join r_user u on (a.id1_user=u.id) where id0_user='$id_visor' and a.date1 is null and a.date0 is not null order by a.date desc"
+
     ,"select *,a.id as act from z_act a
       left join (select id,name_user as name0, position as position0  from r_user) u0 on (a.id0_user=u0.id)
       left join (select id,name_user as name1, position as position1 from r_user) u1 on (a.id1_user=u1.id)
       where (a.id0_user='$id_visor' or a.id1_user='$id_visor') and a.date1 is not null and a.date0 is not null order by a.date desc"
+
     ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id and m.count_units>0 order by s.name"
+
     ,"select *,a.id as act from z_act a left join r_user u on (a.id1_user=u.id) where id0_user='$id_visor' and a.date0 is null order by a.date desc"
             );
 
@@ -247,7 +254,7 @@ opacity: 0.4;">('.$row_z['name_user'].')</span>
 ?>
 <div id="table_sheet">
 <?php
-$count_write=100;  //количество выводимых записей на одной странице
+$count_write=40;  //количество выводимых записей на одной странице
 
 if ($title_key==3 && $id_zay>0) {
     $sqlP="
@@ -263,8 +270,14 @@ and z.count_units > 0
 order by s.name";
 
 }   else {
-    $sqlP=$page_sql[$title_key].limitPage('str',$count_write);
+    $sqlP=$page_sql[$title_key].limitPage1($n_st,$count_write);
+    $sqlPCC=$page_sql[$title_key];
 }   //echo('!'.$title_key. " ".$sqlP);
+
+$result_t2_CC=mysql_time_query($link,$sqlPCC);
+$num_results_t2_CC = $result_t2_CC->num_rows;
+
+
 $result_t2=mysql_time_query($link,$sqlP);
 $num_results_t2 = $result_t2->num_rows;
 if($num_results_t2!=0) {
@@ -392,6 +405,23 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
 }    //список данных на странице
 echo'</tbody></table>';
 echo '</div>';
+
+//echo($_GET["n_st"]);
+
+    //$count_pages=CountPage($sql_count,$link,$count_write);
+    $count_pages=ceil($num_results_t2_CC/$count_write);
+    if($count_pages>1)
+    {
+        $flag_ot=1;
+        if(is_numeric($n_st)) {
+            $flag_ot=$n_st;
+        }
+
+        displayPageLink_new('aktpp/'.$by.'/','aktpp/'.$by.'/.page-',"", $flag_ot,$count_pages ,5,9,"journal_oo",1);
+
+
+    }
+
 }
 
 echo '</div>';

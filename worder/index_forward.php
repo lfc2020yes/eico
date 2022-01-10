@@ -185,6 +185,26 @@ $user_send_new= array_unique($user_send_new);
 notification_send($text_not,$user_send_new,$id_user,$link);
 
 
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+$user_admin= array();
+array_push($user_admin, 11);
+
+$kto=name_sql_x($id_user);
+$title=$kto.' перенаправил(а) наряд №'.$value['numer_doc'];
+
+
+$kto1=name_sql_x($_POST["forward_id"]);
+
+
+$message=$kto.' перенаправил(а) <a class="link-history" href="worder/'.$value['id'].'/">Наряд №'.$value['numer_doc'].'</a>. Наряд перенаправлен к - '.$kto1;
+notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
+
 
 //добавляем уведомления о новом наряде
 //добавляем уведомления о новом наряде

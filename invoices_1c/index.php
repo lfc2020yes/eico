@@ -315,7 +315,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
     $arFiles = $csv->read_dir ($mask,$mask_attach);
     //echo(count($arFiles));
 
-    echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
+    //echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
     /*echo'<br>';
     echo base64_encode($arFiles[0]['file']);
     */
@@ -356,12 +356,27 @@ if(($title_key==0)and($count!=0))
 
         $date_start = $date_mass[0] . ' ' . $date_mass1[0] . ':' . $date_mass1[1];
 
+        $str =$value["file"];
+       // $str = iconv("utf-8", "windows-1251", $value["file"]); /* Преобразование кодировки */
+
+        // Возвращает строку, в которой все не алфавитно-числовые символы (кроме -_.) заменены на знак процентов (%) с последующими двумя 16-ричными цифрами и пробелами, кодированными как знаки плюс (+)
+
+        //$str= urlencode(htmlspecialchars($str));
+        echo($value["file"].'<br>');
+$str=rawurlencode($str);
+echo($value["file"]);
+        //$str1 = iconv("utf-8", "windows-1251", $str1); /* Преобразование кодировки */
+//echo($str1);
+
         echo'<div class="c_block_global " id_pre="13">
 <span class="js-update-block-1c">
 
+
+
+
 <div class="trips-b-number"><div style="width: 100%;">&nbsp;</div></div>
 	<div class="trips-b-info"><span class="label-task-gg ">Номер/Дата 
-</span><a style="display:block;" href="invoices_1c/'.base64_encode($value["file"]).'/"><span class="spans ggh-e name-blue"><span>Накладная №'.$value1["Номер"].'</span></span></a><div id_status="9" class="status_admin js-status-preorders s_pr_2 ">не обработана</div><div class="pass_wh_trips" style="margin-top: 10px;"><label>Дата создания</label><div class="obi">'.$date_start .'</div></div></div><div class="trips-b-user"><span class="label-task-gg ">Контрагент
+</span><a style="display:block;" href="invoices_1c/index_view.php?id='.$str.'"><span class="spans ggh-e name-blue"><span>Накладная №'.$value1["Номер"].'</span></span></a><div id_status="9" class="status_admin js-status-preorders s_pr_2 ">не обработана</div><div class="pass_wh_trips" style="margin-top: 10px;"><label>Дата создания</label><div class="obi">'.$date_start .'</div></div></div><div class="trips-b-user"><span class="label-task-gg ">Контрагент
 </span><div class="pass_wh_trips" style="margin-bottom: 5px;"><span class="kuda-trips">'.$value1["НаименованиеПолноеКонтрагента"].'</span></div>
 <div class="pass_wh_trips"><label>Склад</label><div class="obi">'.$value1["Склад"].'</div></div>
 </div><div class="trips-b-comment"><span class="label-task-gg ">Ответственный

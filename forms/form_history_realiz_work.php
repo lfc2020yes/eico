@@ -47,7 +47,7 @@ if ((count($_GET) ==1)and(isset($_GET["id"]))and((is_numeric($_GET["id"]))))
 			echo'<h1 class="h111" mor="" for="'.htmlspecialchars(trim($_GET['id'])).'"><span>История реализации работы по себестоимости</span></h1>';
 
 		
-	   $result_t1=mysql_time_query($link,'Select a.*,b.date_doc,b.numer_doc,b.id as idd  from n_work as a,n_nariad as b where b.signedd_nariad=1 and a.id_nariad=b.id and a.id_razdeel2="'.htmlspecialchars(trim($id)).'" order by b.date_doc');
+	   $result_t1=mysql_time_query($link,'Select a.*,b.date_doc,b.numer_doc,b.id as idd,b.id_implementer  from n_work as a,n_nariad as b where b.signedd_nariad=1 and a.id_nariad=b.id and a.id_razdeel2="'.htmlspecialchars(trim($id)).'" order by b.date_doc');
 			
 		//echo('Select a.*,b.date_doc,b.numer_doc,b.id as idd  from n_work as a,n_nariad as b where b.signedd_nariad=1 and a.id_nariad=b.id and a.id_razdeel2="'.htmlspecialchars(trim($id)).'" order by b.date_doc');
 			
@@ -68,12 +68,26 @@ if ((count($_GET) ==1)and(isset($_GET["id"]))and((is_numeric($_GET["id"]))))
 		   $Ostalos=$row_t["count_units_razdel2"];
 			$price=$row_t["price_razdel2"];
 		 }
+
+              $result_uu_po = mysql_time_query($link, 'select implementer from i_implementer where id="' . ht($row_t["id_implementer"]) . '"');
+              $num_results_uu_po = $result_uu_po->num_rows;
+
+              if ($num_results_uu_po != 0) {
+                  $row_uu_po = mysqli_fetch_assoc($result_uu_po);
+              }
+
+
 			$sum=$sum+$row_t["price"];  
 		   echo'<tr work="'.$id.'" style="background-color:rgba(255, 236, 87, 0.7);" class="jop1 mat histtory" rel_h="'.$id.'">
                   <td class="no_padding_left_ pre-wrap one_td"><div class="nm11">
 	
 	<div class="font-rank2"><span class="font-rank-inner2">'.($i+1).'</span></div>
-	<span class="s_j" style="float:left; margin-left:15px; margin-top:7px">'.MaskDate($row_t["date_doc"]).'</span><a href="finery/'.$row_t["idd"].'/" class="nariad_link">№'.$row_t["idd"].'</a></div></td>';
+	<span class="s_j" style="float:left; margin-left:15px; margin-top:3px"><a href="worder/'.$row_t["idd"].'/" class="nariad_link" style="margin-left: 0px;
+margin-top: 0px; float: none;">№'.$row_t["idd"].'</a> от '.MaskDate($row_t["date_doc"]).'
+
+<div style="font-size: 12px; font-family: GEInspiraRegular;">('.$row_uu_po["implementer"].')</div></span>
+
+</div></td>';
 	//<td class="pre-wrap center_text_td"><100%</td>
  echo'<td class="pre-wrap center_text_td">'.$row_t["units"].'</td>
 <td style="padding-left:30px;">';

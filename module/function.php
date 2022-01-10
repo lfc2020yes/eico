@@ -1,4 +1,14 @@
 <?
+function my_url_encode($s){
+    $s= strtr ($s, array (" "=> "%20", "а"=>"%D0%B0", "А"=>"%D0%90","б"=>"%D0%B1", "Б"=>"%D0%91", "в"=>"%D0%B2", "В"=>"%D0%92", "г"=>"%D0%B3", "Г"=>"%D0%93", "д"=>"%D0%B4", "Д"=>"%D0%94", "е"=>"%D0%B5", "Е"=>"%D0%95", "ё"=>"%D1%91", "Ё"=>"%D0%81", "ж"=>"%D0%B6", "Ж"=>"%D0%96", "з"=>"%D0%B7", "З"=>"%D0%97", "и"=>"%D0%B8", "И"=>"%D0%98", "й"=>"%D0%B9", "Й"=>"%D0%99", "к"=>"%D0%BA", "К"=>"%D0%9A", "л"=>"%D0%BB", "Л"=>"%D0%9B", "м"=>"%D0%BC", "М"=>"%D0%9C", "н"=>"%D0%BD", "Н"=>"%D0%9D", "о"=>"%D0%BE", "О"=>"%D0%9E", "п"=>"%D0%BF", "П"=>"%D0%9F", "р"=>"%D1%80", "Р"=>"%D0%A0", "с"=>"%D1%81", "С"=>"%D0%A1", "т"=>"%D1%82", "Т"=>"%D0%A2", "у"=>"%D1%83", "У"=>"%D0%A3", "ф"=>"%D1%84", "Ф"=>"%D0%A4", "х"=>"%D1%85", "Х"=>"%D0%A5", "ц"=>"%D1%86", "Ц"=>"%D0%A6", "ч"=>"%D1%87", "Ч"=>"%D0%A7", "ш"=>"%D1%88", "Ш"=>"%D0%A8", "щ"=>"%D1%89", "Щ"=>"%D0%A9", "ъ"=>"%D1%8A", "Ъ"=>"%D0%AA", "ы"=>"%D1%8B", "Ы"=>"%D0%AB", "ь"=>"%D1%8C", "Ь"=>"%D0%AC", "э"=>"%D1%8D", "Э"=>"%D0%AD", "ю"=>"%D1%8E", "Ю"=>"%D0%AE", "я"=>"%D1%8F", "Я"=>"%D0%AF"));
+    return $s;
+}
+// функция раскодирует строку из URL
+function my_url_decode($s){
+    $s= strtr ($s, array ("%20"=>" ", "%D0%B0"=>"а", "%D0%90"=>"А", "%D0%B1"=>"б", "%D0%91"=>"Б", "%D0%B2"=>"в", "%D0%92"=>"В", "%D0%B3"=>"г", "%D0%93"=>"Г", "%D0%B4"=>"д", "%D0%94"=>"Д", "%D0%B5"=>"е", "%D0%95"=>"Е", "%D1%91"=>"ё", "%D0%81"=>"Ё", "%D0%B6"=>"ж", "%D0%96"=>"Ж", "%D0%B7"=>"з", "%D0%97"=>"З", "%D0%B8"=>"и", "%D0%98"=>"И", "%D0%B9"=>"й", "%D0%99"=>"Й", "%D0%BA"=>"к", "%D0%9A"=>"К", "%D0%BB"=>"л", "%D0%9B"=>"Л", "%D0%BC"=>"м", "%D0%9C"=>"М", "%D0%BD"=>"н", "%D0%9D"=>"Н", "%D0%BE"=>"о", "%D0%9E"=>"О", "%D0%BF"=>"п", "%D0%9F"=>"П", "%D1%80"=>"р", "%D0%A0"=>"Р", "%D1%81"=>"с", "%D0%A1"=>"С", "%D1%82"=>"т", "%D0%A2"=>"Т", "%D1%83"=>"у", "%D0%A3"=>"У", "%D1%84"=>"ф", "%D0%A4"=>"Ф", "%D1%85"=>"х", "%D0%A5"=>"Х", "%D1%86"=>"ц", "%D0%A6"=>"Ц", "%D1%87"=>"ч", "%D0%A7"=>"Ч", "%D1%88"=>"ш", "%D0%A8"=>"Ш", "%D1%89"=>"щ", "%D0%A9"=>"Щ", "%D1%8A"=>"ъ", "%D0%AA"=>"Ъ", "%D1%8B"=>"ы", "%D0%AB"=>"Ы", "%D1%8C"=>"ь", "%D0%AC"=>"Ь", "%D1%8D"=>"э", "%D0%AD"=>"Э", "%D1%8E"=>"ю", "%D0%AE"=>"Ю", "%D1%8F"=>"я", "%D0%AF"=>"Я"));
+    return $s;
+}
+
 //проверка ввода валидности даты
 function validateDate($date, $format = 'd.m.Y H:i:s')
 {
@@ -424,6 +434,51 @@ function online_user($times,$id_user,$you_id)
   }
 
 }
+
+function name_sql_x($id)
+{
+    global $link;
+    $result_txs=mysql_time_query($link,'Select a.name_user from r_user as a where a.id="'.$id.'"');
+    if($result_txs->num_rows!=0)
+    {
+        $rowxs = mysqli_fetch_assoc($result_txs);
+        return $rowxs["name_user"];
+
+    } else
+    {
+        return 'Пользователь';
+    }
+}
+
+
+//отправка уведомления админу на почту и на сайте
+function notification_send_admin($title,$text,$mass,$id_user,$link)
+{
+
+
+    $today[0] = date("y.m.d"); //присвоено 03.12.01
+    $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
+    $date_=$today[0].' '.$today[1];
+
+    foreach ($mass as $keys => $value)
+    {
+        mysql_time_query($link,'INSERT INTO r_notification (id_user,notification,sign_user,datetime ) VALUES ("'.$value.'","'.htmlspecialchars(trim($text)).'","'.$id_user.'","'.$date_.'")');
+        $noti_key=new_key($link,10);
+        mysql_time_query($link,'update r_user set noti_key="'.$noti_key.'" where id = "'.htmlspecialchars(trim($value)).'"');
+
+
+        //отправляем на почту письмо
+        //notification_mail($text,ht($value),$id_user,$link);
+
+        //отправлять насильно все админу потом если что закомментировать
+        notification_mail_admin($title,$text,11,$id_user,$link);
+
+
+
+    }
+}
+
+
 //отправка уведомлений пользователям
 function notification_send($text,$mass,$id_user,$link)
 {
@@ -444,7 +499,7 @@ function notification_send($text,$mass,$id_user,$link)
         notification_mail($text,ht($value),$id_user,$link);
 
         //отправлять насильно все админу потом если что закомментировать
-        notification_mail($text,11,$id_user,$link);
+      //  notification_mail($text,11,$id_user,$link);
 
 
 
@@ -559,6 +614,115 @@ COST CONTROL MANAGER
 
 }
 
+function notification_mail_admin($title,$text1,$komy_id,$id_user,$link)
+{
+    global $notification_mail;
+    if($notification_mail==1) {
+        $today[0] = date("y.m.d"); //присвоено 03.12.01
+        $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
+        $date_ = $today[0] . ' ' . $today[1];
+
+        $url_system = $_SERVER['DOCUMENT_ROOT'] . '/';
+        include_once $url_system . 'module/config_mail.php';
+
+        // отправка письма на почту
+        // отправка письма на почту
+        // отправка письма на почту
+        $text = "<HTML>\r\n";
+        $text .= "<HEAD>\r\n";
+        $text .= "<META http-equiv=Content-Type content='html; charset=windows-1251'>\r\n";
+
+        $text .= "<style type=\"text/css\">
+.mail-st a {  color: #292f33; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 24px; font-weight: 300; line-height: 30px; border-bottom: 1px solid rgba(0,0,0,0.1);text-decoration: none;  }.time_notifi {color: rgba(0,0,0,0.4);
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;}
+
+</style>";
+        $text .= "<base href=\"https://eico.atsun.ru/\">";
+
+        $text .= "</HEAD>\r\n";
+        $text .= "<BODY>\r\n";
+
+
+        $text .= '<table width="100%" cellpadding="0" cellspacing="0" style="margin:0;padding:0;min-width:100%;" bgcolor="#E7E7EF"><tbody><tr><td align="center" style="padding: 0 5px;vertical-align:top;" bgcolor="#E7E7EF">';
+
+        $text .= '<table align="center" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin:0 auto;direction:ltr; margin-top:40px;  margin-bottom:10px; ">
+      <tbody><tr><td style="vertical-align:top; padding:30px;" bgcolor="#FFF">';
+
+
+        $text .= "<br><span style=\"color: #66757f; font-family: 'Helvetica Neue Light',Helvetica,Arial,sans-serif; font-size: 16px; font-weight: 300;\">Приветствуем вас!</span><br><br>";
+
+
+        $text .= '<div style=" width:100%; height:1px; border-top:1px solid #e1e8ed;"></div>';
+
+        $text .= "<br><span class=\"mail-st\" style=\" color: #292f33; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 24px; font-weight: 300; line-height: 30px; margin: 0; padding: 0; text-align: left;\">" . $text1 . "</span><br><br>
+
+
+<span style=\"color: #292f33;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0;
+    padding: 0;
+    text-align: left;\">Ссылка на ваш личный кабинет: </span>
+
+<br>
+<a style=\"color:
+#2c60a4;
+
+border-bottom: 1px solid
+rgba(0,0,0,0.1);
+
+text-decoration: none;
+
+font-size: 20px;\" href=\"https://eico.atsun.ru/notification/\">
+COST CONTROL MANAGER
+</a>
+
+<br><br><br><span style=\"color: rgba(0,0,0,0.4);
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+    margin: 0;
+    
+    text-align: left;\"> Это письмо создано автоматически системой  COST CONTROL MANAGER. C уважением, Администрация <a style=\"color: rgba(0,0,0,0.4);
+    
+    text-decoration: none;\" href=\"https://eico.group/\">eico group</a></span>\r\n";
+
+        $text .= "</td></tr></tbody></table>";
+
+
+        $text .= "</td></tr></tbody></table>";
+
+
+        $text .= "</BODY>\r\n";
+        $text .= "</HTML>";
+
+
+        //mail($_POST["login"],"www.ulmenu.ru: Подтверждение регистрации",$text,$header);
+        // /отправка письма на почту
+
+        $result_uu = mysql_time_query($link, 'select email,email_notifications from r_user where id="' . ht($komy_id) . '"');
+        $num_results_uu = $result_uu->num_rows;
+
+        if ($num_results_uu != 0) {
+            $row_uu = mysqli_fetch_assoc($result_uu);
+            $mail_admin = trim($row_uu["email"]);
+
+            if (((filter_var(trim($mail_admin), FILTER_VALIDATE_EMAIL)))and($row_uu["email_notifications"]==1)) {
+                if(SMTP_MAIL($mail_ulmenu, 'password', $title, $text, $mail_admin)==false)
+                {
+                    mysqli_query($link,'insert into v_error (module,error,date_error)  values ("'.htmlspecialchars($_SERVER['REQUEST_URI']).'","'.$title.'","'.date("y.m.d").' '.date("H:i:s").'")');
+                }
+            }
+        }
+
+
+    }
+
+}
 
 
 //получение нового ключа для уведомлений пользователю
@@ -1572,6 +1736,42 @@ function limitPage($varpage,$countwrite)
     return $limit;
 }
 
+
+function limitPage1($varpage,$countwrite)
+{
+    //$varpage - название GET переменной которая передает номер страницы
+    //$countwrite - количество выводимого на одной странице
+    $count_otziv=0;
+    $kol_st_n=0;
+    if(isset($varpage))
+    {
+        if (is_numeric($varpage)) {
+            $number_st=$varpage;
+            $flag_ot=$varpage;
+        } else
+        {
+            $number_st=1;
+            $flag_ot=1;
+        }
+
+    } else
+    {
+        $number_st=1;
+        $flag_ot=1;
+    }
+
+    if($number_st==1)
+    {
+        $number_st=0;
+    } else
+    {
+        $number_st=($number_st*$countwrite)-$countwrite;
+    }
+
+    $limit=' limit '.$number_st.','.$countwrite;
+
+    return $limit;
+}
 
 //определение номера активной страницы для постраничного вывода
 function NumberPageActive($varpage)

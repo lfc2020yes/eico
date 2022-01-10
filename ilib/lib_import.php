@@ -48,7 +48,8 @@ class CSV
     public function list_attach ($uid, $mask) {
         $files = array();
         foreach (glob($mask.$uid."*.*") as $filename) {
-            $files[] = $this->Codec->iconv($filename);
+            //$files[] = $this->Codec->iconv($filename);
+            $files[] = $filename;
         }
         return($files);
     }

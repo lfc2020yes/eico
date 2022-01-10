@@ -687,11 +687,11 @@ $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
 $arFiles = $csv->read_dir($mask,$mask_attach);
 if(isset($_GET["id"])) {
     //iconv( 'windows-1251','UTF-8',$debug)\
-echo(rawurldecode($_GET['id']).'<br>');
+//echo(rawurldecode($_GET['id']).'<br>');
 
 
-    echo(iconv( 'utf-8','windows-1251',rawurldecode($_GET['id'])));
-    $data = $csv->read_data(iconv( 'windows-1251','UTF-8',rawurldecode($_GET['id'])));
+    //echo(iconv( 'utf-8','windows-1251',rawurldecode($_GET['id'])));
+    $data = $csv->read_data(base64_decode($_GET['id']));
    // $data = $csv->read_data(my_url_decode(base64_decode($_GET['id'])));
     if(count($data)==0)
     {

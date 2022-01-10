@@ -36,7 +36,7 @@ $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
 if(isset($_GET["id"])) {
     //iconv( 'windows-1251','UTF-8',$debug)\
     //echo(base64_decode($_GET['id']));
-    $data = $csv->read_data(iconv( 'UTF-8','windows-1251',base64_decode($_GET['id'])));
+    $data = $csv->read_data(base64_decode($_GET['id']));
     if(count($data)==0)
     {
         goto end_code;

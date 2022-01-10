@@ -55,11 +55,11 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 //-----------------------------------------------------------------------------
       $id_user = 43;
 
-        /*$csv = new CSV(null, 43);
+        $csv = new CSV(null, 43);
   $mask = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/*.csv';
   $mask_attach = $_SERVER['DOCUMENT_ROOT'].'/'.'upload/1c_import/1c_attach/';
   $arFiles = $csv->read_dir ($mask, $mask_attach);
-  echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";*/
+  echo "<pre> ФАЙЛЫ [$mask]: ".print_r($arFiles,true)."</pre>";
 
         /* получить аттачи
           $arAttach = $csv->list_attach( $data[0][УИДДокумента],$mask_attach);

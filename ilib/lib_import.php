@@ -31,12 +31,16 @@ class CSV
     public function read_dir ($mask,$mask_attach) {
         $files = array();
         foreach (glob($mask) as $filename) {
-            $fn = $this->Codec->iconv($filename);
+            $code = mb_detect_encoding($filename,'auto'/*array("windows-1251","UTF-8")*/);
+
+            $fn = ($code=="UTF-8") ? $filename : $this->Codec->iconv($filename);
             $files[][file] = $fn;
             $num = count($files)-1;
+            $files[$num][code] = $code;
             $files[$num][organization] = $this->get_organization($fn);
             $files[$num][data] = $this->read_data($filename);
             $files[$num][attach] = $this->list_attach( $files[$num][data][0][УИДДокумента],$mask_attach);
+
         }
         return($files);
     }

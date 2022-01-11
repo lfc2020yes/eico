@@ -1147,100 +1147,84 @@ if ( isset($_COOKIE["iss"]))
                                                   echo "alert_message('error', 'Uh oh! Мы получили сообщение об ошибке - ".$_GET["error"]."');";
 
 
-                                                  if($_GET["error"]=='25')
-                                                  {
-                                                      $flag_podpis=0;
-                                                      $text_mee='';
-                                                      $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and a.id=b.id_nwork');
+                                                  if($_GET["error"]=='25') {
+                                                      $flag_podpis = 0;
+                                                      $text_mee = '';
+                                                      $result_pro = mysql_time_query($link, 'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="' . htmlspecialchars(trim($_GET['id'])) . '" and a.id=b.id_nwork');
                                                       $num_results_pro = $result_pro->num_rows;
-                                                      if($num_results_pro!=0)
-                                                      {
-                                                          for ($ip=0; $ip<$num_results_pro; $ip++)
-                                                          {
+                                                      if ($num_results_pro != 0) {
+                                                          for ($ip = 0; $ip < $num_results_pro; $ip++) {
                                                               $row_pro = mysqli_fetch_assoc($result_pro);
 
 
-                                                              $result_tx=mysql_time_query($link,'Select sum(a.count_units) as dd from n_material as a,i_material as b,n_work as c where a.id_material=b.id and c.id_nariad="'.htmlspecialchars(trim($_GET['id'])).'" and c.id=a.id_nwork and b.id_stock="'.$row_pro["id_stock"].'"');
+                                                              $result_tx = mysql_time_query($link, 'Select sum(a.count_units) as dd from n_material as a,i_material as b,n_work as c where a.id_material=b.id and c.id_nariad="' . htmlspecialchars(trim($_GET['id'])) . '" and c.id=a.id_nwork and b.id_stock="' . $row_pro["id_stock"] . '"');
 
                                                               $num_results_tx = $result_tx->num_rows;
-                                                              if($num_results_tx!=0)
-                                                              {
+                                                              if ($num_results_tx != 0) {
                                                                   $row_tx = mysqli_fetch_assoc($result_tx);
                                                               }
 
 
-                                                              $my_material=0;	//свой
-                                                              $my_material1=0;	//давальческий
+                                                              $my_material = 0;    //свой
+                                                              $my_material1 = 0;    //давальческий
                                                               //Определяем сколько материала на пользователе который оформляет наряд
-                                                              if($row_pro["id_stock"]!='')
-                                                              {
-                                                                  if($row_list["id_user"]==$id_user)
-                                                                  {
-                                                                      $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
-                                                                  } else
-                                                                  {
-                                                                      $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                                              if ($row_pro["id_stock"] != '') {
+                                                                  if ($row_list["id_user"] == $id_user) {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="' . $id_user . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  } else {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="' . $row_list["id_user"] . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
                                                                   }
                                                                   $num_results_t1_ = $result_t1_->num_rows;
-                                                                  if($num_results_t1_!=0)
-                                                                  {
+                                                                  if ($num_results_t1_ != 0) {
 
                                                                       $row1ss_ = mysqli_fetch_assoc($result_t1_);
-                                                                      if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-                                                                      {
-                                                                          $my_material=$row1ss_["summ"];
+                                                                      if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                                                                          $my_material = $row1ss_["summ"];
                                                                       }
                                                                   }
 
 
-                                                                  if($row_list["id_user"]==$id_user)
-                                                                  {
-                                                                      $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
-                                                                  } else
-                                                                  {
-                                                                      $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                                                  if ($row_list["id_user"] == $id_user) {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="' . $id_user . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  } else {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="' . $row_list["id_user"] . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
                                                                   }
                                                                   $num_results_t1_ = $result_t1_->num_rows;
-                                                                  if($num_results_t1_!=0)
-                                                                  {
+                                                                  if ($num_results_t1_ != 0) {
 
                                                                       $row1ss_ = mysqli_fetch_assoc($result_t1_);
-                                                                      if(($row1ss_["summ"]!='')and($row1ss_["summ"]!=0))
-                                                                      {
-                                                                          $my_material1=$row1ss_["summ"];
+                                                                      if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                                                                          $my_material1 = $row1ss_["summ"];
                                                                       }
                                                                   }
 
                                                               }
 
-                                                              $my_material_prior=$my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
-                                                              if($row_pro["alien"]==1)
-                                                              {
-                                                                  $my_material_prior=$my_material1;
+                                                              $my_material_prior = $my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+                                                              if ($row_pro["alien"] == 1) {
+                                                                  $my_material_prior = $my_material1;
                                                               }
 
-                                                              if($my_material_prior<$row_tx["dd"]) {  $flag_podpis++;
+                                                              if ($my_material_prior < $row_tx["dd"]) {
+                                                                  $flag_podpis++;
 
-                                                              if($text_mee=='') {
-                                                                  $text_mee =$row_pro["material"];
-                                                              } else
-                                                              {
-                                                                  $text_mee.=', '.$row_pro["material"];
+                                                                  if ($text_mee == '') {
+                                                                      $text_mee = $row_pro["material"];
+                                                                  } else {
+                                                                      $text_mee .= ', ' . $row_pro["material"];
+
+
+                                                                  }
 
 
                                                               }
+                                                          }
 
-
-
+                                                          if ($flag_podpis != 0) {
+                                                              echo "alert_message('error', 'Недостаточно материалов  - " . $text_mee . "');";
                                                           }
                                                       }
-
-                                                      if($flag_podpis!=0)
-                                                      {
-                                                          echo "alert_message('error', 'Недостаточно материалов  - ".$text_mee."');";
-                                                      }
                                                   }
-
 
 
                                               } else

@@ -1614,6 +1614,9 @@ function maskk_max(thiss)
 	//alert("!");
 	var count=parseFloat(thiss.val());
 	//alert(count);
+var readonly=0; //по умолчанию редактируемое поле
+	if ( thiss.is('[readonly]') ) { readonly=1; }
+
 	if(count>0)
 		{
 	
@@ -1630,14 +1633,17 @@ function maskk_max(thiss)
 			}
     });
 	max_=max_-	count;	
-	
-	if((count+max_)>parseFloat(my_stock))
-	{
-		  //alert(max_);	
-		  //alert(count);
-	      thiss.val(thiss.val().slice(0, -1));
+
+
+	//если поле просто для чтения то уже не надо его редактировать
+
+if(readonly==0) {
+	if ((count + max_) > parseFloat(my_stock)) {
+		//alert(max_);
+		//alert(count);
+		thiss.val(thiss.val().slice(0, -1));
 	}
-			
+}
 			
 			
  }
@@ -1663,15 +1669,15 @@ function maskk_max(thiss)
 		       max_=max_ + parseFloat(count_input);
 			}
     });
-	max_=max_-	count;	
-	
-	if((count+max_)>parseFloat(my_stock))
-	{
-		  //alert(max_);	
-		  //alert(count);
-	      thiss.val('');
-	}
-			
+	max_=max_-	count;
+
+			if(readonly==0) {
+				if ((count + max_) > parseFloat(my_stock)) {
+					//alert(max_);
+					//alert(count);
+					thiss.val('');
+				}
+			}
 			
 			
  }

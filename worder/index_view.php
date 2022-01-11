@@ -1153,7 +1153,7 @@ if ( isset($_COOKIE["iss"]))
                                                       $result_pro = mysql_time_query($link, 'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="' . htmlspecialchars(trim($_GET['id'])) . '" and a.id=b.id_nwork');
                                                       $num_results_pro = $result_pro->num_rows;
                                                       if ($num_results_pro != 0) {
-                                                          for ($ip = 0; $ip < $num_results_pro; $ip++) {
+                                                          for ($ipl = 0; $ipl < $num_results_pro; $ipl++) {
                                                               $row_pro = mysqli_fetch_assoc($result_pro);
 
 
@@ -2003,6 +2003,7 @@ echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"
 <td class="pre-wrap center_text_td">'.$row_mat["units"].'';
                                               echo'</td>
 <td>';
+                                             // echo($row_mat["count_units"]);
 //макс возможное количество берем всегда из себестоимости.
                                               echo'<div class="width-setter"><label>';
                                               $maxmax='';
@@ -2013,6 +2014,7 @@ echo'<div class="line_brock"><div class="count_brock">'.$row_uu_xo["count_units"
 //$maxmax=$row_mat["count_units_material"];
 //$placeh='MAX - '.$row_mat["count_units_material"];
                                               }
+
                                               echo'</label><input  my="'.$my_material_prior.'"
 defaultv="'.ipost_($_POST['works'][$i]["mat"][$mat]["count"],$row_mat["count_units"]).'" '.$status_edit.' style="margin-top:0px;" 
 ost="'.$ostatok.'"

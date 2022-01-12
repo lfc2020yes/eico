@@ -52,6 +52,18 @@ function password_crypt_x($id_user,$pas,$email)
 
 
 
+//$lower=plus_string(' and ',$lower,'LOWER(A.name) LIKE "%'.$query_mass[$i].'%"');
+function plus_string($and=',',$res,$string)
+{
+    if($res=='')
+    {
+        $ress=$string;
+    } else
+    {
+        $ress=$res.$and.$string;
+    }
+    return $ress;
+}
 
 //вывод value полей при отправле форм
 

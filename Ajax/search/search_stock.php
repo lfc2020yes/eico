@@ -130,6 +130,16 @@ if(($sign_level<4)and($sign_admin!=1)) {
 */
 if($query!='')
 {
+$lower='';
+    $query_mass = explode(" ", $query);
+    for ($i = 0; $i < count($query_mass); $i++) {
+
+        $lower=plus_string(' and ',$lower,'LOWER(A.name) LIKE "%'.$query_mass[$i].'%"');
+
+    }
+
+
+
 
   $sql='
 
@@ -137,7 +147,7 @@ select * from(
 
 (
 
-SELECT A.id,A.name,A.units FROM z_stock AS A where LOWER(A.name) LIKE "%'.$query.'%"
+SELECT A.id,A.name,A.units FROM z_stock AS A where '.$lower.'
 ) 
 
 

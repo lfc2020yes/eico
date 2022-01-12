@@ -1434,6 +1434,17 @@ textarea, input {
   margin-left: 10px;
 }
 
+.sort_icon {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "icon2";
+  font-size: 13px;
+  margin-left: 10px;
+}
+.sort_icon:hover {
+  color: #ffec57;
+}
+
 .addd_icon {
   cursor: pointer;
   color: rgba(255, 255, 255, 0.3);

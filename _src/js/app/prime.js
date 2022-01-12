@@ -7,8 +7,36 @@ $(function () {
     $('.material-prime-v2').on("click",'.history_icon',HistoryN1);
 
 
+    $('body').on("click",'.js-sort-prime-material',SortMatPrime);
 
 })
+
+function SortMatPrime()
+{
+var id_house=$(this).attr('for');
+
+var sort=$(this).attr('sort');
+    var tr = $('tr[work_house='+id_house+']');
+
+    if(sort==0) {
+        var alphabeticallyOrderedTr = tr.get().sort(function (a, b) {
+            return $(a).find(".s_j_name_sort").text().toLowerCase().localeCompare($(b).find(".s_j_name_sort").text().toLowerCase());
+        });
+        $(this).attr('sort',1);
+    } else
+    {
+        var alphabeticallyOrderedTr = tr.get().sort(function (a, b) {
+            return $(a).attr("rel_ma").localeCompare($(b).attr("rel_ma"));
+        });
+        $(this).attr('sort',0);
+    }
+
+    //$("#container").append(alphabeticallyOrderedTr);
+    //console.log(alphabeticallyOrderedTr);
+
+    $('tr[rel_id='+id_house+']').after(alphabeticallyOrderedTr);
+
+}
 
 
 //удалить раздел в себестоимости

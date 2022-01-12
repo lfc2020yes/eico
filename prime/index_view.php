@@ -777,6 +777,9 @@ if(($role->permission('График','U'))or($role->permission('График','R
                       {
 						 echo'<span data-tooltip="Добавить/Удалить материалы из заявки" for="'.$row_t1["id"].'" class="addd_icon_mateo">\'</span>'; 
 					  }
+
+                      echo'<span data-tooltip="Отсортировать по номеру/алфавиту" sort="0" for="'.$row_t1["id"].'" class="sort_icon js-sort-prime-material">W</span>';
+
 					  
 				echo'</span></td>
 <td class="pre-wrap">';
@@ -862,7 +865,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
 				  }
 					  
 					  
-				  echo'<tr class="material material-prime-v2 '.$actv2.'" rel_ma="'.$row_t3["id"].'">
+				  echo'<tr work_house="'.$row_t1["id"].'" class="material material-prime-v2 '.$actv2.'" rel_ma="'.$row_t3["id"].'">
            
            <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm '.$actv3.'">';
 
@@ -874,7 +877,7 @@ echo'<td><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_re
                           $class_dava='dava';
 
                       }
-                      echo'<span class="s_j '.$class_dava.'">'.$row_t3["material"].'</span>';
+                      echo'<span class="s_j s_j_name_sort '.$class_dava.'">'.$row_t3["material"].'</span>';
 if($row_t3["alien"]==1)
 {
     echo'<div class="chat_kk" data-tooltip="давальческий материал"></div>';

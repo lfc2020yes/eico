@@ -1645,7 +1645,7 @@ AND M.`id_stock` = S.`id`');
     if(($id_stock_material!='')and($count_na_nem>0)and($status_pere==1)) {
         echo '<div class="transfer_check">
 <input type=hidden value="' . $id_stock_material . '" class="stock_inp_mater" name="invoice[' . $ss . '][stock_mat]">
-<div class="mild_tra ' . $check . '"><div class="mild_mild_tra" data-tooltip="передать материал">
+<div class="mild_tra"><div class="mild_mild_tra" data-tooltip="передать материал">
 <i class="select-mild_tra"></i></div></div>
 
 </div>';

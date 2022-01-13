@@ -190,6 +190,10 @@ include_once $url_system.'module/notification.php';
             }
         }
 
+        if (($row_list["id_user"] == $id_user) and (($row_list["status"] == 3))) {
+            echo '<a href="/aktpp/make/0/" style="display: none;" data-tooltip="Принять на склад" class="save_button transfer_invoicess_2022 add_clients green-bb">Передать   →</a>';
+        }
+
 
         ?>
 

@@ -82,7 +82,7 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
        if  ($(this).is('.active_yy')) {
             //$(this).children('i')[0].textContent='';
            $(this).removeClass('active_yy');
-            cnt=DelFromCookie('material'+id_user_visor,id,60,'/');
+            cnt=DelFromCookie('material'+id_user_visor,id,60,'/',window.is_session,false);
             if (cnt>0) {
               //$(make_akt).children('i')[0].textContent=cnt;
 
@@ -100,7 +100,7 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
         } else {
             //$(this).children('i')[0].textContent='y';
            $(this).addClass('active_yy');
-            cnt=AddToCookie('material'+id_user_visor,id,60,'/');
+            cnt=AddToCookie('material'+id_user_visor,id,60,'/',window.is_session,false);
            // $(make_akt).children('i')[0].textContent=cnt;
            $(make_akt).find('i').empty().append(cnt);
             //alert("!");

@@ -1592,8 +1592,67 @@ $check='';
                    $mild='mild_mild1';
                    $mild_dav='mild_mild1_dav';
                }
-			   echo'<td class="no_padding_left_ pre-wrap one_td"><div class="mild_dava_xx">
-<div class="mild '.$check.'"><div class="'.$mild.'" data-tooltip="мягкая накладная">
+			   echo'<td class="no_padding_left_ pre-wrap one_td"><div class="mild_dava_xx">';
+if (($row_list["id_user"] == $id_user) and (($row_list["status"] == 3))) {
+
+    //$row_score['id_stock']
+
+
+    //он не в статусе передача весь находится
+    //найти его
+
+    //материал есть на нем
+    $result_uu_alteryx = mysql_time_query($link, 'select sum(count_units) as ccd from z_stock_material where id_stock="' . ht($row_score['id_stock']) . '" and id_user="'.ht($id_user).'"');
+    $num_results_uu_alteryx = $result_uu_alteryx->num_rows;
+$count_na_nem=0;
+    if ($num_results_uu_alteryx != 0) {
+        $row_uu_alteryx = mysqli_fetch_assoc($result_uu_alteryx);
+        $count_na_nem=$row_uu_alteryx["ccd"];
+    }
+
+    //он не в статусе передача весь находится
+    $status_pere=0;
+    $id_stock_material=$row_score['id_stock_material'];
+if(($id_stock_material!='')) {
+    $result_biogen = mysql_time_query($link, 'SELECT M.*,S.*, M.id AS idsm,
+IFNULL(P.count_send_user,0) AS send, 
+(M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
+FROM `z_stock_material` AS M
+LEFT JOIN
+(SELECT AM.id_stock_material, SUM(AM.`count_units`) AS count_send_user
+	FROM `z_act_material` AS AM, `z_act` AS A 
+	WHERE AM.id_stock_material="' . ht($row_score['id_stock_material']) . '" AND AM.`id_act`= A.`id` AND A.`date1` IS NULL 
+	GROUP BY AM.id_stock_material
+	) AS P ON ( P.id_stock_material=M.id)
+,`z_stock` AS S
+WHERE
+M.`id` ="' . ht($row_score['id_stock_material']) . '" 
+AND M.`id_stock` = S.`id`');
+    $num_results_biogen = $result_biogen->num_rows;
+
+    if ($num_results_biogen != 0) {
+        $row_biogen = mysqli_fetch_assoc($result_biogen);
+
+        if ($row_biogen["ost"] > 0) {
+            $status_pere = 1;
+
+        }
+    }
+}
+
+
+
+    if(($id_stock_material!='')and($count_na_nem>0)and($status_pere==1)) {
+        echo '<div class="transfer_check">
+<input type=hidden value="' . $id_stock_material . '" class="stock_inp_mater" name="invoice[' . $ss . '][stock_mat]">
+<div class="mild_tra ' . $check . '"><div class="mild_mild_tra" data-tooltip="передать материал">
+<i class="select-mild_tra"></i></div></div>
+
+</div>';
+    }
+}
+
+echo'<div class="mild '.$check.'"><div class="'.$mild.'" data-tooltip="мягкая накладная">
 <i class="select-mild"></i></div></div>';
 
               echo'<div class="mild_dav '.$check_dav.'"><div class="'.$mild_dav.'" data-tooltip="Давальческий материал">
@@ -1925,6 +1984,7 @@ echo'<input type="hidden" class="popa_nds" value="'.ipost_($_POST['nds_ff'],$row
 
 
                   </div></div></div></div></div></div>
+      <input type="hidden" value="0" class="transfer_check_val">
       </form>
 <?
 echo'<div class="messa_form_a">'.$echo.'</div>';

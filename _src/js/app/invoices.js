@@ -27,6 +27,8 @@ $(function (){
 
     $('body').on("click",'.mild_mild_dav', mild_div_dav);
 
+    $('body').on("click",'.mild_mild_tra', mild_tra);
+
     //нажатие на кнопку сохранить накладную
     $('body').on("change keyup input click",'.add_invoicess1', save_invoicess1);
 
@@ -96,6 +98,73 @@ function mild_div()
     }
     itog_invoice();
 
+
+}
+
+function mild_tra()
+{
+    var id_dom=$('.users_rule').attr('ui');
+    //alert(id_dom);
+
+
+    //если это первое нажатие чтобы не путать очистить корзину вдруг туда было что-то добавлено
+    if($('.transfer_check_val').val()==0)
+    {
+
+        $.cookie("material"+id_dom+"_"+id_dom, null, {path:'/',domain: window.is_session,secure: false});
+        $('.transfer_check_val').val(1);
+    }
+
+    if($(this).parents('.mild_tra').is(".chechers")) {
+
+
+        var stock_hj=$(this).parents('[invoice_material]').find('.stock_inp').val();
+        $('.stock_inp[value='+stock_hj+']').parents('[invoice_material]').find('.mild_mild_tra').each(function(i,elem) {
+            $(this).parents('.mild_tra').removeClass("chechers");
+            $(this).parents('.transfer_check').removeClass("chechersx");
+        });
+
+
+        //удалить из корзины
+        CookieListS("material"+id_dom+"_"+id_dom,$(this).parents('[invoice_material]').find('.stock_inp_mater').val(),'del','sort',',');
+    } else
+    {
+        //$(this).parents('.mild_tra').addClass("chechers");
+
+        var stock_hj=$(this).parents('[invoice_material]').find('.stock_inp').val();
+        $('.stock_inp[value='+stock_hj+']').parents('[invoice_material]').find('.mild_mild_tra').each(function(i,elem) {
+            $(this).parents('.mild_tra').addClass("chechers");
+            $(this).parents('.transfer_check').addClass("chechersx");
+        });
+
+
+
+        //добавить в корзину
+        CookieListS("material"+id_dom+"_"+id_dom,$(this).parents('[invoice_material]').find('.stock_inp_mater').val(),'add','sort',',');
+    }
+
+    //вдруг в накладной несколько одинаковых материалов с одним id_stock тогда их все выделить или убрать выделение со всех
+
+
+
+    //если в корзине еще что-то есть показать корзину
+
+    var cookiex = $.cookie("material"+id_dom+"_"+id_dom);
+    //alert(window.b_co);
+    if(cookiex!=null)
+    {
+        var cc = cookiex.split('.');
+        var counts = cc.length;
+        console.log(counts);
+        if (counts != 0) {
+            $('.transfer_invoicess_2022').show();
+        } else {
+            $('.transfer_invoicess_2022').hide();
+        }
+    } else
+    {
+        $('.transfer_invoicess_2022').hide();
+    }
 
 }
 

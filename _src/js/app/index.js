@@ -3275,6 +3275,75 @@ function compareNumbers(a, b) {
   return a - b;
 }
 
+//добавление и удаление из кукки переменных разделенных определенных символом
+function CookieListS(name,id,command,sort,split)
+{
+//del - add
+//alert($.cookie(name));
+	var cookie = $.cookie(name);
+	//alert(cookie);
+	if(cookie==null) { $.cookie(name, id, {expires: 60,path: '/',domain: window.is_session,secure: false,samesite:'lax'});
+	} else
+	{
+		if(command=='del')
+		{
+
+			var cc = cookie.split(split);
+			var text='';
+			var lp=0;
+			for ( var t = 0; t < cc.length; t++ )
+			{
+				if(cc[t]!=id)
+				{
+					if(cc[t]!='')
+					{
+						if(lp==0)
+						{
+							text=cc[t];
+						} else
+						{
+							text=text+split+cc[t];
+						}
+						lp++;
+					}
+				}
+			}
+			if(text=='')
+			{
+				$.cookie(name, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+			} else
+			{
+				$.cookie(name, text, {path: '/',domain: window.is_session,secure: false,samesite:'lax'});  //60 дней
+			}
+
+		} else
+		{
+			//alert(sort);
+			if (sort === undefined) {
+				$.cookie(name, cookie+split+id, {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
+			} else
+			{
+				if(sort=='sort')
+				{
+					var jon_cookie=cookie+split+id;
+					var jon_cc = jon_cookie.split(split);
+
+					jon_cc= jon_cc.sort(compareNumbers);
+					//alert(jon_cc.join("."));
+					$.cookie(name, jon_cc.join(split), {path: '/',domain: window.is_session,secure: false,samesite:'lax'}); //60 дней
+
+				}
+
+			}
+
+
+
+		}
+	}
+	//alert(cookie);
+}
+
+
 //добавление и удаление из кукки переменных
 function CookieList(name,id,command,sort)
 {

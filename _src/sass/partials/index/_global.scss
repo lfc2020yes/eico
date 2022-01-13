@@ -5812,8 +5812,61 @@ i {
 
 
 
+.mild_tra {position: absolute;
+  left: 20px;
+  top: 8px;}
+.select-mild_tra {
+
+  font-style: normal;
+  height: 24px;
+  width: 24px;
+  line-height: 24px;
+  border-radius: 50%;
+  background-color: #e8eaed;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  position: relative;
+  display: block;
+  text-align: center;
+
+  &::before {
+    position: absolute;
+    content: "\E001";
+    left: 5px;
+    color: rgba(0,0,0,.7);
+    font-family: icon1;
+    font-size: 14px;
+    @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+    @include transform(scale3d(0,0,1));
+  }
+}
+
+.chechers {
+  .select-mild_tra {
+    background-color: #ffec57;
+    /*
+    &::before {
+      color:#fff;
+    }
+    */
+
+  }
+  .select-mild_tra::before { @include transform(scale3d(1,1,1)); }
+}
+
+.chechersx { display: block !important; }
+
+.mild_mild_tra {cursor: pointer;}
+
+.transfer_check {background-color: #fff; @include box-shadow(0 0 16px rgba(0,0,0,0.08)); padding: 5px; position: absolute;
+  left: 0px;
+  display: none;
+  top: -6px;
+  width: 60px;
+  z-index: 60;
+  height: 40px; border-radius: 4px; }
 
 
+.jop:hover .transfer_check { display: block;}
 
 .mild {position: absolute;
   left: 0px;

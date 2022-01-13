@@ -10,6 +10,7 @@ $by=htmlspecialchars(trim($_POST['sheet']));
 $id_akt=htmlspecialchars(trim($_POST['id_akt']));
 $id_zay=htmlspecialchars(trim($_POST['id_doc']));
 $n_st=htmlspecialchars(trim($_POST['n_st']));
+$show =  isset($_POST['show'])? htmlspecialchars(trim($_POST['show'])) : ' <> 0 '; // IS NOT NULL
 
 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
 //$id_zay=GetCookie('doc'.$id_user);
@@ -32,8 +33,20 @@ $menu_role_sign012=array(1,1,1,1,1);
 $menu_sql=array("select count(id) as kol from z_act where id1_user='$id_visor' and date1 is null and date0 is not null"
                 ,"select count(id) as kol from z_act where id0_user='$id_visor' and date1 is null and date0 is not null"
                 ,"select count(id) as kol from z_act where (id0_user='$id_visor' or id1_user='$id_visor') and date1 is not null and date0 is not null"
-                ,"select count(m.id) as kol from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id"
-                ,"select count(id) as kol from z_act where id0_user='$id_visor' and date0 is null"
+                //,"select count(m.id) as kol from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id"
+,"SELECT COUNT(M.id) AS kol,
+(M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
+FROM `z_stock_material` AS M
+LEFT JOIN
+(SELECT AM.id_stock_material, SUM(AM.`count_units`) AS count_send_user
+	FROM `z_act_material` AS AM, `z_act` AS A 
+	WHERE AM.`id_act`= A.`id` AND A.`date1` IS NULL AND A.`id0_user` = '$id_visor'
+	GROUP BY AM.id_stock_material
+	) AS P ON ( P.id_stock_material=M.id)
+WHERE M.`id_user` = '$id_visor'
+AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show"
+
+,"select count(id) as kol from z_act where id0_user='$id_visor' and date0 is null"
                );
 $menu_sql1=array(' where a.summa_debt>0'
                 ,''
@@ -53,7 +66,23 @@ $menu_sql1=array(' where a.summa_debt>0'
       left join (select id,name_user as name1, position as position1 from r_user) u1 on (a.id1_user=u1.id)
       where (a.id0_user='$id_visor' or a.id1_user='$id_visor') and a.date1 is not null and a.date0 is not null order by a.date desc"
 
-    ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id and m.count_units>0 order by s.name"
+    // ,"select *, m.id as idsm from z_stock_material m, z_stock s where m.id_user='$id_visor' and m.id_stock=s.id and m.count_units>0 order by s.name"
+,"SELECT M.*,S.*, M.id AS idsm,
+IFNULL(P.count_send_user,0) AS send, 
+(M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
+FROM `z_stock_material` AS M
+LEFT JOIN
+(SELECT AM.id_stock_material, SUM(AM.`count_units`) AS count_send_user
+	FROM `z_act_material` AS AM, `z_act` AS A 
+	WHERE AM.`id_act`= A.`id` AND A.`date1` IS NULL AND A.`id0_user` = '$id_visor'
+	GROUP BY AM.id_stock_material
+	) AS P ON ( P.id_stock_material=M.id)
+,`z_stock` AS S
+WHERE M.`id_stock` = S.`id`
+AND M.`id_user` = '$id_visor'
+AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show
+ORDER BY S.`name`,S.`units`"
+
 
     ,"select *,a.id as act from z_act a left join r_user u on (a.id1_user=u.id) where id0_user='$id_visor' and a.date0 is null order by a.date desc"
             );
@@ -334,7 +363,11 @@ for ($ksss=0; $ksss<$num_results_t2; $ksss++) {
         } else {
             $alien = ($title_key==3 and $n==0 and $row__2[alien]==1) ? "class='name_invoice_dava dava'" : '';
             echo "<td class='no_padding_left_ pre-wrap'>{$field_span[$title_key][$n]}";  //class="name_invoice_dava dava"
-            echo "<i $alien>{$row__2[$field_page[$title_key][$n]]}</i>";
+
+            if ($title_key==3 and $n==3 and $row__2[$field_page[$title_key][$n]] <> $row__2[ost])
+                echo "<i $alien>{$row__2[$field_page[$title_key][$n]]} / {$row__2[ost]} </i>";
+            else
+                echo "<i $alien>{$row__2[$field_page[$title_key][$n]]}</i>";
         }
         echo $countz;
     }

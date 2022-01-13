@@ -400,6 +400,45 @@ order by z.name";
  //---------------------------------кол-во
             $ostatok=$row_act["count_units_stock"];
             $val_count=$row_act["count_units_act"];
+
+            if ($id_zay==0) {
+                $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
+                if (count($arr)>0 and $arr[0]>0) {
+
+                    $result_biogen = mysql_time_query($link, 'SELECT M.*,S.*, M.id AS idsm,
+IFNULL(P.count_send_user,0) AS send, 
+(M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
+FROM `z_stock_material` AS M
+LEFT JOIN
+(SELECT AM.id_stock_material, SUM(AM.`count_units`) AS count_send_user
+	FROM `z_act_material` AS AM, `z_act` AS A 
+	WHERE AM.id_stock_material="' . ht($row_act['idsm']) . '" AND AM.`id_act`= A.`id` AND A.`date1` IS NULL 
+	GROUP BY AM.id_stock_material
+	) AS P ON ( P.id_stock_material=M.id)
+,`z_stock` AS S
+WHERE
+M.`id` ="' . ht($row_act['idsm']) . '" 
+AND M.`id_stock` = S.`id`');
+
+
+
+                    $num_results_biogen = $result_biogen->num_rows;
+
+                    if ($num_results_biogen != 0) {
+                        $row_biogen = mysqli_fetch_assoc($result_biogen);
+
+                        if ($row_biogen["ost"] > 0) {
+                            $ostatok=$row_biogen["ost"];
+                            $val_count=$row_biogen["ost"];
+                        } else
+                        {
+                            $ostatok=0;
+                            $val_count=0;
+                        }
+                    }
+                }
+            }
+
             if ($id_zay>0) {
                 if ($row_act["countz"]<$val_count) $val_count=$row_act["countz"];
             }

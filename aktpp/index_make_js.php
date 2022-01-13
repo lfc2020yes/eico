@@ -15,7 +15,7 @@
     if (clear_cookie>0) {
         var id_user= <?=$id_user?>;
         var id_visor=<?=$id_visor?>;
-        setCookie('material'+id_user+'_'+id_visor,'', -100,'/');
+        setCookie('material'+id_user+'_'+id_visor,'', -100,'/',window.is_session,false);
     }
     function Send_akt_control() {    //Отображение кнопки "ОТПРАВИТЬ"
         var control=<?=$control?>;

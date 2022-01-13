@@ -127,7 +127,7 @@ $sqlA= 'insert into z_act
        }    
     } else {
         //setcookie('basket'.$id_user.'_'.$id_visor, "", time() + 3600*24);
-        setcookie('material'.$id_user.'_'.$id_visor, "", time() - 100,'/');
+        setcookie('material'.$id_user.'_'.$id_visor, "", time() - 100,'/',window.is_session,false);
         //$clear_cookie=1; 
         //die ('material'.$id_user.'_'.$id_visor);
         header ('Location: /aktpp/edit/'.$id_act.'/');  

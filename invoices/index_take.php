@@ -181,6 +181,14 @@ if($nak!=$row_score["id_acc"]) {
 		
 		
 	    mysql_time_query($link,'INSERT INTO z_stock_material (id,id_stock,count_units,price,subtotal,id_user,id_object,alien,mild) VALUES ("","'.$row_score["id_stock"].'","'.$count.'","'.$price.'","'.$row_score["subtotal"].'","'.$id_user.'","0","'.ht($row_score["alien"]).'","'.ht($row_score["mild"]).'")');
+
+        $kto2=mysqli_insert_id($link);
+
+
+        mysql_time_query($link, 'update z_invoice_material set        
+        id_stock_material="'.ht($kto2).'"        
+        where id = "' . ht($row_score['id']) . '"');
+
 			
 		//смотрим есть ли акт на отбраковку
 		if(($row_score["defect"]==1)and($row_score["id_acc"]!=0))

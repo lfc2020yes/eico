@@ -273,7 +273,7 @@ function AjaxSendAkt(id) {            //Послать акты на подпи�
                         var id_user=id_user;
                         var id_visor=user;  // <?=$id_visor?>;
                         //alert ('clear basket '+id_user+':'+id_visor);
-                        setCookie('material'+id_user+'_'+id_visor,'', -100,'/');
+                        setCookie('material'+id_user+'_'+id_visor,'', -100,'/',window.is_session,false);
                     }
                     
                 },

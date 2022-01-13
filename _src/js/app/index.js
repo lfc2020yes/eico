@@ -5128,7 +5128,9 @@ var UploadScanSChange = function()
 }
 
 	//делаем поля с классом только дробными и целыми числами	
-$('.count_mask').bind("change keyup input click", validate11);
+//$('.count_mask').bind("change keyup input click", validate11);
+
+	$('body').on("change keyup input click",'.count_mask',validate11)
 
 	$('.block_invoice_20188').on("change keyup input click",".del_invoice", dell_invoice);
 

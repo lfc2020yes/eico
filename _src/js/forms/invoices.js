@@ -229,6 +229,11 @@ function AfterOptionDemo(data,update)
 
         clearInterval(timerId);
         $.arcticmodal('close');
+
+        //маска к полю количество и сумма
+
+
+
 return;
 
     }

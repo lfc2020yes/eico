@@ -28,6 +28,5 @@ function POST_control(&$stack_error,&$stack_warn) {
             if (!($volC>0))
                 //Set_WARN('count_'.$p,&$stack_warn); 
                 $stack_warn[]='edc'.$p;   //edc
-
     } 
 }

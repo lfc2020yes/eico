@@ -18,6 +18,9 @@ $(function (){
     $('body').on("change keyup input click",'.js-dava-click',dava_supply);
 
 
+    $('body').on("change keyup input click",'.js-showx-click',showx_take);
+
+
     $('body').on("change keyup input click",'.js-waves-app',waves);
 
 });
@@ -160,7 +163,35 @@ function list_number() {
     }
 }
 
+function showx_take()
+{
+    var active_new=$(this).find('.choice-radio i');
+    var iu=$('.users_rule').attr('ui');
 
+    var fpx=1;
+    if(!active_new.is('.active_task_cb')) {
+        var fpx = 0;
+    }
+
+
+    $.cookie("showx_"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+    CookieList("showx_"+iu,fpx,'add');
+
+ autoReloadHak();
+    /*
+    if(fpx==1)
+    {
+$('.js-dava-hide').hide();
+    } else
+    {
+        $('.js-dava-hide').show();
+    }
+    */
+
+    //скрыть неиспользуемые поиски при это режиме
+
+
+}
 
 function dava_supply()
 {

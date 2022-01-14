@@ -301,16 +301,21 @@ function AjaxSendAkt(id) {            //Послать акты на подпи�
        console.log ('date:'+date+' user:'+user);
        var cm=document.getElementById('count_mat').value;
        var tek;
-       for (var i = 0; i < cm; i++) {             //количество по позиции
-         console.log (i + ' count='+ document.getElementsByName('count_'+i)[0].value);                 //$_POST['count_'.$p];
-         tek=document.getElementsByName('count_'+i)[0];
-         if (tek.value==0) {
-            $(tek).addClass('error_formi');
-            if (type==1) {
-               noterr = false;
-            }
-         }  else
-            $(tek).removeClass('error_formi');
+       for (var i = 0; i < cm; i++) {
+
+           if($('[name=count_'+i+']').length!=0) {
+               //количество по позиции
+               console.log(i + ' count=' + document.getElementsByName('count_' + i)[0].value);                 //$_POST['count_'.$p];
+               tek = document.getElementsByName('count_' + i)[0];
+               if (tek.value == 0) {
+                   $(tek).addClass('error_formi');
+                   if (type == 1) {
+                       noterr = false;
+                   }
+               } else
+                   $(tek).removeClass('error_formi');
+
+           }
        }
        //alert ('return='+noterr);
        return noterr;

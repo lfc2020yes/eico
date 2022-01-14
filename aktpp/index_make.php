@@ -400,7 +400,12 @@ order by z.name";
  //---------------------------------кол-во
             $ostatok=$row_act["count_units_stock"];
             $val_count=$row_act["count_units_act"];
-/*
+
+            if(!isset($_GET["nmat"])) {
+
+
+
+
             if ($id_zay==0) {
                 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
                 if (count($arr)>0 and $arr[0]>0) {
@@ -438,7 +443,8 @@ AND M.`id_stock` = S.`id`');
                     }
                 }
             }
-*/
+            }
+
             if ($id_zay>0) {
                 if ($row_act["countz"]<$val_count) $val_count=$row_act["countz"];
             }
@@ -471,12 +477,24 @@ AND M.`id_stock` = S.`id`');
 
             //echo'<td><span class="summ_price s_j " id="summa_finery_'.$i.'" ></span>';
             //echo'<div class="exceed"></div>';
-             echo '<td '.$bcolor.'><div class="smeta2 del_mat" id_rel="'.$row_act['idm'].'" style="margin-top:0px">'
-            . '<a target="_blank"  class="font-rank22" data-tooltip="Удалить" >'
-            . '<span class="font-rank-inner" id="mat'.$row_act['idm'].'">x</span></a>';
-             echo '</div></td>';
+             echo '<td '.$bcolor.'>';
+            if(!isset($_GET["nmat"])) {
+                //еще только добавление будет/ читаем из корзины cookie
+                echo '<div class="smeta2 del_matC" id_rel="' . $row_act['idsm'] . '" style="margin-top:0px">'
+                    . '<a target="_blank"  class="font-rank22" data-tooltip="Удалить" >'
+                    . '<span class="font-rank-inner" id="mat' . $row_act['idsm'] . '">x</span></a>';
+                echo '</div>';
+            } else
+            {
+                echo '<div class="smeta2 del_mat" id_rel="' . $row_act['idm'] . '" style="margin-top:0px">'
+                    . '<a target="_blank"  class="font-rank22" data-tooltip="Удалить" >'
+                    . '<span class="font-rank-inner" id="mat' . $row_act['idm'] . '">x</span></a>';
+                echo '</div>';
+            }
+
+            echo '</td>';
         } //for
-        echo '<input type=hidden value="'.$i.'" id="count_mat" name="count_mat"></td>';
+        echo '</tr><input type=hidden value="'.$i.'" id="count_mat" name="count_mat">';
         //---Конец таблицы
     } //if row
 

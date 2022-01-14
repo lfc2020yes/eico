@@ -400,11 +400,11 @@ order by z.name";
  //---------------------------------кол-во
             $ostatok=$row_act["count_units_stock"];
             $val_count=$row_act["count_units_act"];
-
+/*
             if ($id_zay==0) {
                 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
                 if (count($arr)>0 and $arr[0]>0) {
-
+//echo("!");
                     $result_biogen = mysql_time_query($link, 'SELECT M.*,S.*, M.id AS idsm,
 IFNULL(P.count_send_user,0) AS send, 
 (M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
@@ -438,7 +438,7 @@ AND M.`id_stock` = S.`id`');
                     }
                 }
             }
-
+*/
             if ($id_zay>0) {
                 if ($row_act["countz"]<$val_count) $val_count=$row_act["countz"];
             }

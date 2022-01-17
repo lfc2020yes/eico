@@ -203,6 +203,7 @@ $num_results_work_zz = $result_work_zz->num_rows;
                     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
 
+
                     if (curl_errno($ch)) {
                         $debug .= 'Error:' . curl_error($ch);
                         $error_msg = curl_error($ch);
@@ -210,6 +211,7 @@ $num_results_work_zz = $result_work_zz->num_rows;
 
                     $server_output = curl_exec($ch);
                     curl_close($ch);
+                    $debug.=$server_output;
 
                     if (!isset($error_msg)) {
                        // $debug .= 'Ответ:' .$server_output;

@@ -396,12 +396,44 @@ if(count($arr_tasks)==0)
 
 
                      } else {
+
+                         if($value_nav == 'aktpp/res') {
+
+                             $count_l=0;
+                             $class_left_l='';
+                             $result_akk = mysql_time_query($link, 'select count(id) as ccc from z_act where id1_user="' . ht($id_user) . '" and date1 is null and date0 is not null');
+                             $num_results_akk = $result_akk->num_rows;
+
+                             if ($num_results_akk != 0) {
+                                 $row_akk = mysqli_fetch_assoc($result_akk);
+                                 $count_l=$row_akk["ccc"];
+                             }
+
+
+
+                             if($count_l==0)
+                             {
+                                 $class_left_l='nonex';
+                                 $count_l='';
+                             }
+
+                             if ($found === $key_nav) {
+                                 echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                             } else {
+                                 echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '<i class="'.$class_left_l.'">'.$count_l.'</i></a></li>';
+                             }
+
+                     } else
+                         {
+
                          if ($found === $key_nav) {
                              echo '<li class="actives"><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
                          } else {
                              echo '<li><a class="a11" href="' . $value_nav . '/">' . $nav_text[$key_nav] . '</a></li>';
                          }
+                         }
                      }
+
                  }
              }
          }

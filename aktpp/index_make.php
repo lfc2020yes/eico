@@ -174,7 +174,7 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
 	//====================================Список пользователей
         // ограничить объектами
         // не выводить себя самого, если это не S
-	$result_t=mysql_time_query($link,'Select * from r_user order by name_user and enabled=1');
+	$result_t=mysql_time_query($link,'Select * from r_user where enabled=1 order by name_user');
         if($result_t->num_rows>0)
         {
             //==========================================кому

@@ -94,7 +94,23 @@ id_user="'.$this->id_user.'"';
             if ($row['id0_user']<>$this->id_user) $arr_user[]=$row_a['id0_user'];
             if ($row['id_user']<>$this->id_user) $arr_user[]=$row_a['id_user'];
 
-            notification_send('<strong>Получены</strong> '.$note.' <a href="aktpp/print/">'.$note0.'</a>',  $arr_user, $this->id_user,$this->link);
+            notification_send('<strong>Получены</strong> '.$note.' <a href="aktpp/print/'.$this->id_act.'/">'.$note0.'</a>',  $arr_user, $this->id_user,$this->link);
+
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
+
+            $title='Получены материальные ценности по Акту приема-передачи №'.$row_a['number'];
+            $kto=name_sql_x($this->id_user);
+            $message=$kto.' получил материальные ценности по Акту приема-передачи - <a href="aktpp/print/'.$this->id_act.'/">№'.$note0.'</a>';
+            notification_send_admin($title,$message,$user_admin,$id_user,$this->link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
         }
         if ($transaction && $row_a['id_doc']>0) {            //Поправить общий статус заявки
             if(($ret=$this->Update_Doc_status($row_a['id_doc'],10))!==true) {

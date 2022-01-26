@@ -3848,7 +3848,7 @@ var add_imlementer = function()
   });*/
 	$.arcticmodal({
 		type: 'ajax',
-		url: 'forms/form_add_implementer.php?id=1',
+		url: 'forms/form_add_implementer_2022.php?id=1',
 		beforeOpen: function (data, el) {
 			//во время загрузки формы с ajax загрузчик
 			$('.loader_ada_forms').show();

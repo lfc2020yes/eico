@@ -2912,7 +2912,12 @@ function AfterUP_IMP_ADD(data,update)
 
 	if ( data.status=='ok' )
 	{
-		autoReload();
+		autoReload()
+		clearInterval(timerId);
+		$.arcticmodal('close');
+		//обновить события связанные с работой с блоком
+		alert_message('ok','Исполнитель добавлен');
+		ToolTip();
 	}
 
 }

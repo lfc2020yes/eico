@@ -364,7 +364,7 @@ $row__221= mysqli_fetch_assoc($result_t221);
 				  
 					  
 echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_3" class="smeta2 stock_table_list"><thead>
-		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер накладной</th><th class="t_1"></th><th class="t_1">Статус</th><th class="t_8">Количество</th><th class="t_10"></th></tr></thead><tbody>';
+		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер накладной</th><th class="t_1">Кто принял</th><th class="t_1">Статус</th><th class="t_8">Количество</th><th class="t_10"></th></tr></thead><tbody>';
 
 	       for ($ksss=0; $ksss<$num_results_t2; $ksss++)
                      {
@@ -373,7 +373,7 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_3" class
 
 						 
 echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_ gray-2022-color" style="text-align: center;
-">'.$row__2["id_invoice"].'</td><td colspan="2" class="middle_"><div class="nm supl">';
+">'.$row__2["id_invoice"].'</td><td  class="middle_"><div class="nm supl">';
 
 						 $result_txs=mysql_time_query($link,'Select a.* from z_invoice as a where a.id="'.htmlspecialchars(trim($row__2["id_invoice"])).'"');
       
@@ -385,7 +385,20 @@ echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="midd
 		echo'<a class="s_j" href="invoices/'.$row__2["id_invoice"].'/" >№'.$rowxs["number"].'</a></div>';				 
 						 
 echo'</td>';
-						 
+                         echo'<td>';
+
+
+                         $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($rowxs["id_user"]) . '"');
+                         $num_results_uu = $result_uu->num_rows;
+
+                         if ($num_results_uu != 0) {
+                             $row_uu = mysqli_fetch_assoc($result_uu);
+                             echo($row_uu["name_user"]);
+                         }
+
+
+                         echo'</td>';
+
 echo'<td style="white-space:nowrap;">';
 						 
 		//выводим статус заявки 

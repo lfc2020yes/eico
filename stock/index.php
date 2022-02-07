@@ -355,8 +355,21 @@ $sql_select1_='';
             $query=mb_convert_case(htmlspecialchars($_COOKIE["su_st_2"]), MB_CASE_LOWER, "UTF-8");
 
 
-            $sql_su3=' and LOWER(b.name) LIKE "'.ht($query).'%"';
-				$sql_su3_=' and LOWER(b.name) LIKE "'.ht($query).'%"';
+            $lower='';
+            $query_mass = explode(" ", $query);
+            for ($i = 0; $i < count($query_mass); $i++) {
+
+                $lower=plus_string(' and ',$lower,'LOWER(b.name) LIKE "%'.$query_mass[$i].'%"');
+
+            }
+
+
+            $sql_su3=$lower;
+				$sql_su3_=$lower;
+
+
+
+
 		}	  
 
 	  $sql_su4='';
@@ -367,9 +380,10 @@ $sql_select1_='';
 				$sql_su4_='and c.id_object='.htmlspecialchars(trim($_COOKIE["su_st_3"]));
 		}		  
 	  
-	  
-if ((isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!='')and($_COOKIE["su_st_2"]!=0))
+	 // echo($_COOKIE["su_st_2"]);
+if ((isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!=''))
 {
+    //echo("!");
     /*
   $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_group as a,z_stock_material as c where c.id_stock=b.id and not(a.id=0) '.$sql_su2.' '.$sql_su3.' '.$sql_su4.' '.$sql_su1.' '.limitPage('n_st',$count_write));
 
@@ -380,12 +394,12 @@ if ((isset($_COOKIE["su_st_2"]))and($_COOKIE["su_st_2"]!='')and($_COOKIE["su_st_
 
     $sql_su1=' order by b.name';
     $sql_su1_=' order by a.name';
-    $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where c.id_stock=b.id '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write));
+    $result_t2=mysql_time_query($link,'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where '.$sql_su3.' and c.id_stock=b.id '.$sql_su1.' '.limitPage('n_st',$count_write));
 
-    echo 'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where c.id_stock=b.id '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write);
+    //echo 'Select DISTINCT b.*,(SELECT sum(c.count_units) as cc FROM z_stock_material as c WHERE c.id_stock=b.id) as ccs from z_stock as b,z_stock_material as c where c.id_stock=b.id '.$sql_su3.' '.$sql_su1.' '.limitPage('n_st',$count_write);
 
 
-    $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_material as c where  c.id_stock=b.id   '.$sql_su3_;
+    $sql_count='Select count(DISTINCT b.id) as kol from z_stock as b,z_stock_material as c where '.$sql_su3_.' and  c.id_stock=b.id';
 
 } else
 {
@@ -417,7 +431,7 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_1" class
 					$row__2= mysqli_fetch_assoc($result_t2);
 
 						 
-echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_"><div class="supply_tr_o1"></div></td><td colspan="2" class="middle_"><div class="nm supl"><a href="stock/'.$row__2["id"].'/" class="s_j">'.$row__2["name"].'</a></div>';
+echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_ gray-2022-color">'.$row__2["id"].'</td><td colspan="2" class="middle_"><div class="nm supl"><a href="stock/'.$row__2["id"].'/" class="s_j">'.$row__2["name"].'</a></div>';
 
 						 
 echo'</td>';

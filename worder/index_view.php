@@ -1147,6 +1147,103 @@ if ( isset($_COOKIE["iss"]))
                                                   echo "alert_message('error', 'Uh oh! Мы получили сообщение об ошибке - ".$_GET["error"]."');";
 
 
+                                                  if($_GET["error"]=='41') {
+                                                      $flag_podpis = 0;
+                                                      $text_mee = '';
+                                                      $result_pro = mysql_time_query($link, 'Select b.*,c.id_stock from n_work as a,n_material as b,i_material as c where b.id_material=c.id and a.id_nariad="' . htmlspecialchars(trim($_GET['id'])) . '" and a.id=b.id_nwork');
+                                                      $num_results_pro = $result_pro->num_rows;
+                                                      if ($num_results_pro != 0) {
+                                                          for ($ipl = 0; $ipl < $num_results_pro; $ipl++) {
+                                                              $row_pro = mysqli_fetch_assoc($result_pro);
+
+
+                                                              $result_tx = mysql_time_query($link, 'Select sum(a.count_units) as dd from n_material as a,i_material as b,n_work as c where a.id_material=b.id and c.id_nariad="' . htmlspecialchars(trim($_GET['id'])) . '" and c.id=a.id_nwork and b.id_stock="' . $row_pro["id_stock"] . '"');
+
+                                                              $num_results_tx = $result_tx->num_rows;
+                                                              if ($num_results_tx != 0) {
+                                                                  $row_tx = mysqli_fetch_assoc($result_tx);
+                                                              }
+
+
+                                                              $my_material = 0;    //свой
+                                                              $my_material1 = 0;    //давальческий
+                                                              //Определяем сколько материала на пользователе который оформляет наряд
+                                                              if ($row_pro["id_stock"] != '') {
+                                                                  if ($row_list["id_user"] == $id_user) {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="' . $id_user . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  } else {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="' . $row_list["id_user"] . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  }
+                                                                  $num_results_t1_ = $result_t1_->num_rows;
+                                                                  if ($num_results_t1_ != 0) {
+
+                                                                      $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                                                                      if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                                                                          $my_material = $row1ss_["summ"];
+                                                                      }
+                                                                  }
+
+
+                                                                  if ($row_list["id_user"] == $id_user) {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="' . $id_user . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  } else {
+                                                                      $result_t1_ = mysql_time_query($link, 'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="' . $row_list["id_user"] . '" and a.id_stock="' . htmlspecialchars(trim($row_pro["id_stock"])) . '"');
+                                                                  }
+                                                                  $num_results_t1_ = $result_t1_->num_rows;
+                                                                  if ($num_results_t1_ != 0) {
+
+                                                                      $row1ss_ = mysqli_fetch_assoc($result_t1_);
+                                                                      if (($row1ss_["summ"] != '') and ($row1ss_["summ"] != 0)) {
+                                                                          $my_material1 = $row1ss_["summ"];
+                                                                      }
+                                                                  }
+
+                                                              }
+
+                                                              $my_material_prior = $my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+
+
+                                                              //удалим из этого количества еще зарезервированный материал на другие наряды которые еще не проведены но в работе
+                                                              $result_uu_who = mysql_time_query($link, 'SELECT SUM(D.count_units) AS SUMMM  FROM n_nariad AS A,n_work AS B,n_material AS D,i_material AS E WHERE D.alien="'.$row_pro["alien"].'" and A.status=9 AND B.id_nariad=A.id AND D.id_nwork=B.id AND A.id_user="'.htmlspecialchars(trim($id_user)).'" AND D.`id_material`=E.id AND E.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                                                              $num_results_uu_who = $result_uu_who->num_rows;
+
+                                                              if ($num_results_uu_who != 0) {
+                                                                  $row_uu_who = mysqli_fetch_assoc($result_uu_who);
+                                                                  //echo($row_uu_wh["SUMMM"]);
+                                                                  $my_material_prior=$my_material_prior-$row_uu_who["SUMMM"];
+                                                              }
+
+
+                                                              if ($row_pro["alien"] == 1) {
+                                                                  $my_material_prior = $my_material1;
+                                                              }
+
+
+
+
+                                                              if ($my_material_prior < $row_tx["dd"]) {
+                                                                  $flag_podpis++;
+
+                                                                  if ($text_mee == '') {
+                                                                      $text_mee = $row_pro["material"];
+                                                                  } else {
+                                                                      $text_mee .= ', ' . $row_pro["material"];
+
+
+                                                                  }
+
+
+                                                              }
+                                                          }
+
+                                                          if ($flag_podpis != 0) {
+                                                              echo "alert_message('error', 'Недостаточно материалов (Возможно материалы зарезервированы для других нарядов)  - " . $text_mee . "');";
+                                                          }
+                                                      }
+                                                  }
+
+
+
                                                   if($_GET["error"]=='25') {
                                                       $flag_podpis = 0;
                                                       $text_mee = '';
@@ -1958,7 +2055,29 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
                                                */
                                                   if(($my_material!=0)or($my_material1!=0))
                                                   {
-                                                      echo'<span class="my_material" count="'.$my_material_prior.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">(<span style="font-style: normal;" data-tooltip="Нашего материала '.$tool_my.'">'.$my_material.'</span> / <span style="font-style: normal; color: #53b374;" data-tooltip="Давальческого материала '.$tool_my.'">'.$my_material1.'</span> '.$units.')</span>';
+                                                      echo'<span class="my_material" count="'.$my_material_prior.'" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'">(<span style="font-style: normal;" data-tooltip="Нашего материала '.$tool_my.'">'.$my_material.'</span> / <span style="font-style: normal; color: #53b374;" data-tooltip="Давальческого материала '.$tool_my.'">'.$my_material1.'</span>';
+
+                                                      if($row_list["id_user"]==$id_user)
+                                                      {
+                                                          $result_uu_who = mysql_time_query($link, 'SELECT SUM(D.count_units) AS SUMMM  FROM n_nariad AS A,n_work AS B,n_material AS D,i_material AS E WHERE D.alien="'.$row_mat["alien"].'" and A.status=9 AND B.id_nariad=A.id AND D.id_nwork=B.id AND A.id_user="'.htmlspecialchars(trim($id_user)).'" AND D.`id_material`=E.id AND E.id_stock="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
+
+
+
+$reserv=0;
+                                                          $num_results_uu_who = $result_uu_who->num_rows;
+
+                                                          if ($num_results_uu_who != 0) {
+                                                              $row_uu_who = mysqli_fetch_assoc($result_uu_who);
+                                                              $reserv=$row_uu_who["SUMMM"];
+                                                          }
+
+                                                          if($reserv!=0) {
+                                                              echo ' / <span style="font-style: normal;" data-tooltip="Зарезервировано для других нарядов">резерв - '.$reserv.'</span>';
+                                                          }
+                                                      }
+
+
+                                                      echo (' '.$units.' )</span>');
                                                   } else
                                                   {
                                                       echo'<span class="my_material" count="0" id_stock_m="'.htmlspecialchars(trim($row_mat["id_stock"])).'" data-tooltip="'.$tool_my.'">[нет материала]</span>';

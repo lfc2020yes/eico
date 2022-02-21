@@ -130,6 +130,7 @@ $result_pro=mysql_time_query($link,'Select b.*,c.id_stock from n_work as a,n_mat
 $num_results_pro = $result_pro->num_rows;
 if($num_results_pro!=0)
 {
+    $error_reserv=0;
     for ($ip=0; $ip<$num_results_pro; $ip++)
     {
         $row_pro = mysqli_fetch_assoc($result_pro);
@@ -181,12 +182,26 @@ if($num_results_pro!=0)
         }
 
         $my_material_prior=$my_material;  // по какому количеству материалу будет проверяться хватает ли материала у этого пользователя для оформления наряда
+
+
+        //удалим из этого количества еще зарезервированный материал на другие наряды которые еще не проведены но в работе
+        $result_uu_who = mysql_time_query($link, 'SELECT SUM(D.count_units) AS SUMMM  FROM n_nariad AS A,n_work AS B,n_material AS D,i_material AS E WHERE D.alien="'.$row_pro["alien"].'" and A.status=9 AND B.id_nariad=A.id AND D.id_nwork=B.id AND A.id_user="'.htmlspecialchars(trim($id_user)).'" AND D.`id_material`=E.id AND E.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+
+
+
+        $num_results_uu_who = $result_uu_who->num_rows;
+
+        if ($num_results_uu_who != 0) {
+            $row_uu_who = mysqli_fetch_assoc($result_uu_who);
+            $my_material_prior=$my_material_prior-$row_uu_who["SUMMM"];
+        }
+
+
         if($row_pro["alien"]==1)
         {
             $my_material_prior=$my_material1;
         }
-
-        if($my_material_prior<$row_pro["count_units"]) {  $flag_podpis++; }
+        if($my_material_prior<$row_pro["count_units"]) {  $flag_podpis++; $error_reserv=1; }
 
 
 
@@ -196,7 +211,13 @@ if($num_results_pro!=0)
 if($flag_podpis!=0)
 {
     mysql_time_query($link,'update n_nariad set ready="0" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
-    header("Location:".$base_usr."/worder/".htmlspecialchars(trim($_GET['id'])).'/no/');
+
+    if($error_reserv==1)
+    {
+        header("Location:".$base_usr."/worder/".htmlspecialchars(trim($_GET['id'])).'/no/41/');
+    } else {
+        header("Location:" . $base_usr . "/worder/" . htmlspecialchars(trim($_GET['id'])) . '/no/');
+    }
     die();
 } else {
 

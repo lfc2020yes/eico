@@ -6059,7 +6059,49 @@ var list_number	= function() {
 			$("#date_table").show(); 
 		}
 }
-	
+
+
+
+	/*клик на раскрывающее меню сортировка снабжение*/
+	var changesort2w = function() {
+		$.cookie("su_2w", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+		CookieList("su_2w",$(this).val(),'add');
+		$('.js-reload-top').removeClass('active-r');
+		$('.js-reload-top').addClass('active-r');
+
+
+		if($(this).val()==2)
+		{
+			//открываем окно с календарем
+			/*
+            $.arcticmodal({
+            type: 'ajax',
+            url: 'forms/form_calendar.php',
+            afterLoading: function(data, el) {
+                //alert('afterLoading');
+            },
+            afterLoadingOnShow: function(data, el) {
+                //alert('afterLoadingOnShow');
+            },
+            afterClose: function(data, el) { // после закрытия окна ArcticModal
+            clearInterval(timerId);
+            }
+
+          });
+          */
+			$("#date_table").show();
+			//$("#date_table").focus();
+		}
+
+	};
+	$('#sort2w').bind('change', changesort2w);
+
+
+
+
+
+
+
 /*клик на раскрывающее меню сортировка снабжение*/
 var changesort2 = function() {  
 $.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
@@ -6141,8 +6183,29 @@ var changesort_stock2__= function() {
 	$('.js-reload-top').addClass('active-r');
 	$(this).hide();	
 }
-	
-	
+	var changesort_stock2w= function() {
+		$.cookie("su_st_2w", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+		CookieList("su_st_2w",$(this).val(),'add');
+		$('.js-reload-top').removeClass('active-r');
+		$('.js-reload-top').addClass('active-r');
+		if($(this).val()!='')
+		{
+			$(this).next().show();
+			//скрыть другие элементы поиска
+			//$('.js--sort').addClass('greei_input');
+			//$('.js--sort').find('input').prop('readonly',true);
+
+		}else
+		{
+			$(this).next().hide();
+			//показать другие элементы поиска
+			//$('.js--sort').removeClass('greei_input');
+			//$('.js--sort').find('input').removeAttr('readonly');
+
+		}
+
+
+	};
 var changesort_stock2= function() {  
 $.cookie("su_st_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
 CookieList("su_st_2",$(this).val(),'add');
@@ -6166,10 +6229,11 @@ CookieList("su_st_2",$(this).val(),'add');
 
 
 };
-$('.name_stock_search_input').bind('change keyup input click', changesort_stock2);	
-	
-	
-$('.dell_stock_search').bind('change keyup input click', changesort_stock2__);	
+$('.name_stock_search_input').bind('change keyup input click', changesort_stock2);
+
+	$('.name_stock_search_inputw').bind('change keyup input click', changesort_stock2w);
+
+	$('.dell_stock_search').bind('change keyup input click', changesort_stock2__);
 
 
 

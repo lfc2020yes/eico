@@ -146,7 +146,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
             echo'<div class="margin-input"><div class="list_2021 gray-color js-zindex"><label><i>Ответственный</i><span>*</span></label><div class="select eddd"><a class="slct" data_src=""></a><ul class="drop">';
 
 
-            for ($i=0; $i<count($os_id); $i++)
+            for ($i=0; $i<count($os); $i++)
             {
                 if(isset($os_id[$i])) {
                     if ($su_1 == $os_id[$i]) {

@@ -108,7 +108,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
             $FUSER=new find_user($link,$value['id_object'],'R','Наряды');
             $user_send_new=$FUSER->id_user;
 //print_r($FUSER);
-            //echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';
+          //  echo '<pre>arr_task:'.print_r($user_send_new,true) .'</pre>';
 
             foreach ($FUSER->id_user as $key => $value)
             {
@@ -125,8 +125,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
                 array_push($os_id, $value);
 
             }
-
-
+           // echo '<pre>arr_task:'.print_r($os,true) .'</pre>';
             rm_from_array($id_user,$os_id);
             /*
                         $result_6 = mysql_time_query($link,"select A.id,A.name_user from r_user as A where A.enabled=1");
@@ -146,7 +145,7 @@ echo'<input name="tk1" value="weER23Dvmrtrr" type="hidden">';
             echo'<div class="margin-input"><div class="list_2021 gray-color js-zindex"><label><i>Ответственный</i><span>*</span></label><div class="select eddd"><a class="slct" data_src=""></a><ul class="drop">';
 
 
-            for ($i=0; $i<count($os_id); $i++)
+            for ($i=0; $i<count($os); $i++)
             {
                 if(isset($os_id[$i])) {
                     if ($su_1 == $os_id[$i]) {

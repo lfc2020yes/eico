@@ -41,7 +41,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     echo "<p/> result_connect mysqli=".$mysqli->connect_errno;
     if (!$mysqli->connect_errno) {
       echo "<p>step 3";
-        $FUSER=new find_user($mysqli,$id_object,'R',$module);
+        $FUSER=new find_user($mysqli,$id_object,'R',$module,'',true);
         echo "<pre>".print_r($FUSER->id_user,true)."</pre>";
     }
     $mysqli->close();

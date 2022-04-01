@@ -76,7 +76,7 @@
         }
 
     });
-    $(document).on('click', ".del_mat" , function(){  //Удалить материал
+    $(document).on('click',".del_mat",function(){  //Удалить материал
        console.log(".del_mat id: "+$(this).attr("id_rel"));
        var id=$(this).attr("id_rel");
        //--------------------------------выбросить окно подтверждения
@@ -85,6 +85,31 @@
             AjaxDeleteMat(id);
        }
     });
+
+     $(document).on('click',".del_matC",function(){  //Удалить материал
+         console.log(".del_mat id: "+$(this).attr("id_rel"));
+         var id=$(this).attr("id_rel");
+         //--------------------------------выбросить окно подтверждения
+         if(confirm('Удалить материал из корзины?')) {
+             //--------------------------------удалить акт
+
+             var id_dom=$('.users_rule').attr('ui');
+             //удалить из кукки
+             //удалить из корзины
+             CookieListS("material"+id_dom+"_"+id_dom,id,'del','sort',',');
+             $(this).parents('tr').remove();
+
+         //<input type="hidden" value="2" id="count_mat" name="count_mat">
+             /*
+            var iop=parseInt($('#count_mat').val());
+            if(iop==0) {iop=1}
+
+            $('#count_mat').val(iop-1);
+*/
+         }
+     });
+
+
     $(document).on('click', ".div_delete" , function(){  //Удалить материал
        console.log(".key_delete id: "+$(this).attr("id_rel"));
        var id_rel=$(this).attr("id_rel");

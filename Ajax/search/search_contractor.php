@@ -203,6 +203,7 @@ $num_results_work_zz = $result_work_zz->num_rows;
                     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
 
+
                     if (curl_errno($ch)) {
                         $debug .= 'Error:' . curl_error($ch);
                         $error_msg = curl_error($ch);
@@ -210,6 +211,29 @@ $num_results_work_zz = $result_work_zz->num_rows;
 
                     $server_output = curl_exec($ch);
                     curl_close($ch);
+
+
+                    $mystring = $server_output;
+                    $findme   = 'Ошибка';
+                    $pos = strpos($mystring, $findme);
+
+                    if ($pos === false) {
+
+                    } else {
+        //прислать уведомление о изменение ip fns
+                        $user_admin= array();
+                        array_push($user_admin, 11);
+
+                        $title='Измените ip адрес для работы fns';
+                        //$kto=name_sql_x($arr_user[0]);
+                        $message=$mystring;
+                        notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+                    }
+
+
+
+
 
                     if (!isset($error_msg)) {
                        // $debug .= 'Ответ:' .$server_output;

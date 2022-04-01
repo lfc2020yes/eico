@@ -310,6 +310,7 @@ echo'</tbody></table>';
 ?>
 
     <script>
+        /*
 $(document).ready(function(){
 		
 	
@@ -333,7 +334,7 @@ $(document).ready(function(){
 	tabs_activation(tabs);
 	
 	   });	
-
+*/
 	</script>         
         
   <?       

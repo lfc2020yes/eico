@@ -10,7 +10,7 @@ $by=htmlspecialchars(trim($_POST['sheet']));
 $id_akt=htmlspecialchars(trim($_POST['id_akt']));
 $id_zay=htmlspecialchars(trim($_POST['id_doc']));
 $n_st=htmlspecialchars(trim($_POST['n_st']));
-$show =  isset($_POST['show'])? htmlspecialchars(trim($_POST['show'])) : ' <> 0 '; // IS NOT NULL
+$show =  isset($_POST['showx'])? trim($_POST['showx']) : ' <> 0 '; // IS NOT NULL
 
 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
 //$id_zay=GetCookie('doc'.$id_user);
@@ -44,7 +44,7 @@ LEFT JOIN
 	GROUP BY AM.id_stock_material
 	) AS P ON ( P.id_stock_material=M.id)
 WHERE M.`id_user` = '$id_visor'
-AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show"
+AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show "
 
 ,"select count(id) as kol from z_act where id0_user='$id_visor' and date0 is null"
                );
@@ -80,7 +80,7 @@ LEFT JOIN
 ,`z_stock` AS S
 WHERE M.`id_stock` = S.`id`
 AND M.`id_user` = '$id_visor'
-AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show
+AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show 
 ORDER BY S.`name`,S.`units`"
 
 
@@ -250,6 +250,34 @@ opacity: 0.4;">('.$row_z['name_user'].')</span>
                     . 'value="'.ipost_x($id_zay,"0","0")
                     .'" type="hidden">';
         echo '</div>';
+
+
+
+        $dava_var=0;
+        $dava_class='';
+
+        if (( isset($_COOKIE["showx_".$id_user]))and($_COOKIE["showx_".$id_user]==1))
+        {
+
+
+            $dava_var=1;
+            $dava_class='active_task_cb';
+        }
+
+
+        echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io " style="margin-top: 0px !important;">
+<div class="input-choice-click-left js-checkbox-group js-showx-click" style="margin-top: 0px; border-radius: 5px; background: transparent; background-color: #fff;
+border-color: #f2f2f2 #f2f2f2 #cccccc #cccccc;
+border-image: none;
+border-style: solid;
+border-width: 0 0 1px 1px;
+">
+                     <div class="choice-head" style="padding: 12px 20px; padding-left: 50px;">все материалы</div>
+                 <div class="choice-radio" style="left: 15px;"><div class="center_vert1"><i class="'.$dava_class.'"></i><input name="dava_supply" value="'.$dava_var.'" class="js-dava-supply" type="hidden"></div></div></div>
+</div>';
+
+
+
         if ($id_zay>0) {
             $sqlZ='select * from z_doc_material where id_doc="'.$id_zay.'"';    //Получить материал по заявке
             $result_Z=mysql_time_query($link,$sqlZ);

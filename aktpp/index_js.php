@@ -9,7 +9,7 @@ $(document).ready(function(){
 
     var id_doc=getCookie('doc'+<?="'".$id_user."'"?>);
     if (id_doc == undefined) id_doc=0;
-    Show_table(<?="'".$id_visor."'"?>,id_doc);                              //Вывести таблицу закладки для просматриваемого пользователя
+    Show_table(<?="'".$id_visor."'"?>,id_doc,<? echo($id_user); ?>);                              //Вывести таблицу закладки для просматриваемого пользователя
 
 
     $(document).on('change', "#zay" , function(){
@@ -19,7 +19,8 @@ $(document).ready(function(){
         setCookie('doc'+id_user,id_doc,60,'/');
         var id_visor=getCookie('visor'+id_user);
         if (id_visor == undefined) id_visor=id_user;
-        Show_table(id_visor,id_doc);
+        var id_uu=$('.users_rule').attr('ui');
+        Show_table(id_visor,id_doc,id_uu);
         if (id_doc>0) {
             $(this).addClass('redass');  //error_formi
         } else {
@@ -36,12 +37,29 @@ $(document).ready(function(){
           //----------------------------------перевывести таблицу
           var id_doc=getCookie('doc'+id_user);
           if (id_doc == undefined) id_doc=0;
-          Show_table(id_visor,id_doc);
+
+        var id_uu=$('.users_rule').attr('ui');
+          Show_table(id_visor,id_doc,id_uu);
     });
-function Show_table(id_visor,id_doc) {   //показать таблицу закладки
+
+
+function Show_table(id_visor,id_doc,id_uu) {   //показать таблицу закладки
     //alert (id_visor+' : '+id_doc);  //' : '+ sheet
 
-    jQuery.ajax({
+    var showx='<>0';
+
+    var cookie_flag_current = $.cookie('showx_'+id_uu);
+
+
+    if(cookie_flag_current==1)
+    {
+
+        showx='IS NOT NULL';
+    }
+
+
+
+        jQuery.ajax({
                     url:     "/aktpp/ajax_table.php", //Адрес подгружаемой страницы
                     type:     "POST", //Тип запроса
                     dataType: "html", //Тип данных json html
@@ -50,7 +68,8 @@ function Show_table(id_visor,id_doc) {   //показать таблицу за�
                         sheet:  '<?=$_GET['by']?>',
                         id_akt: '<?=$_GET['id']?>',
                         n_st:'<?=$_GET['n_st']?>',
-                        id_doc: id_doc
+                        id_doc: id_doc,
+                        showx:showx
                         },
                     success: function(response) { //Если все нормально
                 //document.getElementById('akt'+id).innerHTML = "1";   //ok - галочка

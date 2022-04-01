@@ -90,7 +90,10 @@ if($error_header==404)
 //проверка адреса сайта на существование такой страницы
 
 
+include_once '../ilib/lib_interstroi.php';
+include_once '../ilib/lib_edo.php';
 
+$edo = new EDO($link,$id_user,false);
 
 
 include_once $url_system.'template/html.php'; include $url_system.'module/seo.php';
@@ -303,7 +306,7 @@ echo ''.$row_xp["name1"].'';
 			 
 echo'</td>';						 
 
-echo'<td style="white-space:nowrap;">';
+echo'<td style="">';
 						 
 echo ''.$row_xp["name_working"].'';
 			 
@@ -343,7 +346,7 @@ echo'</tbody></table>';
 
 	  
 
-  $result_t2=mysql_time_query($link,'Select DISTINCT b.id_invoice,(SELECT sum(a.count_units) as ccc from z_invoice_material as a where a.id_invoice=b.id_invoice  and a.id_stock="'.htmlspecialchars(trim($_GET['id'])).'") as ccv FROM z_invoice_material as b WHERE b.id_stock="'.htmlspecialchars(trim($_GET['id'])).'"');	  
+  $result_t2=mysql_time_query($link,'Select DISTINCT b.id_invoice,(SELECT sum(a.count_units) as ccc from z_invoice_material as a where a.id_invoice=b.id_invoice  and a.id_stock="'.htmlspecialchars(trim($_GET['id'])).'") as ccv FROM z_invoice_material as b WHERE b.id_stock="'.htmlspecialchars(trim($_GET['id'])).'"');
   
 	 $sql_count='Select count(DISTINCT b.id_invoice) as kol from z_invoice_material as b where b.id_stock="'.htmlspecialchars(trim($_GET['id'])).'"';
 
@@ -361,7 +364,7 @@ $row__221= mysqli_fetch_assoc($result_t221);
 				  
 					  
 echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_3" class="smeta2 stock_table_list"><thead>
-		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер накладной</th><th class="t_1"></th><th class="t_1">Статус</th><th class="t_8">Количество</th><th class="t_10"></th></tr></thead><tbody>';
+		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер накладной</th><th class="t_1">Кто принял</th><th class="t_1">Статус</th><th class="t_8">Количество</th><th class="t_10"></th></tr></thead><tbody>';
 
 	       for ($ksss=0; $ksss<$num_results_t2; $ksss++)
                      {
@@ -369,7 +372,8 @@ echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_3" class
 					$row__2= mysqli_fetch_assoc($result_t2);
 
 						 
-echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_"><div class="supply_tr_o1"></div></td><td colspan="2" class="middle_"><div class="nm supl">';
+echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_ gray-2022-color" style="text-align: center;
+">'.$row__2["id_invoice"].'</td><td  class="middle_"><div class="nm supl">';
 
 						 $result_txs=mysql_time_query($link,'Select a.* from z_invoice as a where a.id="'.htmlspecialchars(trim($row__2["id_invoice"])).'"');
       
@@ -381,7 +385,20 @@ echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="midd
 		echo'<a class="s_j" href="invoices/'.$row__2["id_invoice"].'/" >№'.$rowxs["number"].'</a></div>';				 
 						 
 echo'</td>';
-						 
+                         echo'<td>';
+
+
+                         $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($rowxs["id_user"]) . '"');
+                         $num_results_uu = $result_uu->num_rows;
+
+                         if ($num_results_uu != 0) {
+                             $row_uu = mysqli_fetch_assoc($result_uu);
+                             echo($row_uu["name_user"]);
+                         }
+
+
+                         echo'</td>';
+
 echo'<td style="white-space:nowrap;">';
 						 
 		//выводим статус заявки 
@@ -435,8 +452,201 @@ echo'</tbody></table>';
 				  </script>';	 
 					  
 								  
- }	  
-	  
+ }
+
+
+
+
+
+
+
+
+$result_t2=mysql_time_query($link,'Select DISTINCT b.count_units,d.* FROM z_act_material as b,z_act as d WHERE b.id_stock="'.htmlspecialchars(trim($_GET['id'])).'" and b.id_act=d.id');
+
+
+
+
+$sql_count='Select count(DISTINCT b.id_act) as kol from z_act_material as b where b.id_stock="'.htmlspecialchars(trim($_GET['id'])).'"';
+
+
+$result_t221=mysql_time_query($link,$sql_count);
+$row__221= mysqli_fetch_assoc($result_t221);
+
+
+
+$num_results_t2 = $result_t2->num_rows;
+if($num_results_t2!=0)
+{
+
+    echo'<br> <h3 class="head_h" style=" margin-bottom:0px;">Связь акты прием-передача<i>'.$row__221["kol"].'</i><div></div></h3> ';
+
+
+    echo'<table cellspacing="0"  cellpadding="0" border="0" id="table_freez_3" class="smeta2 stock_table_list"><thead>
+		   <tr class="title_smeta"><th class="t_1"></th><th class="t_1">Номер акта</th><th class="t_1">От кого → кому</th><th class="t_1">Статус</th><th class="t_8">Количество</th><th class="t_10"></th></tr></thead><tbody>';
+
+    for ($ksss=0; $ksss<$num_results_t2; $ksss++)
+    {
+
+        $row__2= mysqli_fetch_assoc($result_t2);
+
+
+        echo'<tr class="nary n1n suppp_tr" idu_stock="'.$row__2["id"].'"><td class="middle_ gray-2022-color" style="text-align: center;
+">'.$row__2["id"].'</td><td  class="middle_"><div class="nm supl">';
+
+        echo'<a class="s_j" >Акт №'.$row__2["number"].'</a></div>';
+
+        echo'</td>';
+
+        echo'<td >';
+
+
+        $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($row__2["id0_user"]) . '"');
+        $num_results_uu = $result_uu->num_rows;
+
+        if ($num_results_uu != 0) {
+            $row_uu = mysqli_fetch_assoc($result_uu);
+            echo($row_uu["name_user"].' → ');
+        }
+        $result_uu = mysql_time_query($link, 'select name_user from r_user where id="' . ht($row__2["id1_user"]) . '"');
+        $num_results_uu = $result_uu->num_rows;
+
+        if ($num_results_uu != 0) {
+            $row_uu = mysqli_fetch_assoc($result_uu);
+            echo($row_uu["name_user"]);
+        }
+
+        echo'</td>';
+        echo'<td style="white-space:nowrap;">';
+
+
+            if(($row__2["date0"]!=NULL)and($row__2["date1"]!=NULL))
+            {
+                echo'<div class="user_mat naryd_yes" style="margin-left:0px;"></div><div class="status_material1">ПЕРЕДАН</div>';
+            } else
+            {
+                echo'<div class="status_material2 status_z'.$rowxs["status"].' memo_zay">В процессе передачи</div>';
+            }
+
+
+        echo'</td>';
+
+
+        echo'<td>';
+
+        echo '<span class="count_stock_x">'.$row__2["count_units"].'</span>';
+
+
+
+        echo'</td>';
+
+
+
+        echo'<td></td>		   
+		   
+		   </tr>';
+
+
+        echo'<tr idu_stock="'.$row__2["id"].'" class="tr_dop_supply_line"><td colspan="6"></td></tr>';
+
+
+
+
+
+
+    }
+
+
+
+
+
+    echo'</tbody></table>';
+    echo'<script>
+				  OLD(document).ready(function(){  OLD("#table_freez_3").freezeHeader({\'offset\' : \'59px\'}); });
+				  </script>';
+
+
+}
+
+
+
+
+
+
+$result_t2=mysql_time_query($link,'SELECT DISTINCT A.id
+FROM 
+n_nariad AS A,
+n_material AS B,
+n_work AS C,
+i_material AS D
+WHERE
+D.`id_stock`="'.htmlspecialchars(trim($_GET['id'])).'" AND
+D.id=B.`id_material` AND
+B.`id_nwork`=C.id AND
+C.`id_nariad`=A.id AND
+NOT(A.status=1)');
+
+
+
+
+$sql_count='SELECT DISTINCT count(A.id) as kol
+FROM 
+n_nariad AS A,
+n_material AS B,
+n_work AS C,
+i_material AS D
+WHERE
+D.`id_stock`="'.htmlspecialchars(trim($_GET['id'])).'" AND
+D.id=B.`id_material` AND
+B.`id_nwork`=C.id AND
+C.`id_nariad`=A.id AND
+NOT(A.status=1)';
+
+
+$result_t221=mysql_time_query($link,$sql_count);
+$row__221= mysqli_fetch_assoc($result_t221);
+
+
+
+$num_results_t2 = $result_t2->num_rows;
+if($num_results_t2!=0)
+{
+
+    echo'<br> <h3 class="head_h" style=" margin-bottom:0px;">Связь с нарядами<i>'.$row__221["kol"].'</i><div></div></h3><br> <br>';
+
+
+    for ($ksss=0; $ksss<$num_results_t2; $ksss++)
+    {
+        $row__2= mysqli_fetch_assoc($result_t2);
+
+
+        $result_uu = mysql_time_query($link, 'select * from n_nariad where id="'.ht($row__2['id']).'"');
+        $num_results_uu = $result_uu->num_rows;
+        $small_block=1;
+        if ($num_results_uu != 0) {
+            $value = mysqli_fetch_assoc($result_uu);
+
+
+            $new_pre = 1;
+            $task_cloud_block = '';
+
+
+            include $url_system . 'worder/code/block_worder.php';
+            echo($task_cloud_block);
+        }
+    }
+
+
+
+
+
+
+
+}
+
+
+
+
+
 ?>
 
        

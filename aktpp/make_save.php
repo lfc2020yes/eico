@@ -43,33 +43,36 @@ if (isset($_POST['id_akt_edit']) && $_POST['id_akt_edit']>0) {    //Редакт
     $cnt=iDelUpd($link,$sqlE,false);   //Исправить запись об акте
     if ($cnt<=1) {      // исправить и добавить информацию о материалах
         for($p=0;$p<$_POST['count_mat'];$p++) {    //----------------обойти материала
-            $volI=$_POST['act_id_'.$p];  //          0                      1                       2                   3
-            $arrI=explode('_',$volI);    //value="'.$row_act['ids'].'_'.$row_act['idsm'].'_'.$row_act['id_act'].'_'.$row_act['idm'].'"
-            if ($arrI[3]>0 && $arrI[2]>0) {  //Редактировать  
-                $sqlM= 'update z_act_material set 
-                        id_stock="'.$arrI[0].'",
-                        id_stock_material="'.$arrI[1].'",
-                        count_units="'.$_POST['count_'.$p].'",
-                        price_nds="'.$_POST['act_price_'.$p].'"
-                        where id="'.$arrI[3].'"';
+            //echo($_POST['count_' . $p].' ');
+
+            $volI = $_POST['act_id_' . $p];  //          0                      1                       2                   3
+            $arrI = explode('_', $volI);    //value="'.$row_act['ids'].'_'.$row_act['idsm'].'_'.$row_act['id_act'].'_'.$row_act['idm'].'"
+            if ($arrI[3] > 0 && $arrI[2] > 0) {  //Редактировать
+                $sqlM = 'update z_act_material set 
+                        id_stock="' . $arrI[0] . '",
+                        id_stock_material="' . $arrI[1] . '",
+                        count_units="' . $_POST['count_' . $p] . '",
+                        price_nds="' . $_POST['act_price_' . $p] . '"
+                        where id="' . $arrI[3] . '"';
                 //echo "<p/>".$sqlM;    /////
-                $cnt=iDelUpd($link,$sqlM,false);
-                if ($cnt>1) {
-                   $not_errorT=FALSE;
-                   break;
-                }
-            } else {  //Добавить
-                $sqlM= 'insert into z_act_material
-                        (id_act,id_stock,id_stock_material,count_units,price_nds)
-                        VALUES
-                        ("'.$id_akt_edit.'","'.$arrI[0].'","'.$arrI[1].'","'.$_POST['count_'.$p].'","'.$_POST['act_price_'.$p].'"
-                        )';
-                if (! $link->query($sqlM) ) {
-                    $errno=$link->errno;
-                    $not_errorT=FALSE;
+                $cnt = iDelUpd($link, $sqlM, false);
+                if ($cnt > 1) {
+                    $not_errorT = FALSE;
                     break;
                 }
-            } 
+            } else {  //Добавить
+                $sqlM = 'insert into z_act_material
+                        (id_act,id_stock,id_stock_material,count_units,price_nds)
+                        VALUES
+                        ("' . $id_akt_edit . '","' . $arrI[0] . '","' . $arrI[1] . '","' . $_POST['count_' . $p] . '","' . $_POST['act_price_' . $p] . '"
+                        )';
+                if (!$link->query($sqlM)) {
+                    $errno = $link->errno;
+                    $not_errorT = FALSE;
+                    break;
+                }
+            }
+
         } 
     } else  $not_errorT=FALSE;
     iCommit($link,$not_errorT);
@@ -100,21 +103,24 @@ $sqlA= 'insert into z_act
     $not_errorT=TRUE;
     $link->autocommit(FALSE);
         for($p=0;$p<$_POST['count_mat'];$p++) {    //----------------переписать материалы
-       //     echo '<p/>$p:'.$p;
-            $volI=$_POST['act_id_'.$p];  //          0                      1                       2                   3
-            $arrI=explode('_',$volI);    //value="'.$row_act['ids'].'_'.$row_act['idsm'].'_'.$row_act['id_act'].'_'.$row_act['idm'].'"
-            $sqlM=' insert into z_act_material
+            if((isset($_POST['count_' . $p]))and($_POST['count_' . $p]!=''))
+            {
+            //     echo '<p/>$p:'.$p;
+            $volI = $_POST['act_id_' . $p];  //          0                      1                       2                   3
+            $arrI = explode('_', $volI);    //value="'.$row_act['ids'].'_'.$row_act['idsm'].'_'.$row_act['id_act'].'_'.$row_act['idm'].'"
+            $sqlM = ' insert into z_act_material
                     (id_act,id_stock,id_stock_material,count_units,price_nds)
                         VALUES
-                    ("'.$id_act.'","'.$arrI[0].'","'.$arrI[1].'","'.$_POST['count_'.$p].'","'.$_POST['act_price_'.$p].'"
+                    ("' . $id_act . '","' . $arrI[0] . '","' . $arrI[1] . '","' . $_POST['count_' . $p] . '","' . $_POST['act_price_' . $p] . '"
                     )';
-      //      echo '<p/>$sqlM:'.$sqlM;
-            if (! $link->query($sqlM) ) {
-                $errno=$link->errno;
-                $not_errorT=FALSE;
-      //          echo '<p/>query:'.$errno;
+            //      echo '<p/>$sqlM:'.$sqlM;
+            if (!$link->query($sqlM)) {
+                $errno = $link->errno;
+                $not_errorT = FALSE;
+                //          echo '<p/>query:'.$errno;
                 break;
             }
+        }
         }
         $ret_commit=iCommit($link,$not_errorT);
     } else $not_errorT=FALSE;
@@ -127,7 +133,14 @@ $sqlA= 'insert into z_act
        }    
     } else {
         //setcookie('basket'.$id_user.'_'.$id_visor, "", time() + 3600*24);
-        setcookie('material'.$id_user.'_'.$id_visor, "", time() - 100,'/',window.is_session,false);
+
+      //  setcookie('material'.$id_user.'_'.$id_visor, "", time() - 100,'/',window.is_session,false);
+
+        //echo("material".$id_user."_".$id_visor);
+        global $base_cookie;
+
+        setcookie("material".$id_user."_".$id_visor, "", time()-3600,"/", $base_cookie, false, false);
+
         //$clear_cookie=1; 
         //die ('material'.$id_user.'_'.$id_visor);
         header ('Location: /aktpp/edit/'.$id_act.'/');  

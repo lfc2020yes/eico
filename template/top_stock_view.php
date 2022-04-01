@@ -13,7 +13,10 @@
 
         <?
 
-        echo'<span class="menu-09-pc-h" ><span >'.$row_list["name"].'</span >';
+        echo'<span class="menu-09-pc-h" ><span >'.$row_list["name"].'</span > <span style="color: rgba(0, 0, 0, 0.2);
+
+font-style: normal;
+margin-left: 15px;">('.$row_list["id"].')</span >';
 
         echo'<span all="8" class="menu-09-count none" style="display: none;"></span>';
 

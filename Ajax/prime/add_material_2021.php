@@ -30,7 +30,16 @@ $token=htmlspecialchars($_POST['tk']);
 		     { 
 			  $count_rows=$count_rows-2;
 			  array_push($stack_td, "summa_r2_realiz"); 
-		     } 
+		     }
+
+
+               if ($role->is_column('i_razdel2','summa_r2_today',true,false)==false)
+               {
+                   $count_rows=$count_rows-2;
+                   array_push($stack_td, "summa_r2_today");
+               }
+
+
              //строка итого по работе, по материалам, по разделу
 		     if ($role->is_column('i_razdel1','summa_r1',true,false)==false) 
 		     { 
@@ -125,7 +134,7 @@ if($_POST["new_sklad_i"]==1) {
 }
 
 
-mysql_time_query($link,'INSERT INTO i_material(id,id_razdel2,razdel1,razdel2,material,id_implementer,units,count_units,price,id_stock,alien) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.$row1["razdel2"].'","'.htmlspecialchars(trim($name_mat)).'","","'.htmlspecialchars(trim($ed_mat)).'","'.htmlspecialchars(trim(trimc($_POST['count_work']))).'","'.htmlspecialchars(trim(trimc($_POST['price_work']))).'","'.ht($ID_P).'","'.ht($_POST["dava_stock"]).'")');
+mysql_time_query($link,'INSERT INTO i_material(id,id_razdel2,razdel1,razdel2,material,id_implementer,units,count_units,price,price_today,id_stock,alien) VALUES ("","'.htmlspecialchars(trim($id)).'","'.$row1["razdel1"].'","'.$row1["razdel2"].'","'.htmlspecialchars(trim($name_mat)).'","","'.htmlspecialchars(trim($ed_mat)).'","'.htmlspecialchars(trim(trimc($_POST['count_work']))).'","'.htmlspecialchars(trim(trimc($_POST['price_work']))).'","'.htmlspecialchars(trim(trimc($_POST['price_work_today']))).'","'.ht($ID_P).'","'.ht($_POST["dava_stock"]).'")');
 
 
 $ID_D1=mysqli_insert_id($link);
@@ -173,58 +182,91 @@ $ID_D1=mysqli_insert_id($link);
 	//уведомления уведомления уведомления уведомления уведомления уведомления
 	//уведомления уведомления уведомления уведомления уведомления уведомления
 	//уведомления уведомления уведомления уведомления уведомления уведомления			   
-		   
-		   
-		   
-		   
-		   
-		   
-					 $echo.='<tr class="material" rel_ma="'.$ID_D1.'">';
 
 
+$result_uu55 = mysql_time_query($link, 'select * from i_material where id="'.ht($ID_D1).'"');
+$num_results_uu55 = $result_uu55->num_rows;
+
+if ($num_results_uu55 != 0) {
+    $row_uu55 = mysqli_fetch_assoc($result_uu55);
 
 
+    $echo .= '<tr class="material" rel_ma="' . $ID_D1 . '">';
 
 
-$echo.='<td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm"><i></i>';
+    $echo .= '<td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm"><i></i>';
 
-$class_dava='';
-if($_POST["dava_stock"]==1)
-{
-    $class_dava='dava';
-}
+    $class_dava = '';
+    if ($_POST["dava_stock"] == 1) {
+        $class_dava = 'dava';
+    }
 
-$echo.='<span class="s_j '.$class_dava.'">'.htmlspecialchars(trim($name_mat)).'</span>';
+    $echo .= '<span class="s_j ' . $class_dava . '">' . htmlspecialchars(trim($name_mat)) . '</span>';
 
-if($_POST["dava_stock"]==1)
-{
-    $echo.='<div class="chat_kk" data-tooltip="давальческий материал"></div>';
-}
+    if ($_POST["dava_stock"] == 1) {
+        $echo .= '<div class="chat_kk" data-tooltip="давальческий материал"></div>';
+    }
 
-$echo.='<span class="edit_panel_">';
-				   if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	       {   
-		   $echo.='<span data-tooltip="редактировать материал" for="'.$ID_D1.'" class="edit_icon_m">3</span>';
-		   }
-		   		   if (($role->permission('Себестоимость','D'))or($sign_admin==1))
-	       {
-		   $echo.='<span data-tooltip="удалить материал" for="'.$ID_D1.'" class="del_icon_m">5</span>';
-		   }
-			   
-			   $echo.='</span></div></td>
+    $echo .= '<span class="edit_panel_">';
+    if (($role->permission('Себестоимость', 'U')) or ($sign_admin == 1)) {
+        $echo .= '<span data-tooltip="редактировать материал" for="' . $ID_D1 . '" class="edit_icon_m">3</span>';
+    }
+    if (($role->permission('Себестоимость', 'D')) or ($sign_admin == 1)) {
+        $echo .= '<span data-tooltip="удалить материал" for="' . $ID_D1 . '" class="del_icon_m">5</span>';
+    }
+
+    $echo .= '</span></div></td>
 <td class="pre-wrap"></td>
-<td><span class="s_j">'.htmlspecialchars(trim($ed_mat)).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trimc($_POST['count_work'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trimc($_POST['price_work'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format((trimc($_POST['count_work'])*trimc($_POST['price_work'])), 2, '.', ' '),'0'),'.').'</span></td>
-<td>0</td>';
-if(array_search('summa_r2_realiz',$stack_td) === false) 
-{			   
-$echo.='<td>0</td>
-<td>0</td>';
-}
-           $echo.='</tr>';
+<td><span class="s_j">' . htmlspecialchars(trim($ed_mat)) . '</span></td>';
 
+
+    $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["count_units"], 3, '.', ' ').'</span></td>';
+
+    $echo .= '<td style="text-align: right;"><span class="s_j" style="line-height: 15px;" data-tooltip="стоимость / текущая">'.number_format($row_uu55["price"], 2, '.', ' ');
+
+
+                      if($row_uu55["price_today"]!=0)
+                      {
+                          $echo .= '<br><span style=""><span style="color:red; font-size:18px;">‣</span> '.number_format($row_uu55["price_today"], 2, '.', ' ').'</span>';
+                      }
+
+    $echo .= '</span></td>
+<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["subtotal"], 2, '.', ' ').'</span></td>';
+if($row_uu55["count_units"]!=0)
+{
+    $echo .= '<td style="text-align: right;"><span class="s_j" data-tooltip="'.ceil($row_uu55["count_realiz"]*100/$row_uu55["count_units"]).'%">'.mor_class(($row_uu55["count_units"]-$row_uu55["count_realiz"]),number_format($row_uu55["count_realiz"], 3, '.', ' '),0).'</span></td>';
+} else
+{
+    $echo .= '<td style="text-align: right;"><span class="s_j" data-tooltip="0%">'.mor_class(($row_uu55["count_units"]-$row_uu55["count_realiz"]),number_format($row_uu55["count_realiz"], 3, '.', ' '),0).'</span></td>';
+}
+
+	if(array_search('summa_r2_realiz',$stack_td) === false)
+	{
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.mor_class(($row_uu55["subtotal"]-$row_uu55["summa_realiz"]),number_format($row_uu55["summa_realiz"], 2, '.', ' '),0).'</span></td>';
+
+//echo'<td style="text-align: right;"><strong><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_realiz"]),number_format(($row_t3["subtotal"]-$row_t3["summa_realiz"]), 2, '.', ' '),1).'</span></strong></td>';
+	}
+
+                      if(array_search('summa_r2_today',$stack_td) === false) {
+                          $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["summa_today"], 2, '.', ' ').'</span></td>';
+                      }
+
+
+
+    /*
+<td><span class="s_j">' . rtrim(rtrim(number_format(htmlspecialchars(trimc($_POST['count_work'])), 2, '.', ' '), '0'), '.') . '</span></td>
+<td><span class="s_j">' . rtrim(rtrim(number_format(htmlspecialchars(trimc($_POST['price_work'])), 2, '.', ' '), '0'), '.') . '</span></td>
+<td><span class="s_j">' . rtrim(rtrim(number_format((trimc($_POST['count_work']) * trimc($_POST['price_work'])), 2, '.', ' '), '0'), '.') . '</span></td>
+<td>0</td>';
+    if (array_search('summa_r2_realiz', $stack_td) === false) {
+        $echo .= '<td>0</td>
+<td>0</td>';
+    }
+ */
+
+
+    $echo .= '</tr>';
+}
 
 end_code:
 

@@ -7243,22 +7243,23 @@ div { position: relative;
   text-transform: uppercase;
   font-size: 13px;
 
-  .i-1 {width: 75%; @include align-self(center); padding-left:20px; }
-  .i-2 {width: 25%; @include align-self(center); @include flexbox();
+  .i-1 {width: 60%; @include align-self(center); padding-left:20px; }
+  .i-2 {width: 40%; @include align-self(center); @include flexbox(); text-align: right;
 
-  .i-vsego,.i-vipolneno {width: 50%;  color: rgba(0, 0, 0, 0.7);
+  .i-vsego,.i-vipolneno,.i-todayv {width: calc(100% / 3);  color: rgba(0, 0, 0, 0.7);
     font-family: GEInspiraBold;
     text-transform: uppercase;
     font-size: 14px;
     margin-bottom: 10px;
     position: relative;
     padding-top: 13px;
+    padding-right: 15px;
     font-weight: 400;
     label {
       font-family: GEInspiraRegular;
       position: absolute;
       top: 5px;
-      left: 0;
+      right: 15px;
       font-size: 10px;
       text-transform: uppercase;
       font-weight: 400;

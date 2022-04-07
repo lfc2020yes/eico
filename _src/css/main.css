@@ -21198,7 +21198,7 @@ width: calc(50% - 0px) !important;
   background-color: rgba(255, 236, 87, 0.7);
 }
 .itog-2021 .i-1 {
-  width: 75%;
+  width: 60%;
   -webkit-align-self: center;
   -moz-align-self: center;
   -ms-align-self: center;
@@ -21206,7 +21206,7 @@ width: calc(50% - 0px) !important;
   padding-left: 20px;
 }
 .itog-2021 .i-2 {
-  width: 25%;
+  width: 40%;
   -webkit-align-self: center;
   -moz-align-self: center;
   -ms-align-self: center;
@@ -21216,9 +21216,10 @@ width: calc(50% - 0px) !important;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  text-align: right;
 }
-.itog-2021 .i-2 .i-vsego, .itog-2021 .i-2 .i-vipolneno {
-  width: 50%;
+.itog-2021 .i-2 .i-vsego, .itog-2021 .i-2 .i-vipolneno, .itog-2021 .i-2 .i-todayv {
+  width: calc(100% / 3);
   color: rgba(0, 0, 0, 0.7);
   font-family: GEInspiraBold;
   text-transform: uppercase;
@@ -21226,19 +21227,20 @@ width: calc(50% - 0px) !important;
   margin-bottom: 10px;
   position: relative;
   padding-top: 13px;
+  padding-right: 15px;
   font-weight: 400;
 }
-.itog-2021 .i-2 .i-vsego label, .itog-2021 .i-2 .i-vipolneno label {
+.itog-2021 .i-2 .i-vsego label, .itog-2021 .i-2 .i-vipolneno label, .itog-2021 .i-2 .i-todayv label {
   font-family: GEInspiraRegular;
   position: absolute;
   top: 5px;
-  left: 0;
+  right: 15px;
   font-size: 10px;
   text-transform: uppercase;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.3);
 }
-.itog-2021 .i-2 .i-vsego .i-obi, .itog-2021 .i-2 .i-vipolneno .i-obi {
+.itog-2021 .i-2 .i-vsego .i-obi, .itog-2021 .i-2 .i-vipolneno .i-obi, .itog-2021 .i-2 .i-todayv .i-obi {
   font-family: GEInspiraBold;
   color: rgba(0, 0, 0, 0.7);
   font-size: 14px;

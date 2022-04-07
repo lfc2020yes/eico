@@ -30,7 +30,14 @@ $token=htmlspecialchars($_POST['tk']);
 		     { 
 			  $count_rows=$count_rows-2;
 			  array_push($stack_td, "summa_r2_realiz"); 
-		     } 
+		     }
+
+               if ($role->is_column('i_razdel2','summa_r2_today',true,false)==false)
+               {
+                   $count_rows=$count_rows-2;
+                   array_push($stack_td, "summa_r2_today");
+               }
+
              //строка итого по работе, по материалам, по разделу
 		     if ($role->is_column('i_razdel1','summa_r1',true,false)==false) 
 		     { 
@@ -129,6 +136,7 @@ mysql_time_query($link,'update i_material set
                       units="'.htmlspecialchars(trim($ed_mat)).'",
                       count_units="'.htmlspecialchars(trim(trimc($_POST['count_work']))).'",
                       price="'.htmlspecialchars(trim(trimc($_POST['price_work']))).'",
+                      price_today="'.htmlspecialchars(trim(trimc($_POST['price_work_today']))).'",
                       id_stock="'.ht($ID_P).'",
                       alien="'.ht($_POST["dava_stock"]).'",
                       count_realiz ="'.htmlspecialchars(trim(trimc($_POST['count_realiz']))).'", 
@@ -196,18 +204,59 @@ if($num_results_t!=0)
     $row_t = mysqli_fetch_assoc($result_t);
 
     $echo.='<td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="nm"><i></i><span class="s_j">'.$row_t["material"].'</span><span class="edit_panel_"><span data-tooltip="редактировать материал" for="'.$row_t["id"].'" class="edit_icon_m">3</span><span data-tooltip="удалить материал" for="'.$row_t["id"].'" class="del_icon_m">5</span></span></div></td>
-<td class="pre-wrap"></td>
-<td><span class="s_j">'.$row_t["units"].'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format($row_t["count_units"], 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format($row_t["price"], 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format($row_t["subtotal"], 2, '.', ' '),'0'),'.').'</span></td>
-<td>'.rtrim(rtrim(number_format($row_t["count_realiz"], 2, '.', ' '),'0'),'.').'</td>';
+<td class="pre-wrap"></td>';
+
+
+$echo.='<td><span class="s_j">'.$row_t["units"].'</span></td>';
+
+    $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_t["count_units"], 3, '.', ' ').'</span></td>';
+
+    $echo .= '<td style="text-align: right;"><span class="s_j" style="line-height: 15px;" data-tooltip="стоимость / текущая">'.number_format($row_t["price"], 2, '.', ' ');
+
+
+    if($row_t["price_today"]!=0)
+    {
+        $echo .= '<br><span style=""><span style="color:red; font-size:18px;">‣</span> '.number_format($row_t["price_today"], 2, '.', ' ').'</span>';
+    }
+
+    $echo .= '</span></td>
+<td style="text-align: right;"><span class="s_j">'.number_format($row_t["subtotal"], 2, '.', ' ').'</span></td>';
+    if($row_t["count_units"]!=0)
+    {
+        $echo .= '<td style="text-align: right;"><span class="s_j" data-tooltip="'.ceil($row_t["count_realiz"]*100/$row_t["count_units"]).'%">'.mor_class(($row_t["count_units"]-$row_t["count_realiz"]),number_format($row_t["count_realiz"], 3, '.', ' '),0).'</span></td>';
+    } else
+    {
+        $echo .= '<td style="text-align: right;"><span class="s_j" data-tooltip="0%">'.mor_class(($row_t["count_units"]-$row_t["count_realiz"]),number_format($row_t["count_realiz"], 3, '.', ' '),0).'</span></td>';
+    }
+
     if(array_search('summa_r2_realiz',$stack_td) === false)
     {
-        $echo.='<td>'.rtrim(rtrim(number_format($row_t["summa_realiz"], 2, '.', ' '),'0'),'.').'</td>
-<td><strong><span class="s_j">'.mor_class(($row_t["subtotal"]-$row_t["summa_realiz"]),rtrim(rtrim(number_format(($row_t["subtotal"]-$row_t["summa_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>
-';
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t["subtotal"]-$row_t["summa_realiz"]),number_format($row_t["summa_realiz"], 2, '.', ' '),0).'</span></td>';
+
+//echo'<td style="text-align: right;"><strong><span class="s_j">'.mor_class(($row_t3["subtotal"]-$row_t3["summa_realiz"]),number_format(($row_t3["subtotal"]-$row_t3["summa_realiz"]), 2, '.', ' '),1).'</span></strong></td>';
     }
+
+    if(array_search('summa_r2_today',$stack_td) === false) {
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_t["summa_today"], 2, '.', ' ').'</span></td>';
+    }
+
+
+
+
+
+    /*
+    <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["count_units"], 2, '.', ' '),'0'),'.').'</span></td>
+    <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["price"], 2, '.', ' '),'0'),'.').'</span></td>
+    <td><span class="s_j">'.rtrim(rtrim(number_format($row_t["subtotal"], 2, '.', ' '),'0'),'.').'</span></td>
+    <td>'.rtrim(rtrim(number_format($row_t["count_realiz"], 2, '.', ' '),'0'),'.').'</td>';
+        if(array_search('summa_r2_realiz',$stack_td) === false)
+        {
+            $echo.='<td>'.rtrim(rtrim(number_format($row_t["summa_realiz"], 2, '.', ' '),'0'),'.').'</td>
+    <td><strong><span class="s_j">'.mor_class(($row_t["subtotal"]-$row_t["summa_realiz"]),rtrim(rtrim(number_format(($row_t["subtotal"]-$row_t["summa_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>
+    ';
+        }
+    */
+
 }
 
 end_code:

@@ -9,6 +9,7 @@ include_once $url_system.'module/ajax_access.php';
 $secret=rand_string_string(4);
 $_SESSION['s_form'] = $secret;
 */
+
 $status=0;
 
 
@@ -257,6 +258,10 @@ $status=1;
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Стоимость за единицу</i><span>*</span></label><input name="price_work" value="" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Текущая стоимость</i><span>*</span></label><input name="price_work_today" value="0" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
 echo'<!--input start-->';
             echo'<div class="all-summ-stock none">
             <div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021" style=""><label><i>Итого сумма</i></label><input name="summ_work" value="" class="input_new_2021 gloab20 required  no_upperr" disabled readonly style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>
@@ -353,7 +358,7 @@ include_once $url_system.'template/form_js.php';
         });
 
         ToolTip();
-        //input_2021();
+        input_2021();
 
         $('.date_picker_x').inputmask("datetime",{
             mask: "1.2.y",

@@ -31,7 +31,16 @@ $token=htmlspecialchars($_GET['tk']);
 		     { 
 			  $count_rows=$count_rows-2;
 			  array_push($stack_td, "summa_r2_realiz"); 
-		     } 
+		     }
+
+
+               if ($role->is_column('i_razdel2','summa_r2_today',true,false)==false)
+               {
+                   $count_rows=$count_rows-2;
+                   array_push($stack_td, "summa_r2_today");
+               }
+
+
              //строка итого по работе, по материалам, по разделу
 		     if ($role->is_column('i_razdel1','summa_r1',true,false)==false) 
 		     { 
@@ -94,7 +103,8 @@ razdel2="'.htmlspecialchars(trim(trimc($_GET['number_razdel2']))).'",
 count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
 count_r2_realiz ="'.htmlspecialchars(trim(trimc($_GET['count_realiz']))).'", 
 summa_r2_realiz="'.htmlspecialchars(trim(trimc($_GET['summ_realiz']))).'",
-price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'" 
+price="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'",
+price_today="'.htmlspecialchars(trim(trimc($_GET['price_work_today']))).'" 
 
 where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 			 
@@ -140,107 +150,135 @@ where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 	//уведомления уведомления уведомления уведомления уведомления уведомления
 	//уведомления уведомления уведомления уведомления уведомления уведомления
 	//уведомления уведомления уведомления уведомления уведомления уведомления						 
-					 		 
-			 
 
 
-        $result_town__=mysql_time_query($link,'select A.* from i_razdel2 as A where  A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
-        $num_results_custom_town__ = $result_town__->num_rows;
-        if($num_results_custom_town__!=0)
-        {
-			$row_town__ = mysqli_fetch_assoc($result_town__);				
-		}
-		
-			 
-			 
-$proc_realiz=round(($row_town__["count_r2_realiz"]*100)/$row_town__["count_units"]);			 
-				
+
+
+$result_uu55 = mysql_time_query($link, 'select * from i_razdel2 where id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$num_results_uu55 = $result_uu55->num_rows;
+
+if ($num_results_uu55 != 0) {
+    $row_uu55 = mysqli_fetch_assoc($result_uu55);
+
+
+    $result_town__ = mysql_time_query($link, 'select A.* from i_razdel2 as A where  A.id="' . htmlspecialchars(trim($_GET['id'])) . '"');
+    $num_results_custom_town__ = $result_town__->num_rows;
+    if ($num_results_custom_town__ != 0) {
+        $row_town__ = mysqli_fetch_assoc($result_town__);
+    }
+
+
+    $proc_realiz = round(($row_town__["count_r2_realiz"] * 100) / $row_town__["count_units"]);
+
 //мигает красным если дата прошла а работа не выполнена
-					  $actv12='';
-					 if(($proc_realiz<100)and(($role->permission('График','R'))or($sign_admin==1))and($row_town__["date1"]!=''))
-					 {
-						 if((time_compare($row_town__["date1"].' 00:00:00',0)==0))
-						 {
-						   $actv12.=' redgraf';
-						 }
-					 }		
-			 
+    $actv12 = '';
+    if (($proc_realiz < 100) and (($role->permission('График', 'R')) or ($sign_admin == 1)) and ($row_town__["date1"] != '')) {
+        if ((time_compare($row_town__["date1"] . ' 00:00:00', 0) == 0)) {
+            $actv12 .= ' redgraf';
+        }
+    }
 
-$echo.='<td class="middle_"><div class="st_div"><i class="'.$actv12.'"></i></div></td>
-                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.htmlspecialchars(trim($_GET["name_work"])).'</span><br>';
-				  
-					  
-					  
-					  //вывод дат начала и конца работы
-					  if (($role->permission('График','R'))or($sign_admin==1))
-					  {
-					    $class_graf='';
-					    if($row_town__["date0"]!='')
-					    {
-						  if (($role->permission('График','U'))or($sign_admin==1))
-					      {	
-							  $class_graf='class="UGRAFE"';
-						  }
-					      $echo.='<span data-tooltip="редактировать график работы" for="'.$row_town__["id"].'" '.$class_graf.'><span class="UD0">'.MaskDate_D_M_Y_ss($row_town__["date0"]).'</span><span> - </span>';
-					      $echo.='<span class="UD1">'.MaskDate_D_M_Y_ss($row_town__["date1"]).'</span></span>';
-					    } else
-						{
-						   if (($role->permission('График','U'))or($sign_admin==1))
-					      {	
-							  $class_graf='class="UGRAFE"';
-							   $echo.='<span data-tooltip="редактировать график работы" for="'.$row_town__["id"].'" '.$class_graf.'><span class="UD0">задать график работ</span></span>';
-							  
-						  }
-							
-						}
-					  }
-			 
-			 $echo.='<span class="edit_panel">';
-			 		   if (($role->permission('Себестоимость','U'))or($sign_admin==1))
-	       {
-			 $echo.='<span data-tooltip="редактировать работу" for="'.htmlspecialchars(trim($_GET['id'])).'" class="edit_icon">3</span>';
-		   }
-			 		   if (($role->permission('Себестоимость','D'))or($sign_admin==1))
-	       {
-			 $echo.='<span data-tooltip="удалить работу" for="'.htmlspecialchars(trim($_GET['id'])).'" class="del_icon">5</span>';
-		   }
-			 		   if (($role->permission('Себестоимость','A'))or($sign_admin==1))
-	       {
-			 $echo.='<span data-tooltip="Добавить материал" for="'.htmlspecialchars(trim($_GET['id'])).'" class="addd_icon">J</span>';
-		   }
-				 
-			 $echo.='</span></td>
+
+    $echo .= '<td class="middle_"><div class="st_div"><i class="' . $actv12 . '"></i></div></td>
+                  <td class="no_padding_left_ pre-wrap"><span class="s_j">' . htmlspecialchars(trim($_GET["name_work"])) . '</span><br>';
+
+
+    //вывод дат начала и конца работы
+    if (($role->permission('График', 'R')) or ($sign_admin == 1)) {
+        $class_graf = '';
+        if ($row_town__["date0"] != '') {
+            if (($role->permission('График', 'U')) or ($sign_admin == 1)) {
+                $class_graf = 'class="UGRAFE"';
+            }
+            $echo .= '<span data-tooltip="редактировать график работы" for="' . $row_town__["id"] . '" ' . $class_graf . '><span class="UD0">' . MaskDate_D_M_Y_ss($row_town__["date0"]) . '</span><span> - </span>';
+            $echo .= '<span class="UD1">' . MaskDate_D_M_Y_ss($row_town__["date1"]) . '</span></span>';
+        } else {
+            if (($role->permission('График', 'U')) or ($sign_admin == 1)) {
+                $class_graf = 'class="UGRAFE"';
+                $echo .= '<span data-tooltip="редактировать график работы" for="' . $row_town__["id"] . '" ' . $class_graf . '><span class="UD0">задать график работ</span></span>';
+
+            }
+
+        }
+    }
+
+    $echo .= '<span class="edit_panel">';
+    if (($role->permission('Себестоимость', 'U')) or ($sign_admin == 1)) {
+        $echo .= '<span data-tooltip="редактировать работу" for="' . htmlspecialchars(trim($_GET['id'])) . '" class="edit_icon">3</span>';
+    }
+    if (($role->permission('Себестоимость', 'D')) or ($sign_admin == 1)) {
+        $echo .= '<span data-tooltip="удалить работу" for="' . htmlspecialchars(trim($_GET['id'])) . '" class="del_icon">5</span>';
+    }
+    if (($role->permission('Себестоимость', 'A')) or ($sign_admin == 1)) {
+        $echo .= '<span data-tooltip="Добавить материал" for="' . htmlspecialchars(trim($_GET['id'])) . '" class="addd_icon">J</span>';
+    }
+
+    $echo .= '</span></td>
 <td class="pre-wrap">';
-			 
-	            $result_t2=mysql_time_query($link,'Select a.* from i_implementer as a where a.id="'.htmlspecialchars(trim($_GET["ispol_work"])).'"');
-                $num_results_t2 = $result_t2->num_rows;
-	            if($num_results_t2!=0)
-	            {
-					$row_t2 = mysqli_fetch_assoc($result_t2);
-																if (($role->permission('Исполнители','R'))or($sign_admin==1))
-	        {	
-                    $echo.='<a class="musa" href="implementer/'.$row_t2["id"].'/"><span class="s_j">'.$row_t2["implementer"].'</span></a>';
-			} else
-			{
-	                    $echo.='<span class="s_j">'.$row_t2["implementer"].'</span>';			
-			}
-				}
-				//количество нарядов по данной работе
-			
-		 
-//<div class="musa_plus">3</div>
-$echo.='';
-$echo.='</td>
-<td><span class="s_j">'.htmlspecialchars(trim($_GET["ed_work"])).'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["count_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["price_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j">'.rtrim(rtrim(number_format((trimc($_GET["count_work"])*trimc($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
-<td><span class="s_j" data-tooltip="'.$proc_realiz.'%">'.mor_class(($row_town__["count_units"]-$row_town__["count_r2_realiz"]),rtrim(rtrim(number_format($row_town__["count_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td>';
-if(array_search('summa_r2_realiz',$stack_td) === false) 
-{			 
-$echo.='<td><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format($row_town__["summa_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td><td><strong><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>';			 
-}
 
+    $result_t2 = mysql_time_query($link, 'Select a.* from i_implementer as a where a.id="' . htmlspecialchars(trim($_GET["ispol_work"])) . '"');
+    $num_results_t2 = $result_t2->num_rows;
+    if ($num_results_t2 != 0) {
+        $row_t2 = mysqli_fetch_assoc($result_t2);
+        if (($role->permission('Исполнители', 'R')) or ($sign_admin == 1)) {
+            $echo .= '<a class="musa" href="implementer/' . $row_t2["id"] . '/"><span class="s_j">' . $row_t2["implementer"] . '</span></a>';
+        } else {
+            $echo .= '<span class="s_j">' . $row_t2["implementer"] . '</span>';
+        }
+    }
+    //количество нарядов по данной работе
+
+
+//<div class="musa_plus">3</div>
+    $echo .= '';
+    $echo .= '</td>
+<td><span class="s_j">' . htmlspecialchars(trim($_GET["ed_work"])) . '</span></td>';
+
+
+    $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["count_units"], 3, '.', ' ').'</span></td>
+<td style="text-align: right;"><span class="s_j" style="line-height: 15px;" data-tooltip="стоимость / текущая">
+
+        '.number_format($row_uu55["price"], 2, '.', ' ');
+    if($row_uu55["price_today"]!=0)
+    {
+        $echo .= '<br><span style=""><span style="color:red; font-size:18px;">‣</span> '.number_format($row_uu55["price_today"], 2, '.', ' ').'</span>';
+    }
+
+    $echo .= '</span></td>
+<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["subtotal"], 2, '.', ' ').'</span></td>';
+    if($row_uu55["count_r2_realiz"]!=0)
+    {
+        $echo .= '<td style="text-align: right;"><span class="s_j musa hist_mu">'.mor_class(($row_uu55["count_units"]-$row_uu55["count_r2_realiz"]),number_format($row_uu55["count_r2_realiz"], 3, '.', ' '),0).'</span></td>';
+    } else
+    {
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.mor_class(($row_uu55["count_units"]-$row_uu55["count_r2_realiz"]),number_format($row_uu55["count_r2_realiz"], 3, '.', ' '),0).'</span></td>';
+    }
+    //echo(array_search('summa_r2_realiz',$stack_td));
+    if(array_search('summa_r2_realiz',$stack_td) === false)
+    {
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.mor_class(($row_uu55["subtotal"]-$row_uu55["summa_r2_realiz"]),number_format($row_uu55["summa_r2_realiz"], 2, '.', ' '),0).'</span></td>';
+
+//echo'<td style="text-align: right;"><strong><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_realiz"]),number_format(($row_t1["subtotal"]-$row_t1["summa_r2_realiz"]), 2, '.', ' '),1).'</span></strong></td>';
+    }
+
+    if(array_search('summa_r2_today',$stack_td) === false) {
+        $echo .= '<td style="text-align: right;"><span class="s_j">'.number_format($row_uu55["summa_r2_today"], 2, '.', ' ').'</span></td>';
+    }
+
+
+    /*
+    <td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["count_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+    <td><span class="s_j">'.rtrim(rtrim(number_format(htmlspecialchars(trim(trimc($_GET["price_work"]))), 2, '.', ' '),'0'),'.').'</span></td>
+    <td><span class="s_j">'.rtrim(rtrim(number_format((trimc($_GET["count_work"])*trimc($_GET["price_work"])), 2, '.', ' '),'0'),'.').'</span></td>
+    <td><span class="s_j" data-tooltip="'.$proc_realiz.'%">'.mor_class(($row_town__["count_units"]-$row_town__["count_r2_realiz"]),rtrim(rtrim(number_format($row_town__["count_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td>';
+    if(array_search('summa_r2_realiz',$stack_td) === false)
+    {
+    $echo.='<td><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format($row_town__["summa_r2_realiz"], 2, '.', ' '),'0'),'.'),0).'</span></td><td><strong><span class="s_j">'.mor_class(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]),rtrim(rtrim(number_format(($row_town__["subtotal"]-$row_town__["summa_r2_realiz"]), 2, '.', ' '),'0'),'.'),1).'</span></strong></td>';
+    }
+    */
+
+
+}
 
 
 end_code:

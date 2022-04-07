@@ -306,6 +306,10 @@ echo'<input name="tk1" value="weER23Dvmrw3E" type="hidden">';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Текущая стоимость</i><span>*</span></label><input name="price_work_today" value="'.$row_list["price_today"].'" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
+
+            echo'<!--input start-->';
             echo'<div class="all-summ-stock none">
             <div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021" style=""><label><i>Итого сумма</i></label><input name="summ_work" value="" class="input_new_2021 gloab20 required  no_upperr" disabled readonly style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>
             </div>';

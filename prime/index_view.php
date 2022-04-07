@@ -923,7 +923,7 @@ if($row_t3["alien"]==1)
 					  
 echo'<td class="pre-wrap"></td>
 <td><span class="s_j">'.$row_t3["units"].'</span></td>
-<td style="text-align: right;"><span class="s_j">'.number_format($row_t3["count_units"], 3, '.', ' ').'</span>';
+<td style="text-align: right;">';
 
 
                       if(($role->permission('Заявки','R'))or($sign_admin==1)) {
@@ -1032,6 +1032,12 @@ echo'<td class="pre-wrap"></td>
 
 
                       }
+
+
+echo'<span class="s_j">'.number_format($row_t3["count_units"], 3, '.', ' ').'</span>';
+
+
+
 
 
 echo'</td>

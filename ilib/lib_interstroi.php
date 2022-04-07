@@ -1072,7 +1072,8 @@ and m.permission like '%$permission%'
 and m.id_alias_table=a.id
 $mdl
 $prf    
-group by u.id    
+group by u.id  
+ORDER BY u.name_user
 "; 
         if ($show) echo "<p>sql=$sql";
         if ($result = $mysqli->query($sql)) {

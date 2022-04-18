@@ -2828,7 +2828,7 @@ function AfterWWD(data,update)
 
 		$('.n1n[rel_id="'+update+'"]').nextAll("tr").each(function(index, value){
 
-			if ( $(this).is( ".material" ) ) {
+			if ( $(this).is( ".material,.material-dop" ) ) {
 				$(this).remove();
 			} else
 			{
@@ -2917,6 +2917,64 @@ function AfterUP_IMP_ADD(data,update)
 		$.arcticmodal('close');
 		//обновить события связанные с работой с блоком
 		alert_message('ok','Исполнитель добавлен');
+		ToolTip();
+	}
+
+}
+
+function AfterDopD(data,update)
+{
+	if ( data.status=='reg' )
+	{
+		WindowLogin();
+	}
+
+	if ( data.status=='ok' )
+	{
+		update_itog_razdel($('.material-dop[dop_house="'+update+'"]').parents('.block_i').attr('rel'));
+
+
+		var id_ukr=$('.material-dop[dop_house="'+update+'"]').attr('rel_id_dop_x');
+
+		$('.material-dop[dop_house="'+update+'"]').remove();
+
+
+
+		$('.ukr[ukr_id='+id_ukr+']').remove();
+
+		clearInterval(timerId);
+		$.arcticmodal('close');
+		//обновить события связанные с работой с блоком
+		alert_message('ok','Связь удалена');
+		ToolTip();
+
+	}
+}
+
+function AfterE_ADOP(data,update)
+{
+	if ( data.status=='reg' )
+	{
+		WindowLogin();
+	}
+
+	if ( data.status=='ok' )
+	{
+		//запускаем обновление раздела итоговых сумм
+		update_itog_razdel($('.material-dop[dop_house="'+update+'"]').parents('.block_i').attr('rel'));
+
+
+
+
+		$('.material-dop[dop_house="'+update+'"]').empty().append(data.echo);
+
+		//обновить события связанные с работой с блоком
+		update_block();
+
+		clearInterval(timerId);
+		$.arcticmodal('close');
+		//обновить события связанные с работой с блоком
+		alert_message('ok','Данные по доп. смете изменены');
 		ToolTip();
 	}
 

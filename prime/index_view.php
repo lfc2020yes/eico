@@ -648,7 +648,19 @@ if(($role->permission('График','U'))or($role->permission('График','R
 	            {		
 				echo'<span for="'.$row_t["id"].'" data-tooltip="Добавить работу" class="add_icon_block">J</span>';
 				}
-				echo'</span></h2>';
+				echo'</span>';
+
+                    $result_uu_ukr = mysql_time_query($link, 'select B.razdel1,B.razdel2,B.name_working,A.id_razdel2 from i_razdel2_replace as A,i_razdel2 as B where A.id_razdel2=B.id and A.id_razdel1_replace="' . ht($row_t["id"]) . '"');
+                    $num_results_uu_ukr = $result_uu_ukr->num_rows;
+
+                    if ($num_results_uu_ukr != 0) {
+                        $row_uu_ukr = mysqli_fetch_assoc($result_uu_ukr);
+
+                        echo'<div data-tooltip="Дополнительная смета к работе" ukr_id="'.$row_uu_ukr["id_razdel2"].'" class="ukr">⭸ '.$row_uu_ukr["razdel1"].'.'.$row_uu_ukr["razdel2"].' '.$row_uu_ukr["name_working"].'</div>';
+                    }
+
+
+echo'</h2>';
 				if(array_search('summa_r1',$stack_td) === false) 
 	            { 	
 				echo'<div style="'.$act_.'" class="summ_blogi" id_sub="'.$row_t["id"].'">
@@ -792,6 +804,13 @@ if(($role->permission('График','U'))or($role->permission('График','R
 						 echo'<span data-tooltip="Добавить/Удалить материалы из заявки" for="'.$row_t1["id"].'" class="addd_icon_mateo">\'</span>'; 
 					  }
 
+
+                      if (($role->permission('Себестоимость','A'))or($sign_admin==1))
+                      {
+                          echo'<span data-tooltip="Добавить связь с дополнительной сметой" for="'.$row_t1["id"].'" class="addd_icon_mateo_dop js-dop-add_svv">X</span>';
+                      }
+
+
                       echo'<span data-tooltip="Отсортировать по номеру/алфавиту" sort="0" for="'.$row_t1["id"].'" class="sort_icon js-sort-prime-material">W</span>';
 
 					  
@@ -852,7 +871,53 @@ echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t1["subt
                       }
            echo'</tr>';
 				
-				
+				//смотрим есть ли доп сметы к этой работе
+                      $result_uu_dop = mysql_time_query($link, 'select A.*,B.name1,B.razdel1 from i_razdel2_replace as A,i_razdel1 as B where A.id_razdel1_replace=B.id and
+A.id_razdel2="' . ht($row_t1["id"]) . '"');
+
+                      if ($result_uu_dop) {
+                          while ($row_uu_dop = mysqli_fetch_assoc($result_uu_dop)) {
+
+
+                              echo'<tr rel_id_dop_x="'.$row_t1["id"].'" dop_house="'.$row_uu_dop["id"].'" class="material-dop material-prime-v2-dop " rel_dop="'.$row_uu_dop["id_razdel1_replace"].'" rel_ma="0">
+           
+           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="dop-i"><div class="status_dop_i" data-tooltip="Дополнительная смета к работе">ДОП</div><span class="s_j s-j-dop">'.$row_uu_dop["razdel1"].'. '.$row_uu_dop["name1"].'</span><span class="edit_panel_">';
+  if (($role->permission('Себестоимость','U'))or($sign_admin==1))
+  {
+           		echo'<span data-tooltip="редактировать данные дополнительной сметы" for="'.$row_uu_dop["id"].'" class="edit_iconkkk js-edit-dop-sm">3</span>';
+  }
+  if (($role->permission('Себестоимость','D'))or($sign_admin==1))
+  {
+      echo'<span data-tooltip="разорвать связь" for="'.$row_uu_dop["id"].'" class="del_icon_mkkk js-del-dop-sm">5</span>';
+  }
+
+           echo'</span>';
+                              if($row_uu_dop["comment"]!='')
+                                  {
+           echo'<div class="comment-dop">('.$row_uu_dop["comment"].')</div>';
+                                  }
+
+                                  echo'</div></td><td class="pre-wrap"></td>
+<td><span class="s_j">'.$row_t1["units"].'</span></td>
+<td style="text-align: right;"><span class="s_j">- '.number_format($row_uu_dop["count_units"], 3, '.', ' ').'</span></td>
+<td style="text-align: right;"><span class="s_j" style="line-height: 15px;">'.number_format($row_t1["price"], 2, '.', ' ').'</span></td>';
+                              $minus='';
+if($row_uu_dop["subtotal"]<0)
+{
+    $minus='- ';
+}
+
+
+echo'<td style="text-align: right;"><span class="s_j">'.$minus.number_format($row_uu_dop["subtotal"], 2, '.', ' ').'</span></td><td style="text-align: right;"><span class="s_j" data-tooltip="0%">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td></tr>';
+
+
+                          }
+                      }
+
+
+
+
+
 				
 				//вывод материала относящегося к данной работе
 				$result_t3=mysql_time_query($link,'Select a.* from i_material as a where a.id_razdel2="'.$row_t1["id"].'" order by a.id');

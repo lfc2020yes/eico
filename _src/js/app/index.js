@@ -61,6 +61,75 @@ var tabs_app = function(event) {
 	}
 }
 
+
+
+function AddDopSW()
+{
+
+	if ( $(this).is("[for]") )
+	{
+		if($.isNumeric($(this).attr("for")))
+		{
+			$.arcticmodal({
+				type: 'ajax',
+				url: 'forms/form_add_dop_2021.php?id='+$(this).attr("for"),
+				beforeOpen: function (data, el) {
+					//во время загрузки формы с ajax загрузчик
+					$('.loader_ada_forms').show();
+					$('.loader_ada1_forms').addClass('select_ada');
+				},
+				afterLoading: function (data, el) {
+					//после загрузки формы с ajax
+					data.body.parents('.arcticmodal-container').addClass('yoi');
+					$('.loader_ada_forms').hide();
+					$('.loader_ada1_forms').removeClass('select_ada');
+				},
+				beforeClose: function (data, el) { // после закрытия окна ArcticModal
+					if (typeof timerId !== "undefined") {
+						clearInterval(timerId);
+					}
+					BodyScrool();
+				}
+
+			});
+		}
+	}
+
+	return false;
+
+}
+
+
+function dop_smeta_scroll()
+{
+	var id_soply=$(this).parents('.material-dop').attr('rel_dop');
+
+	jQuery.scrollTo('.block_i[rel='+id_soply+']', 1000, {offset:-120});
+
+	if(!$('.block_i[rel='+id_soply+']').is('.active'))
+	{
+		$('.block_i[rel='+id_soply+']').find('.i__').trigger('click');
+	}
+
+}
+
+
+function dop_smeta_scroll_1()
+{
+	var id_soply=$(this).attr('ukr_id');
+	var blockk_ukr=$('.jop[rel_id='+id_soply+']').parents(".block_i");
+	if(!blockk_ukr.is('.active'))
+	{
+		blockk_ukr.find('.i__').trigger('click');
+	}
+	jQuery.scrollTo('.jop[rel_id='+id_soply+']', 1000, {offset:-140});
+
+
+
+}
+
+
+
 // Функция удаления пробелов
 function ctrim(str)
 {
@@ -5178,7 +5247,10 @@ $('.img_invoice_div').on("change",'.sc_sc_loo12',UploadInvoiceChange);
 
 $('body').on("click",'.soply_upload',UploadScanS);
 $('body').on("change",'.sc_sc_loo11',UploadScanSChange);
-	
+
+
+	$('body').on("change keyup input click",'.js-dop-add_svv',AddDopSW);
+
 $('.bill_table').on("change keyup input click",'.xvg_bill_score',xvg_bill);	
 
 $('.bill_table').on("change keyup input click",'.xvg_no',xvg_no);
@@ -5236,7 +5308,10 @@ $('.mat_zz').on("change keyup input click",'.count_app_mater_',MmyHandlerApp);
 	
 //контроль ввода стоимости материала при оформлении наряда
 //$('.mat').on("change keyup input click",'.price_finery_mater_',MmyHandler);	
-	
+$('body').on("change keyup input click",'.s-j-dop',dop_smeta_scroll);
+
+	$('body').on("change keyup input click",'.ukr',dop_smeta_scroll_1);
+
 	
 //контроль ввода количества материала при оформлении наряда
 $('.mat').on("change keyup input click",'.count_finery_mater_',MmyHandler);	

@@ -1,5 +1,7 @@
 $(function () {
 
+    $('body').on("change keyup input click",'.js-edit-dop-sm',DopSmetaEdit);
+    $('body').on("change keyup input click",'.js-del-dop-sm',DopDelSme);
 
 //добавить раздел
     $(".add__razdel").bind('change keyup input click', add_button_block);
@@ -11,12 +13,87 @@ $(function () {
 
 })
 
+function DopDelSme()
+{
+    if ( $(this).is("[for]") )
+    {
+        if($.isNumeric($(this).attr("for")))
+        {
+            $.arcticmodal({
+                type: 'ajax',
+                url: 'forms/form_dell_dop_2021.php?id='+$(this).attr("for"),
+                beforeOpen: function (data, el) {
+                    //во время загрузки формы с ajax загрузчик
+                    $('.loader_ada_forms').show();
+                    $('.loader_ada1_forms').addClass('select_ada');
+                },
+                afterLoading: function (data, el) {
+                    //после загрузки формы с ajax
+                    data.body.parents('.arcticmodal-container').addClass('yoi');
+                    $('.loader_ada_forms').hide();
+                    $('.loader_ada1_forms').removeClass('select_ada');
+                },
+                beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                    if (typeof timerId !== "undefined") {
+                        clearInterval(timerId);
+                    }
+                    BodyScrool();
+                }
+
+            });
+        }
+    }
+
+    return false;
+}
+
+function DopSmetaEdit()
+{
+
+    if ( $(this).is("[for]") )
+    {
+        if($.isNumeric($(this).attr("for")))
+        {
+            $.arcticmodal({
+                type: 'ajax',
+                url: 'forms/form_edit_dop_2021.php?id='+$(this).attr("for"),
+                beforeOpen: function (data, el) {
+                    //во время загрузки формы с ajax загрузчик
+                    $('.loader_ada_forms').show();
+                    $('.loader_ada1_forms').addClass('select_ada');
+                },
+                afterLoading: function (data, el) {
+                    //после загрузки формы с ajax
+                    data.body.parents('.arcticmodal-container').addClass('yoi');
+                    $('.loader_ada_forms').hide();
+                    $('.loader_ada1_forms').removeClass('select_ada');
+                },
+                beforeClose: function (data, el) { // после закрытия окна ArcticModal
+                    if (typeof timerId !== "undefined") {
+                        clearInterval(timerId);
+                    }
+                    BodyScrool();
+                }
+
+            });
+        }
+    }
+
+    return false;
+
+
+
+}
+
+
+
 function SortMatPrime()
 {
 var id_house=$(this).attr('for');
 
 var sort=$(this).attr('sort');
     var tr = $('tr[work_house='+id_house+']');
+    //alert(tr.length);
 
     if(sort==0) {
         var alphabeticallyOrderedTr = tr.get().sort(function (a, b) {
@@ -34,8 +111,15 @@ var sort=$(this).attr('sort');
     //$("#container").append(alphabeticallyOrderedTr);
     //console.log(alphabeticallyOrderedTr);
 
-    $('tr[rel_id='+id_house+']').after(alphabeticallyOrderedTr);
+    //если есть после него доп. сметы ссылки то пропустить их а потом вставить остальное
+    if($('tr[rel_id='+id_house+']').next().is("[dop_house]"))
+    {
+        $('[rel_id_dop_x='+id_house+']').last().after(alphabeticallyOrderedTr);
+    } else {
 
+
+        $('tr[rel_id=' + id_house + ']').after(alphabeticallyOrderedTr);
+    }
 }
 
 

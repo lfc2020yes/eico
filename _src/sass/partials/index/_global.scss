@@ -7294,3 +7294,59 @@ div { position: relative;
   font-family: "GEInspiraRegular" !important;
   font-size: 14px !important;
 }
+
+
+.dop-i {
+
+  position: relative;
+  padding-left: 60px;
+  font-size: 14px;
+  font-family: "GEInspiraBold";
+  color: #00aeef;
+}
+
+.status_dop_i {
+  display: inline-block;
+  padding: 10px 8px;
+  background-color: #00aeef;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 10px;
+  line-height: 0;
+  //border-radius: 4px;
+  top: 4px;
+  color: #fff;
+  font-family: GEInspiraRegular;
+  display: block;
+  text-align: center;
+  position: absolute;
+  left: 10px;}
+
+.s-j-dop { cursor: pointer; font-size: 14px;
+  font-family: "GEInspiraRegular";
+  color: rgba(0, 0, 0, 0.7);}
+.comment-dop{color: rgba(0,0,0,.4);
+  font-family: GEInspiraRegular; font-size:12px;}
+
+.ukr {font-size: 14px;
+  font-family: "GEInspiraRegular";
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;}
+
+.addd_icon_mateo_dop {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: "icon2";
+  font-size: 13px;
+  margin-left: 10px;
+  &:hover {color: #ffec57;}
+}
+
+.material-dop {&:hover {.edit_panel_ {visibility:  visible;
+}}}
+
+.material-dop {.edit_iconkkk,.del_icon_mkkk {color: rgba(0, 0, 0, 0.2); cursor: pointer;
+
+  font-family: "icon1";
+  font-size: 12px;
+  margin-left: 10px; &:hover {color:#ffec57;} }}

@@ -849,13 +849,35 @@ function arr_add(&$arr,$id) {
                     //echo '<p/>'.$this->codec->iconv($row01['object_name']);  
                     echo '<li>'.$tre.'<img src="'.PNG.'h04.png">'.'<img src="'.PNG.'h03.png">'.'<img src="'.PNG.'h02.png">'  
                                .'<a style="font-size: 80%;">'.$this->codec->iconv($row01['object_name'])."</a></li>";
-                  }  
+                  }
                   $this->arr_add(&$this->obj,$row01['id_object']);
+                  $this->object_owner($row01['id_object']);
                 } 
                 $result->close(); 
     }
     //echo "<p>obj=$obj";
     //return $obj;   
+ }
+ /*
+  * Поиск дополнительных смет (себестоимостей)
+  */
+ function object_owner($id_object) {
+     $sql="
+            SELECT * FROM i_object o 
+            WHERE o.id_object_owner = $id_object AND o.enable=1";
+     if ($result = $this->mysqli->query($sql)) {
+         $tre=$this->tree();
+         while( $row01 = $result->fetch_assoc() ){
+             if($this->show) {
+                 //echo '<p/>'.$this->codec->iconv($row01['object_name']);
+                 echo '<li>'.$tre.'<img src="'.PNG.'h04.png">'.'<img src="'.PNG.'h03.png">'.'<img src="'.PNG.'h02.png">'
+                     .'<a style="font-size: 80%;">'.$this->codec->iconv($row01['object_name'])."</a></li>";
+             }
+             $this->arr_add(&$this->obj,$row01['id']);
+             $this->object_owner($row01['id']);               //Вызов по Рекурсии
+         }
+         $result->close();
+     }
  }
 
 

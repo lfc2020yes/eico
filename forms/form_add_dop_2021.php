@@ -92,6 +92,75 @@ $status=1;
             //существующий поставщик
             echo'<div class="js-options-invoice-0">';
 
+            $su_5_name='';
+            $su_5='';
+if($row_list["id_object"]!='')
+{
+
+    $result_uu_obb = mysql_time_query($link, 'select id,object_name from i_object where id="' . ht($row_list["id_object"]) . '"');
+    $num_results_uu_obb = $result_uu_obb->num_rows;
+
+    if ($num_results_uu_obb != 0) {
+        $row_uu_obb = mysqli_fetch_assoc($result_uu_obb);
+        $su_5_name=$row_uu_obb["object_name"];
+        $su_5=$row_uu_obb["id"];
+    }
+
+}
+
+
+
+
+            echo'<!--input start	-->';
+
+            echo'<div class=" big_list" style="margin-bottom: 10px;">';
+            //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
+
+            echo'<div class="list_2021 input_2021 input-search-list gray-color js-zindex" list_number="box2"><i class="js-open-search"></i><div class="b_loading_small loader-list-2021"></div><label>Поиск Объекта (название)</label><input name="kto" value="'.$su_5_name.'" fns="" id="date_124" sopen="search_smeta" oneli="" class=" input_new_2021 required js-keyup-search no_upperr" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search gloab js-posta js-click-object-dop" name="posta_posta_object" id="search_items_5"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+
+
+            $result_work_zz=mysql_time_query($link,'
+            
+            Select a.id,a.object_name from i_object as a order by a.object_name limit 0,40
+
+
+');
+            $num_results_work_zz = $result_work_zz->num_rows;
+            if($num_results_work_zz!=0)
+            {
+                //echo'<li><a href="javascript:void(0);" rel="0"></a></li>';
+                for ($i=0; $i<$num_results_work_zz; $i++)
+                {
+                    $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+
+                    if((array_search($row_work_zz["id"],$hie_object) !== false)or($sign_admin==1)) {
+
+                        $yop = '';
+                        if ($row_work_zz["id"] == $su_5) {
+                            $yop = 'sel_active';
+                        }
+
+                        echo '<li class="' . $yop .' li_search_stock"><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["object_name"].'';
+                        echo '</a></li>';
+                    }
+
+                }
+            }
+
+            echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
+
+
+
+
+
+
+
+
+
+
+echo'<div class="search_razdel_ed">';
+
 
             $su_5_name='';
             $su_5='';
@@ -122,20 +191,25 @@ $status=1;
                 {
                     $row_work_zz = mysqli_fetch_assoc($result_work_zz);
 
-                    $yop='';
-                    if($row_work_zz["id"]==$su_5) {
-                        $yop='sel_active';
-                    }
+                    if($role->is_row('i_razdel1','razdel1',$row_work_zz["razdel1"]))
 
-                    echo'<li class="'.$yop.' li_search_stock "><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["razdel1"].'. '.$row_work_zz["name1"].'';
-                    echo'</a></li>';
+                    {
+
+                        $yop = '';
+                        if ($row_work_zz["id"] == $su_5) {
+                            $yop = 'sel_active';
+                        }
+
+                        echo '<li class="' . $yop . ' li_search_stock "><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["razdel1"] . '. ' . $row_work_zz["name1"] . '';
+                        echo '</a></li>';
+                    }
 
                 }
             }
 
             echo'</ul><div class="div_new_2021"><div class="oper_name"></div></div></div></div><!--input end	-->';
 
-
+echo'</div>';
 
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Количество</i><span>*</span></label><input name="count_work" value="" class="input_new_2021 gloab required  no_upperr  money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
@@ -254,7 +328,7 @@ include_once $url_system.'template/form_js.php';
         $('.js-box-modal-two').on("change keyup input click",'.js-add-dop-block-x',js_add_dop_mat_stock);
 
         $('.mask-count').mask('99999');
-        $('.js-box-modal-two').on("change",'.js-mat-inv-posta10',option_demo20);
+        $('.js-box-modal-two').on("change",'.js-click-object-dop',option_dop_22);
 
 
         $('.money_mask1').inputmask("numeric", {

@@ -7331,7 +7331,10 @@ div { position: relative;
 .ukr {font-size: 14px;
   font-family: "GEInspiraRegular";
   color: rgba(0, 0, 0, 0.4);
-  cursor: pointer;}
+  cursor: pointer;
+text-decoration:none;
+  display:block;
+}
 
 .addd_icon_mateo_dop {
   cursor: pointer;
@@ -7350,3 +7353,11 @@ div { position: relative;
   font-family: "icon1";
   font-size: 12px;
   margin-left: 10px; &:hover {color:#ffec57;} }}
+
+.a-dop_link,.a-dop_link1 {color: rgba(0, 0, 0, 0.7);
+  font-family: "GEInspiraRegular"; display: inline-block;
+  font-size: 14px;
+  line-height: 22px;
+
+
+}

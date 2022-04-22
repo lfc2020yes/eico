@@ -56,13 +56,13 @@ if($num_results_t1==0)
     $row1 = mysqli_fetch_assoc($result_t1);
 }
 
-
+/*
 if($row1["id_object"]!=htmlspecialchars($_POST['object']))
 {
     $debug=h4a(77,$echo_r,$debug);
     goto end_code;
 }
-
+*/
 
 	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
 $status_ee='ok';
@@ -76,6 +76,7 @@ $date_=$today[0].' '.$today[1];
 
 mysql_time_query($link,'INSERT INTO i_razdel2_replace(
 id_razdel2,
+id_object_replace,
 id_razdel1_replace,
 count_units,
 summa_material,
@@ -83,6 +84,7 @@ comment,
 date_create,
 id_user) VALUES (
 "'.htmlspecialchars(trim($id)).'",
+"'.htmlspecialchars(trim($_POST["posta_posta_object"])).'",
 "'.htmlspecialchars(trim($_POST["posta_posta"])).'",
 "'.htmlspecialchars(trim(trimc($_POST['count_work']))).'",
 "'.htmlspecialchars(trim(trimc($_POST['count_maats']))).'",

@@ -134,7 +134,7 @@ $lower='';
     $query_mass = explode(" ", $query);
     for ($i = 0; $i < count($query_mass); $i++) {
 
-        $lower=plus_string(' and ',$lower,'(LOWER(A.name1) LIKE "%'.$query_mass[$i].'%" OR LOWER(A.razdel1) LIKE "%'.$query_mass[$i].'%")');
+        $lower=plus_string(' and ',$lower,'LOWER(A.object_name) LIKE "%'.$query_mass[$i].'%"');
 
     }
 
@@ -147,21 +147,21 @@ select * from(
 
 (
 
-SELECT A.id,A.name1,A.razdel1 FROM i_razdel1 AS A where '.$lower.' and A.id_object="'.ht($_GET['option']).'"
+SELECT A.id,A.object_name FROM i_object AS A where '.$lower.' and A.enable="1"
 ) 
 
 
 
-) Z order by Z.razdel1 limit 0,20';
+) Z order by Z.object_name limit 0,20';
 
    // echo $sql;
 
 } else
 {
-	$sql='SELECT DISTINCT t.id,t.name1,t.razdel1
+	$sql='SELECT DISTINCT t.id,t.object_name
             FROM 
-                 i_razdel1 as t where t.id_object="'.ht($_GET['option']).'"
-             ORDER BY t.razdel1 limit 0,40';
+                 i_object as t where t.enable="1"
+             ORDER BY t.object_name limit 0,40';
 }
 
 //echo($sql);
@@ -179,13 +179,12 @@ $num_results_work_zz = $result_work_zz->num_rows;
 		   {			   			  			   
 			   $row_work_zz = mysqli_fetch_assoc($result_work_zz);
 
-
-               if($role->is_row('i_razdel1','razdel1',$row_work_zz["razdel1"])) {
+               if((array_search($row_work_zz["id"],$hie_object) !== false)or($sign_admin==1)) {
 
                    if ($query != '') {
-                       $query_string .= '<li class="li_search_stock"><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["razdel1"] . '. ' . search_text_strong(0, $query, $row_work_zz["name1"]) . '</a></li>';
+                       $query_string .= '<li class="li_search_stock"><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . search_text_strong(0, $query, $row_work_zz["object_name"]) . '</a></li>';
                    } else {
-                       $query_string .= '<li class="li_search_stock"><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["razdel1"] . '. ' . $row_work_zz["name1"] . '</a></li>';
+                       $query_string .= '<li class="li_search_stock"><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">'.$row_work_zz["object_name"] . '</a></li>';
                    }
                }
 			   

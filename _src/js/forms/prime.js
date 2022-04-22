@@ -558,6 +558,29 @@ function view_prime_stock()
 //показать единицы в выбранном материале
 //  |
 // \/
+function option_dop_22(event)
+{
+    var box_active = $(this).closest('.box-modal');
+    //alert($(this).val());
+    var val=$(this).val();
+    if((val!='')&&(val!=0)&&(val!= undefined)&&($.isNumeric(val)))
+    {
+        $('.search_razdel_ed').empty().hide();
+
+        //box_active.find('.js-add-dop-block-x').hide().after('<div class="b_loading_small" style="position:relative; width: 40px;padding-top: 17px;top: auto;right: auto;left: auto; display: inline-block;"><div class="b_loading_circle_wrapper_small"><div class="b_loading_circle_one_small"></div><div class="b_loading_circle_one_small b_loading_circle_delayed_small"></div></div></div>');
+
+
+        var data ='url='+window.location.href+'&id='+val;
+        AjaxClient('search','search_razdel_object','GET',data,'AfterOptionDemo_Ed_dop',val,0);
+
+        event.stopPropagation();
+    }
+}
+
+
+//показать единицы в выбранном материале
+//  |
+// \/
 function option_demo20(event)
 {
     var box_active = $(this).closest('.box-modal');
@@ -577,6 +600,38 @@ function option_demo20(event)
     }
 }
 
+
+function AfterOptionDemo_Ed_dop(data,update)
+{
+    var box = $('.box-modal:last');
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+    if ( data.status=='ok' )
+    {
+
+        box.find('.js-add-dop-block-x').show();
+        box.find('.b_loading_small').remove();
+
+
+        $('.search_razdel_ed').empty().append(data.echo).slideDown("slow");
+
+
+        //input_2021();
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+        Zindex();
+        return;
+    }
+    box.find('.js-add-dop-block-x').show();
+    box.find('.js-edit-prime-block-x').show();
+    box.find('.b_loading_small').remove();
+    alert_message('error','Ошибка выбора объекта');
+}
 
 function AfterOptionDemo_Ed(data,update)
 {

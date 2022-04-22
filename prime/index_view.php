@@ -630,7 +630,7 @@ if(($role->permission('График','U'))or($role->permission('График','R
 		            $actv='active';
 		            $pl='-';
 	            }								
-                echo'<div rel="'.$row_t["id"].'" class="block_i '.$actv.'"><div class="top_bl"><i  class="i__">'.$pl.'</i><h2><span class="s_j">'.$row_t["razdel1"].'. '.$row_t["name1"].'</span><span class="edit_12">';
+                echo'<a name="dop-'.$row_t["id"].'"></a><div rel="'.$row_t["id"].'" class="block_i '.$actv.'"><div class="top_bl"><i  class="i__">'.$pl.'</i><h2><span class="s_j">'.$row_t["razdel1"].'. '.$row_t["name1"].'</span><span class="edit_12">';
 
 
                 if($uor->select($id_object)=='') {
@@ -650,13 +650,21 @@ if(($role->permission('График','U'))or($role->permission('График','R
 				}
 				echo'</span>';
 
-                    $result_uu_ukr = mysql_time_query($link, 'select B.razdel1,B.razdel2,B.name_working,A.id_razdel2 from i_razdel2_replace as A,i_razdel2 as B where A.id_razdel2=B.id and A.id_razdel1_replace="' . ht($row_t["id"]) . '"');
+                    $result_uu_ukr = mysql_time_query($link, 'select B.razdel1,B.razdel2,B.name_working,A.id_razdel2,A.id_object_replace,C.id_object from i_razdel2_replace as A,i_razdel2 as B,i_razdel1 as C where B.id_razdel1=C.id and A.id_razdel2=B.id and A.id_razdel1_replace="' . ht($row_t["id"]) . '"');
                     $num_results_uu_ukr = $result_uu_ukr->num_rows;
 
                     if ($num_results_uu_ukr != 0) {
                         $row_uu_ukr = mysqli_fetch_assoc($result_uu_ukr);
 
-                        echo'<div data-tooltip="Дополнительная смета к работе" ukr_id="'.$row_uu_ukr["id_razdel2"].'" class="ukr">⭸ '.$row_uu_ukr["razdel1"].'.'.$row_uu_ukr["razdel2"].' '.$row_uu_ukr["name_working"].'</div>';
+
+                        $result_uu_yuu = mysql_time_query($link, 'select object_name from i_object where id="' . ht($row_uu_ukr["id_object"]) . '"');
+                        $num_results_uu_yuu = $result_uu_yuu->num_rows;
+
+                        if ($num_results_uu_yuu != 0) {
+                            $row_uu_yuu = mysqli_fetch_assoc($result_uu_yuu);
+                        }
+
+                        echo'<a href="prime/'.$row_uu_ukr["id_object"].'/#dot-'.$row_uu_ukr["id_razdel2"].'" data-tooltip="Дополнительная смета к работе" ukr_id="'.$row_uu_ukr["id_razdel2"].'" class="ukr">⭸ '.$row_uu_yuu["object_name"].' → '.$row_uu_ukr["razdel1"].'.'.$row_uu_ukr["razdel2"].' '.$row_uu_ukr["name_working"].'</a>';
                     }
 
 
@@ -756,7 +764,7 @@ echo'</h2>';
 					  
         
                      echo'<tr class="jop n1n '.$actv1.'" rel_id="'.$row_t1["id"].'"><td class="middle_"><div class="'.$class_st_div.' '.$st_div_none.'"><i class="'.$actv12.'"></i></div></td>
-                  <td class="no_padding_left_ pre-wrap"><span class="s_j">'.$row_t["razdel1"].'.'.$row_t1["razdel2"].' '.$row_t1["name_working"].'</span><br>';
+                  <td class="no_padding_left_ pre-wrap"><span class="s_j"><a name="dot-'.$row_t1["id"].'"></a>'.$row_t["razdel1"].'.'.$row_t1["razdel2"].' '.$row_t1["name_working"].'</span><br>';
 				  
 					  
 					  
@@ -881,7 +889,19 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
 
                               echo'<tr rel_id_dop_x="'.$row_t1["id"].'" dop_house="'.$row_uu_dop["id"].'" class="material-dop material-prime-v2-dop " rel_dop="'.$row_uu_dop["id_razdel1_replace"].'" rel_ma="0">
            
-           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="dop-i"><div class="status_dop_i" data-tooltip="Дополнительная смета к работе">ДОП</div><span class="s_j s-j-dop">'.$row_uu_dop["razdel1"].'. '.$row_uu_dop["name1"].'</span><span class="edit_panel_">';
+           <td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="dop-i"><div class="status_dop_i" data-tooltip="Дополнительная смета к работе">ДОП</div>';
+
+                              $result_uu_iod = mysql_time_query($link, 'select id,object_name from i_object where id="' . ht($row_uu_dop["id_object_replace"]) . '"');
+                              $num_results_uu_iod = $result_uu_iod->num_rows;
+
+                              if ($num_results_uu_iod != 0) {
+                                  $row_uu_iod = mysqli_fetch_assoc($result_uu_iod);
+                                  echo'<a class="a-dop_link" href="prime/'.$row_uu_iod["id"].'/">'.$row_uu_iod["object_name"].'</a>';
+                              }
+
+
+
+           echo' → <a class="a-dop_link1" href="prime/'.$row_uu_dop["id_object_replace"].'/#dop-'.$row_uu_dop["id_razdel1_replace"].'" class="s_j s-j-dopxx">'.$row_uu_dop["razdel1"].'. '.$row_uu_dop["name1"].'</a><span class="edit_panel_">';
   if (($role->permission('Себестоимость','U'))or($sign_admin==1))
   {
            		echo'<span data-tooltip="редактировать данные дополнительной сметы" for="'.$row_uu_dop["id"].'" class="edit_iconkkk js-edit-dop-sm">3</span>';

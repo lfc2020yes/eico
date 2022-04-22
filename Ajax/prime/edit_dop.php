@@ -165,7 +165,19 @@ $num_results_uu55 = $result_uu55->num_rows;
 if ($num_results_uu55 != 0) {
     $row_uu_dop = mysqli_fetch_assoc($result_uu55);
 
-    $echo='<td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="dop-i"><div class="status_dop_i" data-tooltip="Дополнительная смета к работе">ДОП</div><span class="s_j s-j-dop">'.$row_uu_dop["razdel1"].'. '.$row_uu_dop["name1"].'</span><span class="edit_panel_">';
+    $echo='<td colspan="2" class="no_padding_left_ pre-wrap name_m"><div class="dop-i"><div class="status_dop_i" data-tooltip="Дополнительная смета к работе">ДОП</div>';
+
+    $result_uu_iod = mysql_time_query($link, 'select id,object_name from i_object where id="' . ht($row_uu_dop["id_object_replace"]) . '"');
+    $num_results_uu_iod = $result_uu_iod->num_rows;
+
+    if ($num_results_uu_iod != 0) {
+        $row_uu_iod = mysqli_fetch_assoc($result_uu_iod);
+        $echo.='<a class="a-dop_link" href="prime/'.$row_uu_iod["id"].'/">'.$row_uu_iod["object_name"].'</a>';
+    }
+
+
+
+    $echo.=' → <a class="a-dop_link1" href="prime/'.$row_uu_dop["id_object_replace"].'/#dop-'.$row_uu_dop["id_razdel1_replace"].'" class="s_j s-j-dopxx">'.$row_uu_dop["razdel1"].'. '.$row_uu_dop["name1"].'</a><span class="edit_panel_">';
     if (($role->permission('Себестоимость','U'))or($sign_admin==1))
     {
         $echo.='<span data-tooltip="редактировать данные дополнительной сметы" for="'.$row_uu_dop["id"].'" class="edit_iconkkk js-edit-dop-sm">3</span>';

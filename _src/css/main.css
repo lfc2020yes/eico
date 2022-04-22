@@ -21313,6 +21313,8 @@ width: calc(50% - 0px) !important;
   font-family: "GEInspiraRegular";
   color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
+  text-decoration: none;
+  display: block;
 }
 
 .addd_icon_mateo_dop {
@@ -21339,6 +21341,14 @@ width: calc(50% - 0px) !important;
 }
 .material-dop .edit_iconkkk:hover, .material-dop .del_icon_mkkk:hover {
   color: #ffec57;
+}
+
+.a-dop_link, .a-dop_link1 {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: "GEInspiraRegular";
+  display: inline-block;
+  font-size: 14px;
+  line-height: 22px;
 }
 
 .buttonBg {

@@ -906,7 +906,7 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
   {
            		echo'<span data-tooltip="редактировать данные дополнительной сметы" for="'.$row_uu_dop["id"].'" class="edit_iconkkk js-edit-dop-sm">3</span>';
   }
-  if (($role->permission('Себестоимость','D'))or($sign_admin==1))
+  if (($role->permission('Себестоимость','A'))or($sign_admin==1))
   {
       echo'<span data-tooltip="разорвать связь" for="'.$row_uu_dop["id"].'" class="del_icon_mkkk js-del-dop-sm">5</span>';
   }

@@ -29,7 +29,7 @@ $token=htmlspecialchars($_GET['tk']);
 	  if(isset($_SESSION["user_id"]))
 	  { 
 	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
-		   if (($role->permission('Себестоимость','D'))or($sign_admin==1))
+		   if (($role->permission('Себестоимость','A'))or($sign_admin==1))
 	       {
 $status_ee='ok';
 		$result_t1=mysql_time_query($link,'Select a.*,c.name_working,c.razdel2,c.razdel1 from i_razdel2_replace as a,i_razdel2 as c where a.id_razdel2=c.id and a.id="'.htmlspecialchars(trim($_GET['id'])).'"');

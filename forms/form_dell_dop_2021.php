@@ -20,7 +20,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 
-if ((!$role->permission('Себестоимость','D'))and($sign_admin!=1))
+if ((!$role->permission('Себестоимость','A'))and($sign_admin!=1))
 {
     goto end_code;
 }

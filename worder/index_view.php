@@ -147,7 +147,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
                                             $price_user = $value['price'];
 
                                             //$count_sys=$rowx['count_units'];
-                                            $count_sys = $rowx['count_units'] - $rowx['count_r2_realiz'];
+                                            $count_sys = $rowx['count_units'] - $rowx['count_r2_realiz'] - $rowx['count_r2_replace'];
                                             $price_sys = $rowx['price'];
 
                                             $error_work = array();  //обнуляем массив ошибок по конкретной работе
@@ -1704,20 +1704,21 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
 
                                       $summ=0;
                                       $ostatok=0;
+                                      $replace=0;
                                       $proc_view=0;
                                       $flag_history=0;
 
-                                      $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'"');
+                                      $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units,c.count_r2_replace from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'"');
 
                                       //echo('Select sum(a.count_units) as summ from n_work as a where a.id_razdeel2="'.$row1ss["id"].'" and a.status="1"');
 
                                       //если наряд проведен то выводим информацию какая была на момент проводки а не та которая сейчас по этому наряду в зависимости от себестоимости
                                       if($row_list["signedd_nariad"]==1)
                                       {
-                                          $result_t1_=mysql_time_query($link,'Select a.count_units_razdel2_realiz as count_r2_realiz,a.count_units_razdel2 as count_all,a.count_units from n_work as a where a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');
+                                          $result_t1_=mysql_time_query($link,'Select a.count_units_razdel2_realiz as count_r2_realiz,a.count_units_razdel2_replace as count_r2_replace, a.count_units_razdel2 as count_all,a.count_units from n_work as a where a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');
                                       } else
                                       {
-                                          $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');
+                                          $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units,c.count_r2_replace from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'" and a.id_nariad="'.$row_list["id"].'"');
                                       }
 
 
@@ -1732,10 +1733,17 @@ if(trim(ipost_($_POST['name_b'],$row_list["comment"]))!='') {
                                               $summ=$row1ss_["count_r2_realiz"];
                                               $flag_history=1;
                                           }
+                                          if(($row1ss_["count_r2_replace"]!='')and($row1ss_["count_r2_replace"]!=0))
+                                          {
+                                              $replace=$row1ss_["count_r2_replace"];
+                                          }
+
+
+
                                       }
                                       //сколько всего осталось сделать работ на момент утверждения
 
-                                      $ostatok=$row1ss_["count_all"]-$summ;
+                                      $ostatok=$row1ss_["count_all"]-$summ-$replace;
                                       //echo($ostatok);
                                       if($ostatok<0)
                                       {

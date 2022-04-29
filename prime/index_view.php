@@ -848,7 +848,12 @@ echo'</h2>';
 //echo'<div class="musa_plus mpp">+</div>';
 echo'</td>
 <td><span class="s_j">'.$row_t1["units"].'</span></td>
-<td style="text-align: right;"><span class="s_j">'.number_format($row_t1["count_units"], 3, '.', ' ').'</span></td>
+<td style="text-align: right;"><span class="s_j" style="display:block;">'.number_format($row_t1["count_units"], 3, '.', ' ').'</span>';
+	          if($row_t1["count_r2_replace"]!=0)
+              {
+                  echo'<span class="minus-pluxa">- '.number_format($row_t1["count_r2_replace"], 3, '.', ' ').'</span>';
+              }
+	            echo'</td>
 <td style="text-align: right;"><span class="s_j" style="line-height: 15px;" data-tooltip="стоимость / текущая">
 
 '.number_format($row_t1["price"], 2, '.', ' ');
@@ -858,7 +863,15 @@ if($row_t1["price_today"]!=0)
 }
 
 echo'</span></td>
-<td style="text-align: right;"><span class="s_j">'.number_format($row_t1["subtotal"], 2, '.', ' ').'</span></td>';
+<td style="text-align: right;"><span class="s_j" style="display:block;">'.number_format($row_t1["subtotal"], 2, '.', ' ').'</span>';
+
+                      if($row_t1["count_r2_replace"]!=0)
+                      {
+                          echo'<span class="minus-pluxa">- '.number_format($row_t1["summa_r2_replace"], 2, '.', ' ').'</span>';
+                      }
+
+
+echo'</td>';
 if($row_t1["count_r2_realiz"]!=0)
 {
 echo'<td style="text-align: right;"><span class="s_j musa hist_mu" data-tooltip="'.$proc_realiz.'%">'.mor_class(($row_t1["count_units"]-$row_t1["count_r2_realiz"]),number_format($row_t1["count_r2_realiz"], 3, '.', ' '),0).'</span></td>';

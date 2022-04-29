@@ -151,7 +151,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 				   $price_user=$value['price'];
 				   
 				   //$count_sys=$rowx['count_units'];
-				   $count_sys=$rowx['count_units']-$rowx['count_r2_realiz'];
+				   $count_sys=$rowx['count_units']-$rowx['count_r2_realiz']-$rowx['count_r2_replace'];
 				   $price_sys=$rowx['price'];
 				   
 				   $error_work = array();  //обнуляем массив ошибок по конкретной работе
@@ -216,7 +216,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 				       $price_user=$value1['price'];
 						
 				       //$count_sys=$rowxx['count_units'];  
-					   $count_sys=$rowxx['count_units']-$rowxx['count_realiz']; 
+					   $count_sys=$rowxx['count_units']-$rowxx['count_realiz'];
 				       $price_sys=$rowxx['price'];
 				      
 				      //больше остаточного количества по материалу
@@ -1054,12 +1054,13 @@ echo($query_string);
 					}
 					 
 				 $summ=0;
+					$replace=0;
                  $ostatok=0;
                  $proc_view=0;	
 				 $flag_history=0;
 			    
 			     //$result_t1_=mysql_time_query($link,'Select sum(a.count_units) as summ from n_work as a,n_nariad as b where b.id=a.id_nariad and b.signedd_nariad=1 and a.id_razdeel2="'.$row1ss["id"].'"');
-				 $result_t1_=mysql_time_query($link,'Select count_r2_realiz as summ from i_razdel2 as a where a.id="'.$row1ss["id"].'"');
+				 $result_t1_=mysql_time_query($link,'Select count_r2_realiz as summ,count_r2_replace as replace_c from i_razdel2 as a where a.id="'.$row1ss["id"].'"');
 					 	 
                  //echo('Select sum(a.count_units) as summ from n_work as a where a.id_razdeel2="'.$row1ss["id"].'" and a.status="1"');
 			     $num_results_t1_ = $result_t1_->num_rows;
@@ -1072,8 +1073,14 @@ echo($query_string);
 					     $summ=$row1ss_["summ"];
 						 $flag_history=1;
 					 }
+                     if(($row1ss_["replace_c"]!='')and($row1ss_["replace_c"]!=0))
+                     {
+                         $replace=$row1ss_["replace_c"];
+                     }
+
+
 				 }
-					 $ostatok=$row1ss["count_units"]-$summ;
+					 $ostatok=$row1ss["count_units"]-$summ-$replace;
 					 if($ostatok<0)
 				     {
 					     $ostatok=0;

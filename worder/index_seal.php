@@ -238,7 +238,7 @@ if($flag_podpis!=0)
 
 
 
-            $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_units as count_all,a.count_units,c.price  from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'"');
+            $result_t1_=mysql_time_query($link,'Select c.count_r2_realiz,c.count_r2_replace,c.count_units as count_all,a.count_units,c.price  from n_work as a, i_razdel2 as c where c.id=a.id_razdeel2 and a.id_razdeel2="'.$row_work["id_razdeel2"].'"');
             $num_results_t1_ = $result_t1_->num_rows;
             if($num_results_t1_!=0)
             {
@@ -248,6 +248,7 @@ if($flag_podpis!=0)
                 mysql_time_query($link,'update n_work set 				 
 					 count_units_razdel2="'.$row1ss_["count_all"].'",					 
 					 count_units_razdel2_realiz="'.$row1ss_["count_r2_realiz"].'",
+					 count_units_razdel2_replace="'.$row1ss_["count_r2_replace"].'",
 					 price_razdel2="'.$row1ss_["price"].'"					 					 
 					 where id = "'.$row_work["id"].'"');
 
@@ -311,6 +312,7 @@ if($flag_podpis!=0)
 
             $result_url = mysql_time_query($link, 'select A.* from i_object as A where A.id="' . htmlspecialchars(trim($row_list['id_object'])) . '"');
             $num_results_custom_url = $result_url->num_rows;
+
             if ($num_results_custom_url != 0) {
                 $row_list1 = mysqli_fetch_assoc($result_url);
             }

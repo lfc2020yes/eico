@@ -70,12 +70,21 @@ $status_ee='ok';
 $today[0] = date("y.m.d"); //присвоено 03.12.01
 $today[1] = date("H:i:s"); //присвоит 1 элементу массива 17:16:17
 
+$price='';
+$result_uu_raz2 = mysql_time_query($link, 'select price from i_razdel2 where id="' . ht($id) . '"');
+$num_results_uu_raz2 = $result_uu_raz2->num_rows;
+
+if ($num_results_uu_raz2 != 0) {
+    $row_uu_raz2 = mysqli_fetch_assoc($result_uu_raz2);
+    $price=$row_uu_raz2["price"];
+}
 
 
 $date_=$today[0].' '.$today[1];
 
 mysql_time_query($link,'INSERT INTO i_razdel2_replace(
 id_razdel2,
+price,
 id_object_replace,
 id_razdel1_replace,
 count_units,
@@ -84,6 +93,7 @@ comment,
 date_create,
 id_user) VALUES (
 "'.htmlspecialchars(trim($id)).'",
+"'.htmlspecialchars(trim($price)).'",
 "'.htmlspecialchars(trim($_POST["posta_posta_object"])).'",
 "'.htmlspecialchars(trim($_POST["posta_posta"])).'",
 "'.htmlspecialchars(trim(trimc($_POST['count_work']))).'",

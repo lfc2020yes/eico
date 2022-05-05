@@ -102,9 +102,20 @@ $today[1] = date("H:i:s"); //присвоит 1 элементу массива 
 
 
 $date_=$today[0].' '.$today[1];
+
+
+$price='';
+$result_uu_raz2 = mysql_time_query($link, 'select price from i_razdel2 where id="' . ht($row1["id_razdel2"]) . '"');
+$num_results_uu_raz2 = $result_uu_raz2->num_rows;
+
+if ($num_results_uu_raz2 != 0) {
+    $row_uu_raz2 = mysqli_fetch_assoc($result_uu_raz2);
+    $price=$row_uu_raz2["price"];
+}
+
 			 
 mysql_time_query($link,'update i_razdel2_replace set 
-
+price="'.htmlspecialchars(trim($price)).'",
 count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
 summa_material="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'",
 comment="'.htmlspecialchars(trim($_GET['remark'])).'",

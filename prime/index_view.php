@@ -870,6 +870,35 @@ echo'</span></td>
                           echo'<span class="minus-pluxa">- '.number_format($row_t1["summa_r2_replace"], 2, '.', ' ').'</span>';
                       }
 
+                     //считаем удорожание или экономию
+                      $flag_ee=0;
+                      $result_uu_dop_e = mysql_time_query($link, 'select A.*,B.summa_r1 from i_razdel2_replace as A,i_razdel1 as B where A.id_razdel1_replace=B.id and
+A.id_razdel2="' . ht($row_t1["id"]) . '"');
+                      $summ_e=0;
+                      if ($result_uu_dop_e) {
+                          while ($row_uu_dop_e = mysqli_fetch_assoc($result_uu_dop_e)) {
+                              $flag_ee=1;
+                              $summ_e=$summ_e+$row_uu_dop_e["summa_r1"];
+                          }
+                      }
+                      if($flag_ee==1)
+                      {
+                          $ii_e=$summ_e-$row_t1["summa_r2_replace"];
+                          if($ii_e<0)
+                          {
+                              //echo'экономия';
+
+                              echo'<div></div><span data-tooltip="экономия" class="minus-pluxa-e">'.number_format($ii_e, 2, '.', ' ').' <i>ЭК</i></span>';
+
+
+                          }
+                          if($ii_e>0)
+                          {
+                              echo'<div></div><span data-tooltip="удорожание" class="minus-pluxa-e1">'.number_format($ii_e, 2, '.', ' ').' <i>УД</i></span>';
+                          }
+                      }
+
+
 
 echo'</td>';
 if($row_t1["count_r2_realiz"]!=0)

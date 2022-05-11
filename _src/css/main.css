@@ -21437,6 +21437,18 @@ width: calc(50% - 0px) !important;
   left: 0px;
 }
 
+.basket_dop_22 .name-user-57 {
+  width: calc(100% - 200px - 60px) !important;
+}
+.basket_dop_22 .tender-col {
+  width: 200px !important;
+}
+.basket_dop_22 .name-items {
+  font-size: 14px !important;
+  padding-left: 0px !important;
+  font-family: "GEInspiraBold" !important;
+}
+
 .buttonBg {
   background: #fff;
 }

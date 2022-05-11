@@ -88,10 +88,123 @@ $status=1;
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Количество</i><span>*</span></label><input name="count_work" value="'.$row_town["count_units"].'" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
+
+
+            echo'<span class="h3-f h-25">Материалы содержащиеся в работе</span><input type="hidden" name="mat_bill_" class="input_option_xvg mat_bill_" value="1">';
+            $result_t2=mysql_time_query($link,'Select a.* from i_material as a where a.id_razdel2="'.ht($row_town["id_razdel2"]).'" order by a.id');
+
+            //echo'Select DISTINCT b.id_stock,b.id_i_material from z_doc as a,z_doc_material as b,i_material as c where b.id IN ('.$sql.') and c.id=b.id_i_material and a.id=b.id_doc';
+
+
+            $num_results_t2 = $result_t2->num_rows;
+            if($num_results_t2!=0)
+            {
+
+                echo'<div class="xvg_add_material option_slice_xxg active_xxg">';
+                $ddf=1;
+                for ($ksss=0; $ksss<$num_results_t2; $ksss++)
+                {
+
+                    $row__2= mysqli_fetch_assoc($result_t2);
+
+                    $class_dava='';
+                    if($row__2["alien"]==1)
+                    {
+                        $class_dava='dava';
+
+                    }
+
+                    $rr=$ksss+1;
+                    /*
+                        $result_url_m=mysql_time_query($link,'select A.material,A.units from i_material as A where A.id="'.htmlspecialchars(trim($row__2["id_i_material"])).'"');
+                        $num_results_custom_url_m = $result_url_m->num_rows;
+                        if($num_results_custom_url_m!=0)
+                        {
+                            $row_material = mysqli_fetch_assoc($result_url_m);
+
+                        }
+                        */
+
+                    //echo('<div>'.$row_work_zz['count_units'].' '.$row_material['units'].'</div>');
+
+                    /*
+                    $result_url=mysql_time_query($link,'select A.* from z_stock as A where A.id="'.htmlspecialchars(trim($row__2["id_stock"])).'"');
+                           //echo('select A.* from i_object as A where A.id="'.htmlspecialchars(trim($row_work_zz["id_object"])).'"');
+                    $num_results_custom_url = $result_url->num_rows;
+                    if($num_results_custom_url!=0)
+                    {
+                        $row_list1 = mysqli_fetch_assoc($result_url);
+
+
+                    }
+                    */
+
+
+
+                    echo'<div class="js-acc-block items_acc_basket basket_dop_22   " yi_sopp_="'.$row__2["id"].'">
+                <input type="hidden" value="'.$row__2["id"].'" name="material[stock][]">					
+                <div class="name-user-57"><span class="label-task-gg ">Название
+</span><div class="h57-2020"><span class="name-items"><span class="'.$class_dava.'">'.$row__2["material"].'</span></span>
+              </div>
+            
+</div>
+<div class="tender-date"><span class="label-task-gg ">Единица измерения
+</span>
+                <span class="item-ed">'.$row__2['units'].'</span>
+</div>
+
+<div class="tender-col">';
+
+
+                    //определяем количество которое забили до этого
+                    $val=0;
+                    $result_uu_val = mysql_time_query($link, 'select * from i_material_replace where id_razdel2_replace="'.htmlspecialchars(trim($_GET['id'])).'" and id_material="'.$row__2["id"].'"');
+                    $num_results_uu_val = $result_uu_val->num_rows;
+
+                    if ($num_results_uu_val != 0) {
+                        $row_uu_val = mysqli_fetch_assoc($result_uu_val);
+                        $val=$row_uu_val["count_units"];
+
+                    }
+
+
+
+
+
+
+                    echo'<!--input start-->';
+                    echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Кол-во (MAX '.$row__2['count_units'].')</i><span>*</span></label><input  name="material[count][]" value="'.$val.'" count="'.$row__2["id"].'" max="'.$row__2['count_units'].'" class="input_new_2021 gloab required  no_upperr count_mask " style="padding-right: 20px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+                    echo'<!--input end	-->';
+                    echo'</div>';
+                    /*
+                    echo'<div class="tender-col">';
+
+                                           echo'<!--input start-->';
+                                           echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Цена (MAX '.$row_work_zz['mm'].')</i><span>*</span></label><input  name="material['.$rr.'][price]" value="" price="'.$row__2["id"].'" data-tooltip="Цена в счете за единицу с ндс" max="'.$row_work_zz['mm'].'" class="input_new_2021 gloab required  no_upperr money_mask1 price_xvg_" style="padding-right: 20px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+                                           echo'<!--input end	-->';
+
+                                           echo'</div>  ';*/
+                    /*
+                                        echo'<div class="tender-summ all_price_count_xvg"><span class="pay_summ_bill1">0</span>
+                     </div>
+                                    <div class="tender-but" style="padding-left: 10px;"><div id_rel="'.$row__2["id"].'" class="del-item js-del-items-basket del_basket_joo" data-tooltip="Удалить из счета"></div></div>
+                        */
+
+
+                    echo'</div>';
+
+
+                }
+
+                echo'</div>';
+            }
+
+
+/*
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Сумма материалов</i><span>*</span></label><input name="price_work" value="'.$row_town["summa_material"].'" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
-
+*/
             echo'<!--input start-->
 <div class="margin-input"><div class="input_2021 input_2021_resize  gray-color '.iclass_("text",$stack_error,"required_in_2021").'"><label><i>Комментарий</i><span>*</span></label><div class="otziv_add js-resize-block"><textarea cols="10" rows="1" name="remark" class="di gloab input_new_2021  text_area_otziv js-autoResize ">'.$row_town["comment"].'</textarea></div><div class="div_new_2021"><div class="error-message"></div></div></div></div>
 <!--input end	-->';

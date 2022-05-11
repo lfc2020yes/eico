@@ -82,6 +82,13 @@ if ($num_results_uu_raz2 != 0) {
 
 $date_=$today[0].' '.$today[1];
 
+
+
+//добавляем компоненты
+$staff=$_POST['material'];
+//echo(count($staff['stock']));
+
+
 mysql_time_query($link,'INSERT INTO i_razdel2_replace(
 id_razdel2,
 price,
@@ -105,6 +112,44 @@ id_user) VALUES (
 
 
 $ID_D1=mysqli_insert_id($link);
+
+
+for ($i = 0; $i < (count($staff['stock'])); $i++){
+    if ((trim($staff['stock'][$i]) != '')and(trim($staff['count'][$i]) != '')and(is_numeric(trim($staff['count'][$i]))))   {
+
+
+    $result_uu_st = mysql_time_query($link, 'select price from i_material where id="' . ht($staff['stock'][$i]) . '" and id_razdel2="'.htmlspecialchars(trim($id)).'"');
+        $num_results_uu_st = $result_uu_st->num_rows;
+
+        if ($num_results_uu_st != 0) {
+            $row_uu_st = mysqli_fetch_assoc($result_uu_st);
+
+
+            //$subtotal=$row_uu_st["price"]*trim(trimc($staff['count'][$i]));
+
+                mysql_time_query($link, 'INSERT INTO i_material_replace (
+id_razdel2_replace,
+id_material,
+count_units,
+price,
+date_last,
+id_user) VALUES (
+"' . htmlspecialchars(trim($ID_D1)) . '",
+"' . htmlspecialchars(trim($staff['stock'][$i])) . '",
+"' . htmlspecialchars(trim(trimc($staff['count'][$i]))) . '",
+"' . $row_uu_st["price"] . '",
+"' . $date_ . '",
+"' . $id_user . '")');
+
+        }
+
+    }
+}
+
+
+
+
+
 		   
 		   
 		   

@@ -113,17 +113,72 @@ if ($num_results_uu_raz2 != 0) {
     $price=$row_uu_raz2["price"];
 }
 
+
+
+
+//добавляем компоненты
+$staff=$_GET['material'];
+//echo(count($staff['stock']));
+for ($i = 0; $i < (count($staff['stock'])); $i++){
+    if ((trim($staff['stock'][$i]) != '')and(trim($staff['count'][$i]) != '')and(is_numeric(trim($staff['count'][$i]))))   {
+
+
+        $result_uu_st = mysql_time_query($link, 'select price from i_material where id="' . ht($staff['stock'][$i]) . '" and id_razdel2="'.ht($row1["id_razdel2"]).'"');
+        $num_results_uu_st = $result_uu_st->num_rows;
+
+        if ($num_results_uu_st != 0) {
+            $row_uu_st = mysqli_fetch_assoc($result_uu_st);
+
+
+            //$subtotal=$row_uu_st["price"]*trim(trimc($staff['count'][$i]));
+
+            $result_uu_val = mysql_time_query($link, 'select id from i_material_replace where id_razdel2_replace="' . ht($_GET["id"]) . '" and id_material="' . ht($staff['stock'][$i]) . '"');
+            $num_results_uu_val = $result_uu_val->num_rows;
+
+            if ($num_results_uu_val != 0) {
+                $row_uu_val = mysqli_fetch_assoc($result_uu_val);
+
+
+                mysql_time_query($link, 'update i_material_replace set                
+                count_units="'.htmlspecialchars(trim(trimc($staff['count'][$i]))).'"                
+                where id = "'.$row_uu_val["id"].'"');
+
+            } else {
+
+
+                mysql_time_query($link, 'INSERT INTO i_material_replace (
+id_razdel2_replace,
+id_material,
+count_units,
+price,
+date_last,
+id_user) VALUES (
+"' . ht($_GET["id"]) . '",
+"' . htmlspecialchars(trim($staff['stock'][$i])) . '",
+"' . htmlspecialchars(trim(trimc($staff['count'][$i]))) . '",
+"' . $row_uu_st["price"] . '",
+"' . $date_ . '",
+"' . $id_user . '")');
+            }
+        }
+
+    }
+}
+
+
+
 			 
 mysql_time_query($link,'update i_razdel2_replace set 
 price="'.htmlspecialchars(trim($price)).'",
 count_units="'.htmlspecialchars(trim(trimc($_GET['count_work']))).'",
-summa_material="'.htmlspecialchars(trim(trimc($_GET['price_work']))).'",
 comment="'.htmlspecialchars(trim($_GET['remark'])).'",
 date_last="'.$date_.'"
 
 where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 			 
-			 
+
+
+
 			 
 	//уведомления уведомления уведомления уведомления уведомления уведомления
  //уведомления уведомления уведомления уведомления уведомления уведомления

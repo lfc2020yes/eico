@@ -903,7 +903,7 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
                           $tollp1.=' - ';
                       }
                       $tollp.=number_format($row_t1["summa_r2_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e-$row_t1["summa_r2_replace"]), 2, '.', ' ').'</label>';
-                      $tollp1.=number_format($row_t1["summa_mat_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e1-$row_t1["summa_m2_replace"]), 2, '.', ' ').'</label>';
+                      $tollp1.=number_format($row_t1["summa_mat_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e1-$row_t1["summa_mat_replace"]), 2, '.', ' ').'</label>';
 
                       if($flag_ee==1)
                       {

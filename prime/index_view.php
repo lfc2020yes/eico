@@ -902,8 +902,21 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
                           $tollp.=' - ';
                           $tollp1.=' - ';
                       }
-                      $tollp.=number_format($row_t1["summa_r2_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e-$row_t1["summa_r2_replace"]), 2, '.', ' ').'</label>';
-                      $tollp1.=number_format($row_t1["summa_mat_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e1-$row_t1["summa_mat_replace"]), 2, '.', ' ').'</label>';
+                      if(($summ_e-$row_t1["summa_r2_replace"])<0)
+                      {
+                          $tollp .= number_format($row_t1["summa_r2_replace"], 2, '.', ' ') . ' = <em>' . number_format(($summ_e - $row_t1["summa_r2_replace"]), 2, '.', ' ') . '</em>';
+
+                      } else {
+                          $tollp .= number_format($row_t1["summa_r2_replace"], 2, '.', ' ') . ' = <label>' . number_format(($summ_e - $row_t1["summa_r2_replace"]), 2, '.', ' ') . '</label>';
+                      }
+$trat=0;
+                      if(($summ_e1-$row_t1["summa_mat_replace"])<0)
+                      {
+                          $tollp1 .= number_format($row_t1["summa_mat_replace"], 2, '.', ' ') . ' = <em>' . number_format(($summ_e1 - $row_t1["summa_mat_replace"]), 2, '.', ' ') . '</em>';
+                          $trat=1;
+                      } else {
+                        $tollp1 .= number_format($row_t1["summa_mat_replace"], 2, '.', ' ') . ' = <label>' . number_format(($summ_e1 - $row_t1["summa_mat_replace"]), 2, '.', ' ') . '</label>';
+                      }
 
                       if($flag_ee==1)
                       {
@@ -911,19 +924,29 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
                           if($ii_e<0)
                           {
                               //echo'экономия';
+                              $var_tooltip='<span>Уменьшение суммы сметы по работе:</span><br>'.$tollp.'<br><br>';
+                              if($trat==0) {
+                                  $var_tooltip .= '<span>Увеличение суммы сметы по материалам:</span><br>' . $tollp1 . '<br>';
+                              } else
+                              {
+                                  $var_tooltip .= '<span>Уменьшение суммы сметы по материалам:</span><br>' . $tollp1 . '<br>';
+                              }
 
 
 
-
-                              echo'<div></div><span data-tooltip="экономия" class="minus-pluxa-e">'.number_format($ii_e, 2, '.', ' ').' <i>ЭК</i></span>';
+                              echo'<div></div><span data-tooltip="'.$var_tooltip.'" class="minus-pluxa-e">'.number_format($ii_e, 2, '.', ' ').' <i>ЭК</i></span>';
 
 
                           }
                           if($ii_e>0)
                           {
                               $var_tooltip='<span>Увеличение суммы сметы по работе:</span><br>'.$tollp.'<br><br>';
-                              $var_tooltip.='<span>Увеличение суммы сметы по материалам:</span><br>'.$tollp1.'<br>';
-
+                            if($trat==0) {
+                                $var_tooltip .= '<span>Увеличение суммы сметы по материалам:</span><br>' . $tollp1 . '<br>';
+                            } else
+                            {
+                                $var_tooltip .= '<span>Уменьшение суммы сметы по материалам:</span><br>' . $tollp1 . '<br>';
+                            }
 
                               echo'<div></div><span data-tooltip="'.$var_tooltip.'" class="minus-pluxa-e1">'.number_format($ii_e, 2, '.', ' ').' <i>УД</i></span>';
                           }
@@ -1349,7 +1372,7 @@ echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t3["subt
         echo'<div class="itog-2021"><div class="i-1">Итого по разделу: "'.$row_t["name1"].' <span style="color: rgba(0, 0, 0, 0.4);
 font-family: GEInspiraRegular;">(в т.ч. НДС 20% - '.number_format((($row_t["summa_m1"]+$row_t["summa_r1"])/1.20*0.20), 2, '.', ' ').')</span></div><div class="i-2">
         <div class="i-vsego">'.number_format(($row_t["summa_m1"]+$row_t["summa_r1"]), 2, '.', ' ').'</div>
-                <div class="i-vsego">'.number_format(($row_t["summa_m1_replace"]+$row_t["summa_r1_replace"]), 2, '.', ' ').'</div>
+                <div class="i-vsego">—</div>
         <div class="i-vipolneno">'.number_format(($row_t["summa_r1_realiz"]+$row_t["summa_m1_realiz"]), 2, '.', ' ').'</div>
                 <div class="i-todayv">'.number_format(($row_t["summa_r1_today"]+$row_t["summa_m1_today"]), 2, '.', ' ').'</div>
 </div></div>';

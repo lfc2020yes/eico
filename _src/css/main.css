@@ -15950,6 +15950,9 @@ font-style: normal;}*/
 #tooltip span, .toolhelp span {
   font-family: "GEInspiraRegular";
 }
+#tooltip em, .toolhelp em {
+  color: #25ae88;
+}
 
 .toolhelp {
   line-height: 65px;

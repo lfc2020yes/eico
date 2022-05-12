@@ -3495,7 +3495,7 @@ $("[data-tooltip]").mousemove(function (eventObject) {
 		}
 
         $data_tooltip = $(this).attr("data-tooltip");
-     $("#tooltip").text($data_tooltip);     
+     $("#tooltip").html($data_tooltip);
 	var offset = $(this).offset();
 	
 	    

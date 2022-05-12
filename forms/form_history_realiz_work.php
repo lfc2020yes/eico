@@ -58,6 +58,9 @@ if ((count($_GET) ==1)and(isset($_GET["id"]))and((is_numeric($_GET["id"]))))
 		   <tr class="title_smeta"><th class="t_2 no_padding_left_ jk4">Дата/Наряд</th><th class="t_4 jk44">ед. изм.</th><th class="t_5">кол-во</th><th class="t_6">стоимость ед. (руб.)</th><th class="t_7 jk5">всего (руб.)</th></tr></thead><tbody>'; 
 		   
 		  $sum=0;
+
+		  $sum_count_22=0;
+           $sum_count_222=0;
 		  for ($i=0; $i<$num_results_t1; $i++)
           {  
 			  
@@ -102,7 +105,8 @@ echo'<span class="morr">'.rtrim(rtrim(number_format($row_t["count_units"], 2, '.
 {
 echo''.rtrim(rtrim(number_format($row_t["count_units"], 2, '.', ' '),'0'),'.');
 }
-	
+              $sum_count_22=$sum_count_22+$row_t["count_units"];
+              $sum_count_222=$sum_count_222+($row_t["price"]*$row_t["count_units"]);
 echo'</td>
 <td style="padding-left:30px;">';
 if($row_t["price_razdel2"]<$row_t["price"])	
@@ -124,11 +128,13 @@ echo'</td>
 		  //итоговые суммы
 		  $sum=($sum/$i);	
 		   echo'<tr work="'.$id.'" style="" class="jop1 mat histtory itog" rel_h="'.$id.'">
-                  <td class="no_padding_left_ pre-wrap one_td">Итого осталось</td>';
+                  <td class="no_padding_left_ pre-wrap one_td">Итого</td>';
 	//<td class="pre-wrap center_text_td"></td>
-echo'<td class="pre-wrap center_text_td"></td>
-<td style="padding-left:30px;">'.rtrim(rtrim(number_format($Ostalos, 3, '.', ' '),'0'),'.').'</td>
-<td style="padding-left:20px;">~';
+echo'<td class="pre-wrap center_text_td"></td>';
+
+//<td style="padding-left:30px;">'.rtrim(rtrim(number_format($Ostalos, 3, '.', ' '),'0'),'.').'</td>
+           echo'<td style="padding-left:30px;">'.rtrim(rtrim(number_format($sum_count_22, 3, '.', ' '),'0'),'.').'</td>';
+echo'<td style="padding-left:20px;">~';
 	if($price<$sum)	
 {	  
 	echo'<span class="morr">'.rtrim(rtrim(number_format($sum, 2, '.', ' '),'0'),'.').'</span></td>';
@@ -136,10 +142,12 @@ echo'<td class="pre-wrap center_text_td"></td>
 {
 		   echo''.rtrim(rtrim(number_format($sum, 2, '.', ' '),'0'),'.').'</td>';	
 }
+/*
+echo'<td style="padding-left:0px;"><span class="s_j">~'.rtrim(rtrim(number_format($sum*$Ostalos, 2, '.', ' '),'0'),'.').'</span></td>';
+*/
+           echo'<td style="padding-left:0px;"><span class="s_j">'.rtrim(rtrim(number_format($sum_count_222, 2, '.', ' '),'0'),'.').'</span></td>';
 
-echo'<td style="padding-left:0px;"><span class="s_j">~'.rtrim(rtrim(number_format($sum*$Ostalos, 2, '.', ' '),'0'),'.').'</span></td>
-
-           </tr>'; 
+           echo'</tr>';
 		
 
 		   

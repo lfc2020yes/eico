@@ -2995,11 +2995,13 @@ font-style: normal;}*/
   display: none;
   top:0px;
   left:0px;
-  background-color: #fff;height: 60px;
-  line-height: 60px;
-  padding: 0 30px;
+  background-color: #fff;
+  //height: 60px;
+  //line-height: 60px;
+  line-height: 20px;
+  padding: 20px 30px;
   color: white;
-  @include opacity(0.6);
+  @include opacity(1);
   font-size: 13px;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -3015,6 +3017,10 @@ font-style: normal;}*/
 
   color:
           rgba(0, 0, 0, 0.9);
+
+  label {color:#fd0000; }
+  i {display: inline-block; width: 20px; font-style: normal; font-family: "GEInspiraRegular"; }
+  span {font-family: "GEInspiraRegular";}
 
 }
 .toolhelp {
@@ -7243,10 +7249,10 @@ div { position: relative;
   text-transform: uppercase;
   font-size: 13px;
 
-  .i-1 {width: 60%; @include align-self(center); padding-left:20px; }
-  .i-2 {width: 40%; @include align-self(center); @include flexbox(); text-align: right;
+  .i-1 {width: 50%; @include align-self(center); padding-left:20px; }
+  .i-2 {width: 50%; @include align-self(center); @include flexbox(); text-align: right;
 
-  .i-vsego,.i-vipolneno,.i-todayv {width: calc(100% / 3);  color: rgba(0, 0, 0, 0.7);
+  .i-vsego,.i-vipolneno,.i-todayv {width: calc(100% / 4);  color: rgba(0, 0, 0, 0.7);
     font-family: GEInspiraBold;
     text-transform: uppercase;
     font-size: 14px;
@@ -7464,3 +7470,27 @@ i {padding: 10px 8px;
 
 
 }
+
+.label_dop {font-family: GEInspiraRegular;
+   display:block;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 1px;
+  color: rgba(0, 0, 0, 0.3);}
+
+.morr1xxx { display: inline-block;
+  background-color: #fd0000 !important;
+  color: #fff;
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+  padding-right: 5px;
+  padding-left: 3px;
+  margin-right: -5px;
+
+  position: relative;
+ }
+

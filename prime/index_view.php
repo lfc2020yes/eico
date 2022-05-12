@@ -872,15 +872,38 @@ echo'</span></td>
 
                      //считаем удорожание или экономию
                       $flag_ee=0;
-                      $result_uu_dop_e = mysql_time_query($link, 'select A.*,B.summa_r1 from i_razdel2_replace as A,i_razdel1 as B where A.id_razdel1_replace=B.id and
+                      $result_uu_dop_e = mysql_time_query($link, 'select A.*,B.summa_r1,B.summa_m1,B.razdel1 from i_razdel2_replace as A,i_razdel1 as B where A.id_razdel1_replace=B.id and
 A.id_razdel2="' . ht($row_t1["id"]) . '"');
                       $summ_e=0;
+                      $summ_e1=0;
+                      $tollp='';
+                      $tollp1='';
+                      $yuu=0;
                       if ($result_uu_dop_e) {
                           while ($row_uu_dop_e = mysqli_fetch_assoc($result_uu_dop_e)) {
                               $flag_ee=1;
                               $summ_e=$summ_e+$row_uu_dop_e["summa_r1"];
+                              $summ_e1=$summ_e1+$row_uu_dop_e["summa_m1"];
+                              $yuu++;
+                              if($tollp!='') {$tollp.=' +<br>';}
+                              $tollp.='<i>'.$row_uu_dop_e["razdel1"].'.</i> '.number_format($row_uu_dop_e["summa_r1"], 2, '.', ' ');
+
+                              if($tollp1!='') {$tollp1.=' +<br>';}
+                              $tollp1.='<i>'.$row_uu_dop_e["razdel1"].'.</i> '.number_format($row_uu_dop_e["summa_m1"], 2, '.', ' ');
                           }
                       }
+                      if($yuu>1)
+                      {
+                          $tollp.=' =<br><i>&nbsp;</i>'.number_format($summ_e, 2, '.', ' ').' - ';
+                          $tollp1.=' =<br><i>&nbsp;</i>'.number_format($summ_e1, 2, '.', ' ').' - ';
+                      } else
+                      {
+                          $tollp.=' - ';
+                          $tollp1.=' - ';
+                      }
+                      $tollp.=number_format($row_t1["summa_r2_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e-$row_t1["summa_r2_replace"]), 2, '.', ' ').'</label>';
+                      $tollp1.=number_format($row_t1["summa_m2_replace"], 2, '.', ' ').' = <label>'.number_format(($summ_e1-$row_t1["summa_m2_replace"]), 2, '.', ' ').'</label>';
+
                       if($flag_ee==1)
                       {
                           $ii_e=$summ_e-$row_t1["summa_r2_replace"];
@@ -888,13 +911,20 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
                           {
                               //echo'экономия';
 
+
+
+
                               echo'<div></div><span data-tooltip="экономия" class="minus-pluxa-e">'.number_format($ii_e, 2, '.', ' ').' <i>ЭК</i></span>';
 
 
                           }
                           if($ii_e>0)
                           {
-                              echo'<div></div><span data-tooltip="удорожание" class="minus-pluxa-e1">'.number_format($ii_e, 2, '.', ' ').' <i>УД</i></span>';
+                              $var_tooltip='<span>Увеличение суммы сметы по работе:</span><br>'.$tollp.'<br><br>';
+                              $var_tooltip.='<span>Увеличение суммы сметы по материалам:</span><br>'.$tollp1.'<br>';
+
+
+                              echo'<div></div><span data-tooltip="'.$var_tooltip.'" class="minus-pluxa-e1">'.number_format($ii_e, 2, '.', ' ').' <i>УД</i></span>';
                           }
                       }
 
@@ -910,11 +940,38 @@ echo'<td style="text-align: right;"><span class="s_j" data-tooltip="'.$proc_real
 }
 	//echo(array_search('summa_r2_realiz',$stack_td));				  
 	if(array_search('summa_r2_realiz',$stack_td) === false) 
-	{			  
-echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_realiz"]),number_format($row_t1["summa_r2_realiz"], 2, '.', ' '),0).'</span></td>';
+	{
+
+$var=$row_t1["subtotal"]-$row_t1["summa_r2_realiz"];
+$var1=($row_t1["price"]*$row_t1["count_r2_realiz"])-$row_t1["summa_r2_realiz"];
+$var_itog='';
+$var_tooltip='';
+        $class='';
+        $class1='';
+        $class_flag=0;
+
+
+        if(($var<0))  { $class_flag++; $class1='morr1xxx';
+
+
+            $var_tooltip='data-tooltip="превышение общей суммы:<br>'.number_format($row_t1["subtotal"], 2, '.', ' ').' - '.number_format($row_t1["summa_r2_realiz"], 2, '.', ' ').' = <label>'.number_format($var, 2, '.', ' ').'</label>"';
+
+        }
+
+
+        if(($var1<0)and($class_flag==0)) {  $class.=' morr'; $class_flag++;
+
+
+            $var_tooltip='data-tooltip="текущее превышение затрат:<br>'.number_format($row_t1["count_r2_realiz"], 3, '.', ' ').' * '.number_format($row_t1["price"], 2, '.', ' ').' = '.number_format(($row_t1["price"]*$row_t1["count_r2_realiz"]), 2, '.', ' ').' < '.number_format($row_t1["summa_r2_realiz"], 2, '.', ' ').'"';
+
+        }
+
+        if($class_flag!=0) { $var_itog='<span '.$var_tooltip.' class="'.$class.' '.$class1.'">'.number_format($row_t1["summa_r2_realiz"], 2, '.', ' ').'</span>';} else { $var_itog=number_format($row_t1["summa_r2_realiz"], 2, '.', ' '); }
+
+echo'<td style="text-align: right;"><span class="s_j">'.$var_itog.'</span></td>';
 
 //echo'<td style="text-align: right;"><strong><span class="s_j">'.mor_class(($row_t1["subtotal"]-$row_t1["summa_r2_realiz"]),number_format(($row_t1["subtotal"]-$row_t1["summa_r2_realiz"]), 2, '.', ' '),1).'</span></strong></td>';
-		   }
+	}
 
                       if(array_search('summa_r2_today',$stack_td) === false) {
                           echo'<td style="text-align: right;"><span class="s_j">'.number_format($row_t1["summa_r2_today"], 2, '.', ' ').'</span></td>';
@@ -963,14 +1020,23 @@ A.id_razdel2="' . ht($row_t1["id"]) . '"');
 <td><span class="s_j">'.$row_t1["units"].'</span></td>
 <td style="text-align: right;"><span class="s_j">- '.number_format($row_uu_dop["count_units"], 3, '.', ' ').'</span></td>
 <td style="text-align: right;"><span class="s_j" style="line-height: 15px;">'.number_format($row_t1["price"], 2, '.', ' ').'</span></td>';
-                              $minus='';
+                              $minus='- ';
 if($row_uu_dop["subtotal"]<0)
 {
     $minus='- ';
 }
 
+                              $minus1='- ';
+                              if($row_uu_dop["summa_material"]<0)
+                              {
+                                  $minus1='- ';
+                              }
 
-echo'<td style="text-align: right;"><span class="s_j">'.$minus.number_format($row_uu_dop["subtotal"], 2, '.', ' ').'</span></td><td style="text-align: right;"><span class="s_j" data-tooltip="0%">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td></tr>';
+
+echo'<td style="text-align: right;"><span class="s_j"><label class="label_dop">Работа</label>'.$minus.number_format($row_uu_dop["subtotal"], 2, '.', ' ').'
+<label class="label_dop" style="padding-top: 10px;">Материал</label>'.$minus1.number_format($row_uu_dop["summa_material"], 2, '.', ' ').'
+
+</span></td><td style="text-align: right;"><span class="s_j" data-tooltip="0%">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td><td style="text-align: right;"><span class="s_j">-</span></td></tr>';
 
 
                           }
@@ -1235,6 +1301,9 @@ echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t3["subt
 */
         echo'<div class="itog-2021"><div class="i-1">Итого работа</div><div class="i-2">
         <div class="i-vsego"><label>Всего</label><div class="i-obi">'.number_format($row_t["summa_r1"], 2, '.', ' ').'</div></div>
+        
+        <div class="i-vsego"><label data-tooltip="по доп. смете">Отозвано</label><div class="i-obi">- '.number_format($row_t["summa_r1_replace"], 2, '.', ' ').'</div></div>        
+        
         <div class="i-vipolneno"><label>Выполнено</label><div class="i-obi">'.number_format($row_t["summa_r1_realiz"], 2, '.', ' ').'</div></div>
         
         <div class="i-todayv"><label>Необходимо</label><div class="i-obi">'.number_format($row_t["summa_r1_today"], 2, '.', ' ').'</div></div>
@@ -1244,6 +1313,7 @@ echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t3["subt
 
         echo'<div class="itog-2021"><div class="i-1">Итого материал</div><div class="i-2">
         <div class="i-vsego">'.number_format($row_t["summa_m1"], 2, '.', ' ').'</div>
+        <div class="i-vsego">- '.number_format($row_t["summa_m1_replace"], 2, '.', ' ').'</div>
         <div class="i-vipolneno">'.number_format($row_t["summa_m1_realiz"], 2, '.', ' ').'</div>
         
         <div class="i-todayv">'.number_format($row_t["summa_m1_today"], 2, '.', ' ').'</div>        
@@ -1257,6 +1327,7 @@ echo'<td style="text-align: right;"><span class="s_j">'.mor_class(($row_t3["subt
         echo'<div class="itog-2021"><div class="i-1">Итого по разделу: "'.$row_t["name1"].' <span style="color: rgba(0, 0, 0, 0.4);
 font-family: GEInspiraRegular;">(в т.ч. НДС 20% - '.number_format((($row_t["summa_m1"]+$row_t["summa_r1"])/1.20*0.20), 2, '.', ' ').')</span></div><div class="i-2">
         <div class="i-vsego">'.number_format(($row_t["summa_m1"]+$row_t["summa_r1"]), 2, '.', ' ').'</div>
+                <div class="i-vsego">-'.number_format(($row_t["summa_m1_replace"]+$row_t["summa_r1_replace"]), 2, '.', ' ').'</div>
         <div class="i-vipolneno">'.number_format(($row_t["summa_r1_realiz"]+$row_t["summa_m1_realiz"]), 2, '.', ' ').'</div>
                 <div class="i-todayv">'.number_format(($row_t["summa_r1_today"]+$row_t["summa_m1_today"]), 2, '.', ' ').'</div>
 </div></div>';

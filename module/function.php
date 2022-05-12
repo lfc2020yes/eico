@@ -1125,6 +1125,24 @@ function mor_class($var,$var_format,$red=0)
 }
 
 
+//подчеркивание красным сумм с минусом и выделение красным если нужно
+function mor_class_dop($var,$var1,$var_format,$red=0)
+{
+    $class='';
+    $class1='';
+    $class_flag=0;
+
+
+    if(($var<0))  { $class_flag++; $class1='morr1xxx'; }
+
+
+    if(($var1<0)and($class_flag==0)) {  $class.=' morr'; $class_flag++; }
+    if($class_flag!=0) { return '<span class="'.$class.' '.$class1.'">'.$var_format.'</span>';} else { return $var_format; }
+
+}
+
+
+
 function ipost_x($vars,$rows,$ret,$table=false,$name_rows=false,$link=false)
 {
 	

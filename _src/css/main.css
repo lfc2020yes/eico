@@ -15923,12 +15923,11 @@ font-style: normal;}*/
   top: 0px;
   left: 0px;
   background-color: #fff;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 30px;
+  line-height: 20px;
+  padding: 20px 30px;
   color: white;
-  opacity: 0.6;
-  filter: alpha(opacity=60);
+  opacity: 1;
+  filter: alpha(opacity=100);
   font-size: 13px;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -15938,6 +15937,18 @@ font-style: normal;}*/
   display: block;
   margin-top: 0px;
   color: rgba(0, 0, 0, 0.9);
+}
+#tooltip label, .toolhelp label {
+  color: #fd0000;
+}
+#tooltip i, .toolhelp i {
+  display: inline-block;
+  width: 20px;
+  font-style: normal;
+  font-family: "GEInspiraRegular";
+}
+#tooltip span, .toolhelp span {
+  font-family: "GEInspiraRegular";
 }
 
 .toolhelp {
@@ -21199,7 +21210,7 @@ width: calc(50% - 0px) !important;
   background-color: rgba(255, 236, 87, 0.7);
 }
 .itog-2021 .i-1 {
-  width: 60%;
+  width: 50%;
   -webkit-align-self: center;
   -moz-align-self: center;
   -ms-align-self: center;
@@ -21207,7 +21218,7 @@ width: calc(50% - 0px) !important;
   padding-left: 20px;
 }
 .itog-2021 .i-2 {
-  width: 40%;
+  width: 50%;
   -webkit-align-self: center;
   -moz-align-self: center;
   -ms-align-self: center;
@@ -21220,7 +21231,7 @@ width: calc(50% - 0px) !important;
   text-align: right;
 }
 .itog-2021 .i-2 .i-vsego, .itog-2021 .i-2 .i-vipolneno, .itog-2021 .i-2 .i-todayv {
-  width: calc(100% / 3);
+  width: calc(100% / 4);
   color: rgba(0, 0, 0, 0.7);
   font-family: GEInspiraBold;
   text-transform: uppercase;
@@ -21447,6 +21458,31 @@ width: calc(50% - 0px) !important;
   font-size: 14px !important;
   padding-left: 0px !important;
   font-family: "GEInspiraBold" !important;
+}
+
+.label_dop {
+  font-family: GEInspiraRegular;
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 1px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.morr1xxx {
+  display: inline-block;
+  background-color: #fd0000 !important;
+  color: #fff;
+  padding: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0;
+  font-family: GEInspiraRegular;
+  padding-right: 5px;
+  padding-left: 3px;
+  margin-right: -5px;
+  position: relative;
 }
 
 .buttonBg {

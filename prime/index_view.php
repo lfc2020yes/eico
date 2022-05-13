@@ -720,7 +720,7 @@ echo'</h2>';
 					 //процент выполненных работ
 					 if($row_t1["count_units"]!=0)
 					 {	 
-					   $proc_realiz=round(($row_t1["count_r2_realiz"]*100)/$row_t1["count_units"]); 
+					   $proc_realiz=round(($row_t1["count_r2_realiz"]*100)/($row_t1["count_units"]-$row_t1["count_r2_replace"]));
 					 } else
 					 {
 						$proc_realiz=0; 
@@ -787,7 +787,7 @@ echo'</h2>';
 					      {	
 							  $class_graf='class="UGRAFE"';
 							   echo'<span data-tooltip="редактировать график работы" for="'.$row_t1["id"].'" '.$class_graf.'><span class="UD0">задать график работ</span></span>';
-							  
+
 						  }
 							
 						}

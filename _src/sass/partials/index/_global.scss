@@ -3021,7 +3021,7 @@ font-style: normal;}*/
   label {color:#fd0000; }
   i {display: inline-block; width: 20px; font-style: normal; font-family: "GEInspiraRegular"; }
   span {font-family: "GEInspiraRegular";}
-  em {color:#25ae88;}
+  em {color:#25ae88; font-style: normal;}
 
 }
 .toolhelp {
@@ -7480,7 +7480,7 @@ i {padding: 10px 8px;
   line-height: 1px;
   color: rgba(0, 0, 0, 0.3);}
 
-.morr1xxx { display: inline-block;
+.morr1xxx,.morre_realiz { display: inline-block;
   background-color: #fd0000 !important;
   color: #fff;
   padding: 10px;
@@ -7494,4 +7494,6 @@ i {padding: 10px 8px;
 
   position: relative;
  }
+
+
 

@@ -145,7 +145,25 @@ echo'<td style="padding-left:20px;">~';
 /*
 echo'<td style="padding-left:0px;"><span class="s_j">~'.rtrim(rtrim(number_format($sum*$Ostalos, 2, '.', ' '),'0'),'.').'</span></td>';
 */
-           echo'<td style="padding-left:0px;"><span class="s_j">'.rtrim(rtrim(number_format($sum_count_222, 2, '.', ' '),'0'),'.').'</span></td>';
+
+           $result_uu_rel = mysql_time_query($link, 'select summa_r2_realiz from i_razdel2 where id="' . ht($id) . '"');
+           $num_results_uu_rel = $result_uu_rel->num_rows;
+
+           if ($num_results_uu_rel != 0) {
+               $row_uu_rel = mysqli_fetch_assoc($result_uu_rel);
+           }
+
+
+           $var_tooltip='Расчетное значение по нарядам:<br>'.rtrim(rtrim(number_format($sum_count_222, 2, '.', ' '),'0'),'.');
+           $var_tooltip.='<br>Значение в базе:<br>'.rtrim(rtrim(number_format($row_uu_rel["summa_r2_realiz"], 2, '.', ' '),'0'),'.');
+
+           $class='';
+           if($sum_count_222!=$row_uu_rel["summa_r2_realiz"])
+           {
+               $class='morre_realiz';
+           }
+
+           echo'<td style="padding-left:0px;"><span class="s_j '.$class.'" data-tooltip="'.$var_tooltip.'">'.rtrim(rtrim(number_format($sum_count_222, 2, '.', ' '),'0'),'.').'</span></td>';
 
            echo'</tr>';
 		
@@ -215,7 +233,7 @@ if($status==0)
 
 
 ?>
-<script type="text/javascript">initializeTimer();</script>
+<script type="text/javascript">initializeTimer(); ToolTip(); </script>
 <?
 include_once $url_system.'template/form_js.php';
 ?>

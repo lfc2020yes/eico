@@ -15952,6 +15952,7 @@ font-style: normal;}*/
 }
 #tooltip em, .toolhelp em {
   color: #25ae88;
+  font-style: normal;
 }
 
 .toolhelp {
@@ -21473,7 +21474,7 @@ width: calc(50% - 0px) !important;
   color: rgba(0, 0, 0, 0.3);
 }
 
-.morr1xxx {
+.morr1xxx, .morre_realiz {
   display: inline-block;
   background-color: #fd0000 !important;
   color: #fff;

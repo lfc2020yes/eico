@@ -496,19 +496,24 @@ if ($row_TREE["kind_FIND"])
                           // 0-0                       0-1      0-2 1     2     3     4
                           //               значение поля по имени
                           //                                     none - не надо расширения
-
+         //echo $F_TYPE_FIELD[$j]+'|';
+          //echo $base->H[$_GET['DB']][5]; //eico.atsun.ru
 
         $iPAR=explode(';',$F_FILE_DIR[$j]);
         $pPREF=explode(',',$iPAR[0]);             //0-конструктор имени файла    0 1 2
         $pEXT=GET_EXT($pPREF[2]);                 //получить расширение
+
 
         if ($iPAR[1]=='')$iW=''; else $iW="width='$iPAR[1]'";
         if ($iPAR[2]=='')$iH=''; else $iH="height='$iPAR[2]'";
         if ($F_TYPE_FIELD[$j]=='jpg') $Namef='id';
         else                          $Namef=$F_column[$j];
 
-        $FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$row[$Namef].$pPREF[1].$pEXT;
-        echo '<a href='.$FN.' title="'.$FN.'"><img src="'.$FN.'" '.$iW.' '.$iH.' alt="'.$FN.'"/></a>';   //
+
+        //$FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$row[$Namef].$pPREF[1].$pEXT;
+        $FN=$pPREF[0].$row[$Namef].$pPREF[1].$pEXT;
+        $FN.='?t='.time();
+        echo '<a href='.$FN.' title="'.$FN.'"><img src="'.$FN.'" '.$iW.' '.$iH.' alt="'.$FN.'"/></a>';
         break;
       case 'flash':
         $Namef='id';

@@ -966,8 +966,8 @@ echo'<td style="text-align: right;"><span class="s_j" data-tooltip="'.$proc_real
 	if(array_search('summa_r2_realiz',$stack_td) === false) 
 	{
 
-$var=$row_t1["subtotal"]-$row_t1["summa_r2_realiz"];
-$var1=($row_t1["price"]*$row_t1["count_r2_realiz"])-$row_t1["summa_r2_realiz"];
+$var=round($row_t1["subtotal"]-$row_t1["summa_r2_realiz"],2);
+$var1=round((($row_t1["price"]*$row_t1["count_r2_realiz"])-$row_t1["summa_r2_realiz"]),2);
 $var_itog='';
 $var_tooltip='';
         $class='';

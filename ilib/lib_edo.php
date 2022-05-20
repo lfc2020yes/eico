@@ -41,7 +41,7 @@ class EDO
     {
         $this->mysqli = $mysqli;
         $this->id_user = $id_user;
-        $this->arr_table = array('z_doc', 'z_acc', 'n_nariad','z_dogovor'); // связан с id edo_name_process
+        $this->arr_table = array('z_doc', 'z_acc', 'n_nariad','z_dogovor','z_tender'); // связан с id edo_name_process
         $this->error_name = array(
             'завершен' //0
             ,'ок' //1    - в массиве arr_task задания на выполнение согласования
@@ -143,7 +143,7 @@ class EDO
 
     /** Создать копию шаблона процесса и прописать его в документе НОВЫЙ ПРОЦЕСС
      * @param $id id документа из таблиц type
-     * @param $type 0-z_doc,1-z_acc,2-n_nariad
+     * @param $type 0-z_doc,1-z_acc,2-n_nariad,3-z_dogovor,4-z_tender
      * @return bool false или id_run (то что прописано)
      */
 

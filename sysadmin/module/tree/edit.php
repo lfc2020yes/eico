@@ -191,7 +191,8 @@ function FORM_edit(&$row_TREE,&$ROW_role=0)
         $pEXT=GET_EXT($pPREF[2]);                 //получить расширение
         if ($TYPE_FIELD=='jpg')
         { $Name_ID=$row_data['id'];
-          $FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$Name_ID.$pPREF[1].$pEXT;
+          //$FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$Name_ID.$pPREF[1].$pEXT;
+            $FN=$pPREF[0].$Name_ID.$pPREF[1].$pEXT;
         }
         else
         {
@@ -199,9 +200,10 @@ function FORM_edit(&$row_TREE,&$ROW_role=0)
            //$Name_ID=$Name_IDf[0];
            $Name_ID=$row_data [$row_FORM['COLUMN_FIELD']];
            if (! $Name_ID>'') $Name_ID=$row_data['id'];
-           $FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$Name_ID;
+           //$FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$Name_ID;
+            $FN=$pPREF[0].$Name_ID;
         }
-
+     $FN.='?t='.time();
 ?>
     <tr> <td bgcolor='black' style="padding-right: 10px" colspan=2><font color='white'><?=GET_NAME(&$row_FORM).' ['.$row_FORM["FILE_DIR"].']'?>:</font>
     <!-- <tr> <td colspan=2 align="left"><?=$FN?>  -->
@@ -295,7 +297,9 @@ function FORM_edit(&$row_TREE,&$ROW_role=0)
         $iPAR=explode(';',$row_FORM["FILE_DIR"]);
         $pPREF=explode(',',$iPAR[0]);             //0-конструктор имени файла
         $pEXT=GET_EXT($pPREF[2]);                 //получить расширение
-        $FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$data_FLD.$pPREF[1].$pEXT;
+        //$FN='http://'.$base->H[$_GET['DB']][5].$pPREF[0].$data_FLD.$pPREF[1].$pEXT;
+
+        $FN=$pPREF[0].$data_FLD.$pPREF[1].$pEXT;
 
         //$FN='../'.$row[$F_column[$j]];       width="350" height="250"
         if ($iPAR[1]=='')$iW=''; else $iW="width='$iPAR[1]'";

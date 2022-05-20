@@ -32,17 +32,20 @@ function rand_string_user($chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
           $num=count($Fname);              //Взять последний элемент в массиве
           if ($num>1) // Присутствует явно расширение
           {   --$num;
-              $ext=$Fname[$num];          }
+              $ext=$Fname[$num];
+          }
           else   $ext='';
           $Fn=''; $PR='';
           for ($i=0; $i<$num; $i++)
-          {          	 $Fn.=$PR.$Fname[$i];   //Собрали новое имя бех расширения
+          {
+          	 $Fn.=$PR.$Fname[$i];   //Собрали новое имя бех расширения
              $PR='.';
           }
           $Fname= explode('_',$Fn);
           $num=count($Fname);
           if ($num>1)    //Версионность присутствует явно
-          {  --$num;          	 $ver=$Fname[$num]+1;
+          {  --$num;
+          	 $ver=$Fname[$num]+1;
           }
           else   $ver=1;
           $Fn=''; $PR='';
@@ -70,7 +73,8 @@ function CREATE_IMAGE(&$row_TREE,&$ImDest,&$ImSour, $w1,$h1,$w2,$h2,$horizont=1,
   echo_pp(&$row_TREE,"horizont=$horizont vertical=$vertical inner=$inner");
   if ($inner==false)
   { $k2 = $h2/$w2;
-	if ( $h1/$w1 < $k2)
+
+	if ( $h1/$w1 < $k2)
 	{     // нужно резать по ширине в будущей пропорции
 	  // с какой стороны базироваться (L C R) 0 1 2 3 4
 	  $w1_= floor($h1 / $k2);
@@ -84,7 +88,8 @@ function CREATE_IMAGE(&$row_TREE,&$ImDest,&$ImSour, $w1,$h1,$w2,$h2,$horizont=1,
 	    case 3:  $X1=$w1-$w1_-floor(($w1-$w1_)/4);
 	             break;
 	    case 4:  $X1=$w1-$w1_;
-	             break;	  }
+	             break;
+	  }
 	  $Y1=0;
 	  echo_pp(&$row_TREE,"резать по ширине X1=$X1 Y1=$Y1 w1=$w1 h1=$h1 w1_=$w1_");
 	  $w1 = $w1_;
@@ -115,23 +120,28 @@ function CREATE_IMAGE(&$row_TREE,&$ImDest,&$ImSour, $w1,$h1,$w2,$h2,$horizont=1,
   { $k1=$h1/$w1;                //Вписывает всегда в середину
     $X1=0; $Y1=0;
 
-    if ( $k1 < $h2/$w2)         //нужно вписывать по горизонтали - вертикаль получиться с пустыми областями    {  $X2=0;
+    if ( $k1 < $h2/$w2)         //нужно вписывать по горизонтали - вертикаль получиться с пустыми областями
+    {  $X2=0;
        $h2_= floor($k1 * $w2);
        $Y2 = floor(($h2-$h2_)/2);
  	   echo_pp(&$row_TREE,"вписать по горизонтали X2=$X2 Y2=$Y2 w2=$w2 h2=$h2 h2_=$h2_");
-       $h2=$h2_;    }
+       $h2=$h2_;
+    }
     else                              //нужно вписывать по вертикали - горизонталь получиться с пустыми областями
     {  $Y2=0;
        $w2_= floor($h2 / $k1);
        $X2=  floor(($w2-$w2_)/2);
  	   echo_pp(&$row_TREE,"вписать по вертикали X2=$X2 Y2=$Y2 w2=$w2 h2=$h2 w2_=$w2_");
-       $w2=$w2_;    }
+       $w2=$w2_;
+    }
 
     $pngtype=false;
     if ($pngtype==false)
-    {      $X2=0; $Y2=0;                  //Тогда просто создается подобный файл , но вписанный по одному из размеров
+    {
+      $X2=0; $Y2=0;                  //Тогда просто создается подобный файл , но вписанный по одному из размеров
       echo_pp(&$row_TREE,"png type X2=$X2 Y2=$Y2 w2=$w2 h2=$h2");
-    }  }
+    }
+  }
 
  $errT='';
  $ImDest = imagecreatetruecolor($w2,$h2); //создаем пустое изображение с черным фоном
@@ -144,7 +154,8 @@ function CREATE_IMAGE(&$row_TREE,&$ImDest,&$ImSour, $w1,$h1,$w2,$h2,$horizont=1,
 
 //Функция получения идентификатора файла формирования нового уникального имени файла
 function GET_IMAGE5_ID($IDf,&$IDd)
-{	return $IDf.'_'.++$IDd;
+{
+	return $IDf.'_'.++$IDd;
 }
 
 /*                          $format
@@ -202,7 +213,9 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
            for ($e=0; $e<count($whitelist); $e++)                 //получение типа загружаемого файла
             { if ($lEXT===$whitelist[$e])
               { $tip=$e;
-                break;              }            }
+                break;
+              }
+            }
 		  /*
 		  foreach ($whitelist as $item)
 		  { if(preg_match("/$item\$/i", $_FILES[$file]['name']))   //Ищет в заданном тексте subject совпадения с шаблоном pattern
@@ -220,11 +233,13 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
 		  //------------------------------------------------------Проверка на соответствие расширения содержанию загружаемого файла
 		  if (!$imageinfo = @getimagesize($_FILES[$file]['tmp_name']))
 		  { $errT='Невозможно получить информацию о подгружаемом файле.';
-		    break;		  }
+		    break;
+		  }
 		  echo_pp(&$row_TREE,"Есть информация о файле: ".$imageinfo['mime'].' '.$whitelist[$tip]);
 		  if($imageinfo['mime'] != $mime[$tip])
 		  { $errT='Формат файла не соответствует его расширению: '.$imageinfo['mime'].' '.$whitelist[$tip] ;
-		    break;		  }
+		    break;
+		  }
 		  echo_pp(&$row_TREE,"Формат соответствует");
           $Fname='';
 		  if ($tEXT<>$lEXT)     //Смена расширения
@@ -236,7 +251,8 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
                if ( count($newA)>0 )
                {
                   $ID=$FileLOAD[0].'_00'.$mime_ext[ $newA[0] ];         //Расширение, соответствующее типу файла
-                  echo_pp(&$row_TREE,"Новое расширение:".$ID);               }
+                  echo_pp(&$row_TREE,"Новое расширение:".$ID);
+               }
                else
                { $errT='Неизвесный формат подгружаемого файла: '.$imageinfo['mime'];
 		         break;
@@ -256,11 +272,14 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
 		    }
 		  }
 		  else    //Расширение не изменилось - ведение версионности загрузок
-		  {		  	if ($field_type=='image')
-		    {		       $ID=NAME_VER($ID.$pPREF[1].$pEXT);
+		  {
+		  	if ($field_type=='image')
+		    {
+		       $ID=NAME_VER($ID.$pPREF[1].$pEXT);
 		       echo_pp(&$row_TREE,"Новая версия:".$ID);
 		        $Fname=$base->F[$_GET['DB']][3].$pPREF[0].$ID;
-		    }		  }
+		    }
+		  }
 
 
 		  if (!is_uploaded_file($_FILES[$file]['tmp_name']))                 //Определяет, был ли файл загружен при помощи HTTP POST
@@ -275,7 +294,8 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
 		  list ($w1, $h1, $typI) = $imageinfo;
 		  if ($typI<0 or $typI>3)
 		  {  $errT='Недопустимый тип файла: '.$typI;
-		     break;		  }
+		     break;
+		  }
 		  echo_pp(&$row_TREE,"Содержание соответствует расширению");
 
           if ($w2==0) // Размеры не определены
@@ -285,10 +305,12 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
 
         if ( ($w2==$w1 and  $h2==$h1) or ( $tip==1 and $field_type=='image' )) //--Размер подгрузки совпадает или GIF в поле image - просто перегрузить
         {
-             echo_pp(&$row_TREE,"Просто копирование  файла $Fname");          	 if(!copy($_FILES[$file]['tmp_name'],$Fname))
+             echo_pp(&$row_TREE,"Просто копирование  файла $Fname");
+          	 if(!copy($_FILES[$file]['tmp_name'],$Fname))
           	 { $errT="Ошибка копирования файла $Fname";
           	   break;
-          	 }        }       //copy
+          	 }
+        }       //copy
         else
         {
           //------------------Создание пустого файла, соответствующего типу графики
@@ -304,7 +326,8 @@ function  IMAGE_MAP(&$row_TREE,&$base,$file, $format, &$Fname , &$ID ,$horizont,
 	      //$ImDest = imagecreatetruecolor($w2,$h2); //создаем пустое изображение с черным фоном
 		  $errT=CREATE_IMAGE(&$row_TREE,&$ImDest, &$ImSour, $w1,$h1,$w2,$h2, $horizont, $vertical ,$inner);
 		  if($errT=='')
-		  {		       if(!imagejpeg( $ImDest, $Fname, $quality))  //Преобразовать файл из image
+		  {
+		       if(!imagejpeg( $ImDest, $Fname, $quality))  //Преобразовать файл из image
 		       $errT='Невозможно создать файл функций imagejpeg';
 		  }
 		  imagedestroy($ImDest);

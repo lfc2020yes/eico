@@ -109,7 +109,6 @@ mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor
 mysql_time_query($link,'INSERT INTO z_tender (
 name,
 id_object,
-date,
 id_z_tender_place,
 summa,
 id_user,
@@ -117,8 +116,7 @@ status,
 comment,
 link) VALUES (
 "'.htmlspecialchars(trim($_GET['name'])).'",
-"'.htmlspecialchars(trim($_GET['object'])).'"
-,"'.date("y-m-d").' '.date("H:i:s").'",
+"'.htmlspecialchars(trim($_GET['object'])).'",
 
 "'.htmlspecialchars(trim($_GET['place'])).'",
 "'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.htmlspecialchars(trim($_GET['link'])).'")');

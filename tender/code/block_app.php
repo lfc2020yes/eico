@@ -44,23 +44,23 @@ $time_z='—';
 if(isset($new_pre))
 {
 	
-$task_cloud_block.='<div class="preorders_block_global new-docs-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
+$task_cloud_block.='<div class="preorders_block_global new-tender-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
 }
 
-$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'</div>';
+$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'<a class="link-tender" href="'.htmlspecialchars_decode($value["link"]).'" target="blank">+</a></div>';
 
 
 
 //$task_cloud_block.='<div class="yes-note zame_kk js-zame-tours" data-tooltip = "Написать заметку о туре" ></div >';
 
 $task_cloud_block.='</div>
-	<div class="trips-b-info"><span class="label-task-gg ">Номер/Дата 
+	<div class="trips-b-info"><span class="label-task-gg ">Название
 </span>';
 
 if($small_block==1) {
-    $task_cloud_block .= '<a style="display:block;" href="docs/'.$value["id"].'/"><span class="spans ggh-e name-blue"><span>№' . $value["number"] . ' ('.date_ex(0,$value["date"]).')</span></span></a>';
+    $task_cloud_block .= '<a style="display:block;" href="tender/'.$value["id"].'/"><span class="spans ggh-e name-blue"><span>' . $value["name"] . '</span></span></a>';
 } else {
-    $task_cloud_block .= '<div><span class="spans ggh-e name-blue">№' . $value["number"] . ' ('.date_ex(0,$value["date"]).')</span></div>';
+    $task_cloud_block .= '<div><span class="spans ggh-e name-blue">' . $value["name"] . '</span></div>';
 }
 /*
     //выводим последний комментарий если тур просматривает хозяин тура или хозяин этого комментария
@@ -128,7 +128,7 @@ if ($num_results_uuo != 0) {
 
 
 
-$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">сумма/организация
+$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">сумма/площадка
 </span>';
 
 $kuda_trips='—';
@@ -149,18 +149,15 @@ $task_cloud_block.='<span class="s_j pay_summ" style="margin-left: -3px;">'.rtri
 
 
 
-$result_uu = mysql_time_query($link, 'select name,name_small from z_contractor where id="' . ht($value['id_contractor']) . '"');
+$result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($value['id_z_tender_place']) . '"');
 $num_results_uu = $result_uu->num_rows;
 
 if ($num_results_uu != 0) {
     $row_uu = mysqli_fetch_assoc($result_uu);
 
-if($row_uu["name_small"]!='')
-{
-    $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;"><span class="kuda-trips">' . $row_uu["name_small"] . '</span></div>';
-} else {
+
     $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;"><span class="kuda-trips">' . $row_uu["name"] . '</span></div>';
-}
+
 }
 
 $kuda_trips='';
@@ -197,7 +194,7 @@ $task_cloud_block.='</div><div class="trips-b-comment">';
 
 if($small_block!=1) {
 
-    $task_cloud_block.='<span class="label-task-gg ">Последнее событие/Файлы
+    $task_cloud_block.='<span class="label-task-gg ">Последнее событие
     </span>
     
     <div><span class="spans ggh-e">'.$row_list["text"].'</span></div>';
@@ -206,24 +203,14 @@ if($small_block!=1) {
 
     if (($value["id_user"] != $id_user) or ($value["status"] != 1)) {
 //если заявка уже отправлена на согласования файлы просто выводятся списком. никто их исправлять не может
-        $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="3" and A.visible=1 and A.id_object="' . ht($value["id"]) . '"');
 
-        $num_results_uu = $result_6->num_rows;
-
-        if ($num_results_uu != 0) {
-            while ($row_6 = mysqli_fetch_assoc($result_6)) {
-
-                $task_cloud_block .= '<div class="li-image download-file"><span class="name-img"><a class="bold_file" target="_blank" href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="size-img">' . $row_6["type"] . ', ' . get_filesize($url_system.'upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '') . '</span></div>';
-
-            }
-        }
 
 
     }
 }
 if($small_block==1) {
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==1))) {
-        $task_cloud_block .= '<div><a href="docs/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
+        $task_cloud_block .= '<div><a href="tender/' . $value["id"] . '/" class="yes-tender">' . $value["name_s"] . '</a></div>';
     }
     if ((!empty($value["name_s"]))and((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
         $task_cloud_block .= '<div class="pass_wh_trips" ><label>Задача</label><div class="obi">' . $value["name_s"] . '</div></div>';
@@ -232,7 +219,7 @@ if($small_block==1) {
 
 //определим последнее действие по обращению
 
-$arr_document_end = $edo->my_documents(3, ht($value["id"]), '>=-10', false);
+$arr_document_end = $edo->my_documents(4, ht($value["id"]), '>=-10', false);
 //echo '<pre>arr_document:'.print_r($arr_document_end, true) . '</pre>';
 
 $id_end_step='';
@@ -294,7 +281,7 @@ if($num_85>0) {
 
 $task_cloud_block.='</div>';
 if(($value["status"]==1)or($value["status"]==8)) {
-    $task_cloud_block .= '<div class="trips-b-bb"><div id_rel="'.$value["id"].'" class="del-item js-edit-docs-more del_basket_jooss" data-tooltip="Изменить данные по договору"></div></div>';
+    $task_cloud_block .= '<div class="trips-b-bb"><div id_rel="'.$value["id"].'" class="del-item js-edit-tender-more del_basket_jooss" data-tooltip="Изменить данные по тендеру"></div></div>';
 }
 /*
 	$task_cloud_block.='</div><div class="trips-b-user"><span class="label-task-gg ">Комментарий/последнее событие
@@ -333,7 +320,7 @@ $class_menu_pr='';
 if ((isset($_GET['menu_id']))and(array_search($_GET['menu_id'], $tabs_menu_x_id) !== false)) {
     $class_menu_pr='active-trips-menu';
 }
-$task_cloud_block.='<div class="mm_w-preorders form007U '.$class_menu_pr.'">
+$task_cloud_block.='<div class="mm_w-preorders form0075U '.$class_menu_pr.'">
 	   <ul class="tabs_hedi js-tabs-menu">';
 
 
@@ -343,9 +330,9 @@ $task_cloud_block.='<div class="mm_w-preorders form007U '.$class_menu_pr.'">
         $pay_string='';
 
         if ((isset($_GET['menu_id']))and($_GET['menu_id'] == $tabs_menu_x_id[$i])) {
-            $task_cloud_block .= '<li class="tabs_007U active ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. '</li>';
+            $task_cloud_block .= '<li class="tabs_0075U active ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. '</li>';
         } else {
-            $task_cloud_block .= '<li class="tabs_007U ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. ' </li>';
+            $task_cloud_block .= '<li class="tabs_0075U ' . $tabs_menu_x_js[$i] . '" id="' . $tabs_menu_x_id[$i] . '">' . $tabs_menu_x[$i] .$pay_string. ' </li>';
         }
 
     }

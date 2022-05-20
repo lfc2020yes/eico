@@ -59,7 +59,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 	
-if((!$role->permission('Договора','R'))and($sign_admin!=1)) {
+if((!$role->permission('Тендеры','R'))and($sign_admin!=1)) {
 
     header404(4,$echo_r);
 
@@ -80,7 +80,7 @@ if((!isset($_POST["forward_id"]))or(trim($_POST["forward_id"])==''))
 
 //header404(94,$echo_r);
 //**************************************************
-$result_url=mysql_time_query($link,'select A.* from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_url=mysql_time_query($link,'select A.* from z_tender as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url==0)
 {
@@ -95,7 +95,7 @@ if($num_results_custom_url==0)
 	$id=htmlspecialchars($_GET['id']);
 
 
-        if(!token_access_new($token,'sign_docs_forward_2',$id,"rema",120)) {
+        if(!token_access_new($token,'sign_tender_forward_2',$id,"rema",120)) {
             header404(490, $echo_r);
         }
 
@@ -104,7 +104,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(3, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(4, ht($_GET["id"]), '=0', true);
 //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
  $id_s=0;
@@ -130,7 +130,7 @@ foreach ($arr_document as $key => $value)
 }
 
 
-$FUSER=new find_user($link,$value['id_object'],'R','Договора');
+$FUSER=new find_user($link,$value['id_object'],'R','Тендеры');
 $user_send_new=$FUSER->id_user;
 
 if (array_search($_POST["forward_id"], $user_send_new) == false) {
@@ -156,12 +156,12 @@ $user_send= array();
 $user_send_new= array();
 
 $name_c='';
-$result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+$result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($row_list['id_z_tender_place']) . '"');
 $num_results_uu = $result_uu->num_rows;
 
 if ($num_results_uu != 0) {
     $row_uud = mysqli_fetch_assoc($result_uu);
-    $name_c='Контрагент - '.$row_uud["name"];
+    $name_c='Площадка - '.$row_uud["name"];
 }
 
 //отправляем создателю заявки что его служебные приняты и заявка изменила статус
@@ -170,7 +170,7 @@ array_push($user_send_new,ht($_POST["forward_id"]));
 //$text_not='Ваша <a href="app/'.$value['id'].'/">Заявка №'.$value['id'].'</a> отклонена.';
 
 
-$text_not='Вам поступила задача по договору <a class="link-history" href="docs/'.$value['id'].'/">№'.$value['number'].' от '.date_ex(0,$value['date']).'</a>. '.$name_c.' '.$val["descriptor_task"];
+$text_not='Вам поступила задача по тендеру <a class="link-history" href="tender/'.$value['id'].'/">'.$value['name'].'</a>. '.$name_c.' '.$val["descriptor_task"];
 
 
 //отправка уведомления
@@ -249,7 +249,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/docs/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/tender/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

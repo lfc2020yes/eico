@@ -26,7 +26,7 @@ $role->GetRows();
 $role->GetPermission();
 
 
-$active_menu='docs';
+$active_menu='tender';
 //правам к просмотру к действиям
 //$user_send_new=array();
 
@@ -40,7 +40,7 @@ $podpis=0;  //по умолчанию нельзя редактировать с
 //никто выше не может изменять чужие заявки
 //выше могут ставить решение по служебным запискам
 //выше могут ставить соответствие заказанного материала с материалом на складе
-$result_url=mysql_time_query($link,'select A.id from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=4))');
+$result_url=mysql_time_query($link,'select A.id from z_tender as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'" and A.id_user="'.$id_user.'" and ((A.status=1) or (A.status=4))');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url!=0)
 {
@@ -84,7 +84,7 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
 
 		
        
-		$result_url=mysql_time_query($link,'select A.* from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+		$result_url=mysql_time_query($link,'select A.* from z_tender as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
         $num_results_custom_url = $result_url->num_rows;
         if($num_results_custom_url==0)
         {
@@ -96,7 +96,7 @@ if (( count($_GET) == 1 )or( count($_GET) == 2 )) //--Если были прин
 
 			$row_list = mysqli_fetch_assoc($result_url);
 			//проверим может пользователь вообще не может работать с себестоимостью
-			if (($role->permission('Договора','R'))or($sign_admin==1)or($role->permission('Договора','S')))
+			if (($role->permission('Тендеры','R'))or($sign_admin==1)or($role->permission('Тендеры','S')))
 	        {
 				//имеет ли он доступ в эту заявку	
 
@@ -119,7 +119,7 @@ if($row_list["id_user"]!=$id_user) {
         $edo = new EDO($link, $id_user, false);
     }
 
-    $arr_document = $edo->my_documents(3, ht($_GET["id"]), '>=-10', true);
+    $arr_document = $edo->my_documents(4, ht($_GET["id"]), '>=-10', true);
     //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 
@@ -212,7 +212,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 	//токен доступен в течении 120 минут
 
-    if(token_access_new($token,'save_mat_docs_x',$id,"rema",120))
+    if(token_access_new($token,'save_mat_tender_x',$id,"rema",120))
 
 
 
@@ -220,7 +220,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
     {
 
 	//возможно проверка что этот пользователь это может делать
-	 if (($role->permission('Договора','U'))and($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4)))
+	 if (($role->permission('Тендеры','U'))and($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4)))
 	 {	
 	//echo("!");
 	$edit_zay=0;	 
@@ -334,7 +334,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 
 		
 
-			   header("Location:".$base_usr."/docs/".$_GET["id"].'/save/');
+			   header("Location:".$base_usr."/tender/".$_GET["id"].'/save/');
 			   die();				 
 			
 		    }
@@ -361,7 +361,7 @@ $_SESSION['s_t'] = $secret;
 
 include_once $url_system.'template/html.php'; include $url_system.'module/seo.php';
 
-if($error_header!=404){ SEO('aсс_view','','','',$link); } else { SEO('0','','','',$link); }
+if($error_header!=404){ SEO('tender_view','','','',$link); } else { SEO('0','','','',$link); }
 
 include_once $url_system.'module/config_url.php'; include $url_system.'template/head.php';
 ?>
@@ -421,7 +421,7 @@ if ( isset($_COOKIE["iss"]))
 					$act_1='on="show"';
 	            }
 
-	  include_once $url_system.'template/top_docs_view.php';
+	  include_once $url_system.'template/top_tender_view.php';
 
 	?>
       <div id="fullpage" class="margin_60  input-block-2020 ">
@@ -430,7 +430,7 @@ if ( isset($_COOKIE["iss"]))
               <div class="oka_block_2019">
 
                   <?
-                  echo'<div class="line_mobile_blue">Договор №'.$row_list["number"];
+                  echo'<div class="line_mobile_blue">'.$row_list["name"];
                  /*
                   $D = explode('.', $_COOKIE["basket1_".$id_user."_".htmlspecialchars(trim($_GET['id']))]);
 
@@ -453,7 +453,7 @@ if ( isset($_COOKIE["iss"]))
                       //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
 
                       foreach ($arr_document as $key => $value) {
-                          include $url_system . 'docs/code/block_app.php';
+                          include $url_system . 'tender/code/block_app.php';
                           echo($task_cloud_block);
                       }
                       echo'</div>';
@@ -539,40 +539,6 @@ if ( isset($_COOKIE["iss"]))
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
 
-                      if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4))) {
-                          $query_string .= '<div class="info-suit"><div class="input-block-2020">';
-
-
-                          $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="3" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
-
-                          $num_results_uu = $result_6->num_rows;
-
-                          $class_aa = '';
-                          $style_aa = '';
-                          if ($num_results_uu != 0) {
-                              $class_aa = 'eshe-load-file';
-                              $style_aa = 'style="display: block;"';
-                          }
-
-
-                          $query_string .= '<div class=""><div class="img_invoice_div js-image-gl"><div class="list-image" ' . $style_aa . '>';
-
-                          if ($num_results_uu != 0) {
-                              $i = 1;
-                              while ($row_6 = mysqli_fetch_assoc($result_6)) {
-                                  $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span><span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span><div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
-                                  $i++;
-                              }
-                          }
-
-
-                          $query_string .= '</div><input type="hidden" name="files_9" value=""><div type_load="3" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div></div></div>';
-
-                          $query_string .= '</div></div>';
-
-
-                          echo $query_string;
-                      }
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
@@ -621,7 +587,7 @@ echo'<script>
 
         if($visible_gray==0)
         {
-            echo'$(\'.tabs_007U[id=1]\').trigger(\'click\');';
+            echo'$(\'.tabs_0075U[id=1]\').trigger(\'click\');';
 
         }
 

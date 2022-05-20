@@ -15,7 +15,7 @@ $(function (){
 
     $('body').on("change keyup input click",'.js-edit-tender-more',edit_more_tender);
 
-    $('body').on("change keyup input click",'.tabs_007U',{key: "007U"},tabs_tender);
+    $('body').on("change keyup input click",'.tabs_0075U',{key: "0075U"},tabs_tender);
 
 
     $('body').on("change keyup input click",'.js-reject-tender',RejectFoD);

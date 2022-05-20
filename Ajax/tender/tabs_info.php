@@ -28,7 +28,7 @@ $debug='';
 //**************************************************
 
 //**************************************************
-if ((!$role->permission('Договора','R'))and($sign_admin!=1))
+if ((!$role->permission('Тендеры','R'))and($sign_admin!=1))
 {
     $debug=h4a(12,$echo_r,$debug);
     goto end_code;
@@ -59,7 +59,7 @@ if ((count($_GET) != 3))
 
 
 
-$result_t=mysql_time_query($link,'Select A.* from z_dogovor as A where A.id="'.ht($id).'"');
+$result_t=mysql_time_query($link,'Select A.* from z_tender as A where A.id="'.ht($id).'"');
 $num_results_t = $result_t->num_rows;
 if($num_results_t==0)
 {
@@ -98,19 +98,19 @@ $token_inlude="taabbssd32.dfDD";
 // информация
 if($id_tabs==1)
 {
-    include $url_system.'docs/code/tabs_info.php';
+    include $url_system.'tender/code/tabs_info.php';
 }
 
 // процесс/задача
 if($id_tabs==2)
 {
-    include $url_system.'docs/code/tabs_task.php';
+    include $url_system.'tender/code/tabs_task.php';
 }
 
 // история
 if($id_tabs==3)
 {
-    include $url_system.'docs/code/tabs_history.php';
+    include $url_system.'tender/code/tabs_history.php';
 }
 
 

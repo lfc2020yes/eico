@@ -10,7 +10,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(3, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(4, ht($_GET["id"]), '=0', true);
 //$query_string.='<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
 foreach ($arr_document as $key => $value) {

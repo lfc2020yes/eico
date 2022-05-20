@@ -18633,17 +18633,17 @@ width: calc(50% - 0px) !important;
   color: #fff;
 }
 
-.new-acc-block-2021 .trips-b-comment, .new-docs-block-2021 .trips-b-comment {
+.new-acc-block-2021 .trips-b-comment, .new-docs-block-2021 .trips-b-comment, .new-tender-block-2021 .trips-b-comment {
   width: calc( 100% - 50px - 150px - 400px - 20px );
 }
-.new-acc-block-2021 .trips-b-bb, .new-docs-block-2021 .trips-b-bb {
+.new-acc-block-2021 .trips-b-bb, .new-docs-block-2021 .trips-b-bb, .new-tender-block-2021 .trips-b-bb {
   line-height: 22px;
   width: 10px;
   text-align: right;
   padding: 10px;
   position: relative;
 }
-.new-acc-block-2021 .del-item, .new-docs-block-2021 .del-item {
+.new-acc-block-2021 .del-item, .new-docs-block-2021 .del-item, .new-tender-block-2021 .del-item {
   display: none;
   width: 32px;
   height: 32px;
@@ -18655,7 +18655,7 @@ width: calc(50% - 0px) !important;
   z-index: 10;
   right: 10px;
 }
-.new-acc-block-2021 .del-item::before, .new-docs-block-2021 .del-item::before {
+.new-acc-block-2021 .del-item::before, .new-docs-block-2021 .del-item::before, .new-tender-block-2021 .del-item::before {
   position: absolute;
   top: 5px;
   text-transform: none;
@@ -18667,11 +18667,11 @@ width: calc(50% - 0px) !important;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
 }
-.new-acc-block-2021:hover .del-item, .new-docs-block-2021:hover .del-item {
+.new-acc-block-2021:hover .del-item, .new-docs-block-2021:hover .del-item, .new-tender-block-2021:hover .del-item {
   background-color: #fff;
   display: inline-block;
 }
-.new-acc-block-2021 .edit-item, .new-docs-block-2021 .edit-item {
+.new-acc-block-2021 .edit-item, .new-docs-block-2021 .edit-item, .new-tender-block-2021 .edit-item {
   display: none;
   width: 32px;
   height: 32px;
@@ -18683,7 +18683,7 @@ width: calc(50% - 0px) !important;
   z-index: 10;
   right: 60px;
 }
-.new-acc-block-2021 .edit-item::before, .new-docs-block-2021 .edit-item::before {
+.new-acc-block-2021 .edit-item::before, .new-docs-block-2021 .edit-item::before, .new-tender-block-2021 .edit-item::before {
   position: absolute;
   top: 5px;
   text-transform: none;
@@ -18695,7 +18695,7 @@ width: calc(50% - 0px) !important;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
 }
-.new-acc-block-2021:hover .edit-item, .new-docs-block-2021:hover .edit-item {
+.new-acc-block-2021:hover .edit-item, .new-docs-block-2021:hover .edit-item, .new-tender-block-2021:hover .edit-item {
   background-color: #fff;
   display: inline-block;
 }
@@ -21487,6 +21487,21 @@ width: calc(50% - 0px) !important;
   padding-left: 3px;
   margin-right: -5px;
   position: relative;
+}
+
+.link-tender {
+  background-color: #e8eaed;
+  font-family: "icon1";
+  font-style: normal;
+  color: #fff;
+  border-radius: 50%;
+  padding: 3px;
+  text-decoration: none;
+  display: block;
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .buttonBg {

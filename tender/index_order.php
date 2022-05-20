@@ -62,11 +62,11 @@ $token=htmlspecialchars($_POST['tk_sign']);
 $id=htmlspecialchars($_GET['id']);
 	
 //if(!token_access_yes($token,'sign_app_order',$id,120))
-if(!token_access_new($token,'sign_docs_order',$id,"rema",120)) {
+if(!token_access_new($token,'sign_tender_order',$id,"rema",120)) {
     header404(4, $echo_r);
 }
 //**************************************************
-$result_url=mysql_time_query($link,'select A.* from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_url=mysql_time_query($link,'select A.* from z_tender as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url==0)
 {
@@ -86,7 +86,7 @@ if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=4
 
 
 $status_user_zay=array("0","0"); //по умолчанию это никто
-if((($row_list["id_user"]==$id_user)and($role->permission('Договора','A')))or($sign_admin==1))
+if((($row_list["id_user"]==$id_user)and($role->permission('Тендеры','A')))or($sign_admin==1))
 {
     $status_user_zay[0]=1;
 }
@@ -120,10 +120,10 @@ if(($row_list["id_edo_run"]!='')and($row_list["id_edo_run"]!=0))
 //echo($next_edo);
 
 
-if ($edo->next($id, 3,0,$restart)===false) {
+if ($edo->next($id, 4,0,$restart)===false) {
 //echo("!");
     //id_executor
-    mysql_time_query($link,'update z_dogovor set status="2" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+    mysql_time_query($link,'update z_tender set status="2" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 
 //echo(gettype($edo->arr_task));
@@ -137,15 +137,15 @@ if ($edo->next($id, 3,0,$restart)===false) {
                array_push($user_send_new, $value["id_executor"]);
 
                $name_c='';
-        $result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+        $result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($row_list['id_z_tender_place']) . '"');
         $num_results_uu = $result_uu->num_rows;
 
         if ($num_results_uu != 0) {
             $row_uud = mysqli_fetch_assoc($result_uu);
-            $name_c='Контрагент - '.$row_uud["name"];
+            $name_c='Площадка - '.$row_uud["name"];
         }
 
-        $text_not='Вам поступила задача по договору <a class="link-history" href="docs/'.$row_list['id'].'/">№'.$row_list['number'].' от '.date_ex(0,$row_list['date']).'</a>. '.$name_c.' '.$value["description"];
+        $text_not='Вам поступила задача по тендеру <a class="link-history" href="tender/'.$row_list['id'].'/">'.$row_list['name'].'</a>. '.$name_c.' '.$value["description"];
 
                //$text_not='Поступила <strong>новая заявка на материал №'.$row_list['number'].'</strong>, от '.$name_user.', по объекту -  '.$row_list1["object_name"].' ('.$row_town["town"].', '.$row_town["kvartal"].'). Детали в разделе <a href="supply/">cнабжение</a>.';
 				//отправка уведомления
@@ -169,7 +169,7 @@ if ($edo->next($id, 3,0,$restart)===false) {
     // процесс согласования со всеми заданиями выполнен
    // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
 }
-header("Location:".$base_usr."/docs/".$_GET['id'].'/order/');
+header("Location:".$base_usr."/tender/".$_GET['id'].'/order/');
 
 /*
 

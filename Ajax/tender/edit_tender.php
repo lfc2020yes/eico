@@ -28,7 +28,7 @@ $day_today=date("Y-m-d");
 */
 
 
-if(!token_access_new($token,'edit_docs_more_x',$id,"rema",2880))
+if(!token_access_new($token,'edit_tender_more_x',$id,"rema",2880))
 {
     $debug=h4a(100,$echo_r,$debug);
     goto end_code;
@@ -40,7 +40,7 @@ if(!isset($_SESSION["user_id"])) {
     goto end_code;
 }
 
-if ((!$role->permission('Договора','U'))and($sign_admin!=1))
+if ((!$role->permission('Тендеры','U'))and($sign_admin!=1))
 {
     $debug=h4a(103,$echo_r,$debug);
     goto end_code;
@@ -52,7 +52,7 @@ if(((!isset($_POST['id']))or(!is_numeric($_POST['id'])))) {
 }
 
 
-$result_t=mysql_time_query($link,'Select a.* from z_dogovor as a where a.id="'.htmlspecialchars(trim($_POST['id'])).'"');
+$result_t=mysql_time_query($link,'Select a.* from z_tender as a where a.id="'.htmlspecialchars(trim($_POST['id'])).'"');
 $num_results_t = $result_t->num_rows;
 if($num_results_t==0) {
     $debug=h4a(108,$echo_r,$debug);
@@ -73,25 +73,10 @@ if(($row_t["status"]!=1)and($row_t["status"]!=4))
 $status_ee='ok';
 
 
-//добавить новых поставщиков если надо
-if($_POST["new_contractor_"]==1)
-{
-   // mysql_time_query($link,'INSERT INTO z_contractor (name,adress,inn) VALUES ("'.htmlspecialchars(trim($_POST['name_contractor'])).'","'.htmlspecialchars(trim($_POST['address_contractor'])).'","'.htmlspecialchars(trim($_POST['inn_contractor'])).'")');
 
-    mysql_time_query($link,'INSERT INTO z_contractor (name,name_small,adress,inn,ogrn,status,dir) VALUES ("'.htmlspecialchars(trim($_POST['name_c'])).'","'.htmlspecialchars(trim($_POST['name_small_c'])).'","'.htmlspecialchars(trim($_POST['address_c'])).'","'.htmlspecialchars(trim($_POST['inn_c'])).'","'.htmlspecialchars(trim($_POST['ogrn_c'])).'","'.htmlspecialchars(trim($_POST['status_c'])).'","'.htmlspecialchars(trim($_POST['dir_c'])).'")');
+mysql_time_query($link,'update z_tender set name="'.ht($_POST["number_soply1"]).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",link="'.ht($_POST["link_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_z_tender_place="'.ht(trim(trimc($_POST["place_id"]))).'" where id = "'.htmlspecialchars(trim($id)).'"');
 
-
-
-    $ID_P=mysqli_insert_id($link);
-} else
-{
-    $ID_P=htmlspecialchars(trim($_POST['id_kto']));
-}
-
-
-mysql_time_query($link,'update z_dogovor set number="'.ht($_POST["number_soply1"]).'",date="'.ht(date_ex(1,$_POST["date_soply"])).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",comment="'.ht($_POST["text_comment"]).'",id_contractor="'.$ID_P.'" where id = "'.htmlspecialchars(trim($id)).'"');
-
-$names='Договор №'.ht($_POST["number_soply1"]).' от '.ht($_POST["date_soply"]);
+$names=''.ht($_POST["number_soply1"]);
 
 if (!is_object($edo)) {
     include_once $url_system.'ilib/lib_interstroi.php';
@@ -99,7 +84,7 @@ if (!is_object($edo)) {
     $edo = new EDO($link, $id_user, false);
 }
 
-$arr_document = $edo->my_documents(3, ht($id), '>=-10', true);
+$arr_document = $edo->my_documents(4, ht($id), '>=-10', true);
 
 $new_pre = 1;
 $task_cloud_block='';
@@ -110,7 +95,7 @@ if($_POST["list"]==1) {
 //echo '<pre>arr_document:'.print_r($arr_document,true) .'</pre>';
 
 foreach ($arr_document as $key => $value) {
-    include $url_system . 'docs/code/block_app.php';
+    include $url_system . 'tender/code/block_app.php';
     //echo($task_cloud_block);
 }
 

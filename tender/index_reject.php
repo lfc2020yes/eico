@@ -59,7 +59,7 @@ if((!isset($_SESSION["user_id"]))or(!is_numeric(id_key_crypt_encrypt($_SESSION["
 }
 
 	
-if((!$role->permission('Договора','R'))and($sign_admin!=1)) {
+if((!$role->permission('Тендеры','R'))and($sign_admin!=1)) {
     header404(4,$echo_r);
 }
 
@@ -75,7 +75,7 @@ if((!isset($_POST["remark"]))or(trim($_POST["remark"])==''))
 }
 //header404(94,$echo_r);
 //**************************************************
-$result_url=mysql_time_query($link,'select A.* from z_dogovor as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$result_url=mysql_time_query($link,'select A.* from z_tender as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
 $num_results_custom_url = $result_url->num_rows;
 if($num_results_custom_url==0)
 {
@@ -90,7 +90,7 @@ if($num_results_custom_url==0)
 	$id=htmlspecialchars($_GET['id']);
 
 
-        if(!token_access_new($token,'sign_docs_reject',$id,"rema",120)) {
+        if(!token_access_new($token,'sign_tender_reject',$id,"rema",120)) {
             header404(4, $echo_r);
         }
 
@@ -99,7 +99,7 @@ include_once $url_system.'/ilib/lib_interstroi.php';
 include_once $url_system.'/ilib/lib_edo.php';
 
 $edo = new EDO($link, $id_user, false);
-$arr_document = $edo->my_documents(3, ht($_GET["id"]), '=0', true);
+$arr_document = $edo->my_documents(4, ht($_GET["id"]), '=0', true);
  //echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
  $id_s=0;
@@ -149,18 +149,18 @@ $user_send_new= array();
 
 
 $name_c='';
-$result_uu = mysql_time_query($link, 'select * from z_contractor where id="' . ht($row_list['id_contractor']) . '"');
+$result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($row_list['id_z_tender_place']) . '"');
 $num_results_uu = $result_uu->num_rows;
 
 if ($num_results_uu != 0) {
     $row_uud = mysqli_fetch_assoc($result_uu);
-    $name_c='Контрагент - '.$row_uud["name"];
+    $name_c='Площадка - '.$row_uud["name"];
 }
 
 //отправляем создателю заявки что его служебные приняты и заявка изменила статус
 $user_send_new= array();
 array_push($user_send_new,$value['id_user']);
-$text_not='Ваш <a class="link-history" href="docs/'.$value['id'].'/">Договор №'.$value['number'].' от '.date_ex(0,$value['date']).'</a> отклонен. '.$name_c.'.';
+$text_not='Ваш <a class="link-history" href="tender/'.$value['id'].'/">Тендер №'.$value['id'].'</a> отклонен. '.$name_c.'.';
 //отправка уведомления
 $user_send_new= array_unique($user_send_new);
 notification_send($text_not,$user_send_new,$id_user,$link);
@@ -173,7 +173,7 @@ notification_send($text_not,$user_send_new,$id_user,$link);
 
 
 //изменение статуса заявки
-mysql_time_query($link,'update z_dogovor set status="4" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update z_tender set status="4" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 //mysql_time_query($link,'update z_a_material set status="8" where id_doc = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 
@@ -236,7 +236,7 @@ mysql_time_query($link,'update z_doc set status="3" where id = "'.htmlspecialcha
 
 
 //echo($error);
-header("Location:".$base_usr."/docs/".$_GET['id'].'/yes/');
+header("Location:".$base_usr."/tender/".$_GET['id'].'/yes/');
 
 
 //если такой страницы нет или не может быть выведена с такими параметрами

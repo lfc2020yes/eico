@@ -13,18 +13,18 @@ if ($number_local !== false) {
 
 if(!isset($no_script)) {
 if ($local_server_x==0) {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1652420917493"></script>';
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.min.js?cb=1653042300403"></script>';
 } else {
-echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1652420917493"></script>';
+echo '<script language="JavaScript" type="text/javascript" src="/public/forms.map.js?cb=1653042300403"></script>';
 }
 } else
 {
 echo'<script type="text/javascript">';
 
     if ($local_server_x==0) {
-        echo 'window.src_forms="/public/forms.map.min.js?cb=1652420917493";';
+        echo 'window.src_forms="/public/forms.map.min.js?cb=1653042300403";';
     } else {
-        echo 'window.src_forms="/public/forms.map.js?cb=1652420917493";';
+        echo 'window.src_forms="/public/forms.map.js?cb=1653042300403";';
     }
 
     echo'</script>';

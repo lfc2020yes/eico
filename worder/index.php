@@ -231,7 +231,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
               }
 
-              //echo($_COOKIE["suddbcw".$id_user]);
+             // echo($_COOKIE["suddbcw".$id_user]); 2022-05-05/2022-06-15
 
               echo'<input id="date_hidden_table" name="date" value="'.$date_su.'" type="hidden"><input id="date_hidden_start" name="start_date" type="hidden"><input id="date_hidden_end" name="end_date" type="hidden">';
               echo'<div class="left_drop menu1_prime book_menu_sel js--sort js-call-no-v gop_io"><label>Промежуток создания</label><div class="select eddd"><a class="slct" list_number="t2" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
@@ -497,7 +497,6 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               }
 
 
-
               //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
               ?>
               <!--
@@ -652,6 +651,22 @@ echo'<span class="h3-f">Документы <span class="pol-card" >(Выполн
 	?>
 
   <?
+
+
+  /*
+//переменные для поиска сверхуaff
+
+$_COOKIE["su_st_2w"] - статья [текст типо 1.2]
+$_COOKIE["acc_4w".$id_user] - создатель [id одно]
+$_COOKIE["acc_9" . $id_user] - объект [id,id,id]
+$_COOKIE["acc_8" . $id_user] - квартал [id,id,id]
+$_COOKIE["acc_7" . $id_user] - город [id,id,id]
+$_COOKIE["su_2w"]=0 любой промежуток создания
+$_COOKIE["su_2w"]=2 определенный промежуток создания $_COOKIE["suddbcw".$id_user] - период  [2022-05-05/2022-06-15]
+
+*/
+
+
   $sql_mass = array();
 $sql_mass=$arr_document;
   //необходимо выполнить

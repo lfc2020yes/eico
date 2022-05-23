@@ -21,7 +21,7 @@ $(function (){
     $('body').on("change keyup input click",'.js-reject-tender',RejectFoD);
     $('body').on("change keyup input click",'.js-forward-tender',ForwardFoD);
 
-    $('body').on("change keyup input click",'.js-sign-a2',SingFoD);
+    $('body').on("change keyup input click",'.js-sign-a6',SingFoD6);
 
 
 
@@ -116,7 +116,7 @@ function ForwardFoD()
     }
 }
 
-function SingFoD()
+function SingFoD6()
 {
     if(!$(this).is('.gray-bb')) {
         var fo = $(this);

@@ -53,10 +53,10 @@
 
                             if((isset($_GET['tabs']))and($_GET['tabs']==$tabs_menu_x_id[$i]))
                             {
-                                echo'<a href="docs/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="tender/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             } else
                             {
-                                echo'<a href="docs/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="tender/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].' <i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             }
 
                         } else
@@ -64,10 +64,10 @@
 
                             if((!isset($_GET['tabs']))or($_GET['tabs']==$tabs_menu_x_id[$i]))
                             {
-                                echo'<a href="docs/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="tender/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg active '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             } else
                             {
-                                echo'<a href="docs/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
+                                echo'<a href="tender/'.$tabs_menu_x_link[$i].'" class="tabsss_orgg '.$tabs_menu_x_class[$i].'" id="'.$tabs_menu_x_id[$i].'">'.$tabs_menu_x[$i].'<i class="ystal">('.$tabs_menu_x_count[$i].')</i></a>';
                             }
 
 

@@ -79,7 +79,7 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Ссылка</i><span>*</span></label><input name="link_soply1" value="'.htmlspecialchars_decode($row_t["link"]).'" class="input_new_2021 gloab required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Ссылка</i><span>*</span></label><input name="link_soply1" value="'.urldecode($row_t["link"]).'" class="input_new_2021 gloab required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
 

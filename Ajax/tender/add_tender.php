@@ -106,6 +106,8 @@ $status_ee='ok';
 mysql_time_query($link,'INSERT INTO z_acc (number,date,date_create,id_contractor,summa,date_delivery,delivery_day,id_user,status,comment) VALUES ("'.htmlspecialchars(trim($_GET['number'])).'","'.$DATER1[2].'-'.$DATER1[1].'-'.$DATER1[0].'","'.date("y-m-d").' '.date("H:i:s").'","'.$ID_P.'","'.$summaa.'","","'.htmlspecialchars(trim($_GET['date2'])).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'")');
 */
 
+//$links=mysqli_real_escape_string($link,$_GET['link']);
+//echo($links);
 mysql_time_query($link,'INSERT INTO z_tender (
 name,
 id_object,
@@ -119,9 +121,9 @@ link) VALUES (
 "'.htmlspecialchars(trim($_GET['object'])).'",
 
 "'.htmlspecialchars(trim($_GET['place'])).'",
-"'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.htmlspecialchars(trim($_GET['link'])).'")');
+"'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.trim(urlencode($_GET['link'])).'")');
 
-	$ID_D=mysqli_insert_id($link);
+$ID_D=mysqli_insert_id($link);
 
 
 

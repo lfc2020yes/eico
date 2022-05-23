@@ -74,7 +74,7 @@ $status_ee='ok';
 
 
 
-mysql_time_query($link,'update z_tender set name="'.ht($_POST["number_soply1"]).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",link="'.ht($_POST["link_soply1"]).'",comment="'.ht($_POST["text_comment"]).'",id_z_tender_place="'.ht(trim(trimc($_POST["place_id"]))).'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update z_tender set name="'.ht($_POST["number_soply1"]).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",link="'.trim(urlencode($_POST["link_soply1"])).'",comment="'.ht($_POST["text_comment"]).'",id_z_tender_place="'.ht(trim(trimc($_POST["place_id"]))).'" where id = "'.htmlspecialchars(trim($id)).'"');
 
 $names=''.ht($_POST["number_soply1"]);
 

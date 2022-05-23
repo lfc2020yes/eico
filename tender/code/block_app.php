@@ -47,7 +47,7 @@ if(isset($new_pre))
 $task_cloud_block.='<div class="preorders_block_global new-tender-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
 }
 
-$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'<a class="link-tender" href="'.htmlspecialchars_decode($value["link"]).'" target="blank">+</a></div>';
+$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'<a class="link-tender" href="'.urldecode($value["link"]).'" target="blank">+</a></div>';
 
 
 

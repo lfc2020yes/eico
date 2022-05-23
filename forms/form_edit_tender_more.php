@@ -37,7 +37,7 @@ if($num_results_t==0) {
     $row_t = mysqli_fetch_assoc($result_t);
 }
 
-if(($row_t["status"]!=1)and($row_t["status"]!=4))
+if(($row_t["status"]!=1)and($row_t["status"]!=8))
 {
     goto end_code;
 }

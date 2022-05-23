@@ -83,15 +83,15 @@ $js_mod='';
     if(($value["status"]==2)) {$color_status=2;}
 
 //согласовано
-if ($value["status"] == 3) {
+if (($value["status"] == 20)or($value["status"] == 21)) {
     $color_status = 5;
 }
 //отказано
-if (($value["status"] == 4)) {
+if (($value["status"] == 8)) {
     $color_status = 4;
 }
 //выводим статус заявки
-$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=21');
+$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=23');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
 if($result_status->num_rows!=0) {
     $row_status = mysqli_fetch_assoc($result_status);

@@ -212,6 +212,38 @@ if (($edo->next($id, 4))===false) {
     }
 } else {
     // процесс согласования со всеми заданиями выполнен
+
+
+    mysql_time_query($link,'update z_tender set status="20" where id = "'.htmlspecialchars(trim($row_list['id'])).'"');
+
+
+//добавляем уведомления о новом наряде
+//добавляем уведомления о новом наряде
+//добавляем уведомления о новом наряде
+    $user_send= array();
+    $user_send_new= array();
+
+
+/*
+    $name_c='';
+    $result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($row_list['id_z_tender_place']) . '"');
+    $num_results_uu = $result_uu->num_rows;
+
+    if ($num_results_uu != 0) {
+        $row_uud = mysqli_fetch_assoc($result_uu);
+        $name_c='Площадка - '.$row_uud["name"];
+    }
+*/
+//отправляем создателю заявки что его служебные приняты и заявка изменила статус
+    $user_send_new= array();
+    array_push($user_send_new,$row_list['id_user']);
+    $text_not='Ваш <a class="link-history" href="tender/'.$row_list['id'].'/">Тендер №'.$row_list['id'].'</a> выполнен.';
+//отправка уведомления
+    $user_send_new= array_unique($user_send_new);
+    notification_send($text_not,$user_send_new,$id_user,$link);
+
+
+
     // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
 }
 

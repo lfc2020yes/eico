@@ -77,7 +77,7 @@ if($num_results_custom_url==0)
 }
 //**************************************************
 
-if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=4))
+if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=8))
 {	
 	header404(7,$echo_r);
 }
@@ -123,7 +123,7 @@ if(($row_list["id_edo_run"]!='')and($row_list["id_edo_run"]!=0))
 if ($edo->next($id, 4,0,$restart)===false) {
 //echo("!");
     //id_executor
-    mysql_time_query($link,'update z_tender set status="2" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+    mysql_time_query($link,'update z_tender set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 
 //echo(gettype($edo->arr_task));

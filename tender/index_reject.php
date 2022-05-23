@@ -173,7 +173,7 @@ notification_send($text_not,$user_send_new,$id_user,$link);
 
 
 //изменение статуса заявки
-mysql_time_query($link,'update z_tender set status="4" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update z_tender set status="8" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 //mysql_time_query($link,'update z_a_material set status="8" where id_doc = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 

@@ -238,7 +238,7 @@ include_once $url_system.'module/notification.php';
         $arr_document = $edo->my_documents(4, ht($_GET["id"]), '>=-10', true);
 
 
-        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==4)))
+        if(($row_list["id_user"]==$id_user)and(($row_list["status"]==1)or($row_list["status"]==8)))
         {
 
             echo'<form id="lalala_pod_form" action="tender/order/'.$_GET["id"].'/" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">

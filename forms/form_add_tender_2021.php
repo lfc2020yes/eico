@@ -169,7 +169,7 @@ $status=1;
 
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма тендера</i><span>*</span></label><input name="summa_soply" value="" class="input_new_2021 gloab required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Сумма тендера</i></label><input name="summa_soply" value="" class="input_new_2021 required  no_upperr money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
 

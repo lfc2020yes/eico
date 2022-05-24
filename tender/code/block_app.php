@@ -150,8 +150,14 @@ if ($num_results_uu != 0) {
     $kuda_trips=$row_uu["name"];
 }
 */
-$task_cloud_block.='<span class="s_j pay_summ" style="margin-left: -3px;">'.rtrim(rtrim(number_format($value["summa"], 2, '.', ' '),'0'),'.').'</span>';
 
+if((trim($value["summa"])!='')and(trim($value["summa"])!=0)) {
+
+    $task_cloud_block .= '<span class="s_j pay_summ" style="margin-left: -3px;">' . rtrim(rtrim(number_format($value["summa"], 2, '.', ' '), '0'), '.') . '</span>';
+} else
+{
+    $task_cloud_block .= '<span class="s_j pay_summ" style="margin-left: -3px;">По Запросу</span>';
+}
 
 
 

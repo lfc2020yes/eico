@@ -65,7 +65,9 @@ $status=1;
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Ссылка</i><span>*</span></label><input name="link_soply1" value="" class="input_new_2021 gloab required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
-
+            echo'<!--input start-->';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Ссылка +</i></label><input name="link_soply2" value="" class="input_new_2021 required  no_upperr" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<!--input end	-->';
             /*
             echo'<!--input start-->';
             echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Дата договора</i><span>*</span></label><input name="date_soply" value="" class="input_new_2021 gloab required  no_upperr date_picker_x" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';

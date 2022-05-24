@@ -21491,6 +21491,7 @@ width: calc(50% - 0px) !important;
 
 .link-tender {
   background-color: #e8eaed;
+  background-color: #6dcaf3;
   font-family: "icon1";
   font-style: normal;
   color: #fff;
@@ -21502,6 +21503,10 @@ width: calc(50% - 0px) !important;
   width: 20px;
   margin-left: 5px;
   margin-top: 5px;
+}
+
+.link-tender-gov {
+  background-color: #35deb8;
 }
 
 .buttonBg {

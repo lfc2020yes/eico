@@ -136,7 +136,7 @@ echo'<input name="tk1" value="weER23FvmrwEE" type="hidden">';
                     }
                 }
             }
-            echo'</ul><input type="hidden" class="gloab" name="pale_id" value="'.ipost_($_POST['forward_id'],$row_t["id_z_tender_place"]).'"></div></div></div>';
+            echo'</ul><input type="hidden" class="gloab" name="place_id" value="'.ipost_($_POST['forward_id'],$row_t["id_z_tender_place"]).'"></div></div></div>';
             echo'<!--select end-->';
 
 

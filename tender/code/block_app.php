@@ -175,7 +175,7 @@ if ($num_results_uu != 0) {
 
     if($row_uu["link"]!='')
     {
-        $task_cloud_block .= '<a style="display: inline-block;
+        $task_cloud_block .= '<a target="blank" style="display: inline-block;
 border-bottom: 1px solid #35deb8;" href="'.$row_uu["link"].'" class="kuda-trips">' . $row_uu["name"] . '</a>';
     } else {
         $task_cloud_block .= '<span class="kuda-trips">' . $row_uu["name"] . '</span>';

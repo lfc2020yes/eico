@@ -82,7 +82,7 @@ function AfterEdittender(data,update)
 
         //обновляем вывод
         alert_message('ok','Данные сохранены');
-        $('.js-tender-name-top').empty().append(data.name);
+        //$('.js-tender-name-top').empty().append(data.name);
         $('.new-tender-block-2021[id_pre='+update+']').addClass('js-remove-block');
 
 

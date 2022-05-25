@@ -79,8 +79,8 @@ class EDO
     // произвести следующее действие над документом или получить его текущий статус
 
     /**
-     * @param $id - id документа из таблицы z_doc, z_acc, n_nariad
-     * @param $type 0 1 2 3  соответственно таблицам
+     * @param $id - id документа из таблицы z_doc, z_acc, n_nariad, z_dogovor, z_tender
+     * @param $type 0 1 2 3 4  соответственно таблицам
      * @param 0 $id_edo_run  Если не указан, береться из документа
      * @param false $restart Перезапуск процесса
      * @return bool
@@ -293,7 +293,8 @@ $id_shablon
 `id_checking`,
 `id_controller`,
 `start_at_once`,
-`start_after_any`
+`start_after_any`,
+`attach_file`
 )
 VALUES
 (
@@ -307,7 +308,8 @@ VALUES
     $row2[id_checking],
     $row2[id_controller],
     $row2[start_at_once],
-    $row2[start_after_any]
+    $row2[start_after_any],
+    $row2[attach_file]
 )";
                             //$this->Debug($sqlInsertItem,__FUNCTION__);
 
@@ -742,7 +744,7 @@ VALUES
     }
 
     /** Мои неисполненные документы id_status =0
-     * @param $type = 0,1,2
+     * @param $type = 0,1,2,3,4
      * @param null $id_doc - один конкретный документ
      * @param $status='=0' - только невыполненные задания
      *                '>=0' - все задания

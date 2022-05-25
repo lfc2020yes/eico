@@ -861,7 +861,7 @@ LEFT JOIN
     (
         SELECT 
         s.id AS id_s, s.id_run, s.id_run_item, s.name AS name_s,s.descriptor, s.`id_executor`, s.id_status,
-        R.`id_action`
+        R.`id_action`,R.`attach_file`
         ,A.`name_action`
         FROM edo_state s, edo_run_items R, edo_action A 
         WHERE 

@@ -82,7 +82,7 @@ function AfterEdittender(data,update)
 
         //обновляем вывод
         alert_message('ok','Данные сохранены');
-        $('.js-tender-name-top').empty().append(data.name);
+        //$('.js-tender-name-top').empty().append(data.name);
         $('.new-tender-block-2021[id_pre='+update+']').addClass('js-remove-block');
 
 
@@ -171,7 +171,7 @@ if(err==0)
 
 
 
-        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&object='+box_active.find("[name=forward_id]").val()+'&name='+box_active.find("[name=number_soply1]").val()+'&link='+encodeURIComponent(box_active.find("[name=link_soply1]").val())+'&summa='+box_active.find("[name=summa_soply]").val()+'&place='+box_active.find("[name=place_id]").val()+'&com='+box_active.find("[name=text_comment]").val();
+        var data ='url='+window.location.href+'&id='+for_id+'&tk='+box_active.find('.h111').attr('mor')+'&object='+box_active.find("[name=forward_id]").val()+'&name='+box_active.find("[name=number_soply1]").val()+'&link='+encodeURIComponent(box_active.find("[name=link_soply1]").val())+'&link1='+encodeURIComponent(box_active.find("[name=link_soply2]").val())+'&summa='+box_active.find("[name=summa_soply]").val()+'&place='+box_active.find("[name=place_id]").val()+'&com='+box_active.find("[name=text_comment]").val();
 
 
     AjaxClient('tender','add_tender','GET',data,'AfterAtender',$(".js-number-tender-new").val(),0);

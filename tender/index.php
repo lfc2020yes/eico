@@ -215,13 +215,13 @@ $sql_mass=$arr_document;
 
 echo'<div class="js-list-docs none"></div>';
 
-
+/*
 $value="https://synapsenet.ru/zakupki/fz44/0131300000622000968%231--voronezhskaya-obl-zamena-okonnih-blokov";
 echo($value.'<br><br>');
 echo(urlencode($value).'<br><br>');
 $value=urlencode($value);
 echo(urldecode($value).'<br><br>');
-
+*/
 
   echo '<div class="ring_block ring-block-line js-global-preorders-link">';
   $small_block=1;

@@ -116,12 +116,12 @@ summa,
 id_user,
 status,
 comment,
-link) VALUES (
+link,link1) VALUES (
 "'.htmlspecialchars(trim($_GET['name'])).'",
 "'.htmlspecialchars(trim($_GET['object'])).'",
 
 "'.htmlspecialchars(trim($_GET['place'])).'",
-"'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.trim(urlencode($_GET['link'])).'")');
+"'.htmlspecialchars(trim(trimc($_GET['summa']))).'","'.$id_user.'","1","'.htmlspecialchars(trim($_GET['com'])).'","'.trim(urlencode($_GET['link'])).'","'.trim(urlencode($_GET['link1'])).'")');
 
 $ID_D=mysqli_insert_id($link);
 

@@ -172,8 +172,26 @@ notification_send($text_not,$user_send_new,$id_user,$link);
 //добавляем уведомления о новом наряде
 
 
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+$user_admin= array();
+array_push($user_admin, 11);
+
+$kto=name_sql_x($id_user);
+$title=$kto.' отклонил тендер №'.$value['id'];
+
+
+$message=$kto.' отклонил  тендер <a class="link-history" href="tender/'.$value['id'].'/">'.$value['name'].'</a>. Причина - '.$_POST["remark"].'.';
+notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
+
+
 //изменение статуса заявки
-mysql_time_query($link,'update z_tender set status="4" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+mysql_time_query($link,'update z_tender set status="8" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 //mysql_time_query($link,'update z_a_material set status="8" where id_doc = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 

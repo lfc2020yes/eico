@@ -187,6 +187,38 @@ if (($edo->next($id, 4))===false) {
             notification_send($text_not, $user_send_new, $id_user, $link);
 
 
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $admin_note=1;
+            $kto1=name_sql_x($value["id_executor"]);
+            if($admin_users=='')
+            {
+                $admin_users=$kto1;
+            } else
+            {
+                $admin_users.=', '.$kto1;
+            }
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
+        }
+        if($admin_note!=0)
+        {
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            $user_admin= array();
+            array_push($user_admin, 11);
+
+            $kto=name_sql_x($id_user);
+            $title=$kto.' согласовал тендер №'.$_GET['id'].' с замечанием';
+
+            $message=$kto.' согласовал тендер - <a class="link-history" href="tender/' . $_GET['id'] . '/">' . $row_list['name'] . '</a>. Замечание - '.$_POST["remark"].'. Задача по тендеру поступила к - '.$admin_users;
+            notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+            //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
         }
     }
 
@@ -200,6 +232,53 @@ if (($edo->next($id, 4))===false) {
     }
 } else {
     // процесс согласования со всеми заданиями выполнен
+
+
+    mysql_time_query($link,'update z_tender set status="21" where id = "'.htmlspecialchars(trim($row_list['id'])).'"');
+
+
+//добавляем уведомления о новом наряде
+//добавляем уведомления о новом наряде
+//добавляем уведомления о новом наряде
+    $user_send= array();
+    $user_send_new= array();
+
+
+/*
+    $name_c='';
+    $result_uu = mysql_time_query($link, 'select * from z_tender_place where id="' . ht($row_list['id_z_tender_place']) . '"');
+    $num_results_uu = $result_uu->num_rows;
+
+    if ($num_results_uu != 0) {
+        $row_uud = mysqli_fetch_assoc($result_uu);
+        $name_c='Площадка - '.$row_uud["name"];
+    }
+*/
+//отправляем создателю заявки что его служебные приняты и заявка изменила статус
+    $user_send_new= array();
+    array_push($user_send_new,$row_list['id_user']);
+    $text_not='Ваш <a class="link-history" href="tender/'.$row_list['id'].'/">Тендер №'.$row_list['id'].'</a> выполнен с замечанием.';
+//отправка уведомления
+    $user_send_new= array_unique($user_send_new);
+    notification_send($text_not,$user_send_new,$id_user,$link);
+
+
+
+//пишем уведомление админу что новая заявка создана и отправлена на согласование
+    //пишем уведомление админу что новая заявка создана и отправлена на согласование
+    $user_admin= array();
+    array_push($user_admin, 11);
+
+    $kto=name_sql_x($id_user);
+    $title=$kto.' выполнил тендер №'.$_GET['id'].' с замечанием';
+
+    $message=$kto.' Выполнил задачу по тендеру - <a class="link-history" href="tender/' . $_GET['id'] . '/">' . $row_list['name'] . '</a>. Замечание - '.$_POST["remark"].'.';
+    notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+    //пишем уведомление админу что новая заявка создана и отправлена на согласование
+    //пишем уведомление админу что новая заявка создана и отправлена на согласование
+
+
     // echo '<pre>'.$edo->error_name[$edo->error].' - процесс согласования со всеми заданиями выполнен </pre>';
 }
 

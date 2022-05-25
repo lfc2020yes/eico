@@ -77,7 +77,7 @@ if($num_results_custom_url==0)
 }
 //**************************************************
 
-if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=4))
+if(($row_list["status"]!=1)and($row_list["status"]!=3)and($row_list["status"]!=8))
 {	
 	header404(7,$echo_r);
 }
@@ -123,7 +123,7 @@ if(($row_list["id_edo_run"]!='')and($row_list["id_edo_run"]!=0))
 if ($edo->next($id, 4,0,$restart)===false) {
 //echo("!");
     //id_executor
-    mysql_time_query($link,'update z_tender set status="2" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
+    mysql_time_query($link,'update z_tender set status="9" where id = "'.htmlspecialchars(trim($_GET['id'])).'"');
 
 
 //echo(gettype($edo->arr_task));
@@ -152,6 +152,20 @@ if ($edo->next($id, 4,0,$restart)===false) {
 			    $user_send_new= array_unique($user_send_new);
 			    notification_send($text_not,$user_send_new,$id_user,$link);
 
+
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        $user_admin= array();
+        array_push($user_admin, 11);
+
+        $title='Создан новый тендер и отправлен на согласование';
+        $kto=name_sql_x($id_user);
+        $message=$kto.' создал и отправил на согласование тендер - <a class="link-history" href="tender/'.$row_list['id'].'/">'.$row_list['name'].'</a>';
+        notification_send_admin($title,$message,$user_admin,$id_user,$link);
+
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
+        //пишем уведомление админу что новая заявка создана и отправлена на согласование
 
 
     }

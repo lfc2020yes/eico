@@ -62,7 +62,7 @@ if($num_results_t==0) {
     $row_t = mysqli_fetch_assoc($result_t);
 }
 
-if(($row_t["status"]!=1)and($row_t["status"]!=4))
+if(($row_t["status"]!=1)and($row_t["status"]!=8))
 {
     $debug=h4a(145,$echo_r,$debug);
     goto end_code;
@@ -74,7 +74,7 @@ $status_ee='ok';
 
 
 
-mysql_time_query($link,'update z_tender set name="'.ht($_POST["number_soply1"]).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",link="'.trim(urlencode($_POST["link_soply1"])).'",comment="'.ht($_POST["text_comment"]).'",id_z_tender_place="'.ht(trim(trimc($_POST["place_id"]))).'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update z_tender set name="'.ht($_POST["number_soply1"]).'",id_object="'.ht(trim(trimc($_POST["forward_id"]))).'",summa="'.ht(trim(trimc($_POST["summa_soply"]))).'",link="'.trim(urlencode($_POST["link_soply1"])).'",link1="'.trim(urlencode($_POST["link_soply2"])).'",comment="'.ht($_POST["text_comment"]).'",id_z_tender_place="'.ht(trim(trimc($_POST["place_id"]))).'" where id = "'.htmlspecialchars(trim($id)).'"');
 
 $names=''.ht($_POST["number_soply1"]);
 

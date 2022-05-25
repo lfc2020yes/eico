@@ -47,7 +47,16 @@ if(isset($new_pre))
 $task_cloud_block.='<div class="preorders_block_global new-tender-block-2021 '.$new_sayx.'" id_pre="'.$value["id"].'"><span class="js-update-block-preorders">';
 }
 
-$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"].'<a class="link-tender" href="'.urldecode($value["link"]).'" target="blank">+</a></div>';
+$task_cloud_block.='<div class="trips-b-number"><div style="width: 100%;">'.$value["id"];
+
+$task_cloud_block.='<a class="link-tender" href="'.urldecode($value["link"]).'" target="blank">+</a>';
+if(trim($value["link1"])!='')
+{
+    $task_cloud_block.='<a class="link-tender link-tender-gov" href="'.urldecode($value["link1"]).'" target="blank">+</a>';
+}
+
+
+$task_cloud_block.='</div>';
 
 
 
@@ -83,15 +92,15 @@ $js_mod='';
     if(($value["status"]==2)) {$color_status=2;}
 
 //согласовано
-if ($value["status"] == 3) {
+if (($value["status"] == 20)or($value["status"] == 21)) {
     $color_status = 5;
 }
 //отказано
-if (($value["status"] == 4)) {
+if (($value["status"] == 8)) {
     $color_status = 4;
 }
 //выводим статус заявки
-$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=21');
+$result_status=mysql_time_query($link,'SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$value["status"].'" and a.id_system=23');
 //echo('SELECT a.* FROM r_status AS a WHERE a.numer_status="'.$row1ss["status"].'" and a.id_system=13');
 if($result_status->num_rows!=0) {
     $row_status = mysqli_fetch_assoc($result_status);
@@ -141,8 +150,14 @@ if ($num_results_uu != 0) {
     $kuda_trips=$row_uu["name"];
 }
 */
-$task_cloud_block.='<span class="s_j pay_summ" style="margin-left: -3px;">'.rtrim(rtrim(number_format($value["summa"], 2, '.', ' '),'0'),'.').'</span>';
 
+if((trim($value["summa"])!='')and(trim($value["summa"])!=0)) {
+
+    $task_cloud_block .= '<span class="s_j pay_summ" style="margin-left: -3px;">' . rtrim(rtrim(number_format($value["summa"], 2, '.', ' '), '0'), '.') . '</span>';
+} else
+{
+    $task_cloud_block .= '<span class="s_j pay_summ" style="margin-left: -3px;">По Запросу</span>';
+}
 
 
 
@@ -156,7 +171,16 @@ if ($num_results_uu != 0) {
     $row_uu = mysqli_fetch_assoc($result_uu);
 
 
-    $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;"><span class="kuda-trips">' . $row_uu["name"] . '</span></div>';
+    $task_cloud_block .= '<div class="pass_wh_trips" style="padding-top: 10px;">';
+
+    if($row_uu["link"]!='')
+    {
+        $task_cloud_block .= '<a target="blank" style="display: inline-block;
+border-bottom: 1px solid #35deb8;" href="'.$row_uu["link"].'" class="kuda-trips">' . $row_uu["name"] . '</a>';
+    } else {
+        $task_cloud_block .= '<span class="kuda-trips">' . $row_uu["name"] . '</span>';
+    }
+    $task_cloud_block .= '</div>';
 
 }
 

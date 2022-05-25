@@ -535,6 +535,71 @@ if ( isset($_COOKIE["iss"]))
 
 
 
+if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
+
+} else
+{
+
+    $query_string .= '<div class="info-suit"><div class="input-block-2020">';
+
+
+    $result_6 = mysql_time_query($link, 'select A.* from image_attach as A WHERE A.for_what="15" and A.visible=1 and A.id_object="' . ht($row_list["id"]) . '"');
+
+    $num_results_uu = $result_6->num_rows;
+
+    $class_aa = '';
+    $style_aa = '';
+    if ($num_results_uu != 0) {
+        $class_aa = 'eshe-load-file';
+        $style_aa = 'style="display: block;"';
+    }
+
+
+    $query_string .= '<div class=""><div class="img_invoice_div js-image-gl"><div class="list-image" ' . $style_aa . '>';
+
+    if ($num_results_uu != 0) {
+        $i = 1;
+        while ($row_6 = mysqli_fetch_assoc($result_6)) {
+            $query_string .= '	<div number_li="' . $i . '" class="li-image yes-load"><span class="name-img"><a href="/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"] . '">' . $row_6["name_user"] . '</a></span>';
+	if($row_6["id_user"]==$id_user)
+	{
+	    $query_string .= '<span class="del-img js-dell-image" id="' . $row_6["name"] . '"></span>';
+	}
+            $query_string .= '<span class="size-img">'.round((filesize($url_system.'/upload/file/' . $row_6["id"] . '_' . $row_6["name"] . '.' . $row_6["type"]) / 1024 / 1024),2).' МБ</span>';
+
+
+	if(($row_6["id_user"]!=0)and($row_6["id_user"]!=$id_user))
+    {
+
+        $result_uu_kto = mysql_time_query($link, 'select name_user from r_user where id="' . ht($row_6["id_user"]) . '"');
+        $num_results_uu_kto = $result_uu_kto->num_rows;
+
+
+        if ($num_results_uu_kto != 0) {
+            $row_uu_kto = mysqli_fetch_assoc($result_uu_kto);
+            $query_string .= '<span class="size-img">'.$row_uu_kto["name_user"].'</span>';
+
+        }
+
+
+    }
+
+
+            $query_string .= '<div class="progress-img"><div class="p-img" style="width: 0px; display: none;"></div></div></div>';
+            $i++;
+        }
+    }
+
+
+    $query_string .= '</div><input type="hidden" name="files_9" value=""><div type_load="15" id_object="' . ht($row_list["id"]) . '" class="invoice_upload js-upload-file js-helps ' . $class_aa . '"><span>прикрепите <strong>дополнительные документы</strong>, для этого выберите или перетащите файлы сюда </span><i>чтобы прикрепить ещё <strong>необходимые документы</strong>,выберите или перетащите их сюда</i><div class="help-icon-x" data-tooltip="Принимаем только в форматах .pdf, .jpg, .jpeg, .png, .doc , .docx , .zip" >u</div></div></div></div>';
+
+    $query_string .= '</div></div>';
+
+
+    echo $query_string;
+
+}
+
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо
                       //загрузить дополнительные прикреплленные файлы и документы по клиенту частное лицо

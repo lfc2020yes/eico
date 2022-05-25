@@ -133,6 +133,7 @@ if((isset($_SESSION["user_id"]))) {
                 case 11:
                 case 13:
                 case 14:
+                case 15:
                     $allowedExts = array("pdf", "jpg", "jpeg", "png", "doc", "docx", "zip", "xls", "xlsx");
                     break;
                 default:
@@ -189,7 +190,7 @@ if((isset($_SESSION["user_id"]))) {
 
 
                     //загрузился
-                    mysql_time_query($link, 'update image_attach set visible="1",name="' . $name_imgs . '",name_user="' . ht($_FILES["thefile"]["name"]) . '",type="' . $allowedExts[array_search($extension, $allowedExts)] . '" where id = "' . $ID_D . '"');
+                    mysql_time_query($link, 'update image_attach set visible="1",name="' . $name_imgs . '",name_user="' . ht($_FILES["thefile"]["name"]) . '",type="' . $allowedExts[array_search($extension, $allowedExts)] . '",id_user="'.$id_user.'" where id = "' . $ID_D . '"');
 
 
                     $links = '/upload/file/' . $ID_D . '_' . $name_imgs . '.' . $allowedExts[array_search($extension, $allowedExts)];

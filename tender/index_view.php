@@ -551,7 +551,7 @@ if ( isset($_COOKIE["iss"]))
         $style_aa = 'style="display: block;"';
     }
 
-    if(($num_results_uu!=0)or($file_attache==1)) {
+    if(($num_results_uu!=0)or(($file_attache==1)and(($visible_gray != 1)))) {
         $query_string .= '<div class="info-suit"><div class="input-block-2020">';
 
         $query_string .= '<div class=""><div class="img_invoice_div js-image-gl"><div class="list-image" ' . $style_aa . '>';

@@ -1,5 +1,7 @@
 <?
 $file_attache=0;  //прикрепить файл или нет
+$visible_gray=0;  //не выполнил
+
 //узнаем есть ли меморандум у материалов этой заявки
 /*
 $memo_i=0; //нет
@@ -253,7 +255,7 @@ include_once $url_system.'module/notification.php';
 
            // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
-            $visible_gray=0;  //не выполнил
+
 
         foreach ($arr_document as $key => $value)
         {

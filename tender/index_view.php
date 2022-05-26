@@ -534,10 +534,7 @@ if ( isset($_COOKIE["iss"]))
                       //сообщения после добавление редактирования чего то
 
 
-
-if(((isset($visible_gray))and($visible_gray==1))or($value["id_user"]==$id_user)or((isset($_GET["tabs"]))and($_GET["tabs"]==2))) {
-
-} else
+if(((isset($visible_gray))and($visible_gray!=1)))
 {
 
     $query_string .= '<div class="info-suit"><div class="input-block-2020">';

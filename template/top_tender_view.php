@@ -1,5 +1,5 @@
 <?
- 
+$file_attache=0;  //прикрепить файл или нет
 //узнаем есть ли меморандум у материалов этой заявки
 /*
 $memo_i=0; //нет
@@ -254,6 +254,7 @@ include_once $url_system.'module/notification.php';
            // echo '<pre>arr_document:' . print_r($arr_document, true) . '</pre>';
 
             $visible_gray=0;  //не выполнил
+
         foreach ($arr_document as $key => $value)
         {
             if((is_array($value["state"]))and(!empty($value["state"]))) {
@@ -273,6 +274,10 @@ include_once $url_system.'module/notification.php';
                         $visible_gray=0;  //Значит он выполнил уже и кнопки будут но просто серые
                         $class_by='';
                     }
+
+                    if($val["attach_file"]==1) {
+                        $file_attache=1;
+}
 
                     $but_mass=$edo->get_action($val["id_run_item"]);
                     //echo '<pre>arr_document:' . print_r($but_mass, true) . '</pre>';

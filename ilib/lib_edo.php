@@ -559,7 +559,7 @@ values
         $arr_run = array();
         $sql =
             "
-SELECT *, i.`displayOrder` AS dOrd  FROM `edo_run` r
+SELECT *, i.`displayOrder` AS dOrd, i.`attach_file`   FROM `edo_run` r
 ,`edo_run_items` i
 , `edo_run_item_after` a
 WHERE
@@ -691,7 +691,7 @@ INSERT INTO `edo_state` (
   `timing`,
   `displayOrder`,
   `id_status`,
-  'attach_file'                       
+  `attach_file`                       
 )
 VALUES
   (

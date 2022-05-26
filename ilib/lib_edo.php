@@ -559,7 +559,7 @@ values
         $arr_run = array();
         $sql =
             "
-SELECT *, i.`displayOrder` AS dOrd  FROM `edo_run` r
+SELECT *, i.`displayOrder` AS dOrd, i.`attach_file`   FROM `edo_run` r
 ,`edo_run_items` i
 , `edo_run_item_after` a
 WHERE
@@ -690,7 +690,8 @@ INSERT INTO `edo_state` (
   -- `sign_owner`,
   `timing`,
   `displayOrder`,
-  `id_status`
+  `id_status`,
+  `attach_file`                       
 )
 VALUES
   (
@@ -708,7 +709,8 @@ VALUES
     -- '$row[sign_owner]',
     '$row[timing]',
     '$row[dOrd]',
-    0
+    0,
+    '$row[attach_file]'
   );        
         ";
         $this->Debug($sql,__FUNCTION__);
@@ -782,7 +784,7 @@ $limit
                         "
 SELECT 
     s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
-    s.`date_ready`, s.`date_execute`, s.`timing`,
+    s.`date_ready`, s.`date_execute`, s.`timing`, s.`attach_file`,
     u.`name_user`,
     ST.`name_status`       
 FROM edo_state AS s 
@@ -860,9 +862,9 @@ FROM ".$this->arr_table[$type]." AS d
 LEFT JOIN 
     (
         SELECT 
-        s.id AS id_s, s.id_run, s.id_run_item, s.name AS name_s,s.descriptor, s.`id_executor`, s.id_status,
-        R.`id_action`,R.`attach_file`
-        ,A.`name_action`
+        s.id AS id_s, s.id_run, s.id_run_item, s.name AS name_s,s.descriptor, s.`id_executor`, s.id_status, s.`attach_file`,
+        R.`id_action`,
+        A.`name_action`
         FROM edo_state s, edo_run_items R, edo_action A 
         WHERE 
         s.$id_executor 
@@ -967,7 +969,8 @@ INSERT INTO edo_state (
   `timing`,
   `displayOrder`,
   `id_status`,
-  `prev`
+  `prev`,
+  `attach_file`                  
 )
 ( SELECT 
 `id_run`,
@@ -987,7 +990,8 @@ INSERT INTO edo_state (
   `timing`,
   `displayOrder`,
   0,
-  $id_s
+  $id_s,
+  `attach_file`
   FROM  edo_state
   WHERE id=$id_s
   )

@@ -35,9 +35,14 @@ $name=tolkofi($name);
 
 $name_ss = explode(" ", ht($name));
 
-
-echo'<i>'.$row_uu["name_role"].'</i>
-<strong>'.$name_ss[1].' '.$name_ss[0].'</strong>';
+if($row_uu["position"]!='')
+{
+    echo'<i>'.$row_uu["position"].'</i>';
+} else
+{
+echo'<i>'.$row_uu["name_role"].'</i>';
+}
+echo'<strong>'.$name_ss[1].' '.$name_ss[0].'</strong>';
 
 ?>
 </div></div> 	 

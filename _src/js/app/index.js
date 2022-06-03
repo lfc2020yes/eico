@@ -15,6 +15,17 @@ var delay1 = (function(th){
 })();
 
 
+function city_oo()
+{
+
+	var iu=$('.users_rule').attr('ui');
+
+	$.cookie("cc_town"+iu, null, {path:'/',domain: window.is_session,secure: false});
+	CookieList("cc_town"+iu,$(this).val(),'add');
+	autoReloadHak();
+}
+
+
 //табсы в обращениях
 var tabs_app = function(event) {
 	//event.data.key
@@ -4908,8 +4919,9 @@ $(window).on('resize',windowSize);
 
 $('.loader_ada').remove();
 $('.loader_ada1').remove();
-		
-	
+
+	$('body').on("change keyup input click",'#city_oo',city_oo);
+
 BasketFinery(); //проверка корзины нарядов	
 BasketMaterial(); //проверка корзины материалов
 MaterialSelectAll(); //выделение кнопок выделить все материалы по работе

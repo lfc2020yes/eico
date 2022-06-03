@@ -103,7 +103,79 @@ $found = array_search($active_menu,$nav_url);
 
 <ul class="nav">
 <li class="line"><div></div></li>
+
 <?
+$os50=array();
+$os_id50=array();
+
+
+    if(count($hie_kvartal)>1)
+    {
+    ?>
+    <li class="not_li_sel" style="overflow: visible;">
+        <?
+
+        $su_5=0;
+
+        if(( isset($_COOKIE["cc_town".$id_user]))and($_COOKIE["cc_town".$id_user]!='')and(is_numeric(trim($_COOKIE["cc_town".$id_user])))) {
+            if (in_array($_COOKIE["cc_town" . $id_user], $hie_kvartal)) {
+                {
+                    $su_5 = $_COOKIE["cc_town" . $id_user];
+                }
+            }
+        }
+/*
+        $os5 = array( "Все организации");
+        $os_id5 = array("0");
+*/
+
+        $result_work_zz=mysql_time_query($link,'Select a.kvartal,a.id from i_kvartal as a');
+        $num_results_work_zz = $result_work_zz->num_rows;
+        if($num_results_work_zz!=0)
+        {
+
+            for ($i=0; $i<$num_results_work_zz; $i++)
+            {
+                $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+                if((array_search($row_work_zz["id"],$hie_kvartal) !== false))
+                {
+
+                array_push($os50, $row_work_zz["kvartal"]);
+                array_push($os_id50, $row_work_zz["id"]);
+
+            }
+        }
+            if(($su_5==0)and(count($hie_kvartal)>0))
+        {
+            $su_5=$hie_kvartal;
+        }
+
+
+           // echo($su_5);
+
+        echo'<span class="city_ses"><div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'" style="height: 31px; margin-top: 0px !important; z-index:'.$zindex.'"><div class="select eddd"><a style="font-size: 13px;
+color: rgba(0,0,0,0.7);" class="slct" list_number="t6" data_src="'.$su_5.'">'.$os50[array_search($su_5, $os_id50)].'</a><ul class="drop">';
+        //$os_id2[array_search($su_2, $os_id2)]
+
+        for ($i=0; $i<count($os50); $i++)
+        {
+            //echo($su_5.'-'.$os_id5[$i].'<br>');
+            if($su_5==$os_id50[$i])
+            {
+                echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$os_id50[$i].'">'.$os50[$i].'</a></li>';
+            } else
+            {
+                echo'<li><a href="javascript:void(0);"  rel="'.$os_id50[$i].'">'.$os50[$i].'</a></li>';
+            }
+
+        }
+        echo'</ul><input type="hidden" '.$class_js_readonly.' name="city_oo" id="city_oo" value="'.$su_5.'"></div></div></span>';
+
+
+    }
+        }
+
+
 //уведомления
 		 $result_t=mysql_time_query($link,'Select count(a.id) as cc from r_notification as a where a.status=1 and a.id_user="'.htmlspecialchars(trim($id_user)).'"');
          $num_results_t = $result_t->num_rows;

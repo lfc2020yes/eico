@@ -24,7 +24,7 @@ $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 
-
+include_once $url_system.'module/kvartal_select.php';
 
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
@@ -180,7 +180,7 @@ if($nak!=$row_score["id_acc"]) {
 		}
 		
 		
-	    mysql_time_query($link,'INSERT INTO z_stock_material (id,id_stock,count_units,price,subtotal,id_user,id_object,alien,mild) VALUES ("","'.$row_score["id_stock"].'","'.$count.'","'.$price.'","'.$row_score["subtotal"].'","'.$id_user.'","0","'.ht($row_score["alien"]).'","'.ht($row_score["mild"]).'")');
+	    mysql_time_query($link,'INSERT INTO z_stock_material (id,id_stock,count_units,price,subtotal,id_user,id_object,id_kvartal,alien,mild) VALUES ("","'.$row_score["id_stock"].'","'.$count.'","'.$price.'","'.$row_score["subtotal"].'","'.$id_user.'","0","'.$user_select_kvartal.'","'.ht($row_score["alien"]).'","'.ht($row_score["mild"]).'")');
 
         $kto2=mysqli_insert_id($link);
 
@@ -244,7 +244,7 @@ if($num_results_score1!=0)
 						
 			
 		//создателя договора	
-		$text_not='По счету <a class="link-history" href="acc/' . $row_score["id_acc"] . '/">№'.$row_list11["number"].'</a> от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a class="link-history" href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>'.$text_not.'. Необходимо связаться с поставщиком и <strong>переделать накладную <a class="link-history" href="invoices/'.$_GET['id'].'/">№'.$row_t["number"].'</a></strong> согласно принятых материалов на сумму '.($row_t["summa"]-$sum_defect_all).' рублей';
+		$text_not='По счету <a class="link-history" href="acc/' . $row_score["id_acc"] . '/">№'.$row_list11["number"].'</a> от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a class="link-history" href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>'.$text_not.'. Необходимо связаться с поставщиком и <strong>переделать накладную <a class="link-history" href="invoices/'.$_GET['id'].'/">№'.$row_t["number"].'</a></strong> согласно принятых материалов на сумму '.($row_t["summa"]-$sum_defect_all).' рублей. Квартал - '.$user_select_kvartal_name.'.';
 			
 		//в бухгалтерию	
 		/*$text_not1='По счету №'.$row_list11["number"].' от поставщика - <strong>'.$row_list11["name"].'</strong>, был оформлен акт на отбработку по <a href="invoices/'.$_GET['id'].'/">накладной №'.$row_t["number"].'</a>, материал - <strong>'.$row_list1["name"].'</strong>, в количестве - <strong>'.$row_score["count_defect"].' '.$row_list1["units"].'</strong>, на сумму <strong>'.$row_score["subtotal_defect"].' рублей</strong>. В ближайшее время вам поступит от снабженца переделанная накладная №'.$row_t["number"].' от '.$row_list11["name"].', на сумму '.($row_t["summa"]-$sum_defect_all).' рублей.';
@@ -277,7 +277,7 @@ if($num_results_score1!=0)
     $kto=name_sql_x($id_user);
     $title=$kto.' принял материал по накладной '.$row_t["number"];
 
-    $message=$kto.' принял материал по накладной - <a class="link-history" href="/invoices/' . $_GET['id'] . '/">№' . $row_t["number"] . '</a>.';
+    $message=$kto.' принял материал по накладной - <a class="link-history" href="/invoices/' . $_GET['id'] . '/">№' . $row_t["number"] . '</a>. Квартал - '.$user_select_kvartal_name.'.';
     notification_send_admin($title,$message,$user_admin,$id_user,$link);
 
 

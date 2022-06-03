@@ -21,6 +21,11 @@ $row_town_user = mysqli_fetch_assoc($auth_key_query);
 $name_user=$row_town_user['name_user'];
         }     
 $role=new RoleUser($link,$id_user);  //создаем класс прав
+
+
+
+
+
 }
    
 

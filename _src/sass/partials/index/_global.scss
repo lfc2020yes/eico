@@ -7522,3 +7522,52 @@ i {padding: 10px 8px;
   background-color: #fff;
   border-bottom: 1px solid rgba(0,0,0,.1);
   padding-left: 20px;}
+
+
+.login_2022_bg {
+
+
+  background-color: #fff !important;
+@include flexbox();
+ // @include align-items(center);
+  @include justify-content(center);
+
+
+
+}
+.bg_2022_j {   background-image: url(../../image/promo_big.png) !important;  background-position: center center !important;
+
+  @include sw('large') {
+    background-image: url(../../image/promo_small.png) !important;
+    background-position: center center !important;
+  }
+
+  //background-position: center center !important;
+  background-size: auto !important;
+  background-repeat: no-repeat;
+  @include flex-wrap(wrap);
+  background-color: #e4e9eb !important;}
+
+.login_button_2022 {
+  background-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+color:#fff;
+  padding: 0px 20px;
+  color: #fff;
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 13px;
+  min-width: 200px;
+  line-height: 64px;
+  cursor: pointer;
+  text-align: center;
+  margin-top:20px;
+  border-radius: 4px;
+}
+
+.bg-login-1 { width: 40%;}
+.bg-login-2 { width: 60%;}
+
+.bg-login-1 {@include flexbox(); padding:0px 100px !important; @include align-self(center);
+ @include align-items(center);   @include justify-content(center);}

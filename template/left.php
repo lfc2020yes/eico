@@ -108,7 +108,7 @@ $found = array_search($active_menu,$nav_url);
 $os50=array();
 $os_id50=array();
 
-
+//print_r($hie_kvartal);
     if(count($hie_kvartal)>1)
     {
     ?>

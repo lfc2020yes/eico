@@ -28,7 +28,7 @@ $id_city=htmlspecialchars($_GET['id']);
 $status_ee='ok';
 if($sign_admin!=1)
 {
-$result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$id_city.'"  a.id in ('.implode(',',$hie->obj).') order by a.id');
+$result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$id_city.'" and  a.id in ('.implode(',',$hie->obj).') order by a.id');
 } else
 {
 $result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$id_city.'" order by a.id');		

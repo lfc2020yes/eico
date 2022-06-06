@@ -21523,6 +21523,86 @@ width: calc(50% - 0px) !important;
   padding-left: 20px;
 }
 
+.login_2022_bg {
+  background-color: #fff !important;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+}
+
+.bg_2022_j {
+  background-image: url(../../image/promo_big.png) !important;
+  background-position: center center !important;
+  background-size: auto !important;
+  background-repeat: no-repeat;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  background-color: #e4e9eb !important;
+}
+@media only screen and (max-width: 1539px) {
+  .bg_2022_j {
+    background-image: url(../../image/promo_small.png) !important;
+    background-position: center center !important;
+  }
+}
+
+.login_button_2022 {
+  background-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+  color: #fff;
+  padding: 0px 20px;
+  color: #fff;
+  font-family: GEInspiraBold;
+  text-transform: uppercase;
+  font-size: 13px;
+  min-width: 200px;
+  line-height: 64px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+  border-radius: 4px;
+}
+
+.bg-login-1 {
+  width: 40%;
+}
+
+.bg-login-2 {
+  width: 60%;
+}
+
+.bg-login-1 {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: 0px 100px !important;
+  -webkit-align-self: center;
+  -moz-align-self: center;
+  -ms-align-self: center;
+  align-self: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+}
+
 .buttonBg {
   background: #fff;
 }

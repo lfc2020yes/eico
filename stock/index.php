@@ -243,18 +243,18 @@ if ( isset($_COOKIE["iss"]))
                       }
 
 
-                      $result_t=mysql_time_query($link,'Select a.id,a.object_name,a.id_town from i_object as a where a.enable=1 order by a.id');
+                      $result_t=mysql_time_query($link,'Select a.id,a.kvartal,a.id_town from i_kvartal as a order by a.kvartal desc');
                       $num_results_t = $result_t->num_rows;
                       if($num_results_t!=0)
                       {
                           $active_id=0;
-                          echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'"><label>Объект</label><div class="select eddd"><a class="slct" list_number="t4" data_src="'.$su_4.'">'.$su5_name.'</a><ul class="drop">';
+                          echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io '.$class_js_search.'"><label>Квартал</label><div class="select eddd"><a class="slct" list_number="t4" data_src="'.$su_4.'">'.$su5_name.'</a><ul class="drop">';
                           echo'<li><a href="javascript:void(0);"  rel="0">Любой</a></li>';
                           for ($i=0; $i<$num_results_t; $i++)
                           {
                               $row_t = mysqli_fetch_assoc($result_t);
 
-                              if((array_search($row_t["id"],$hie_object) !== false)or($sign_admin==1))
+                              if((array_search($row_t["id"],$hie_kvartal) !== false)or($sign_admin==1))
                               {
 
                                   $result_town=mysql_time_query($link,'select B.* from i_town as B where B.id="'.$row_t["id_town"].'"');
@@ -268,10 +268,10 @@ if ( isset($_COOKIE["iss"]))
 
                                   if($su_5==$row_t["id"])
                                   {
-                                      echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["object_name"].' ('.$row_town["town"].')</a></li>';
+                                      echo'<li class="sel_active"><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["kvartal"].' ('.$row_town["town"].')</a></li>';
                                   } else
                                   {
-                                      echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["object_name"].' ('.$row_town["town"].')</a></li>';
+                                      echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'">'.$row_t["kvartal"].' ('.$row_town["town"].')</a></li>';
                                   }
                               }
 
@@ -376,8 +376,8 @@ $sql_select1_='';
 	  $sql_su4_='';
  		if (( isset($_COOKIE["su_st_3"]))and($_COOKIE["su_st_3"]!='')and($_COOKIE["su_st_3"]!=0))
 		{
-				$sql_su4='and c.id_object='.htmlspecialchars(trim($_COOKIE["su_st_3"]));
-				$sql_su4_='and c.id_object='.htmlspecialchars(trim($_COOKIE["su_st_3"]));
+				$sql_su4='and c.id_kvartal='.htmlspecialchars(trim($_COOKIE["su_st_3"]));
+				$sql_su4_='and c.id_kvartal='.htmlspecialchars(trim($_COOKIE["su_st_3"]));
 		}		  
 	  
 	 // echo($_COOKIE["su_st_2"]);

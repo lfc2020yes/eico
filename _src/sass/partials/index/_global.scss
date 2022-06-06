@@ -7529,6 +7529,7 @@ i {padding: 10px 8px;
 
   background-color: #fff !important;
 @include flexbox();
+  background-image: none !important;
  // @include align-items(center);
   @include justify-content(center);
 
@@ -7552,6 +7553,8 @@ i {padding: 10px 8px;
   background-image: -o-linear-gradient(to right, #35deb8, #6DCAF3);
   background-image: -moz-linear-gradient(to right, #35deb8, #6DCAF3);
   background-image: -webkit-linear-gradient(to right, #35deb8, #6DCAF3);
+  background-image: linear-gradient(to right,#35deb8,#6dcaf3);
+
 color:#fff;
   padding: 0px 20px;
   color: #fff;

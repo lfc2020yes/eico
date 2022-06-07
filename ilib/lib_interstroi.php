@@ -1111,6 +1111,57 @@ ORDER BY u.name_user
         }         
     }
 }
+
+class kvartal_users {
+    var $users=array();
+    var $ids_kvartal=array();
+    var $mysqli;
+    var $show;
+
+    function kvartal_users(&$mysqli,$show=false) {
+        $this->mysqli=$mysqli;
+        $this->show = $show;
+    }
+
+    function get_kvartals($id_user) {
+        $sql = "
+SELECT id_kvartal from `r_user_object` 
+WHERE id_user='$id_user'
+GROUP by id_kvartal
+        ";
+        if ($this->show) echo "<p>sql=$sql";
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $this->ids_kvartal[] = $row['id_kvartal'];
+            }
+        }
+        return $this->ids_kvartal;
+    }
+
+    function get_users(array &$kvartals, $material_stock=null) {
+        $mats = (is_null($material_stock))? '' : "AND u.`material_stock` = '$material_stock'";
+        $sql = "
+SELECT o.id_user,u.`name_user` FROM `r_user_object` o, `r_user` u 
+WHERE o.id_kvartal IN (".implode(',',$kvartals).")
+AND o.id_user=u.`id`
+$mats
+GROUP BY o.id_user 
+ORDER BY u.`name_user`       
+        ";
+        if ($this->show) echo "<p>sql=$sql";
+        if ($result = $this->mysqli->query($sql)) {
+            $i=0;
+            while ($row = $result->fetch_assoc()) {
+                $this->users[][id_user]  =  $row['id_user'];
+                $this->users[$i][name_user]  =  $row['name_user'];
+                $i++;
+            }
+        }
+        return $this->users;
+    }
+}
+
+
 // $hie = new hierarchy(&$mysqli,$id_user);
 // if ($hie->id_user==0) {/*disable*/}
 //$NUser = new notification_user (&$hie);  //$hierarchy

@@ -2,6 +2,7 @@
 $url_system=$_SERVER['DOCUMENT_ROOT'].'/';
 include_once $url_system.'module/ajax_access.php';   //$link $id_user $role
 include_once $url_system.'aktpp/lib.php';
+require_once $url_system.'module/kvartal_select.php';   //Получить квартал, в котором сейчас работаем
 header('Content-type: text/html; charset=utf-8');
 
 
@@ -11,7 +12,7 @@ $id_akt=htmlspecialchars(trim($_POST['id_akt']));
 $id_zay=htmlspecialchars(trim($_POST['id_doc']));
 $n_st=htmlspecialchars(trim($_POST['n_st']));
 $show =  isset($_POST['showx'])? trim($_POST['showx']) : ' <> 0 '; // IS NOT NULL
-
+// $user_select_kvartal = htmlspecialchars(trim($_POST['user_select_kvartal']));
 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
 //$id_zay=GetCookie('doc'.$id_user);
  /*
@@ -43,7 +44,7 @@ LEFT JOIN
 	WHERE AM.`id_act`= A.`id` AND A.`date1` IS NULL AND A.`id0_user` = '$id_visor'
 	GROUP BY AM.id_stock_material
 	) AS P ON ( P.id_stock_material=M.id)
-WHERE M.`id_user` = '$id_visor'
+WHERE M.`id_user` = '$id_visor' AND M.id_kvartal = '$user_select_kvartal'
 AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show "
 
 ,"select count(id) as kol from z_act where id0_user='$id_visor' and date0 is null"
@@ -79,7 +80,7 @@ LEFT JOIN
 	) AS P ON ( P.id_stock_material=M.id)
 ,`z_stock` AS S
 WHERE M.`id_stock` = S.`id`
-AND M.`id_user` = '$id_visor'
+AND M.`id_user` = '$id_visor' AND M.id_kvartal = '$user_select_kvartal'
 AND (M.`count_units`-IFNULL(P.count_send_user,0)) $show 
 ORDER BY S.`name`,S.`units`"
 

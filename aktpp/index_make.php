@@ -9,6 +9,9 @@ include_once $url_system.'aktpp/lib.php';
 initiate($link);
 include_once $url_system.'module/access.php';
 $hie = new hierarchy($link,$id_user);
+$hie_kvartal=array();
+$hie_kvartal=$hie->id_kvartal;
+require_once $url_system.'module/kvartal_select.php';
 
 $role->GetColumns();
 $role->GetRows();
@@ -168,13 +171,37 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
 
 	echo'<div style="height:70px;">'              //Общая полоса панели
           . '<div class="_50_na_50_1" style="width:50%; float:left;">'
-          . '<div class="_50_x">';
+          . '<div class="_50_x">'
+    ;
 	echo'<div class="input-width m10_right m10_left">';  //margin-right: 10px;
 	echo '<input id="id_akt_edit" name="id_akt_edit" value="'.$id_edit.'" type="hidden">';
 	//====================================Список пользователей
         // ограничить объектами
         // не выводить себя самого, если это не S
-	$result_t=mysql_time_query($link,'Select * from r_user where enabled=1 order by name_user');
+//echo "<pre>".print_r($hie->id_kvartal,true)."$user_select_kvartal $user_select_kvartal_name  </pre>";
+?>
+<div class="select_box eddd_box">
+    <a class="slct_box iclass_('ispol_work',$stack_error,"error_formi") <?=$status_class?>"
+        data-tooltip="Строительная площадка" data_src="<?=$user_select_kvartal_name?>" id="<?=$user_select_kvartal?>">
+        <span class="ccol"><?=$user_select_kvartal_name?></span>
+    </a>
+
+    <ul class="drop_box" >
+<?
+foreach ($hie->id_kvartal as $item)
+{ ?>
+    <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$item?></a></li>';
+<?  } ?>
+    </ul>
+
+    <input defaultv="<?=$user_select_kvartal?>"
+     <?=$status_edit?> name="id_kvartal" id="ispol"
+        value="<?=$user_select_kvartal?>" type="hidden">
+</div>
+<?
+
+
+	$result_t=mysql_time_query($link,'Select * from r_user where enabled=1 and material_stock=1 order by name_user');
         if($result_t->num_rows>0)
         {
             //==========================================кому
@@ -204,6 +231,7 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
 
 		echo'</div>';
 		echo'</div>';
+
 	//============================дата
 		echo'<div class="_50_x">';
 		   echo'<div class="input-width m10_right" style="position:relative; margin-right: 0px;">';
@@ -220,6 +248,7 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
                                 . 'data-tooltip="Дата документа" '
                                 . 'autocomplete="off" type="text"><i class="icon_cal cal_223"></i></div></div>';
 ?>
+
 		<div class="pad10" style="padding: 0;">
                     <span class="bookingBox"></span>
                 </div>
@@ -255,6 +284,7 @@ s.id as ids
 ,sm.count_units as count_units_stock
 ,sm.price
 ,sm.subtotal
+,sm.id_kvartal     
 
 ,m.id as idm
 ,m.count_units as count_units_act
@@ -298,6 +328,7 @@ s.id as ids
 ,sm.count_units as count_units_stock
 ,sm.price
 ,sm.subtotal
+,sm.id_kvartal     
 
 ,0 as idm
 ,sm.count_units as count_units_act
@@ -332,6 +363,7 @@ s.id as ids
 ,sm.count_units as count_units_stock
 ,sm.price
 ,sm.subtotal
+,sm.id_kvartal     
 
 ,0 as idm
 ,sm.count_units as count_units_act
@@ -385,7 +417,7 @@ order by z.name";
                 }
                 $bcolor='style="background-color:#f0f4f6;"';
              }
- //---------------------------------наименование работы    //rel_id="'.$row_act["idm"].'"
+ //---------------------------------наименование материала    //rel_id="'.$row_act["idm"].'"
             echo'<tr id="row_'.$row_act["idm"].'" '.$bcolor.' class="jop work__s workx" id_trr="'.$i.'" >
                  <td class="no_padding_left_ pre-wrap one_td" '.$bcolor.'>
                     <span class="s_j">'.$row_act["name"].'</span>
@@ -410,7 +442,7 @@ order by z.name";
                 $arr=ReadCookie('material'.$id_user.'_'.$id_visor);
                 if (count($arr)>0 and $arr[0]>0) {
 //echo("!");
-                    $result_biogen = mysql_time_query($link, 'SELECT M.*,S.*, M.id AS idsm,
+                    $sost = 'SELECT M.*,S.*, M.id AS idsm,
 IFNULL(P.count_send_user,0) AS send, 
 (M.`count_units`-IFNULL(P.count_send_user,0)) AS ost 
 FROM `z_stock_material` AS M
@@ -423,22 +455,20 @@ LEFT JOIN
 ,`z_stock` AS S
 WHERE
 M.`id` ="' . ht($row_act['idsm']) . '" 
-AND M.`id_stock` = S.`id`');
-
+AND M.id_kvartal = "' .$user_select_kvartal. '" 
+AND M.`id_stock` = S.`id`';
+                    //echo "<pre>$sost</pre>";
+                    $result_biogen = mysql_time_query($link,$sost);
 
 
                     $num_results_biogen = $result_biogen->num_rows;
+                    $val_count=$ostatok=0;
 
                     if ($num_results_biogen != 0) {
                         $row_biogen = mysqli_fetch_assoc($result_biogen);
 
                         if ($row_biogen["ost"] > 0) {
-                            $ostatok=$row_biogen["ost"];
-                            $val_count=$row_biogen["ost"];
-                        } else
-                        {
-                            $ostatok=0;
-                            $val_count=0;
+                            $val_count=$ostatok=$row_biogen["ost"];
                         }
                     }
                 }

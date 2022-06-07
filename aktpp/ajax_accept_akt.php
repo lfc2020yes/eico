@@ -64,6 +64,7 @@ id_stock="'.$row_0['id_stock'].'",
 date_res="'.$row_a['date'].'",
 count_units="'.$row_0['count_units_akt'].'",
 price="'.$row_0['price'].'",
+id_kvartal="'.$row_0['id_kvartal'].'",
 id_user="'.$this->id_user.'"';
                } else { 
                     echo " передается больше чем на складе ".$row_0['count_units_akt']." : ".$row_0['count_units']; 

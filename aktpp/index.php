@@ -12,8 +12,13 @@ require_once $url_system.'module/access.php';
 
 
 
+
 //правам к просмотру к действиям
 $hie = new hierarchy($link,$id_user);
+$hie_kvartal=array();
+$hie_kvartal=$hie->id_kvartal;
+require_once $url_system.'module/kvartal_select.php';
+
 $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();

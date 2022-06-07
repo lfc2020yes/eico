@@ -1,5 +1,24 @@
 <?
 
+function findArray ($ar, $findValue, $executeKeys){
+    $result = array();
+
+    foreach ($ar as $k => $v) {
+        if (is_array($ar[$k])) {
+            $second_result = findArray ($ar[$k], $findValue, $executeKeys);
+            $result = array_merge($result, $second_result);
+            continue;
+        }
+        if ($v === $findValue) {
+            foreach ($executeKeys as $val){
+                $result[] = $ar[$val];
+            }
+
+        }
+    }
+    return $result;
+}
+
 function formatFileSize($size) {
     $a = array("B", "KB", "MB", "GB", "TB", "PB");
     $pos = 0;

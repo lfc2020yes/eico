@@ -19,7 +19,7 @@ function place_vv()
 {
 
 	//удаляются старые меню
-	var data ='url='+window.location.href+'&id='+$(this).val();
+	var data ='url='+window.location.href+'&id='+$(this).val()+'&ispol='+$('#ispol').val();
 	$('.menu3_prime_akt').hide();
 	AjaxClient('akt','users','GET',data,'AfterChangeKvartalAkt','1',0);
 }

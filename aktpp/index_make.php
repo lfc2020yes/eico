@@ -184,13 +184,22 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
         <ul class="drop_box" >
             <?
             foreach ($hie->id_kvartal as $item)
-            { ?>
-                <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$item?></a></li>';
+            {
+
+                $result_uu = mysql_time_query($link, 'select kvartal from i_kvartal where id="' . ht($item) . '"');
+                $num_results_uu = $result_uu->num_rows;
+
+                if ($num_results_uu != 0) {
+                    $row_uu = mysqli_fetch_assoc($result_uu);
+                }
+
+                ?>
+                <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$row_uu["kvartal"]?></a></li>
             <?  } ?>
         </ul>
 
         <input defaultv="<?=$user_select_kvartal?>"
-            <?=$status_edit?> name="id_kvartal" id="ispol"
+            <?=$status_edit?> name="id_kvartal" id="ispol22"
                value="<?=$user_select_kvartal?>" type="hidden" class="place-2022-val">
     </div>
 
@@ -220,11 +229,22 @@ echo'<div class="_50_x igor-2022-input menu3_prime_akt">'
               . '</a><ul class="drop_box" >';   //style="display:block"
                //=====================Возможные получатели документа
 
+            $ku = new kvartal_users($link);
+            $mas_ar=(array) $user_select_kvartal;
+            $users = $ku->get_users( $mas_ar,1);
+           // echo "<pre> связанные пользователи: ".print_r($users,true)."</pre>";
+
+            foreach ($users as $index => $usery) {
+                //$row_t = mysqli_fetch_assoc($result_t);
+                echo'<li><a href="javascript:void(0);"  rel="'.$usery["id_user"].'" data-tooltip="Выбрать принимающего">'.$usery["name_user"].'</a></li>';
+            }
+
+/*
             for ($i=0; $i<$result_t->num_rows; $i++)
             {
                 $row_t = mysqli_fetch_assoc($result_t);
                 echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'" data-tooltip="Выбрать принимающего">'.$row_t["name_user"].'</a></li>';
-            }
+            }*/
             echo'</ul>'                    //ispol
             . '<input defaultv="'.$id1_user
                     .'" '.$status_edit

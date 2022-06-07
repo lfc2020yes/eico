@@ -26,31 +26,72 @@ $id_city=htmlspecialchars($_GET['id']);
 	      { 
 	     //возможно проверка на доступ к этому действию для данного пользователя. можно ли ему это выполнять или нет
 $status_ee='ok';
-if($sign_admin!=1)
-{
-$result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$id_city.'" and  a.id in ('.implode(',',$hie->obj).') order by a.id');
-} else
-{
-$result_t=mysql_time_query($link,'Select a.id,a.object_name from i_object as a where a.id_kvartal="'.$id_city.'" order by a.id');		
-}
-       $num_results_t = $result_t->num_rows;
-	   if($num_results_t!=0)
-	   {
-		   $row_t = mysqli_fetch_assoc($result_t);
-		   $echo.='<div class="left_drop menu3_prime book_menu_sel js--sort gop_io"><div class="select eddd"><a class="slct" data_src="0">...</a><ul class="drop">';
-		   $url_prime="prime/";
-		   $active=$row_t["id"];
-		   for ($i=0; $i<$num_results_t; $i++)
-             {  
-			   if($i!=0)
-			   {
-                  $row_t = mysqli_fetch_assoc($result_t);
-			   }
-				  $echo.='<li><a href="'.$url_prime.$row_t["id"].'/"  rel="'.$row_t["id"].'">'.$row_t["object_name"].'</a></li>'; 
-			   
-			 }
-		   $echo.='</ul><input type="hidden"  name="dom" id="dom"  value="'.$active.'"></div></div>'; 
-	   }
+
+              $echo.='<div class="_50_x igor-2022-input menu3_prime_akt">'
+              ;
+              $echo.='<div class="input-width m10_right m10_left">';  //margin-right: 10px;
+              $echo.='<input id="id_akt_edit" name="id_akt_edit" value="" type="hidden">';
+              //====================================Список пользователей
+              // ограничить объектами
+              // не выводить себя самого, если это не S
+//echo "<pre>".print_r($hie->id_kvartal,true)."$user_select_kvartal $user_select_kvartal_name  </pre>";
+              ?>
+
+              <?
+              $select_id_users='';
+              $select_name_users='';
+
+              $ku = new kvartal_users($link);
+              $mas_ar=(array) $_GET['id'];
+              $users = $ku->get_users( $mas_ar,1);
+
+              $select_id_users='';
+              if(findArray($users,$_GET["ispol"], array('id_user'))) {
+                  $select_id_users=$_GET["ispol"];
+
+              }
+
+
+
+                  //==========================================кому
+                  $echo.='<div class="select_box eddd_box">'
+                      . '<a class="slct_box '.iclass_('ispol_work',$stack_error,"error_formi").' '.$status_class.'"'
+                      . 'data-tooltip="Принимающий" data_src="'.$select_id_users.'" id="id1_user">'
+                      . '<span class="ccol">'.ipost_x($_POST['ispol_work'],$select_id_users,"Принимающий","r_user","name_user",$link).'</span>'
+                      . '</a><ul class="drop_box" >';   //style="display:block"
+                  //=====================Возможные получатели документа
+
+
+                  // echo "<pre> связанные пользователи: ".print_r($users,true)."</pre>";
+
+                  foreach ($users as $index => $usery) {
+                      //$row_t = mysqli_fetch_assoc($result_t);
+                      $echo.='<li><a href="javascript:void(0);"  rel="'.$usery["id_user"].'" data-tooltip="Выбрать принимающего">'.$usery["name_user"].'</a></li>';
+                  }
+
+                  /*
+                              for ($i=0; $i<$result_t->num_rows; $i++)
+                              {
+                                  $row_t = mysqli_fetch_assoc($result_t);
+                                  echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'" data-tooltip="Выбрать принимающего">'.$row_t["name_user"].'</a></li>';
+                              }*/
+              $echo.='</ul>'                    //ispol
+                      . '<input defaultv="'.$select_id_users
+                      .'" '.$status_edit
+                      .' name="id1_user" '
+                      . 'id="ispol" '
+                      . 'value="'.$select_id_users.'" type="hidden">'
+                      . '</div>';
+
+
+
+
+
+          $echo.='</div>';
+          $echo.='</div>';
+
+
+
 		  }
 		 	  
 	  } else

@@ -7532,7 +7532,7 @@ i {padding: 10px 8px;
   background-image: none !important;
  // @include align-items(center);
   @include justify-content(center);
-
+@include flex-wrap(wrap);
 
 
 }
@@ -7567,10 +7567,23 @@ color:#fff;
   text-align: center;
   margin-top:20px;
   border-radius: 4px;
+  @include sw('tablet-small') {
+    width: 100%;
+  }
 }
 
-.bg-login-1 { width: 40%;}
-.bg-login-2 { width: 60%;}
+.bg-login-1 { @include flexbox(); padding:0px 100px !important; @include align-self(center);
+  @include align-items(center);   @include justify-content(center); }
 
-.bg-login-1 {@include flexbox(); padding:0px 100px !important; @include align-self(center);
- @include align-items(center);   @include justify-content(center);}
+.bg-login-1 { width: 40%;
+  @include sw('tablet-small') {width: 100%; @include order(1); @include align-self(auto); padding: 20px 50px !important; padding-top: 50px !important;
+
+  }  }
+.bg-login-2 { width: 60%;
+  @include sw('tablet-small') { width: 100%; @include order(0); height: 50vh;
+  }  }
+
+
+
+.igor-2022-input { display: inline-block !important;
+  width: calc(100% / 3) !important; padding-left:0px !important; }

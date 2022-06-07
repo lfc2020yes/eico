@@ -15,6 +15,44 @@ var delay1 = (function(th){
 })();
 
 
+function place_vv()
+{
+
+	//удаляются старые меню
+	var data ='url='+window.location.href+'&id='+$(this).val();
+	$('.menu3_prime_akt').hide();
+	AjaxClient('akt','users','GET',data,'AfterChangeKvartalAkt','1',0);
+}
+
+
+function AfterChangeKvartalAkt(data,update)
+{
+	if ( data.status=='reg' )
+	{
+		WindowLogin();
+	}
+
+	if ( data.status=='ok' )
+	{
+		$('.menu3_prime_akt').remove();
+		$('.menu2_prime_akt').after(data.echo);
+		$(".slct").unbind('click.sys');
+		$(".slct").bind('click.sys', slctclick);
+		$(".drop").find("li").unbind('click');
+		$(".drop").find("li").bind('click', dropli);
+
+
+	}
+	if ( data.status=='error' )
+	{
+		$('.menu3_prime_akt').show();
+		alert_message('error','Ошибка получения списка принимающих');
+
+	}
+	//alert(data.echo);
+}
+
+
 function city_oo()
 {
 	var iu=$('.users_rule').attr('iu');
@@ -4920,6 +4958,9 @@ $('.loader_ada').remove();
 $('.loader_ada1').remove();
 
 	$('body').on("change keyup input click",'#city_oo',city_oo);
+
+
+	$('body').on("change",'.place-2022-val',place_vv);
 
 BasketFinery(); //проверка корзины нарядов	
 BasketMaterial(); //проверка корзины материалов

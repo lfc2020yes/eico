@@ -170,8 +170,33 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
 
 
 	echo'<div style="height:70px;">'              //Общая полоса панели
-          . '<div class="_50_na_50_1" style="width:50%; float:left;">'
-          . '<div class="_50_x">'
+          . '<div class="_50_na_50_1" style="width:100%;">'
+          . '
+<div class="_50_x igor-2022-input menu2_prime_akt">';
+
+	?>
+    <div class="select_box eddd_box">
+        <a class="slct_box iclass_('ispol_work',$stack_error,"error_formi") <?=$status_class?>"
+        data-tooltip="Строительная площадка" data_src="<?=$user_select_kvartal_name?>" id="<?=$user_select_kvartal?>">
+        <span class="ccol"><?=$user_select_kvartal_name?></span>
+        </a>
+
+        <ul class="drop_box" >
+            <?
+            foreach ($hie->id_kvartal as $item)
+            { ?>
+                <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$item?></a></li>';
+            <?  } ?>
+        </ul>
+
+        <input defaultv="<?=$user_select_kvartal?>"
+            <?=$status_edit?> name="id_kvartal" id="ispol"
+               value="<?=$user_select_kvartal?>" type="hidden" class="place-2022-val">
+    </div>
+
+</div>
+    <?
+echo'<div class="_50_x igor-2022-input menu3_prime_akt">'
     ;
 	echo'<div class="input-width m10_right m10_left">';  //margin-right: 10px;
 	echo '<input id="id_akt_edit" name="id_akt_edit" value="'.$id_edit.'" type="hidden">';
@@ -180,24 +205,7 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
         // не выводить себя самого, если это не S
 //echo "<pre>".print_r($hie->id_kvartal,true)."$user_select_kvartal $user_select_kvartal_name  </pre>";
 ?>
-<div class="select_box eddd_box">
-    <a class="slct_box iclass_('ispol_work',$stack_error,"error_formi") <?=$status_class?>"
-        data-tooltip="Строительная площадка" data_src="<?=$user_select_kvartal_name?>" id="<?=$user_select_kvartal?>">
-        <span class="ccol"><?=$user_select_kvartal_name?></span>
-    </a>
 
-    <ul class="drop_box" >
-<?
-foreach ($hie->id_kvartal as $item)
-{ ?>
-    <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$item?></a></li>';
-<?  } ?>
-    </ul>
-
-    <input defaultv="<?=$user_select_kvartal?>"
-     <?=$status_edit?> name="id_kvartal" id="ispol"
-        value="<?=$user_select_kvartal?>" type="hidden">
-</div>
 <?
 
 
@@ -233,7 +241,7 @@ foreach ($hie->id_kvartal as $item)
 		echo'</div>';
 
 	//============================дата
-		echo'<div class="_50_x">';
+		echo'<div class="_50_x igor-2022-input">';
 		   echo'<div class="input-width m10_right" style="position:relative; margin-right: 0px;">';
 
 		    echo'<input id="date_hidden_table" name="date_akt" value="'.$ddate.'" type="hidden">'; //name="date_naryad"

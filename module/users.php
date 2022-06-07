@@ -23,7 +23,7 @@ echo'<div class="logi-hovi"><img src="img/users/'.$row_uu["id"].'_100x100.jpg?a=
 {
 //echo'<div class="users_rule" style="padding-left:22px;">';
 	echo'<img src="img/users/0_100x100.jpg">
-<div class="users_rule" ui="'.$id_user.'" not="'.$row_uu["noti_key"].'">';
+<div class="users_rule" iu="'.$id_user.'" not="'.$row_uu["noti_key"].'">';
 }
 
 $name=$row_uu["name_user"];

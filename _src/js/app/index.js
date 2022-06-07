@@ -17,8 +17,7 @@ var delay1 = (function(th){
 
 function city_oo()
 {
-
-	var iu=$('.users_rule').attr('ui');
+	var iu=$('.users_rule').attr('iu');
 
 	$.cookie("cc_town"+iu, null, {path:'/',domain: window.is_session,secure: false});
 	CookieList("cc_town"+iu,$(this).val(),'add');
@@ -5613,6 +5612,7 @@ $(".cal_223").bind('click', function() {  $(this).prev('.calendar_t').trigger('f
 //авторизация
 //авторизация
 //авторизация
+	/*
 $("#email_formi").keyup(function(){
 
 	var email = $("#email_formi").val();
@@ -5628,13 +5628,13 @@ $("#email_formi").keyup(function(){
 	
 	
 });
-
+*/
 $("#password_formi,#email_formi").keypress(function(e){
 	     	   if(e.keyCode==13){
 				   $('#yes1').trigger('click');
 			   }
 });
-	
+/*
 $("#password_formi").keyup(function(){
 
 	if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
@@ -5647,7 +5647,7 @@ $("#password_formi").keyup(function(){
 	}
 	
 });
-
+*/
 $('#yes1').on( "click", function() {
 
 
@@ -5655,8 +5655,8 @@ $('#yes1').on( "click", function() {
    var email = $("#email_formi").val();
    var err = [0,0];
   
-   $("#email_formi").removeClass('error_formi');
-   $("#password_formi").removeClass('error_formi');
+  // $("#email_formi").removeClass('error_formi');
+  // $("#password_formi").removeClass('error_formi');
   
     if(email != '')
     {
@@ -5673,19 +5673,22 @@ $('#yes1').on( "click", function() {
 	*/
 	} else
 	{
-		$("#email_formi").addClass('error_formi');
+	//	$("#email_formi").addClass('error_formi');
 		err[0]=1;		
 	}
 	if(($("#password_formi").val()=='')||($("#password_formi").val()==0))
 	{
-		$("#password_formi").addClass('error_formi');
+		//$("#password_formi").addClass('error_formi');
 		err[1]=1;
 	}
 	
 	if((err[0]==0)&&(err[1]==0))
 	{
 	   $('#pod_form').submit();	
-	}
+	} else
+    {
+        alert_message('error','Не все поля заполнены');
+    }
 	
 
 	

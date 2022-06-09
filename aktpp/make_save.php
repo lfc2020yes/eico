@@ -25,21 +25,20 @@
 
 $adate=htmlspecialchars(trim($_POST['date_akt']));  //получить дату "2017-02-28"
 $id1_user=htmlspecialchars(trim($_POST['id1_user']));
-
-    
-//echo "<p/>id_akt_edit=".$_POST['id_akt_edit'];
-//echo "<p/>save_form=".$_POST['save_form'];
-if (isset($_POST['id_akt_edit']) && $_POST['id_akt_edit']>0) {    //Редактировать акт
+$id_kvartal=htmlspecialchars(trim($_POST['id_kvartal']));
+$id_akt=htmlspecialchars(trim($_POST['id_akt']));
+//echo "<pre>".print_r($_POST,true)."</pre>";
+//echo "<pre> id_akt= $id_akt</pre>";
+if ($id_akt>0) {    //Редактировать акт
     $new=false;
     //------------------------------Транзакция
     $not_errorT=TRUE;
     $link->autocommit(FALSE);
     
-    $id_akt_edit=htmlspecialchars(trim($_POST['id_akt_edit']));  
-    $sqlE='update z_act set id1_user="'.$id1_user.'", id_user="'.$id_user.'" where id="'.$id_akt_edit.'"';
+    $sqlE="update z_act set id1_user='$id1_user', id_user='$id_user', id_kvartal='$id_kvartal' where id='$id_akt'";
    
     //echo "<p/>".$sqlE; /////
-    //echo "<p/> _POST['count_mat']=".$_POST['count_mat'];
+    //die();
     $cnt=iDelUpd($link,$sqlE,false);   //Исправить запись об акте
     if ($cnt<=1) {      // исправить и добавить информацию о материалах
         for($p=0;$p<$_POST['count_mat'];$p++) {    //----------------обойти материала
@@ -64,7 +63,7 @@ if (isset($_POST['id_akt_edit']) && $_POST['id_akt_edit']>0) {    //Редакт
                 $sqlM = 'insert into z_act_material
                         (id_act,id_stock,id_stock_material,count_units,price_nds)
                         VALUES
-                        ("' . $id_akt_edit . '","' . $arrI[0] . '","' . $arrI[1] . '","' . $_POST['count_' . $p] . '","' . $_POST['act_price_' . $p] . '"
+                        ("' . $id_akt . '","' . $arrI[0] . '","' . $arrI[1] . '","' . $_POST['count_' . $p] . '","' . $_POST['act_price_' . $p] . '"
                         )';
                 if (!$link->query($sqlM)) {
                     $errno = $link->errno;
@@ -90,11 +89,11 @@ $number=get_numer_doc(&$link,$adate,4);  // получить номер акта
 //Создать акт
 $sqlA= 'insert into z_act 
         (number,date,date_create,
-        id0_user,id1_user,
+        id0_user,id1_user,id_kvartal,
         id_user,id_doc)
             VALUES
         ("'.$number.'","'.$adate.'","'.date('Y-m-d H:i:s').'",
-        "'.$id_visor.'","'.$id1_user.'",    
+        "'.$id_visor.'","'.$id1_user.'", "'.$id_kvartal.'",   
         "'.$id_user.'","'.$id_doc.'"
         )';
      $id_act=iInsert_1R($link,$sqlA,false);   //Добавить запись о новом акте
@@ -143,7 +142,7 @@ $sqlA= 'insert into z_act
 
         //$clear_cookie=1; 
         //die ('material'.$id_user.'_'.$id_visor);
-        header ('Location: /aktpp/edit/'.$id_act.'/');  
-        exit();  
+        header ('Location: /aktpp/edit/'.$id_act.'/');
+        exit();
     }    
 } //insert

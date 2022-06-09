@@ -42,20 +42,23 @@
     $(document).on('click', ".save_akt" , function(){
         //alert('click');
         if (ControlAkt(0)==false) {               //Контроль на сохранение
-                //  var err=<?php echo json_encode($stack_error) ?>;
-                // if (err!=null) {
-            //if (err.length>0) {
-                $('.error_text_add').show();
-                //$('.error_text_add').empty().append('Не все поля заполнены для сохранения');
-                //setTimeout ( function () { $('.error_text_add').empty(); }, 7000 );
-            /*
-                setTimeout ( function () {
-                    $('.error_text_add').hide();
-                }, 7000 );
-                */
-            alert_message('error','Не все поля заполнены');
+          var err=<?php echo json_encode($stack_error) ?>;
+            if (err!=null) {
+                if (err.length > 0) {
+                    $('.error_text_add').show();
+                    $('.error_text_add').empty().append('Не все поля заполнены для сохранения');
+                    setTimeout(function () {
+                        $('.error_text_add').empty();
+                    }, 7000);
+                    /*
+                        setTimeout ( function () {
+                            $('.error_text_add').hide();
+                        }, 7000 );
+                        */
+                    alert_message('error', 'Не все поля заполнены');
 
-            //}
+                }
+            }
 
         } else{
             //alert ('submit');

@@ -52,7 +52,7 @@ where id_act='$this->id_act'
             if ($row_0['id_stock_material'] <> null) {
                //если количество по id_stock_material ==count_units
                if ($row_0['count_units_akt']==$row_0['count_units']) {     //все передается
-                   $sql.= $COMA.'update z_stock_material set id_user="'.$this->id_user.'", date_res="'.$row_a['date'].'" where id="'.$row_0['idsm'].'"';
+                   $sql.= $COMA.'update z_stock_material set id_user="'.$this->id_user.'", id_kvartal="'.$row_a['id_kvartal'].'", date_res="'.$row_a['date'].'" where id="'.$row_0['idsm'].'"';
                    $COMA=';';
                } elseif ($row_0['count_units_akt']<$row_0['count_units']) { //передача делиться на части
                    $sql.= $COMA.'update z_stock_material set count_units="'.($row_0['count_units']-$row_0['count_units_akt']).'" where id="'.$row_0['idsm'].'"';
@@ -64,7 +64,7 @@ id_stock="'.$row_0['id_stock'].'",
 date_res="'.$row_a['date'].'",
 count_units="'.$row_0['count_units_akt'].'",
 price="'.$row_0['price'].'",
-id_kvartal="'.$row_0['id_kvartal'].'",
+id_kvartal="'.$row_a['id_kvartal'].'",
 id_user="'.$this->id_user.'"';
                } else { 
                     echo " передается больше чем на складе ".$row_0['count_units_akt']." : ".$row_0['count_units']; 

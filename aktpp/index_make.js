@@ -244,6 +244,7 @@ function AjaxSendAkt(id) {            //Послать акты на подпи�
     function AjaxSaveAkt(id,id_user) {            //Сохранить акт
         var date = document.getElementById('date_hidden_table').value;
         var user= document.getElementById('ispol').value;
+        var id_kvartal= document.getElementById('ispol22').value;
         var cm=document.getElementById('count_mat').value;
         var arr_data=[];
         for (var i = 0; i < cm; i++) {             //количество по позиции
@@ -252,7 +253,7 @@ function AjaxSendAkt(id) {            //Послать акты на подпи�
           arr_data[i][0] =document.getElementsByName('works['+i+'][id]')[0].value;
           arr_data[i][1] = document.getElementsByName('count_'+i)[0].value;
         }
-
+        console.log ('ispol='+user+' id_kvartal='+id_kvartal);
         //------------------------------------------------------------------
         jQuery.ajax({
                     url:     "/aktpp/ajax_save_akt.php", //Адрес подгружаемой страницы
@@ -261,6 +262,7 @@ function AjaxSendAkt(id) {            //Послать акты на подпи�
                 data:  {
                             id: id  ,
                             id1_user: user,
+                            id_kvartal: id_kvartal,
                             date: date,
                             mat: JSON.stringify(arr_data)
                     },

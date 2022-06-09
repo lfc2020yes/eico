@@ -40,18 +40,18 @@ DELIMITER ;
 
 function get_numer_doc(&$mysqli,$date,$type) {
     $num=0;
-    $sql = "select numer_doc from n_numer WHERE  date_doc=$date AND type_doc=$type";
+    $sql = "select numer_doc from n_numer WHERE  date_doc='$date' AND type_doc=$type";
     $result = $mysqli->query( $sql );
     //echo "<br>". $sql;
 
     if( $row = $result->fetch_assoc() ) {
-        $num = $row['numer_doc']+1;
-        $sql = "UPDATE n_numer SET numer_doc=$num WHERE date_doc=$date AND type_doc=$type";
-        //echo "<br>". $sql;
+        $num = 1+$row[numer_doc];
+        $sql = "UPDATE n_numer SET numer_doc=$num WHERE date_doc='$date' AND type_doc=$type";
+         //echo "<br>". $sql;
         $mysqli->query($sql);
     } else {
         $num = 1;
-        $sql = "INSERT INTO n_numer VALUE ($date,$type,$num)";
+        $sql = "INSERT INTO n_numer VALUE ('$date',$type,$num)";
         //echo "<br>". $sql;
         $mysqli->query($sql);
     }
@@ -60,7 +60,7 @@ function get_numer_doc(&$mysqli,$date,$type) {
 function get_numer_doc__(&$mysqli,$date,$type) {
   
   $num = 0;  
-  $sql = "CALL get_numer_doc($date,$type,@num)";
+  $sql = "CALL get_numer_doc('$date',$type,@num)";
   $mysqli->query($sql);
   echo "<br>". $sql;
   if($result=$mysqli->query('SELECT @num as numer')) {

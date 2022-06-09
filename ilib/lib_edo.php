@@ -757,7 +757,7 @@ VALUES
                                  $id_doc=0,
                                  $status_task = '=0',
                                  $only_user = false,
-                                 $limit='LIMIT 0,100',
+                                 $limit = null,
                                  $order_by = 'ORDER BY date_create DESC'
                                  )
     {
@@ -766,6 +766,7 @@ VALUES
         $task_user = ($only_user)?"AND s.`id_executor` IN (".
             implode(',', $this->user_duty($this->id_user))
             .")" : '';
+        $limits = is_null($limit) ? '' : $limit;
         $sql =
 "
 SELECT * FROM ".$this->arr_table[$type]."
@@ -794,7 +795,7 @@ WHERE s.id_run=".$row[id_edo_run]."
 AND s.id_status $status_task
 $task_user
 ORDER BY s.`displayOrder`,s.`date_create`
-$limit            
+$limits            
 ";
                     $this->Debug($sql,__FUNCTION__);
                     if ($result2 = $this->mysqli->query($sql)) {
@@ -844,7 +845,7 @@ $limit
     public function my_tasks($type,
                              $status='=0',
                              $order_by = 'ORDER BY d.date_create DESC',
-                             $limit='LIMIT 0,100',
+                             $limit=null,
                              $id_action = null,
                              $id_doc = null)  {
         $id_user_duty = $this->user_duty($this->id_user);
@@ -852,6 +853,7 @@ $limit
 
         $action = ($id_action == null)? '' : "AND R.`id_action` = $id_action";
         $iddoc = is_null($id_doc) ? '' : "AND d.id = $id_doc";
+        $limits = is_null($limit) ? '' : $limit;
         $sql=
  "
  SELECT
@@ -881,7 +883,7 @@ AND T.$id_executor
 AND d.`id_user` = u.`id`
 $iddoc
 $order_by
-$limit 
+$limits 
  ";
 
 

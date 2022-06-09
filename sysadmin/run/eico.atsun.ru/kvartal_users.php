@@ -52,6 +52,11 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     echo "<p/> result_connect mysqli=".$mysqli->connect_errno;
     if (!$mysqli->connect_errno) {
       echo "<p>step one";
+      /*
+      $ku = new kvartal_users($mysqli);
+      $users = $ku->get_users( $kvartals,1);
+      echo "<pre> связанные пользователи [$mats]: ".print_r($users,true)."</pre>";
+      */
 //-----------------------------------------------------------------------------
         $ku = new kvartal_users($mysqli,true);
 

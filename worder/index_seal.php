@@ -24,7 +24,7 @@ $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 
-
+include_once $url_system.'module/kvartal_select.php';
 
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы
@@ -167,10 +167,10 @@ if($num_results_pro!=0)
         {
             if($row_list["id_user"]==$id_user)
             {
-                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
             } else
             {
-                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=0 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
             }
             $num_results_t1_ = $result_t1_->num_rows;
             if($num_results_t1_!=0)
@@ -186,10 +186,10 @@ if($num_results_pro!=0)
 
             if($row_list["id_user"]==$id_user)
             {
-                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
             } else
             {
-                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
+                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=1 and a.id_user="'.$row_list["id_user"].'" and a.id_stock="'.htmlspecialchars(trim($row_pro["id_stock"])).'"');
             }
             $num_results_t1_ = $result_t1_->num_rows;
             if($num_results_t1_!=0)

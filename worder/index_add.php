@@ -5,7 +5,6 @@ $url_system=$_SERVER['DOCUMENT_ROOT'].'/'; include_once $url_system.'module/conf
 
 
 
-
 //правам к просмотру к действиям
 $hie = new hierarchy($link,$id_user);
 //echo($id_user);
@@ -21,6 +20,8 @@ $hie_user=$hie->user;
 $sign_level=$hie->sign_level;
 $sign_admin=$hie->admin;
 
+
+include_once $url_system.'module/kvartal_select.php';
 
 $role->GetColumns();
 $role->GetRows();
@@ -248,7 +249,7 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 //Определяем сколько материала на пользователе который оформляет наряд
 							if($rowxx["id_stock"]!='')
 							{
-$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
+$result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.id_kvartal="'.$user_select_kvartal.'" and a.alien=0 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
 					$z_stock_count_users=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)
@@ -263,7 +264,7 @@ $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_sto
 				 }
 
 
-                                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
+                                $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=1 and a.id_user="'.$id_user.'" and a.id_stock="'.htmlspecialchars(trim($rowxx["id_stock"])).'"');
                                 $z_stock_count_users=0;
                                 $num_results_t1_ = $result_t1_->num_rows;
                                 if($num_results_t1_!=0)
@@ -1221,7 +1222,7 @@ $my_material1=0;	//давальческого материала
 //Определяем сколько материала на пользователе который оформляет наряд
 							if($row_mat["id_stock"]!='')
 							{
-$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=0 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE a.alien=1 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ1  FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
+$result_t1_=mysql_time_query($link,'SELECT b.units,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=0 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ,(SELECT SUM(a.count_units) AS summ FROM z_stock_material AS a WHERE  a.id_kvartal="'.$user_select_kvartal.'" and  a.alien=1 and a.id_stock=b.id and a.id_user="'.$id_user.'") as summ1  FROM z_stock as b WHERE b.id="'.htmlspecialchars(trim($row_mat["id_stock"])).'"');
 					$z_stock_count_users=0;	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;
 	             if($num_results_t1_!=0)

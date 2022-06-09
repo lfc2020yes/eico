@@ -24,7 +24,7 @@ $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 
-
+include_once $url_system.'module/kvartal_select.php';
 
 //проверка адреса сайта на существование такой страницы
 //проверка адреса сайта на существование такой страницы

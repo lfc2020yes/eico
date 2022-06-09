@@ -942,10 +942,18 @@ echo'</div>';
                 <?
                 if($_POST['datess1']!='')
                 {
+                    /*
                     $query_string .= 'var st=\''.ipost_($_POST['date_start'],"").'\';
 var st1=\''.ipost_($_POST['date_end'],"").'\';
 var st2=\''.ipost_($_POST['datess1'],"").'\';';
-                    $query_string .= 'jopacalendar(st,st1,st2);';
+                    $query_string .= 'jopacalendar(st,st1,st2);';*/
+
+                    echo 'var st=\''.ipost_($_POST['date_start'],"").'\'; ';
+                    echo 'var st1=\''.ipost_($_POST['date_end'],"").'\'; ';
+                    echo 'var st2=\''.ipost_($_POST['datess1'],"").'\'; ';
+                    echo 'jopacalendar(st,st1,st2);';
+
+
                 }
                 ?>
                 //$('#date_table1').datepicker('setDate', ['+1d', '+30d']);

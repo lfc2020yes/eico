@@ -64,9 +64,19 @@ if (( count($_GET) == 1 ))
         if($num_results_custom_url1!=0)
         {
 			$row_list1= mysqli_fetch_assoc($result_url1);
-			
+
+
+            $result_uuop = mysql_time_query($link, 'select id_company from i_object where id="' . ht($row_list['id_object']) . '"');
+            $num_results_uuop = $result_uuop->num_rows;
+
+            if ($num_results_uuop != 0) {
+                $row_uuop = mysqli_fetch_assoc($result_uuop);
+            }
+//echo("!".$row_uuop["id_object"]);
+
+
 						//узнаем организацию
-		$result_url11=mysql_time_query($link,'select a.* from i_company as a where a.id=1');
+		$result_url11=mysql_time_query($link,'select a.* from i_company as a where a.id="'.ht($row_uuop["id_company"]).'"');
         $num_results_custom_url11 = $result_url11->num_rows;
         if($num_results_custom_url11!=0)
         {

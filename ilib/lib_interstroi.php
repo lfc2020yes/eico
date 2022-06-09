@@ -380,6 +380,23 @@ WHERE id = '{$row[id_stock_material]}'";
     }
     return ($sqls == '')? false : $sqls;
 }
+
+/** Получить id_kvartal по id_object
+ * @param $mysqli
+ * @param $row_nariad
+ */
+function oblect2kvartal($mysqli,$id_object) {
+    $id_kvartal = 0;
+    $sql="
+SELECT id_kvartal FROM i_object WHERE id='$id_object'
+    ";
+    if ($result = $mysqli->query($sql)) {
+        if ($row = $result->fetch_assoc()) {
+            $id_kvartal = $row[id_kvartal];
+        }
+    }
+    return $id_kvartal;
+}
 /** Списание с пользователя материалов
  * @param $mysqli
  * @param $row_nariad
@@ -387,6 +404,8 @@ WHERE id = '{$row[id_stock_material]}'";
  * @return false|string
  */
 function material_from_user(&$mysqli, &$summa_material, &$count_material, $row_nariad,$row_n_material, $show = false){
+
+    $id_kvartal = oblect2kvartal($mysqli,$row_nariad[id_object]);
     $sqls = ''; $COMA='';
     $count_units_m = $row_n_material[count_units];
     $sql="
@@ -400,6 +419,7 @@ WHERE
 I.`id` = {$row_n_material[id_material]}
 AND I.`id_stock` = S.`id_stock`
 AND I.`alien` = S.`alien`
+AND S.`id_kvartal` = '$id_kvartal'  
 AND S.`count_units` > 0  
 AND S.`id_user` = ".$row_nariad[id_user];
 

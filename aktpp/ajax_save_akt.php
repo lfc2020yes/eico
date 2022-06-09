@@ -6,12 +6,14 @@ header('Content-type: text/html; charset=utf-8');
 //include_once("./XLS_DB.php");
 $id_act=htmlspecialchars(trim($_POST["id"]));
 $id1_user=htmlspecialchars(trim($_POST["id1_user"]));
+$id_kvartal=htmlspecialchars(trim($_POST["id_kvartal"]));
 $date=htmlspecialchars(trim($_POST["date"]));
 $id_doc=htmlspecialchars(trim($_POST["id_doc"]));
 $mat=json_decode($_POST["mat"],true);
 echo '<p>id_act='.$id_act;
 echo '<p>id_user='.$id_user;
 echo '<p>id1_user='.$id1_user;
+echo '<p>id_kvartal='.$id_kvartal;
 echo '<p>date='.$date;
 echo print_r ($mat);
 if (false) {
@@ -35,7 +37,7 @@ if (false) {
 if (isset($_POST['id_akt_edit']) && $_POST['id_akt_edit']>0) {    //Редактировать акт
     $new=false;
     $id_akt_edit=htmlspecialchars(trim($_POST['id_akt_edit']));
-    $sqlE='update z_act set id1_user="'.$id1_user.'", id_user="'.$id_user.'" where id="'.$id_akt_edit.'"';
+    $sqlE='update z_act set id1_user="'.$id1_user.'", id_user="'.$id_user.'", id_kvartal="'.$id_kvartal.'" where id="'.$id_akt_edit.'"';
    //------------------------------Транзакция
     $not_errorT=TRUE;
     $link->autocommit(FALSE);

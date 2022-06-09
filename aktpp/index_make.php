@@ -24,16 +24,17 @@ $active_menu='aktpp/res';  // в каком меню
 $id_visor=$id_user;
 $visor=GetCookie('visor'.$id_user);
 if(!$visor===false) $id_visor=$visor;
-//==========================================Вызов POST
-if((isset($_POST['save_form']))and($_POST['save_form']==1)) {  //=========Это Сохранение формы
-   include_once $url_system.'ilib/Isql.php';                  //Библиотека
-   include_once $url_system.'aktpp/make_control.php';
-   $stack_error=array();
-   $stack_warn=array();
-   POST_control(&$stack_error,&$stack_warn);
-   include_once $url_system.'aktpp/make_save.php';
-}
 
+//==========================================Вызов POST
+if( //(isset($_POST['save_form']))and($_POST['save_form']==1) AND
+    (isset($_POST['id_akt'])) and ($_POST['id_akt']>=0))  {  //=========Это Сохранение формы
+    include_once $url_system.'ilib/Isql.php';                  //Библиотека
+    include_once $url_system.'aktpp/make_control.php';
+    $stack_error=array();
+    $stack_warn=array();
+    POST_control(&$stack_error,&$stack_warn);
+    include_once $url_system.'aktpp/make_save.php';
+}
 
 $podpis=0;  //по умолчанию нельзя редактировать подписана свыше
         if((sign_naryd_level($link,$id_user,$sign_level,$_GET["id"],$sign_admin)))
@@ -57,28 +58,7 @@ $error_header=0;
 $url_404=$_SERVER['REQUEST_URI'];
 $D_404 = explode('/', $url_404);
 
-/*
-if ( count($_GET) == 1 ) //--Если были приняты данные из HTML-формы
-{
 
-  if($D_404[4]=='')
-  {
-	//echo("!");
-
-  } else
-  {
-    header("HTTP/1.1 404 Not Found");
-    header("Status: 404 Not Found");
-    $error_header=404;
-  }
-} else
-{
-   header("HTTP/1.1 404 Not Found");
-   header("Status: 404 Not Found");
-   $error_header=404;
-}
- *
- */
 //если такой страницы нет или не может быть выведена с такими параметрами
 if($error_header==404)
 {
@@ -136,10 +116,14 @@ or $role->permission($trole,'S')
 
 include_once $url_system.'ilib/Isql.php';
 include_once $url_system.'aktpp/top_prime_aktpp_view.php';
+
+
+
+
 ?>
 <form id="aktpp_make_form" class="my_n" style=" padding:0; margin:0;" method="post" enctype="multipart/form-data">
- <input name="save_form" value="1" type="hidden">
-<?php
+    <input id="id_akt" name="id_akt" value="<?=$id_edit?>" type="hidden">
+ <?php
 
 echo'<div id="fullpage" class="margin_60  input-block-2020 ">
     <div class="oka_block_2019" style="min-height:auto;">
@@ -147,15 +131,6 @@ echo'<div id="fullpage" class="margin_60  input-block-2020 ">
 <div class="oka1 oka-newx js-cloud-devices" style="width:100%; text-align: left;">';
 
     echo'<div class="content_block1" style="width: 100%; padding-top: 20px;"  iu="'.$id_user.'"  id_content="'.$id_user.'">';
-
-//print_r($stack_error);
-	/*echo '<pre>';
-print_r($_POST["works"]);
-	echo '</pre>';
-	*/
-/*echo '<pre>';
-print_r($row_list);
-echo '</pre>';*/
 
 echo '<h3 style="margin-bottom:0px;">Подготовка документа </h3>';
 if ($rowE['id_doc']>0) {
@@ -174,49 +149,53 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
           . '
 <div class="_50_x igor-2022-input menu2_prime_akt">';
 
+	//=========================Строительная площадка
+    if($id_edit>0) {
+        $sqlK = "Select a.id_kvartal, k.kvartal from  z_act a, i_kvartal k where a.id='$id_edit' and a.id_kvartal=k.id";
+        $resultK =  mysql_time_query($link,$sqlK);
+        if ($resultK->num_rows > 0) {
+            $rowK = mysqli_fetch_assoc($resultK);
+            $akt_select_kvartal = $rowK[id_kvartal];
+            $akt_select_kvartal_name = $rowK[kvartal];
+        }
+    } else {
+        $akt_select_kvartal = $user_select_kvartal;
+        $akt_select_kvartal_name = $user_select_kvartal_name;
+    }
 	?>
     <div class="select_box eddd_box">
         <a class="slct_box iclass_('ispol_work',$stack_error,"error_formi") <?=$status_class?>"
-        data-tooltip="Строительная площадка" data_src="<?=$user_select_kvartal_name?>" id="<?=$user_select_kvartal?>">
-        <span class="ccol"><?=$user_select_kvartal_name?></span>
+        data-tooltip="Строительная площадка" data_src="<?=$akt_select_kvartal_name?>" id="<?=$akt_select_kvartal?>">
+        <span class="ccol"><?=$akt_select_kvartal_name?></span>
         </a>
 
         <ul class="drop_box" >
             <?
             foreach ($hie->id_kvartal as $item)
             {
-
                 $result_uu = mysql_time_query($link, 'select kvartal from i_kvartal where id="' . ht($item) . '"');
                 $num_results_uu = $result_uu->num_rows;
-
                 if ($num_results_uu != 0) {
                     $row_uu = mysqli_fetch_assoc($result_uu);
                 }
-
                 ?>
-                <li><a href="javascript:void(0);"  rel="<?=$item?>" data-tooltip="Выбрать строительную площадку"><?=$row_uu["kvartal"]?></a></li>
+                <li><a href="javascript:void(0);"  rel="<?=$item?>"
+                       data-tooltip="Выбрать строительную площадку"><?=$row_uu["kvartal"]?></a></li>
             <?  } ?>
         </ul>
 
-        <input defaultv="<?=$user_select_kvartal?>"
+        <input defaultv="<?=$akt_select_kvartal?>"
             <?=$status_edit?> name="id_kvartal" id="ispol22"
-               value="<?=$user_select_kvartal?>" type="hidden" class="place-2022-val">
+               value="<?=$akt_select_kvartal?>" type="hidden" class="place-2022-val">
     </div>
-
 </div>
     <?
-echo'<div class="_50_x igor-2022-input menu3_prime_akt">'
-    ;
+    echo'<div class="_50_x igor-2022-input menu3_prime_akt">';
 	echo'<div class="input-width m10_right m10_left">';  //margin-right: 10px;
-	echo '<input id="id_akt_edit" name="id_akt_edit" value="'.$id_edit.'" type="hidden">';
+
 	//====================================Список пользователей
         // ограничить объектами
         // не выводить себя самого, если это не S
-//echo "<pre>".print_r($hie->id_kvartal,true)."$user_select_kvartal $user_select_kvartal_name  </pre>";
-?>
-
-<?
-
 
 	$result_t=mysql_time_query($link,'Select * from r_user where enabled=1 and material_stock=1 order by name_user');
         if($result_t->num_rows>0)
@@ -230,7 +209,7 @@ echo'<div class="_50_x igor-2022-input menu3_prime_akt">'
                //=====================Возможные получатели документа
 
             $ku = new kvartal_users($link);
-            $mas_ar=(array) $user_select_kvartal;
+            $mas_ar=(array) $akt_select_kvartal;
             $users = $ku->get_users( $mas_ar,1);
            // echo "<pre> связанные пользователи: ".print_r($users,true)."</pre>";
 
@@ -323,6 +302,7 @@ s.id as ids
 ,a.date
 ,a.id0_user
 ,a.id1_user
+,a.id_kvartal AS id_kvartal_act      
 
 from z_act_material m
 left join z_stock s on (m.id_stock =s.id)
@@ -402,6 +382,7 @@ s.id as ids
 ,null as date
 ,null as id0_user
 ,null as id1_user
+,null as id_kvartal_act
 
 from z_stock_material as sm, z_stock s
 where

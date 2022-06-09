@@ -27,6 +27,15 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 //$id_doc
 //$type
 
+/*
+    статья [текст типо 1.2]
+создатель [id одно]
+объект [id,id,id]
+квартал [id,id,id]
+ город [id,id,id]
+промежуток создания  0 или период  вида [2022-05-05/2022-06-15]
+*/
+
   ?>        
   <form id="numer_form"  class="theform" action="<?=$_SERVER['REQUEST_URI']?>" method="post" enctype="multipart/form-data">
   <input type="hidden" name="edo" value="1"/>
@@ -34,7 +43,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
   <table <?=$styleF?> id="numer_table" cellspacing="0" align="left" class="theform">            
   <caption <?=$styleH?>><div style="padding:3px;">ЗАДАЧИ МНЕ</div></caption>
 
-      <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad):<td>
+      <tr><td style="padding-right: 10px">тип документа (0-doc 1-acc 2-nariad 3-договор 4-тендер):<td>
       <input class="text"  name="type" size="2" value="<?=$type?>" />
 
       <tr><td style="padding-right: 10px">status [=0 =1 >0 >1 =3...]:<td>

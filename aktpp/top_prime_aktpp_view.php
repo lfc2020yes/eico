@@ -8,7 +8,7 @@
 
 
   <?php
-                    //--------------Заполнить информацию по заявке
+                    //--------------Заполнить информацию по заявке при заполнении акта по заявке
     function Get_info_doc ($id_zay,$link) {                
         $sql='
         Select z.*,u.name_user,s.name_status from z_doc z, r_user u, r_status s
@@ -79,7 +79,6 @@
                         </script> <?php
                         $dt.=' (отозван)';
                     }
-                    //echo '<input id="id_akt_edit" name="id_akt_edit" value="'.$id_edit.'" type="hidden">';
                 } else $id_edit=0;
                 unset($resE);
             }

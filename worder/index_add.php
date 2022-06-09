@@ -22,6 +22,10 @@ $sign_admin=$hie->admin;
 
 
 include_once $url_system.'module/kvartal_select.php';
+$user_select_kvartal = oblect2kvartal($link,$_GET["id"]);
+
+
+
 
 $role->GetColumns();
 $role->GetRows();
@@ -138,7 +142,8 @@ if((isset($_POST['save_naryad']))and($_POST['save_naryad']==1))
 	            {  
 		           //такая работа есть
 		           $rowx = mysqli_fetch_assoc($result_tx);
-					
+
+
 				   //проверяем что работа относится к нужному объекту
 					if($rowx["id_object"]!=$_GET['id'])
 					{

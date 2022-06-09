@@ -19,7 +19,7 @@ $hie_user=$hie->user;
 $sign_level=$hie->sign_level;
 $sign_admin=$hie->admin;
 
-
+include_once $url_system.'module/kvartal_select.php';
 $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();

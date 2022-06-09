@@ -25,6 +25,7 @@ $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
 
+include_once $url_system.'module/kvartal_select.php';
 
 $active_menu='worder';
 //правам к просмотру к действиям

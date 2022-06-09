@@ -15,7 +15,7 @@ $hie_kvartal=$hie->id_kvartal;
 $hie_town=$hie->id_town;
 $hie_user=$hie->user;
 
-
+include_once $url_system.'module/kvartal_select.php';
 
 $sign_level=$hie->sign_level;
 $sign_admin=$hie->admin;

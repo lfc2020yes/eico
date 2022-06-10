@@ -26,6 +26,15 @@ $role->GetRows();
 $role->GetPermission();
 
 
+include_once $url_system.'module/kvartal_select.php';
+$result_url=mysql_time_query($link,'select A.id_object from z_doc as A where A.id="'.htmlspecialchars(trim($_GET['id'])).'"');
+$num_results_custom_url = $result_url->num_rows;
+if($num_results_custom_url!=0)
+{
+    $row_list22 = mysqli_fetch_assoc($result_url);
+    $user_select_kvartal = oblect2kvartal($link,$row_list22["id_object"]);
+}
+
 $active_menu='app';
 //правам к просмотру к действиям
 //$user_send_new=array();
@@ -1150,7 +1159,7 @@ a.id_object="'.$row_work_zz["id_object"].'" AND a.id_stock="'.$row1ss["id_stock"
                 if(($stock->id_stock>0)and($row1ss["id_stock"]!=0)and($row1ss["id_stock"]!=''))
 				{
 				   $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ,b.name_user FROM z_stock_material AS a,r_user as b WHERE a.id_user=b.id and 
-a.id_user="'.htmlspecialchars(trim($stock->id_stock)).'"  AND a.id_stock="'.$row1ss["id_stock"].'"');
+a.id_user="'.htmlspecialchars(trim($stock->id_stock)).'"   AND a.id_kvartal="'.$user_select_kvartal.'" and  a.id_stock="'.$row1ss["id_stock"].'"');
 					/*echo('SELECT SUM(a.count_units) AS summ,b.name_user FROM z_stock_material AS a,r_user as b WHERE a.id_user=b.id and 
 a.id_user="'.htmlspecialchars(trim($stock->id_stock)).'"  AND a.id_stock="'.$row1ss["id_stock"].'"'); */	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;

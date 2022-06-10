@@ -45,7 +45,16 @@ if ((count($_GET) == 1)and(isset($_GET["id"]))and((is_numeric($_GET["id"]))))
 			//echo($_GET["url"]);
 			echo'';
 
-?>		   
+            ?>
+<div class="div_textarea_otziv name_obb">
+			<div class="otziv_add">
+<?
+echo'<textarea cols="40" placeholder="Название Исполнителя" rows="1" id="name11" name="name11" class="di text_area_otziv tt_obb">'.htmlspecialchars_decode($row_t["implementer"]).'</textarea>';
+?>
+        </div></div>
+
+
+
 <div class="div_textarea_otziv name_obb">
 			<div class="otziv_add">
 <?

@@ -22,6 +22,11 @@ $sign_level=$hie->sign_level;
 $sign_admin=$hie->admin;
 
 
+include_once $url_system.'module/kvartal_select.php';
+$user_select_kvartal = oblect2kvartal($link,$_GET["id"]);
+
+
+
 $role->GetColumns();
 $role->GetRows();
 $role->GetPermission();
@@ -762,7 +767,7 @@ a.id_object="'.htmlspecialchars(trim($_GET['id'])).'" AND a.id_stock="'.$row1ss[
 				
                 if(($stock->id_stock>0)and($row1ss["id_stock"]!=0)and($row1ss["id_stock"]!=''))
 				{
-				   $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ,b.name_user FROM z_stock_material AS a,r_user as b WHERE a.id_user=b.id and 
+				   $result_t1_=mysql_time_query($link,'SELECT SUM(a.count_units) AS summ,b.name_user FROM z_stock_material AS a,r_user as b WHERE a.id_user=b.id and a.id_kvartal="'.$user_select_kvartal.'" and 
 a.id_user="'.htmlspecialchars(trim($stock->id_stock)).'"  AND a.id_stock="'.$row1ss["id_stock"].'"');
 					 	             	 
 			     $num_results_t1_ = $result_t1_->num_rows;

@@ -1972,7 +1972,7 @@ $('#yes_soply12').on( "click", function() {
 //редактировать исполнителя
 	$('#yes_opt_imp').on( "click", function() {
 		var for_id=$('.h111').attr('for');
-		var data='url='+window.location.href+'&id='+for_id+'&tk='+$('.h111').attr('mor')+'&name='+$('#otziv_area11').val()+'&fio='+$('#otziv_area').val()+'&fio1='+$('#otziv_area_p').val()+'&tel='+$('#otziv_area12').val();
+		var data='url='+window.location.href+'&id='+for_id+'&tk='+$('.h111').attr('mor')+'&name='+$('#otziv_area11').val()+'&fio='+$('#otziv_area').val()+'&fio1='+$('#otziv_area_p').val()+'&tel='+$('#otziv_area12').val()+'&name_i='+$('#name11').val();
 		AjaxClient('implementer','edit_implementer','GET',data,'AfterUP_IMP',for_id,0);
 	});
 

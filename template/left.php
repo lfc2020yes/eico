@@ -108,8 +108,9 @@ $found = array_search($active_menu,$nav_url);
 $os50=array();
 $os_id50=array();
 
-//print_r($hie_kvartal);
-    if(count($hie_kvartal)>1)
+$hide_menu_kvartal=array('invoices','aktpp/res','index');  //разделы в которых нужно скрыть меню
+
+    if((count($hie_kvartal)>1)and(array_search($active_menu, $hide_menu_kvartal) !== false))
     {
     ?>
     <li class="not_li_sel" style="overflow: visible;">

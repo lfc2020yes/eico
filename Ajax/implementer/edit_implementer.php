@@ -39,7 +39,7 @@ if(token_access_new($token,'edit_implementer',$id,"s_form"))
 $status_ee='ok';
 
 
-mysql_time_query($link,'update i_implementer set name_team="'.htmlspecialchars(trim($name)).'",fio="'.htmlspecialchars(trim($fio)).';'.htmlspecialchars(trim($fio1)).'",tel="'.htmlspecialchars(trim($tel)).'" where id = "'.htmlspecialchars(trim($id)).'"');
+mysql_time_query($link,'update i_implementer set implementer="'.ht(trim($_GET["name_i"])).'", name_team="'.htmlspecialchars(trim($name)).'",fio="'.htmlspecialchars(trim($fio)).';'.htmlspecialchars(trim($fio1)).'",tel="'.htmlspecialchars(trim($tel)).'" where id = "'.htmlspecialchars(trim($id)).'"');
 					
 		 	  
 	  } else

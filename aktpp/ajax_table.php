@@ -158,7 +158,10 @@ if ($show_visor) {
     $kvartals = $ku->get_kvartals($id_user);
     $users = $ku->get_users($kvartals,1);
     $id_users = array();
-    foreach($users as $item) { $id_users[] = $item[id_user]; }
+    foreach($users as $item) {
+        // if ($id_user!=$item[id_user])
+            $id_users[] = $item[id_user];
+    }
 
     echo '<div class="input-width m10_right m10_left" >';  //margin-right: 10px;
 

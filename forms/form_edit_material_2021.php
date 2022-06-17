@@ -298,7 +298,7 @@ echo'<input name="tk1" value="weER23Dvmrw3E" type="hidden">';
 
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Количество</i><span>*</span></label><input name="count_work" value="'.$row_list["count_units"].'" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Количество</i><span>*</span></label><input name="count_work" value="'.$row_list["count_units"].'" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1_3" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
@@ -317,7 +317,7 @@ echo'<input name="tk1" value="weER23Dvmrw3E" type="hidden">';
 
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Реализовано количество</i><span>*</span></label><input name="count_realiz" value="'.$row_list["count_realiz"].'" class="input_new_2021 required  no_upperr  money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color active_in_2021"><label><i>Реализовано количество</i><span>*</span></label><input name="count_realiz" value="'.$row_list["count_realiz"].'" class="input_new_2021 required  no_upperr  money_mask1_3" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
@@ -430,6 +430,17 @@ include_once $url_system.'template/form_js.php';
             rightAlign: false,
             oncleared: function () { self.Value(''); }
         });
+
+        $('.money_mask1_3').inputmask("numeric", {
+            radixPoint: ".",
+            groupSeparator: " ",
+            digits: 3,
+            autoGroup: true,
+            prefix: '', //No Space, this will truncate the first character
+            rightAlign: false,
+            oncleared: function () { self.Value(''); }
+        });
+
 
         ToolTip();
         //input_2021();

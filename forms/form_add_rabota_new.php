@@ -199,7 +199,7 @@ $status=1;
 
 
             echo'<!--input start-->';
-            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Количество</i><span>*</span></label><input name="count_work" value="" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
+            echo'<div class="margin-input" style="margin-bottom: 10px;"><div class="input_2021 gray-color"><label><i>Количество</i><span>*</span></label><input name="count_work" value="" class="input_new_2021 gloab required  no_upperr js-click-inpute-stock money_mask1_3" style="padding-right: 100px;" autocomplete="off" type="text"><div class="div_new_2021"></div></div></div>';
             echo'<!--input end	-->';
 
             echo'<!--input start-->';
@@ -282,6 +282,16 @@ include_once $url_system.'template/form_js.php';
             radixPoint: ".",
             groupSeparator: " ",
             digits: 2,
+            autoGroup: true,
+            prefix: '', //No Space, this will truncate the first character
+            rightAlign: false,
+            oncleared: function () { self.Value(''); }
+        });
+
+        $('.money_mask1_3').inputmask("numeric", {
+            radixPoint: ".",
+            groupSeparator: " ",
+            digits: 3,
             autoGroup: true,
             prefix: '', //No Space, this will truncate the first character
             rightAlign: false,

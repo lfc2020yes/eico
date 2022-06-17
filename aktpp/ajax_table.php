@@ -154,6 +154,15 @@ if($role->permission('Прием-Передача','S'))  {    //  [S] !!!!
     //echo '<div class="_50_na_50_1" '.$visor_style.' ">';
     //echo '<div class="_50_x">';
 if ($show_visor) {
+    $ku = new kvartal_users($link);
+    $kvartals = $ku->get_kvartals($id_user);
+    $users = $ku->get_users($kvartals,1);
+    $id_users = array();
+    foreach($users as $item) {
+        // if ($id_user!=$item[id_user])
+            $id_users[] = $item[id_user];
+    }
+
     echo '<div class="input-width m10_right m10_left" >';  //margin-right: 10px;
 
 
@@ -168,7 +177,7 @@ from
 r_user u left join
 (select * from z_act where date1 is null and date0 is not null)
 a on (u.id=a.id0_user)
-where u.enabled=1
+where u.id IN ('.implode(',',$id_users).')
 group by u.name_user
 ) us left join z_stock_material m on ( us.id=m.id_user)
 group by us.name_user

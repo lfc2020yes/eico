@@ -211,19 +211,12 @@ if (isset($name0_user)) echo'<div style="display:inline-block;">( передаю
             $ku = new kvartal_users($link);
             $mas_ar=(array) $akt_select_kvartal;
             $users = $ku->get_users( $mas_ar,1);
-           // echo "<pre> связанные пользователи: ".print_r($users,true)."</pre>";
 
             foreach ($users as $index => $usery) {
-                //$row_t = mysqli_fetch_assoc($result_t);
+              if ($usery["id_user"] != $id_user)
                 echo'<li><a href="javascript:void(0);"  rel="'.$usery["id_user"].'" data-tooltip="Выбрать принимающего">'.$usery["name_user"].'</a></li>';
             }
 
-/*
-            for ($i=0; $i<$result_t->num_rows; $i++)
-            {
-                $row_t = mysqli_fetch_assoc($result_t);
-                echo'<li><a href="javascript:void(0);"  rel="'.$row_t["id"].'" data-tooltip="Выбрать принимающего">'.$row_t["name_user"].'</a></li>';
-            }*/
             echo'</ul>'                    //ispol
             . '<input defaultv="'.$id1_user
                     .'" '.$status_edit

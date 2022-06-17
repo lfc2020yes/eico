@@ -444,7 +444,7 @@ defaultDate:null,
 beforeShowDay: disableAllTheseDays,
 dateFormat: "d MM yy"+' г.', 
 firstDay: 1,
-minDate: "-60D", maxDate: "+60D",
+minDate: "-180D", maxDate: "+30D",
 beforeShow:function(textbox, instance){
 	//alert('before');
 	setTimeout(function () {

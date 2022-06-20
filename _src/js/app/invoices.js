@@ -103,7 +103,7 @@ function mild_div()
 
 function mild_tra()
 {
-    var id_dom=$('.users_rule').attr('ui');
+    var id_dom=$('.users_rule').attr('iu');
     //alert(id_dom);
 
 

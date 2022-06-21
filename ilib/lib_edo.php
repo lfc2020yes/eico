@@ -37,6 +37,12 @@ class EDO
     var $func;
     var $show;
 
+    //filters
+    var $ids_town;
+    var $ids_kvartal;
+    var $ids_object;
+    var $id_owner;
+
     public function EDO($mysqli, $id_user, $show=false)
     {
         $this->mysqli = $mysqli;
@@ -74,6 +80,11 @@ class EDO
         $this->func = array();
         $this->arr_task = array();
         $this->show = $show;
+
+        $this->ids_city = array();
+        $this->ids_kvartal = array();
+        $this->ids_object = array();
+        $this->id_owner = null;
     }
 
     // произвести следующее действие над документом или получить его текущий статус
@@ -833,8 +844,72 @@ $limit
         return $arr_document;
     }
 
+    /** Получить массив объектов по запросу
+     * @param $sql
+     * @return array
+     */
+    public function task_sql($sql)
+    {
+        $this->Debug($sql, __FUNCTION__);
+        $isa = array();
+        if ($result = $this->mysqli->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $ids[] = $row[id];
+            }
+            $result->close();
+        }
+        return $ids;
+    }
+
+    /**
+     * @param $ids_town
+     * @return array
+     */
+    public function task_town($ids_town) {
+        $this->ids_town = $ids_town;
+        $this->ids_object =array();
+        if (count($ids_town)>0) {
+            $sql = "
+SELECT o.* FROM `i_object` o,`i_kvartal` k, `i_town` t
+WHERE
+t.id IN (" . implode(',', $ids_town) . ")
+AND t.`id` = k.`id_town`
+AND k.`id` = o.`id_kvartal` 
+        ";
+            $this->ids_object = $this->task_sql($sql);
+        }
+        return $this->ids_object;
+
+    }
+
+    /**
+     * @param $ids_kvartal
+     * @return array
+     */
+    public function task_kvartal($ids_kvartal) {
+        $this->$ids_kvartal = $ids_kvartal;
+        $this->ids_object =array();
+        if (count($ids_kvartal)>0) {
+            $sql = "
+SELECT o.* FROM `i_object` o,`i_kvartal` k
+WHERE
+k.id IN  (" . implode(',', $ids_kvartal) . ") 
+AND k.`id` = o.`id_kvartal`         
+        ";
+            $this->ids_object = $this->task_sql($sql);
+        }
+        return $this->ids_object;
+    }
+    public function task_object($ids_object) {
+        $this->ids_object = $ids_object;
+    }
+    public function task_owner($id_owner) {
+        $this->id_owner = $id_owner;
+    }
+
+
     /** Задания мне
-     * @param $type = 0,1,2
+     * @param $type = 0,1,2,3,4
      * @param string $status =0-неисполненные =1-отказанные >1-исполненные
      * @param string $order_by 'ORDER BY d.date_create DESC'
      * @param string $limit 'LIMIT 0,100'
@@ -851,11 +926,12 @@ $limit
         $id_user_duty = $this->user_duty($this->id_user);
         $id_executor ="`id_executor` in (".implode(',',$id_user_duty).")";
 
-        $action = ($id_action == null)? '' : "AND R.`id_action` = $id_action";
-        $iddoc = is_null($id_doc) ? '' : "AND d.id = $id_doc";
-        $limits = is_null($limit) ? '' : $limit;
-        $sql=
- "
+        $action = ($id_action == null)? "" : "AND R.`id_action` in ($id_action)";
+        $iddoc = is_null($id_doc) ? "" : "AND d.id = $id_doc";
+        $id_owner = is_null($this->id_owner) ? "" : "AND d.id_user = $this->id_owner";
+        $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
+        $limits = is_null($limit) ? "" : $limit;
+        $sql= "
  SELECT
 d.*,
 T.*,
@@ -882,6 +958,8 @@ T.id_status $status
 AND T.$id_executor  
 AND d.`id_user` = u.`id`
 $iddoc
+$id_owner
+$ids_object
 $order_by
 $limits 
  ";

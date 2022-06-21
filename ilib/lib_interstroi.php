@@ -1143,6 +1143,11 @@ class kvartal_users {
         $this->show = $show;
     }
 
+    /** Принадлежность пользователя к кварталам
+     * @param $id_user
+     * @return array
+     */
+
     function get_kvartals($id_user) {
         $sql = "
 SELECT id_kvartal from `r_user_object` 
@@ -1158,6 +1163,11 @@ GROUP by id_kvartal
         return $this->ids_kvartal;
     }
 
+    /** Доступ пользователей к кварталам
+     * @param array $kvartals
+     * @param null $material_stock
+     * @return array
+     */
     function get_users(array &$kvartals, $material_stock=null) {
         $mats = (is_null($material_stock))? '' : "AND u.`material_stock` = '$material_stock'";
         $sql = "

@@ -42,6 +42,7 @@ class EDO
     var $ids_kvartal;
     var $ids_object;
     var $id_owner;
+    var $dates;
 
     public function EDO($mysqli, $id_user, $show=false)
     {
@@ -85,6 +86,7 @@ class EDO
         $this->ids_kvartal = array();
         $this->ids_object = array();
         $this->id_owner = null;
+        $this->dates = array();
     }
 
     // произвести следующее действие над документом или получить его текущий статус
@@ -819,30 +821,20 @@ $limits
             }
             $result->close();
         }
-/*"
-SELECT 
-d.*,
-s.id AS id_s, s.id_run_item, s.name AS name_s,s.descriptor,  s.`id_executor`, s.id_status,
-u.`name_user`
-FROM ".$this->arr_table[$type]." AS d 
-LEFT JOIN edo_state AS s ON d.`id_edo_run` = s.`id_run` 
-AND s.id_status=0
-LEFT JOIN r_user AS u ON s.`id_executor` = u.id
-WHERE 
-$document
-$order_by
-$limit            
-";
-        $this->Debug($sql,__FUNCTION__);
-        $arr_document = array();
-        if ($result = $this->mysqli->query($sql)) {
-            while ($row = $result->fetch_assoc()) {
-                $arr_document[$row[id]][] = $row;
-            }
-            $result->close();
-        }*/
         return $arr_document;
     }
+
+    public function task_date($dates){  // [2022-05-05/2022-06-15]
+           $this->dates = explode('/',$dates);
+           //echo "<pre>".print_r($this->dates,true)."</pre>";
+           if (count($this->dates)==2) {
+               if ($this->dates[0]==$this->dates[1]) {
+                       $dateTo = strtotime('+1 day', strtotime($this->dates[0]));
+                       $this->dates[1] = date('Y-m-d',$dateTo);
+               }
+           } else $this->dates = array();
+    }
+
 
     /** Получить массив объектов по запросу
      * @param $sql
@@ -928,6 +920,7 @@ AND k.`id` = o.`id_kvartal`
 
         $action = ($id_action == null)? "" : "AND R.`id_action` in ($id_action)";
         $iddoc = is_null($id_doc) ? "" : "AND d.id = $id_doc";
+        $dates = (count($this->dates)==2) ? "AND d.`date_create` BETWEEN '".$this->dates[0]."' AND '".$this->dates[1]."'" : "";
         $id_owner = is_null($this->id_owner) ? "" : "AND d.id_user = $this->id_owner";
         $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
         $limits = is_null($limit) ? "" : $limit;
@@ -958,6 +951,7 @@ T.id_status $status
 AND T.$id_executor  
 AND d.`id_user` = u.`id`
 $iddoc
+$dates
 $id_owner
 $ids_object
 $order_by

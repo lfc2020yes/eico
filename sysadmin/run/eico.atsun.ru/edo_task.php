@@ -22,6 +22,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     $ids_kvartal =  (isset($_POST["ids_kvartal"]))?$_POST["ids_kvartal"] : '';
     $ids_object =  (isset($_POST["ids_object"]))?$_POST["ids_object"] : '';
     $id_owner =  (isset($_POST["id_owner"]))?$_POST["id_owner"] : '';
+    $dates = (isset($_POST[dates]))?$_POST[dates] : 0;   //2022-05-05/2022-06-15
 
     if ($ROW_role!=0) {
               $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
@@ -72,6 +73,8 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
               <input class="text"  name="ids_object" size="2" value="<?=$ids_object?>" />
       <tr><td style="padding-right: 10px">Создатель документа id_owner:<td>
               <input class="text"  name="id_owner" size="2" value="<?=$id_owner?>" />
+      <tr><td style="padding-right: 10px">период 2022-05-05/2022-06-15 dates:<td>
+              <input class="text"  name="dates" size="11" value="<?=$dates?>"
 <?php
    SHOW_tfoot(4,1,1,1);
 
@@ -89,6 +92,7 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       if($ids_town!='') $edo->task_town(explode(',',$ids_town));
       if($ids_kvartal!='') $edo->task_kvartal(explode(',',$ids_kvartal));
       if($ids_object!='') $edo->task_object(explode(',',$ids_object));
+      if($dates!=0) $edo->task_date($dates);
 
       $arr_tasks = $edo->my_tasks($_POST["type"], $_POST["status"]
       ,'ORDER BY d.date_create DESC'

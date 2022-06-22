@@ -44,6 +44,14 @@ class EDO
     var $id_owner;
     var $dates;
 
+    var $number_doc; // 2-n_nariad
+    var $number; //0-z_doc 1-z_acc 3-z_dogovor
+    var $name; //0-z_doc 3-z_dogovor 4-z_tender
+    var $summa_work; // 2-n_nariad
+    var $summa; //1-z_acc 4-z_tender
+    var $id_implementer; // 2-n_nariad
+    var $id_contractor; //1-z_acc
+
     public function EDO($mysqli, $id_user, $show=false)
     {
         $this->mysqli = $mysqli;
@@ -82,11 +90,22 @@ class EDO
         $this->arr_task = array();
         $this->show = $show;
 
+        $this->filters_init();
+    }
+
+    private function filters_init(){
         $this->ids_city = array();
         $this->ids_kvartal = array();
         $this->ids_object = array();
         $this->id_owner = null;
         $this->dates = array();
+        $this->number_doc = null;
+        $this->number = null;
+        $this->name = null;
+        $this->summa_work = null;
+        $this->summa = null;
+        $this->id_implementer = null;
+        $this->id_contractor = null;
     }
 
     // произвести следующее действие над документом или получить его текущий статус
@@ -824,6 +843,57 @@ $limits
         return $arr_document;
     }
 
+    /** Фильтр на name z
+     * @param $name
+     */
+    public function task_z_name($name){
+        $this->name = $name;
+    }
+
+    /** Фильтр на номер z
+     * @param $number
+     */
+    public function task_z_number($number){
+        $this->number = $number;
+    }
+
+    /** Фильтр на сумму z co знаком =><
+     * @param $summa
+     */
+    public function task_z_summa($summa)
+    {
+        $this->summa = $summa;
+    }
+
+    public function task_z_contractor($id_contractor){
+        $this->$id_contractor = $id_contractor;
+    }
+
+    /** Фильтр на бригаду по n_nariad
+     * @param $id_implementer
+     */
+    public function task_n_implementer($id_implementer){
+        $this->$id_implementer = $id_implementer;
+    }
+
+    /** Фильтр на сумму работ по n_nariad
+     * @param $summa_work
+     */
+    public function task_n_summa_work($summa_work)
+    {
+        $this->summa_work = $summa_work;
+    }
+
+    /** Фильтр на номер по n_nariad
+     * @param $number_doc
+     */
+    public function task_n_number($number_doc){
+        $this->number_doc = $number_doc;
+    }
+
+    /** Фильтр по диапазону дат
+     * @param $dates
+     */
     public function task_date($dates){  // [2022-05-05/2022-06-15]
            $this->dates = explode('/',$dates);
            //echo "<pre>".print_r($this->dates,true)."</pre>";
@@ -923,6 +993,14 @@ AND k.`id` = o.`id_kvartal`
         $dates = (count($this->dates)==2) ? "AND d.`date_create` BETWEEN '".$this->dates[0]."' AND '".$this->dates[1]."'" : "";
         $id_owner = is_null($this->id_owner) ? "" : "AND d.id_user = $this->id_owner";
         $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
+
+        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
+        $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
+        $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
+        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
+        $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
+        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
+        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '[$this->id_contractor]'";
         $limits = is_null($limit) ? "" : $limit;
         $sql= "
  SELECT
@@ -954,6 +1032,10 @@ $iddoc
 $dates
 $id_owner
 $ids_object
+$number_doc$number
+$name
+$summa_work$summa
+$id_implementer$id_contractor
 $order_by
 $limits 
  ";

@@ -1,4 +1,29 @@
 
+//падеж
+function NumToIndexPadej(num)
+{
+	if (num>=5 || num==0) { ind=2 }
+	else    //1 2-4
+	{
+		var octatok=num%10;
+		if (octatok>1) { ind=1; } else { ind=0; }
+	}
+	return ind;
+}
+/*
+         1    3    10
+$skl='акцию,акции,акций';
+ PadejNumber($count_otziv,$skl)
+*/
+//падеж
+function PadejNumber(Age,type)
+{
+	var SKL=type.split(',');
+	var ind=NumToIndexPadej(Age);
+
+
+	return SKL[ind];
+}
 
 //функция задержки при написании поиска в полях
 

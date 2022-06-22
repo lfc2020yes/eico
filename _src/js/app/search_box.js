@@ -65,6 +65,8 @@ function changeaccx(event) {
 
     if(event.data.key=='x')
     {
+        $.cookie("acc_y"+iu, null, {path:'/',domain: window.is_session,secure: false});
+        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
         //выбрал город другой
         //обнавляем списки квартал,объект
         var data = 'url='+window.location.href+'&id='+$(this).val();
@@ -76,6 +78,7 @@ function changeaccx(event) {
     }
     if(event.data.key=='y')
     {
+        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
         //выбрал квартал другой
         //обнавляем списки объект
         var data = 'url='+window.location.href+'&id='+$(this).val();

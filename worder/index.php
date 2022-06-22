@@ -303,7 +303,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_x" value="' . implode(",", $su_4) . '"></div></div>';
 
               $su_mass=implode("','", $su_4);
-
+              $su_mass_p=$su_4;
 
 
 
@@ -369,7 +369,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_y" value="' . implode(",", $su_4) . '"></div></div>';
 
               $su_mass1=implode("','", $su_4);
-
+              $su_mass_p1=$su_4;
 
 
               $os4 = array();
@@ -428,6 +428,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_p" value="' . implode(",", $su_4) . '"></div></div>';
 
               $su_mass2=implode("','", $su_4);
+              $su_mass_p2=$su_4;
 
               $su_5_name='Любой';
               $su_5=0;
@@ -473,7 +474,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               echo'</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
 
 
-
+/*
               echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
 		   
 		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw" autocomplete="off" value="'.$_COOKIE["su_st_2w"].'" type="text">';
@@ -485,7 +486,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   echo'<div  class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
               }
               echo'</div></div>';
-
+*/
 
 
               if(isset($_GET["tabs"]))
@@ -496,7 +497,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   echo'<div class="inline_reload js-reload-top"><a href="worder/" class="show_reload">Поиск</a></div>';
               }
 
-              echo'<span class="search-count-2022">1 найденный тур</span>';
+              echo'<span style="display: none;" class="search-count-2022"></span>';
 
               //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
               ?>
@@ -673,17 +674,20 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
      // echo($_COOKIE["suddbcw".$id_user]);
       $edo->task_date($_COOKIE["suddbcw".$id_user]);
   }
-  if(count($su_mass)!=0)
+  //print_r($su_mass_p2);
+  if(count($su_mass_p)!=0)
   {
-      $edo->task_town(explode(',',$su_mass));
+      $edo->task_town($su_mass_p);
   }
-  if(count($su_mass1)!=0)
+  if(count($su_mass_p1)!=0)
   {
-      $edo->task_kvartal(explode(',',$su_mass1));
+      $edo->task_kvartal($su_mass_p1);
   }
-  if(count($su_mass2)!=0)
+  //print_r($su_mass_p2);
+
+  if(count($su_mass_p2)!=0)
   {
-      $edo->task_object(explode(',',$su_mass1));
+      $edo->task_object($su_mass_p2);
   }
 
 //echo($_COOKIE["suddbcw".$id_user]);
@@ -717,7 +721,14 @@ $sql_mass=$arr_document;
       $sql_mass=$arr_document;
   }
 
- // echo '<pre>arr_document:'.print_r($sql_mass,true) .'</pre>';
+  //echo '<pre>arr_document:'.print_r($sql_mass,true) .'</pre>';
+
+  //echo($sql_mass[0]["total_count"]);
+  $count_page_a=0;
+  if(isset($sql_mass[0]["total_count"]))
+  {
+      $count_page_a=$sql_mass[0]["total_count"];
+  }
 
   echo'';
 
@@ -739,7 +750,7 @@ $sql_mass=$arr_document;
       echo'<div class="help_div da_book1"><div class="not_boolingh"></div><span class="h5"><span>Нарядов в данном разделе пока нет.</span></span></div>';
   }
 
-  $count_pages=ceil($subor_cc[$mym]/$count_write);
+  $count_pages=ceil($count_page_a/$count_write);
 
   if($count_pages>1)
   {
@@ -794,3 +805,11 @@ include_once $url_system.'template/left.php';
 </div>
 
 </body></html>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.search-count-2022').empty().append(<? echo($count_page_a) ?>+' '+PadejNumber(<? echo($count_page_a) ?>,'найденный наряд,найденных наряда,найденных нарядов'));
+        $('.search-count-2022').show();
+    });
+    </script>

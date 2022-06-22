@@ -1002,12 +1002,12 @@ AND k.`id` = o.`id_kvartal`
         $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
         $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '[$this->id_contractor]'";
         $limits = is_null($limit) ? "" : $limit;
+
+        $this->mysqli->query('set @cnt=0');
+
         $sql= "
- SELECT
-d.*,
-T.*,
-u.`name_user`
-FROM ".$this->arr_table[$type]." AS d
+SELECT d.*, @cnt AS total_count
+FROM ( SELECT d.*,T.*,u.`name_user`,@cnt:=@cnt+1 AS num FROM ".$this->arr_table[$type]." AS d
 LEFT JOIN 
     (
         SELECT 
@@ -1036,6 +1036,7 @@ $number_doc$number
 $name
 $summa_work$summa
 $id_implementer$id_contractor
+) d, (SELECT @cnt:=0) X 
 $order_by
 $limits 
  ";

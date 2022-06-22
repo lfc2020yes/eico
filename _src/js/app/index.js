@@ -6233,6 +6233,7 @@ var list_number	= function() {
 
 
 
+
 /*клик на раскрывающее меню сортировка снабжение*/
 var changesort2 = function() {  
 $.cookie("su_2", null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});

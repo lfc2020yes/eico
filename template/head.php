@@ -4,12 +4,12 @@
 echo'<script language="JavaScript" type="text/javascript">window.is_session=\''.$base_cookie.'\';</script>';
 if($local_server_x==0)
 {
-echo'<link href="/public/main.min.css?cb=1655727214888" type="text/css" rel="stylesheet" />
-<script language="JavaScript" type="text/javascript" src="/public/index.map.min.js?cb=1655727214888"></script>';
+echo'<link href="/public/main.min.css?cb=1655893391975" type="text/css" rel="stylesheet" />
+<script language="JavaScript" type="text/javascript" src="/public/index.map.min.js?cb=1655893391975"></script>';
 } else
 {
-echo'<link href="/_src/css/main.css?cb=1655727214888" type="text/css" rel="stylesheet" />
-<script language="JavaScript" type="text/javascript" src="/public/index.map.js?cb=1655727214888"></script>';
+echo'<link href="/_src/css/main.css?cb=1655893391975" type="text/css" rel="stylesheet" />
+<script language="JavaScript" type="text/javascript" src="/public/index.map.js?cb=1655893391975"></script>';
 }
 
 ?>

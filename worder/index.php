@@ -214,9 +214,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
               $su_2=0;
               $date_su='';
-              if (( isset($_COOKIE["su_2w"]))and(is_numeric($_COOKIE["su_2w"]))and(array_search($_COOKIE["su_2w"],$os_id2)!==false))
+              if (( isset($_COOKIE["su_2w_".$id_user]))and(is_numeric($_COOKIE["su_2w_".$id_user]))and(array_search($_COOKIE["su_2w_".$id_user],$os_id2)!==false))
               {
-                  $su_2=$_COOKIE["su_2w"];
+                  $su_2=$_COOKIE["su_2w_".$id_user];
               }
               $val_su2=$os2[$su_2];
 
@@ -224,7 +224,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               if ( isset($_COOKIE["suddbcw".$id_user]))
               {
                   //$date_base__=explode(".",$_COOKIE["suddw"]);
-                  if (( isset($_COOKIE["su_2w"]))and(is_numeric($_COOKIE["su_2w"]))and($_COOKIE["su_2w"]==2))
+                  if (( isset($_COOKIE["su_2w_".$id_user]))and(is_numeric($_COOKIE["su_2w_".$id_user]))and($_COOKIE["su_2w_".$id_user]==2))
                   {
                       $date_su=$_COOKIE["suddbc_morw".$id_user];
                       $val_su2=$_COOKIE["suddbc_morw".$id_user];
@@ -246,7 +246,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
 
               }
-              echo'</ul><input type="hidden" name="sort2w" id="sort2w" value="'.$os2[$su_2].'"></div></div>';
+              echo'</ul><input type="hidden" name="sort2w" id="sort2w_x" value="'.$os2[$su_2].'"></div></div>';
 
 
 
@@ -270,8 +270,8 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
               $su_4 = array();
-              if (isset($_COOKIE["acc_7" . $id_user])) {
-                  $su_4 = explode(",", $_COOKIE["acc_7" . $id_user]);
+              if (isset($_COOKIE["acc_x" . $id_user])) {
+                  $su_4 = explode(",", $_COOKIE["acc_x" . $id_user]);
               } else {
                   $su_4 = $os_id4;
               }
@@ -290,7 +290,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_7" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_x" . $id_user] == '')) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -300,7 +300,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
 
               }
-              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_7" value="' . implode(",", $su_4) . '"></div></div>';
+              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_x" value="' . implode(",", $su_4) . '"></div></div>';
 
               $su_mass=implode("','", $su_4);
 
@@ -336,8 +336,8 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
               $su_4 = array();
-              if (isset($_COOKIE["acc_8" . $id_user])) {
-                  $su_4 = explode(",", $_COOKIE["acc_8" . $id_user]);
+              if (isset($_COOKIE["acc_y" . $id_user])) {
+                  $su_4 = explode(",", $_COOKIE["acc_y" . $id_user]);
               } else {
                   $su_4 = $os_id4;
               }
@@ -366,7 +366,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
 
               }
-              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_8" value="' . implode(",", $su_4) . '"></div></div>';
+              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_y" value="' . implode(",", $su_4) . '"></div></div>';
 
               $su_mass1=implode("','", $su_4);
 
@@ -395,8 +395,8 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
               $su_4 = array();
-              if (isset($_COOKIE["acc_9" . $id_user])) {
-                  $su_4 = explode(",", $_COOKIE["acc_9" . $id_user]);
+              if (isset($_COOKIE["acc_p" . $id_user])) {
+                  $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
               } else {
                   $su_4 = $os_id4;
               }
@@ -415,7 +415,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_9" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_p" . $id_user] == '')) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -425,9 +425,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
 
               }
-              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_9" value="' . implode(",", $su_4) . '"></div></div>';
+              echo '</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_p" value="' . implode(",", $su_4) . '"></div></div>';
 
-
+              $su_mass2=implode("','", $su_4);
 
               $su_5_name='Любой';
               $su_5=0;
@@ -451,7 +451,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
 
-              echo'<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search" name="id_kto" id="acc_4w"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+              echo'<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search" name="id_kto" id="sort4w_x"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
 
               $query_ob='';
 
@@ -496,6 +496,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   echo'<div class="inline_reload js-reload-top"><a href="worder/" class="show_reload">Поиск</a></div>';
               }
 
+              echo'<span class="search-count-2022">1 найденный тур</span>';
 
               //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
               ?>
@@ -560,6 +561,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
                               $('.js-reload-top').removeClass('active-r');
                               $('.js-reload-top').addClass('active-r');
+                              $('.search-count-2022').hide();
                               window.date_picker_step++;
 
 
@@ -666,6 +668,32 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
 
 */
 
+  if((isset($_COOKIE["su_2w_".$id_user]))and($_COOKIE["su_2w_".$id_user]==2))
+  {
+     // echo($_COOKIE["suddbcw".$id_user]);
+      $edo->task_date($_COOKIE["suddbcw".$id_user]);
+  }
+  if(count($su_mass)!=0)
+  {
+      $edo->task_town(explode(',',$su_mass));
+  }
+  if(count($su_mass1)!=0)
+  {
+      $edo->task_kvartal(explode(',',$su_mass1));
+  }
+  if(count($su_mass2)!=0)
+  {
+      $edo->task_object(explode(',',$su_mass1));
+  }
+
+//echo($_COOKIE["suddbcw".$id_user]);
+
+  if($su_5!=0) $edo->task_owner(0+$su_5);   //Фильтр на создателя
+
+     /* if($ids_town!='') $edo->task_town(explode(',',$ids_town));
+      if($ids_kvartal!='') $edo->task_kvartal(explode(',',$ids_kvartal));
+      if($ids_object!='') $edo->task_object(explode(',',$ids_object));
+*/
 
   $sql_mass = array();
 $sql_mass=$arr_document;
@@ -690,6 +718,8 @@ $sql_mass=$arr_document;
   }
 
  // echo '<pre>arr_document:'.print_r($sql_mass,true) .'</pre>';
+
+  echo'';
 
   echo '<div class="ring_block ring-block-line js-global-preorders-link">';
   $small_block=1;

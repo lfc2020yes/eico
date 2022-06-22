@@ -178,7 +178,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
 
-      <div class="div_ook hop_ds _hop_ds_2021"><div class="search_task">
+      <div class="div_ook hop_ds _hop_ds_2021">
+         <span style="display: none;" class="search-count-2022"></span>
+          <div class="search_task small-text-2022" style="padding-right: 110px;">
               <?
               /*
               $os = array( "дата поставки","дата поступления заявки");
@@ -356,7 +358,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_8" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_y" . $id_user] == '')) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -444,35 +446,32 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   }
               }
 
+              if(isset($_GET["tabs"])) {
+                  echo '<!--input start	-->';
 
-              echo'<!--input start	-->';
-
-              echo'<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex input-search-2021 '.$class_js_search.'">';
-              //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
+                  echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex input-search-2021 ' . $class_js_search . '">';
+                  //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
 
 
+                  echo '<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="' . $su_5_name . '" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="' . $su_5 . '" class="js-hidden-search" name="id_kto" id="sort4w_x"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
 
-              echo'<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="'.$su_5_name.'" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="'.$su_5.'" class="js-hidden-search" name="id_kto" id="sort4w_x"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+                  $query_ob = '';
 
-              $query_ob='';
+                  //если это служба безопасности или админ видит всех
 
-              //если это служба безопасности или админ видит всех
+                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user DESC limit 0,20');
 
-              $result_work_zz=mysql_time_query($link,'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user DESC limit 0,20');
-
-              $num_results_work_zz = $result_work_zz->num_rows;
-              if($num_results_work_zz!=0)
-              {
-                  echo'<li><a href="javascript:void(0);" rel="0">Любой</a></li>';
-                  for ($i=0; $i<$num_results_work_zz; $i++)
-                  {
-                      $row_work_zz = mysqli_fetch_assoc($result_work_zz);
-                      echo'<li><a href="javascript:void(0);" rel="'.$row_work_zz["id"].'">'.$row_work_zz["name_user"].' <span class="gray-date">('.$row_work_zz["id"].')</span></a></li>';
+                  $num_results_work_zz = $result_work_zz->num_rows;
+                  if ($num_results_work_zz != 0) {
+                      echo '<li><a href="javascript:void(0);" rel="0">Любой</a></li>';
+                      for ($i = 0; $i < $num_results_work_zz; $i++) {
+                          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+                          echo '<li><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["name_user"] . ' <span class="gray-date">(' . $row_work_zz["id"] . ')</span></a></li>';
+                      }
                   }
+
+                  echo '</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
               }
-
-              echo'</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
-
 
 /*
               echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
@@ -497,7 +496,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   echo'<div class="inline_reload js-reload-top"><a href="worder/" class="show_reload">Поиск</a></div>';
               }
 
-              echo'<span style="display: none;" class="search-count-2022"></span>';
+
 
               //echo'<a href="supply/" class="show_sort_supply"><i>Применить</i></a>';
               ?>
@@ -691,8 +690,9 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
   }
 
 //echo($_COOKIE["suddbcw".$id_user]);
-
-  if($su_5!=0) $edo->task_owner(0+$su_5);   //Фильтр на создателя
+  if(isset($_GET["tabs"])) {
+      if ($su_5 != 0) $edo->task_owner(0 + $su_5);   //Фильтр на создателя
+  }
 
      /* if($ids_town!='') $edo->task_town(explode(',',$ids_town));
       if($ids_kvartal!='') $edo->task_kvartal(explode(',',$ids_kvartal));

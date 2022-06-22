@@ -790,20 +790,40 @@ VALUES
                                  $status_task = '=0',
                                  $only_user = false,
                                  $limit = null,
-                                 $order_by = 'ORDER BY date_create DESC'
+                                 $order_by = 'ORDER BY d.date_create DESC'
                                  )
     {
-        $document = ($id_doc==0)?"`id_user`=".$this->id_user : "id=$id_doc";
+        $document = ($id_doc==0)?"d.id_user=".$this->id_user : "d.id=$id_doc";
 
         $task_user = ($only_user)?"AND s.`id_executor` IN (".
             implode(',', $this->user_duty($this->id_user))
             .")" : '';
         $limits = is_null($limit) ? '' : $limit;
+        $dates = (count($this->dates)==2) ? "AND d.`date_create` BETWEEN '".$this->dates[0]."' AND '".$this->dates[1]."'" : "";
+        $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
+
+        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
+        $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
+        $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
+        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
+        $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
+        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
+        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '[$this->id_contractor]'";
+
+        $this->mysqli->query('set @cnt=0');
         $sql =
 "
-SELECT * FROM ".$this->arr_table[$type]."
+SELECT d.*, @cnt AS total_count
+FROM ( SELECT d.*,@cnt:=@cnt+1 AS num FROM ".$this->arr_table[$type]." d, (SELECT @cnt:=0) X
 WHERE
-$document  
+$document
+$dates
+$ids_object
+$number_doc$number
+$name
+$summa_work$summa
+$id_implementer$id_contractor  
+) d
 $order_by
 $limit    
 ";
@@ -812,9 +832,8 @@ $limit
         if ($result = $this->mysqli->query($sql)) {
             while ($row = $result->fetch_assoc()) {
                 $arr_document[$row[id]] = $row;
-                if ($row[id_edo_run]!==null) {
-                    $sql =
-                        "
+                if ($row[id_edo_run]!==null) {   //,".$row[total_count]." as total_count
+                    $sql ="
 SELECT 
     s.id AS id_s, s.id_run_item, s.name AS name_task,s.descriptor AS descriptor_task ,  s.`id_executor`, s.id_status, s.comment_executor,
     s.`date_ready`, s.`date_execute`, s.`timing`, s.`attach_file`,

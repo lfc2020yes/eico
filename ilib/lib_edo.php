@@ -51,6 +51,7 @@ class EDO
     var $summa; //1-z_acc 4-z_tender
     var $id_implementer; // 2-n_nariad
     var $id_contractor; //1-z_acc
+    var $comment; // 2-n_nariad
 
     public function EDO($mysqli, $id_user, $show=false)
     {
@@ -106,6 +107,7 @@ class EDO
         $this->summa = null;
         $this->id_implementer = null;
         $this->id_contractor = null;
+        $this->comment = null;
     }
 
     // произвести следующее действие над документом или получить его текущий статус
@@ -805,6 +807,7 @@ VALUES
         $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
         $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
         $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
+        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '[$this->comment]'";
         $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
         $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
         $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
@@ -822,7 +825,8 @@ $ids_object
 $number_doc$number
 $name
 $summa_work$summa
-$id_implementer$id_contractor  
+$id_implementer$id_contractor 
+$comment 
 ) d
 $order_by
 $limit    
@@ -882,6 +886,10 @@ $limits
     public function task_z_summa($summa)
     {
         $this->summa = $summa;
+    }
+
+    public function task_n_comment($comment){
+        $this->comment = $comment;
     }
 
     public function task_z_contractor($id_contractor){
@@ -1016,6 +1024,7 @@ AND k.`id` = o.`id_kvartal`
         $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
         $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
         $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
+        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '[$this->comment]'";
         $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
         $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
         $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
@@ -1055,6 +1064,7 @@ $number_doc$number
 $name
 $summa_work$summa
 $id_implementer$id_contractor
+$comment
 ) d, (SELECT @cnt:=0) X 
 $order_by
 $limits 

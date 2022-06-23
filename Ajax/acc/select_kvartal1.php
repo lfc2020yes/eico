@@ -22,13 +22,13 @@ if(!isset($_SESSION["user_id"])) {
     $debug=h4a(102,$echo_r,$debug);
     goto end_code;
 }
-
+/*
 if ((!$role->permission('Счета','R'))and($sign_admin!=1))
 {
     $debug=h4a(103,$echo_r,$debug);
     goto end_code;
 }
-
+*/
 
 			 
 $status_ee='ok';
@@ -61,27 +61,29 @@ if($num_results_t!=0) {
 
 
 $su_4 = array();
-if (isset($_COOKIE["acc_p" . $id_user])) {
+if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($id!='')) {
     $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
-} else {
+} /*else {
     $su_4 = $os_id4;
 }
+*/
 
-
-$select_val_name = '';
+$select_val_name = 'не выбрано';
 for ($i = 0; $i < count($su_4); $i++) {
-    if ($select_val_name == '') {
+    if ($select_val_name == 'не выбрано') {
         $select_val_name = $os4[array_search($su_4[$i], $os_id4)];
     } else {
         $select_val_name .= ', ' . $os4[array_search($su_4[$i], $os_id4)];
     }
 }
 
-$echo.='<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-object-c' . $class_js_search . '" ><label>Объект</label><div class="select eddd"><a class="slct" list_number="t7" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio js-no-nul-select">';
+$echo.='<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-object-c' . $class_js_search . '" ><label>Объект</label><div class="select eddd"><a class="slct" list_number="t7" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio ">';
 $zindex--;
+$new_cookie_minus_ubr_object= array();
 
 for ($i = 0; $i < count($os4); $i++) {
-    if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_p" . $id_user] == '')) {
+    if ((in_array($os_id4[$i], $su_4))) {
+        array_push($new_cookie_minus_ubr_object, $os_id4[$i]);
         $echo.='<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -103,7 +105,7 @@ end_code:
 
 
 
-$aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo);
+$aRes = array("debug"=>$debug,"status"   => $status_ee,"echo" =>  $echo,"co_ob"=>implode(",", $new_cookie_minus_ubr_object));
 require_once $url_system.'Ajax/lib/Services_JSON.php';
 $oJson = new Services_JSON();
 //функция работает только с кодировкой UTF-8

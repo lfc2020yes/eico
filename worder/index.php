@@ -219,7 +219,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
 
-
+//Дата период любой начало
+//Дата период любой начало
+//Дата период любой начало
               $os2 = array( "любой","выбрать");
               $os_id2 = array("0", "2");
 
@@ -245,7 +247,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
              // echo($_COOKIE["suddbcw".$id_user]); 2022-05-05/2022-06-15
 
               echo'<input id="date_hidden_table" name="date" value="'.$date_su.'" type="hidden"><input id="date_hidden_start" name="start_date" type="hidden"><input id="date_hidden_end" name="end_date" type="hidden">';
-              echo'<div class="left_drop menu1_prime book_menu_sel js--sort js-call-no-v gop_io"><label>Промежуток создания</label><div class="select eddd"><a class="slct" list_number="t2" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
+              echo'<div class="left_drop menu1_prime book_menu_sel js--sort js-call-no-v gop_io"><label>Промежуток создания</label><div class="select eddd"><a class="slct js-toll-22" list_number="t2" data-tooltip="'.$val_su2.'" data_src="'.$os_id2[$su_2].'">'.$val_su2.'</a><ul class="drop">';
               for ($i=0; $i<count($os2); $i++)
               {
                   if($su_2==$os_id2[$i])
@@ -259,6 +261,60 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               }
               echo'</ul><input type="hidden" name="sort2w" id="sort2w_x" value="'.$os2[$su_2].'"></div></div>';
 
+              //Дата период любой конец
+              //Дата период любой конец
+              //Дата период любой конец
+
+
+              //создатель начало
+              //создатель начало
+              //создатель начало
+
+
+              $su_5_name='Любой';
+              $su_5=0;
+              if (( isset($_COOKIE["acc_4w".$id_user]))and(is_numeric($_COOKIE["acc_4w".$id_user])))
+              {
+                  $result_uu = mysql_time_query($link, 'select id,name_user from r_user where id="' . ht($_COOKIE["acc_4w".$id_user]) . '"');
+                  $num_results_uu = $result_uu->num_rows;
+
+                  if ($num_results_uu != 0) {
+                      $row_uu = mysqli_fetch_assoc($result_uu);
+                      $su_5=$_COOKIE["acc_4w".$id_user];
+                      $su_5_name=$row_uu["name_user"];
+                  }
+              }
+
+              if(isset($_GET["tabs"])) {
+                  echo '<!--input start	-->';
+
+                  echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex input-search-2021 ' . $class_js_search . '">';
+
+                  echo '<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="' . $su_5_name . '" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="' . $su_5 . '" class="js-hidden-search" name="id_kto" id="sort4w_x"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+                  $query_ob = '';
+
+                  //если это служба безопасности или админ видит всех
+
+                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user DESC limit 0,20');
+
+                  $num_results_work_zz = $result_work_zz->num_rows;
+                  if ($num_results_work_zz != 0) {
+                      echo '<li><a href="javascript:void(0);" rel="0">Любой</a></li>';
+                      for ($i = 0; $i < $num_results_work_zz; $i++) {
+                          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+                          echo '<li><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["name_user"] . ' <span class="gray-date">(' . $row_work_zz["id"] . ')</span></a></li>';
+                      }
+                  }
+
+                  echo '</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
+              }
+
+              //создатель конец
+              //создатель конец
+              //создатель конец
+
+
 
 
               $os4 = array();
@@ -270,38 +326,35 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                   for ($i = 0; $i < $num_results_t; $i++) {
                       $row_t = mysqli_fetch_assoc($result_t);
                       if ((array_search($row_t["id"], $hie_town) !== false) or ($sign_admin == 1)) {
-
                           array_push($os4, $row_t['town']);
                           array_push($os_id4, $row_t['id']);
-
                       }
                   }
               }
-
-
-
+$flag_city=0;
               $su_4 = array();
-              if (isset($_COOKIE["acc_x" . $id_user])) {
+              if ((isset($_COOKIE["acc_x" . $id_user]))and($_COOKIE["acc_x" . $id_user]!='')) {
                   $su_4 = explode(",", $_COOKIE["acc_x" . $id_user]);
-              } else {
+                  $flag_city=1;
+              } /*else {
                   $su_4 = $os_id4;
-              }
+              }*/
 
 
-              $select_val_name = '';
+              $select_val_name = 'не выбрано';
               for ($i = 0; $i < count($su_4); $i++) {
-                  if ($select_val_name == '') {
+                  if ($select_val_name == 'не выбрано') {
                       $select_val_name = $os4[array_search($su_4[$i], $os_id4)];
                   } else {
                       $select_val_name .= ', ' . $os4[array_search($su_4[$i], $os_id4)];
                   }
               }
 
-              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-city' . $class_js_search . '" ><label>Город</label><div class="select eddd"><a class="slct" list_number="t5" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio js-no-nul-select">';
+              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-city' . $class_js_search . '" ><label>Город</label><div class="select eddd"><a class="slct" list_number="t5" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio ">';
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_x" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4))) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -345,29 +398,31 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
               }
 
 
-
+              $flag_kvartal=0;
               $su_4 = array();
-              if (isset($_COOKIE["acc_y" . $id_user])) {
+              if ((isset($_COOKIE["acc_y" . $id_user]))and($_COOKIE["acc_y" . $id_user]!='')and($flag_city==1)) {
                   $su_4 = explode(",", $_COOKIE["acc_y" . $id_user]);
-              } else {
+                  $flag_kvartal=1;
+              }/* else {
                   $su_4 = $os_id4;
-              }
+              }*/
 
 
-              $select_val_name = '';
+
+              $select_val_name = 'не выбрано';
               for ($i = 0; $i < count($su_4); $i++) {
-                  if ($select_val_name == '') {
+                  if ($select_val_name == 'не выбрано') {
                       $select_val_name = $os4[array_search($su_4[$i], $os_id4)];
                   } else {
                       $select_val_name .= ', ' . $os4[array_search($su_4[$i], $os_id4)];
                   }
               }
 
-              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-kvartal' . $class_js_search . '" ><label>Квартал</label><div class="select eddd"><a class="slct" list_number="t6" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio js-no-nul-select">';
+              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-kvartal' . $class_js_search . '" ><label>Квартал</label><div class="select eddd"><a class="slct" list_number="t6" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio ">';
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_y" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4)) ) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -406,27 +461,27 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
               $su_4 = array();
-              if (isset($_COOKIE["acc_p" . $id_user])) {
+              if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($flag_kvartal==1)) {
                   $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
-              } else {
+              } /*else {
                   $su_4 = $os_id4;
               }
+*/
 
-
-              $select_val_name = '';
+              $select_val_name = 'не выбрано';
               for ($i = 0; $i < count($su_4); $i++) {
-                  if ($select_val_name == '') {
+                  if ($select_val_name == 'не выбрано') {
                       $select_val_name = $os4[array_search($su_4[$i], $os_id4)];
                   } else {
                       $select_val_name .= ', ' . $os4[array_search($su_4[$i], $os_id4)];
                   }
               }
 
-              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-object-c' . $class_js_search . '" ><label>Объект</label><div class="select eddd"><a class="slct" list_number="t7" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio js-no-nul-select">';
+              echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex js-object-c' . $class_js_search . '" ><label>Объект</label><div class="select eddd"><a class="slct" list_number="t7" data_src="' . implode(",", $su_4) . '">' . $select_val_name . '</a><ul class="drop-radio ">';
               $zindex--;
 
               for ($i = 0; $i < count($os4); $i++) {
-                  if ((in_array($os_id4[$i], $su_4)) or ($_COOKIE["acc_p" . $id_user] == '')) {
+                  if ((in_array($os_id4[$i], $su_4)) ) {
                       echo '<li>
 				   <div class="choice-radio"><div class="center_vert1"><i class="active_task_cb"></i></div></div>
 				   
@@ -440,47 +495,6 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
               $su_mass2=implode("','", $su_4);
               $su_mass_p2=$su_4;
-
-              $su_5_name='Любой';
-              $su_5=0;
-              if (( isset($_COOKIE["acc_4w".$id_user]))and(is_numeric($_COOKIE["acc_4w".$id_user])))
-              {
-                  $result_uu = mysql_time_query($link, 'select id,name_user from r_user where id="' . ht($_COOKIE["acc_4w".$id_user]) . '"');
-                  $num_results_uu = $result_uu->num_rows;
-
-                  if ($num_results_uu != 0) {
-                      $row_uu = mysqli_fetch_assoc($result_uu);
-                      $su_5=$_COOKIE["acc_4w".$id_user];
-                      $su_5_name=$row_uu["name_user"];
-                  }
-              }
-
-              if(isset($_GET["tabs"])) {
-                  echo '<!--input start	-->';
-
-                  echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex input-search-2021 ' . $class_js_search . '">';
-                  //$query_string.='<div style="margin-top: 30px;" class="input_doc_turs js-zindex">';
-
-
-                  echo '<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Создатель</label><input name="kto" value="' . $su_5_name . '" id="date_124" sopen="search_user" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="' . $su_5 . '" class="js-hidden-search" name="id_kto" id="sort4w_x"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
-
-                  $query_ob = '';
-
-                  //если это служба безопасности или админ видит всех
-
-                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user DESC limit 0,20');
-
-                  $num_results_work_zz = $result_work_zz->num_rows;
-                  if ($num_results_work_zz != 0) {
-                      echo '<li><a href="javascript:void(0);" rel="0">Любой</a></li>';
-                      for ($i = 0; $i < $num_results_work_zz; $i++) {
-                          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
-                          echo '<li><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["name_user"] . ' <span class="gray-date">(' . $row_work_zz["id"] . ')</span></a></li>';
-                      }
-                  }
-
-                  echo '</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
-              }
 
 /*
               echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
@@ -554,6 +568,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
                               $.cookie("suddbc_morw"+iu, null, {path:'/',domain: window.is_session,secure: false});
                               CookieList("suddbc_morw"+iu,jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate),'add');
 
+                              $('.js-toll-22').attr('data-tooltip',jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.startDate) + ' - ' + jQuery.datepicker.formatDate('d MM yy'+' г.',extensionRange.endDate));
 
                               $('#date_hidden_start').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.startDate));
                               $('#date_hidden_end').val(jQuery.datepicker.formatDate('yy-mm-dd',extensionRange.endDate));
@@ -564,6 +579,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
                               $('.js-reload-top').removeClass('active-r');
                               $('.js-reload-top').addClass('active-r');
+
+
+
                               $('.search-count-2022').hide();
                               window.date_picker_step++;
 

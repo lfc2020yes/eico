@@ -193,6 +193,11 @@ $(this).parents('.left_drop').find('label').removeClass('active_label');
 
 
     // $(this).parent().parent().find(".slct").removeClass("active").html(f);
+    if(select_li_text=='')
+    {
+        select_li_text='Не выбрано';
+    }
+
     $(this).parent().parent().find(".slct").empty().append(select_li_text);
     $(this).parent().parent().find(".slct").attr("data_src",select_li);
 

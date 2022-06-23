@@ -42,6 +42,9 @@ $(function () {
           */
             $("#date_table").show();
             //$("#date_table").focus();
+        } else
+        {
+            $('.js-toll-22').attr('data-tooltip','Любой');
         }
 
     };
@@ -65,28 +68,106 @@ function changeaccx(event) {
 
     if(event.data.key=='x')
     {
-        $.cookie("acc_y"+iu, null, {path:'/',domain: window.is_session,secure: false});
-        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
+      //  $.cookie("acc_y"+iu, null, {path:'/',domain: window.is_session,secure: false});
+      //  $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
         //выбрал город другой
         //обнавляем списки квартал,объект
         var data = 'url='+window.location.href+'&id='+$(this).val();
         //alert(data);
-        AjaxClient('acc','select_town1','GET',data,'AfterSelectTown',0,0);
+        AjaxClient('acc','select_town1','GET',data,'AfterSelectTown_x',0,0);
         $('.js-kvartal').remove();
         $('.js-object-c').remove();
 
     }
+
+
     if(event.data.key=='y')
     {
-        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
+        //$.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
         //выбрал квартал другой
         //обнавляем списки объект
         var data = 'url='+window.location.href+'&id='+$(this).val();
         //alert(data);
-        AjaxClient('acc','select_kvartal1','GET',data,'AfterSelectKvartal',0,0);
+        AjaxClient('acc','select_kvartal1','GET',data,'AfterSelectKvartal_x',0,0);
         $('.js-object-c').remove();
 
 
     }
 
 };
+
+
+function AfterSelectTown_x(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        $('.js-city').after(data.echo);
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+        Zindex();
+        $(".drop-radio").find("li").unbind('click');
+        $(".drop-radio").find("li").bind('click', dropliradio);
+
+
+        //обновляем выбранные кукки
+        var iu=$('.users_rule').attr('iu');
+
+        $.cookie("acc_y"+iu, null, {path:'/',domain: window.is_session,secure: false});
+
+        if(data.co_kv!='')
+        {
+            CookieList("acc_y"+iu,data.co_kv,'add');
+        }
+        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
+
+        if(data.co_ob!='')
+        {
+            CookieList("acc_p"+iu,data.co_ob,'add');
+        }
+
+    }
+
+}
+
+function AfterSelectKvartal_x(data,update)
+{
+    if ( data.status=='reg' )
+    {
+        WindowLogin();
+        return;
+    }
+
+    if ( data.status=='ok' ) {
+
+        $('.js-kvartal').after(data.echo);
+        $(".slct").unbind('click.sys');
+        $(".slct").bind('click.sys', slctclick);
+        $(".drop").find("li").unbind('click');
+        $(".drop").find("li").bind('click', dropli);
+        Zindex();
+        $(".drop-radio").find("li").unbind('click');
+        $(".drop-radio").find("li").bind('click', dropliradio);
+
+
+        //обновляем выбранные кукки
+        var iu=$('.users_rule').attr('iu');
+
+        $.cookie("acc_p"+iu, null, {path:'/',domain: window.is_session,secure: false});
+
+        if(data.co_ob!='')
+        {
+            CookieList("acc_p"+iu,data.co_ob,'add');
+        }
+
+
+    }
+
+}

@@ -21675,6 +21675,10 @@ width: calc(50% - 0px) !important;
   font-size: 14px !important;
 }
 
+.small-text-2022 .gop_io {
+  max-width: 150px !important;
+}
+
 .buttonBg {
   background: #fff;
 }

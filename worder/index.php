@@ -180,6 +180,15 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
       <div class="div_ook hop_ds _hop_ds_2021">
          <span style="display: none;" class="search-count-2022"></span>
+<?
+          if(isset($_GET["tabs"]))
+          {
+          echo'<div class="inline_reload js-reload-top"><a href="worder/.tabs-'.$_GET["tabs"].'" class="show_reload">Поиск</a></div>';
+          } else
+          {
+          echo'<div class="inline_reload js-reload-top"><a href="worder/" class="show_reload">Поиск</a></div>';
+          }
+          ?>
           <div class="search_task small-text-2022" style="padding-right: 110px;">
               <?
               /*
@@ -488,13 +497,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 */
 
 
-              if(isset($_GET["tabs"]))
-              {
-                  echo'<div class="inline_reload js-reload-top"><a href="worder/.tabs-'.$_GET["tabs"].'" class="show_reload">Поиск</a></div>';
-              } else
-              {
-                  echo'<div class="inline_reload js-reload-top"><a href="worder/" class="show_reload">Поиск</a></div>';
-              }
+
 
 
 

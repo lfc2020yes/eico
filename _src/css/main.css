@@ -17749,6 +17749,8 @@ font-style: normal;}*/
 width: calc(50% - 0px) !important;
     }
     */
+  float: right;
+  margin-right: -30px;
 }
 @media only screen and (max-width: 639px) {
   .hop_ds .inline_reload {

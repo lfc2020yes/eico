@@ -4368,6 +4368,8 @@ span {  border-bottom: 1px solid #fd8080;}
   width: calc(50% - 0px) !important;
       }
       */
+    float: right;
+    margin-right: -30px;
 
     @include sw('tablet-small') {
       width: calc(100% - 0px) !important;

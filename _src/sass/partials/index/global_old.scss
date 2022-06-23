@@ -9891,7 +9891,7 @@ tr.active_supplyx .supply_tr_o::before {
   background: none
 }
 */
-.name_stock_search_input,.name_stock_search_inputw {
+.name_stock_search_input,.name_stock_search_inputw,.name_stock_search_inputw_x {
   display: block;
   width: 100%;
   overflow: hidden;
@@ -9916,6 +9916,32 @@ tr.active_supplyx .supply_tr_o::before {
 }
 
 .greei_input { label {color:#e0e0e0 !important;} a.slct {color:#e0e0e0 !important;} a.slct::before { color:#e0e0e0 !important;}  .js-keyup-search {color:#e0e0e0 !important;} .js-open-search::before { color:#e0e0e0 !important;}   }
+
+.dell_stock_search_x {
+  color: #e0e0e0;
+  display: none;
+  font-family: "icon1";
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 0px
+}
+
+.dell_stock_search_x span {
+  transition: all 0.5s ease 0s;
+  float: left;
+  line-height: 9px;
+  text-transform: lowercase;
+  margin: -2px auto 0 0px;
+  text-align: center;
+  vertical-align: middle
+}
+
+.dell_stock_search_x span:hover {
+  color: #4bcaff
+}
 
 
 .dell_stock_search {

@@ -1,6 +1,86 @@
 
 $(function () {
 
+    var changesort_stock2__x= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        $(this).prev().val('');
+
+
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+
+
+        $(this).hide();
+    }
+
+    var changesort_stock2w_x= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        CookieList("su_st_2w_x"+iu,$(this).val(),'add');
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+        if($(this).val()!='')
+        {
+            $(this).next().show();
+            //скрыть другие элементы поиска
+            //$('.js--sort').addClass('greei_input');
+            //$('.js--sort').find('input').prop('readonly',true);
+
+        }else
+        {
+            $(this).next().hide();
+            //показать другие элементы поиска
+            //$('.js--sort').removeClass('greei_input');
+            //$('.js--sort').find('input').removeAttr('readonly');
+
+        }
+
+
+    };
+
+    var changesort_stock2__x1= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x1"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        $(this).prev().val('');
+
+
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+
+
+        $(this).hide();
+    }
+
+    var changesort_stock2w_x1= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x1"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        CookieList("su_st_2w_x1"+iu,$(this).val(),'add');
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+        if($(this).val()!='')
+        {
+            $(this).next().show();
+            //скрыть другие элементы поиска
+            //$('.js--sort').addClass('greei_input');
+            //$('.js--sort').find('input').prop('readonly',true);
+
+        }else
+        {
+            $(this).next().hide();
+            //показать другие элементы поиска
+            //$('.js--sort').removeClass('greei_input');
+            //$('.js--sort').find('input').removeAttr('readonly');
+
+        }
+
+
+    };
+
 
     var changesort4w_x = function () {
         var iu = $('.users_rule').attr('iu');
@@ -53,10 +133,21 @@ $(function () {
     $('body').on("change",'#acc_y',{key: "y"},changeaccx);
     $('body').on("change",'#acc_p',{key: "p"},changeaccx);
 
+    $('.js-dell_stock_search_x').bind('change keyup input click', changesort_stock2__x);
+    $('.js-input-search1-x').bind('change keyup input click', changesort_stock2w_x);
+
+    $('.js-dell_stock_search_x1').bind('change keyup input click', changesort_stock2__x1);
+    $('.js-input-search1-x1').bind('change keyup input click', changesort_stock2w_x1);
 
     $('body').on("change keyup input click",'.js-more-search-x',{key: "worder"},changemores);
 
+
+    $('.mask-count-x').mask('99999');
+   // $('.mask-count-x1').mask('99999');
+
+
 });
+
 
 
 function changemores(event) {
@@ -70,6 +161,23 @@ function changemores(event) {
         $(this).removeClass('show-more-all-x');
         $(this).attr('data-tooltip','Еще фильтры');
         $('.more_search_block').hide();
+
+        //обнуляем все дополнительные фильтры + выводим кнопку поиск
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+
+        //сумма со знаками ><=
+        $('.js-input-search1-x').val('');
+        $('.js-dell_stock_search_x').hide();
+        $.cookie("su_st_2w_x"+iu, null, {path:'/',domain: window.is_session,secure: false});
+
+        //номер наряда
+        $('.js-input-search1-x1').val('');
+        $('.js-dell_stock_search_x1').hide();
+        $.cookie("su_st_2w_x1"+iu, null, {path:'/',domain: window.is_session,secure: false});
+
+
     } else
     {
         $(this).addClass('show-more-all-x');

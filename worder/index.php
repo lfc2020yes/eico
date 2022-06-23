@@ -299,7 +299,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
                   //если это служба безопасности или админ видит всех
 
-                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user limit 0,20 ');
+                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a where a.enabled=1 and a.material_stock=1  ORDER BY a.name_user');
 
                   $num_results_work_zz = $result_work_zz->num_rows;
                   if ($num_results_work_zz != 0) {
@@ -499,33 +499,73 @@ $flag_city=0;
               $su_mass2=implode("','", $su_4);
               $su_mass_p2=$su_4;
 
+
 //узнаем открыли ли он дополнительные фильтры или нет
+              $flag_dop_filter=0;
               $show_more_ffilt='';
               $show_more_ffilt1='display:none;';
               $toppl="Еще фильтры";
               if ((isset($_COOKIE["more_search_worder" . $id_user]))and($_COOKIE["more_search_worder" . $id_user]!='')) {         $show_more_ffilt='show-more-all-x';
-                  $show_more_ffilt1='display:inline-block;';
+                  $show_more_ffilt1='display:block;';
                   $toppl="Скрыть дополнительные фильтры";
+                  $flag_dop_filter=1;
               }
+
+              echo'<div class="more_search_ js-more-search-x '.$show_more_ffilt.'" data-tooltip="'.$toppl.'"></div>';
+
 echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 
-
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
+//cумма со знаком начало
+//cумма со знаком начало
+//cумма со знаком начало
+              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Сумма со знаком = ><</label><div class="select eddd">
 		   
-		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw" autocomplete="off" value="'.$_COOKIE["su_st_2w"].'" type="text">';
-              if (( isset($_COOKIE["su_st_2w"]))and($_COOKIE["su_st_2w"]!=''))
+		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw_x js-input-search1-x mask-count-x1" autocomplete="off" value="'.$_COOKIE["su_st_2w_x".$id_user].'" type="text">';
+              if (( isset($_COOKIE["su_st_2w_x".$id_user]))and($_COOKIE["su_st_2w_x".$id_user]!=''))
               {
-                  echo'<div style="display:block;" class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+                  echo'<div style="display:block;" class="dell_stock_search_x js-dell_stock_search_x" data-tooltip="Удалить"><span>x</span></div>';
               } else
               {
-                  echo'<div  class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+                  echo'<div  class="dell_stock_search_x js-dell_stock_search_x" data-tooltip="Удалить"><span>x</span></div>';
               }
               echo'</div></div>';
 
 
+              //cумма со знаком конец
+              //cумма со знаком конец
+              //cумма со знаком конец
+
+
+
+
+
+              //номер наряда начало
+              //номер наряда начало
+              //номер наряда начало
+              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>номеру наряда</label><div class="select eddd">
+		   
+		   <input name="sort_stock3" id="name_stock_searchw2" class="name_stock_search_inputw_x js-input-search1-x1 mask-count-x" autocomplete="off" value="'.$_COOKIE["su_st_2w_x1".$id_user].'" type="text">';
+              if (( isset($_COOKIE["su_st_2w_x1".$id_user]))and($_COOKIE["su_st_2w_x1".$id_user]!=''))
+              {
+                  echo'<div style="display:block;" class="dell_stock_search_x js-dell_stock_search_x1" data-tooltip="Удалить"><span>x</span></div>';
+              } else
+              {
+                  echo'<div  class="dell_stock_search_x js-dell_stock_search_x1" data-tooltip="Удалить"><span>x</span></div>';
+              }
+              echo'</div></div>';
+
+
+              //номер наряда конец
+              //номер наряда конец
+              //номер наряда конец
+
+
+
+
+
               echo'</div>';
 
-              echo'<div class="more_search_ js-more-search-x '.$show_more_ffilt.'" data-tooltip="'.$toppl.'"></div>';
+
 
 /*
               echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
@@ -750,6 +790,24 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
       if($ids_kvartal!='') $edo->task_kvartal(explode(',',$ids_kvartal));
       if($ids_object!='') $edo->task_object(explode(',',$ids_object));
 */
+
+  if($flag_dop_filter==1)
+  {
+      //дополнительные фильтры открыты учитываем их
+
+      //сумма наряда
+      if((isset($_COOKIE["su_st_2w_x".$id_user]))and($_COOKIE["su_st_2w_x".$id_user]!=''))
+      {
+          $edo->task_n_summa_work(trim($_COOKIE["su_st_2w_x".$id_user]));
+      }
+
+      //номер наряда
+      if((isset($_COOKIE["su_st_2w_x1".$id_user]))and($_COOKIE["su_st_2w_x1".$id_user]!=''))
+      {
+          $edo->task_n_number($_COOKIE["su_st_2w_x1".$id_user]);
+      }
+  }
+
 
   $sql_mass = array();
 $sql_mass=$arr_document;

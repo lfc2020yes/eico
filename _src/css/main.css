@@ -21664,7 +21664,7 @@ width: calc(50% - 0px) !important;
   display: none;
   margin-right: -40px;
   float: right;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .small-text-2022 .slct {
@@ -21677,6 +21677,62 @@ width: calc(50% - 0px) !important;
 
 .small-text-2022 .gop_io {
   max-width: 150px !important;
+}
+
+.more_search_ {
+  cursor: pointer;
+  background-color: #fff;
+  color: gray;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  position: relative;
+  -webkit-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -moz-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -ms-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  -o-transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  transition: all 0.4s cubic-bezier(0.42, 0.01, 0.23, 1);
+  margin-top: 13px;
+}
+.more_search_::before {
+  position: absolute;
+  display: block !important;
+  content: "M";
+  text-transform: none;
+  top: 3px;
+  /* top: -8px; */
+  font-family: icon1;
+  font-size: 24px;
+  /* height: 80px; */
+  /* width: 80px; */
+  text-align: center;
+  /* line-height: 65px; */
+  left: 3px;
+  margin: 0 auto;
+  font-style: normal;
+  color: #72b7f8;
+}
+.more_search_:hover {
+  background-color: #72b7f8;
+}
+.more_search_:hover::before {
+  color: #fff;
+}
+
+.show-more-all-x::before {
+  content: "Z";
+  -moz-transform: rotate(-180deg);
+  -o-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  -webkit-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  font-size: 18px;
+  left: 5px;
+}
+
+.more_search_block {
+  vertical-align: top;
 }
 
 .buttonBg {

@@ -52,7 +52,33 @@ $(function () {
     $('body').on("change",'#acc_x',{key: "x"},changeaccx);
     $('body').on("change",'#acc_y',{key: "y"},changeaccx);
     $('body').on("change",'#acc_p',{key: "p"},changeaccx);
+
+
+    $('body').on("change keyup input click",'.js-more-search-x',{key: "worder"},changemores);
+
 });
+
+
+function changemores(event) {
+    var iu=$('.users_rule').attr('iu');
+
+    $.cookie("more_search_"+event.data.key+iu, null, {path:'/',domain: window.is_session,secure: false});
+    //var mmor=$(this);
+
+    if($(this).is('.show-more-all-x'))
+    {
+        $(this).removeClass('show-more-all-x');
+        $(this).attr('data-tooltip','Еще фильтры');
+        $('.more_search_block').hide();
+    } else
+    {
+        $(this).addClass('show-more-all-x');
+        CookieList("more_search_"+event.data.key+iu,1,'add');
+        $(this).attr('data-tooltip','Скрыть дополнительные фильтры');
+        $('.more_search_block').show();
+    }
+
+}
 
 
 function changeaccx(event) {

@@ -7604,7 +7604,7 @@ color:#fff;
   display: none;
   margin-right: -40px;
   float: right;
-  margin-top: 20px;
+  margin-top: 16px;
   }
 
 .small-text-2022 .slct {font-size:14px !important;}
@@ -7612,4 +7612,37 @@ color:#fff;
 
 .small-text-2022 .gop_io {
   max-width: 150px !important;
+}
+
+.more_search_ { cursor: pointer;  background-color: #fff; color:gray; border-radius: 50%; height: 30px; width: 30px; display: inline-block;
+  position: relative;
+  @include transition(all .4s cubic-bezier(.42,.01,.23,1));
+  margin-top: 13px;
+&::before {
+  position: absolute;
+  display: block !important;
+  content: "M";
+  text-transform: none;
+top:3px;
+  /* top: -8px; */
+  font-family: icon1;
+  font-size: 24px;
+  /* height: 80px; */
+  /* width: 80px; */
+  text-align: center;
+  /* line-height: 65px; */
+  left: 3px;
+  margin: 0 auto;
+  font-style: normal;
+  color: #72b7f8;
+}
+
+  &:hover { background-color: #72b7f8; &::before {color:#fff;}  }
+
+}
+
+.show-more-all-x {&::before {  content: "Z"; @include transform(rotate(-180deg)); font-size: 18px;left: 5px;  }}
+
+.more_search_block {
+  vertical-align: top;
 }

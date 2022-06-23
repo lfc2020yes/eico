@@ -179,6 +179,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
       <div class="div_ook hop_ds _hop_ds_2021">
+
+
+
          <span style="display: none;" class="search-count-2022"></span>
 <?
           if(isset($_GET["tabs"]))
@@ -495,6 +498,34 @@ $flag_city=0;
 
               $su_mass2=implode("','", $su_4);
               $su_mass_p2=$su_4;
+
+//узнаем открыли ли он дополнительные фильтры или нет
+              $show_more_ffilt='';
+              $show_more_ffilt1='display:none;';
+              $toppl="Еще фильтры";
+              if ((isset($_COOKIE["more_search_worder" . $id_user]))and($_COOKIE["more_search_worder" . $id_user]!='')) {         $show_more_ffilt='show-more-all-x';
+                  $show_more_ffilt1='display:inline-block;';
+                  $toppl="Скрыть дополнительные фильтры";
+              }
+echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
+
+
+              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">
+		   
+		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw" autocomplete="off" value="'.$_COOKIE["su_st_2w"].'" type="text">';
+              if (( isset($_COOKIE["su_st_2w"]))and($_COOKIE["su_st_2w"]!=''))
+              {
+                  echo'<div style="display:block;" class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+              } else
+              {
+                  echo'<div  class="dell_stock_search" data-tooltip="Удалить"><span>x</span></div>';
+              }
+              echo'</div></div>';
+
+
+              echo'</div>';
+
+              echo'<div class="more_search_ js-more-search-x '.$show_more_ffilt.'" data-tooltip="'.$toppl.'"></div>';
 
 /*
               echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Статья (1.1)</label><div class="select eddd">

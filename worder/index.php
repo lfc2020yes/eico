@@ -296,7 +296,7 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
                   //если это служба безопасности или админ видит всех
 
-                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user DESC limit 0,20');
+                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.name_user from r_user as a  ORDER BY a.name_user limit 0,20 ');
 
                   $num_results_work_zz = $result_work_zz->num_rows;
                   if ($num_results_work_zz != 0) {

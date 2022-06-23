@@ -33,7 +33,7 @@ if ((!$role->permission('Счета','R'))and($sign_admin!=1))
 			 
 $status_ee='ok';
 
-$arr=explode(',',$id);
+$arr=explode(',',$id); //13
 $su_mass1=implode("','", $arr);
 
 
@@ -59,10 +59,14 @@ if($num_results_t!=0) {
 }
 
 
+//$debug='coo='.$_COOKIE["acc_p" . $id_user];
 
 $su_4 = array();
 if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($id!='')) {
-    $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
+    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_p" . $id_user]));
+    if(count($result)!=0) {
+        $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);  //56
+    }
 } /*else {
     $su_4 = $os_id4;
 }

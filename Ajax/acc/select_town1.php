@@ -64,8 +64,13 @@ if($num_results_t!=0) {
 $flag_kvartal=0;
 $su_4 = array();
 if ((isset($_COOKIE["acc_y" . $id_user]))and($_COOKIE["acc_y" . $id_user]!='')and($id!='')) {
-    $su_4 = explode(",", $_COOKIE["acc_y" . $id_user]);
-    $flag_kvartal=1;
+
+    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_y" . $id_user]));
+    if(count($result)!=0) {
+
+        $su_4 = explode(",", $_COOKIE["acc_y" . $id_user]);
+        $flag_kvartal = 1;
+    }
 }
 /*
 else {
@@ -128,7 +133,10 @@ if($num_results_t!=0) {
 
 $su_4 = array();
 if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($flag_kvartal==1)) {
-    $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
+    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_p" . $id_user]));
+    if(count($result)!=0) {
+        $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
+    }
 } /*else {
     $su_4 = $os_id4;
 }*/

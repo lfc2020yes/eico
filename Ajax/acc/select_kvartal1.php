@@ -13,7 +13,11 @@ $echo_r=1;
 $count_all_all=0;
 
 $id=htmlspecialchars($_GET['id']);
-
+$prefix='';
+if(isset($_GET["prefix"]))
+{
+    $prefix=trim($_GET["prefix"]);
+}
 //проверка что есть такой город что это число
 //проверка что пользователь зарегистрирован
 
@@ -62,10 +66,10 @@ if($num_results_t!=0) {
 //$debug='coo='.$_COOKIE["acc_p" . $id_user];
 
 $su_4 = array();
-if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($id!='')) {
-    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_p" . $id_user]));
+if ((isset($_COOKIE[$prefix."acc_p" . $id_user]))and($_COOKIE[$prefix."acc_p" . $id_user]!='')and($id!='')) {
+    $result = array_intersect($os_id4, explode(',',$_COOKIE[$prefix."acc_p" . $id_user]));
     if(count($result)!=0) {
-        $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);  //56
+        $su_4 = explode(",", $_COOKIE[$prefix."acc_p" . $id_user]);  //56
     }
 } /*else {
     $su_4 = $os_id4;
@@ -97,7 +101,7 @@ for ($i = 0; $i < count($os4); $i++) {
     }
 
 }
-$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_p" value="' . implode(",", $su_4) . '"></div></div>';
+$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="'.$prefix.'acc_p" value="' . implode(",", $su_4) . '"></div></div>';
 
 
 

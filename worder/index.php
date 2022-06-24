@@ -541,7 +541,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 //cумма со знаком начало
 //cумма со знаком начало
 //cумма со знаком начало
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Сумма со знаком = ><</label><div class="select eddd">
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>Сумма со знаком = ><</label><div class="select eddd">
 		   
 		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw_x js-input-search1-x mask-count-x1" autocomplete="off" value="'.$_COOKIE["su_st_2w_x".$id_user].'" type="text">';
               if (( isset($_COOKIE["su_st_2w_x".$id_user]))and($_COOKIE["su_st_2w_x".$id_user]!=''))
@@ -565,7 +565,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
               //номер наряда начало
               //номер наряда начало
               //номер наряда начало
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>номер наряда</label><div class="select eddd">
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>номер наряда</label><div class="select eddd">
 		   
 		   <input name="sort_stock3" id="name_stock_searchw2" class="name_stock_search_inputw_x js-input-search1-x1 mask-count-x" autocomplete="off" value="'.$_COOKIE["su_st_2w_x1".$id_user].'" type="text">';
               if (( isset($_COOKIE["su_st_2w_x1".$id_user]))and($_COOKIE["su_st_2w_x1".$id_user]!=''))
@@ -588,7 +588,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
               //по комментарию начало
               //по комментарию начало
 
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>комментарий с %</label><div class="select eddd">
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>комментарий с %</label><div class="select eddd">
 		   
 		   <input name="sort_stock3" id="name_stock_searchw3" class="name_stock_search_inputw_x js-input-search1-x2 " autocomplete="off" value="'.$_COOKIE["su_st_2w_x2".$id_user].'" type="text">';
               if (( isset($_COOKIE["su_st_2w_x2".$id_user]))and($_COOKIE["su_st_2w_x2".$id_user]!=''))
@@ -778,7 +778,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 
 
                               <?
-                              if((isset($_COOKIE["su_2w"]))and(is_numeric($_COOKIE["su_2w"]))and($_COOKIE["su_2w"]==2))
+                              if((isset($_COOKIE["su_2w_".$id_user]))and(is_numeric($_COOKIE["su_2w_".$id_user]))and($_COOKIE["su_2w_".$id_user]==2))
                               {
                                   $date_range=explode("/",$_COOKIE["suddbcw".$id_user]);
                                   echo'var st=\''.ipost_($date_range[0],'').'\';
@@ -909,6 +909,13 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
           $edo->task_n_comment($_COOKIE["su_st_2w_x2".$id_user]);
       }
 
+
+      //по исполнителю
+      if((isset($_COOKIE["acc_4w1_".$id_user]))and($_COOKIE["acc_4w1_".$id_user]!=''))
+      {
+          $edo->task_n_implementer($_COOKIE["acc_4w1_".$id_user]);
+      }
+
   }
 
 
@@ -938,17 +945,30 @@ $sql_mass=$arr_document;
 
   //echo($sql_mass[0]["total_count"]);
   $count_page_a=0;
-  if(isset($sql_mass[0]["total_count"]))
-  {
-      $count_page_a=$sql_mass[0]["total_count"];
-  }
+
+
+
+
 
   echo'';
 
   echo '<div class="ring_block ring-block-line js-global-preorders-link">';
   $small_block=1;
+  $pagg=0;
   foreach ($sql_mass as $key => $value)
   {
+      if($pagg==0)
+      {
+          if(isset($value["total_count"]))
+          {
+              $count_page_a=$value["total_count"];
+          }
+          $pagg++;
+      }
+
+
+
+
       $new_pre = 1;
       $task_cloud_block='';
 

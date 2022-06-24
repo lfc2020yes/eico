@@ -82,6 +82,46 @@ $(function () {
     };
 
 
+    var changesort_stock2__x2= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x2"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        $(this).prev().val('');
+
+
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+
+
+        $(this).hide();
+    }
+
+    var changesort_stock2w_x2= function() {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("su_st_2w_x2"+iu, null, {path:'/',domain: window.is_session,secure: false,samesite:'lax'});
+        CookieList("su_st_2w_x2"+iu,$(this).val(),'add');
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+        if($(this).val()!='')
+        {
+            $(this).next().show();
+            //скрыть другие элементы поиска
+            //$('.js--sort').addClass('greei_input');
+            //$('.js--sort').find('input').prop('readonly',true);
+
+        }else
+        {
+            $(this).next().hide();
+            //показать другие элементы поиска
+            //$('.js--sort').removeClass('greei_input');
+            //$('.js--sort').find('input').removeAttr('readonly');
+
+        }
+
+
+    };
+
     var changesort4w_x = function () {
         var iu = $('.users_rule').attr('iu');
         $.cookie("acc_4w" + iu, null, {path: '/', domain: window.is_session, secure: false, samesite: 'lax'});
@@ -90,8 +130,17 @@ $(function () {
         $('.js-reload-top').addClass('active-r');
         $('.search-count-2022').hide();
     };
-    $('#sort4w_x').bind('change', changesort4w_x);
+    var changesort4w_x1 = function () {
+        var iu = $('.users_rule').attr('iu');
+        $.cookie("acc_4w1_" + iu, null, {path: '/', domain: window.is_session, secure: false, samesite: 'lax'});
+        CookieList("acc_4w1_" + iu, $(this).val(), 'add');
+        $('.js-reload-top').removeClass('active-r');
+        $('.js-reload-top').addClass('active-r');
+        $('.search-count-2022').hide();
+    };
 
+    $('#sort4w_x').bind('change', changesort4w_x);
+    $('#sort4w_x1').bind('change', changesort4w_x1);
 
     var changesort2w_x = function () {
         var iu = $('.users_rule').attr('iu');
@@ -129,6 +178,9 @@ $(function () {
 
     };
     $('#sort2w_x').bind('change', changesort2w_x);
+
+
+
     $('body').on("change",'#acc_x',{key: "x"},changeaccx);
     $('body').on("change",'#acc_y',{key: "y"},changeaccx);
     $('body').on("change",'#acc_p',{key: "p"},changeaccx);
@@ -138,6 +190,9 @@ $(function () {
 
     $('.js-dell_stock_search_x1').bind('change keyup input click', changesort_stock2__x1);
     $('.js-input-search1-x1').bind('change keyup input click', changesort_stock2w_x1);
+
+    $('.js-dell_stock_search_x2').bind('change keyup input click', changesort_stock2__x2);
+    $('.js-input-search1-x2').bind('change keyup input click', changesort_stock2w_x2);
 
     $('body').on("change keyup input click",'.js-more-search-x',{key: "worder"},changemores);
 
@@ -177,9 +232,18 @@ function changemores(event) {
         $('.js-dell_stock_search_x1').hide();
         $.cookie("su_st_2w_x1"+iu, null, {path:'/',domain: window.is_session,secure: false});
 
+        //комментарии наряда
+        $('.js-input-search1-x2').val('');
+        $('.js-dell_stock_search_x2').hide();
+        $.cookie("su_st_2w_x2"+iu, null, {path:'/',domain: window.is_session,secure: false});
 
-    } else
-    {
+        //исполнитель
+        $('#sort4w_x1').val('');
+        $('[sopen=search_implementer]').val('Любой');
+        $.cookie("acc_4w1_" + iu, null, {path: '/', domain: window.is_session, secure: false, samesite: 'lax'});
+
+     } else
+     {
         $(this).addClass('show-more-all-x');
         CookieList("more_search_"+event.data.key+iu,1,'add');
         $(this).attr('data-tooltip','Скрыть дополнительные фильтры');

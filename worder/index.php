@@ -319,7 +319,9 @@ echo'<div id="fullpage" class="margin_60  input-block-2022 ">
 
 
 
-
+              //по городу начало
+              //по городу начало
+              //по городу начало
               $os4 = array();
               $os_id4 = array();
 
@@ -373,12 +375,16 @@ $flag_city=0;
               $su_mass_p=$su_4;
 
 
+              //по городу конец
+              //по городу конец
+              //по городу конец
 
 
 
 
-
-
+              //квартал начало
+              //квартал начало
+              //квартал начало
 
               $os4 = array();
               $os_id4 = array();
@@ -441,6 +447,14 @@ $flag_city=0;
               $su_mass_p1=$su_4;
 
 
+              //квартал конец
+              //квартал конец
+              //квартал конец
+
+              //объект начало
+              //объект начало
+              //объект начало
+
               $os4 = array();
               $os_id4 = array();
 
@@ -498,9 +512,14 @@ $flag_city=0;
 
               $su_mass2=implode("','", $su_4);
               $su_mass_p2=$su_4;
+              //объект конец
+              //объект конец
+              //объект конец
+
 
 
 //узнаем открыли ли он дополнительные фильтры или нет
+
               $flag_dop_filter=0;
               $show_more_ffilt='';
               $show_more_ffilt1='display:none;';
@@ -511,14 +530,18 @@ $flag_city=0;
                   $flag_dop_filter=1;
               }
 
+              //кнопка показать еще фильтры поиска
               echo'<div class="more_search_ js-more-search-x '.$show_more_ffilt.'" data-tooltip="'.$toppl.'"></div>';
+
+              //начало дополнительного поиска
+              //начало дополнительного поиска
 
 echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 
 //cумма со знаком начало
 //cумма со знаком начало
 //cумма со знаком начало
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>Сумма со знаком = ><</label><div class="select eddd">
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>Сумма со знаком = ><</label><div class="select eddd">
 		   
 		   <input name="sort_stock2" id="name_stock_searchw" class="name_stock_search_inputw_x js-input-search1-x mask-count-x1" autocomplete="off" value="'.$_COOKIE["su_st_2w_x".$id_user].'" type="text">';
               if (( isset($_COOKIE["su_st_2w_x".$id_user]))and($_COOKIE["su_st_2w_x".$id_user]!=''))
@@ -542,7 +565,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
               //номер наряда начало
               //номер наряда начало
               //номер наряда начало
-              echo'<div class="left_drop menu1_prime book_menu_sel gop_io"><label>номеру наряда</label><div class="select eddd">
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>номер наряда</label><div class="select eddd">
 		   
 		   <input name="sort_stock3" id="name_stock_searchw2" class="name_stock_search_inputw_x js-input-search1-x1 mask-count-x" autocomplete="off" value="'.$_COOKIE["su_st_2w_x1".$id_user].'" type="text">';
               if (( isset($_COOKIE["su_st_2w_x1".$id_user]))and($_COOKIE["su_st_2w_x1".$id_user]!=''))
@@ -561,9 +584,82 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 
 
 
+              //по комментарию начало
+              //по комментарию начало
+              //по комментарию начало
 
+              echo'<div class="left_drop menu1_prime js-zindex book_menu_sel gop_io"><label>комментарий с %</label><div class="select eddd">
+		   
+		   <input name="sort_stock3" id="name_stock_searchw3" class="name_stock_search_inputw_x js-input-search1-x2 " autocomplete="off" value="'.$_COOKIE["su_st_2w_x2".$id_user].'" type="text">';
+              if (( isset($_COOKIE["su_st_2w_x2".$id_user]))and($_COOKIE["su_st_2w_x2".$id_user]!=''))
+              {
+                  echo'<div style="display:block;" class="dell_stock_search_x js-dell_stock_search_x2" data-tooltip="Удалить"><span>x</span></div>';
+              } else
+              {
+                  echo'<div  class="dell_stock_search_x js-dell_stock_search_x2" data-tooltip="Удалить"><span>x</span></div>';
+              }
+              echo'</div></div>';
+
+
+              //по комментарию конец
+              //по комментарию конец
+              //по комментарию конец
+
+
+              //исполнитель начало
+              //исполнитель начало
+              //исполнитель начало
+
+
+              $su_5_name='Любой';
+              $su_5=0;
+              if (( isset($_COOKIE["acc_4w1_".$id_user]))and(is_numeric($_COOKIE["acc_4w1_".$id_user])))
+              {
+                  $result_uu = mysql_time_query($link, 'select id,implementer from  i_implementer where id="' . ht($_COOKIE["acc_4w1_".$id_user]) . '"');
+                  $num_results_uu = $result_uu->num_rows;
+
+                  if ($num_results_uu != 0) {
+                      $row_uu = mysqli_fetch_assoc($result_uu);
+                      $su_5=$_COOKIE["acc_4w1_".$id_user];
+                      $su_5_name=$row_uu["implementer"];
+                  }
+              }
+
+              if(isset($_GET["tabs"])) {
+                  echo '<!--input start	-->';
+
+                  echo '<div class="left_drop menu1_prime book_menu_sel js--sort gop_io js-zindex input-search-2021 ' . $class_js_search . '">';
+
+                  echo '<div class="input_2020 input_2021 input_2018 input-search-list js--sort" list_number="s222"><i class="js-open-search"></i><div class="b_loading_small"></div><label>Исполнитель</label><input name="kto" value="' . $su_5_name . '" id="date_124" sopen="search_implementer" oneli="Любой" class="input_new_2020 input_new_2018 required js-keyup-search width-auto " fns="2" style="padding-right: 25px;" autocomplete="off" type="text"><input type="hidden" value="' . $su_5 . '" class="js-hidden-search" name="id_kto" id="sort4w_x1"><ul class="drop drop-search js-drop-search" style="transform: scaleY(0);">';
+
+                  $query_ob = '';
+
+                  //если это служба безопасности или админ видит всех
+
+                  $result_work_zz = mysql_time_query($link, 'Select a.id,a.implementer from i_implementer as a  ORDER BY a.implementer');
+
+                  $num_results_work_zz = $result_work_zz->num_rows;
+                  if ($num_results_work_zz != 0) {
+                      echo '<li><a href="javascript:void(0);" rel="0">Любой</a></li>';
+                      for ($i = 0; $i < $num_results_work_zz; $i++) {
+                          $row_work_zz = mysqli_fetch_assoc($result_work_zz);
+                          echo '<li><a href="javascript:void(0);" rel="' . $row_work_zz["id"] . '">' . $row_work_zz["implementer"] . ' </a></li>';
+                      }
+                  }
+
+                  echo '</ul><div class="div_new_2018"><div class="oper_name"></div></div></div></div><!--input end	-->';
+              }
+
+
+              //исполнитель конец
+              //исполнитель конец
+              //исполнитель конец
 
               echo'</div>';
+
+
+//конец дополнительного поиска
+//конец дополнительного поиска
 
 
 
@@ -682,7 +778,7 @@ echo'<div class="more_search_block" style="'.$show_more_ffilt1.'">';
 
 
                               <?
-                              if((isset($_COOKIE["su_2w"]))and(is_numeric($_COOKIE["su_2w"]))and($_COOKIE["su_2w"]==2))
+                              if((isset($_COOKIE["su_2w_".$id_user]))and(is_numeric($_COOKIE["su_2w_".$id_user]))and($_COOKIE["su_2w_".$id_user]==2))
                               {
                                   $date_range=explode("/",$_COOKIE["suddbcw".$id_user]);
                                   echo'var st=\''.ipost_($date_range[0],'').'\';
@@ -806,6 +902,20 @@ $_COOKIE["su_2w"]=2 определенный промежуток создани
       {
           $edo->task_n_number($_COOKIE["su_st_2w_x1".$id_user]);
       }
+
+      //по комментариям
+      if((isset($_COOKIE["su_st_2w_x2".$id_user]))and($_COOKIE["su_st_2w_x2".$id_user]!=''))
+      {
+          $edo->task_n_comment($_COOKIE["su_st_2w_x2".$id_user]);
+      }
+
+
+      //по исполнителю
+      if((isset($_COOKIE["acc_4w1_".$id_user]))and($_COOKIE["acc_4w1_".$id_user]!=''))
+      {
+          $edo->task_n_implementer($_COOKIE["acc_4w1_".$id_user]);
+      }
+
   }
 
 
@@ -835,17 +945,30 @@ $sql_mass=$arr_document;
 
   //echo($sql_mass[0]["total_count"]);
   $count_page_a=0;
-  if(isset($sql_mass[0]["total_count"]))
-  {
-      $count_page_a=$sql_mass[0]["total_count"];
-  }
+
+
+
+
 
   echo'';
 
   echo '<div class="ring_block ring-block-line js-global-preorders-link">';
   $small_block=1;
+  $pagg=0;
   foreach ($sql_mass as $key => $value)
   {
+      if($pagg==0)
+      {
+          if(isset($value["total_count"]))
+          {
+              $count_page_a=$value["total_count"];
+          }
+          $pagg++;
+      }
+
+
+
+
       $new_pre = 1;
       $task_cloud_block='';
 

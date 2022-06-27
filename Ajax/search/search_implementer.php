@@ -40,7 +40,7 @@ if ( count($_GET) != 4 )
 }
 */
 //**************************************************
- if ((!$role->permission('Наряды','A'))and($sign_admin!=1))
+ if ((!$role->permission('Наряды','A'))and(!$role->permission('Наряды','R'))and($sign_admin!=1))
 {
   $debug=h4a(2,$echo_r,$debug);
   goto end_code;
@@ -131,23 +131,49 @@ if(($sign_level<4)and($sign_admin!=1)) {
 if($query!='')
 {
 
-  $sql='
+    if($_GET["option"]==2)
+    {
+        //для поиска по всем нарядам
+        $sql = '
 
 select * from(     
    (   
-SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="'.$id_user.'" and LOWER(A.implementer) LIKE "%'.$query.'%"   
+SELECT A.id,A.implementer FROM i_implementer AS A where  LOWER(A.implementer) LIKE "%' . $query . '%"   
 )
 UNION
 (
 
-SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="'.$id_user.'" and LOWER(A.id) LIKE "%'.$query.'%"
+SELECT A.id,A.implementer FROM i_implementer AS A where LOWER(A.fio) LIKE "%' . $query . '%"
 AND A.id NOT IN 
-(SELECT A.id FROM i_implementer A WHERE A.id_user="'.$id_user.'" and LOWER(A.implementer) LIKE "%'.$query.'%")
+(SELECT A.id FROM i_implementer A WHERE LOWER(A.implementer) LIKE "%' . $query . '%")
 ) 
 
 
 
 ) Z order by Z.implementer limit 0,20';
+    } else {
+//для добавления нового наряда
+        $sql = '
+
+select * from(     
+   (   
+SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="' . $id_user . '" and LOWER(A.implementer) LIKE "%' . $query . '%"   
+)
+UNION
+(
+
+SELECT A.id,A.implementer FROM i_implementer AS A where A.id_user="' . $id_user . '" and LOWER(A.id) LIKE "%' . $query . '%"
+AND A.id NOT IN 
+(SELECT A.id FROM i_implementer A WHERE A.id_user="' . $id_user . '" and LOWER(A.implementer) LIKE "%' . $query . '%")
+) 
+
+
+
+) Z order by Z.implementer limit 0,20';
+
+
+
+    }
 } else
 {
 	$sql='SELECT A.implementer,A.id FROM i_implementer as A where A.id_user="'.$id_user.'" ORDER BY A.implementer limit 0,40';

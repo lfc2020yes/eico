@@ -30,6 +30,11 @@ if ((!$role->permission('Счета','R'))and($sign_admin!=1))
 }
 */
 
+$prefix='';
+if(isset($_GET["prefix"]))
+{
+    $prefix=trim($_GET["prefix"]);
+}
 			 
 $status_ee='ok';
 
@@ -63,12 +68,12 @@ if($num_results_t!=0) {
 
 $flag_kvartal=0;
 $su_4 = array();
-if ((isset($_COOKIE["acc_y" . $id_user]))and($_COOKIE["acc_y" . $id_user]!='')and($id!='')) {
+if ((isset($_COOKIE[$prefix."acc_y" . $id_user]))and($_COOKIE[$prefix."acc_y" . $id_user]!='')and($id!='')) {
 
-    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_y" . $id_user]));
+    $result = array_intersect($os_id4, explode(',',$_COOKIE[$prefix."acc_y" . $id_user]));
     if(count($result)!=0) {
 
-        $su_4 = explode(",", $_COOKIE["acc_y" . $id_user]);
+        $su_4 = explode(",", $_COOKIE[$prefix."acc_y" . $id_user]);
         $flag_kvartal = 1;
     }
 }
@@ -101,7 +106,7 @@ for ($i = 0; $i < count($os4); $i++) {
     }
 
 }
-$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_y" value="' . implode(",", $su_4) . '"></div></div>';
+$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="'.$prefix.'acc_y" value="' . implode(",", $su_4) . '"></div></div>';
 
 
 
@@ -132,10 +137,10 @@ if($num_results_t!=0) {
 
 
 $su_4 = array();
-if ((isset($_COOKIE["acc_p" . $id_user]))and($_COOKIE["acc_p" . $id_user]!='')and($flag_kvartal==1)) {
-    $result = array_intersect($os_id4, explode(',',$_COOKIE["acc_p" . $id_user]));
+if ((isset($_COOKIE[$prefix."acc_p" . $id_user]))and($_COOKIE[$prefix."acc_p" . $id_user]!='')and($flag_kvartal==1)) {
+    $result = array_intersect($os_id4, explode(',',$_COOKIE[$prefix."acc_p" . $id_user]));
     if(count($result)!=0) {
-        $su_4 = explode(",", $_COOKIE["acc_p" . $id_user]);
+        $su_4 = explode(",", $_COOKIE[$prefix."acc_p" . $id_user]);
     }
 } /*else {
     $su_4 = $os_id4;
@@ -167,7 +172,7 @@ for ($i = 0; $i < count($os4); $i++) {
     }
 
 }
-$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="acc_p" value="' . implode(",", $su_4) . '"></div></div>';
+$echo.='</ul><input type="hidden" ' . $class_js_readonly . ' name="sort3pr" id="'.$prefix.'acc_p" value="' . implode(",", $su_4) . '"></div></div>';
 
 
 

@@ -827,7 +827,7 @@ echo'<span class="h3-f">Документы <span class="pol-card" >(Выполн
           //по сумме
           if((isset($_COOKIE[$search_prefix."su_st_2w_x".$id_user]))and($_COOKIE[$search_prefix."su_st_2w_x".$id_user]!=''))
           {
-              $edo->task_n_summa_work(trim($_COOKIE[$search_prefix."su_st_2w_x".$id_user]));
+              $edo->task_z_summa(trim($_COOKIE[$search_prefix."su_st_2w_x".$id_user]));
           }
 
           //по комментариям

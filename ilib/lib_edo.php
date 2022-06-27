@@ -804,14 +804,14 @@ VALUES
         $dates = (count($this->dates)==2) ? "AND d.`date_create` BETWEEN '".$this->dates[0]."' AND '".$this->dates[1]."'" : "";
         $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
 
-        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
-        $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
-        $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
-        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '[$this->comment]'";
-        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
-        $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
-        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
-        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '[$this->id_contractor]'";
+        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '".$this->number_doc."'";
+        $number = is_null($this->number)? "" : "AND d.number = '".$this->number."'";
+        $name = is_null($this->name)? "" : "AND d.name LIKE '".$this->name."'";
+        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '".$this->comment."'";
+        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work ".$this->summa_work; // вводится со знаком = ><
+        $summa = is_null($this->summa)? "" : "AND d.summa ".$this->summa; // вводится со знаком = ><
+        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '".$this->id_implementer."'";
+        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '".$this->id_contractor."'";
 
         $this->mysqli->query('set @cnt=0');
         $sql =
@@ -900,7 +900,7 @@ $limits
      * @param $id_implementer
      */
     public function task_n_implementer($id_implementer){
-        $this->$id_implementer = $id_implementer;
+        $this->id_implementer = $id_implementer;
     }
 
     /** Фильтр на сумму работ по n_nariad
@@ -1021,14 +1021,14 @@ AND k.`id` = o.`id_kvartal`
         $id_owner = is_null($this->id_owner) ? "" : "AND d.id_user = $this->id_owner";
         $ids_object = (count($this->ids_object)>0) ? "AND d.id_object IN (".implode(',',$this->ids_object).")" : "";
 
-        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '[$this->number_doc]'";
-        $number = is_null($this->number)? "" : "AND d.number = '[$this->number]'";
-        $name = is_null($this->name)? "" : "AND d.name LIKE '[$this->name]'";
-        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '[$this->comment]'";
-        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work [$this->summa_work]"; // вводится со знаком = ><
-        $summa = is_null($this->summa)? "" : "AND d.summa [$this->summa]"; // вводится со знаком = ><
-        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '[$this->id_implementer]'";
-        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '[$this->id_contractor]'";
+        $number_doc = is_null($this->number_doc)? "" : "AND d.numer_doc = '".$this->number_doc."'";
+        $number = is_null($this->number)? "" : "AND d.number = '".$this->number."'";
+        $name = is_null($this->name)? "" : "AND d.name LIKE '".$this->name."'";
+        $comment = is_null($this->comment)? "" : "AND d.comment LIKE '".$this->comment."'";
+        $summa_work = is_null($this->summa_work)? "" : "AND d.summa_work ".$this->summa_work; // вводится со знаком = ><
+        $summa = is_null($this->summa)? "" : "AND d.summa ".$this->summa; // вводится со знаком = ><
+        $id_implementer = is_null($this->id_implementer)? "" : "AND d.id_implementer = '".$this->id_implementer."'";
+        $id_contractor = is_null($this->id_contractor)? "" : "AND d.id_contractor = '".$this->id_contractor."'";
         $limits = is_null($limit) ? "" : $limit;
 
         $this->mysqli->query('set @cnt=0');

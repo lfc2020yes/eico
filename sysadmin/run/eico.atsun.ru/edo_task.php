@@ -24,6 +24,11 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
     $id_owner =  (isset($_POST["id_owner"]))?$_POST["id_owner"] : '';
     $dates = (isset($_POST[dates]))?$_POST[dates] : 0;   //2022-05-05/2022-06-15
 
+    $number_doc =  (isset($_POST["number_doc"]))?$_POST["number_doc"] : '';
+    $summa_work =  (isset($_POST["summa_work"]))?$_POST["summa_work"] : '';
+    $id_implementer =  (isset($_POST["id_implementer"]))?$_POST["id_implementer"] : '';
+    $comment =  (isset($_POST[comment]))?$_POST[comment] : '';
+
     if ($ROW_role!=0) {
               $styleH='style="background-color:'.$ROW_role['color1'].'; background-image:url();"';
               $styleF='style="background-color:'.$ROW_role['color2'].'; background-image:url();"';
@@ -64,17 +69,26 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
 
       <tr><td style="padding-right: 10px">id_doc:<td>
               <input class="text"  name="id_doc" size="2" value="<?=$id_doc?>" />
-      <tr><td style="padding-right: 10px">--дополнительные фильтры<td>
+      <tr><td style="padding-right: 10px">--дополнительные фильтры---------универсальные<td>
       <tr><td style="padding-right: 10px">Город ids_town:<td>
               <input class="text"  name="ids_town" size="2" value="<?=$ids_town?>" />
       <tr><td style="padding-right: 10px">Квартал ids_kvartal:<td>
               <input class="text"  name="ids_kvartal" size="2" value="<?=$ids_kvartal?>" />
       <tr><td style="padding-right: 10px">Объекты ids_object:<td>
-              <input class="text"  name="ids_object" size="2" value="<?=$ids_object?>" />
+              <input class="text"  name="ids_object" size="10" value="<?=$ids_object?>" />
       <tr><td style="padding-right: 10px">Создатель документа id_owner:<td>
               <input class="text"  name="id_owner" size="2" value="<?=$id_owner?>" />
       <tr><td style="padding-right: 10px">период 2022-05-05/2022-06-15 dates:<td>
-              <input class="text"  name="dates" size="11" value="<?=$dates?>"
+              <input class="text"  name="dates" size="20" value="<?=$dates?>" />
+      <tr><td style="padding-right: 10px">--дополнительные фильтры---------наряды<td>
+      <tr><td style="padding-right: 10px">Номер документа number_doc:<td>
+              <input class="text"  name="number_doc" size="2" value="<?=$number_doc?>" />
+      <tr><td style="padding-right: 10px">Сумма документа <>= summa_work:<td>
+              <input class="text"  name="summa_work" size="10" value="<?=$summa_work?>" />
+      <tr><td style="padding-right: 10px">Производитель id_implementer:<td>
+              <input class="text"  name="id_implementer" size="2" value="<?=$id_implementer?>" />
+      <tr><td style="padding-right: 10px">Комментарий %% comment:<td>
+              <input class="text"  name="comment" size="20" value="<?=$comment?>" />
 <?php
    SHOW_tfoot(4,1,1,1);
 
@@ -93,6 +107,11 @@ function RUN_($PARAM,&$row_TREE=0,&$ROW_role=0)
       if($ids_kvartal!='') $edo->task_kvartal(explode(',',$ids_kvartal));
       if($ids_object!='') $edo->task_object(explode(',',$ids_object));
       if($dates!=0) $edo->task_date($dates);
+
+        if($number_doc!='') $edo->task_n_number($number_doc);
+        if($summa_work!='') $edo->task_n_summa_work($summa_work);
+        if($id_implementer!='') $edo->task_n_implementer(0+$id_implementer);
+        if($comment!='') $edo->task_n_comment($comment);
 
       $arr_tasks = $edo->my_tasks($_POST["type"], $_POST["status"]
       ,'ORDER BY d.date_create DESC'
